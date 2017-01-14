@@ -19,7 +19,7 @@
 	<%--<div data-options="region:'west',href:'${ctx}view/frame/west.jsp'" style="width: 150px;overflow: hidden;"></div>--%>
 	<div data-options="region:'center',href:'${ctx}view/frame/center.jsp'" style="overflow: hidden;" ></div>
 	<div data-options="region:'south'" style="overflow: hidden;">
-		<div class="footer head-south" style="text-align: center;">版权所有 © 2015-2016</div>
+		<div class="footer head-south" style="text-align: center;">版权所有 © 2015-2016 光一科技股份有限公司</div>
 	</div>
  </body>
 </html>

@@ -12,7 +12,7 @@
     </div>
     <div data-options="region:'east',border:false" class="head-north"  style="width: 200px">
         <a id="user" href="javascript:void(0)" class="easyui-menubutton"
-           data-options="menu:'#mm_user'">${userInfo.userName }</a>
+           data-options="menu:'#mm_user'">${userInfo.userName }xxxxx</a>
         <div id="mm_user" style="width: 150px;">
             <%--<div data-options="iconCls:'icon-information'" id="version">系统版本</div>--%>
             <%--<div class="menu-sep"></div>--%>

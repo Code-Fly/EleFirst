@@ -21,8 +21,7 @@
 <!-- theme定制图标与配色 -->
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.1.css"/>
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon.css"/>
-<link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-easyui-1.5.1/themes/iconNew.css"/>
-
+<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon2.css"/>
 <!-- easyui库 -->
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>

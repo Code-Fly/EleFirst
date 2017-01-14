@@ -21,7 +21,8 @@ function addTab(cname, curl, ciconCls) {
 $(document).ready(function () {
     $("#indexLayout").layout("add", {
             region: "west",
-            width: 150,
+            title: "导航菜单",
+            width: 200,
             href: _ctx + "view/frame/west.jsp",
             onLoad: function () {
                 $("#centerTabs").tabs({

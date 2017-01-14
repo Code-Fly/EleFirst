@@ -6,34 +6,169 @@
 </head>
 <body>
 <div class="easyui-accordion" data-options="fit:true,border:false">
-    <div title="流程管理" data-options="ionCls:'icon-save'">
-        <ul id="nav-dme">
-
+    <div title="用电能耗" data-options="ionCls:'icon-save'">
+        <ul>
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-workflowdef'"
-                   onclick="addTab('流程定义','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-workflowdef')"
-                   plain="true" href="javascript:void(0)">流程定义</a></li>
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('实时用电数据','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">实时用电数据</a></li>
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-processmonitor'"
-                   onclick="addTab('流程状态监控','view/dme/workflowManager/workflowMonitor.jsp','icon-processmonitor')"
-                   plain="true" href="javascript:void(0)">流程状态监控</a></li>
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('日用电数据','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">日用电数据</a></li>
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-timermanage'"
-                   onclick="addTab('策略管理','view/dme/workflowManager/workflowstrategymanager.jsp','icon-timermanage')"
-                   plain="true" href="javascript:void(0)">策略管理</a></li>
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('周用电数据','view/dme/workflowManager/workflowstrategymanager.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">周用电数据</a></li>
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-timerlog'"
-                   onclick="addTab('策略执行日志','view/dme/workflowManager/workflowtimerlog.jsp','icon-timerlog')"
-                   plain="true" href="javascript:void(0)">策略执行日志</a></li>
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('月用电数据','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">月用电数据</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('年用电数据','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">年用电数据</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('越限查询','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">越限查询</a></li>
 
         </ul>
     </div>
-    <div title="数据视图" data-options="ionCls:'icon-save'">
-        <ul id="nav-ace">
+    <div title="用电分析" data-options="ionCls:'icon-save'">
+        <ul>
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-datadisplay'"
-                   onclick="addTab('数据展示','view/ace_new/frame/main.jsp','icon-datadisplay')"
-                   plain="true" href="javascript:void(0)">数据展示</a></li>
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量分析','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('负荷分析','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">负荷分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量构成分析','view/dme/workflowManager/workflowstrategymanager.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量构成分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('分时电量分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">分时电量分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('报装方式分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">报装方式分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('用电费用分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">用电费用分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('费用分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">费用分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('账单录入','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">账单录入</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('用电对比分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">用电对比分析</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('对标排名分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">对标排名分析</a></li>
+        </ul>
+    </div>
+    <div title="损耗分析" data-options="ionCls:'icon-save'">
+        <ul>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('变压器损耗','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">变压器损耗</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('用电线路损耗','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">用电线路损耗</a></li>
+        </ul>
+    </div>
+    <div title="统计报表" data-options="ionCls:'icon-save'">
+        <ul>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('抄见示数日报表','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">抄见示数日报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('抄见示数月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">抄见示数月报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量日报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量日报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量周报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量周报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量月报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量年报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量年报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('月最大需量报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">月最大需量报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('分时电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">分时电量月报表</a></li>
+        </ul>
+    </div>
+    <div title="监测点统计报表" data-options="ionCls:'icon-save'">
+        <ul>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量日报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量日报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量周报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量周报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量月报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电量年报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电量年报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('分时电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">分时电量月报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('日负荷报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">日负荷报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('月负荷报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">月负荷报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('月负荷报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">日最大需量报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('功率因数及无功日监测报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">功率因数及无功日监测报表</a></li>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('电压日监测报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">电压日监测报表</a></li>
         </ul>
     </div>
     <div title="系统管理" data-options="ionCls:'icon-save'">
