@@ -42,7 +42,7 @@ $(document).ready(function () {
                 $("#logout").click(function () {
                     $.messager.confirm("注销", "您确定要退出?", function (r) {
                         if (r) {
-                            window.location = _ctx + "system/userinfo/logout.do";
+                            window.location = _ctx;
                         } else {
                             return;
                         }

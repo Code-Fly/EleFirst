@@ -10,7 +10,7 @@
         <span class="head-left"></span>
 
     </div>
-    <div data-options="region:'east',border:false" class="head-north"  style="width: 200px;padding-top: 4%">
+    <div data-options="region:'east',border:false" class="head-north"  style="width: 200px;padding-top: 15px;">
         <a id="user" href="javascript:void(0)" class="easyui-menubutton" style="color:whitesmoke;"
            data-options="menu:'#mm_user'">${userInfo.userName }admin</a>
         <div id="mm_user" style="width: 150px;">

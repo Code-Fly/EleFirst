@@ -27,9 +27,7 @@ body {
 
 .head-north {
     overflow: hidden;
-    height: 71px;
     background: #2076C3 url(../theme/images/headbg.png) repeat-x;
-    line-height: 64px;
     color: #fff;
     font-family: Verdana
 }
