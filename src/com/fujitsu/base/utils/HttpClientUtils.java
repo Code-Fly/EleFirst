@@ -5,9 +5,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -40,8 +38,8 @@ import java.util.Map;
 /**
  * Created by 123 on 2016/4/21.
  */
-public class HttpClientUtil {
-    private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+public class HttpClientUtils {
+    private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
 
     public static String get(String url, String charset) throws ConnectionFailedException {
         return doGet(url, null, charset);
@@ -57,6 +55,28 @@ public class HttpClientUtil {
         String param = URLEncodedUtils.format(valuePairs, charset);
 
         return doGet(url, param, charset);
+    }
+
+    public static String put(String url, Map<String, String> params, String charset) throws ConnectionFailedException {
+
+        List<NameValuePair> valuePairs = new ArrayList<NameValuePair>(params.size());
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            NameValuePair nameValuePair = new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue()));
+            valuePairs.add(nameValuePair);
+        }
+        String param = URLEncodedUtils.format(valuePairs, charset);
+
+        return doPut(url, param, charset);
+    }
+
+    public static String put(String url, String charset) throws ConnectionFailedException {
+
+        return doPut(url, charset);
+    }
+
+    public static String delete(String url, String charset) throws ConnectionFailedException {
+
+        return doDelete(url, charset);
     }
 
     public static String get(String url, String params, String charset) throws ConnectionFailedException {
@@ -224,6 +244,115 @@ public class HttpClientUtil {
             HttpEntity entity = response.getEntity();
             respStr = EntityUtils.toString(entity, charset).trim();
             httpGet.abort();
+            response.close();
+            httpclient.close();
+        } catch (Exception e) {
+            throw new ConnectionFailedException(e);
+        }
+        return respStr;
+    }
+
+
+    protected static String doPut(String url, String param, String charset) throws ConnectionFailedException {
+        PoolingHttpClientConnectionManager connManager = null;
+        CloseableHttpClient httpclient = null;
+        CloseableHttpResponse response = null;
+        String respStr = null;
+        try {
+            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
+            TrustManager[] tm = {new CustomX509TrustManager()};
+            SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+            sslContext.init(null, tm, new java.security.SecureRandom());
+
+            Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                    .register("http", PlainConnectionSocketFactory.INSTANCE)
+                    .register("https", new SSLConnectionSocketFactory(sslContext))
+                    .build();
+
+            connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+            httpclient = HttpClients.custom().setConnectionManager(connManager).build();
+
+            HttpPut httpPut = null;
+            if (null != param) {
+                httpPut = new HttpPut(url + "&" + param);
+
+            } else {
+                httpPut = new HttpPut(url);
+            }
+
+            response = httpclient.execute(httpPut);
+
+            HttpEntity entity = response.getEntity();
+            respStr = EntityUtils.toString(entity, charset).trim();
+            httpPut.abort();
+            response.close();
+            httpclient.close();
+        } catch (Exception e) {
+            throw new ConnectionFailedException(e);
+        }
+        return respStr;
+    }
+
+    protected static String doPut(String url, String charset) throws ConnectionFailedException {
+        PoolingHttpClientConnectionManager connManager = null;
+        CloseableHttpClient httpclient = null;
+        CloseableHttpResponse response = null;
+        String respStr = null;
+        try {
+            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
+            TrustManager[] tm = {new CustomX509TrustManager()};
+            SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+            sslContext.init(null, tm, new java.security.SecureRandom());
+
+            Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                    .register("http", PlainConnectionSocketFactory.INSTANCE)
+                    .register("https", new SSLConnectionSocketFactory(sslContext))
+                    .build();
+
+            connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+            httpclient = HttpClients.custom().setConnectionManager(connManager).build();
+
+            HttpPut httpPut = null;
+            httpPut = new HttpPut(url);
+
+
+            response = httpclient.execute(httpPut);
+            HttpEntity entity = response.getEntity();
+            respStr = EntityUtils.toString(entity, charset).trim();
+            httpPut.abort();
+            response.close();
+            httpclient.close();
+        } catch (Exception e) {
+            throw new ConnectionFailedException(e);
+        }
+        return respStr;
+    }
+
+    protected static String doDelete(String url, String charset) throws ConnectionFailedException {
+        PoolingHttpClientConnectionManager connManager = null;
+        CloseableHttpClient httpclient = null;
+        CloseableHttpResponse response = null;
+        String respStr = null;
+        try {
+            // 创建SSLContext对象，并使用我们指定的信任管理器初始化
+            TrustManager[] tm = {new CustomX509TrustManager()};
+            SSLContext sslContext = SSLContext.getInstance("SSL", "SunJSSE");
+            sslContext.init(null, tm, new java.security.SecureRandom());
+
+            Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                    .register("http", PlainConnectionSocketFactory.INSTANCE)
+                    .register("https", new SSLConnectionSocketFactory(sslContext))
+                    .build();
+
+            connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+            httpclient = HttpClients.custom().setConnectionManager(connManager).build();
+
+            HttpDelete httpDelete = null;
+            httpDelete = new HttpDelete(url);
+            response = httpclient.execute(httpDelete);
+            HttpEntity entity = response.getEntity();
+            respStr = EntityUtils.toString(entity, charset).trim();
+            httpDelete.abort();
             response.close();
             httpclient.close();
         } catch (Exception e) {
