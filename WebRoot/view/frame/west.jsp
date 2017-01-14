@@ -10,7 +10,7 @@
         <ul>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('实时用电数据','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   onclick="addTab('实时用电数据','https://www.baidu.com','icon-table')"
                    plain="true" href="javascript:void(0)">实时用电数据</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
@@ -39,7 +39,7 @@
         <ul>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量分析','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   onclick="addTab('电量分析','https://www.baidu.com','icon-table')"
                    plain="true" href="javascript:void(0)">电量分析</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
@@ -83,7 +83,7 @@
         <ul>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('变压器损耗','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   onclick="addTab('变压器损耗','https://www.baidu.com','icon-table')"
                    plain="true" href="javascript:void(0)">变压器损耗</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
@@ -95,7 +95,7 @@
         <ul>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('抄见示数日报表','view/dme/workflowManager/workflowBoardModuleManagerM.jsp','icon-table')"
+                   onclick="addTab('抄见示数日报表','https://www.baidu.com','icon-table')"
                    plain="true" href="javascript:void(0)">抄见示数日报表</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
