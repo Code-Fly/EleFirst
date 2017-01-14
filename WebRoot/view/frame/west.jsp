@@ -163,8 +163,8 @@
                    plain="true" href="javascript:void(0)">日最大需量报表</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('功率因数及无功日监测报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">功率因数及无功日监测报表</a></li>
+                   onclick="addTab('功率因数及无功日报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">功率因数及无功日报表</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
                    onclick="addTab('电压日监测报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"

@@ -12,7 +12,7 @@ function addTab(cname, curl, ciconCls) {
                 closable: true,
                 iconCls: ciconCls,
                 fit: true,
-                content: '<iframe src="' + curl + '" frameborder="0" style="border:0;width:100%;height:100%;"></iframe>',
+                content: "<iframe  src='" + curl + "' style='width: 100%;height: 100%;' frameborder='no' border='0' marginwidth='0' marginheight='0' scrolling='no' allowtransparency='yes'></iframe>",
             });
         }
     }
