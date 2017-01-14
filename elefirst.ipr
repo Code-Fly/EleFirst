@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactManager">
     <artifact type="exploded-war" name="elefirst:war exploded">
-      <output-path>$PROJECT_DIR$/WebRoot/WEB-INF/classes</output-path>
+      <output-path>$PROJECT_DIR$/../../../apache-tomcat-8.0.28/webapps/ROOT</output-path>
       <root id="root">
         <element id="directory" name="WEB-INF">
           <element id="directory" name="classes">
