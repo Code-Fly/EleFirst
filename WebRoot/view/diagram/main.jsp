@@ -536,7 +536,7 @@
             addVertex(mxBasePath + 'images/editors/triangle.gif', 40, 40, 'shape=triangle');
             addVertex(mxBasePath + 'images/editors/cylinder.gif', 40, 40, 'shape=cylinder');
             addVertex(mxBasePath + 'images/editors/actor.gif', 30, 40, 'shape=actor');
-            addVertex(mxBasePath + 'images/editors/actor.gif', 100, 40, 'demo1');
+            addVertex(mxBasePath + 'images/editors/actor.gif', 100, 55, 'demo1');
             addVertex(mxBasePath + 'images/editors/actor.gif', 100, 40, 'demo2');
             addVertex(mxBasePath + 'images/editors/actor.gif', 150, 30, 'demo3');
             // Adds a special tooltip for edges
@@ -593,7 +593,7 @@
             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
             style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
             style[mxConstants.STYLE_IMAGE] = mxBasePath + 'images/components/demo.png';
-            style[mxConstants.STYLE_FONTCOLOR] = '#FFFFFF';
+            style[mxConstants.STYLE_FONTCOLOR] = '#000000';
             graph.getStylesheet().putCellStyle('demo1', style);
 
             style = mxUtils.clone(style);
