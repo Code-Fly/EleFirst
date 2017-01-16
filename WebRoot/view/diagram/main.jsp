@@ -117,6 +117,7 @@
                             graph.cellsRemoved(children);
 
                             var num = prompt("请输入设备地址", "192.168.10.1:8888");
+                            cell.setAttribute("xxxx", num);
 
                             // Resets the fillcolor and the overlay
 //                            graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, 'green', [cell]);
@@ -346,7 +347,7 @@
 //                vertex.value = '<img src="' + mxBasePath + 'images/editors/overlays/user3.png" width="16" height="16"><br><br>'+new Date().getTime()+'<br>';
 //                alert(JSON.stringify(vertex))
 //                console.log(prototype)
-//                console.log(vertex)
+                console.log(vertex)
                 graph.addCell(vertex);
                 graph.setSelectionCell(vertex);
 
@@ -535,8 +536,9 @@
             addVertex(mxBasePath + 'images/editors/triangle.gif', 40, 40, 'shape=triangle');
             addVertex(mxBasePath + 'images/editors/cylinder.gif', 40, 40, 'shape=cylinder');
             addVertex(mxBasePath + 'images/editors/actor.gif', 30, 40, 'shape=actor');
-            addVertex(mxBasePath + 'images/editors/actor.gif', 100, 55, 'demo1');
-            addVertex(mxBasePath + 'images/editors/actor.gif', 100, 55, 'demo2');
+            addVertex(mxBasePath + 'images/editors/actor.gif', 100, 40, 'demo1');
+            addVertex(mxBasePath + 'images/editors/actor.gif', 100, 40, 'demo2');
+            addVertex(mxBasePath + 'images/editors/actor.gif', 150, 30, 'demo3');
             // Adds a special tooltip for edges
             graph.setTooltips(true);
 
@@ -595,10 +597,17 @@
             graph.getStylesheet().putCellStyle('demo1', style);
 
             style = mxUtils.clone(style);
-            style[mxConstants.STYLE_IMAGE_VERTICAL_ALIGN] = mxConstants.ALIGN_BOTTOM;
             style[mxConstants.STYLE_IMAGE] = mxBasePath + 'images/examples/icons48/earth.png';
-            delete style[mxConstants.STYLE_SPACING_TOP];
             graph.getStylesheet().putCellStyle('demo2', style);
+
+            style = new Object();
+            style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
+            style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+            style[mxConstants.STYLE_FONTCOLOR] = '#000000';
+            style[mxConstants.STYLE_STROKECOLOR] = 'none';
+            style[mxConstants.STYLE_FILLCOLOR] = 'none';
+            style[mxConstants.STYLE_GRADIENTCOLOR] = 'none';
+            graph.getStylesheet().putCellStyle('demo3', style);
 
 
             var labelBackground = (invert) ? '#000000' : '#FFFFFF';
