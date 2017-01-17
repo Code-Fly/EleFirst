@@ -487,6 +487,29 @@ $(document).ready(function () {
         mxUtils.popup(mxUtils.getPrettyXml(node), true);
     }));
 
+    document.body.appendChild(mxUtils.button('Read XML', function () {
+        // Load cells and layouts the graph
+        graph.getModel().beginUpdate();
+        try {
+            // Loads the custom file format (TXT file)
+            // parse(graph, 'fileio.txt');
+
+            // Loads the mxGraph file format (XML file)
+            read(graph, 'data/fileio.xml');
+
+            // Gets the default parent for inserting new cells. This
+            // is normally the first child of the root (ie. layer 0).
+            var parent = graph.getDefaultParent();
+
+            // Executes the layout
+            layout.execute(parent);
+        }
+        finally {
+            // Updates the display
+            graph.getModel().endUpdate();
+        }
+    }));
+
     // Starts connections on the background in wire-mode
     var connectionHandlerIsStartEvent = graph.connectionHandler.isStartEvent;
     graph.connectionHandler.isStartEvent = function (me) {
@@ -619,3 +642,80 @@ function addToolbarItem(graph, toolbar, prototype, image) {
 
     return img;
 }
+
+// Custom parser for simple file format
+function parse(graph, filename)
+{
+    var model = graph.getModel();
+
+    // Gets the default parent for inserting new cells. This
+    // is normally the first child of the root (ie. layer 0).
+    var parent = graph.getDefaultParent();
+
+    var req = mxUtils.load(filename);
+    var text = req.getText();
+
+    var lines = text.split('\n');
+
+    // Creates the lookup table for the vertices
+    var vertices = [];
+
+    // Parses all lines (vertices must be first in the file)
+    graph.getModel().beginUpdate();
+    try
+    {
+        for (var i=0; i<lines.length; i++)
+        {
+            // Ignores comments (starting with #)
+            var colon = lines[i].indexOf(':');
+
+            if (lines[i].substring(0, 1) != "#" ||
+                colon == -1)
+            {
+                var comma = lines[i].indexOf(',');
+                var value = lines[i].substring(colon+2, lines[i].length);
+
+                if (comma == -1 || comma > colon)
+                {
+                    var key = lines[i].substring(0, colon);
+
+                    if (key.length > 0)
+                    {
+                        vertices[key] = graph.insertVertex(parent, null, value, 0, 0, 80, 70);
+                    }
+                }
+                else if (comma < colon)
+                {
+                    // Looks up the vertices in the lookup table
+                    var source = vertices[lines[i].substring(0, comma)];
+                    var target = vertices[lines[i].substring(comma+1, colon)];
+
+                    if (source != null && target != null)
+                    {
+                        var e = graph.insertEdge(parent, null, value, source, target);
+
+                        // Uses the special 2-way style for 2-way labels
+                        if (value.indexOf('2-Way') >= 0)
+                        {
+                            e.style = '2way';
+                        }
+                    }
+                }
+            }
+        }
+    }
+    finally
+    {
+        graph.getModel().endUpdate();
+    }
+};
+
+// Parses the mxGraph XML file format
+function read(graph, filename)
+{
+    var req = mxUtils.load(filename);
+    var root = req.getDocumentElement();
+    var dec = new mxCodec(root.ownerDocument);
+
+    dec.decode(root, graph.getModel());
+};
