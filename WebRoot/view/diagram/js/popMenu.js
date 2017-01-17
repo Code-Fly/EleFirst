@@ -7,9 +7,10 @@ $(document).ready(function () {
 
 // Function to create the entries in the popupmenu
 function createPopupMenu(graph, menu, cell, evt) {
-    if (cell != null && cell.edge == false && isValidStyle(cell.style, "current")) {
-        menu.addItem('配置', mxBasePath + 'images/editors/gear.gif', function () {
-            var num = prompt("请输入设备地址", "192.168.10.1:8888");
+    if (cell != null) {
+        if (cell.edge == false && isValidStyle(cell.style, "current")) {
+            menu.addItem('配置', mxBasePath + 'images/editors/gear.gif', function () {
+                var num = prompt("请输入设备地址", "192.168.10.1:8888");
 //             var model = graph.getModel();
 //
 //             model.beginUpdate();
@@ -34,119 +35,119 @@ function createPopupMenu(graph, menu, cell, evt) {
 //                 model.endUpdate();
 //             }
 
-        });
-    }
-    if (cell != null && cell.edge == false && isValidStyle(cell.style, "text")) {
-        menu.addItem('颜色', mxBasePath + 'images/editors/fontcolor.gif', function () {
-            var model = graph.getModel();
+            });
+        }
+        if (cell.edge == false && isValidStyle(cell.style, "text")) {
+            menu.addItem('颜色', mxBasePath + 'images/editors/fontcolor.gif', function () {
+                var model = graph.getModel();
 
-            model.beginUpdate();
-            try {
-                var newCell = model.getCell(cell.id);
+                model.beginUpdate();
+                try {
+                    var newCell = model.getCell(cell.id);
 
-                // Updates the cell color and adds some tooltip information
-                if (newCell != null) {
-                    graph.cellsRemoved(cell.children);
-                    var r = prompt("请输入颜色", "red");
-                    // Resets the fillcolor and the overlay
-                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, r, [cell]);
-
-
-                } // for
-            }
-            finally {
-                model.endUpdate();
-            }
-
-        });
-        menu.addItem('大小', mxBasePath + 'images/editors/text.gif', function () {
-            var model = graph.getModel();
-
-            model.beginUpdate();
-            try {
-                var newCell = model.getCell(cell.id);
-
-                // Updates the cell color and adds some tooltip information
-                if (newCell != null) {
-                    graph.cellsRemoved(cell.children);
-                    var r = prompt("请输入大小", "12");
-                    // Resets the fillcolor and the overlay
-                    graph.setCellStyles(mxConstants.STYLE_FONTSIZE, r, [cell]);
+                    // Updates the cell color and adds some tooltip information
+                    if (newCell != null) {
+                        graph.cellsRemoved(cell.children);
+                        var r = prompt("请输入颜色", "red");
+                        // Resets the fillcolor and the overlay
+                        graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, r, [cell]);
 
 
-                } // for
-            }
-            finally {
-                model.endUpdate();
-            }
+                    } // for
+                }
+                finally {
+                    model.endUpdate();
+                }
 
-        });
-    }
-    if (cell != null && cell.edge == false && !isValidStyle(cell.style, "current") && !isValidStyle(cell.style, "text")) {
-        menu.addItem('旋转', mxBasePath + 'images/editors/redo.gif', function () {
-            var cell = graph.getSelectionCell();
+            });
+            menu.addItem('大小', mxBasePath + 'images/editors/text.gif', function () {
+                var model = graph.getModel();
 
-            if (cell != null) {
-                var geo = graph.getCellGeometry(cell);
+                model.beginUpdate();
+                try {
+                    var newCell = model.getCell(cell.id);
 
-                if (geo != null) {
-                    graph.getModel().beginUpdate();
-                    try {
-                        // Rotates the size and position in the geometry
-                        geo = geo.clone();
-                        geo.x += geo.width / 2 - geo.height / 2;
-                        geo.y += geo.height / 2 - geo.width / 2;
-                        var tmp = geo.width;
-                        geo.width = geo.height;
-                        geo.height = tmp;
-                        graph.getModel().setGeometry(cell, geo);
+                    // Updates the cell color and adds some tooltip information
+                    if (newCell != null) {
+                        graph.cellsRemoved(cell.children);
+                        var r = prompt("请输入大小", "12");
+                        // Resets the fillcolor and the overlay
+                        graph.setCellStyles(mxConstants.STYLE_FONTSIZE, r, [cell]);
 
-                        // Reads the current direction and advances by 90 degrees
-                        var state = graph.view.getState(cell);
 
-                        if (state != null) {
-                            var dir = state.style[mxConstants.STYLE_DIRECTION] || 'east'/*default*/;
+                    } // for
+                }
+                finally {
+                    model.endUpdate();
+                }
 
-                            if (dir == 'east') {
-                                dir = 'south';
+            });
+        }
+        if (cell.edge == false && !isValidStyle(cell.style, "current") && !isValidStyle(cell.style, "text")) {
+            menu.addItem('旋转', mxBasePath + 'images/editors/redo.gif', function () {
+                var cell = graph.getSelectionCell();
+
+                if (cell != null) {
+                    var geo = graph.getCellGeometry(cell);
+
+                    if (geo != null) {
+                        graph.getModel().beginUpdate();
+                        try {
+                            // Rotates the size and position in the geometry
+                            geo = geo.clone();
+                            geo.x += geo.width / 2 - geo.height / 2;
+                            geo.y += geo.height / 2 - geo.width / 2;
+                            var tmp = geo.width;
+                            geo.width = geo.height;
+                            geo.height = tmp;
+                            graph.getModel().setGeometry(cell, geo);
+
+                            // Reads the current direction and advances by 90 degrees
+                            var state = graph.view.getState(cell);
+
+                            if (state != null) {
+                                var dir = state.style[mxConstants.STYLE_DIRECTION] || 'east'/*default*/;
+
+                                if (dir == 'east') {
+                                    dir = 'south';
+                                }
+                                else if (dir == 'south') {
+                                    dir = 'west';
+                                }
+                                else if (dir == 'west') {
+                                    dir = 'north';
+                                }
+                                else if (dir == 'north') {
+                                    dir = 'east';
+                                }
+
+                                graph.setCellStyles(mxConstants.STYLE_DIRECTION, dir, [cell]);
                             }
-                            else if (dir == 'south') {
-                                dir = 'west';
-                            }
-                            else if (dir == 'west') {
-                                dir = 'north';
-                            }
-                            else if (dir == 'north') {
-                                dir = 'east';
-                            }
-
-                            graph.setCellStyles(mxConstants.STYLE_DIRECTION, dir, [cell]);
+                        }
+                        finally {
+                            graph.getModel().endUpdate();
                         }
                     }
-                    finally {
-                        graph.getModel().endUpdate();
-                    }
                 }
+            });
+        }
+
+        menu.addItem('删除', mxBasePath + 'images/editors/delete.gif', function () {
+            var model = graph.getModel();
+
+            model.beginUpdate();
+            try {
+                var newCell = model.getCell(cell.id);
+
+                // Updates the cell color and adds some tooltip information
+                if (newCell != null) {
+                    graph.removeCells([newCell]);
+                } // for
+            }
+            finally {
+                model.endUpdate();
             }
         });
-    }
-
-    menu.addItem('删除', mxBasePath + 'images/editors/delete.gif', function () {
-        var model = graph.getModel();
-
-        model.beginUpdate();
-        try {
-            var newCell = model.getCell(cell.id);
-
-            // Updates the cell color and adds some tooltip information
-            if (newCell != null) {
-                graph.removeCells([newCell]);
-            } // for
-        }
-        finally {
-            model.endUpdate();
-        }
-    });
 //            else {
 //                menu.addItem('No-Cell Item', mxBasePath + 'images/editors/image.gif', function () {
 //                    mxUtils.alert('MenuItem2');
@@ -156,6 +157,8 @@ function createPopupMenu(graph, menu, cell, evt) {
 //            menu.addItem('MenuItem3', mxBasePath + 'images/warning.gif', function () {
 //                mxUtils.alert('MenuItem3: ' + graph.getSelectionCount() + ' selected');
 //            });
+    }
+
 }
 
 function isValidStyle(str, name) {
