@@ -29,7 +29,7 @@ $(document).ready(function () {
     };
 
     //Maximum size
-    graph.maximumGraphBounds = new mxRectangle(0, 0, 800, 600)
+    // graph.maximumGraphBounds = new mxRectangle(0, 0, 800, 600)
     graph.border = 50;
 
     // Panning handler consumed right click so this must be
@@ -549,12 +549,6 @@ $(document).ready(function () {
             // Loads the mxGraph file format (XML file)
             read(graph, 'data/fileio.xml');
 
-            // Gets the default parent for inserting new cells. This
-            // is normally the first child of the root (ie. layer 0).
-            var parent = graph.getDefaultParent();
-
-            // Executes the layout
-            layout.execute(parent);
         }
         finally {
             // Updates the display
