@@ -19,8 +19,8 @@
         #graphContainer {
             overflow: auto;
             position: relative;
-            width: 800px;
-            height: 600px;
+            width: 100%;
+            height: 90%;
             border: 1px solid gray;
             background: url('${mxBasePath}images/examples/wires-grid.gif');
             background-position: -1px 0px;
@@ -32,10 +32,25 @@
             margin: 5px;
             text-align: left;
         }
+
+        #outlineContainer {
+            z-index: 1;
+            position: absolute;
+            overflow: hidden;
+            top: 0px;
+            right: 0px;
+            width: 160px;
+            height: 120px;
+            background: transparent;
+            border: solid;
+            border-color: lightgray;
+        }
     </style>
 </head>
 <body>
 <div id="graphContainer">
+</div>
+<div id="outlineContainer">
 </div>
 </body>
 </html>

@@ -3,6 +3,10 @@
  */
 $(document).ready(function () {
     var container = document.getElementById('graphContainer');
+
+    var outline = document.getElementById('outlineContainer');
+
+
     var graph = new mxGraph(container);
     graph.view.scale = 1;
     graph.setPanning(true);
@@ -14,6 +18,10 @@ $(document).ready(function () {
     graph.isHtmlLabel = function (cell) {
         return true;
     };
+
+    // Creates the outline (navigator, overview) for moving
+    // around the graph in the top, right corner of the window.
+    var outln = new mxOutline(graph, outline);
 
     // Installs a popupmenu handler using local function (see below).
     graph.popupMenuHandler.factoryMethod = function (menu, cell, evt) {
@@ -70,27 +78,25 @@ $(document).ready(function () {
 
     // Creates the div for the toolbar
     var tbContainer = document.createElement('div');
-    tbContainer.style.position = 'absolute';
-    tbContainer.style.overflow = 'hidden';
-    tbContainer.style.padding = '2px';
-    tbContainer.style.left = '0px';
-    tbContainer.style.top = '0px';
-    tbContainer.style.width = '24px';
-    tbContainer.style.bottom = '0px';
-
-    document.body.appendChild(tbContainer);
+    // tbContainer.style.position = 'absolute';
+    // tbContainer.style.overflow = 'hidden';
+    // tbContainer.style.padding = '2px';
+    // tbContainer.style.left = '0px';
+    // tbContainer.style.top = '0px';
+    // tbContainer.style.width = '24px';
+    // tbContainer.style.bottom = '0px';
+    //
+    // document.body.appendChild(tbContainer);
 
     // Creates new toolbar without event processing
     var toolbar = new mxToolbar(tbContainer);
-    toolbar.enabled = false
+    // toolbar.enabled = false
+    wnd = new mxWindow('工具栏', tbContainer, 10, 10, 44, "auto", false);
+    wnd.setMaximizable(false);
+    wnd.setScrollable(false);
+    wnd.setResizable(false);
+    wnd.setVisible(true);
 
-
-    // Workaround for Internet Explorer ignoring certain styles
-    if (mxClient.IS_QUIRKS) {
-        document.body.style.overflow = 'hidden';
-        new mxDivResizer(tbContainer);
-        new mxDivResizer(container);
-    }
 
     // Creates the model and the graph inside the container
     // using the fastest rendering available on the browser
@@ -118,6 +124,37 @@ $(document).ready(function () {
         });
     };
 
+
+    toolbar.addItem('Save', mxBasePath + 'images/editors/save.gif', function (evt) {
+        var encoder = new mxCodec();
+        var node = encoder.encode(graph.getModel());
+        mxUtils.popup(mxUtils.getPrettyXml(node), true);
+    });
+    toolbar.addLine()
+    var wireMode = false;
+    toolbar.addSwitchMode("选择", mxBasePath + 'images/editors/select.gif', function (evt, cell) {
+        wireMode = false;
+    });
+    toolbar.addSwitchMode("画线", mxBasePath + 'images/editors/vertical.gif', function (evt, cell) {
+        wireMode = true;
+    });
+    toolbar.addLine()
+    // Undo/redo
+    var undoManager = new mxUndoManager();
+    var listener = function (sender, evt) {
+        undoManager.undoableEditHappened(evt.getProperty('edit'));
+    };
+    graph.getModel().addListener(mxEvent.UNDO, listener);
+    graph.getView().addListener(mxEvent.UNDO, listener);
+
+    toolbar.addItem('Undo', mxBasePath + 'images/editors/undo.gif', function (evt) {
+        undoManager.undo();
+    });
+
+    toolbar.addItem('Redo', mxBasePath + 'images/editors/redo.gif', function (evt) {
+        undoManager.undo();
+    });
+    toolbar.addLine()
     addVertex(mxBasePath + 'images/editors/rectangle.gif', 100, 40, '');
     addVertex(mxBasePath + 'images/editors/rounded.gif', 100, 40, 'shape=rounded');
     addVertex(mxBasePath + 'images/editors/ellipse.gif', 40, 40, 'shape=ellipse');
@@ -125,10 +162,25 @@ $(document).ready(function () {
     addVertex(mxBasePath + 'images/editors/triangle.gif', 40, 40, 'shape=triangle');
     addVertex(mxBasePath + 'images/editors/cylinder.gif', 40, 40, 'shape=cylinder');
     addVertex(mxBasePath + 'images/editors/actor.gif', 30, 40, 'shape=actor');
+    toolbar.addLine()
     addVertex(mxBasePath + 'images/editors/triangle.gif', 100, 55, 'triangle');
     addVertex(mxBasePath + 'images/editors/image.gif', 100, 40, 'earth');
     addVertex(mxBasePath + 'images/editors/text.gif', 150, 30, 'text');
     addVertex(mxBasePath + 'images/editors/italic.gif', 80, 60, 'current');
+    toolbar.addLine()
+    toolbar.addItem('Zoom In', mxBasePath + 'images/editors/zoomin.gif', function (evt) {
+        graph.zoomIn();
+    });
+
+    toolbar.addItem('Zoom Out', mxBasePath + 'images/editors/zoomout.gif', function (evt) {
+        graph.zoomOut();
+    });
+
+    toolbar.addItem('Actual Size', mxBasePath + 'images/editors/zoomactual.gif', function (evt) {
+        graph.zoomActual();
+    });
+
+
     // Adds a special tooltip for edges
     graph.setTooltips(true);
 
@@ -513,7 +565,7 @@ $(document).ready(function () {
     // Starts connections on the background in wire-mode
     var connectionHandlerIsStartEvent = graph.connectionHandler.isStartEvent;
     graph.connectionHandler.isStartEvent = function (me) {
-        return checkbox.checked || connectionHandlerIsStartEvent.apply(this, arguments);
+        return wireMode || connectionHandlerIsStartEvent.apply(this, arguments);
     };
 
     // Avoids any connections for gestures within tolerance except when in wire-mode
@@ -528,7 +580,7 @@ $(document).ready(function () {
             if (dx < this.graph.tolerance && dy < this.graph.tolerance) {
                 // Selects edges in non-wire mode for single clicks, but starts
                 // connecting for non-edges regardless of wire-mode
-                if (!checkbox.checked && this.graph.getModel().isEdge(this.previous.cell)) {
+                if (!wireMode && this.graph.getModel().isEdge(this.previous.cell)) {
                     this.reset();
                 }
 
@@ -618,7 +670,8 @@ function addToolbarItem(graph, toolbar, prototype, image) {
     }
 
     // Creates the image which is used as the drag icon (preview)
-    var img = toolbar.addMode(null, image, function (evt, cell) {
+    // var img = toolbar.addMode(null, image, function (evt, cell) {
+    var img = toolbar.addItem(null, image, function (evt, cell) {
         var pt = this.graph.getPointForEvent(evt);
         funct(graph, evt, cell, pt.x, pt.y);
     });
@@ -644,8 +697,7 @@ function addToolbarItem(graph, toolbar, prototype, image) {
 }
 
 // Custom parser for simple file format
-function parse(graph, filename)
-{
+function parse(graph, filename) {
     var model = graph.getModel();
 
     // Gets the default parent for inserting new cells. This
@@ -662,41 +714,33 @@ function parse(graph, filename)
 
     // Parses all lines (vertices must be first in the file)
     graph.getModel().beginUpdate();
-    try
-    {
-        for (var i=0; i<lines.length; i++)
-        {
+    try {
+        for (var i = 0; i < lines.length; i++) {
             // Ignores comments (starting with #)
             var colon = lines[i].indexOf(':');
 
             if (lines[i].substring(0, 1) != "#" ||
-                colon == -1)
-            {
+                colon == -1) {
                 var comma = lines[i].indexOf(',');
-                var value = lines[i].substring(colon+2, lines[i].length);
+                var value = lines[i].substring(colon + 2, lines[i].length);
 
-                if (comma == -1 || comma > colon)
-                {
+                if (comma == -1 || comma > colon) {
                     var key = lines[i].substring(0, colon);
 
-                    if (key.length > 0)
-                    {
+                    if (key.length > 0) {
                         vertices[key] = graph.insertVertex(parent, null, value, 0, 0, 80, 70);
                     }
                 }
-                else if (comma < colon)
-                {
+                else if (comma < colon) {
                     // Looks up the vertices in the lookup table
                     var source = vertices[lines[i].substring(0, comma)];
-                    var target = vertices[lines[i].substring(comma+1, colon)];
+                    var target = vertices[lines[i].substring(comma + 1, colon)];
 
-                    if (source != null && target != null)
-                    {
+                    if (source != null && target != null) {
                         var e = graph.insertEdge(parent, null, value, source, target);
 
                         // Uses the special 2-way style for 2-way labels
-                        if (value.indexOf('2-Way') >= 0)
-                        {
+                        if (value.indexOf('2-Way') >= 0) {
                             e.style = '2way';
                         }
                     }
@@ -704,15 +748,13 @@ function parse(graph, filename)
             }
         }
     }
-    finally
-    {
+    finally {
         graph.getModel().endUpdate();
     }
 };
 
 // Parses the mxGraph XML file format
-function read(graph, filename)
-{
+function read(graph, filename) {
     var req = mxUtils.load(filename);
     var root = req.getDocumentElement();
     var dec = new mxCodec(root.ownerDocument);
