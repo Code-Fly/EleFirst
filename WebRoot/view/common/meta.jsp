@@ -17,7 +17,7 @@
     var _ctx = "${ctx}";
 </SCRIPT>
 
-<%--<link href="${ctx}Content/css/base.css" rel="stylesheet" type="text/css"/>--%>
+<link href="${ctx}Content/css/base.css" rel="stylesheet" type="text/css"/>
 
 <!-- theme定制图标与配色 -->
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.1.css"/>
