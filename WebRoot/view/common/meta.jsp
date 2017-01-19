@@ -17,7 +17,7 @@
     var _ctx = "${ctx}";
 </SCRIPT>
 
-<link href="${ctx}Content/css/base.css" rel="stylesheet" type="text/css"/>
+<%--<link href="${ctx}Content/css/base.css" rel="stylesheet" type="text/css"/>--%>
 
 <!-- theme定制图标与配色 -->
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.1.css"/>
@@ -30,11 +30,6 @@
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/datagrid-dnd/datagrid-dnd.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/datagrid-columns/columns-ext.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/portal/jquery.portal.js"></script>
-
-<!--加载960CSS框架-->
-<link href="${ctx}Content/css/960/fluid/reset.css" rel="stylesheet" type="text/css"/>
-<link href="${ctx}Content/css/960/fluid/text.css" rel="stylesheet" type="text/css"/>
-<link href="${ctx}Content/css/960/fluid/grid.css" rel="stylesheet" type="text/css"/>
 
 <!--加载组件CSS-->
 <link href="${ctx}Content/js/jquery-plugin/showloading/showLoading.css" rel="stylesheet" type="text/css"/>

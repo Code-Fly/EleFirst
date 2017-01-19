@@ -11,17 +11,24 @@
 <head>
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/commonMxGraph.jsp" %>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/secondLabel.js"></script>
-    <script type="text/javascript" src="js/popMenu.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+    <script type="text/javascript" src="js/toolbar.js"></script>
+    <script type="text/javascript" src="js/tooltips.js"></script>
+    <script type="text/javascript" src="js/popupmenu.js"></script>
     <script type="text/javascript" src="js/wire.js"></script>
+    <script type="text/javascript" src="js/style.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
     <style>
         #graphContainer {
-            overflow: auto;
-            position: relative;
+            /*overflow: auto;*/
+            /*position: relative;*/
             width: 100%;
-            height: 90%;
-            border: 1px solid gray;
+            height: 100%;
+            /*left: 50px;*/
+            /*right: 50px;*/
+            /*top: 50px;*/
+            /*bottom: 50px;*/
+            /*border: 1px solid gray;*/
             background: url('${mxBasePath}images/examples/wires-grid.gif');
             background-position: -1px 0px;
             cursor: crosshair;
@@ -47,10 +54,12 @@
         }
     </style>
 </head>
-<body>
-<div id="graphContainer">
+<body style="overflow: hidden">
+<!-- Creates a container for the sidebar -->
+<div id="toolbarContainer">
 </div>
-<div id="outlineContainer">
+<!-- Creates a container for the graph -->
+<div id="graphContainer">
 </div>
 </body>
 </html>
