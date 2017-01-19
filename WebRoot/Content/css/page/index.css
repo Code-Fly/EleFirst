@@ -27,14 +27,17 @@ body {
 
 .head-north {
     overflow: hidden;
-    background: #2076C3 url(../theme/images/headbg.png) repeat-x;
+    background: #95B8E7 url(../../images/headbg.png) repeat-x;
     color: #fff;
     font-family: Verdana
 }
 
 .head-south {
     height: 25px;
-    background: #77ADC4;
+    background: #95B8E7;
+    padding-top: 7px;
+    overflow: hidden;
+    text-align: center;
 }
 
 .head-left {
@@ -122,5 +125,5 @@ body {
 .welcome_bg {
     height: inherit;
     background: url(../theme/images/welcome.png) no-repeat;
-    background-color: #d7dbdd;
+    background-color: #F4F4F4;
 }

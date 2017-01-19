@@ -35,7 +35,7 @@ $(document).ready(function () {
 
     $("#indexLayout").layout("add", {
             region: "north",
-            height: 70,
+        height: 65,
             cls: "head-north",
             href: _ctx + "view/frame/north.jsp",
             onLoad: function () {

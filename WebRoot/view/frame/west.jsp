@@ -174,12 +174,12 @@
     <div title="系统管理" data-options="ionCls:'icon-save'">
         <ul id="nav-sys">
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-sysuser'"
-                   onclick="addTab('用户管理','view/system/userinfo/usermanager.jsp','icon-sysuser')"
+                   data-options="iconCls:'icon-user'"
+                   onclick="addTab('用户管理','view/system/userinfo/usermanager.jsp','icon-user')"
                    plain="true" href="javascript:void(0)">用户管理</a></li>
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-sysrole'"
-                   onclick="addTab('角色管理','view/system/userinfo/rolemanager.jsp','icon-sysrole')"
+                   data-options="iconCls:'icon-users'"
+                   onclick="addTab('角色管理','view/system/userinfo/rolemanager.jsp','icon-users')"
                    plain="true" href="javascript:void(0)">角色管理</a></li>
         </ul>
     </div>
