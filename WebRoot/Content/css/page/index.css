@@ -34,8 +34,8 @@ body {
 
 .head-south {
     height: 25px;
+    line-height: 25px;
     background: #95B8E7;
-    padding-top: 7px;
     overflow: hidden;
     text-align: center;
 }

@@ -1,144 +1,231 @@
-body{
-	font-size:12px;
-	font-family:Verdana, Geneva, sans-serif;
-	line-height:23px;
-	margin:0;
-	padding:0;
-	background:url(../../images/loginNew/login_panel.png) no-repeat 50% 0,url(../../images/loginNew/login_bg.png) repeat-x;
-	color:#3b6e81;
-	background-color: #011520;
-}
-	
-.second_body{
-	margin: 0 auto;
-    margin-top: auto;
-    padding-top: 110px;
-    width: 302px;	
+﻿@charset "utf-8";
+* {
+    font-size: 9pt;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.title-zh{
-    top: 60px;
-    height: 45px;
-    background: url(../../images/loginNew/system_name.png) no-repeat;
-    width: 296px;
+body {
+    font-family: '微软雅黑';
     margin: 0 auto;
-    margin-top: 45px;
+    min-width: 980px;
+    background-color: #1c77ac;
+    background-image: url(../../images/login/light.png);
+    background-repeat: no-repeat;
+    background-position: center top;
+    overflow: hidden;
 }
 
-.title-en{
-    position:absolute;
-    top:70px;
-    left:312px;
-    color:#9aa5a9;
+ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
- .message{   
+li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+img {
+    border: 0;
+}
+
+dl, dt, dd, span {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+a, a:focus {
+    text-decoration: none;
+    color: #000;
+    outline: none;
+    blr: expression(this.onFocus=this.blur());
+}
+
+a:hover {
+    color: #00a4ac;
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+cite {
+    font-style: normal;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+/*cloud*/
+
+#mainBody {
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: 425px;
-    color:red;
+    z-index: -1;
 }
 
-.logo{
-    top: 0.4in;
-    width: 156px;
-    height: 121px;
-    margin: 0 auto;
-}
-
-.table_user_pwd{
-	width: 300px;
-    margin-top: 10px;
-}
-
-.bg{
-	background-color:blue !important;
-  	border:1px ;
-  	border:none;
-}
-input{
-	margin:0;
-	padding:0;
-	color: white !important;
-}
-
-input:-webkit-autofill{
-	-webkit-box-shadow: 0 0 0px 100px #0E3E5C inset;
-}
-
-input.login,input.login2{
-	width:291px;
-	border:none;
-	height:40px;
-	vertical-align:text-bottom;
-	background-color: #0E3E5C;
-	border-radius: 4px;
-	padding-left:9px;
-	background:url(../../images/loginNew/input_bg.png);	
-} 
-
-.loginPwd{
-	width:291px;
-	border:none;
-	height:40px;
-	vertical-align:text-bottom;
-	padding-right: 50px;
-	width: 241px;
-	margin-top: 10px;
-	background-color: #0E3E5C;
-	padding-left:9px;
-	background:url(../../images/loginNew/input_bg.png);
-	border-radius: 4px;	
-}
-
-.login_button{
-	display: inline-block;
-    width: 50px;
-    height: 40px;
-    background: #000;
+.cloud {
     position: absolute;
-    top: 11px;
-    right: 2px;
-    background:url(../../images/loginNew/login_submit.png);
-    border-style :none;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: url(../../images/login/cloud.png) no-repeat;
+    z-index: 1;
+    opacity: 0.5;
 }
 
-.reset_botton{
-	width:58px;
-	height:26px;
-    line-height:26px;
-	border:none;
-	color:#FFF;
-	font-weight:bold;
-	background:url(../../images/login/login1.jpg);
-	margin-left:15px;
-}
-.reset_botton{
-	background:url(../../images/login/reset.jpg);
-}
-	
-.bottom_img{
-    margin: 0 auto;
-    text-align: center;
-    bottom: 20px;
-    margin-top: 170px;
-}
-.bottom_content{
-	margin: 0 auto;
-    text-align: center;
-    margin-top:20px; 
-    color:white;
-    font-size:13px;
-    font-family:"Microsoft YaHei";
-}
-.loginButton{
-	 position:relative;
+#cloud2 {
+    z-index: 2;
 }
 
-.rememberMe{
-	text-align: right;
+/*login*/
+.logintop {
+    height: 47px;
+    position: absolute;
+    top: 0;
+    background: url(../../images/login/loginbg1.png) repeat-x;
+    z-index: 100;
+    width: 100%;
 }
-.rememberMeFont{
-	color: #fff;
-    vertical-align: middle;
-    margin-left: 5px;
+
+.logintop span {
+    color: #fff;
+    line-height: 47px;
+    background: url(../../images/login/loginsj.png) no-repeat 21px 18px;
+    text-indent: 44px;
+    color: #afc5d2;
+    float: left;
+}
+
+.logintop ul {
+    float: right;
+    padding-right: 30px;
+}
+
+.logintop ul li {
+    float: left;
+    margin-left: 20px;
+    line-height: 47px;
+}
+
+.logintop ul li a {
+    color: #afc5d2;
+}
+
+.logintop ul li a:hover {
+    color: #fff;
+}
+
+.loginbody {
+    background: url(../../images/login/loginbg3.png) no-repeat center center;
+    width: 100%;
+    height: 585px;
+    overflow: hidden;
+    position: absolute;
+    top: 47px;
+}
+
+.systemlogo {
+    background: url(../../images/login/loginlogo.png) no-repeat center;
+    width: 100%;
+    height: 71px;
+    margin-top: 75px;
+}
+
+.loginbox {
+    width: 692px;
+    height: 336px;
+    background: url(../../images/login/logininfo.png) no-repeat;
+    margin-top: 30px;
+}
+
+.loginbox ul {
+    margin-top: 88px;
+    margin-left: 285px;
+}
+
+.loginbox ul li {
+    margin-bottom: 25px;
+}
+
+.loginbox ul li label {
+    color: #687f92;
+    padding-left: 25px;
+}
+
+.loginbox ul li label a {
+    color: #687f92;
+}
+
+.loginbox ul li label a:hover {
+    color: #3d96c9;
+}
+
+.loginbox ul li label input {
+    margin-right: 5px;
+}
+
+.loginuser {
+    width: 343px;
+    height: 48px;
+    background: url(../../images/login/loginuser.png) no-repeat;
+    border: none;
+    line-height: 48px;
+    padding-left: 44px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.loginpwd {
+    width: 343px;
+    height: 48px;
+    background: url(../../images/login/loginpassword.png) no-repeat;
+    border: none;
+    line-height: 48px;
+    padding-left: 44px;
+    font-size: 14px;
+    color: #90a2bc;
+}
+
+.loginbtn {
+    width: 111px;
+    height: 35px;
+    background: url(../../images/login/buttonbg.png) repeat-x;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    line-height: 35px;
+}
+
+.loginbm {
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: url(../../images/login/loginbg2.png) repeat-x;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: #0b3a58;
+}
+
+.loginbm a {
+    font-weight: bold;
+    color: #0b3a58;
+}
+
+.loginbm a:hover {
+    color: #fff;
 }
