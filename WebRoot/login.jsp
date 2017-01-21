@@ -36,14 +36,20 @@
     <span class="systemlogo"></span>
     <div class="loginbox">
         <ul>
-            <li><input name="" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''"/></li>
-            <li><input name="" type="text" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
-            <li><input name="" type="button" class="loginbtn" value="登录"
-                       onclick="javascript:window.location='index.jsp'"/><label>
-                <input name="" type="checkbox" value="" checked="checked"/>记住密码</label>
-                <label>
-                    <a href="#">忘记密码？</a>
-                </label>
+            <li>
+                <input class="easyui-textbox" style="width:343px;height:40px;padding:12px"
+                       data-options="prompt:'用户名',iconCls:'icon-man',iconWidth:38">
+            </li>
+            <li>
+                <input class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"
+                       data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">
+            </li>
+            <li><input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
+                <%--<label>--%>
+                <%--<input name="" type="checkbox" value="" checked="checked"/>记住密码</label>--%>
+                <%--<label>--%>
+                <%--<a href="#">忘记密码？</a>--%>
+                <%--</label>--%>
             </li>
         </ul>
     </div>

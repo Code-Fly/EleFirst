@@ -834,7 +834,10 @@
 .icon-link_edit{background:url('icon2/link_edit.png') no-repeat;}
 .icon-link_error{background:url('icon2/link_error.png') no-repeat;}
 .icon-link_go{background:url('icon2/link_go.png') no-repeat;}
-.icon-lock{background:url('icon2/lock.png') no-repeat;}
+
+.icon-lock2 {
+    background: url('icon2/lock2.png') no-repeat;
+}
 .icon-lock_add{background:url('icon2/lock_add.png') no-repeat;}
 .icon-lock_break{background:url('icon2/lock_break.png') no-repeat;}
 .icon-lock_delete{background:url('icon2/lock_delete.png') no-repeat;}
