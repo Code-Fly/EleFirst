@@ -12,6 +12,7 @@
     <%@ include file="view/common/meta.jsp" %>
     <!--本页面样式-->
     <link href="${ctx}Content/css/page/login.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="view/frame/js/cloud.js"></script>
     <script type="text/javascript" src="view/frame/js/login.js"></script>
 </head>
 <body>
@@ -37,14 +38,15 @@
     <div class="loginbox">
         <ul>
             <li>
-                <input class="easyui-textbox" style="width:343px;height:40px;padding:12px"
+                <input id="userName" class="easyui-textbox" style="width:343px;height:40px;padding:12px"
                        data-options="prompt:'用户名',iconCls:'icon-man',iconWidth:38">
             </li>
             <li>
-                <input class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"
+                <input id="password" class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"
                        data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">
             </li>
-            <li><input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
+            <li>
+                <input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
                 <%--<label>--%>
                 <%--<input name="" type="checkbox" value="" checked="checked"/>记住密码</label>--%>
                 <%--<label>--%>
