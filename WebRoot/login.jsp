@@ -42,8 +42,11 @@
                        data-options="prompt:'用户名',iconCls:'icon-man',iconWidth:38">
             </li>
             <li>
-                <input id="password" class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"
-                       data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">
+                <%--<input id="password" class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"--%>
+                <%--data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">--%>
+                <input id="password" class="easyui-passwordbox" prompt="密码" iconWidth="38"
+                       style="width:343px;height:40px;padding:12px">
+
             </li>
             <li>
                 <input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
