@@ -11,14 +11,14 @@
 <head>
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/commonMxGraph.jsp" %>
-    <script type="text/javascript" src="js/graph.js"></script>
-    <script type="text/javascript" src="js/toolbar.js"></script>
-    <script type="text/javascript" src="js/tooltips.js"></script>
-    <script type="text/javascript" src="js/popupmenu.js"></script>
-    <script type="text/javascript" src="js/wire.js"></script>
-    <script type="text/javascript" src="js/style.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+
+    <script type="text/javascript" src="js/init.js"></script>
     <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
+
         #graphContainer {
             /*overflow: auto;*/
             /*position: relative;*/

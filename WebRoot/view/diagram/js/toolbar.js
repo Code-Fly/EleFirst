@@ -11,7 +11,7 @@ $(document).ready(function () {
     var toolbar = new mxToolbar(tbContainer);
 
     // toolbar.enabled = false
-    wnd = new mxWindow('工具栏', tbContainer, 10, 10, 44, "auto", false);
+    wnd = new mxWindow('工具栏', tbContainer, 10, 10, 44);
     wnd.setMaximizable(false);
     wnd.setScrollable(false);
     wnd.setResizable(false);

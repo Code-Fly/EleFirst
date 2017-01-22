@@ -10,9 +10,9 @@
     application.setAttribute("mxBasePath", basePath + "Content/js/mxgraph-3.6.0.0/javascript/src/");
 %>
 <script type="text/javascript">
-    mxBasePath = _ctx + "Content/js/mxgraph-3.6.0.0/javascript/src/";
+    mxBasePath = "${mxBasePath}";
 </script>
-<script src="${ctx}Content/js/mxgraph-3.6.0.0/javascript/mxClient.js"></script>
+<script src="${mxBasePath}js/mxClient.js"></script>
 <script type="text/javascript">
     mxBasePath = "${mxBasePath}";
 </script>
