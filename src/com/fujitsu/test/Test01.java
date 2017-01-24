@@ -1,7 +1,7 @@
 package com.fujitsu.test;
 
 /**
- * jinlu
+ * jinlu 测试
  * @author Administrator
  *
  */
