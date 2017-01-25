@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../common/config.jsp" %>
+<%@ include file="/view/common/config.jsp" %>
 <html>
 <head>
-    <%@ include file="../common/meta.jsp" %>
+    <%@ include file="/view/common/meta.jsp" %>
 </head>
 <body>
 <div class="easyui-layout head-north" data-options="fit:true,border:false">
