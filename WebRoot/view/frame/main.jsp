@@ -23,12 +23,16 @@
             float: left;
             padding: 10px;
         }
+
+        .small-box {
+            margin-bottom: 0px;
+        }
     </style>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'center',border:false" align="center" style="">
+<div data-options="region:'center',border:false" align="center">
     <!-- Small boxes (Stat box) -->
-    <div class="easyui-panel" data-options="border:false," style="margin-bottom: 10px;overflow: hidden">
+    <div class="easyui-panel" data-options="border:false," style="margin-bottom: 10px; width:100%;overflow: hidden">
         <div class="grid_box_3">
             <!-- small box -->
             <div class="small-box bg-aqua" style="background-color: rgb(53, 156, 182) !important">
@@ -146,7 +150,7 @@
         </div>
     </div>
     <div class="easyui-panel" data-options="iconCls:'icon-chart_line'" title="日负荷曲线(kW)"
-         style="margin-bottom: 10px;height: 400px;width: 95%;">
+         style="margin-bottom: 10px;width:100%;height: 400px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true">
             <div id="chart-day-load" data-options="region:'center',border:false" style="padding:10px;overflow: hidden">
             </div>
@@ -178,7 +182,7 @@
         </div>
     </div>
     <div class="easyui-panel" data-options="iconCls:'icon-chart_bar'" title="月电量柱图(kWh)"
-         style="margin-bottom: 10px;height: 400px;width: 95%;">
+         style="margin-bottom: 10px;width:100%;height: 400px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true">
             <div id="chart-month-load" data-options="region:'center',border:false"
                  style="padding:10px;overflow: hidden">
