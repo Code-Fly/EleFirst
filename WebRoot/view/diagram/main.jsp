@@ -11,8 +11,9 @@
 <head>
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/commonMxGraph.jsp" %>
-
-    <script type="text/javascript" src="js/init.js"></script>
+    <script type="text/javascript">
+        require(["js/init.js"]);
+    </script>
     <style>
         html, body {
             margin: 0;

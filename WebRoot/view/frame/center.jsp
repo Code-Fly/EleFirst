@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../common/config.jsp" %>
+<%@ include file="/view/common/config.jsp" %>
 <html>
 <head>
-    <%@ include file="../common/meta.jsp" %>
+    <%@ include file="/view/common/meta.jsp" %>
 </head>
 <body>
 <div id="centerTabs">
-    <div title="我的桌面" data-options="border:false,tools:'#p-tools'"
+    <div title="总体用能" data-options="border:false,tools:'#p-tools',iconCls:'icon-application_view_tile'"
          style="overflow: hidden;">
         <iframe id="frame-portal" src="${ctx}view/frame/main.jsp"
                 style="width: 100%; height: 100%;" frameborder="no" border="0"

@@ -49,3 +49,9 @@
 
 <script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script>
+
+<SCRIPT type="text/javascript">
+    require.config({
+        urlArgs: "bust=" + (new Date()).getTime(),
+    });
+</SCRIPT>
