@@ -25,14 +25,15 @@
         }
 
         .small-box {
-            margin-bottom: 0px;
+            margin: 0px !important;
         }
     </style>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'center',border:false" align="center">
+<div data-options="region:'center',border:false" align="center" style="overflow-x: hidden;">
     <!-- Small boxes (Stat box) -->
-    <div class="easyui-panel" data-options="border:false," style="margin-bottom: 10px; width:100%;overflow: hidden">
+    <div class="easyui-panel" data-options="border:false,"
+         style="margin-bottom: 10px; width:95%;height: 180px;overflow: hidden">
         <div class="grid_box_3">
             <!-- small box -->
             <div class="small-box bg-aqua" style="background-color: rgb(53, 156, 182) !important">
