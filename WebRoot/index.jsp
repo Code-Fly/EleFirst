@@ -13,6 +13,11 @@
     <!--本页面样式-->
     <link href="${ctx}Content/css/page/index.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="view/frame/js/index.js"></script>
+    <style>
+        .tab-body {
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body id="indexLayout" class="easyui-layout">
 <%--<div data-options="region:'north',href:'${ctx}view/frame/north.jsp'" style="height: 70px;overflow: hidden;" class="head-north"></div>--%>
