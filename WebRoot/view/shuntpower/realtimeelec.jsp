@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="../common/config.jsp" %>
+<%@ include file="/view/common/config.jsp" %>
 <html>
 <head>
-    <%@ include file="../common/meta.jsp" %>
+    <%@ include file="/view/common/meta.jsp" %>
     <link href="${ctx}Content/css/page/index.css" rel="stylesheet" type="text/css"/>
 </head>
 <body class="easyui-layout" data-options="fit:true,border:false">

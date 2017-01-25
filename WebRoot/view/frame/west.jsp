@@ -79,100 +79,6 @@
             <%--plain="true" href="javascript:void(0)">对标排名分析</a></li>--%>
         </ul>
     </div>
-<<<<<<< HEAD
-    <div title="损耗分析" data-options="ionCls:'icon-save'">
-        <ul>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('变压器损耗','https://www.baidu.com','icon-table')"
-                   plain="true" href="javascript:void(0)">变压器损耗</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('用电线路损耗','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">用电线路损耗</a></li>
-        </ul>
-    </div>
-    <div title="统计报表" data-options="ionCls:'icon-save'">
-        <ul>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('抄见示数日报表','https://www.baidu.com','icon-table')"
-                   plain="true" href="javascript:void(0)">抄见示数日报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('抄见示数月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">抄见示数月报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量日报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量日报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量周报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量周报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量月报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量年报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量年报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('月最大需量报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">月最大需量报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('分时电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">分时电量月报表</a></li>
-        </ul>
-    </div>
-    <div title="监测点统计报表" data-options="ionCls:'icon-save'">
-        <ul>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量日报表','view/shuntpower/realtimeelec.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量日报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量周报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量周报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量月报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量年报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量年报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('分时电量月报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">分时电量月报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('日负荷报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">日负荷报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('月负荷报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">月负荷报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('月负荷报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">日最大需量报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('功率因数及无功日报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">功率因数及无功日报表</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电压日监测报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电压日监测报表</a></li>
-        </ul>
-    </div>
-=======
     <%--<div title="损耗分析" data-options="ionCls:'icon-save'">--%>
     <%--<ul>--%>
     <%--<li><a class="easyui-linkbutton"--%>
@@ -265,7 +171,6 @@
     <%--plain="true" href="javascript:void(0)">电压日监测报表</a></li>--%>
     <%--</ul>--%>
     <%--</div>--%>
->>>>>>> branch 'master' of https://github.com/Code-Fly/EleFirst.git
     <div title="系统管理" data-options="ionCls:'icon-save'">
         <ul id="nav-sys">
             <%--<li><a class="easyui-linkbutton"--%>
