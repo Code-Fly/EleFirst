@@ -12,8 +12,12 @@
     <%@ include file="view/common/meta.jsp" %>
     <!--本页面样式-->
     <link href="${ctx}Content/css/page/login.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="view/frame/js/cloud.js"></script>
-    <script type="text/javascript" src="view/frame/js/login.js"></script>
+    <script type="text/javascript">
+        require([_ctx + "view/frame/js/cloud.js"]);
+    </script>
+    <script type="text/javascript">
+        require([_ctx + "view/frame/js/login.js"]);
+    </script>
 </head>
 <body>
 

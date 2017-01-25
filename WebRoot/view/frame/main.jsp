@@ -5,11 +5,16 @@
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/common960.jsp" %>
     <%@ include file="/view/common/commonAdminLTE.jsp" %>
+    <%@ include file="/view/common/commonHighChart.jsp" %>
+    <script type="text/javascript">
+        require(["js/main.js"]);
+    </script>
     <style>
         .table-condensed, .table-condensed {
             color: #fff;
         }
-        .grid_box_3{
+
+        .grid_box_3 {
             width: 25%;
             float: left;
             padding: 10px;
@@ -17,7 +22,7 @@
     </style>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'center',border:false" style="">
+<div data-options="region:'center',border:false" align="center" style="">
     <!-- Small boxes (Stat box) -->
     <div class="easyui-panel" data-options="border:false," style="margin-bottom: 10px;overflow: hidden">
         <div class="grid_box_3">
@@ -136,54 +141,62 @@
             </div>
         </div>
     </div>
-    <div class="easyui-panel" data-options="iconCls:'icon-chart_line'" title="日负荷曲线(kW)" style="margin-bottom: 10px;height: 400px;">
+    <div class="easyui-panel" data-options="iconCls:'icon-chart_line'" title="日负荷曲线(kW)"
+         style="margin-bottom: 10px;height: 400px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true">
-            <div data-options="region:'center',border:false" style="padding:10px">
-                Center Content
+            <div id="chart-day-load" data-options="region:'center',border:false" style="padding:10px;overflow: hidden">
             </div>
             <div data-options="region:'east',border:false" style="width:200px;padding:10px">
                 <p style="color: #0073b7;font-size: medium;">
                     昨日最大负荷
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_line'"></a><span style="color: green;font-size: medium;">484.14 kW</span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_line'"></a><span
+                        style="color: green;font-size: medium;">484.14 kW</span>
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span style="color: black;font-size: medium;">01-24 09:45</span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span
+                        style="color: black;font-size: medium;">01-24 09:45</span>
                 </p>
                 <%----%>
                 <p style="color: #0073b7;font-size: medium;">
                     今日最大负荷
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_line'"></a><span style="color: green;font-size: medium;">484.14 kW</span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_line'"></a><span
+                        style="color: green;font-size: medium;">484.14 kW</span>
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span style="color: black;font-size: medium;">01-24 09:45</span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span
+                        style="color: black;font-size: medium;">01-24 09:45</span>
                 </p>
             </div>
         </div>
     </div>
-    <div class="easyui-panel" data-options="iconCls:'icon-chart_bar'" title="月电量柱图(kWh)" style="margin-bottom: 10px;height: 400px;">
+    <div class="easyui-panel" data-options="iconCls:'icon-chart_bar'" title="月电量柱图(kWh)"
+         style="margin-bottom: 10px;height: 400px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true">
-            <div data-options="region:'center',border:false" style="padding:10px">
-                Center Content
+            <div id="chart-month-load" data-options="region:'center',border:false"
+                 style="padding:10px;overflow: hidden">
             </div>
             <div data-options="region:'east',border:false" style="width:200px;padding:10px">
                 <p style="color: #0073b7;font-size: medium;">
                     本月累计电量
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_bar'"></a><span style="color: green;font-size: medium;">484.14 kW</span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_bar'"></a><span
+                        style="color: green;font-size: medium;">484.14 kW</span>
                 </p>
                 <p style="color: #0073b7;font-size: medium;">
                     同时段累计对比
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow_up'"></a><span style="color: red;font-size: medium;">10%</span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow_up'"></a><span
+                        style="color: red;font-size: medium;">10%</span>
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span style="color: black;font-size: medium;">截止2017-01-24</span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span
+                        style="color: black;font-size: medium;">截止2017-01-24</span>
                 </p>
             </div>
         </div>
