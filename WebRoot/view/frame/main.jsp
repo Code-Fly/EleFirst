@@ -10,8 +10,12 @@
         require(["js/main.js"]);
     </script>
     <style>
-        .table-condensed, .table-condensed {
+        .table-condensed {
             color: #fff;
+        }
+
+        .table-condensed tr td {
+            font-size: small;
         }
 
         .grid_box_3 {
