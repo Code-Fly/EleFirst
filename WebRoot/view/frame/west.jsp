@@ -10,19 +10,19 @@
         <ul>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('实时用电数据','view/shuntpower/main.jsp','icon-table')"
+                   onclick="addTab('实时用电数据','view/powerdetail/realtimepower/main.jsp','icon-table')"
                    plain="true" href="javascript:void(0)">实时用电数据</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('日用电数据','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   onclick="addTab('日用电数据','view/powerdetail/dailypower/main.jsp','icon-table')"
                    plain="true" href="javascript:void(0)">日用电数据</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('周用电数据','view/dme/workflowManager/workflowstrategymanager.jsp','icon-table')"
+                   onclick="addTab('周用电数据','view/powerdetail/weeklypower/main.jsp','icon-table')"
                    plain="true" href="javascript:void(0)">周用电数据</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('月用电数据','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   onclick="addTab('月用电数据','view/powerdetail/monthlypower/main.jsp','icon-table')"
                    plain="true" href="javascript:void(0)">月用电数据</a></li>
             <%--<li><a class="easyui-linkbutton"--%>
             <%--data-options="iconCls:'icon-table'"--%>
