@@ -136,11 +136,6 @@ $(document).ready(function () {
                 0.0, 0.6, 1.2, 1.7, 0.7, 2.9, 4.1, 2.6, 3.7, 3.9, 1.7, 2.3,
                 null, null, null, null, null, null, null, null, null, null, null, null, null]
         }],
-        navigation: {
-            menuItemStyle: {
-                fontSize: '10px'
-            }
-        }
     });
 
     $('#chart-month-load').highcharts({
@@ -183,12 +178,7 @@ $(document).ready(function () {
             }
         },
         tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-            footerFormat: '</table>',
             shared: true,
-            useHTML: true
         },
         plotOptions: {
             column: {
