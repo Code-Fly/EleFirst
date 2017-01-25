@@ -10,7 +10,7 @@
         <ul>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('实时用电数据','https://www.baidu.com','icon-table')"
+                   onclick="addTab('实时用电数据','view/shuntpower/realtimeelec.jsp','icon-table')"
                    plain="true" href="javascript:void(0)">实时用电数据</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
@@ -131,7 +131,7 @@
         <ul>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量日报表','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"
+                   onclick="addTab('电量日报表','view/shuntpower/realtimeelec.jsp','icon-table')"
                    plain="true" href="javascript:void(0)">电量日报表</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
