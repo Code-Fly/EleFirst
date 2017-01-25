@@ -14,14 +14,14 @@
 
 <div data-options="region:'center',border:false" style="padding: 5px;">
     <div class="easyui-layout" data-options="fit:true">
-        <div data-options="region:'west',title:'监测点'" style="width:200px;">
+        <div data-options="region:'west',title:'监测点'" style="width:200px;overflow: hidden">
             <iframe src="../../devicetree/main.jsp" style="width: 100%;height: 100%;" frameborder="no" border="0"
                     marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
         </div>
         <div data-options="region:'center',border:false" style="padding-left: 5px;">
             <div class="easyui-layout" data-options="fit:true">
-                <div data-options="region:'center'">
-                    <iframe style="width: 100%;height: 100%;" frameborder="no" border="0"
+                <div data-options="region:'center'" style="overflow: hidden">
+                    <iframe src="" style="width: 100%;height: 100%;" frameborder="no" border="0"
                             marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
                 </div>
             </div>
