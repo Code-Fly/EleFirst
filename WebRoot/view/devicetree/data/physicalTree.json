@@ -1,0 +1,94 @@
+[
+  {
+    "text": "配用电监测",
+    "iconCls": "icon-house",
+    "children": [
+      {
+        "text": "10KV胜太I线",
+        "state": "open",
+        "iconCls": "icon-drive_network",
+        "attributes": {
+          "url": "/demo/book/abc",
+          "price": 100
+        },
+        "children": [
+          {
+            "text": "1#变压器（新楼）",
+            "iconCls": "icon-database_lightning",
+            "state": "closed",
+            "children": [
+              {
+                "text": "407馈线柜",
+                "iconCls": "icon-lightning"
+              },
+              {
+                "text": "408馈线柜",
+                "iconCls": "icon-lightning"
+              },
+              {
+                "text": "409馈线柜",
+                "iconCls": "icon-lightning"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "10KV胜太II线",
+        "state": "open",
+        "iconCls": "icon-drive_network",
+        "attributes": {
+          "url": "/demo/book/abc",
+          "price": 100
+        },
+        "children": [
+          {
+            "text": "2#变压器（新楼）",
+            "iconCls": "icon-database_lightning",
+            "state": "closed",
+            "children": [
+              {
+                "text": "501馈线柜",
+                "iconCls": "icon-lightning"
+              },
+              {
+                "text": "502馈线柜",
+                "iconCls": "icon-lightning"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "text": "10KV胜太进线",
+        "state": "open",
+        "iconCls": "icon-drive_network",
+        "attributes": {
+          "url": "/demo/book/abc",
+          "price": 100
+        },
+        "children": [
+          {
+            "text": "3#变压器（新楼）",
+            "iconCls": "icon-database_lightning",
+            "state": "closed",
+            "children": [
+              {
+                "text": "611馈线柜",
+                "iconCls": "icon-lightning"
+              },
+              {
+                "text": "612馈线柜",
+                "iconCls": "icon-lightning"
+              },
+              {
+                "text": "613馈线柜",
+                "iconCls": "icon-lightning"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
