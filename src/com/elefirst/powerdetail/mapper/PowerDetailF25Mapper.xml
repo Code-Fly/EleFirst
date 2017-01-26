@@ -591,4 +591,36 @@
       sendTime = #{sendtime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 自定义获取每个区域下相关集线器对应的监测点最新一条电力记录数(根据发送时间) -->
+  <select id="myselectByExample" resultMap="BaseResultMap">
+    select a.* from t_003_type_one_data_fn25 a,(select concentrator_id,max(sendTime + 0) sendTime from t_003_type_one_data_fn25 group by concentrator_id) b where a.concentrator_id = b.concentrator_id and a.sendTime = b.sendTime
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and a.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	order by a.concentrator_id
+	<if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  
+  <!-- 获取每个区域下相关集线器对应的监测点总数 -->
+  <select id="myselectByExampleCount" resultType="int">
+    select count(1) as num from t_003_type_one_data_fn25 a,(select concentrator_id,max(sendTime + 0) sendTime from t_003_type_one_data_fn25 group by concentrator_id) b where a.concentrator_id = b.concentrator_id and a.sendTime = b.sendTime
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and a.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+  </select>
 </mapper>

@@ -1,18 +1,18 @@
-package com.elefirst.test;
+package com.elefirst.powerdetail.po;
 
 import java.util.List;
 
 public class Area {
+	String areaId;
+	String type;
+	List<Concentrator> concentrators;
+	
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
-	String areaId;
-	String type;
-	List<Concentrator> concentrators;
-	
 	public String getAreaId() {
 		return areaId;
 	}

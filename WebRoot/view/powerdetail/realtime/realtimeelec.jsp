@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/view/common/config.jsp" %>
+<%
+	String powerDetailJason = "{\"areaId\":\"1\",\"concentrators\":[{\"concentratorId\":\"417\",\"pns\":[\"1\",\"2\",\"3\"]},{\"concentratorId\":\"418\",\"pns\":[\"1\",\"2\",\"3\"]}],\"type\":\"physical\"}";
+	System.out.println(powerDetailJason);
+%>
 <html>
 <head>
     <%@ include file="/view/common/meta.jsp" %>
@@ -8,28 +12,29 @@
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="width:70%;">
     <div id="tt" class="easyui-tabs" data-options="border:false" style="width:100%;height:100%;">
-        <div title="负荷">
-            <table id="tt1" class="easyui-datagrid" fit="true" data-options="border:false"
-                   singleSelect="true" iconCls="icon-save" rownumbers="true">
+        <div title="负荷" selected="true" style="padding: 10px">
+            <table id="tt1">
                 <thead>
-                <tr>
-                    <th rowspan="2" field="itemid" width="80" align="center">序号</th>
-                    <th rowspan="2" field="productid" width="80" align="center">监测点</th>
-                    <th rowspan="2" field="productid" width="80" align="center">状态</th>
-                    <th colspan="4">有功负荷(kW)</th>
-                    <th colspan="4">无功负荷(kW)</th>
-                    <th rowspan="2" field="productid" width="80" align="center">抄表时刻</th>
-                </tr>
-                <tr>
-                    <th field="listprice" width="80" align="center">总</th>
-                    <th field="unitcost" width="80" align="center">Pu/PI</th>
-                    <th field="attr1" width="80" align="center">Pv</th>
-                    <th field="status" width="80" align="center">Pw/PII</th>
-                    <th field="listprice" width="80" align="center">总</th>
-                    <th field="unitcost" width="80" align="center">U相</th>
-                    <th field="attr1" width="80" align="center">V相</th>
-                    <th field="status" width="80" align="center">W相</th>
-                </tr>
+	                <tr>
+	                    <!-- <th field="id" hidden="true"></th>
+	                    <th field="ck" data-options="checkbox:true"></th> -->
+<!-- 	                    <th rowspan="2" field="itemid" width="80" align="center">序号</th>
+ -->	                <th rowspan="2" field="areaId" width="80" align="center">监测点</th>
+<!-- 	                    <th rowspan="2" field="productid" width="80" align="center">状态</th>
+ -->	                    <th colspan="4">有功负荷(kW)</th>
+	                    <th colspan="4">无功负荷(kW)</th>
+	                    <th rowspan="2" field="clientoperationtime" width="80" align="center">抄表时刻</th>
+	                </tr>
+	                <tr>
+	                    <th field="totalactivepower" width="80" align="center">总</th>
+	                    <th field="aActivepower" width="80" align="center">Pu/PI</th>
+	                    <th field="bActivepower" width="80" align="center">Pv</th>
+	                    <th field="cActivepower" width="80" align="center">Pw/PII</th>
+	                    <th field="totalreactivepower" width="80" align="center">总</th>
+	                    <th field="aReactivepower" width="80" align="center">U相</th>
+	                    <th field="bReactivepower" width="80" align="center">V相</th>
+	                    <th field="cReactivepower" width="80" align="center">W相</th>
+	                </tr>
                 </thead>
             </table>
         </div>
@@ -371,4 +376,28 @@
     </div>
 </div>
 </body>
+<script type="text/javascript">
+$().ready(function() {
+	$("#tt1").datagrid({
+		url : _ctx + 'powerdetail/listCurrentDetailPower.do',
+		//pagination : true,
+		//rownumbers : true,
+		pageSize : 2,
+		pageList : [ 2, 20, 30],
+		singleSelect : false,
+		fit : true,
+		loadMsg : '正在处理,请稍后....',
+		queryParams: {
+			jasonStr: '<%=powerDetailJason%>'
+		},
+		onLoadError : function() {
+			jError("查询监测点信息错误！", {
+				VerticalPosition : 'center',
+				HorizontalPosition : 'center',
+				ShowOverlay : false
+			});
+		}
+	});
+});
+</script>
 </html>

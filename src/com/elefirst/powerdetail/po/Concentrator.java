@@ -1,4 +1,4 @@
-package com.elefirst.test;
+package com.elefirst.powerdetail.po;
 
 import java.util.List;
 

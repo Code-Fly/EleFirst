@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.elefirst.powerdetail.po.Area;
+import com.elefirst.powerdetail.po.Concentrator;
 
 /**
  * jinlu 测试
@@ -14,7 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 public class Test01 {
     public static void main(String[] args) {
     	Concentrator c1 = new Concentrator();
-    	c1.setConcentratorId("201");
+    	c1.setConcentratorId("417");
     	List<String> pns1 = new ArrayList<String>();
     	pns1.add("1");
     	pns1.add("2");
@@ -22,7 +24,7 @@ public class Test01 {
     	c1.setPns(pns1);
     	
     	Concentrator c2 = new Concentrator();
-    	c2.setConcentratorId("202");
+    	c2.setConcentratorId("418");
     	List<String> pns2 = new ArrayList<String>();
     	pns2.add("1");
     	pns2.add("2");
@@ -41,6 +43,9 @@ public class Test01 {
     	//f.setPn(new String[]{"1","2","3","4"});
     	String jsonString = JSON.toJSONString(f);
     	System.out.println(jsonString);  
+    	
+    	String powerDetailJason = "{\"areaId\":\"1\",\"concentrators\":[{\"concentratorId\":\"417\",\"pns\":[\"1\",\"2\",\"3\"]},{\"concentratorId\":\"418\",\"pns\":[\"1\",\"2\",\"3\"]}],\"type\":\"physical\"}";
+
 	}
 //	student.setHobby(new String[]{"篮球","上网","跑步","游戏"});  
 //	/** 

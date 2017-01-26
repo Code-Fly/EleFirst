@@ -50,6 +50,10 @@
 <script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script>
 
+<!-- 提示对话框 -->
+<script type="text/javascript" src="${ctx}Content/js/jquery-notify/jNotify.jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-notify/jNotify.jquery.css">
+
 <SCRIPT type="text/javascript">
     require.config({
         urlArgs: "bust=" + (new Date()).getTime(),
