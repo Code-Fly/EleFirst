@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.elefirst.base.entity.DataGrid;
+import com.elefirst.base.entity.Error;
+import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.GeneralMessage;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
@@ -43,7 +45,7 @@ public class PowerDetailController {
 	 * @throws Exception
 	 */
 	@RequestMapping("listCurrentDetailPower.do")
-	public @ResponseBody DataGrid queryCurrentDetailPower(String page, String rows,String jasonStr)
+	public @ResponseBody ErrorMsg queryCurrentDetailPower(String page, String rows,String jasonStr)
 			throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
@@ -74,10 +76,10 @@ public class PowerDetailController {
 			dg.setRows(powerDetailF25);
 			dg.setTotal(total);
 			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
 		} catch (Exception e) {
-			dg = null;
 			logger.error("查询实时监测点用电数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
-		return dg;
 	}
 }
