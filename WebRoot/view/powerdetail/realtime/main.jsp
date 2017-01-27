@@ -24,8 +24,8 @@
         <div data-options="region:'center',border:false" style="padding-left: 5px;overflow: hidden">
             <div class="easyui-layout" data-options="fit:true">
                 <div data-options="region:'center'" style="overflow: hidden">
-                    <iframe id="centerFrame" ref="realtimedetail.jsp" src="realtimedetail.jsp"
-                            style="width: 100%;height: 100%;" frameborder="no" border="0"
+                    <iframe id="centerFrame" ref="realtimedetail.jsp" style="width: 100%;height: 100%;" frameborder="no"
+                            border="0"
                             marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
                 </div>
             </div>
