@@ -7,7 +7,9 @@
 <html>
 <head>
     <%@ include file="/view/common/meta.jsp" %>
-    <link href="${ctx}Content/css/page/index.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">
+        require(["js/realtimeelec.js"]);
+    </script>
 </head>
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="width:70%;">
@@ -376,28 +378,4 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-$().ready(function() {
-	$("#tt1").datagrid({
-		url : _ctx + 'powerdetail/listCurrentDetailPower.do',
-		//pagination : true,
-		//rownumbers : true,
-		pageSize : 2,
-		pageList : [ 2, 20, 30],
-		singleSelect : false,
-		fit : true,
-		loadMsg : '正在处理,请稍后....',
-		queryParams: {
-			jasonStr: '<%=powerDetailJason%>'
-		},
-		onLoadError : function() {
-			jError("查询监测点信息错误！", {
-				VerticalPosition : 'center',
-				HorizontalPosition : 'center',
-				ShowOverlay : false
-			});
-		}
-	});
-});
-</script>
 </html>

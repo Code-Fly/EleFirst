@@ -48,6 +48,7 @@
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DashboardUtils.js"></script>
 
 <script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.validate.define.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script>
 
 <!-- 提示对话框 -->
@@ -58,4 +59,12 @@
     require.config({
         urlArgs: "bust=" + (new Date()).getTime(),
     });
+
+    // you can set utf8 encoding and decoding via global option
+    // possible options:
+    // `utf8encode` - utf8 encoding only (default: `false`)
+    // `utf8decode` - utf8 decoding only (default: `false`)
+    // `raw` - both (default: `true`)
+    $.base64.utf8encode = true;
+
 </SCRIPT>

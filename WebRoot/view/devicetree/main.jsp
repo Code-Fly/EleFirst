@@ -13,6 +13,7 @@
     <script type="text/javascript">
         require(["js/main.js"]);
     </script>
+</head>
 <body>
 <ul id="dTree" class="easyui-tree">
 
