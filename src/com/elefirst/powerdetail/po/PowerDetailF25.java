@@ -1,9 +1,8 @@
 package com.elefirst.powerdetail.po;
 
-import com.elefirst.base.entity.Page;
 
 
-public class PowerDetailF25 extends Page{
+public class PowerDetailF25{
     private String id;
 
     private String areaId;
