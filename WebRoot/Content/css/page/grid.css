@@ -1,0 +1,14 @@
+.cell p {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.title p {
+    text-align: right;
+    padding-right: 10px;
+    line-height: 25px;
+}
+
+.notice p {
+    margin-bottom: 10px;
+}

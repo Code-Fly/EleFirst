@@ -71,7 +71,7 @@
             <%--plain="true" href="javascript:void(0)">账单录入</a></li>--%>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-table'"
-                   onclick="addTab('用电对比分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"
+                   onclick="addTab('用电对比分析','view/poweranalysis/comparison/main.jsp','icon-table')"
                    plain="true" href="javascript:void(0)">用电对比分析</a></li>
             <%--<li><a class="easyui-linkbutton"--%>
             <%--data-options="iconCls:'icon-table'"--%>

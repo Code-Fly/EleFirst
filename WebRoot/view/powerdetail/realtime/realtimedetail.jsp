@@ -1,40 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/view/common/config.jsp" %>
-<%
-	String powerDetailJason = "{\"areaId\":\"1\",\"concentrators\":[{\"concentratorId\":\"417\",\"pns\":[\"1\",\"2\",\"3\"]},{\"concentratorId\":\"418\",\"pns\":[\"1\",\"2\",\"3\"]}],\"type\":\"physical\"}";
-	System.out.println(powerDetailJason);
-%>
 <html>
 <head>
     <%@ include file="/view/common/meta.jsp" %>
+    <script type="text/javascript">
+        require(["js/realtimedetail.js"]);
+    </script>
 </head>
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="width:70%;">
     <div id="tt" class="easyui-tabs" data-options="border:false" style="width:100%;height:100%;">
         <div title="负荷" style="overflow:auto;display:none;">
-            <table id="tt1" style="display:none">
+            <table id="tt1" class="easyui-datagrid" fit="true" data-options="border:false" style="display:none">
                 <thead>
-	                <tr>
-	                    <!-- <th field="id" hidden="true"></th>
-	                    <th field="ck" data-options="checkbox:true"></th> -->
-	                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
-	                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
-	                    <th rowspan="2" field="pn" width="80" align="center">监测点</th>
-  	                    <th rowspan="2" field="productid" width="80" align="center" >状态</th>
-  	                    <th colspan="4">有功负荷(kW)</th>
-	                    <th colspan="4">无功负荷(kW)</th>
-	                    <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
-	                </tr>
-	                <tr>
-	                    <th field="totalactivepower" width="80" align="center">总</th>
-	                    <th field="aActivepower" width="80" align="center">Pu/PI</th>
-	                    <th field="bActivepower" width="80" align="center">Pv</th>
-	                    <th field="cActivepower" width="80" align="center">Pw/PII</th>
-	                    <th field="totalreactivepower" width="80" align="center">总</th>
-	                    <th field="aReactivepower" width="80" align="center">U相</th>
-	                    <th field="bReactivepower" width="80" align="center">V相</th>
-	                    <th field="cReactivepower" width="80" align="center">W相</th>
-	                </tr>
+                <tr>
+                    <!-- <th field="id" hidden="true"></th>
+                    <th field="ck" data-options="checkbox:true"></th> -->
+                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
+                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
+                    <th rowspan="2" field="pn" width="80" align="center">监测点</th>
+                    <th rowspan="2" field="productid" width="80" align="center">状态</th>
+                    <th colspan="4">有功负荷(kW)</th>
+                    <th colspan="4">无功负荷(kW)</th>
+                    <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
+                </tr>
+                <tr>
+                    <th field="totalactivepower" width="80" align="center">总</th>
+                    <th field="aActivepower" width="80" align="center">Pu/PI</th>
+                    <th field="bActivepower" width="80" align="center">Pv</th>
+                    <th field="cActivepower" width="80" align="center">Pw/PII</th>
+                    <th field="totalreactivepower" width="80" align="center">总</th>
+                    <th field="aReactivepower" width="80" align="center">U相</th>
+                    <th field="bReactivepower" width="80" align="center">V相</th>
+                    <th field="cReactivepower" width="80" align="center">W相</th>
+                </tr>
                 </thead>
             </table>
         </div>
@@ -59,7 +58,7 @@
             </table>
         </div>
         <div title="电压" style="display:none">
-            <table id="tt3">
+            <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <th rowspan="2" field="pn" width="80" align="center">监测点</th>
@@ -76,7 +75,7 @@
             </table>
         </div>
         <div title="电流" style="display:none">
-            <table id="tt4">
+            <table id="tt4" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <th rowspan="2" field="pn" width="80" align="center">监测点</th>
@@ -93,7 +92,7 @@
             </table>
         </div>
         <div title="功率因数" style="display:none">
-            <table id="tt5">
+            <table id="tt5" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <th rowspan="2" field="pn" width="80" align="center">监测点</th>
@@ -110,25 +109,25 @@
                 </thead>
             </table>
         </div>
-       <!--  <div title="温度" style="display:none">
-            <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false"
-                   singleSelect="true" iconCls="icon-save" rownumbers="true">
-                <thead>
-                <tr>
-                    <th rowspan="2" field="itemid" width="80" align="center">序号</th>
-                    <th rowspan="2" field="productid" width="80" align="center">监测点</th>
-                    <th rowspan="2" field="productid" width="80" align="center">状态</th>
-                    <th colspan="3">温度(℃)</th>
-                    <th rowspan="2" field="productid" width="80" align="center">抄表时刻</th>
-                </tr>
-                <tr>
-                    <th field="unitcost" width="80" align="center">U相</th>
-                    <th field="attr1" width="80" align="center">V相</th>
-                    <th field="status" width="80" align="center">W相</th>
-                </tr>
-                </thead>
-            </table>
-        </div> -->
+        <!--  <div title="温度" style="display:none">
+             <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false"
+                    singleSelect="true" iconCls="icon-save" rownumbers="true">
+                 <thead>
+                 <tr>
+                     <th rowspan="2" field="itemid" width="80" align="center">序号</th>
+                     <th rowspan="2" field="productid" width="80" align="center">监测点</th>
+                     <th rowspan="2" field="productid" width="80" align="center">状态</th>
+                     <th colspan="3">温度(℃)</th>
+                     <th rowspan="2" field="productid" width="80" align="center">抄表时刻</th>
+                 </tr>
+                 <tr>
+                     <th field="unitcost" width="80" align="center">U相</th>
+                     <th field="attr1" width="80" align="center">V相</th>
+                     <th field="status" width="80" align="center">W相</th>
+                 </tr>
+                 </thead>
+             </table>
+         </div> -->
     </div>
 </div>
 <div data-options="region:'south',title:'当前监测点:XXX',split:true,collapsed:true,border:false," style="height:100%;">
@@ -370,61 +369,4 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-$().ready(function() {
-	$('#tt').tabs({
-	    border:false,
-	    onSelect:function(title){
-	    	if("负荷" == title){
-	    		dg('tt1','powerdetail/listCurrentDetailPower.do');
-	    	}else if("示数" == title){
-	    		
-	    	}else if("电压" == title){
-	    		dg('tt3','powerdetail/listCurrentDetailPower.do');
-	    	}else if("电流" == title){
-	    		dg('tt4','powerdetail/listCurrentDetailPower.do');
-	    	}else if("功率因数" == title){
-	    		dg('tt5','powerdetail/listCurrentDetailPower.do');
-	    	}
-	    }
-	});
-	//初始化第一个页面
-	dg('tt1','powerdetail/listCurrentDetailPower.do');
-});
-
-//负荷datagrid
-function dg(dgId , url){
-	$("#" + dgId).datagrid({
-		url : _ctx + url,
-		pagination : true,
-		rownumbers : true,
-		pageSize : 10,
-		pageList : [ 2, 10, 20 ],
-		singleSelect : false,
-		fit : true,
-		loadMsg : '正在处理,请稍后....',
-		queryParams: {
-			jasonStr: '<%=powerDetailJason%>'
-		},
-		toolbar:[{  
-            text:'增加',iconCls:'icon-add',handler:function(){  
-                window.location.href='StuAdd.aspx';  
-            }  
-        },  
-        {text:'导入',iconCls:'icon-add',handler:function(){  
-            window.location.href='StuImport.aspx'  
-            }  
-        },  
-        {text:'查找',iconCls:'icon-search'}  
-        ],  
-		onLoadError : function() {
-			jError("查询监测点信息错误！", {
-				VerticalPosition : 'center',
-				HorizontalPosition : 'center',
-				ShowOverlay : false
-			});
-		}
-	});
-}
-</script>
 </html>

@@ -17,8 +17,16 @@ $(document).ready(function () {
         },
         onBeforeSelect: function (node) {
             info.concentrators = [];
+        },
+        onLoadSuccess: function (node, data) {
+            var root = $(this).tree("getRoot");
+            $(this).tree("select", root.target);
         }
+
     });
+
+    var root = $("#dTree").tree("getRoot");
+    $("#dTree").tree("select", root.target);
 
 
     function traverse(tree) {
