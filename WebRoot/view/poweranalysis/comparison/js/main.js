@@ -37,6 +37,16 @@ $(document).ready(function () {
             } else {
                 $.messager.alert("信息提示", "请选择测量点！", "info");
             }
+        },
+        onRemoveTag: function (value) {
+            var d = $(this).tagbox("getData");
+            var nd = [];
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].value != value) {
+                    nd.push(d[i])
+                }
+            }
+            $(this).tagbox("loadData", nd);
         }
     });
 
@@ -74,6 +84,16 @@ $(document).ready(function () {
             } else {
                 $.messager.alert("信息提示", "请选择时间！", "info");
             }
+        },
+        onRemoveTag: function (value) {
+            var d = $(this).tagbox("getData");
+            var nd = [];
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].value != value) {
+                    nd.push(d[i])
+                }
+            }
+            $(this).tagbox("loadData", nd);
         }
     });
 
