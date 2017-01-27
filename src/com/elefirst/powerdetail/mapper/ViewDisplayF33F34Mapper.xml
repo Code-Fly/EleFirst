@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.powerdetail.mapper.ViewDisplayF33F34Mapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.ViewDisplayF33F34" >
+    <result column="totalPositiveActivePower" property="totalpositiveactivepower" jdbcType="VARCHAR" />
+    <result column="totalPositiveReactivePower" property="totalpositivereactivepower" jdbcType="VARCHAR" />
+    <result column="id33" property="id33" jdbcType="VARCHAR" />
+    <result column="area_id33" property="areaId33" jdbcType="VARCHAR" />
+    <result column="clientOperationTime33" property="clientoperationtime33" jdbcType="VARCHAR" />
+    <result column="concentrator_id33" property="concentratorId33" jdbcType="VARCHAR" />
+    <result column="pn33" property="pn33" jdbcType="VARCHAR" />
+    <result column="rate33" property="rate33" jdbcType="VARCHAR" />
+    <result column="sendTime33" property="sendtime33" jdbcType="VARCHAR" />
+    <result column="totalReverseActivePower" property="totalreverseactivepower" jdbcType="VARCHAR" />
+    <result column="totalReverseReactivePower" property="totalreversereactivepower" jdbcType="VARCHAR" />
+    <result column="id34" property="id34" jdbcType="VARCHAR" />
+    <result column="area_id34" property="areaId34" jdbcType="VARCHAR" />
+    <result column="clientOperationTime34" property="clientoperationtime34" jdbcType="VARCHAR" />
+    <result column="concentrator_id34" property="concentratorId34" jdbcType="VARCHAR" />
+    <result column="pn34" property="pn34" jdbcType="VARCHAR" />
+    <result column="rate34" property="rate34" jdbcType="VARCHAR" />
+    <result column="sendTime34" property="sendtime34" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    totalPositiveActivePower, totalPositiveReactivePower, id33, area_id33, clientOperationTime33, 
+    concentrator_id33, pn33, rate33, sendTime33, totalReverseActivePower, totalReverseReactivePower, 
+    id34, area_id34, clientOperationTime34, concentrator_id34, pn34, rate34, sendTime34
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elefirst.powerdetail.po.ViewDisplayF33F34Example" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_view_display_f33_f34
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.elefirst.powerdetail.po.ViewDisplayF33F34Example" >
+    delete from t_view_display_f33_f34
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elefirst.powerdetail.po.ViewDisplayF33F34" >
+    insert into t_view_display_f33_f34 (totalPositiveActivePower, totalPositiveReactivePower, 
+      id33, area_id33, clientOperationTime33, 
+      concentrator_id33, pn33, rate33, 
+      sendTime33, totalReverseActivePower, totalReverseReactivePower, 
+      id34, area_id34, clientOperationTime34, 
+      concentrator_id34, pn34, rate34, 
+      sendTime34)
+    values (#{totalpositiveactivepower,jdbcType=VARCHAR}, #{totalpositivereactivepower,jdbcType=VARCHAR}, 
+      #{id33,jdbcType=VARCHAR}, #{areaId33,jdbcType=VARCHAR}, #{clientoperationtime33,jdbcType=VARCHAR}, 
+      #{concentratorId33,jdbcType=VARCHAR}, #{pn33,jdbcType=VARCHAR}, #{rate33,jdbcType=VARCHAR}, 
+      #{sendtime33,jdbcType=VARCHAR}, #{totalreverseactivepower,jdbcType=VARCHAR}, #{totalreversereactivepower,jdbcType=VARCHAR}, 
+      #{id34,jdbcType=VARCHAR}, #{areaId34,jdbcType=VARCHAR}, #{clientoperationtime34,jdbcType=VARCHAR}, 
+      #{concentratorId34,jdbcType=VARCHAR}, #{pn34,jdbcType=VARCHAR}, #{rate34,jdbcType=VARCHAR}, 
+      #{sendtime34,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elefirst.powerdetail.po.ViewDisplayF33F34" >
+    insert into t_view_display_f33_f34
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="totalpositiveactivepower != null" >
+        totalPositiveActivePower,
+      </if>
+      <if test="totalpositivereactivepower != null" >
+        totalPositiveReactivePower,
+      </if>
+      <if test="id33 != null" >
+        id33,
+      </if>
+      <if test="areaId33 != null" >
+        area_id33,
+      </if>
+      <if test="clientoperationtime33 != null" >
+        clientOperationTime33,
+      </if>
+      <if test="concentratorId33 != null" >
+        concentrator_id33,
+      </if>
+      <if test="pn33 != null" >
+        pn33,
+      </if>
+      <if test="rate33 != null" >
+        rate33,
+      </if>
+      <if test="sendtime33 != null" >
+        sendTime33,
+      </if>
+      <if test="totalreverseactivepower != null" >
+        totalReverseActivePower,
+      </if>
+      <if test="totalreversereactivepower != null" >
+        totalReverseReactivePower,
+      </if>
+      <if test="id34 != null" >
+        id34,
+      </if>
+      <if test="areaId34 != null" >
+        area_id34,
+      </if>
+      <if test="clientoperationtime34 != null" >
+        clientOperationTime34,
+      </if>
+      <if test="concentratorId34 != null" >
+        concentrator_id34,
+      </if>
+      <if test="pn34 != null" >
+        pn34,
+      </if>
+      <if test="rate34 != null" >
+        rate34,
+      </if>
+      <if test="sendtime34 != null" >
+        sendTime34,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="totalpositiveactivepower != null" >
+        #{totalpositiveactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="totalpositivereactivepower != null" >
+        #{totalpositivereactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="id33 != null" >
+        #{id33,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId33 != null" >
+        #{areaId33,jdbcType=VARCHAR},
+      </if>
+      <if test="clientoperationtime33 != null" >
+        #{clientoperationtime33,jdbcType=VARCHAR},
+      </if>
+      <if test="concentratorId33 != null" >
+        #{concentratorId33,jdbcType=VARCHAR},
+      </if>
+      <if test="pn33 != null" >
+        #{pn33,jdbcType=VARCHAR},
+      </if>
+      <if test="rate33 != null" >
+        #{rate33,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime33 != null" >
+        #{sendtime33,jdbcType=VARCHAR},
+      </if>
+      <if test="totalreverseactivepower != null" >
+        #{totalreverseactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="totalreversereactivepower != null" >
+        #{totalreversereactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="id34 != null" >
+        #{id34,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId34 != null" >
+        #{areaId34,jdbcType=VARCHAR},
+      </if>
+      <if test="clientoperationtime34 != null" >
+        #{clientoperationtime34,jdbcType=VARCHAR},
+      </if>
+      <if test="concentratorId34 != null" >
+        #{concentratorId34,jdbcType=VARCHAR},
+      </if>
+      <if test="pn34 != null" >
+        #{pn34,jdbcType=VARCHAR},
+      </if>
+      <if test="rate34 != null" >
+        #{rate34,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime34 != null" >
+        #{sendtime34,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elefirst.powerdetail.po.ViewDisplayF33F34Example" resultType="java.lang.Integer" >
+    select count(*) from t_view_display_f33_f34
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_view_display_f33_f34
+    <set >
+      <if test="record.totalpositiveactivepower != null" >
+        totalPositiveActivePower = #{record.totalpositiveactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalpositivereactivepower != null" >
+        totalPositiveReactivePower = #{record.totalpositivereactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id33 != null" >
+        id33 = #{record.id33,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId33 != null" >
+        area_id33 = #{record.areaId33,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientoperationtime33 != null" >
+        clientOperationTime33 = #{record.clientoperationtime33,jdbcType=VARCHAR},
+      </if>
+      <if test="record.concentratorId33 != null" >
+        concentrator_id33 = #{record.concentratorId33,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pn33 != null" >
+        pn33 = #{record.pn33,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rate33 != null" >
+        rate33 = #{record.rate33,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendtime33 != null" >
+        sendTime33 = #{record.sendtime33,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalreverseactivepower != null" >
+        totalReverseActivePower = #{record.totalreverseactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalreversereactivepower != null" >
+        totalReverseReactivePower = #{record.totalreversereactivepower,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id34 != null" >
+        id34 = #{record.id34,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId34 != null" >
+        area_id34 = #{record.areaId34,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientoperationtime34 != null" >
+        clientOperationTime34 = #{record.clientoperationtime34,jdbcType=VARCHAR},
+      </if>
+      <if test="record.concentratorId34 != null" >
+        concentrator_id34 = #{record.concentratorId34,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pn34 != null" >
+        pn34 = #{record.pn34,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rate34 != null" >
+        rate34 = #{record.rate34,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendtime34 != null" >
+        sendTime34 = #{record.sendtime34,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_view_display_f33_f34
+    set totalPositiveActivePower = #{record.totalpositiveactivepower,jdbcType=VARCHAR},
+      totalPositiveReactivePower = #{record.totalpositivereactivepower,jdbcType=VARCHAR},
+      id33 = #{record.id33,jdbcType=VARCHAR},
+      area_id33 = #{record.areaId33,jdbcType=VARCHAR},
+      clientOperationTime33 = #{record.clientoperationtime33,jdbcType=VARCHAR},
+      concentrator_id33 = #{record.concentratorId33,jdbcType=VARCHAR},
+      pn33 = #{record.pn33,jdbcType=VARCHAR},
+      rate33 = #{record.rate33,jdbcType=VARCHAR},
+      sendTime33 = #{record.sendtime33,jdbcType=VARCHAR},
+      totalReverseActivePower = #{record.totalreverseactivepower,jdbcType=VARCHAR},
+      totalReverseReactivePower = #{record.totalreversereactivepower,jdbcType=VARCHAR},
+      id34 = #{record.id34,jdbcType=VARCHAR},
+      area_id34 = #{record.areaId34,jdbcType=VARCHAR},
+      clientOperationTime34 = #{record.clientoperationtime34,jdbcType=VARCHAR},
+      concentrator_id34 = #{record.concentratorId34,jdbcType=VARCHAR},
+      pn34 = #{record.pn34,jdbcType=VARCHAR},
+      rate34 = #{record.rate34,jdbcType=VARCHAR},
+      sendTime34 = #{record.sendtime34,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+     <!-- 自定义获取每个区域下相关集线器对应的监测点最新一条电力示数(根据发送时间) -->
+  <select id="myselectByExample" resultMap="BaseResultMap">
+    select a.* from t_view_display_f33_f34 a,(select concentrator_id33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33) b where a.concentrator_id33 = b.concentrator_id33 and a.clientOperationTime33 = b.clientOperationTime33 
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and a.concentrator_id33 in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	order by a.concentrator_id33
+	<if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  
+  <!-- 获取每个区域下相关集线器对应的监测点示数总和 -->
+  <select id="myselectByExampleCount" resultType="int">
+    select count(1) as num from t_view_display_f33_f34 a,(select concentrator_id33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33) b where a.concentrator_id33 = b.concentrator_id33 and a.clientOperationTime33 = b.clientOperationTime33 
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and a.concentrator_id33 in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+  </select>
+</mapper>

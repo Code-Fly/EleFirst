@@ -11,8 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.elefirst.powerdetail.mapper.PowerDetailF25Mapper;
+import com.elefirst.powerdetail.mapper.ViewDisplayF33F34Mapper;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
+import com.elefirst.powerdetail.po.ViewDisplayF33F34;
 import com.elefirst.powerdetail.service.IPowerDetailF25Service;
 
 @Service
@@ -22,6 +24,9 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 
 	@Resource(name = "powerDetailF25Mapper")
 	private PowerDetailF25Mapper powerDetailF25Mapper;
+	
+	@Resource(name = "viewDisplayF33F34Mapper")
+	private ViewDisplayF33F34Mapper viewDisplayF33F34Mapper;
 	
 	@Override
 	public List<PowerDetailF25> fetchLastPowerDetailF25ByAreaId(String areaId,int rows,int page)
@@ -58,6 +63,31 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		params.put("concentratorIds", ctrIds);
 		params.put("areaId", areaId);
 		int num = powerDetailF25Mapper.myselectByExampleCount(params);
+		return num;
+	}
+
+	@Override
+	public List<ViewDisplayF33F34> fetchLastDisplayDetailByCtrId(
+			String areaId, List<String> ctrIds, int rows, int page)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		List<ViewDisplayF33F34> viewDisplayF33F34s = viewDisplayF33F34Mapper.myselectByExample(params);
+		return viewDisplayF33F34s;
+	}
+
+	@Override
+	public int fetchLastDisplayDetailCountByCtrId(String areaId,
+			List<String> ctrIds) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		int num = viewDisplayF33F34Mapper.myselectByExampleCount(params);
 		return num;
 	}
 

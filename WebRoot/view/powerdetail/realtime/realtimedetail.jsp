@@ -7,11 +7,11 @@
         require(["js/realtimedetail.js"]);
     </script>
 </head>
-<body class="easyui-layout">
-<div data-options="region:'center',border:false" style="width:70%;">
-    <div id="tt" class="easyui-tabs" data-options="border:false" style="width:100%;height:100%;">
-        <div title="负荷" style="overflow:auto;display:none;">
-            <table id="tt1" class="easyui-datagrid" fit="true" data-options="border:false" style="display:none">
+<body class="easyui-layout" id="cc">
+<div data-options="region:'center',border:false" style="width:100%;">
+    <div id="tt" class="easyui-tabs" data-options="border:false" fit="true">
+        <div title="负荷" style="display:none;">
+            <table id="tt1" style="display:none">
                 <thead>
                 <tr>
                     <!-- <th field="id" hidden="true"></th>
@@ -38,29 +38,31 @@
             </table>
         </div>
         <div title="示数" style="display:none">
-            <table id="tt2" class="easyui-datagrid" fit="true" data-options="border:false"
-                   singleSelect="true" iconCls="icon-save" rownumbers="true">
+            <table id="tt2">
                 <thead>
                 <tr>
-                    <th rowspan="2" field="itemid" width="80" align="center">序号</th>
-                    <th rowspan="2" field="productid" width="80" align="center">监测点</th>
+                    <th rowspan="2" field="areaId33" width="80" align="center">区域</th>
+                    <th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>
+                    <th rowspan="2" field="pn33" width="80" align="center">监测点</th>
                     <th rowspan="2" field="productid" width="80" align="center">状态</th>
                     <th colspan="4">示数</th>
-                    <th rowspan="2" field="productid" width="80" align="center">抄表时刻</th>
+                    <th rowspan="2" field="clientoperationtime33" width="120" align="center">抄表时刻</th>
                 </tr>
                 <tr>
-                    <th field="listprice" width="80" align="center">正向有功</th>
-                    <th field="unitcost" width="80" align="center">反向有功</th>
-                    <th field="attr1" width="80">正向无功</th>
-                    <th field="status" width="80" align="center">正向无功</th>
+                    <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
+                    <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
+                    <th field="totalpositivereactivepower" width="80">正向无功</th>
+                    <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="电压" style="display:none">
-            <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt3">
                 <thead>
                 <tr>
+                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
+                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
                     <th rowspan="2" field="pn" width="80" align="center">监测点</th>
                     <th rowspan="2" field="productid" width="80" align="center">状态</th>
                     <th colspan="3">电压(V)</th>
@@ -75,9 +77,11 @@
             </table>
         </div>
         <div title="电流" style="display:none">
-            <table id="tt4" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt4">
                 <thead>
                 <tr>
+                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
+                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
                     <th rowspan="2" field="pn" width="80" align="center">监测点</th>
                     <th rowspan="2" field="productid" width="80" align="center">状态</th>
                     <th colspan="3">电流(V)</th>
@@ -92,9 +96,11 @@
             </table>
         </div>
         <div title="功率因数" style="display:none">
-            <table id="tt5" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt5">
                 <thead>
                 <tr>
+                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
+                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
                     <th rowspan="2" field="pn" width="80" align="center">监测点</th>
                     <th rowspan="2" field="productid" width="80" align="center">状态</th>
                     <th colspan="4">功率因数(%)</th>
@@ -130,23 +136,26 @@
          </div> -->
     </div>
 </div>
-<div data-options="region:'south',title:'当前监测点:XXX',split:true,collapsed:true,border:false," style="height:100%;">
-    <div id="cc" class="easyui-layout" fit="true">
+<div data-options="region:'south',title:'当前监测点:',split:true,collapsed:true,border:false,collapsible:false,onExpand: function(region){
+
+}" style="height:100%;">
+    <div id="cc2" class="easyui-layout" fit="true">
         <div data-options="region:'north',border:false,split:true" style="overflow: hidden;">
             <div style="margin-left:20px;padding:5px">
-                <input class="easyui-datetimebox" id="beginDate" label="开始日期:" style="width:250px"/>
-                <a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                <a id="btn1" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="backlist()">返回列表</a>
+                &nbsp;&nbsp;<input class="easyui-datetimebox" id="beginDate" label="日期:" style="width:250px"/>
+                <a id="btn2" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
             </div>
         </div>
         <div data-options="region:'center',border:false" style="overflow: hidden;">
-            <div class="easyui-tabs" data-options="border:false" fit="true">
+            <div id="tab2" class="easyui-tabs" data-options="border:false" fit="true">
                 <div title="负荷">
                     <div class="easyui-layout" data-options="fit:true">
                         <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="dtt1" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>
@@ -178,7 +187,7 @@
                         </div>
                     </div>
                 </div>
-                <div title="电量">
+                <!-- <div title="电量">
                     <div class="easyui-layout" data-options="fit:true">
                         <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
                             图表
@@ -208,9 +217,9 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div title="示数">
-                    <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false"
+                    <table id="dtt2" class="easyui-datagrid" fit="true" data-options="border:false"
                            singleSelect="true" iconCls="icon-save" rownumbers="true">
                         <thead>
                         <tr>
@@ -233,7 +242,7 @@
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="dtt3" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>
@@ -265,7 +274,7 @@
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="dtt4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>
@@ -297,7 +306,7 @@
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="dtt5" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>
@@ -329,7 +338,7 @@
                         </div>
                     </div>
                 </div>
-                <div title="谐波">
+                <!-- <div title="谐波">
 
                 </div>
                 <div title="温度">
@@ -363,7 +372,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

@@ -594,7 +594,7 @@
   
   <!-- 自定义获取每个区域下相关集线器对应的监测点最新一条电力记录数(根据发送时间) -->
   <select id="myselectByExample" resultMap="BaseResultMap">
-    select a.* from t_003_type_one_data_fn25 a,(select concentrator_id,max(sendTime + 0) sendTime from t_003_type_one_data_fn25 group by concentrator_id) b where a.concentrator_id = b.concentrator_id and a.sendTime = b.sendTime
+    select a.* from t_003_type_one_data_fn25 a,(select concentrator_id,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by concentrator_id) b where a.concentrator_id = b.concentrator_id and a.clientOperationTime = b.clientOperationTime
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -612,7 +612,7 @@
   
   <!-- 获取每个区域下相关集线器对应的监测点总数 -->
   <select id="myselectByExampleCount" resultType="int">
-    select count(1) as num from t_003_type_one_data_fn25 a,(select concentrator_id,max(sendTime + 0) sendTime from t_003_type_one_data_fn25 group by concentrator_id) b where a.concentrator_id = b.concentrator_id and a.sendTime = b.sendTime
+    select count(1) as num from t_003_type_one_data_fn25 a,(select concentrator_id,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by concentrator_id) b where a.concentrator_id = b.concentrator_id and a.clientOperationTime = b.clientOperationTime
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
