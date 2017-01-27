@@ -24,12 +24,18 @@ $(document).ready(function () {
     function traverse(tree) {
         var nodes = tree.children;
         if ("concentrator" == tree.attributes.type) {
-            info.concentrators.push(tree.attributes.concentratorId);
+            info.concentrators.push({
+                concentratorId: tree.attributes.concentratorId,
+                pns: []
+            });
         }
         if (nodes != null) {
             for (var i = 0; i < nodes.length; i++) {
                 if ("concentrator" == nodes[i].attributes.type) {
-                    info.concentrators.push(nodes[i].attributes.concentratorId);
+                    info.concentrators.push({
+                        concentratorId: nodes[i].attributes.concentratorId,
+                        pns: []
+                    });
                 }
                 if (nodes[i].children) { //递归调用自己，以实现遍历
                     traverse(nodes[i]);
