@@ -23,27 +23,19 @@
             "state": "closed",
             "children": [
               {
-                "text": "407馈线柜",
-                "iconCls": "icon-lightning",
-                "attributes": {
-                  "type": "concentrator",
-                  "concentratorId": "407"
-                }
-              },
-              {
-                "text": "408馈线柜",
-                "iconCls": "icon-lightning",
-                "attributes": {
-                  "type": "concentrator",
-                  "concentratorId": "408"
-                }
-              },
-              {
                 "text": "417馈线柜",
                 "iconCls": "icon-lightning",
                 "attributes": {
                   "type": "concentrator",
                   "concentratorId": "417"
+                }
+              },
+              {
+                "text": "418馈线柜",
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "418"
                 }
               }
             ]
