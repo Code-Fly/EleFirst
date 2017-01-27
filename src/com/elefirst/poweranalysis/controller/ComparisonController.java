@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by barrie on 17/1/28.
@@ -37,18 +39,27 @@ public class ComparisonController extends BaseController {
                                        @RequestParam(value = "page", required = false) Integer page,
                                        @RequestParam(value = "rows", required = false) Integer rows
     ) {
-        List<PowerAnalysisF25> param = new ArrayList<>();
+        List<PowerAnalysisF25> node = new ArrayList<>();
         PowerAnalysisF25 item1 = new PowerAnalysisF25();
         item1.setAreaId("1");
         item1.setConcentratorId("417");
         item1.setPn("1");
-        param.add(item1);
+        node.add(item1);
 
         PowerAnalysisF25 item2 = new PowerAnalysisF25();
         item2.setAreaId("1");
         item2.setConcentratorId("417");
         item2.setPn("2");
-        param.add(item2);
+        node.add(item2);
+
+        List<String> time = new ArrayList<>();
+        time.add("20170126000000");
+        time.add("20170127000000");
+
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("time", time);
 
         List<PowerAnalysisComparisonF25> list = powerAnalysisService.getComparisonChart(param);
 

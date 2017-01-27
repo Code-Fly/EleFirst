@@ -6,6 +6,7 @@ import com.elefirst.poweranalysis.po.PowerAnalysisF25Example;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PowerAnalysisF25Mapper {
     /**
@@ -96,5 +97,5 @@ public interface PowerAnalysisF25Mapper {
      */
     int updateByPrimaryKey(PowerAnalysisF25 record);
 
-    List<PowerAnalysisComparisonF25> getComparisonChart(List<PowerAnalysisF25> list);
+    List<PowerAnalysisComparisonF25> getComparisonChart(Map<String, Object> param);
 }

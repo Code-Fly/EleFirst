@@ -722,16 +722,34 @@
         TO_DAYS(`clientOperationTime`) AS 'toDaysClientOperationTime' ,
         HOUR(`clientOperationTime`) AS 'hourClientOperationTime'
         FROM `t_003_type_one_data_fn25`
-        <if test="list.size() > 0">
-            WHERE
-            <foreach collection="list" item="item" index="index" open="" close="" separator="OR">
+        WHERE
+        <if test="node.size() >0">
+            (
+            <foreach collection="node" item="item" index="index" open="" close="" separator="OR">
                 (
                 `area_id` = #{item.areaId,jdbcType=VARCHAR}
                 AND `concentrator_id` = #{item.concentratorId,jdbcType=VARCHAR}
                 AND `pn` = #{item.pn,jdbcType=VARCHAR}
                 )
             </foreach>
+            )
         </if>
+        <if test="time.size() >0">
+            AND (
+            <foreach collection="time" item="item" index="index" open="" close="" separator="OR">
+                (
+                `clientOperationTime`
+                BETWEEN
+                #{item,jdbcType=VARCHAR}
+                AND
+                (
+                SELECT DATE_FORMAT((SELECT DATE_ADD(#{item,jdbcType=VARCHAR},INTERVAL 1 DAY)), '%Y%m%d%H%i%s'))
+                )
+            </foreach>
+            )
+        </if>
+
+
         GROUP BY
         `area_id` ,
         `concentrator_id` ,
