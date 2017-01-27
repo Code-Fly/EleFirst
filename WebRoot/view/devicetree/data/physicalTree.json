@@ -2,32 +2,41 @@
   {
     "text": "配用电监测",
     "iconCls": "icon-house",
+    "attributes": {
+      "type": "category"
+    },
     "children": [
       {
         "text": "10KV胜太I线",
         "state": "open",
         "iconCls": "icon-drive_network",
         "attributes": {
-          "url": "/demo/book/abc",
-          "price": 100
+          "type": "category"
         },
         "children": [
           {
             "text": "1#变压器（新楼）",
             "iconCls": "icon-database_lightning",
+            "attributes": {
+              "type": "category"
+            },
             "state": "closed",
             "children": [
               {
-                "text": "407馈线柜",
-                "iconCls": "icon-lightning"
+                "text": "417馈线柜",
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "417"
+                }
               },
               {
-                "text": "408馈线柜",
-                "iconCls": "icon-lightning"
-              },
-              {
-                "text": "409馈线柜",
-                "iconCls": "icon-lightning"
+                "text": "418馈线柜",
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "418"
+                }
               }
             ]
           }
@@ -38,22 +47,32 @@
         "state": "open",
         "iconCls": "icon-drive_network",
         "attributes": {
-          "url": "/demo/book/abc",
-          "price": 100
+          "type": "category"
         },
         "children": [
           {
             "text": "2#变压器（新楼）",
             "iconCls": "icon-database_lightning",
+            "attributes": {
+              "type": "category"
+            },
             "state": "closed",
             "children": [
               {
                 "text": "501馈线柜",
-                "iconCls": "icon-lightning"
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "501"
+                }
               },
               {
                 "text": "502馈线柜",
-                "iconCls": "icon-lightning"
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "502"
+                }
               }
             ]
           }
@@ -64,26 +83,40 @@
         "state": "open",
         "iconCls": "icon-drive_network",
         "attributes": {
-          "url": "/demo/book/abc",
-          "price": 100
+          "type": "category"
         },
         "children": [
           {
             "text": "3#变压器（新楼）",
             "iconCls": "icon-database_lightning",
+            "attributes": {
+              "type": "category"
+            },
             "state": "closed",
             "children": [
               {
                 "text": "611馈线柜",
-                "iconCls": "icon-lightning"
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "611"
+                }
               },
               {
                 "text": "612馈线柜",
-                "iconCls": "icon-lightning"
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "612"
+                }
               },
               {
                 "text": "613馈线柜",
-                "iconCls": "icon-lightning"
+                "iconCls": "icon-lightning",
+                "attributes": {
+                  "type": "concentrator",
+                  "concentratorId": "613"
+                }
               }
             ]
           }
