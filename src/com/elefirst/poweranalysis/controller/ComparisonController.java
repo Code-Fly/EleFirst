@@ -8,10 +8,12 @@ import com.elefirst.poweranalysis.po.PowerAnalysisF25;
 import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,30 +38,49 @@ public class ComparisonController extends BaseController {
     @ResponseBody
     public ErrorMsg getComparisonChart(HttpServletRequest request,
                                        HttpServletResponse response,
-                                       @RequestParam(value = "page", required = false) Integer page,
-                                       @RequestParam(value = "rows", required = false) Integer rows
+                                       @RequestBody String sData
     ) {
-        List<PowerAnalysisF25> node = new ArrayList<>();
-        PowerAnalysisF25 item1 = new PowerAnalysisF25();
-        item1.setAreaId("1");
-        item1.setConcentratorId("417");
-        item1.setPn("1");
-        node.add(item1);
+        System.out.println(sData);
+        JSONObject jParam = JSONObject.fromObject(sData);
 
-        PowerAnalysisF25 item2 = new PowerAnalysisF25();
-        item2.setAreaId("1");
-        item2.setConcentratorId("417");
-        item2.setPn("2");
-        node.add(item2);
+        List<PowerAnalysisF25> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF25 item = new PowerAnalysisF25();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
 
         List<String> time = new ArrayList<>();
-        time.add("20170126000000");
-        time.add("20170127000000");
+        JSONArray jTime = jParam.getJSONArray("time");
+        for (int i = 0; i < jTime.size(); i++) {
+            time.add(jTime.getString(i));
+        }
+
+//        PowerAnalysisF25 item1 = new PowerAnalysisF25();
+//        item1.setAreaId("1");
+//        item1.setConcentratorId("417");
+//        item1.setPn("1");
+//        node.add(item1);
+//
+//        PowerAnalysisF25 item2 = new PowerAnalysisF25();
+//        item2.setAreaId("1");
+//        item2.setConcentratorId("417");
+//        item2.setPn("2");
+//        node.add(item2);
+//
+//        List<String> time = new ArrayList<>();
+//        time.add("20170126000000");
+//        time.add("20170127000000");
 
 
         Map<String, Object> param = new HashMap();
         param.put("node", node);
         param.put("time", time);
+
+        System.out.println(JSONObject.fromObject(param).toString());
 
         List<PowerAnalysisComparisonF25> list = powerAnalysisService.getComparisonChart(param);
 

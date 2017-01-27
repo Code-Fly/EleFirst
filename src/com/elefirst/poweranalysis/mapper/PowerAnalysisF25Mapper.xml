@@ -738,10 +738,9 @@
             AND (
             <foreach collection="time" item="item" index="index" open="" close="" separator="OR">
                 (
-                `clientOperationTime`
-                BETWEEN
-                #{item,jdbcType=VARCHAR}
+                `clientOperationTime` &gt;= #{item,jdbcType=VARCHAR}
                 AND
+                `clientOperationTime` &lt;
                 (
                 SELECT DATE_FORMAT((SELECT DATE_ADD(#{item,jdbcType=VARCHAR},INTERVAL 1 DAY)), '%Y%m%d%H%i%s'))
                 )

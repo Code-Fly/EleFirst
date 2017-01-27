@@ -16,12 +16,12 @@ $(document).ready(function () {
                 var value = $("#combo-pn").combobox("getValue");
                 var d = $(this).tagbox("getData");
                 if (d.length >= MAX_PN_COUNT) {
-                    $.messager.alert("信息提示", "最多选择 " + MAX_PN_COUNT + " 个测量点！", "info");
+                    $.messager.alert("信息提示", "最多选择 " + MAX_PN_COUNT + " 个监测点！", "info");
                     return;
                 }
                 for (var i = 0; i < d.length; i++) {
                     if (d[i].value == value) {
-                        $.messager.alert("信息提示", "所选测量点已存在！", "info");
+                        $.messager.alert("信息提示", "所选监测点已存在！", "info");
                         return;
                     }
                 }
@@ -115,6 +115,70 @@ $(document).ready(function () {
     $("#datebox-time").datebox({
         required: true,
         editable: false,
+    });
+
+    $("#btn-search").linkbutton({
+        onClick: function () {
+            var node = $("#input-pn").tagbox("getData");
+            if (node.length == 0) {
+                $.messager.alert("信息提示", "请选择监测点！", "info");
+                return;
+            }
+            var time = $("#input-time").tagbox("getData");
+            if (node.length == 0) {
+                $.messager.alert("信息提示", "请选择时间！", "info");
+                return;
+            }
+            var param = {
+                node: [],
+                time: []
+            }
+
+            for (var i = 0; i < node.length; i++) {
+                var areaId = (node[i].value + "").split(":")[0];
+                var concentratorId = (node[i].value + "").split(":")[1];
+                var pn = (node[i].value + "").split(":")[2];
+                param.node.push({
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn
+                })
+            }
+            for (var i = 0; i < time.length; i++) {
+                param.time.push(
+                    new Date(time[i].value).format('yyyyMMdd') + "000000"
+                )
+            }
+
+            $.ajax({
+                url: _ctx + "poweranalysis/comparison/chart.do",
+                type: "POST",
+                cache: false,
+                contentType: "text/plain;charset=UTF-8",
+                data: JSON.stringify(param),
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            $.messager.alert("操作提示", JSON.stringify(r.data));
+                        } else {
+                            $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        }
+                    } else {
+                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    MaskUtil.mask();
+                },
+                error: function (request) {
+                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    MaskUtil.unmask();
+                }
+            });
+
+        }
     });
 
     $('#chart-comparasion').highcharts({
