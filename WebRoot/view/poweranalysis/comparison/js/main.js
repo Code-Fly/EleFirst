@@ -38,6 +38,12 @@ $(document).ready(function () {
                 $.messager.alert("信息提示", "请选择测量点！", "info");
             }
         },
+        tagStyler: function (value) {
+            var d = $(this).tagbox("getData");
+            if (d.length >= 1 && d[0].value == value) {
+                return "background:#b8eecf;color:#45872c";
+            }
+        },
         onRemoveTag: function (value) {
             var d = $(this).tagbox("getData");
             var nd = [];

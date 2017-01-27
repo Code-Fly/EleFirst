@@ -151,7 +151,7 @@
         </div>
     </div>
     <div class="easyui-panel" data-options="iconCls:'icon-chart_line'" title="日负荷曲线(kW)"
-         style="margin-bottom: 10px;width:100%;height: 400px;width: 95%;">
+         style="margin-bottom: 10px;height: 400px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true">
             <div id="chart-day-load" data-options="region:'center',border:false" style="padding:10px;overflow: hidden">
             </div>
@@ -183,7 +183,7 @@
         </div>
     </div>
     <div class="easyui-panel" data-options="iconCls:'icon-chart_bar'" title="月电量柱图(kWh)"
-         style="margin-bottom: 10px;width:100%;height: 400px;width: 95%;">
+         style="margin-bottom: 10px;height: 400px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true">
             <div id="chart-month-load" data-options="region:'center',border:false"
                  style="padding:10px;overflow: hidden">

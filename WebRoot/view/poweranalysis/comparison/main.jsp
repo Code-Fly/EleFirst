@@ -75,7 +75,30 @@
     </div>
 
 </div>
-<div id="chart-comparasion" data-options="region:'center',border:false" style="padding: 10px;">
+<div data-options="region:'center',border:false" align="center" style="padding: 10px;">
+    <div class="easyui-tabs" data-options="fit:true,plain:true">
+        <div title="负荷" align="center">
+            <div id="chart-comparasion" class="easyui-panel" data-options="border:false"
+                 style="margin-bottom: 10px;height: 400px;width: 95%;">
+            </div>
+            <div class="easyui-panel" data-options="border:false"
+                 style="margin-bottom: 10px;height: 200px;width: 95%;">
+                <table class="easyui-datagrid" data-options="border:true,fit:true,fitColumns:true">
+                    <thead>
+                    <tr>
+                        <th rowspan="2" field="productid" width="30%" align="center">日期</th>
+                        <th colspan="4">老楼总表</th>
+                    </tr>
+                    <tr>
+                        <th field="totalactivepower" width="35%" align="center">最大值</th>
+                        <th field="aActivepower" width="35%" align="center">发生时间</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 </body>
