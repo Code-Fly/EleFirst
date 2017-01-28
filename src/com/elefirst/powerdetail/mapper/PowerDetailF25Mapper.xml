@@ -625,12 +625,12 @@
   </select>
      <!-- 获取每个监测点下最大和最小电压 -->
   <select id="queryVoltageDetail" resultType="com.elefirst.powerdetail.po.VoltageDetail">
-    select max(a.A_Voltage) as maxav,max(a.B_Voltage) as maxbv,max(a.C_Voltage) as maxcv,min(a.A_Voltage) as minav,min(a.B_Voltage) as minbv,min(a.C_Voltage) as mincv from t_003_type_one_data_fn25 a where 1=1
+    select max(a.A_Voltage) as maxAVoltage,max(a.B_Voltage) as maxBVoltage,max(a.C_Voltage) as maxCVoltage,min(a.A_Voltage) as minAVoltage,min(a.B_Voltage) as minBVoltage,min(a.C_Voltage) as minCVoltage from t_003_type_one_data_fn25 a where 1=1
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
 	<if test="concentratorId!= null and concentratorId!= ''">
-		  and a.concentrator_id = #{concentrator_id ,jdbcType=VARCHAR}
+		  and a.concentrator_id = #{concentratorId ,jdbcType=VARCHAR}
 	</if>
 	<if test="pn!= null and pn!= ''">
 		  and a.pn = #{pn ,jdbcType=VARCHAR}

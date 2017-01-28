@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
+import com.elefirst.powerdetail.po.VoltageDetail;
 
 /**
  * 
@@ -63,12 +64,24 @@ public interface IPowerDetailF25Service {
 
 	
 	/**
-	 * 根据区域ID,集线器ID,监测点ID获取该监测点所有电力参数记录
+	 * 获取当前监测点电压最大和最小值
 	 * @param areaId
 	 * @param ctrIds
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PowerDetailF25> fetchAllPnPowerDetail(String areaId,String ctrId,String pnId,int rows,int page) throws Exception;
+	public VoltageDetail fetchVoltageDetail(String areaId,String ctrId,String pnId) throws Exception;
+	
+	/**
+	 * 根据ua,ub,uc条件分别获取监测点对应的最新一条记录
+	 * @param areaId
+	 * @param ctrId
+	 * @param pnId
+	 * @param ua
+	 * @param ub
+	 * @param uc
+	 * @return
+	 */
+	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc);
 	
 }

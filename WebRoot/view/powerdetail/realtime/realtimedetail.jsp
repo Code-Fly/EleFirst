@@ -149,7 +149,7 @@
         </div>
         <div data-options="region:'center',border:false" style="overflow: hidden;">
             <div id="tab2" class="easyui-tabs" data-options="border:false" fit="true">
-                <div title="负荷">
+                <div title="负荷" id="table1">
                     <div class="easyui-layout" data-options="fit:true">
                         <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
                             图表
@@ -242,7 +242,7 @@
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table id="dtt3" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="table2" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>
@@ -274,7 +274,7 @@
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table id="dtt4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="table3" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>
@@ -306,7 +306,7 @@
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table id="dtt5" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="table4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>

@@ -15,6 +15,7 @@ import com.elefirst.powerdetail.mapper.ViewDisplayF33F34Mapper;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
+import com.elefirst.powerdetail.po.VoltageDetail;
 import com.elefirst.powerdetail.service.IPowerDetailF25Service;
 
 @Service
@@ -47,13 +48,6 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		}
 		List<PowerDetailF25> powerDetailF25s = powerDetailF25Mapper.myselectByExample(params);
 		return powerDetailF25s;
-	}
-
-	@Override
-	public List<PowerDetailF25> fetchAllPnPowerDetail(String areaId,
-			String ctrId, String pnId,int rows,int page) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -91,4 +85,34 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		return num;
 	}
 
+	@Override
+	public VoltageDetail fetchVoltageDetail(String areaId, String ctrId,
+			String pnId) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorId", ctrId);
+		params.put("areaId", areaId);
+		params.put("pn", pnId);
+		VoltageDetail voltageDetail = powerDetailF25Mapper.queryVoltageDetail(params);
+		return voltageDetail;
+	}
+
+	@Override
+	public PowerDetailF25 fetchLastPowerDetailF25(String areaId, String ctrId,
+			String pnId, String ua, String ub, String uc) {
+		PowerDetailF25Example condition = new PowerDetailF25Example();
+		if(ua != null && ua.length() > 0){
+			condition.or().andAVoltageEqualTo(ua);
+		}else if(ub != null && ub.length() > 0){
+			condition.or().andBVoltageEqualTo(ub);
+		}else if(uc != null && uc.length() > 0){
+			condition.or().andCVoltageEqualTo(uc);
+		}
+        
+		//排序后只取第一条记录返回
+		condition.setOrderByClause("clientOperationTime DESC");
+		condition.setLimitStart(0);
+		condition.setLimitEnd(1);
+		List<PowerDetailF25> powerDetailF25 = powerDetailF25Mapper.selectByExample(condition);
+		return powerDetailF25.get(0);
+	}
 }

@@ -44,26 +44,28 @@ $(document).ready(function () {
             	singlerow = $('#tt5').datagrid('getSelected');
             }
             
-            alert(title);
             $.ajax({
-    			url : 'dme/wfcore/processdef/delete.do',
+    			url : _ctx+'powerdetail/queryPowerDetail.do',
     			type : "post",//使用post方法访问后台
     			dataType : "json",
     			cache : false,
     			data : {
-    				ids : ids,
-    				names : names
+    				tabName : title,
+    				areaId : singlerow.areaId,
+    				concentratorId : singlerow.concentratorId,
+    				pn : singlerow.pn
     			},
     			success : function(msg) {
-    				if ("SUCCESS" == msg.flag) {
-    					jSuccess(msg.msg, {
+    				if ("success" == msg.errmsg) {
+    					jSuccess("查询实时用电信息成功！", {
     						VerticalPosition : 'center',
     						HorizontalPosition : 'center',
     						ShowOverlay : false
     					});
-    					$('#tt2').datagrid("reload");
-    				} else if ("FAILED" == msg.flag) {
-    					jError(msg.msg, {
+    					var data = msg.data;
+    					handerByTabType(data.type,data);
+    				} else if ("failed" == msg.errmsg) {
+    					jError("查询实时用电信息失败！", {
     						VerticalPosition : 'center',
     						HorizontalPosition : 'center',
     						ShowOverlay : false
@@ -73,6 +75,22 @@ $(document).ready(function () {
     		});
         }
     });
+    
+    //根据不同tab类型展现不同的表格数据
+    function handerByTabType(tabType,data){
+    	//电压详情
+		if('voltage' == tabType){
+			//设置最大电压a,b,c
+			$("#table2 tr:eq(0) td:eq(1)").html("" + data.maxAVoltage);
+			$("#table2 tr:eq(1) td:eq(1)").html("" + data.maxBVoltage);
+			$("#table2 tr:eq(2) td:eq(1)").html("" + data.maxCVoltage);
+			//设置最小电压a,b,c
+			$("#table2 tr:eq(0) td:eq(3)").html("" + data.minAVoltage);
+			$("#table2 tr:eq(1) td:eq(3)").html("" + data.minBVoltage);
+			$("#table2 tr:eq(2) td:eq(3)").html("" + data.minCVoltage);
+		}
+    }
+    
     //公用datagrid
     function dg(dgId, url) {
         $("#" + dgId).datagrid({

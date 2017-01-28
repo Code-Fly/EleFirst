@@ -22,6 +22,7 @@ import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
+import com.elefirst.powerdetail.po.VoltageDetail;
 import com.elefirst.powerdetail.service.IPowerDetailF25Service;
 
 
@@ -125,21 +126,58 @@ public class PowerDetailController {
 		}
 	}
 	
-	@RequestMapping("listAllPowerDetail.do")
-	public @ResponseBody ErrorMsg queryLoadDetail(String tabName,String areaId,String concentratorId,String pn)
+	@RequestMapping("queryPowerDetail.do")
+	public @ResponseBody ErrorMsg queryAllPowerDetail(String tabName,String areaId,String concentratorId,String pn)
 			throws Exception {
 		Map<String,String> paramMap = new HashMap<String,String>();
-		if("负荷".equals(tabName)){
-			
-		}else if("示数".equals(tabName)){
-			
-		}else if("电压".equals(tabName)){
-			
-		}else if("电流".equals(tabName)){
-			
-		}else if("功率因数".equals(tabName)){
-			
+		try {
+			if("负荷".equals(tabName)){
+				
+			}else if("示数".equals(tabName)){
+				
+			}else if("电压".equals(tabName)){
+				PowerDetailF25 powerDetailF25 = null;
+				VoltageDetail voltageDetail = powerDetailF25ServiceImpl.fetchVoltageDetail(areaId, concentratorId, pn);
+				String maxAVoltage = voltageDetail.getMaxAVoltage();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,maxAVoltage,null,null);
+				String maxAVoltageTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("maxAVoltage", maxAVoltage+"(" + maxAVoltageTime +")");
+				
+				String maxBVoltage = voltageDetail.getMaxBVoltage();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,maxBVoltage,null);
+				String maxBVoltageTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("maxBVoltage", maxBVoltage+"(" + maxBVoltageTime +")");
+				
+				String maxCVoltage = voltageDetail.getMaxCVoltage();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,maxCVoltage);
+				String maxCVoltageTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("maxCVoltage", maxCVoltage+"(" + maxCVoltageTime +")");
+				
+				String minAVoltage = voltageDetail.getMinAVoltage();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,minAVoltage,null,null);
+				String minAVoltageTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("minAVoltage", minAVoltage+"(" + minAVoltageTime +")");
+				
+				String minBVoltage = voltageDetail.getMinBVoltage();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,minBVoltage,null);
+				String minBVoltageTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("minBVoltage", minBVoltage+"(" + minBVoltageTime +")");
+				
+				String minCVoltage = voltageDetail.getMinCVoltage();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,minCVoltage);
+				String minCVoltageTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("minCVoltage", minCVoltage+"(" + minCVoltageTime +")");
+				paramMap.put("type", "voltage");
+			}else if("电流".equals(tabName)){
+				
+			}else if("功率因数".equals(tabName)){
+				
+			}
+			logger.error("查询实时用电信息成功！");
+			return new ErrorMsg(Error.SUCCESS, "success",paramMap);
+		} catch (Exception e) {
+			logger.error("查询实时用电信息失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "failed", null);
 		}
-		return new ErrorMsg(Error.SUCCESS, "success",paramMap);
 	}
 }
