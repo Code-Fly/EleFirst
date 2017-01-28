@@ -222,9 +222,9 @@ $(document).ready(function () {
                                 var totalactivepower = parseFloat(r.data[i].maxTotalActivePower) * pt * ct;
                                 totalactivepower = Math.floor(totalactivepower * 100) / 100;
                                 d.push({
-                                    clientOperationTime: new Date(formatDbTimestamp(time)).format('yyyy-MM-dd'),
+                                    clientOperationTime: (formatDbTimestamp(time) + "").substr(0, 10),
                                     totalactivepower: totalactivepower,
-                                    currentClientOperationTime: new Date(formatDbTimestamp(time)).format('yyyy-MM-dd hh:mm:ss')
+                                    currentClientOperationTime: formatDbTimestamp(time)
                                 })
                             }
                             $("#dg-table").datagrid("loadData", d);
