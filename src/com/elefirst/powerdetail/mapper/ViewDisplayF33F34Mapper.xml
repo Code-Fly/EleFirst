@@ -361,4 +361,32 @@
 	      </foreach>
 	</if>
   </select>
+  
+  <!-- 获取每个监测点下所有示数详情 -->
+  <select id="displayDetail" resultMap="BaseResultMap">
+    select * from t_view_display_f33_f34 a where 1=1
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorId!= null and concentratorId!= ''">
+		  and a.area_id33 = #{concentrator_id ,jdbcType=VARCHAR}
+	</if>
+	<if test="pn!= null and pn!= ''">
+		  and a.pn33 = #{pn ,jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+  <!-- 获取每个监测点下所有示数详情总和 -->
+  <select id="displayDetailCount" resultType="int">
+    select count(1) from t_view_display_f33_f34 a where 1=1
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorId!= null and concentratorId!= ''">
+		  and a.concentrator_id33 = #{concentrator_id ,jdbcType=VARCHAR}
+	</if>
+	<if test="pn!= null and pn!= ''">
+		  and a.pn33 = #{pn ,jdbcType=VARCHAR}
+	</if>
+  </select>
 </mapper>

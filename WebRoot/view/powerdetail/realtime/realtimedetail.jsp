@@ -7,10 +7,10 @@
         require(["js/realtimedetail.js"]);
     </script>
 </head>
-<body class="easyui-layout" id="cc">
-<div data-options="region:'center',border:false" style="width:100%;">
-    <div id="tt" class="easyui-tabs" data-options="border:false" fit="true">
-        <div title="负荷" style="display:none;">
+<body class="easyui-layout">
+<div data-options="region:'center',border:false" style="width:70%;overflow: hidden">
+    <div id="tt" class="easyui-tabs" data-options="border:false" style="width:100%;height:100%;">
+        <div title="负荷" style="display:none;overflow: hidden">
             <table id="tt1" style="display:none">
                 <thead>
                 <tr>
@@ -37,7 +37,7 @@
                 </thead>
             </table>
         </div>
-        <div title="示数" style="display:none">
+        <div title="示数" style="display:none;overflow: hidden">
             <table id="tt2">
                 <thead>
                 <tr>
@@ -57,7 +57,7 @@
                 </thead>
             </table>
         </div>
-        <div title="电压" style="display:none">
+        <div title="电压" style="display:none;overflow: hidden">
             <table id="tt3">
                 <thead>
                 <tr>
@@ -76,7 +76,7 @@
                 </thead>
             </table>
         </div>
-        <div title="电流" style="display:none">
+        <div title="电流" style="display:none;overflow: hidden">
             <table id="tt4">
                 <thead>
                 <tr>
@@ -95,8 +95,8 @@
                 </thead>
             </table>
         </div>
-        <div title="功率因数" style="display:none">
-            <table id="tt5">
+        <div title="功率因数" style="display:none;overflow: hidden">
+            <table id="tt5" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <th rowspan="2" field="areaId" width="80" align="center">区域</th>
@@ -115,7 +115,7 @@
                 </thead>
             </table>
         </div>
-        <!--  <div title="温度" style="display:none">
+        <!--  <div title="温度" style="display:none;overflow: hidden">
              <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false"
                     singleSelect="true" iconCls="icon-save" rownumbers="true">
                  <thead>

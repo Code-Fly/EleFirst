@@ -36,7 +36,7 @@
 			targetPackage="com.elefirst.powerdetail.mapper" targetProject="elefirst">
 		    <property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<table tableName="t_003_type_one_data_fn25" domainObjectName="PowerDetailF25" />
+		<table tableName="t_view_display_f33_f34" domainObjectName="ViewDisplayF33F34" />
 		<!-- <table tableName="dme_his_task_interface" domainObjectName="HisTaskInterface" /> -->
 		<!-- <table tableName="dme_task_interface" domainObjectName="TaskInterface" /> -->
 		<!-- <table tableName="sys_menu" domainObjectName="MenuInfo" />
