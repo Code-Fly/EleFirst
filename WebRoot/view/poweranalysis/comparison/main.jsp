@@ -83,7 +83,7 @@
 <div data-options="region:'center',border:false" align="center" style="padding: 10px;">
     <div class="easyui-tabs" data-options="plain:true" style="width: 90%">
         <div title="负荷" align="center">
-            <div id="chart-comparasion" class="easyui-panel" data-options="border:false"
+            <div id="chart-load" class="easyui-panel" data-options="border:false"
                  style="margin-bottom: 10px;height: 400px;width: 95%;text-align: center;">
                 <span style="font-size: medium;line-height: 400px;">请载入数据</span>
             </div>

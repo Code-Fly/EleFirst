@@ -152,7 +152,7 @@ $(document).ready(function () {
             }
 
             $.ajax({
-                url: _ctx + "poweranalysis/comparison/chart.do",
+                url: _ctx + "poweranalysis/comparison/daily/chart.do",
                 type: "POST",
                 cache: false,
                 contentType: "text/plain;charset=UTF-8",
@@ -161,7 +161,7 @@ $(document).ready(function () {
                     if (r.hasOwnProperty("errcode")) {
                         if ("0" == r.errcode) {
                             // $.messager.alert("操作提示", JSON.stringify(r.data));
-                            loadComparisonChart(r.data);
+                            getLoadChart(r.data);
                         } else {
                             $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
@@ -205,7 +205,7 @@ $(document).ready(function () {
             $("#label-pn-table").text(name);
 
             $.ajax({
-                url: _ctx + "poweranalysis/comparison/table.do",
+                url: _ctx + "poweranalysis/comparison/daily/table.do",
                 type: "POST",
                 cache: false,
                 contentType: "text/plain;charset=UTF-8",
@@ -226,7 +226,7 @@ $(document).ready(function () {
                                 })
                             }
                             $("#dg-table").datagrid("loadData", d);
-                            // loadComparisonChart(r.data);
+                            // getLoadChart(r.data);
                         } else {
                             $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
@@ -249,7 +249,7 @@ $(document).ready(function () {
     });
 
 
-    function loadComparisonChart(data) {
+    function getLoadChart(data) {
         var node = $("#input-pn").tagbox("getData");
         var time = $("#input-time").tagbox("getData");
 
@@ -275,7 +275,7 @@ $(document).ready(function () {
             }
 
             for (var j = 0; j < time.length; j++) {
-                var item = getSeriesTotal(nodes, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
+                var item = ChartUtils.getLoadDailySumSeries(nodes, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
                 series.push(item);
             }
 
@@ -290,7 +290,7 @@ $(document).ready(function () {
                 var name = node[i].name;
 
                 for (var j = 0; j < time.length; j++) {
-                    var item = getSeries({
+                    var item = ChartUtils.getLoadDailySeries({
                         areaId: areaId,
                         concentratorId: concentratorId,
                         pn: pn,
@@ -305,6 +305,7 @@ $(document).ready(function () {
 
         var config = $.parseJSON($.ajax({
             url: "data/loadComparison.json",
+            type: "GET",
             async: false
         }).responseText);
 
@@ -313,67 +314,9 @@ $(document).ready(function () {
 
         console.log(JSON.stringify(config))
 
-        $("#chart-comparasion").highcharts(config);
+        $("#chart-load").highcharts(config);
     }
 
-    function getSeriesTotal(nodes, time, data) {
-        var series = {
-            name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),
-            data: []
-        };
-
-        for (var t = 0; t < 24; t++) {
-            var tmp = null;
-            for (var i = 0; i < data.length; i++) {
-                for (var j = 0; j < nodes.length; j++) {
-
-                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
-                        if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
-                            if (parseInt(data[i].hourClientOperationTime) == t) {
-                                if (tmp == null) {
-                                    tmp = parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
-                                } else {
-                                    tmp += parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
-                                }
-                                tmp = Math.floor(tmp * 100) / 100;
-                            }
-                        }
-                    }
-                }
-
-            }
-            series.data.push(tmp);
-
-        }
-
-        return series;
-
-    }
-
-    function getSeries(node, time, data) {
-        var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
-            data: []
-        };
-
-        for (var t = 0; t < 24; t++) {
-            var tmp = null;
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
-                    if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
-                        if (parseInt(data[i].hourClientOperationTime) == t) {
-                            tmp = parseFloat(data[i].maxTotalActivePower) * node.pt * node.ct;
-                            tmp = Math.floor(tmp * 100) / 100;
-                        }
-                    }
-                }
-            }
-            series.data.push(tmp);
-
-        }
-
-        return series;
-    }
 
     loadConcentratorList();
 

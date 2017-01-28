@@ -3,6 +3,7 @@
 <html>
 <head>
     <%@ include file="/view/common/meta.jsp" %>
+    <%@ include file="/view/common/commonHighChart.jsp" %>
     <script type="text/javascript">
         require(["js/realtimedetail.js"]);
     </script>
@@ -142,17 +143,22 @@
     <div id="cc2" class="easyui-layout" fit="true">
         <div data-options="region:'north',border:false,split:true" style="overflow: hidden;">
             <div style="margin-left:20px;padding:5px">
-                <a id="btn1" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="backlist()">返回列表</a>
-                &nbsp;&nbsp;<input class="easyui-datetimebox" id="beginDate" label="日期:" style="width:250px"/>
-                <a id="btn2" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                <a id="btn-detail-back" href="javascript:void(0)" class="easyui-linkbutton"
+                   data-options="iconCls:'icon-search'" onclick="backlist()">返回列表</a>
+                &nbsp;&nbsp;<input id="input-detail-datebox" class="easyui-datebox"
+                                   data-options="editable:false,required: true" id="beginDate" label="日期:"
+                                   style="width:250px"/>
+                <a id="btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
+                   data-options="iconCls:'icon-search'">查询</a>
             </div>
         </div>
         <div data-options="region:'center',border:false" style="overflow: hidden;">
             <div id="tab2" class="easyui-tabs" data-options="border:false" fit="true">
                 <div title="负荷" id="table1">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
-                            图表
+                        <div id="chart-load-detail" data-options="region:'north',split:true,border:false"
+                             style="height:70%;text-align: center;">
+                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
                             <table id="dtt1" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
@@ -238,8 +244,9 @@
                 </div>
                 <div title="电压">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
-                            图表
+                        <div id="chart-voltage-detail" data-options="region:'north',split:true,border:false"
+                             style="height:70%;text-align: center;">
+                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
                             <table id="table2" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
@@ -270,8 +277,9 @@
                 </div>
                 <div title="电流">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
-                            图表
+                        <div id="chart-current-detail" data-options="region:'north',split:true,border:false"
+                             style="height:70%;text-align: center;">
+                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
                             <table id="table3" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
@@ -302,8 +310,9 @@
                 </div>
                 <div title="功率因数">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
-                            图表
+                        <div id="chart-power-factor-detail" data-options="region:'north',split:true,border:false"
+                             style="height:70%;text-align: center;">
+                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
                             <table id="table4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"

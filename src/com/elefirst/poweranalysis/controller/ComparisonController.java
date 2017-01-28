@@ -34,7 +34,7 @@ public class ComparisonController extends BaseController {
     @Autowired
     private IPowerAnalysisService powerAnalysisService;
 
-    @RequestMapping(value = "/chart.do")
+    @RequestMapping(value = "/daily/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getComparisonChart(HttpServletRequest request,
@@ -85,7 +85,7 @@ public class ComparisonController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
 
-    @RequestMapping(value = "/table.do")
+    @RequestMapping(value = "/daily/table.do")
     @ApiOperation(value = "表格", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getComparisonTable(HttpServletRequest request,

@@ -34,7 +34,6 @@
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon2.css"/>
 
 <!--加载组件CSS-->
-<link href="${ctx}Content/js/jquery-plugin/showloading/showLoading.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/Showloading.js"></script>
 
 <%----%>
@@ -48,7 +47,7 @@
 <script type="text/javascript" src="${ctx}Content/js/viewModel/HTMLUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/CacheUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DashboardUtils.js"></script>
-
+<script type="text/javascript" src="${ctx}Content/js/viewModel/ChartUtils.js"></script>
 <!-- 注释原因:经过测试发现引入下面 两个js datagrid 不显示也不报错-->
 <script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script> 
