@@ -2,6 +2,7 @@ package com.elefirst.powerdetail.mapper;
 
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
+import com.elefirst.powerdetail.po.VoltageDetail;
 
 import java.util.List;
 import java.util.Map;
@@ -36,4 +37,7 @@ public interface PowerDetailF25Mapper {
     
     //获取每个区域下相关集线器对应的监测点总数
     int myselectByExampleCount(Map map); 
+    
+    //获取每个监测点下最大和最小电压
+    VoltageDetail queryVoltageDetail(Map map);
 }

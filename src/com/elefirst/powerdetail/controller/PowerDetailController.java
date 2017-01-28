@@ -125,7 +125,7 @@ public class PowerDetailController {
 		}
 	}
 	
-	@RequestMapping("listCurrentDisplayDetail.do")
+	@RequestMapping("listAllPowerDetail.do")
 	public @ResponseBody ErrorMsg queryLoadDetail(String tabName,String areaId,String concentratorId,String pn)
 			throws Exception {
 		Map<String,String> paramMap = new HashMap<String,String>();

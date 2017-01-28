@@ -7,10 +7,10 @@
         require(["js/realtimedetail.js"]);
     </script>
 </head>
-<body class="easyui-layout">
-<div data-options="region:'center',border:false" style="width:70%;overflow: hidden">
-    <div id="tt" class="easyui-tabs" data-options="border:false" style="width:100%;height:100%;">
-        <div title="负荷" style="display:none;overflow: hidden">
+<body class="easyui-layout" id="cc">
+<div data-options="region:'center',border:false" style="width:100%;overflow: hidden"">
+    <div id="tt" class="easyui-tabs" data-options="border:false" fit="true">
+        <div title="负荷" style="display:none;overflow: hidden"">
             <table id="tt1" style="display:none">
                 <thead>
                 <tr>
