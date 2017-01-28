@@ -93,7 +93,7 @@
                     <thead>
                     <tr>
                         <th rowspan="2" field="clientOperationTime" width="30%" align="center">日期</th>
-                        <th colspan="4"><span id="label-pn-table"></span></th>
+                        <th colspan="2"><span id="label-pn-table"></span></th>
                     </tr>
                     <tr>
                         <th field="totalactivepower" width="35%" align="center">最大值</th>
