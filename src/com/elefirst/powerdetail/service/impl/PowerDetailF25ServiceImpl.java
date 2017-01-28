@@ -121,7 +121,9 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		}else if(tpf != null && tpf.length() > 0){
 			condition.or().andTotalpowerfactorEqualTo(tpf);
 		}
-        
+		condition.or().andAreaIdEqualTo(areaId);
+		condition.or().andConcentratorIdEqualTo(ctrId);
+		condition.or().andPnEqualTo(pnId);
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("clientOperationTime DESC");
 		condition.setLimitStart(0);
