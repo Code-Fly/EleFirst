@@ -138,6 +138,8 @@ $(document).ready(function () {
                 var areaId = (node[i].value + "").split(":")[0];
                 var concentratorId = (node[i].value + "").split(":")[1];
                 var pn = (node[i].value + "").split(":")[2];
+                var rate = (node[i].value + "").split(":")[3];
+                var name = node[i].name;
                 param.node.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
@@ -159,7 +161,8 @@ $(document).ready(function () {
                 success: function (r) {
                     if (r.hasOwnProperty("errcode")) {
                         if ("0" == r.errcode) {
-                            $.messager.alert("操作提示", JSON.stringify(r.data));
+                            // $.messager.alert("操作提示", JSON.stringify(r.data));
+                            loadComparisonChart(r.data);
                         } else {
                             $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
@@ -181,139 +184,205 @@ $(document).ready(function () {
         }
     });
 
-    $('#chart-comparasion').highcharts({
-        "credits": {
-            "enabled": false
-        },
-        "exporting": {
-            "enabled": false
-        },
-        chart: {
-            type: 'spline',
-        },
-        title: {
-            text: 'Wind speed during two days'
-        },
-        subtitle: {
-            text: 'October 6th and 7th 2009 at two locations in Vik i Sogn, Norway'
-        },
-        xAxis: {
-            type: 'datetime',
-            labels: {
-                overflow: 'justify'
+
+    function loadComparisonChart(data) {
+        var node = $("#input-pn").tagbox("getData");
+        var time = $("#input-time").tagbox("getData");
+
+        var series = []
+
+        for (var i = 0; i < node.length; i++) {
+            var areaId = (node[i].value + "").split(":")[0];
+            var concentratorId = (node[i].value + "").split(":")[1];
+            var pn = (node[i].value + "").split(":")[2];
+            var rate = (node[i].value + "").split(":")[3];
+            var name = node[i].name;
+
+            for (var j = 0; j < time.length; j++) {
+                var item = getSeries({
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn,
+                    rate: rate,
+                    name: name
+                }, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
+                series.push(item);
             }
-        },
-        yAxis: {
-            title: {
-                text: 'Wind speed (m/s)'
-            },
-            min: 0,
-            minorGridLineWidth: 0,
-            gridLineWidth: 0,
-            alternateGridColor: null,
-            plotBands: [{ // Light air
-                from: 0.3,
-                to: 1.5,
-                color: 'rgba(68, 170, 213, 0.1)',
-                label: {
-                    text: 'Light air',
-                    style: {
-                        color: '#606060'
+        }
+
+
+        var config = $.parseJSON($.ajax({
+            url: "data/loadComparison.json",
+            async: false
+        }).responseText);
+
+
+        config.series = series;
+
+        console.log(JSON.stringify(config))
+
+
+        $("#chart-comparasion").highcharts(config);
+    }
+
+    function getSeries(node, time, data) {
+        var series = {
+            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            data: []
+        };
+
+        for (var t = 0; t < 24; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
+                        if (parseInt(data[i].hourClientOperationTime) == t) {
+                            tmp = parseFloat(data[i].maxTotalActivePower) * parseFloat(node.rate);
+                            tmp = Math.floor(tmp * 100) / 100;
+                        }
                     }
                 }
-            }, { // Light breeze
-                from: 1.5,
-                to: 3.3,
-                color: 'rgba(0, 0, 0, 0)',
-                label: {
-                    text: 'Light breeze',
-                    style: {
-                        color: '#606060'
-                    }
-                }
-            }, { // Gentle breeze
-                from: 3.3,
-                to: 5.5,
-                color: 'rgba(68, 170, 213, 0.1)',
-                label: {
-                    text: 'Gentle breeze',
-                    style: {
-                        color: '#606060'
-                    }
-                }
-            }, { // Moderate breeze
-                from: 5.5,
-                to: 8,
-                color: 'rgba(0, 0, 0, 0)',
-                label: {
-                    text: 'Moderate breeze',
-                    style: {
-                        color: '#606060'
-                    }
-                }
-            }, { // Fresh breeze
-                from: 8,
-                to: 11,
-                color: 'rgba(68, 170, 213, 0.1)',
-                label: {
-                    text: 'Fresh breeze',
-                    style: {
-                        color: '#606060'
-                    }
-                }
-            }, { // Strong breeze
-                from: 11,
-                to: 14,
-                color: 'rgba(0, 0, 0, 0)',
-                label: {
-                    text: 'Strong breeze',
-                    style: {
-                        color: '#606060'
-                    }
-                }
-            }, { // High wind
-                from: 14,
-                to: 15,
-                color: 'rgba(68, 170, 213, 0.1)',
-                label: {
-                    text: 'High wind',
-                    style: {
-                        color: '#606060'
-                    }
-                }
-            }]
-        },
-        tooltip: {
-            valueSuffix: ' m/s'
-        },
-        plotOptions: {
-            spline: {
-                lineWidth: 4,
-                states: {
-                    hover: {
-                        lineWidth: 5
-                    }
-                },
-                marker: {
-                    enabled: false
-                },
-                pointInterval: 3600000, // one hour
-                pointStart: Date.UTC(2009, 9, 6, 0, 0, 0)
             }
-        },
-        series: [{
-            name: 'Hestavollane',
-            data: [4.3, 5.1, 4.3, 5.2, 5.4, 4.7, 3.5, 4.1, 5.6, 7.4, 6.9, 7.1,
-                7.9, 7.9, 7.5, 6.7, 7.7, 7.7, 7.4, 7.0, 7.1, 5.8, 5.9, 7.4,
-                8.2, 8.5, 9.4, 8.1, 10.9, 10.4, 10.9, 12.4, 12.1, 9.5, 7.5,
-                7.1, 7.5, 8.1, 6.8, 3.4, 2.1, 1.9, 2.8, 2.9, 1.3, 4.4, 4.2,
-                3.0, 3.0]
-        }, {
-            name: 'Voll',
-            data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.0,
-                0.0, 0.4, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                0.0, 0.6, 1.2, 1.7, 0.7, 2.9, 4.1, 2.6, 3.7, 3.9, 1.7, 2.3,
-                null, null, null, null, null, null, null, null, null, null, null, null, null]
-        }],
-    });
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    }
+
+    // $('#chart-comparasion').highcharts({
+    //     "credits": {
+    //         "enabled": false
+    //     },
+    //     "exporting": {
+    //         "enabled": false
+    //     },
+    //     chart: {
+    //         type: 'spline',
+    //     },
+    //     title: {
+    //         text: 'Wind speed during two days'
+    //     },
+    //     subtitle: {
+    //         text: 'October 6th and 7th 2009 at two locations in Vik i Sogn, Norway'
+    //     },
+    //     xAxis: {
+    //         type: 'datetime',
+    //         labels: {
+    //             overflow: 'justify'
+    //         }
+    //     },
+    //     yAxis: {
+    //         title: {
+    //             text: 'Wind speed (m/s)'
+    //         },
+    //         min: 0,
+    //         minorGridLineWidth: 0,
+    //         gridLineWidth: 0,
+    //         alternateGridColor: null,
+    //         plotBands: [{ // Light air
+    //             from: 0.3,
+    //             to: 1.5,
+    //             color: 'rgba(68, 170, 213, 0.1)',
+    //             label: {
+    //                 text: 'Light air',
+    //                 style: {
+    //                     color: '#606060'
+    //                 }
+    //             }
+    //         }, { // Light breeze
+    //             from: 1.5,
+    //             to: 3.3,
+    //             color: 'rgba(0, 0, 0, 0)',
+    //             label: {
+    //                 text: 'Light breeze',
+    //                 style: {
+    //                     color: '#606060'
+    //                 }
+    //             }
+    //         }, { // Gentle breeze
+    //             from: 3.3,
+    //             to: 5.5,
+    //             color: 'rgba(68, 170, 213, 0.1)',
+    //             label: {
+    //                 text: 'Gentle breeze',
+    //                 style: {
+    //                     color: '#606060'
+    //                 }
+    //             }
+    //         }, { // Moderate breeze
+    //             from: 5.5,
+    //             to: 8,
+    //             color: 'rgba(0, 0, 0, 0)',
+    //             label: {
+    //                 text: 'Moderate breeze',
+    //                 style: {
+    //                     color: '#606060'
+    //                 }
+    //             }
+    //         }, { // Fresh breeze
+    //             from: 8,
+    //             to: 11,
+    //             color: 'rgba(68, 170, 213, 0.1)',
+    //             label: {
+    //                 text: 'Fresh breeze',
+    //                 style: {
+    //                     color: '#606060'
+    //                 }
+    //             }
+    //         }, { // Strong breeze
+    //             from: 11,
+    //             to: 14,
+    //             color: 'rgba(0, 0, 0, 0)',
+    //             label: {
+    //                 text: 'Strong breeze',
+    //                 style: {
+    //                     color: '#606060'
+    //                 }
+    //             }
+    //         }, { // High wind
+    //             from: 14,
+    //             to: 15,
+    //             color: 'rgba(68, 170, 213, 0.1)',
+    //             label: {
+    //                 text: 'High wind',
+    //                 style: {
+    //                     color: '#606060'
+    //                 }
+    //             }
+    //         }]
+    //     },
+    //     tooltip: {
+    //         valueSuffix: ' m/s'
+    //     },
+    //     plotOptions: {
+    //         spline: {
+    //             lineWidth: 4,
+    //             states: {
+    //                 hover: {
+    //                     lineWidth: 5
+    //                 }
+    //             },
+    //             marker: {
+    //                 enabled: false
+    //             },
+    //             pointInterval: 3600000, // one hour
+    //             pointStart: Date.UTC(2009, 9, 6, 0, 0, 0)
+    //         }
+    //     },
+    //     series: [{
+    //         name: 'Hestavollane',
+    //         data: [4.3, 5.1, 4.3, 5.2, 5.4, 4.7, 3.5, 4.1, 5.6, 7.4, 6.9, 7.1,
+    //             7.9, 7.9, 7.5, 6.7, 7.7, 7.7, 7.4, 7.0, 7.1, 5.8, 5.9, 7.4,
+    //             8.2, 8.5, 9.4, 8.1, 10.9, 10.4, 10.9, 12.4, 12.1, 9.5, 7.5,
+    //             7.1, 7.5, 8.1, 6.8, 3.4, 2.1, 1.9, 2.8, 2.9, 1.3, 4.4, 4.2,
+    //             3.0, 3.0]
+    //     }, {
+    //         name: 'Voll',
+    //         data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.0,
+    //             0.0, 0.4, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    //             0.0, 0.6, 1.2, 1.7, 0.7, 2.9, 4.1, 2.6, 3.7, 3.9, 1.7, 2.3,
+    //             null, null, null, null, null, null, null, null, null, null, null, null, null]
+    //     }],
+    // });
 });

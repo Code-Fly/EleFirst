@@ -70,7 +70,7 @@
         <div class="grid_2 cell">
             <p style="text-align: right">
                 <a id="btn-search" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
-                   style="width:100px">查找</a>
+                   style="width:100px">查询</a>
             </p>
         </div>
     </div>
