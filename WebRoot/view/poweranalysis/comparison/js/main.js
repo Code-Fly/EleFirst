@@ -311,6 +311,8 @@ $(document).ready(function () {
 
         config.series = series;
 
+        console.log(JSON.stringify(config))
+
         $("#chart-comparasion").highcharts(config);
     }
 
