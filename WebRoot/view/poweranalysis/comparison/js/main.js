@@ -35,15 +35,15 @@ $(document).ready(function () {
                 $(this).tagbox("select", value);
 
             } else {
-                $.messager.alert("信息提示", "请选择测量点！", "info");
+                $.messager.alert("信息提示", "请选择监测点！", "info");
             }
         },
-        tagStyler: function (value) {
-            var d = $(this).tagbox("getData");
-            if (d.length >= 1 && d[0].value == value) {
-                return "background:#b8eecf;color:#45872c";
-            }
-        },
+        // tagStyler: function (value) {
+        //     var d = $(this).tagbox("getData");
+        //     if (d.length >= 1 && d[0].value == value) {
+        //         return "background:#b8eecf;color:#45872c";
+        //     }
+        // },
         onRemoveTag: function (value) {
             var d = $(this).tagbox("getData");
             var nd = [];
@@ -104,8 +104,6 @@ $(document).ready(function () {
     });
 
     $("#combo-pn").combobox({
-        url: "data/pns.json",
-        method: "get",
         required: true,
         valueField: "value",
         textField: "name",
@@ -125,11 +123,11 @@ $(document).ready(function () {
                 return;
             }
             var time = $("#input-time").tagbox("getData");
-            if (node.length == 0) {
+            if (time.length == 0) {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
-            var param = {
+            var paramChart = {
                 node: [],
                 time: []
             }
@@ -138,31 +136,97 @@ $(document).ready(function () {
                 var areaId = (node[i].value + "").split(":")[0];
                 var concentratorId = (node[i].value + "").split(":")[1];
                 var pn = (node[i].value + "").split(":")[2];
-                var rate = (node[i].value + "").split(":")[3];
+                var pt = parseFloat((node[0].value + "").split(":")[3]);
+                var ct = parseFloat((node[0].value + "").split(":")[4]);
                 var name = node[i].name;
-                param.node.push({
+                paramChart.node.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
                     pn: pn
                 })
             }
             for (var i = 0; i < time.length; i++) {
-                param.time.push(
+                paramChart.time.push(
                     new Date(time[i].value).format('yyyyMMdd') + "000000"
                 )
             }
 
             $.ajax({
-                url: _ctx + "poweranalysis/comparison/chart.do",
+                url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
                 type: "POST",
                 cache: false,
                 contentType: "text/plain;charset=UTF-8",
-                data: JSON.stringify(param),
+                data: JSON.stringify(paramChart),
                 success: function (r) {
                     if (r.hasOwnProperty("errcode")) {
                         if ("0" == r.errcode) {
                             // $.messager.alert("操作提示", JSON.stringify(r.data));
-                            loadComparisonChart(r.data);
+                            getLoadChart(r.data);
+                        } else {
+                            $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        }
+                    } else {
+                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    MaskUtil.mask();
+                },
+                error: function (request) {
+                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    MaskUtil.unmask();
+                }
+            });
+
+            var paramTable = {
+                node: [],
+                time: []
+            }
+
+            var areaId = (node[0].value + "").split(":")[0];
+            var concentratorId = (node[0].value + "").split(":")[1];
+            var pn = (node[0].value + "").split(":")[2];
+            var pt = parseFloat((node[0].value + "").split(":")[3]);
+            var ct = parseFloat((node[0].value + "").split(":")[4]);
+            var name = node[0].name;
+            paramTable.node.push({
+                areaId: areaId,
+                concentratorId: concentratorId,
+                pn: pn
+            })
+            for (var i = 0; i < time.length; i++) {
+                paramTable.time.push(
+                    new Date(time[i].value).format('yyyyMMdd') + "000000"
+                )
+            }
+
+            $("#label-pn-table").text(name);
+
+            $.ajax({
+                url: _ctx + "poweranalysis/comparison/load/daily/table.do",
+                type: "POST",
+                cache: false,
+                contentType: "text/plain;charset=UTF-8",
+                data: JSON.stringify(paramTable),
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            // $.messager.alert("操作提示", JSON.stringify(r.data));
+                            var d = [];
+                            for (var i = 0; i < r.data.length; i++) {
+                                var time = r.data[i].clientoperationtime + "";
+                                var totalactivepower = parseFloat(r.data[i].maxTotalActivePower) * pt * ct;
+                                totalactivepower = Math.floor(totalactivepower * 100) / 100;
+                                d.push({
+                                    clientOperationTime: (formatDbTimestamp(time) + "").substr(0, 10),
+                                    totalactivepower: totalactivepower,
+                                    currentClientOperationTime: formatDbTimestamp(time)
+                                })
+                            }
+                            $("#dg-table").datagrid("loadData", d);
+                            // getLoadChart(r.data);
                         } else {
                             $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
@@ -185,7 +249,7 @@ $(document).ready(function () {
     });
 
 
-    function loadComparisonChart(data) {
+    function getLoadChart(data) {
         var node = $("#input-pn").tagbox("getData");
         var time = $("#input-time").tagbox("getData");
 
@@ -197,19 +261,21 @@ $(document).ready(function () {
                 var areaId = (node[i].value + "").split(":")[0];
                 var concentratorId = (node[i].value + "").split(":")[1];
                 var pn = (node[i].value + "").split(":")[2];
-                var rate = (node[i].value + "").split(":")[3];
+                var pt = parseFloat((node[0].value + "").split(":")[3]);
+                var ct = parseFloat((node[0].value + "").split(":")[4]);
                 var name = node[i].name;
                 nodes.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
                     pn: pn,
-                    rate: rate,
+                    pt: pt,
+                    ct: ct,
                     name: name
                 });
             }
 
             for (var j = 0; j < time.length; j++) {
-                var item = getSeriesTotal(nodes, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
+                var item = ChartUtils.getLoadDailySumSeries(nodes, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
                 series.push(item);
             }
 
@@ -219,15 +285,17 @@ $(document).ready(function () {
                 var areaId = (node[i].value + "").split(":")[0];
                 var concentratorId = (node[i].value + "").split(":")[1];
                 var pn = (node[i].value + "").split(":")[2];
-                var rate = (node[i].value + "").split(":")[3];
+                var pt = parseFloat((node[0].value + "").split(":")[3]);
+                var ct = parseFloat((node[0].value + "").split(":")[4]);
                 var name = node[i].name;
 
                 for (var j = 0; j < time.length; j++) {
-                    var item = getSeries({
+                    var item = ChartUtils.getLoadDailySeries({
                         areaId: areaId,
                         concentratorId: concentratorId,
                         pn: pn,
-                        rate: rate,
+                        pt: pt,
+                        ct: ct,
                         name: name
                     }, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
                     series.push(item);
@@ -237,6 +305,7 @@ $(document).ready(function () {
 
         var config = $.parseJSON($.ajax({
             url: "data/loadComparison.json",
+            type: "GET",
             async: false
         }).responseText);
 
@@ -245,202 +314,47 @@ $(document).ready(function () {
 
         console.log(JSON.stringify(config))
 
-
-        $("#chart-comparasion").highcharts(config);
+        $("#chart-load").highcharts(config);
     }
 
-    function getSeriesTotal(nodes, time, data) {
-        var series = {
-            name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),
-            data: []
-        };
 
-        for (var t = 0; t < 24; t++) {
-            var tmp = null;
-            for (var i = 0; i < data.length; i++) {
-                for (var j = 0; j < nodes.length; j++) {
+    loadConcentratorList();
 
-                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
-                        if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
-                            if (parseInt(data[i].hourClientOperationTime) == t) {
-                                if (tmp == null) {
-                                    tmp = parseFloat(data[i].maxTotalActivePower) * parseFloat(nodes[j].rate);
-                                } else {
-                                    tmp += parseFloat(data[i].maxTotalActivePower) * parseFloat(nodes[j].rate);
-                                }
-                                tmp = Math.floor(tmp * 100) / 100;
-                            }
+    function loadConcentratorList() {
+        $.ajax({
+            url: _ctx + "system/pn/info/list.do",
+            type: "POST",
+            cache: false,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var d = [];
+                        for (var i = 0; i < r.data.length; i++) {
+                            var name = r.data[i].name;
+                            var value = r.data[i].areaId + ":" + r.data[i].concentratorId + ":" + r.data[i].pn + ":" + r.data[i].pt + ":" + r.data[i].ct;
+                            d.push({
+                                name: name,
+                                value: value
+                            });
                         }
+                        $("#combo-pn").combobox("loadData", d);
+                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+                    } else {
+                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
+                } else {
+                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
-
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                MaskUtil.unmask();
             }
-            series.data.push(tmp);
-
-        }
-
-        return series;
-
+        });
     }
-
-    function getSeries(node, time, data) {
-        var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
-            data: []
-        };
-
-        for (var t = 0; t < 24; t++) {
-            var tmp = null;
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
-                    if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
-                        if (parseInt(data[i].hourClientOperationTime) == t) {
-                            tmp = parseFloat(data[i].maxTotalActivePower) * parseFloat(node.rate);
-                            tmp = Math.floor(tmp * 100) / 100;
-                        }
-                    }
-                }
-            }
-            series.data.push(tmp);
-
-        }
-
-        return series;
-    }
-
-    // $('#chart-comparasion').highcharts({
-    //     "credits": {
-    //         "enabled": false
-    //     },
-    //     "exporting": {
-    //         "enabled": false
-    //     },
-    //     chart: {
-    //         type: 'spline',
-    //     },
-    //     title: {
-    //         text: 'Wind speed during two days'
-    //     },
-    //     subtitle: {
-    //         text: 'October 6th and 7th 2009 at two locations in Vik i Sogn, Norway'
-    //     },
-    //     xAxis: {
-    //         type: 'datetime',
-    //         labels: {
-    //             overflow: 'justify'
-    //         }
-    //     },
-    //     yAxis: {
-    //         title: {
-    //             text: 'Wind speed (m/s)'
-    //         },
-    //         min: 0,
-    //         minorGridLineWidth: 0,
-    //         gridLineWidth: 0,
-    //         alternateGridColor: null,
-    //         plotBands: [{ // Light air
-    //             from: 0.3,
-    //             to: 1.5,
-    //             color: 'rgba(68, 170, 213, 0.1)',
-    //             label: {
-    //                 text: 'Light air',
-    //                 style: {
-    //                     color: '#606060'
-    //                 }
-    //             }
-    //         }, { // Light breeze
-    //             from: 1.5,
-    //             to: 3.3,
-    //             color: 'rgba(0, 0, 0, 0)',
-    //             label: {
-    //                 text: 'Light breeze',
-    //                 style: {
-    //                     color: '#606060'
-    //                 }
-    //             }
-    //         }, { // Gentle breeze
-    //             from: 3.3,
-    //             to: 5.5,
-    //             color: 'rgba(68, 170, 213, 0.1)',
-    //             label: {
-    //                 text: 'Gentle breeze',
-    //                 style: {
-    //                     color: '#606060'
-    //                 }
-    //             }
-    //         }, { // Moderate breeze
-    //             from: 5.5,
-    //             to: 8,
-    //             color: 'rgba(0, 0, 0, 0)',
-    //             label: {
-    //                 text: 'Moderate breeze',
-    //                 style: {
-    //                     color: '#606060'
-    //                 }
-    //             }
-    //         }, { // Fresh breeze
-    //             from: 8,
-    //             to: 11,
-    //             color: 'rgba(68, 170, 213, 0.1)',
-    //             label: {
-    //                 text: 'Fresh breeze',
-    //                 style: {
-    //                     color: '#606060'
-    //                 }
-    //             }
-    //         }, { // Strong breeze
-    //             from: 11,
-    //             to: 14,
-    //             color: 'rgba(0, 0, 0, 0)',
-    //             label: {
-    //                 text: 'Strong breeze',
-    //                 style: {
-    //                     color: '#606060'
-    //                 }
-    //             }
-    //         }, { // High wind
-    //             from: 14,
-    //             to: 15,
-    //             color: 'rgba(68, 170, 213, 0.1)',
-    //             label: {
-    //                 text: 'High wind',
-    //                 style: {
-    //                     color: '#606060'
-    //                 }
-    //             }
-    //         }]
-    //     },
-    //     tooltip: {
-    //         valueSuffix: ' m/s'
-    //     },
-    //     plotOptions: {
-    //         spline: {
-    //             lineWidth: 4,
-    //             states: {
-    //                 hover: {
-    //                     lineWidth: 5
-    //                 }
-    //             },
-    //             marker: {
-    //                 enabled: false
-    //             },
-    //             pointInterval: 3600000, // one hour
-    //             pointStart: Date.UTC(2009, 9, 6, 0, 0, 0)
-    //         }
-    //     },
-    //     series: [{
-    //         name: 'Hestavollane',
-    //         data: [4.3, 5.1, 4.3, 5.2, 5.4, 4.7, 3.5, 4.1, 5.6, 7.4, 6.9, 7.1,
-    //             7.9, 7.9, 7.5, 6.7, 7.7, 7.7, 7.4, 7.0, 7.1, 5.8, 5.9, 7.4,
-    //             8.2, 8.5, 9.4, 8.1, 10.9, 10.4, 10.9, 12.4, 12.1, 9.5, 7.5,
-    //             7.1, 7.5, 8.1, 6.8, 3.4, 2.1, 1.9, 2.8, 2.9, 1.3, 4.4, 4.2,
-    //             3.0, 3.0]
-    //     }, {
-    //         name: 'Voll',
-    //         data: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.0,
-    //             0.0, 0.4, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-    //             0.0, 0.6, 1.2, 1.7, 0.7, 2.9, 4.1, 2.6, 3.7, 3.9, 1.7, 2.3,
-    //             null, null, null, null, null, null, null, null, null, null, null, null, null]
-    //     }],
-    // });
 });

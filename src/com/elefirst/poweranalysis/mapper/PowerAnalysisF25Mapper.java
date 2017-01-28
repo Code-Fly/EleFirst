@@ -1,8 +1,6 @@
 package com.elefirst.poweranalysis.mapper;
 
-import com.elefirst.poweranalysis.po.PowerAnalysisComparisonF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisF25Example;
+import com.elefirst.poweranalysis.po.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -97,5 +95,13 @@ public interface PowerAnalysisF25Mapper {
      */
     int updateByPrimaryKey(PowerAnalysisF25 record);
 
-    List<PowerAnalysisComparisonF25> getComparisonChart(Map<String, Object> param);
+    List<PowerAnalysisLoadDailyChartF25> getLoadDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param);
+
+    List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param);
 }
