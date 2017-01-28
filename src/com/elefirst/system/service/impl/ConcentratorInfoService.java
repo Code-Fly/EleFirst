@@ -36,6 +36,7 @@ public class ConcentratorInfoService extends BaseService implements IConcentrato
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
+        condition.setOrderByClause("`display_order` ASC");
         return concentratorInfoDAO.getConcentratorInfoList(condition);
     }
 

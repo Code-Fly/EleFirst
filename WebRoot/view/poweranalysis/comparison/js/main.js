@@ -104,8 +104,6 @@ $(document).ready(function () {
     });
 
     $("#combo-pn").combobox({
-        url: "data/pns.json",
-        method: "get",
         required: true,
         valueField: "value",
         textField: "name",
@@ -373,5 +371,45 @@ $(document).ready(function () {
         }
 
         return series;
+    }
+
+    loadConcentratorList();
+
+    function loadConcentratorList() {
+        $.ajax({
+            url: _ctx + "system/concentrator/info/list.do",
+            type: "POST",
+            cache: false,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var d = [];
+                        for (var i = 0; i < r.data.length; i++) {
+                            var name = r.data[i].name;
+                            var value = r.data[i].areaId + ":" + r.data[i].concentratorId + ":" + r.data[i].pn + ":" + r.data[i].pt + ":" + r.data[i].ct;
+                            d.push({
+                                name: name,
+                                value: value
+                            });
+                        }
+                        $("#combo-pn").combobox("loadData", d);
+                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+                    } else {
+                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                MaskUtil.unmask();
+            }
+        });
     }
 });
