@@ -721,7 +721,15 @@
         MAX(`totalActivePower`) AS 'maxTotalActivePower' ,
         TO_DAYS(`clientOperationTime`) AS 'toDaysClientOperationTime' ,
         HOUR(`clientOperationTime`) AS 'hourClientOperationTime'
-        FROM `t_003_type_one_data_fn25`
+        FROM
+        (
+        SELECT
+        *
+        FROM
+        `t_003_type_one_data_fn25`
+        ORDER BY
+        `clientOperationTime` DESC
+        ) t
         WHERE
         <if test="node.size() >0">
             (
