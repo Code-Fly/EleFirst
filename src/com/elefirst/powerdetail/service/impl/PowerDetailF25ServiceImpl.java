@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.elefirst.powerdetail.mapper.PowerDetailF25Mapper;
 import com.elefirst.powerdetail.mapper.ViewDisplayF33F34Mapper;
+import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
@@ -97,8 +98,7 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 	}
 
 	@Override
-	public PowerDetailF25 fetchLastPowerDetailF25(String areaId, String ctrId,
-			String pnId, String ua, String ub, String uc) {
+	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf){
 		PowerDetailF25Example condition = new PowerDetailF25Example();
 		if(ua != null && ua.length() > 0){
 			condition.or().andAVoltageEqualTo(ua);
@@ -106,6 +106,20 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 			condition.or().andBVoltageEqualTo(ub);
 		}else if(uc != null && uc.length() > 0){
 			condition.or().andCVoltageEqualTo(uc);
+		}else if(ia != null && ia.length() > 0){
+			condition.or().andACurrentEqualTo(ia);
+		}else if(ib != null && ib.length() > 0){
+			condition.or().andBCurrentEqualTo(ib);
+		}else if(ic != null && ic.length() > 0){
+			condition.or().andCCurrentEqualTo(ic);
+		}else if(pfa != null && pfa.length() > 0){
+			condition.or().andAPowerfactorEqualTo(pfa);
+		}else if(pfb != null && pfb.length() > 0){
+			condition.or().andBPowerfactorEqualTo(pfb);
+		}else if(pfc != null && pfc.length() > 0){
+			condition.or().andCPowerfactorEqualTo(pfc);
+		}else if(tpf != null && tpf.length() > 0){
+			condition.or().andTotalpowerfactorEqualTo(tpf);
 		}
         
 		//排序后只取第一条记录返回
@@ -114,5 +128,16 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		condition.setLimitEnd(1);
 		List<PowerDetailF25> powerDetailF25 = powerDetailF25Mapper.selectByExample(condition);
 		return powerDetailF25.get(0);
+	}
+
+	@Override
+	public CurrentDetail fetchCurrentDetail(String areaId, String ctrId,
+			String pnId) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorId", ctrId);
+		params.put("areaId", areaId);
+		params.put("pn", pnId);
+		CurrentDetail currentDetail = powerDetailF25Mapper.queryCurrentDetail(params);
+		return currentDetail;
 	}
 }

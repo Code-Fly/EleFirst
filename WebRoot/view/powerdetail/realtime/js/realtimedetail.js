@@ -88,6 +88,15 @@ $(document).ready(function () {
 			$("#table2 tr:eq(0) td:eq(3)").html("" + data.minAVoltage);
 			$("#table2 tr:eq(1) td:eq(3)").html("" + data.minBVoltage);
 			$("#table2 tr:eq(2) td:eq(3)").html("" + data.minCVoltage);
+		}else if('current' == tabType){
+			//设置最大电压a,b,c
+			$("#table3 tr:eq(0) td:eq(1)").html("" + data.maxACurrent);
+			$("#table3 tr:eq(1) td:eq(1)").html("" + data.maxBCurrent);
+			$("#table3 tr:eq(2) td:eq(1)").html("" + data.maxCCurrent);
+			//设置最小电压a,b,c
+			$("#table3 tr:eq(0) td:eq(3)").html("" + data.minACurrent);
+			$("#table3 tr:eq(1) td:eq(3)").html("" + data.minBCurrent);
+			$("#table3 tr:eq(2) td:eq(3)").html("" + data.minCCurrent);
 		}
     }
     

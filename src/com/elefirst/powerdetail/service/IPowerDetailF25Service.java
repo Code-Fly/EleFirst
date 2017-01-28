@@ -2,6 +2,7 @@ package com.elefirst.powerdetail.service;
 
 import java.util.List;
 
+import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
 import com.elefirst.powerdetail.po.VoltageDetail;
@@ -73,15 +74,31 @@ public interface IPowerDetailF25Service {
 	public VoltageDetail fetchVoltageDetail(String areaId,String ctrId,String pnId) throws Exception;
 	
 	/**
-	 * 根据ua,ub,uc条件分别获取监测点对应的最新一条记录
+	 * 根据ua,ub,uc，ia,ib,ic,pfa,pfb,pfc,tpf条件分别获取监测点对应的最新一条记录
 	 * @param areaId
 	 * @param ctrId
 	 * @param pnId
 	 * @param ua
 	 * @param ub
 	 * @param uc
+	 * @param ia
+	 * @param ib
+	 * @param ic
+	 * @param pfa  A功率因素
+	 * @param pfb
+	 * @param pfc
+	 * @param tpf  总功率因素
 	 * @return
 	 */
-	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc);
+	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf);
+	
+	/**
+	 * 获取当前监测点电压最大和最小值
+	 * @param areaId
+	 * @param ctrIds
+	 * @return
+	 * @throws Exception
+	 */
+	public CurrentDetail fetchCurrentDetail(String areaId,String ctrId,String pnId) throws Exception;
 	
 }

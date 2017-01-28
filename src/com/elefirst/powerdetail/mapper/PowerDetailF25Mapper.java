@@ -1,5 +1,6 @@
 package com.elefirst.powerdetail.mapper;
 
+import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
 import com.elefirst.powerdetail.po.VoltageDetail;
@@ -40,4 +41,7 @@ public interface PowerDetailF25Mapper {
     
     //获取每个监测点下最大和最小电压
     VoltageDetail queryVoltageDetail(Map map);
+    
+    //获取每个监测点下最大和最小电流
+    CurrentDetail queryCurrentDetail(Map map);
 }

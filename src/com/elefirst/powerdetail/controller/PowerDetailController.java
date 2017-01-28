@@ -20,6 +20,7 @@ import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.GeneralMessage;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
+import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
 import com.elefirst.powerdetail.po.VoltageDetail;
@@ -139,37 +140,71 @@ public class PowerDetailController {
 				PowerDetailF25 powerDetailF25 = null;
 				VoltageDetail voltageDetail = powerDetailF25ServiceImpl.fetchVoltageDetail(areaId, concentratorId, pn);
 				String maxAVoltage = voltageDetail.getMaxAVoltage();
-				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,maxAVoltage,null,null);
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,maxAVoltage,null,null,null,null,null,null,null,null,null);
 				String maxAVoltageTime = powerDetailF25.getClientoperationtime();
 				paramMap.put("maxAVoltage", maxAVoltage+"(" + maxAVoltageTime +")");
 				
 				String maxBVoltage = voltageDetail.getMaxBVoltage();
-				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,maxBVoltage,null);
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,maxBVoltage,null,null,null,null,null,null,null,null);
 				String maxBVoltageTime = powerDetailF25.getClientoperationtime();
 				paramMap.put("maxBVoltage", maxBVoltage+"(" + maxBVoltageTime +")");
 				
 				String maxCVoltage = voltageDetail.getMaxCVoltage();
-				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,maxCVoltage);
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,maxCVoltage,null,null,null,null,null,null,null);
 				String maxCVoltageTime = powerDetailF25.getClientoperationtime();
 				paramMap.put("maxCVoltage", maxCVoltage+"(" + maxCVoltageTime +")");
 				
 				String minAVoltage = voltageDetail.getMinAVoltage();
-				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,minAVoltage,null,null);
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,minAVoltage,null,null,null,null,null,null,null,null,null);
 				String minAVoltageTime = powerDetailF25.getClientoperationtime();
 				paramMap.put("minAVoltage", minAVoltage+"(" + minAVoltageTime +")");
 				
 				String minBVoltage = voltageDetail.getMinBVoltage();
-				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,minBVoltage,null);
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,minBVoltage,null,null,null,null,null,null,null,null);
 				String minBVoltageTime = powerDetailF25.getClientoperationtime();
 				paramMap.put("minBVoltage", minBVoltage+"(" + minBVoltageTime +")");
 				
 				String minCVoltage = voltageDetail.getMinCVoltage();
-				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,minCVoltage);
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,minCVoltage,null,null,null,null,null,null,null);
 				String minCVoltageTime = powerDetailF25.getClientoperationtime();
 				paramMap.put("minCVoltage", minCVoltage+"(" + minCVoltageTime +")");
 				paramMap.put("type", "voltage");
 			}else if("电流".equals(tabName)){
+				PowerDetailF25 powerDetailF25 = null;
+				CurrentDetail currentDetail = powerDetailF25ServiceImpl.fetchCurrentDetail(areaId, concentratorId, pn);
 				
+				String maxACurrent = currentDetail.getMaxACurrent();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,maxACurrent,null,null,null,null,null,null);
+				String maxACurrentTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("maxACurrent", maxACurrent+"(A)"+"(" + maxACurrentTime +")");
+				
+				String maxBCurrent = currentDetail.getMaxBCurrent();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,maxBCurrent,null,null,null,null,null);
+				String maxBCurrentTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("maxBCurrent", maxBCurrent+"(A)"+"(" + maxBCurrentTime +")");
+				
+				String maxCCurrent = currentDetail.getMaxCCurrent();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,maxCCurrent,null,null,null,null);
+				String maxCCurrentTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("maxCCurrent", maxCCurrent+"(A)"+"(" + maxCCurrentTime +")");
+				
+				
+				String minACurrent = currentDetail.getMinACurrent();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,minACurrent,null,null,null,null,null,null);
+				String minACurrentTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("minACurrent", minACurrent+"(A)"+"(" + minACurrentTime +")");
+				
+				String minBCurrent = currentDetail.getMinBCurrent();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,minBCurrent,null,null,null,null,null);
+				String minBCurrentTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("minBCurrent", minBCurrent+"(A)"+"(" + minBCurrentTime +")");
+				
+				String minCCurrent = currentDetail.getMinCCurrent();
+				powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,minCCurrent,null,null,null,null);
+				String minCCurrentTime = powerDetailF25.getClientoperationtime();
+				paramMap.put("minCCurrent", minCCurrent+"(A)"+"(" + minCCurrentTime +")");
+				
+				paramMap.put("type", "current");
 			}else if("功率因数".equals(tabName)){
 				
 			}
