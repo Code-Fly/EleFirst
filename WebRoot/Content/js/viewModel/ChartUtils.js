@@ -84,7 +84,7 @@ var ChartUtils = {
     },
     getVoltageDailySeries: function (node, time, data, phase) {
         var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            name: node.name,
             data: []
         };
 
@@ -106,5 +106,52 @@ var ChartUtils = {
 
         return series;
     },
+    getCurrentDailySeries: function (node, time, data, phase) {
+        var series = {
+            name: node.name,
+            data: []
+        };
 
+        for (var t = 0; t < 24; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
+                        if (parseInt(data[i].hourClientOperationTime) == t) {
+                            tmp = parseFloat(data[i][phase]) * node.ct;
+                            tmp = Math.floor(tmp * 100) / 100;
+                        }
+                    }
+                }
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
+    getPowerFactorDailySeries: function (node, time, data, phase) {
+        var series = {
+            name: node.name,
+            data: []
+        };
+
+        for (var t = 0; t < 24; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
+                        if (parseInt(data[i].hourClientOperationTime) == t) {
+                            tmp = parseFloat(data[i][phase]);
+                            tmp = Math.floor(tmp * 100) / 100;
+                        }
+                    }
+                }
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
 }

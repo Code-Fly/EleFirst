@@ -2,9 +2,7 @@ package com.elefirst.poweranalysis.service.impl;
 
 import com.elefirst.base.service.BaseService;
 import com.elefirst.poweranalysis.dao.iface.IPowerAnalysisDAO;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyChartF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyTableF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisVoltageDailyChartF25;
+import com.elefirst.poweranalysis.po.*;
 import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +31,15 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
     @Override
     public List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param) {
         return powerAnalysisDAO.getVoltageDailyChart(param);
+    }
+
+    @Override
+    public List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param) {
+        return powerAnalysisDAO.getCurrentDailyChart(param);
+    }
+
+    @Override
+    public List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param) {
+        return powerAnalysisDAO.getPowerFactorDailyChart(param);
     }
 }

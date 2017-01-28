@@ -1,8 +1,6 @@
 package com.elefirst.poweranalysis.service.iface;
 
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyChartF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyTableF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisVoltageDailyChartF25;
+import com.elefirst.poweranalysis.po.*;
 
 import java.util.List;
 import java.util.Map;
@@ -16,4 +14,8 @@ public interface IPowerAnalysisService {
     List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param);
 
     List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param);
 }

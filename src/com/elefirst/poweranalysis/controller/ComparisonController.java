@@ -3,10 +3,7 @@ package com.elefirst.poweranalysis.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
-import com.elefirst.poweranalysis.po.PowerAnalysisF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyChartF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyTableF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisVoltageDailyChartF25;
+import com.elefirst.poweranalysis.po.*;
 import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -167,6 +164,74 @@ public class ComparisonController extends BaseController {
         param.put("time", time);
 
         List<PowerAnalysisVoltageDailyChartF25> list = powerAnalysisService.getVoltageDailyChart(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
+    @RequestMapping(value = "/current/daily/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getCurrentDailyChart(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<PowerAnalysisF25> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF25 item = new PowerAnalysisF25();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
+
+        List<String> time = new ArrayList<>();
+        JSONArray jTime = jParam.getJSONArray("time");
+        for (int i = 0; i < jTime.size(); i++) {
+            time.add(jTime.getString(i));
+        }
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("time", time);
+
+        List<PowerAnalysisCurrentDailyChartF25> list = powerAnalysisService.getCurrentDailyChart(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
+    @RequestMapping(value = "/powerFactor/daily/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getPowerFactorDailyChart(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<PowerAnalysisF25> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF25 item = new PowerAnalysisF25();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
+
+        List<String> time = new ArrayList<>();
+        JSONArray jTime = jParam.getJSONArray("time");
+        for (int i = 0; i < jTime.size(); i++) {
+            time.add(jTime.getString(i));
+        }
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("time", time);
+
+        List<PowerAnalysisPowerFactorDailyChartF25> list = powerAnalysisService.getPowerFactorDailyChart(param);
 
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }

@@ -3,9 +3,7 @@ package com.elefirst.poweranalysis.dao.impl;
 import com.elefirst.base.dao.BaseDAO;
 import com.elefirst.poweranalysis.dao.iface.IPowerAnalysisDAO;
 import com.elefirst.poweranalysis.mapper.PowerAnalysisF25Mapper;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyChartF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadDailyTableF25;
-import com.elefirst.poweranalysis.po.PowerAnalysisVoltageDailyChartF25;
+import com.elefirst.poweranalysis.po.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,5 +31,15 @@ public class PowerAnalysisDAO extends BaseDAO implements IPowerAnalysisDAO {
     @Override
     public List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param) {
         return powerAnalysisF25Mapper.getVoltageDailyChart(param);
+    }
+
+    @Override
+    public List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param) {
+        return powerAnalysisF25Mapper.getCurrentDailyChart(param);
+    }
+
+    @Override
+    public List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param) {
+        return powerAnalysisF25Mapper.getPowerFactorDailyChart(param);
     }
 }

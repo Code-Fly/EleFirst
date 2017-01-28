@@ -100,4 +100,8 @@ public interface PowerAnalysisF25Mapper {
     List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param);
 
     List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param);
 }
