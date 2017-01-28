@@ -152,7 +152,7 @@ $(document).ready(function () {
             }
 
             $.ajax({
-                url: _ctx + "poweranalysis/comparison/daily/chart.do",
+                url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
                 type: "POST",
                 cache: false,
                 contentType: "text/plain;charset=UTF-8",
@@ -205,7 +205,7 @@ $(document).ready(function () {
             $("#label-pn-table").text(name);
 
             $.ajax({
-                url: _ctx + "poweranalysis/comparison/daily/table.do",
+                url: _ctx + "poweranalysis/comparison/load/daily/table.do",
                 type: "POST",
                 cache: false,
                 contentType: "text/plain;charset=UTF-8",

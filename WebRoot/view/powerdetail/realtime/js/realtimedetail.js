@@ -37,13 +37,18 @@ $(document).ready(function () {
                     areaId: singlerow.areaId,
                     concentratorId: singlerow.concentratorId,
                     pn: singlerow.pn,
-                    time: null,
-                    name: title
+                    time: null
                 });
             } else if ("示数" == title) {
                 singlerow = $('#tt2').datagrid('getSelected');
             } else if ("电压" == title) {
                 singlerow = $('#tt3').datagrid('getSelected');
+                getVoltageDetailChart({
+                    areaId: singlerow.areaId,
+                    concentratorId: singlerow.concentratorId,
+                    pn: singlerow.pn,
+                    time: null
+                });
             } else if ("电流" == title) {
                 singlerow = $('#tt4').datagrid('getSelected');
             } else if ("功率因数" == title) {
@@ -131,6 +136,8 @@ $(document).ready(function () {
                 $('#cc').layout('expand', 'south');
                 $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn);
 
+                $("#input-detail-datebox").datebox("clear");
+
                 //选中对应的tab页
                 if ('tt1' == dgId) {
                     $('#tab2').tabs('select', '负荷');
@@ -138,13 +145,18 @@ $(document).ready(function () {
                         areaId: row.areaId,
                         concentratorId: row.concentratorId,
                         pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue"),
-                        name: "监测点" + row.pn
+                        time: $("#input-detail-datebox").datebox("getValue")
                     });
                 } else if ('tt2' == dgId) {
                     $('#tab2').tabs('select', '示数');
                 } else if ('tt3' == dgId) {
                     $('#tab2').tabs('select', '电压');
+                    getVoltageDetailChart({
+                        areaId: row.areaId,
+                        concentratorId: row.concentratorId,
+                        pn: row.pn,
+                        time: $("#input-detail-datebox").datebox("getValue")
+                    });
                 } else if ('tt4' == dgId) {
                     $('#tab2').tabs('select', '电流');
                 } else if ('tt5' == dgId) {
@@ -175,7 +187,7 @@ $(document).ready(function () {
         )
 
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/daily/chart.do",
+            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
             type: "POST",
             cache: false,
             contentType: "text/plain;charset=UTF-8",
@@ -184,13 +196,12 @@ $(document).ready(function () {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
                         var series = [];
-                        var item = ChartUtils.getLoadDailySeries({
+                        var item = ChartUtils.getLoadDailyDetailSeries({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 100,
-                            ct: 100,
-                            name: row.name
+                            pt: 1,
+                            ct: 10000
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data);
                         series.push(item);
 
@@ -205,6 +216,97 @@ $(document).ready(function () {
                         config.series = series;
 
                         $("#chart-load-detail").highcharts(config);
+
+                    } else {
+                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                MaskUtil.unmask();
+            }
+        });
+    }
+
+    function getVoltageDetailChart(row) {
+        var time = new Date().format("yyyy-MM-dd");
+        if (row.time != null && row.time != "") {
+            time = row.time;
+        }
+
+        var paramChart = {
+            node: [],
+            time: []
+        }
+
+        paramChart.node.push({
+            areaId: row.areaId,
+            concentratorId: row.concentratorId,
+            pn: row.pn
+        })
+        paramChart.time.push(
+            new Date(time).format('yyyyMMdd') + "000000"
+        )
+
+        $.ajax({
+            url: _ctx + "poweranalysis/comparison/voltage/daily/chart.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: JSON.stringify(paramChart),
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var series = [];
+                        var item = ChartUtils.getVoltageDailySeries({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            pt: 1,
+                            ct: 10000,
+                            name: "A相"
+                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxA_Voltage");
+                        series.push(item);
+
+                        var item = ChartUtils.getVoltageDailySeries({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            pt: 1,
+                            ct: 10000,
+                            name: "B相"
+                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxB_Voltage");
+                        series.push(item);
+
+                        var item = ChartUtils.getVoltageDailySeries({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            pt: 1,
+                            ct: 10000,
+                            name: "C相"
+                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxC_Voltage");
+                        series.push(item);
+
+                        $("#chart-load-detail").highcharts();
+
+                        var config = $.parseJSON($.ajax({
+                            url: "data/voltageDetailChart.json",
+                            type: "GET",
+                            async: false
+                        }).responseText);
+
+                        config.series = series;
+
+                        $("#chart-voltage-detail").highcharts(config);
 
                     } else {
                         $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -240,13 +342,19 @@ $(document).ready(function () {
                     areaId: row.areaId,
                     concentratorId: row.concentratorId,
                     pn: row.pn,
-                    time: $("#input-detail-datebox").datebox("getValue"),
-                    name: title
+                    time: $("#input-detail-datebox").datebox("getValue")
                 });
             } else if ("示数" == title) {
                 var row = $('#tt2').datagrid('getSelected');
             } else if ("电压" == title) {
                 var row = $('#tt3').datagrid('getSelected');
+                getVoltageDetailChart({
+                    areaId: row.areaId,
+                    concentratorId: row.concentratorId,
+                    pn: row.pn,
+                    time: $("#input-detail-datebox").datebox("getValue"),
+                    name: title
+                });
             } else if ("电流" == title) {
                 var row = $('#tt4').datagrid('getSelected');
             } else if ("功率因数" == title) {

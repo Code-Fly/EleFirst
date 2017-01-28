@@ -3,7 +3,7 @@ package com.elefirst.poweranalysis.po;
 /**
  * Created by barrie on 17/1/28.
  */
-public class PowerAnalysisComparisonChartF25 extends PowerAnalysisF25 {
+public class PowerAnalysisLoadDailyChartF25 extends PowerAnalysisF25 {
     private String maxTotalActivePower;
     private String toDaysClientOperationTime;
     private String hourClientOperationTime;
