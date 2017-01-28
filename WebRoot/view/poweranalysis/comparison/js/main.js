@@ -138,7 +138,8 @@ $(document).ready(function () {
                 var areaId = (node[i].value + "").split(":")[0];
                 var concentratorId = (node[i].value + "").split(":")[1];
                 var pn = (node[i].value + "").split(":")[2];
-                var rate = (node[i].value + "").split(":")[3];
+                var pt = parseFloat((node[0].value + "").split(":")[3]);
+                var ct = parseFloat((node[0].value + "").split(":")[4]);
                 var name = node[i].name;
                 paramChart.node.push({
                     areaId: areaId,
@@ -262,13 +263,15 @@ $(document).ready(function () {
                 var areaId = (node[i].value + "").split(":")[0];
                 var concentratorId = (node[i].value + "").split(":")[1];
                 var pn = (node[i].value + "").split(":")[2];
-                var rate = (node[i].value + "").split(":")[3];
+                var pt = parseFloat((node[0].value + "").split(":")[3]);
+                var ct = parseFloat((node[0].value + "").split(":")[4]);
                 var name = node[i].name;
                 nodes.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
                     pn: pn,
-                    rate: rate,
+                    pt: pt,
+                    ct: ct,
                     name: name
                 });
             }
@@ -284,7 +287,8 @@ $(document).ready(function () {
                 var areaId = (node[i].value + "").split(":")[0];
                 var concentratorId = (node[i].value + "").split(":")[1];
                 var pn = (node[i].value + "").split(":")[2];
-                var rate = (node[i].value + "").split(":")[3];
+                var pt = parseFloat((node[0].value + "").split(":")[3]);
+                var ct = parseFloat((node[0].value + "").split(":")[4]);
                 var name = node[i].name;
 
                 for (var j = 0; j < time.length; j++) {
@@ -292,7 +296,8 @@ $(document).ready(function () {
                         areaId: areaId,
                         concentratorId: concentratorId,
                         pn: pn,
-                        rate: rate,
+                        pt: pt,
+                        ct: ct,
                         name: name
                     }, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
                     series.push(item);
@@ -307,9 +312,6 @@ $(document).ready(function () {
 
 
         config.series = series;
-
-        console.log(JSON.stringify(config))
-
 
         $("#chart-comparasion").highcharts(config);
     }
@@ -329,9 +331,9 @@ $(document).ready(function () {
                         if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
                             if (parseInt(data[i].hourClientOperationTime) == t) {
                                 if (tmp == null) {
-                                    tmp = parseFloat(data[i].maxTotalActivePower) * parseFloat(nodes[j].rate);
+                                    tmp = parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
                                 } else {
-                                    tmp += parseFloat(data[i].maxTotalActivePower) * parseFloat(nodes[j].rate);
+                                    tmp += parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
                                 }
                                 tmp = Math.floor(tmp * 100) / 100;
                             }
@@ -360,7 +362,7 @@ $(document).ready(function () {
                 if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
                     if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
                         if (parseInt(data[i].hourClientOperationTime) == t) {
-                            tmp = parseFloat(data[i].maxTotalActivePower) * parseFloat(node.rate);
+                            tmp = parseFloat(data[i].maxTotalActivePower) * node.pt * node.ct;
                             tmp = Math.floor(tmp * 100) / 100;
                         }
                     }
