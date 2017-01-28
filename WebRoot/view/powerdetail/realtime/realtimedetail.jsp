@@ -11,8 +11,8 @@
 <body class="easyui-layout" id="cc">
 <div data-options="region:'center',border:false" style="width:100%;overflow: hidden"">
     <div id="tt" class="easyui-tabs" data-options="border:false" fit="true">
-        <div title="负荷" style="display:none;overflow: hidden"">
-            <table id="tt1" style="display:none">
+        <div title="负荷" style="display:none;overflow: hidden">
+            <table id="tt1" style="display:none" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <!-- <th field="id" hidden="true"></th>
@@ -39,7 +39,7 @@
             </table>
         </div>
         <div title="示数" style="display:none;overflow: hidden">
-            <table id="tt2">
+            <table id="tt2" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <th rowspan="2" field="areaId33" width="80" align="center">区域</th>
@@ -59,7 +59,7 @@
             </table>
         </div>
         <div title="电压" style="display:none;overflow: hidden">
-            <table id="tt3">
+            <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <th rowspan="2" field="areaId" width="80" align="center">区域</th>
@@ -78,7 +78,7 @@
             </table>
         </div>
         <div title="电流" style="display:none;overflow: hidden">
-            <table id="tt4">
+            <table id="tt4" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
                     <th rowspan="2" field="areaId" width="80" align="center">区域</th>
