@@ -22,15 +22,19 @@
             margin-top: 5px;
             margin-bottom: 5px;
         }
+
+        .title p {
+            text-align: left;
+        }
     </style>
 </head>
 <body class="easyui-layout">
 <div data-options="region:'north',border:false" style="height: 115px;">
     <div class="container_12" style="padding-top: 5px">
-        <div class="grid_1 cell title">
+        <div class="grid_2 cell title">
             <p>监测点</p>
         </div>
-        <div class="grid_9 cell">
+        <div class="grid_8 cell">
             <p>
                 <input id="input-pn" class="easyui-tagbox" style="width:100%">
             </p>
@@ -41,10 +45,10 @@
             </p>
         </div>
         <div class="clear"></div>
-        <div class="grid_1 cell title">
+        <div class="grid_2 cell title">
             <p>时间点</p>
         </div>
-        <div class="grid_9 cell">
+        <div class="grid_8 cell">
             <p>
                 <input id="input-time" class="easyui-tagbox" style="width:100%">
             </p>
@@ -55,15 +59,15 @@
             </p>
         </div>
         <div class="clear"></div>
-        <div class="grid_1 cell title">
-            <p>合并计算</p>
+        <div class="grid_2 cell title">
+            <p>合计监测点</p>
         </div>
         <div class="grid_3 cell">
             <p>
-                <input class="easyui-switchbutton" data-options="onText:'是',offText:'否'">
+                <input id="switch-total" class="easyui-switchbutton" data-options="onText:'是',offText:'否'">
             </p>
         </div>
-        <div class="grid_6 cell">
+        <div class="grid_5 cell">
             <p>
             </p>
         </div>
@@ -80,7 +84,8 @@
     <div class="easyui-tabs" data-options="plain:true" style="width: 90%">
         <div title="负荷" align="center">
             <div id="chart-comparasion" class="easyui-panel" data-options="border:false"
-                 style="margin-bottom: 10px;height: 400px;width: 95%;">
+                 style="margin-bottom: 10px;height: 400px;width: 95%;text-align: center;">
+                <span style="font-size: medium;line-height: 400px;">请载入数据</span>
             </div>
             <div class="easyui-panel" data-options="border:false"
                  style="margin-bottom: 10px;height: 200px;width: 95%;">

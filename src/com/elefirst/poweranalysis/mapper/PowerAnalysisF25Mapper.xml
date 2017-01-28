@@ -765,9 +765,8 @@
         ORDER BY
         `area_id` ,
         `concentrator_id` ,
-        `pn`
-        -- ,
-        -- TO_DAYS(`clientOperationTime`) ,
-        -- HOUR(`clientOperationTime`)
+        `pn` ,
+        TO_DAYS(`clientOperationTime`) ,
+        HOUR(`clientOperationTime`)
     </select>
 </mapper>

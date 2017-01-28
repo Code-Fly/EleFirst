@@ -191,25 +191,49 @@ $(document).ready(function () {
 
         var series = []
 
-        for (var i = 0; i < node.length; i++) {
-            var areaId = (node[i].value + "").split(":")[0];
-            var concentratorId = (node[i].value + "").split(":")[1];
-            var pn = (node[i].value + "").split(":")[2];
-            var rate = (node[i].value + "").split(":")[3];
-            var name = node[i].name;
-
-            for (var j = 0; j < time.length; j++) {
-                var item = getSeries({
+        if ($("#switch-total").switchbutton("options").checked) {
+            var nodes = [];
+            for (var i = 0; i < node.length; i++) {
+                var areaId = (node[i].value + "").split(":")[0];
+                var concentratorId = (node[i].value + "").split(":")[1];
+                var pn = (node[i].value + "").split(":")[2];
+                var rate = (node[i].value + "").split(":")[3];
+                var name = node[i].name;
+                nodes.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
                     pn: pn,
                     rate: rate,
                     name: name
-                }, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
+                });
+            }
+
+            for (var j = 0; j < time.length; j++) {
+                var item = getSeriesTotal(nodes, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
                 series.push(item);
             }
-        }
 
+
+        } else {
+            for (var i = 0; i < node.length; i++) {
+                var areaId = (node[i].value + "").split(":")[0];
+                var concentratorId = (node[i].value + "").split(":")[1];
+                var pn = (node[i].value + "").split(":")[2];
+                var rate = (node[i].value + "").split(":")[3];
+                var name = node[i].name;
+
+                for (var j = 0; j < time.length; j++) {
+                    var item = getSeries({
+                        areaId: areaId,
+                        concentratorId: concentratorId,
+                        pn: pn,
+                        rate: rate,
+                        name: name
+                    }, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
+                    series.push(item);
+                }
+            }
+        }
 
         var config = $.parseJSON($.ajax({
             url: "data/loadComparison.json",
@@ -223,6 +247,40 @@ $(document).ready(function () {
 
 
         $("#chart-comparasion").highcharts(config);
+    }
+
+    function getSeriesTotal(nodes, time, data) {
+        var series = {
+            name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),
+            data: []
+        };
+
+        for (var t = 0; t < 24; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < nodes.length; j++) {
+
+                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                        if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
+                            if (parseInt(data[i].hourClientOperationTime) == t) {
+                                if (tmp == null) {
+                                    tmp = parseFloat(data[i].maxTotalActivePower) * parseFloat(nodes[j].rate);
+                                } else {
+                                    tmp += parseFloat(data[i].maxTotalActivePower) * parseFloat(nodes[j].rate);
+                                }
+                                tmp = Math.floor(tmp * 100) / 100;
+                            }
+                        }
+                    }
+                }
+
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+
     }
 
     function getSeries(node, time, data) {
