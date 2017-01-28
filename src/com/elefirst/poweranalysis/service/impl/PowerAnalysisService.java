@@ -2,7 +2,8 @@ package com.elefirst.poweranalysis.service.impl;
 
 import com.elefirst.base.service.BaseService;
 import com.elefirst.poweranalysis.dao.iface.IPowerAnalysisDAO;
-import com.elefirst.poweranalysis.po.PowerAnalysisComparisonF25;
+import com.elefirst.poweranalysis.po.PowerAnalysisComparisonChartF25;
+import com.elefirst.poweranalysis.po.PowerAnalysisComparisonTableF25;
 import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,12 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
     private IPowerAnalysisDAO powerAnalysisDAO;
 
     @Override
-    public List<PowerAnalysisComparisonF25> getComparisonChart(Map<String, Object> param) {
+    public List<PowerAnalysisComparisonChartF25> getComparisonChart(Map<String, Object> param) {
         return powerAnalysisDAO.getComparisonChart(param);
+    }
+
+    @Override
+    public List<PowerAnalysisComparisonTableF25> getComparisonTable(Map<String, Object> param) {
+        return powerAnalysisDAO.getComparisonTable(param);
     }
 }

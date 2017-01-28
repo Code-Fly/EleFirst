@@ -1,6 +1,7 @@
 package com.elefirst.poweranalysis.mapper;
 
-import com.elefirst.poweranalysis.po.PowerAnalysisComparisonF25;
+import com.elefirst.poweranalysis.po.PowerAnalysisComparisonChartF25;
+import com.elefirst.poweranalysis.po.PowerAnalysisComparisonTableF25;
 import com.elefirst.poweranalysis.po.PowerAnalysisF25;
 import com.elefirst.poweranalysis.po.PowerAnalysisF25Example;
 import org.apache.ibatis.annotations.Param;
@@ -97,5 +98,7 @@ public interface PowerAnalysisF25Mapper {
      */
     int updateByPrimaryKey(PowerAnalysisF25 record);
 
-    List<PowerAnalysisComparisonF25> getComparisonChart(Map<String, Object> param);
+    List<PowerAnalysisComparisonChartF25> getComparisonChart(Map<String, Object> param);
+
+    List<PowerAnalysisComparisonTableF25> getComparisonTable(Map<String, Object> param);
 }

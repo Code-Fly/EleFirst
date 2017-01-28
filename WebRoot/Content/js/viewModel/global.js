@@ -203,6 +203,10 @@ function isUUID(value) {
     return z.test(value);
 }
 
+function formatDbTimestamp(time) {
+    return time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + " " + time.substr(8, 2) + ":" + time.substr(10, 2) + ":" + time.substr(12, 2);
+}
+
 /**
  * 是否以指定字符串结尾
  * @param s

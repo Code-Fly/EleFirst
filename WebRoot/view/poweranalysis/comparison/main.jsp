@@ -89,15 +89,15 @@
             </div>
             <div class="easyui-panel" data-options="border:false"
                  style="margin-bottom: 10px;height: 200px;width: 95%;">
-                <table class="easyui-datagrid" data-options="border:true,fit:true,fitColumns:true">
+                <table id="dg-table" class="easyui-datagrid" data-options="border:true,fit:true,fitColumns:true">
                     <thead>
                     <tr>
-                        <th rowspan="2" field="productid" width="30%" align="center">日期</th>
-                        <th colspan="4">老楼总表</th>
+                        <th rowspan="2" field="clientOperationTime" width="30%" align="center">日期</th>
+                        <th colspan="4"><span id="label-pn-table"></span></th>
                     </tr>
                     <tr>
                         <th field="totalactivepower" width="35%" align="center">最大值</th>
-                        <th field="aActivepower" width="35%" align="center">发生时间</th>
+                        <th field="currentClientOperationTime" width="35%" align="center">发生时间</th>
                     </tr>
                     </thead>
                 </table>

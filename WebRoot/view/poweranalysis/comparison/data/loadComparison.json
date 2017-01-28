@@ -52,6 +52,7 @@
     }
   },
   "tooltip": {
+    "valueSuffix": "kW",
     "shared": true
   },
   "plotOptions": {

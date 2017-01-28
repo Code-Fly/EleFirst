@@ -35,7 +35,7 @@ $(document).ready(function () {
                 $(this).tagbox("select", value);
 
             } else {
-                $.messager.alert("信息提示", "请选择测量点！", "info");
+                $.messager.alert("信息提示", "请选择监测点！", "info");
             }
         },
         tagStyler: function (value) {
@@ -129,7 +129,7 @@ $(document).ready(function () {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
-            var param = {
+            var paramChart = {
                 node: [],
                 time: []
             }
@@ -140,14 +140,14 @@ $(document).ready(function () {
                 var pn = (node[i].value + "").split(":")[2];
                 var rate = (node[i].value + "").split(":")[3];
                 var name = node[i].name;
-                param.node.push({
+                paramChart.node.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
                     pn: pn
                 })
             }
             for (var i = 0; i < time.length; i++) {
-                param.time.push(
+                paramChart.time.push(
                     new Date(time[i].value).format('yyyyMMdd') + "000000"
                 )
             }
@@ -157,12 +157,77 @@ $(document).ready(function () {
                 type: "POST",
                 cache: false,
                 contentType: "text/plain;charset=UTF-8",
-                data: JSON.stringify(param),
+                data: JSON.stringify(paramChart),
                 success: function (r) {
                     if (r.hasOwnProperty("errcode")) {
                         if ("0" == r.errcode) {
                             // $.messager.alert("操作提示", JSON.stringify(r.data));
                             loadComparisonChart(r.data);
+                        } else {
+                            $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        }
+                    } else {
+                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    MaskUtil.mask();
+                },
+                error: function (request) {
+                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    MaskUtil.unmask();
+                }
+            });
+
+            var paramTable = {
+                node: [],
+                time: []
+            }
+
+            var areaId = (node[0].value + "").split(":")[0];
+            var concentratorId = (node[0].value + "").split(":")[1];
+            var pn = (node[0].value + "").split(":")[2];
+            var pt = parseFloat((node[0].value + "").split(":")[3]);
+            var ct = parseFloat((node[0].value + "").split(":")[4]);
+            var name = node[0].name;
+            paramTable.node.push({
+                areaId: areaId,
+                concentratorId: concentratorId,
+                pn: pn
+            })
+            for (var i = 0; i < time.length; i++) {
+                paramTable.time.push(
+                    new Date(time[i].value).format('yyyyMMdd') + "000000"
+                )
+            }
+
+            $("#label-pn-table").text(name);
+
+            $.ajax({
+                url: _ctx + "poweranalysis/comparison/table.do",
+                type: "POST",
+                cache: false,
+                contentType: "text/plain;charset=UTF-8",
+                data: JSON.stringify(paramTable),
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            // $.messager.alert("操作提示", JSON.stringify(r.data));
+                            var d = [];
+                            for (var i = 0; i < r.data.length; i++) {
+                                var time = r.data[i].clientoperationtime + "";
+                                var totalactivepower = parseFloat(r.data[i].maxTotalActivePower) * pt * ct;
+                                totalactivepower = Math.floor(totalactivepower * 100) / 100;
+                                d.push({
+                                    clientOperationTime: new Date(formatDbTimestamp(time)).format('yyyy-MM-dd'),
+                                    totalactivepower: totalactivepower,
+                                    currentClientOperationTime: new Date(formatDbTimestamp(time)).format('yyyy-MM-dd hh:mm:ss')
+                                })
+                            }
+                            $("#dg-table").datagrid("loadData", d);
+                            // loadComparisonChart(r.data);
                         } else {
                             $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
