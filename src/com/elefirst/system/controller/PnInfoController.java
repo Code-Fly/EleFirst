@@ -4,8 +4,8 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
-import com.elefirst.system.po.ConcentratorInfo;
-import com.elefirst.system.service.iface.IConcentratorInfoService;
+import com.elefirst.system.po.PnInfo;
+import com.elefirst.system.service.iface.IPnInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,35 +22,35 @@ import java.util.List;
  * Created by barrie on 17/1/29.
  */
 @Controller
-@RequestMapping("/system/concentrator")
-@Api(value = "concentrator", description = "馈线柜操作")
-public class ConcentratorInfoController extends BaseController {
+@RequestMapping("/system/pn")
+@Api(value = "pn", description = "监测点操作")
+public class PnInfoController extends BaseController {
     @Autowired
-    private IConcentratorInfoService concentratorInfoService;
+    private IPnInfoService pnInfoService;
 
     @RequestMapping(value = "/info/list.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getConcentratorInfoList(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            @RequestParam(value = "page", required = false) Integer page,
-                                            @RequestParam(value = "rows", required = false) Integer rows
+    public ErrorMsg getPnInfoList(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  @RequestParam(value = "page", required = false) Integer page,
+                                  @RequestParam(value = "rows", required = false) Integer rows
     ) {
-        ConcentratorInfo template = new ConcentratorInfo();
+        PnInfo template = new PnInfo();
 
         if (null != page && null != rows) {
             template.setPage(page);
             template.setRows(rows);
-            List<ConcentratorInfo> result = concentratorInfoService.getConcentratorInfoList(template);
+            List<PnInfo> result = pnInfoService.getPnInfoList(template);
 
             DataGrid dg = new DataGrid();
-            int count = concentratorInfoService.getConcentratorInfoListCount(template);
+            int count = pnInfoService.getPnInfoListCount(template);
             dg.setTotal(count);
             dg.setRows(result);
 
             return new ErrorMsg(Error.SUCCESS, "success", dg);
         } else {
-            List<ConcentratorInfo> result = concentratorInfoService.getConcentratorInfoList(template);
+            List<PnInfo> result = pnInfoService.getPnInfoList(template);
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
 

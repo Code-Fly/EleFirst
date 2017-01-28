@@ -123,7 +123,7 @@ $(document).ready(function () {
                 return;
             }
             var time = $("#input-time").tagbox("getData");
-            if (node.length == 0) {
+            if (time.length == 0) {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
@@ -377,7 +377,7 @@ $(document).ready(function () {
 
     function loadConcentratorList() {
         $.ajax({
-            url: _ctx + "system/concentrator/info/list.do",
+            url: _ctx + "system/pn/info/list.do",
             type: "POST",
             cache: false,
             success: function (r) {
