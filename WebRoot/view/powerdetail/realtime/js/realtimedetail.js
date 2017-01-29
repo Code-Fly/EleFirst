@@ -25,22 +25,23 @@ $(document).ready(function () {
     //初始化第一个页面
     dg('tt1', 'powerdetail/listCurrentDetailPower.do');
 
+    var areaId = null;
+    var concentratorId = null;
+    var pn = null;
+    
     //初始化south中tabs
     $('#tab2').tabs({
         border: false,
         onSelect: function (title) {
-            var singlerow = null;
             if ("负荷" == title) {
                 //获取当前选中的行
-                singlerow = $('#tt1').datagrid('getSelected');
                 getLoadDetailChart({
-                    areaId: singlerow.areaId,
-                    concentratorId: singlerow.concentratorId,
-                    pn: singlerow.pn,
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn,
                     time: null
                 });
             } else if ("示数" == title) {
-                singlerow = $('#tt2').datagrid('getSelected');
                 //刷新当前监测点所有示数信息
                 $("#dtt2").datagrid({
                     url: _ctx + 'powerdetail/listAllDisplayDetailByPn.do',
@@ -51,9 +52,9 @@ $(document).ready(function () {
                     singleSelect: true,
                     fit: true,
                     queryParams: {
-                        areaId: singlerow.areaId33,
-                        concentratorId: singlerow.concentratorId33,
-                        pn: singlerow.pn33
+                        areaId: areaId,
+                        concentratorId: concentratorId,
+                        pn: pn
                     },
                     onLoadError: function () {
                         jError("查询监测点示数信息错误！", {
@@ -64,61 +65,30 @@ $(document).ready(function () {
                     }
                 });
             } else if ("电压" == title) {
-                singlerow = $('#tt3').datagrid('getSelected');
                 getVoltageDetailChart({
-                    areaId: singlerow.areaId,
-                    concentratorId: singlerow.concentratorId,
-                    pn: singlerow.pn,
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn,
                     time: null
                 });
             } else if ("电流" == title) {
-                singlerow = $('#tt4').datagrid('getSelected');
                 getCurrentDetailChart({
-                    areaId: singlerow.areaId,
-                    concentratorId: singlerow.concentratorId,
-                    pn: singlerow.pn,
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn,
                     time: null
                 });
             } else if ("功率因数" == title) {
-                singlerow = $('#tt5').datagrid('getSelected');
                 getPowerFactorDetailChart({
-                    areaId: singlerow.areaId,
-                    concentratorId: singlerow.concentratorId,
-                    pn: singlerow.pn,
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn,
                     time: null
                 });
             }
-
-
-            $.ajax({
-                url: _ctx + 'powerdetail/queryPowerDetail.do',
-                type: "post",//使用post方法访问后台
-                dataType: "json",
-                cache: false,
-                data: {
-                    tabName: title,
-                    areaId: singlerow.areaId,
-                    concentratorId: singlerow.concentratorId,
-                    pn: singlerow.pn
-                },
-                success: function (msg) {
-                    if ("success" == msg.errmsg) {
-                        jSuccess("查询实时用电信息成功！", {
-                            VerticalPosition: 'center',
-                            HorizontalPosition: 'center',
-                            ShowOverlay: false
-                        });
-                        var data = msg.data;
-                        handerByTabType(data.type, data);
-                    } else if ("failed" == msg.errmsg) {
-                        jError("查询实时用电信息失败！", {
-                            VerticalPosition: 'center',
-                            HorizontalPosition: 'center',
-                            ShowOverlay: false
-                        });
-                    }
-                }
-            });
+ 
+            //刷新tab
+            refreshTab(title,areaId,concentratorId,pn)
         }
     });
 
@@ -172,8 +142,38 @@ $(document).ready(function () {
             //负荷率
             $("#table1 tr:eq(3) td:eq(3)").html("" + data.loadFactorRate);
         }
-        
-        
+    }
+    
+    function refreshTab(vtitle,vareaId,vconcentratorId,vpn){
+    	$.ajax({
+            url: _ctx + 'powerdetail/queryPowerDetail.do',
+            type: "post",//使用post方法访问后台
+            dataType: "json",
+            cache: false,
+            data: {
+                tabName: vtitle,
+                areaId: vareaId,
+                concentratorId: vconcentratorId,
+                pn: vpn
+            },
+            success: function (msg) {
+                if ("success" == msg.errmsg) {
+                   /* jSuccess("查询实时用电信息成功！", {
+                        VerticalPosition: 'center',
+                        HorizontalPosition: 'center',
+                        ShowOverlay: false
+                    });*/
+                    var data = msg.data;
+                    handerByTabType(data.type, data);
+                } else if ("failed" == msg.errmsg) {
+                    jError("查询实时用电信息失败！", {
+                        VerticalPosition: 'center',
+                        HorizontalPosition: 'center',
+                        ShowOverlay: false
+                    });
+                }
+            }
+        });
     }
 
     //公用datagrid
@@ -209,7 +209,13 @@ $(document).ready(function () {
 
                 //选中对应的tab页
                 if ('tt1' == dgId) {
+                	singlerow = $('#tt1').datagrid('getSelected');
+                	areaId = singlerow.areaId;
+                    concentratorId = singlerow.concentratorId;
+                    pn = singlerow.pn;
                     $('#tab2').tabs('select', '负荷');
+                    //初始化负荷详情
+                    refreshTab('负荷',areaId,concentratorId,pn)
                     getLoadDetailChart({
                         areaId: row.areaId,
                         concentratorId: row.concentratorId,
@@ -217,10 +223,18 @@ $(document).ready(function () {
                         time: $("#input-detail-datebox").datebox("getValue")
                     });
                 } else if ('tt2' == dgId) {
+                	singlerow = $('#tt2').datagrid('getSelected');
+                	areaId = singlerow.areaId33;
+                    concentratorId = singlerow.concentratorId33;
+                    pn = singlerow.pn33;
                     $('#tab2').tabs('select', '示数');
-                    //更新示数表格
+                    
                     
                 } else if ('tt3' == dgId) {
+                	singlerow = $('#tt3').datagrid('getSelected');
+                	areaId = singlerow.areaId;
+                    concentratorId = singlerow.concentratorId;
+                    pn = singlerow.pn;
                     $('#tab2').tabs('select', '电压');
                     getVoltageDetailChart({
                         areaId: row.areaId,
@@ -229,6 +243,10 @@ $(document).ready(function () {
                         time: $("#input-detail-datebox").datebox("getValue")
                     });
                 } else if ('tt4' == dgId) {
+                	singlerow = $('#tt4').datagrid('getSelected');
+                	areaId = singlerow.areaId;
+                    concentratorId = singlerow.concentratorId;
+                    pn = singlerow.pn;
                     $('#tab2').tabs('select', '电流');
                     getCurrentDetailChart({
                         areaId: row.areaId,
@@ -237,6 +255,10 @@ $(document).ready(function () {
                         time: $("#input-detail-datebox").datebox("getValue")
                     });
                 } else if ('tt5' == dgId) {
+                	singlerow = $('#tt5').datagrid('getSelected');
+                	areaId = singlerow.areaId;
+                    concentratorId = singlerow.concentratorId;
+                    pn = singlerow.pn;
                     $('#tab2').tabs('select', '功率因数');
                     getPowerFactorDetailChart({
                         areaId: row.areaId,

@@ -166,27 +166,27 @@
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">最大负荷</td>
-                                    <td width="25%" valign="center" align="center">33.58(kW)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">发生时间</td>
-                                    <td width="25%" valign="center" align="center">01-25 04:15</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">最小负荷</td>
-                                    <td width="25%" valign="center" align="center">1.26(kW)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">发生时间</td>
-                                    <td width="25%" valign="center" align="center">01-25 16:45</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">平均负荷</td>
-                                    <td width="25%" valign="center" align="center">6.01(kW)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">峰谷差</td>
-                                    <td width="25%" valign="center" align="center">32.32(kW)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">峰谷差率</td>
-                                    <td width="25%" valign="center" align="center">96.24%</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">负荷率</td>
-                                    <td width="25%" valign="center" align="center">17.9%</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -252,21 +252,21 @@
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">U相最高电压</td>
-                                    <td width="25%" valign="center" align="center">240.3(V) (01-25 15:45)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">U相最低电压</td>
-                                    <td width="25%" valign="center" align="center">234.2(V) (01-25 07:30)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">V相最高电压</td>
-                                    <td width="25%" valign="center" align="center">240.1(V) (01-25 14:30)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">V相最低电压</td>
-                                    <td width="25%" valign="center" align="center">233.2(V) (01-25 09:45)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">W相最高电压</td>
-                                    <td width="25%" valign="center" align="center">242.7(V) (01-25 01:00)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">W相最低电压</td>
-                                    <td width="25%" valign="center" align="center">236.2(V) (01-25 10:00)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -285,21 +285,21 @@
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">U相最高电流</td>
-                                    <td width="25%" valign="center" align="center">47.52(A) (01-25 04:00)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">U相最低电流</td>
-                                    <td width="25%" valign="center" align="center">2.04(A) (01-25 08:15)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">V相最高电流</td>
-                                    <td width="25%" valign="center" align="center">53.46(A) (01-25 04:15)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">V相最低电流</td>
-                                    <td width="25%" valign="center" align="center">1.98(A) (01-25 16:30)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">W相最高电流</td>
-                                    <td width="25%" valign="center" align="center">40.62(A) (01-25 04:15)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">W相最低电流</td>
-                                    <td width="25%" valign="center" align="center">2.7(A) (01-25 08:00)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 </tbody>
                             </table>
