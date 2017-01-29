@@ -30,7 +30,7 @@ public class AreaInfoService extends BaseService implements IAreaInfoService {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`display_order` ASC");
+        condition.setOrderByClause("`create_date` ASC");
         return areaInfoDAO.getAreaInfoList(condition);
     }
 
