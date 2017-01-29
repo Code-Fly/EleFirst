@@ -17,9 +17,9 @@
                 <tr>
                     <!-- <th field="id" hidden="true"></th>
                     <th field="ck" data-options="checkbox:true"></th> -->
-                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
-                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
-                    <th rowspan="2" field="pn" width="80" align="center">监测点</th>
+                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="80" align="center">监测点</th>
                     <th colspan="4">有功负荷(kW)</th>
                     <th colspan="4">无功负荷(kW)</th>
@@ -42,9 +42,9 @@
             <table id="tt2" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
-                    <th rowspan="2" field="areaId33" width="80" align="center">区域</th>
-                    <th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>
-                    <th rowspan="2" field="pn33" width="80" align="center">监测点</th>
+                    <%--<th rowspan="2" field="areaId33" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="80" align="center">监测点</th>
                     <th colspan="4">示数</th>
                     <th rowspan="2" field="clientoperationtime33" width="120" align="center">抄表时刻</th>
@@ -62,9 +62,9 @@
             <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
-                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
-                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
-                    <th rowspan="2" field="pn" width="80" align="center">监测点</th>
+                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="80" align="center">监测点</th>
                     <th colspan="3">电压(V)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
@@ -81,9 +81,9 @@
             <table id="tt4" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
-                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
-                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
-                    <th rowspan="2" field="pn" width="80" align="center">监测点</th>
+                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="80" align="center">监测点</th>
                     <th colspan="3">电流(V)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
@@ -100,9 +100,9 @@
             <table id="tt5" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
                 <tr>
-                    <th rowspan="2" field="areaId" width="80" align="center">区域</th>
-                    <th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>
-                    <th rowspan="2" field="pn" width="80" align="center">监测点</th>
+                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="80" align="center">监测点</th>
                     <th colspan="4">功率因数(%)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
@@ -225,7 +225,7 @@
                     </div>
                 </div> -->
                 <div title="示数" style="display:none;overflow: hidden">
-                    <table id="dtt2" class="easyui-datagrid" fit="true">
+                    <table id="dtt2" class="easyui-datagrid" data-options="border:false" fit="true">
                         <thead>
                         <tr>
                             <th rowspan="2" field="clientoperationtime33" width="80" align="center">日期</th>
