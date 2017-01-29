@@ -85,7 +85,7 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="80" align="center">监测点</th>
-                    <th colspan="3">电流(V)</th>
+                    <th colspan="3">电流(A)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
                 </tr>
                 <tr>
