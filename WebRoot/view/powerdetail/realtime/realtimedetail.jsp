@@ -318,27 +318,27 @@
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">U相最高功率因数</td>
-                                    <td width="25%" valign="center" align="center">100(%) (01-25 04:00)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">U相最低功率因数</td>
-                                    <td width="25%" valign="center" align="center">81.8(%) (01-25 10:00)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">V相最高功率因数</td>
-                                    <td width="25%" valign="center" align="center">100(%) (01-25 00:00)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">V相最低功率因数</td>
-                                    <td width="25%" valign="center" align="center">79.5(%) (01-25 16:30)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">W相最高功率因数</td>
-                                    <td width="25%" valign="center" align="center">100(%) (01-25 00:45)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">W相最低功率因数</td>
-                                    <td width="25%" valign="center" align="center">91.2(%) (01-25 12:45)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">总最高功率因数</td>
-                                    <td width="25%" valign="center" align="center">100(%) (01-25 00:30)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                     <td width="25%" valign="center" align="center">总最低功率因数</td>
-                                    <td width="25%" valign="center" align="center">85.1(%) (01-25 17:30)</td>
+                                    <td width="25%" valign="center" align="center">--</td>
                                 </tr>
                                 </tbody>
                             </table>
