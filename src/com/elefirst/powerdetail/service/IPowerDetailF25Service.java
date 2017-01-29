@@ -8,6 +8,7 @@ import com.elefirst.powerdetail.po.PowerFactorDetail;
 import com.elefirst.powerdetail.po.TotalActivePowerDetail;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
 import com.elefirst.powerdetail.po.VoltageDetail;
+import com.elefirst.system.po.PnInfo;
 
 /**
  * 
@@ -143,4 +144,5 @@ public interface IPowerDetailF25Service {
 	 * @throws Exception
 	 */
 	public TotalActivePowerDetail fetchTotalActivePowerDetail(String areaId,String ctrId,String pnId) throws Exception;
+	
 }

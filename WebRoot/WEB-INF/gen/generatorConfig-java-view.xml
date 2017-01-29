@@ -36,15 +36,7 @@
 			targetPackage="com.elefirst.powerdetail.mapper" targetProject="elefirst">
 		    <property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<table tableName="t_view_display_f33_f34" domainObjectName="ViewDisplayF33F34" />
-		<!-- <table tableName="dme_his_task_interface" domainObjectName="HisTaskInterface" /> -->
-		<!-- <table tableName="dme_task_interface" domainObjectName="TaskInterface" /> -->
-		<!-- <table tableName="sys_menu" domainObjectName="MenuInfo" />
-		<table tableName="sys_role" domainObjectName="RoleInfo" /> -->
-		<!-- <table tableName="sys_user" domainObjectName="PersonInfo" /> -->
-		
-		<!-- <table tableName="sys_role_menu_map" domainObjectName="RoleMenuMap" />
-		<table tableName="sys_user_role_map" domainObjectName="UserRoleMap" /> -->
-		<!-- <table tableName="sys_organize" domainObjectName="OrganizeInfo" /> -->
+		<table tableName="t_202_pn_info" domainObjectName="PnInfo" />
+		<!-- <table tableName="t_view_display_f33_f34" domainObjectName="ViewDisplayF33F34" /> -->
 	</context>
 </generatorConfiguration>

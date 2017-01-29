@@ -20,6 +20,9 @@
     <result column="pn34" property="pn34" jdbcType="VARCHAR" />
     <result column="rate34" property="rate34" jdbcType="VARCHAR" />
     <result column="sendTime34" property="sendtime34" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pt" property="pt" javaType="double" jdbcType="DOUBLE" />
+    <result column="ct" property="ct" javaType="double" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -332,7 +335,7 @@
   </update>
      <!-- 自定义获取每个区域下相关集线器对应的监测点最新一条电力示数(根据发送时间) -->
   <select id="myselectByExample" resultMap="BaseResultMap">
-    select a.* from t_view_display_f33_f34 a,(select concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b where a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 
+	select a.* ,c.`name`,c.ct,c.pt from t_view_display_f33_f34 a,(select concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b ,t_202_pn_info c where a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 and b.concentrator_id33 = c.concentrator_id and b.pn33 = c.pn	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -350,7 +353,7 @@
   
   <!-- 获取每个区域下相关集线器对应的监测点示数总和 -->
   <select id="myselectByExampleCount" resultType="int">
-    select count(1) as num from t_view_display_f33_f34 a,(select concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b where a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 
+    select count(1) as num from t_view_display_f33_f34 a,(select concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b ,t_202_pn_info c where a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 and b.concentrator_id33 = c.concentrator_id and b.pn33 = c.pn
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
 	</if>

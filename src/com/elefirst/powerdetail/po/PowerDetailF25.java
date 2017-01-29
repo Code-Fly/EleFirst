@@ -2,7 +2,7 @@ package com.elefirst.powerdetail.po;
 
 
 
-public class PowerDetailF25{
+public class PowerDetailF25 extends PowerDetailF25ExtAttr{
     private String id;
 
     private String areaId;

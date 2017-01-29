@@ -201,7 +201,7 @@ $(document).ready(function () {
                 if('tt2' == dgId){
                 	$('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn33);
                 }else{
-                	$('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn);
+                	$('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.name);
                 }
                 
 

@@ -1,6 +1,6 @@
 package com.elefirst.powerdetail.po;
 
-public class ViewDisplayF33F34 {
+public class ViewDisplayF33F34 extends PowerDetailF25ExtAttr{
     private String totalpositiveactivepower;
 
     private String totalpositivereactivepower;
