@@ -12,7 +12,7 @@ $(document).ready(function () {
         // method: "get",
         url: _ctx + "system/tree/info/node.do",
         queryParams: {
-            treeId: "89c89158-ce7d-45e2-8252-8bab0bdd2d3e"
+            treeId: "1"
         },
         animate: true,
         onSelect: function (node) {

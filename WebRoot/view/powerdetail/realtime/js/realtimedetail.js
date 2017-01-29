@@ -28,7 +28,7 @@ $(document).ready(function () {
     var areaId = null;
     var concentratorId = null;
     var pn = null;
-    
+
     //初始化south中tabs
     $('#tab2').tabs({
         border: false,
@@ -86,9 +86,9 @@ $(document).ready(function () {
                     time: null
                 });
             }
- 
+
             //刷新tab
-            refreshTab(title,areaId,concentratorId,pn)
+            refreshTab(title, areaId, concentratorId, pn)
         }
     });
 
@@ -113,7 +113,7 @@ $(document).ready(function () {
             $("#table3 tr:eq(0) td:eq(3)").html("" + data.minACurrent);
             $("#table3 tr:eq(1) td:eq(3)").html("" + data.minBCurrent);
             $("#table3 tr:eq(2) td:eq(3)").html("" + data.minCCurrent);
-        }else if ('powerfactor' == tabType) {
+        } else if ('powerfactor' == tabType) {
             //设置最大功率因素a,b,c
             $("#table4 tr:eq(0) td:eq(1)").html("" + data.maxAPowerFactor);
             $("#table4 tr:eq(1) td:eq(1)").html("" + data.maxBPowerFactor);
@@ -124,8 +124,8 @@ $(document).ready(function () {
             $("#table4 tr:eq(1) td:eq(3)").html("" + data.minBPowerFactor);
             $("#table4 tr:eq(2) td:eq(3)").html("" + data.minCPowerFactor);
             $("#table4 tr:eq(3) td:eq(3)").html("" + data.minTotalPowerFactor);
-        }else if ('totalactivepower' == tabType) {
-        	//最大负荷
+        } else if ('totalactivepower' == tabType) {
+            //最大负荷
             $("#table1 tr:eq(0) td:eq(1)").html("" + data.maxTotalActivePower);
             //最小负荷
             $("#table1 tr:eq(1) td:eq(1)").html("" + data.minTotalActivePower);
@@ -143,9 +143,9 @@ $(document).ready(function () {
             $("#table1 tr:eq(3) td:eq(3)").html("" + data.loadFactorRate);
         }
     }
-    
-    function refreshTab(vtitle,vareaId,vconcentratorId,vpn){
-    	$.ajax({
+
+    function refreshTab(vtitle, vareaId, vconcentratorId, vpn) {
+        $.ajax({
             url: _ctx + 'powerdetail/queryPowerDetail.do',
             type: "post",//使用post方法访问后台
             dataType: "json",
@@ -158,11 +158,11 @@ $(document).ready(function () {
             },
             success: function (msg) {
                 if ("success" == msg.errmsg) {
-                   /* jSuccess("查询实时用电信息成功！", {
-                        VerticalPosition: 'center',
-                        HorizontalPosition: 'center',
-                        ShowOverlay: false
-                    });*/
+                    /* jSuccess("查询实时用电信息成功！", {
+                     VerticalPosition: 'center',
+                     HorizontalPosition: 'center',
+                     ShowOverlay: false
+                     });*/
                     var data = msg.data;
                     handerByTabType(data.type, data);
                 } else if ("failed" == msg.errmsg) {
@@ -198,24 +198,24 @@ $(document).ready(function () {
             },
             onSelect: function (index, row) {
                 $('#cc').layout('expand', 'south');
-                if('tt2' == dgId){
-                	$('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn33);
-                }else{
-                	$('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.name);
+                if ('tt2' == dgId) {
+                    $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn33);
+                } else {
+                    $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.name);
                 }
-                
+
 
                 $("#input-detail-datebox").datebox("clear");
 
                 //选中对应的tab页
                 if ('tt1' == dgId) {
-                	singlerow = $('#tt1').datagrid('getSelected');
-                	areaId = singlerow.areaId;
+                    singlerow = $('#tt1').datagrid('getSelected');
+                    areaId = singlerow.areaId;
                     concentratorId = singlerow.concentratorId;
                     pn = singlerow.pn;
                     $('#tab2').tabs('select', '负荷');
                     //初始化负荷详情
-                    refreshTab('负荷',areaId,concentratorId,pn)
+                    refreshTab('负荷', areaId, concentratorId, pn)
                     getLoadDetailChart({
                         areaId: row.areaId,
                         concentratorId: row.concentratorId,
@@ -223,16 +223,16 @@ $(document).ready(function () {
                         time: $("#input-detail-datebox").datebox("getValue")
                     });
                 } else if ('tt2' == dgId) {
-                	singlerow = $('#tt2').datagrid('getSelected');
-                	areaId = singlerow.areaId33;
+                    singlerow = $('#tt2').datagrid('getSelected');
+                    areaId = singlerow.areaId33;
                     concentratorId = singlerow.concentratorId33;
                     pn = singlerow.pn33;
                     $('#tab2').tabs('select', '示数');
-                    
-                    
+
+
                 } else if ('tt3' == dgId) {
-                	singlerow = $('#tt3').datagrid('getSelected');
-                	areaId = singlerow.areaId;
+                    singlerow = $('#tt3').datagrid('getSelected');
+                    areaId = singlerow.areaId;
                     concentratorId = singlerow.concentratorId;
                     pn = singlerow.pn;
                     $('#tab2').tabs('select', '电压');
@@ -243,8 +243,8 @@ $(document).ready(function () {
                         time: $("#input-detail-datebox").datebox("getValue")
                     });
                 } else if ('tt4' == dgId) {
-                	singlerow = $('#tt4').datagrid('getSelected');
-                	areaId = singlerow.areaId;
+                    singlerow = $('#tt4').datagrid('getSelected');
+                    areaId = singlerow.areaId;
                     concentratorId = singlerow.concentratorId;
                     pn = singlerow.pn;
                     $('#tab2').tabs('select', '电流');
@@ -255,8 +255,8 @@ $(document).ready(function () {
                         time: $("#input-detail-datebox").datebox("getValue")
                     });
                 } else if ('tt5' == dgId) {
-                	singlerow = $('#tt5').datagrid('getSelected');
-                	areaId = singlerow.areaId;
+                    singlerow = $('#tt5').datagrid('getSelected');
+                    areaId = singlerow.areaId;
                     concentratorId = singlerow.concentratorId;
                     pn = singlerow.pn;
                     $('#tab2').tabs('select', '功率因数');
@@ -272,6 +272,8 @@ $(document).ready(function () {
     }
 
     function getLoadDetailChart(row) {
+        var pnInfo = getPnDetail(row);
+
         var time = new Date().format("yyyy-MM-dd");
         if (row.time != null && row.time != "") {
             time = row.time;
@@ -305,8 +307,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data);
                         series.push(item);
 
@@ -321,17 +323,17 @@ $(document).ready(function () {
                         $("#chart-load-detail").highcharts(config);
 
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
             beforeSend: function (XMLHttpRequest) {
                 MaskUtil.mask();
             },
             error: function (request) {
-                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
             },
             complete: function (XMLHttpRequest, textStatus) {
                 MaskUtil.unmask();
@@ -340,6 +342,8 @@ $(document).ready(function () {
     }
 
     function getVoltageDetailChart(row) {
+        var pnInfo = getPnDetail(row);
+
         var time = new Date().format("yyyy-MM-dd");
         if (row.time != null && row.time != "") {
             time = row.time;
@@ -373,8 +377,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "A相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxA_Voltage");
                         series.push(item);
@@ -383,8 +387,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "B相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxB_Voltage");
                         series.push(item);
@@ -393,8 +397,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "C相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxC_Voltage");
                         series.push(item);
@@ -410,17 +414,17 @@ $(document).ready(function () {
                         $("#chart-voltage-detail").highcharts(config);
 
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
             beforeSend: function (XMLHttpRequest) {
                 MaskUtil.mask();
             },
             error: function (request) {
-                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
             },
             complete: function (XMLHttpRequest, textStatus) {
                 MaskUtil.unmask();
@@ -429,6 +433,8 @@ $(document).ready(function () {
     }
 
     function getCurrentDetailChart(row) {
+        var pnInfo = getPnDetail(row);
+
         var time = new Date().format("yyyy-MM-dd");
         if (row.time != null && row.time != "") {
             time = row.time;
@@ -462,8 +468,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "A相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxA_Current");
                         series.push(item);
@@ -472,8 +478,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "B相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxB_Current");
                         series.push(item);
@@ -482,8 +488,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "C相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxC_Current");
                         series.push(item);
@@ -499,17 +505,17 @@ $(document).ready(function () {
                         $("#chart-current-detail").highcharts(config);
 
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
             beforeSend: function (XMLHttpRequest) {
                 MaskUtil.mask();
             },
             error: function (request) {
-                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
             },
             complete: function (XMLHttpRequest, textStatus) {
                 MaskUtil.unmask();
@@ -518,6 +524,8 @@ $(document).ready(function () {
     }
 
     function getPowerFactorDetailChart(row) {
+        var pnInfo = getPnDetail(row);
+
         var time = new Date().format("yyyy-MM-dd");
         if (row.time != null && row.time != "") {
             time = row.time;
@@ -551,8 +559,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "A相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxA_PowerFactor");
                         series.push(item);
@@ -561,8 +569,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "B相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxB_PowerFactor");
                         series.push(item);
@@ -571,8 +579,8 @@ $(document).ready(function () {
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
-                            pt: 1,
-                            ct: 10000,
+                            pt: pnInfo.pt,
+                            ct: pnInfo.ct,
                             name: "C相"
                         }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxC_PowerFactor");
                         series.push(item);
@@ -588,17 +596,17 @@ $(document).ready(function () {
                         $("#chart-power-factor-detail").highcharts(config);
 
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
             beforeSend: function (XMLHttpRequest) {
                 MaskUtil.mask();
             },
             error: function (request) {
-                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
             },
             complete: function (XMLHttpRequest, textStatus) {
                 MaskUtil.unmask();
@@ -652,6 +660,22 @@ $(document).ready(function () {
             }
         }
     });
+
+    function getPnDetail(node) {
+        var pnInfo = $.parseJSON($.ajax({
+            url: _ctx + "system/pn/info/detail.do",
+            type: "POST",
+            data: node,
+            async: false
+        }).responseText);
+
+        if ("0" == pnInfo.errcode) {
+            return pnInfo.data[0];
+        } else {
+            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(pnInfo.errcode), "info");
+            return {};
+        }
+    }
 });
 
 //返回列表

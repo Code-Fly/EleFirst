@@ -55,4 +55,23 @@ public class PnInfoController extends BaseController {
         }
 
     }
+
+    @RequestMapping(value = "/info/detail.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getPnInfoDetail(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    @RequestParam(value = "areaId") String areaId,
+                                    @RequestParam(value = "concentratorId") String concentratorId,
+                                    @RequestParam(value = "pn") String pn
+    ) {
+        PnInfo template = new PnInfo();
+        template.setAreaId(areaId);
+        template.setConcentratorId(concentratorId);
+        template.setPn(pn);
+
+        List<PnInfo> result = pnInfoService.getPnInfoList(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+
+    }
 }
