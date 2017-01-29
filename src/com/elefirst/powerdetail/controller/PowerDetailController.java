@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
@@ -72,6 +69,28 @@ public class PowerDetailController {
 			String areaId = area.getAreaId();
 			
 			List<PowerDetailF25> powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25ByCtrId(areaId, ctrIds, rowsNum, pageNum);
+			for (PowerDetailF25 powerDetailF252 : powerDetailF25) {
+				//获取电压、功率、电量 系数
+				double pt = powerDetailF252.getPt();
+				//电流、功率、电量 系数
+				double ct = powerDetailF252.getCt();
+				
+				double pct = Arith.mul(pt, ct);
+				
+				//处理负荷
+				handerLoad(powerDetailF252, pct);
+				
+				//处理电压
+				handerVoltage(powerDetailF252, pt);
+				
+				//处理电流
+				handerCurrent(powerDetailF252, ct);
+				
+				//处理日期
+				String dateStr = powerDetailF252.getClientoperationtime();
+				dateStr = com.elefirst.base.utils.DateUtil.StringPattern(dateStr, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm");
+				powerDetailF252.setClientoperationtime(dateStr);
+			}
 			int total = powerDetailF25ServiceImpl.fetchLastPowerDetailF25CountByCtrId(areaId, ctrIds);
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询实时监测点用电数据成功！");
@@ -84,6 +103,8 @@ public class PowerDetailController {
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
 	}
+
+	
 	
 	/**
 	 * 根据传入的条件,获取每个区域下相关集线器对应的监测点最新示数记录数(根据抄表时间)
@@ -117,6 +138,23 @@ public class PowerDetailController {
 			String areaId = area.getAreaId();
 			
 			List<ViewDisplayF33F34> viewDisplayF33F34s = powerDetailF25ServiceImpl.fetchLastDisplayDetailByCtrId(areaId, ctrIds, rowsNum, pageNum);
+			
+			for (ViewDisplayF33F34 viewDisplayF33F34 : viewDisplayF33F34s) {
+				//获取电压、功率、电量 系数
+				double pt = viewDisplayF33F34.getPt();
+				//电流、功率、电量 系数
+				double ct = viewDisplayF33F34.getCt();
+				double pct = Arith.mul(pt, ct);
+				
+				//示数计算
+				handerDisplay(viewDisplayF33F34, pct);
+				
+				//处理日期
+				String dateStr = viewDisplayF33F34.getClientoperationtime33();
+				dateStr = com.elefirst.base.utils.DateUtil.StringPattern(dateStr, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm");
+				viewDisplayF33F34.setClientoperationtime33(dateStr);
+			}
+			
 			int total = powerDetailF25ServiceImpl.fetchLastDisplayDetailCountByCtrId(areaId, ctrIds);
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询实时监测点用电示数成功！");
@@ -129,6 +167,8 @@ public class PowerDetailController {
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
 	}
+
+	
 	
 	/**
 	 * 根据传入的条件,获取每个区域下相关集线器对应的监测点最新示数记录数(根据抄表时间)
@@ -348,5 +388,107 @@ public class PowerDetailController {
 		String minCVoltageTime = powerDetailF25.getClientoperationtime();
 		paramMap.put("minCVoltage", minCVoltage+"(" + minCVoltageTime +")");
 		paramMap.put("type", "voltage");
+	}
+	
+	private void handerVoltage(PowerDetailF25 powerDetailF252, double pt) {
+		String aVoltageStr = powerDetailF252.getaVoltage();
+		String bVoltageStr = powerDetailF252.getbVoltage();
+		String cVoltageStr = powerDetailF252.getcVoltage();
+
+		double aVoltage = new Double(aVoltageStr);
+		double bVoltage = new Double(aVoltageStr);
+		double cVoltage = new Double(aVoltageStr);
+		
+		aVoltage = Arith.mul(aVoltage, pt);
+		bVoltage = Arith.mul(bVoltage, pt);
+		cVoltage = Arith.mul(cVoltage, pt);
+		
+		powerDetailF252.setaVoltage("" + aVoltage);
+		powerDetailF252.setbVoltage("" + bVoltage);
+		powerDetailF252.setcVoltage("" + cVoltage);
+	}
+
+	private void handerCurrent(PowerDetailF25 powerDetailF252, double ct) {
+		String aCurrentStr = powerDetailF252.getaCurrent();
+		String bCurrentStr = powerDetailF252.getbCurrent();
+		String cCurrentStr = powerDetailF252.getcCurrent();
+
+		double aCurrent = new Double(aCurrentStr);
+		double bCurrent = new Double(aCurrentStr);
+		double cCurrent = new Double(aCurrentStr);
+		
+		aCurrent = Arith.mul(aCurrent, ct);
+		bCurrent = Arith.mul(bCurrent, ct);
+		cCurrent = Arith.mul(cCurrent, ct);
+		
+		powerDetailF252.setaCurrent("" + aCurrent);
+		powerDetailF252.setbCurrent("" + bCurrent);
+		powerDetailF252.setcCurrent("" + cCurrent);
+	}
+
+	private void handerLoad(PowerDetailF25 powerDetailF252, double pct) {
+		//计算负荷
+		String totalActivePowerStr = powerDetailF252.getTotalactivepower();
+		String aActivePowerStr = powerDetailF252.getaActivepower();
+		String bActivePowerStr = powerDetailF252.getbActivepower();
+		String cActivePowerStr = powerDetailF252.getcActivepower();
+		
+		String totalReactivePowerStr =  powerDetailF252.getTotalreactivepower();
+		String aReactivePowerStr = powerDetailF252.getaReactivepower();
+		String bReactivePowerStr = powerDetailF252.getbReactivepower();
+		String cReactivePowerStr = powerDetailF252.getcReactivepower();
+		
+		double totalActivePower = new Double(totalActivePowerStr);
+		double aActivePower = new Double(aActivePowerStr);
+		double bActivePower = new Double(bActivePowerStr);
+		double cActivePower = new Double(cActivePowerStr);
+		
+		double totalReactivePower = new Double(totalReactivePowerStr);
+		double aReactivePower = new Double(aReactivePowerStr);
+		double bReactivePower = new Double(bReactivePowerStr);
+		double cReactivePower = new Double(cReactivePowerStr);
+		
+		totalActivePower = Arith.mul(totalActivePower, pct);
+		aActivePower = Arith.mul(aActivePower, pct);
+		bActivePower = Arith.mul(bActivePower, pct);
+		cActivePower = Arith.mul(cActivePower, pct);
+		
+		totalReactivePower = Arith.mul(totalReactivePower, pct);
+		aReactivePower = Arith.mul(aReactivePower, pct);
+		bReactivePower = Arith.mul(bReactivePower, pct);
+		cReactivePower = Arith.mul(cReactivePower, pct);
+		
+		//计算负荷
+		powerDetailF252.setTotalactivepower("" + totalActivePower);
+		powerDetailF252.setaActivepower("" + aActivePower);
+		powerDetailF252.setbActivepower("" + bActivePower);
+		powerDetailF252.setcActivepower("" + cActivePower);
+		
+		powerDetailF252.setTotalreactivepower("" + totalReactivePower);
+		powerDetailF252.setaReactivepower("" + aReactivePower);
+		powerDetailF252.setbReactivepower("" + bReactivePower);
+		powerDetailF252.setcReactivepower("" + cReactivePower);
+	}
+	
+	private void handerDisplay(ViewDisplayF33F34 viewDisplayF33F34, double pct) {
+		String totalpositiveactivepowerStr = viewDisplayF33F34.getTotalpositiveactivepower();
+		String totalpositivereactivepowerStr = viewDisplayF33F34.getTotalpositivereactivepower();
+		String totalreverseactivepowerStr = viewDisplayF33F34.getTotalreverseactivepower();
+		String totalreversereactivepowerStr = viewDisplayF33F34.getTotalreversereactivepower();
+
+		double totalpositiveactivepower = new Double(totalpositiveactivepowerStr);
+		double totalpositivereactivepower = new Double(totalpositivereactivepowerStr);
+		double totalreverseactivepower = new Double(totalreverseactivepowerStr);
+		double totalreversereactivepower = new Double(totalreversereactivepowerStr);
+		
+		totalpositiveactivepower = Arith.mul(totalpositiveactivepower, pct);
+		totalpositivereactivepower = Arith.mul(totalpositivereactivepower, pct);
+		totalreverseactivepower = Arith.mul(totalreverseactivepower, pct);
+		totalreversereactivepower = Arith.mul(totalreversereactivepower, pct);
+		
+		viewDisplayF33F34.setTotalpositiveactivepower("" + totalpositiveactivepower);
+		viewDisplayF33F34.setTotalpositivereactivepower("" + totalpositivereactivepower);
+		viewDisplayF33F34.setTotalreverseactivepower("" + totalreverseactivepower);
+		viewDisplayF33F34.setTotalreversereactivepower("" + totalreversereactivepower);
 	}
 }
