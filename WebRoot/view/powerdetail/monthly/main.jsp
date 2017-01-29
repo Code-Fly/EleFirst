@@ -9,25 +9,28 @@
 <%@ include file="/view/common/config.jsp" %>
 <html>
 <head>
-<%@ include file="/view/common/meta.jsp" %>
+	<%@ include file="/view/common/meta.jsp" %>
+	<script type="text/javascript">
+        require(["js/main.js"]);
+	</script>
 </head>
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="padding: 5px;">
-                <table id="tt" class="easyui-datagrid" style="width:600px;height:250px"
-			url="datagrid_data.json"
-			title="Load Data" iconCls="icon-save"
-			rownumbers="true" pagination="true" method="get">
-		<thead>
-			<tr>
-				<th field="itemid" width="80">Item ID</th>
-				<th field="productid" width="80">Product ID</th>
-				<th field="listprice" width="80" align="right">List Price</th>
-				<th field="unitcost" width="80" align="right">Unit Cost</th>
-				<th field="attr1" width="150">Attribute</th>
-				<th field="status" width="60" align="center">Stauts</th>
-			</tr>
-		</thead>
-	</table>
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'west',title:'监测点'" style="width:200px;overflow: hidden">
+			<iframe src="../../devicetree/main.jsp" style="width: 100%;height: 100%;" frameborder="no" border="0"
+					marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+		</div>
+		<div data-options="region:'center',border:false" style="padding-left: 5px;">
+			<div class="easyui-layout" data-options="fit:true">
+				<div data-options="region:'center'" style="overflow: hidden">
+					<iframe id="centerFrame" ref="monthlydetail.jsp" style="width: 100%;height: 100%;" frameborder="no"
+							border="0"
+							marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>
