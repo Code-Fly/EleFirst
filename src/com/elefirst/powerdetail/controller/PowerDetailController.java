@@ -392,8 +392,17 @@ public class PowerDetailController {
 	
 	private void handerVoltage(PowerDetailF25 powerDetailF252, double pt) {
 		String aVoltageStr = powerDetailF252.getaVoltage();
+		if(aVoltageStr == null || aVoltageStr.length() == 0){
+			aVoltageStr = "0";
+		}
 		String bVoltageStr = powerDetailF252.getbVoltage();
+		if(bVoltageStr == null || bVoltageStr.length() == 0){
+			bVoltageStr = "0";
+		}
 		String cVoltageStr = powerDetailF252.getcVoltage();
+		if(cVoltageStr == null || cVoltageStr.length() == 0){
+			cVoltageStr = "0";
+		}
 
 		double aVoltage = new Double(aVoltageStr);
 		double bVoltage = new Double(aVoltageStr);
@@ -410,8 +419,17 @@ public class PowerDetailController {
 
 	private void handerCurrent(PowerDetailF25 powerDetailF252, double ct) {
 		String aCurrentStr = powerDetailF252.getaCurrent();
+		if(aCurrentStr == null || aCurrentStr.length() == 0){
+			aCurrentStr = "0";
+		}
 		String bCurrentStr = powerDetailF252.getbCurrent();
+		if(bCurrentStr == null || bCurrentStr.length() == 0){
+			bCurrentStr = "0";
+		}
 		String cCurrentStr = powerDetailF252.getcCurrent();
+		if(cCurrentStr == null || cCurrentStr.length() == 0){
+			cCurrentStr = "0";
+		}
 
 		double aCurrent = new Double(aCurrentStr);
 		double bCurrent = new Double(aCurrentStr);
@@ -429,14 +447,38 @@ public class PowerDetailController {
 	private void handerLoad(PowerDetailF25 powerDetailF252, double pct) {
 		//计算负荷
 		String totalActivePowerStr = powerDetailF252.getTotalactivepower();
+		if(totalActivePowerStr == null || totalActivePowerStr.length() == 0){
+			totalActivePowerStr = "0";
+		}
 		String aActivePowerStr = powerDetailF252.getaActivepower();
+		if(aActivePowerStr == null || aActivePowerStr.length() == 0){
+			aActivePowerStr = "0";
+		}
 		String bActivePowerStr = powerDetailF252.getbActivepower();
+		if(bActivePowerStr == null || bActivePowerStr.length() == 0){
+			bActivePowerStr = "0";
+		}
 		String cActivePowerStr = powerDetailF252.getcActivepower();
+		if(cActivePowerStr == null || cActivePowerStr.length() == 0){
+			cActivePowerStr = "0";
+		}
 		
 		String totalReactivePowerStr =  powerDetailF252.getTotalreactivepower();
+		if(totalReactivePowerStr == null || totalReactivePowerStr.length() == 0){
+			totalReactivePowerStr = "0";
+		}
 		String aReactivePowerStr = powerDetailF252.getaReactivepower();
+		if(aReactivePowerStr == null || aReactivePowerStr.length() == 0){
+			aReactivePowerStr = "0";
+		}
 		String bReactivePowerStr = powerDetailF252.getbReactivepower();
+		if(bReactivePowerStr == null || bReactivePowerStr.length() == 0){
+			bReactivePowerStr = "0";
+		}
 		String cReactivePowerStr = powerDetailF252.getcReactivepower();
+		if(cReactivePowerStr == null || cReactivePowerStr.length() == 0){
+			cReactivePowerStr = "0";
+		}
 		
 		double totalActivePower = new Double(totalActivePowerStr);
 		double aActivePower = new Double(aActivePowerStr);
@@ -472,9 +514,21 @@ public class PowerDetailController {
 	
 	private void handerDisplay(ViewDisplayF33F34 viewDisplayF33F34, double pct) {
 		String totalpositiveactivepowerStr = viewDisplayF33F34.getTotalpositiveactivepower();
+		if(totalpositiveactivepowerStr == null || totalpositiveactivepowerStr.length() == 0){
+			totalpositiveactivepowerStr = "0";
+		}
 		String totalpositivereactivepowerStr = viewDisplayF33F34.getTotalpositivereactivepower();
+		if(totalpositivereactivepowerStr == null || totalpositivereactivepowerStr.length() == 0){
+			totalpositivereactivepowerStr = "0";
+		}
 		String totalreverseactivepowerStr = viewDisplayF33F34.getTotalreverseactivepower();
+		if(totalreverseactivepowerStr == null || totalreverseactivepowerStr.length() == 0){
+			totalreverseactivepowerStr = "0";
+		}
 		String totalreversereactivepowerStr = viewDisplayF33F34.getTotalreversereactivepower();
+		if(totalreversereactivepowerStr == null || totalreversereactivepowerStr.length() == 0){
+			totalreversereactivepowerStr = "0";
+		}
 
 		double totalpositiveactivepower = new Double(totalpositiveactivepowerStr);
 		double totalpositivereactivepower = new Double(totalpositivereactivepowerStr);
