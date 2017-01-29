@@ -57,23 +57,6 @@ public class ComparisonController extends BaseController {
             time.add(jTime.getString(i));
         }
 
-//        PowerAnalysisF25 item1 = new PowerAnalysisF25();
-//        item1.setAreaId("1");
-//        item1.setConcentratorId("417");
-//        item1.setPn("1");
-//        node.add(item1);
-//
-//        PowerAnalysisF25 item2 = new PowerAnalysisF25();
-//        item2.setAreaId("1");
-//        item2.setConcentratorId("417");
-//        item2.setPn("2");
-//        node.add(item2);
-//
-//        List<String> time = new ArrayList<>();
-//        time.add("20170126000000");
-//        time.add("20170127000000");
-
-
         Map<String, Object> param = new HashMap();
         param.put("node", node);
         param.put("time", time);
@@ -107,22 +90,6 @@ public class ComparisonController extends BaseController {
         for (int i = 0; i < jTime.size(); i++) {
             time.add(jTime.getString(i));
         }
-
-//        PowerAnalysisF25 item1 = new PowerAnalysisF25();
-//        item1.setAreaId("1");
-//        item1.setConcentratorId("417");
-//        item1.setPn("1");
-//        node.add(item1);
-//
-//        PowerAnalysisF25 item2 = new PowerAnalysisF25();
-//        item2.setAreaId("1");
-//        item2.setConcentratorId("417");
-//        item2.setPn("2");
-//        node.add(item2);
-//
-//        time.add("20170126000000");
-//        time.add("20170127000000");
-
 
         Map<String, Object> param = new HashMap();
         param.put("node", node);

@@ -8,8 +8,9 @@ $(document).ready(function () {
         type: "physical"
     }
     $("#dTree").tree({
-        url: "data/physicalTree.json",
-        method: "get",
+        // url: "data/test.json",
+        // method: "get",
+        url: _ctx + "system/tree/info/node.do",
         animate: true,
         onSelect: function (node) {
             traverse(node);
