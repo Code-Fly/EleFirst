@@ -64,10 +64,13 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg getTreeInfoNode(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    @RequestParam(value = "page", required = false) Integer page,
-                                    @RequestParam(value = "rows", required = false) Integer rows
+                                    @RequestParam(value = "treeId", required = false) String treeId
     ) {
         TreeInfo template = new TreeInfo();
+        if (null != treeId) {
+            template.setTreeId(treeId);
+        }
+
         // 读取层次数据结果集列表
         List<TreeInfo> dataList = treeInfoService.getTreeInfoList(template);
 

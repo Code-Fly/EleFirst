@@ -11,6 +11,9 @@ $(document).ready(function () {
         // url: "data/test.json",
         // method: "get",
         url: _ctx + "system/tree/info/node.do",
+        queryParams: {
+            treeId: "89c89158-ce7d-45e2-8252-8bab0bdd2d3e"
+        },
         animate: true,
         onSelect: function (node) {
             traverse(node);
