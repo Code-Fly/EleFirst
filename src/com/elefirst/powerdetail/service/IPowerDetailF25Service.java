@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
+import com.elefirst.powerdetail.po.PowerFactorDetail;
+import com.elefirst.powerdetail.po.TotalActivePowerDetail;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
 import com.elefirst.powerdetail.po.VoltageDetail;
 
@@ -88,12 +90,13 @@ public interface IPowerDetailF25Service {
 	 * @param pfb
 	 * @param pfc
 	 * @param tpf  总功率因素
+	 * @param tap  总负荷
 	 * @return
 	 */
-	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf);
+	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf,String tap);
 	
 	/**
-	 * 获取当前监测点电压最大和最小值
+	 * 获取当前监测点电流最大和最小值
 	 * @param areaId
 	 * @param ctrIds
 	 * @return
@@ -101,4 +104,21 @@ public interface IPowerDetailF25Service {
 	 */
 	public CurrentDetail fetchCurrentDetail(String areaId,String ctrId,String pnId) throws Exception;
 	
+	/**
+	 * 获取当前监测点功率最大和最小值
+	 * @param areaId
+	 * @param ctrIds
+	 * @return
+	 * @throws Exception
+	 */
+	public PowerFactorDetail fetchPowerFactorDetail(String areaId,String ctrId,String pnId) throws Exception;
+	
+	/**
+	 * 获取每个监测点下最大,最小以及平均负荷
+	 * @param areaId
+	 * @param ctrIds
+	 * @return
+	 * @throws Exception
+	 */
+	public TotalActivePowerDetail fetchTotalActivePowerDetail(String areaId,String ctrId,String pnId) throws Exception;
 }

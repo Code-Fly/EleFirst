@@ -650,4 +650,31 @@
 		  and a.pn = #{pn ,jdbcType=VARCHAR}
 	</if>
   </select>
+  
+  <!-- 获取每个监测点下最大和最小功率因素-->
+  <select id="queryPowerFactorDetail" resultType="com.elefirst.powerdetail.po.PowerFactorDetail">
+    select max(a.A_PowerFactor + 0) as maxAPowerFactor,max(a.B_PowerFactor + 0) as maxBPowerFactor,max(a.C_PowerFactor + 0) as maxCPowerFactor,max(a.totalPowerFactor) as maxTotalPowerFactor,min(a.A_PowerFactor + 0) as minAPowerFactor,min(a.B_PowerFactor + 0) as minBPowerFactor,min(a.C_PowerFactor + 0) as minCPowerFactor,min(a.totalPowerFactor) as minTotalPowerFactor from t_003_type_one_data_fn25 a where 1=1	
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorId!= null and concentratorId!= ''">
+		  and a.concentrator_id = #{concentratorId ,jdbcType=VARCHAR}
+	</if>
+	<if test="pn!= null and pn!= ''">
+		  and a.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+  </select>
+  <!-- 获取每个监测点下最大,最小以及平均负荷-->
+  <select id="queryTotalActivePowerDetail" resultType="com.elefirst.powerdetail.po.TotalActivePowerDetail">
+    select max(a.totalActivePower + 0) as maxTotalActivePower, min(a.totalActivePower + 0) as minTotalActivePower,avg(a.totalActivePower + 0) as avgTotalActivePower from t_003_type_one_data_fn25 a where 1=1 and a.totalActivePower is not NULL
+	<if test="areaId!= null and areaId!= ''">
+		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorId!= null and concentratorId!= ''">
+		  and a.concentrator_id = #{concentratorId ,jdbcType=VARCHAR}
+	</if>
+	<if test="pn!= null and pn!= ''">
+		  and a.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+  </select>
 </mapper>

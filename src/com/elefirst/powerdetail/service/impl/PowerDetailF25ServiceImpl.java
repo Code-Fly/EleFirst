@@ -15,6 +15,8 @@ import com.elefirst.powerdetail.mapper.ViewDisplayF33F34Mapper;
 import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
+import com.elefirst.powerdetail.po.PowerFactorDetail;
+import com.elefirst.powerdetail.po.TotalActivePowerDetail;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
 import com.elefirst.powerdetail.po.VoltageDetail;
 import com.elefirst.powerdetail.service.IPowerDetailF25Service;
@@ -98,7 +100,7 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 	}
 
 	@Override
-	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf){
+	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf,String tap){
 		PowerDetailF25Example condition = new PowerDetailF25Example();
 		if(ua != null && ua.length() > 0){
 			condition.or().andAVoltageEqualTo(ua);
@@ -120,6 +122,8 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 			condition.or().andCPowerfactorEqualTo(pfc);
 		}else if(tpf != null && tpf.length() > 0){
 			condition.or().andTotalpowerfactorEqualTo(tpf);
+		}else if(tap != null && tap.length() > 0){
+			condition.or().andTotalactivepowerEqualTo(tap);
 		}
 		condition.or().andAreaIdEqualTo(areaId);
 		condition.or().andConcentratorIdEqualTo(ctrId);
@@ -141,5 +145,27 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		params.put("pn", pnId);
 		CurrentDetail currentDetail = powerDetailF25Mapper.queryCurrentDetail(params);
 		return currentDetail;
+	}
+
+	@Override
+	public PowerFactorDetail fetchPowerFactorDetail(String areaId,
+			String ctrId, String pnId) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorId", ctrId);
+		params.put("areaId", areaId);
+		params.put("pn", pnId);
+		PowerFactorDetail powerFactorDetail = powerDetailF25Mapper.queryPowerFactorDetail(params);
+		return powerFactorDetail;
+	}
+
+	@Override
+	public TotalActivePowerDetail fetchTotalActivePowerDetail(String areaId,
+			String ctrId, String pnId) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorId", ctrId);
+		params.put("areaId", areaId);
+		params.put("pn", pnId);
+		TotalActivePowerDetail totalActivePowerDetail = powerDetailF25Mapper.queryTotalActivePowerDetail(params);
+		return totalActivePowerDetail;
 	}
 }

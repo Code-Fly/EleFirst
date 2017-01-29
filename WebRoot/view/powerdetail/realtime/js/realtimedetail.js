@@ -113,15 +113,45 @@ $(document).ready(function () {
             $("#table2 tr:eq(1) td:eq(3)").html("" + data.minBVoltage);
             $("#table2 tr:eq(2) td:eq(3)").html("" + data.minCVoltage);
         } else if ('current' == tabType) {
-            //设置最大电压a,b,c
+            //设置最大电流a,b,c
             $("#table3 tr:eq(0) td:eq(1)").html("" + data.maxACurrent);
             $("#table3 tr:eq(1) td:eq(1)").html("" + data.maxBCurrent);
             $("#table3 tr:eq(2) td:eq(1)").html("" + data.maxCCurrent);
-            //设置最小电压a,b,c
+            //设置最小电流a,b,c
             $("#table3 tr:eq(0) td:eq(3)").html("" + data.minACurrent);
             $("#table3 tr:eq(1) td:eq(3)").html("" + data.minBCurrent);
             $("#table3 tr:eq(2) td:eq(3)").html("" + data.minCCurrent);
+        }else if ('powerfactor' == tabType) {
+            //设置最大功率因素a,b,c
+            $("#table4 tr:eq(0) td:eq(1)").html("" + data.maxAPowerFactor);
+            $("#table4 tr:eq(1) td:eq(1)").html("" + data.maxBPowerFactor);
+            $("#table4 tr:eq(2) td:eq(1)").html("" + data.maxCPowerFactor);
+            $("#table4 tr:eq(3) td:eq(1)").html("" + data.maxTotalPowerFactor);
+            //设置最小功率因素a,b,c
+            $("#table4 tr:eq(0) td:eq(3)").html("" + data.minAPowerFactor);
+            $("#table4 tr:eq(1) td:eq(3)").html("" + data.minBPowerFactor);
+            $("#table4 tr:eq(2) td:eq(3)").html("" + data.minCPowerFactor);
+            $("#table4 tr:eq(3) td:eq(3)").html("" + data.minTotalPowerFactor);
+        }else if ('totalactivepower' == tabType) {
+        	//最大负荷
+            $("#table1 tr:eq(0) td:eq(1)").html("" + data.maxTotalActivePower);
+            //最小负荷
+            $("#table1 tr:eq(1) td:eq(1)").html("" + data.minTotalActivePower);
+            //平均负荷
+            $("#table1 tr:eq(2) td:eq(1)").html("" + data.avgTotalActivePower);
+            //峰谷差率
+            $("#table1 tr:eq(3) td:eq(1)").html("" + data.peakValleyDifferenceRate);
+            //最大负荷发生时间
+            $("#table1 tr:eq(0) td:eq(3)").html("" + data.maxTotalActivePowerTime);
+            //最小负荷发生时间
+            $("#table1 tr:eq(1) td:eq(3)").html("" + data.minTotalActivePowerTime);
+            //峰谷差
+            $("#table1 tr:eq(2) td:eq(3)").html("" + data.peakValleyDifference);
+            //负荷率
+            $("#table1 tr:eq(3) td:eq(3)").html("" + data.loadFactorRate);
         }
+        
+        
     }
 
     //公用datagrid
