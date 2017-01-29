@@ -28,4 +28,7 @@ public interface ViewDisplayF33F34Mapper {
     
     //获取每个区域下相关集线器对应的监测点最新示数总数
     int myselectByExampleCount(Map map); 
+    
+    //根据集中器id,区域id,以及检测点id查询对应的所有记录
+    int displayDetailCount(Map map);
 }

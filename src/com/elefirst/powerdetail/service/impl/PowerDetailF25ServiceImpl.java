@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import com.elefirst.powerdetail.po.PowerDetailF25Example;
 import com.elefirst.powerdetail.po.PowerFactorDetail;
 import com.elefirst.powerdetail.po.TotalActivePowerDetail;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
+import com.elefirst.powerdetail.po.ViewDisplayF33F34Example;
 import com.elefirst.powerdetail.po.VoltageDetail;
 import com.elefirst.powerdetail.service.IPowerDetailF25Service;
 
@@ -167,5 +169,33 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		params.put("pn", pnId);
 		TotalActivePowerDetail totalActivePowerDetail = powerDetailF25Mapper.queryTotalActivePowerDetail(params);
 		return totalActivePowerDetail;
+	}
+
+	@Override
+	public List<ViewDisplayF33F34> fetchAllDisplayDetailByPn(String areaId,
+			String ctrId, String pn, int rows, int page)
+			throws Exception {
+		ViewDisplayF33F34Example condition = new ViewDisplayF33F34Example();
+		condition.or().andConcentratorId33EqualTo(ctrId);
+		condition.or().andAreaId33EqualTo(areaId);
+		condition.or().andPn33EqualTo(pn);
+		condition.setOrderByClause("clientOperationTime33 DESC");
+		if(rows > 0 && page > 0){
+			condition.setLimitStart((page - 1) * rows);
+            condition.setLimitEnd(rows);
+		}
+		List<ViewDisplayF33F34>  viewDisplayF33F34s = viewDisplayF33F34Mapper.selectByExample(condition);
+		return viewDisplayF33F34s;
+	}
+
+	@Override
+	public int fetchAllDisplayDetailCountByPn(String areaId,
+			String ctrId, String pn) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorId", ctrId);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		int num = viewDisplayF33F34Mapper.displayDetailCount(params);
+		return num;
 	}
 }

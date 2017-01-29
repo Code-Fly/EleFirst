@@ -154,7 +154,7 @@
         </div>
         <div data-options="region:'center',border:false" style="overflow: hidden;">
             <div id="tab2" class="easyui-tabs" data-options="border:false" fit="true">
-                <div title="负荷" id="table1">
+                <div title="负荷" id="table1" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
                         <div id="chart-load-detail" data-options="region:'north',split:true,border:false"
                              style="height:70%;text-align: center;">
@@ -224,25 +224,23 @@
                         </div>
                     </div>
                 </div> -->
-                <div title="示数">
-                    <table id="dtt2" class="easyui-datagrid" fit="true" data-options="border:false"
-                           singleSelect="true" iconCls="icon-save" rownumbers="true">
+                <div title="示数" style="display:none;overflow: hidden">
+                    <table id="dtt2" class="easyui-datagrid" fit="true">
                         <thead>
                         <tr>
-                            <th rowspan="2" field="itemid" width="80" align="center">序号</th>
-                            <th rowspan="2" field="productid" width="80" align="center">日期</th>
+                            <th rowspan="2" field="clientoperationtime33" width="80" align="center">日期</th>
                             <th colspan="4">示数</th>
                         </tr>
                         <tr>
-                            <th field="listprice" width="80" align="center">正向有功</th>
-                            <th field="unitcost" width="80" align="center">反向有功</th>
-                            <th field="attr1" width="80" align="center">正向无功</th>
-                            <th field="attr1" width="80" align="center">反向无功</th>
+                            <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
+		                    <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
+		                    <th field="totalpositivereactivepower" width="80">正向无功</th>
+		                    <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
                         </tr>
                         </thead>
                     </table>
                 </div>
-                <div title="电压">
+                <div title="电压" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
                         <div id="chart-voltage-detail" data-options="region:'north',split:true,border:false"
                              style="height:70%;text-align: center;">
@@ -275,7 +273,7 @@
                         </div>
                     </div>
                 </div>
-                <div title="电流">
+                <div title="电流" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
                         <div id="chart-current-detail" data-options="region:'north',split:true,border:false"
                              style="height:70%;text-align: center;">
@@ -308,7 +306,7 @@
                         </div>
                     </div>
                 </div>
-                <div title="功率因数">
+                <div title="功率因数" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
                         <div id="chart-power-factor-detail" data-options="region:'north',split:true,border:false"
                              style="height:70%;text-align: center;">

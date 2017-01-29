@@ -41,6 +41,28 @@ $(document).ready(function () {
                 });
             } else if ("示数" == title) {
                 singlerow = $('#tt2').datagrid('getSelected');
+                //刷新当前监测点所有示数信息
+                $("#dtt2").datagrid({
+                    url: _ctx + 'powerdetail/listAllDisplayDetailByPn.do',
+                    pagination: true,
+                    rownumbers: true,
+                    pageSize: 10,
+                    pageList: [2, 10, 20],
+                    singleSelect: true,
+                    fit: true,
+                    queryParams: {
+                        areaId: singlerow.areaId33,
+                        concentratorId: singlerow.concentratorId33,
+                        pn: singlerow.pn33
+                    },
+                    onLoadError: function () {
+                        jError("查询监测点示数信息错误！", {
+                            VerticalPosition: 'center',
+                            HorizontalPosition: 'center',
+                            ShowOverlay: false
+                        });
+                    }
+                });
             } else if ("电压" == title) {
                 singlerow = $('#tt3').datagrid('getSelected');
                 getVoltageDetailChart({
@@ -176,7 +198,12 @@ $(document).ready(function () {
             },
             onSelect: function (index, row) {
                 $('#cc').layout('expand', 'south');
-                $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn);
+                if('tt2' == dgId){
+                	$('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn33);
+                }else{
+                	$('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn);
+                }
+                
 
                 $("#input-detail-datebox").datebox("clear");
 
@@ -191,6 +218,8 @@ $(document).ready(function () {
                     });
                 } else if ('tt2' == dgId) {
                     $('#tab2').tabs('select', '示数');
+                    //更新示数表格
+                    
                 } else if ('tt3' == dgId) {
                     $('#tab2').tabs('select', '电压');
                     getVoltageDetailChart({

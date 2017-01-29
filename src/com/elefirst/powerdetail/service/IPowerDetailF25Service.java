@@ -54,6 +54,28 @@ public interface IPowerDetailF25Service {
 	public int fetchLastDisplayDetailCountByCtrId(String areaId,List<String> ctrIds) throws Exception;
 	
 	
+	
+	/**
+	 * 根据区域ID,集线器ID,监测点ID 查询指定监测点的所有示数记录
+	 * @param areaId
+	 * @param ctrIds
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ViewDisplayF33F34> fetchAllDisplayDetailByPn(String areaId,String ctrId,String pn,int rows,int page) throws Exception;
+	
+	/**
+	 * 根据区域ID,集线器ID,监测点ID 查询指定监测点的所有示数记录总数
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllDisplayDetailCountByPn(String areaId,String ctrId,String pn) throws Exception;
+	
+	
 	/**
 	 * 获取每个区域下相关集线器对应的最新监测点总数
 	 * @param areaId
