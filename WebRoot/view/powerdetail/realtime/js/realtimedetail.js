@@ -713,6 +713,7 @@ $(document).ready(function () {
 
 //返回列表
 function backlist() {
+	$("#input-detail-datebox").datebox("clear");
     $('#cc').layout('collapse', 'south');
 }
 
