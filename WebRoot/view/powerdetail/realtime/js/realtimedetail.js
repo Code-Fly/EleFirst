@@ -34,13 +34,13 @@ $(document).ready(function () {
     $('#tab2').tabs({
         border: false,
         onSelect: function (title) {
-        	handerBySouthTabType(title);
+            handerBySouthTabType(title);
         }
     });
-    
+
     //south区域不同类型tab页面板处理方式
-    function handerBySouthTabType(title){
-    	if ("负荷" == title) {
+    function handerBySouthTabType(title) {
+        if ("负荷" == title) {
             //获取当前选中的行
             getLoadDetailChart({
                 areaId: areaId,
@@ -96,8 +96,8 @@ $(document).ready(function () {
         }
 
         //刷新tab
-    	date = $("#input-detail-datebox").datebox("getValue");
-        refreshTab(title, areaId, concentratorId, pn,date);
+        date = $("#input-detail-datebox").datebox("getValue");
+        refreshTab(title, areaId, concentratorId, pn, date);
     }
 
     //根据不同tab类型展现不同的表格数据
@@ -152,7 +152,7 @@ $(document).ready(function () {
         }
     }
 
-    function refreshTab(vtitle, vareaId, vconcentratorId, vpn,vdate) {
+    function refreshTab(vtitle, vareaId, vconcentratorId, vpn, vdate) {
         $.ajax({
             url: _ctx + 'powerdetail/queryPowerDetail.do',
             type: "post",//使用post方法访问后台
@@ -176,10 +176,10 @@ $(document).ready(function () {
                     handerByTabType(data.type, data);
                 } else if ("failed" == msg.errmsg) {
                     /*jError("查询实时用电信息失败！", {
-                        VerticalPosition: 'center',
-                        HorizontalPosition: 'center',
-                        ShowOverlay: false
-                    });*/
+                     VerticalPosition: 'center',
+                     HorizontalPosition: 'center',
+                     ShowOverlay: false
+                     });*/
                 }
             }
         });
@@ -223,10 +223,10 @@ $(document).ready(function () {
                     pn = singlerow.pn;
                     var dateStr = singlerow.clientoperationtime.split(" ");
                     date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue",date);
+                    $("#input-detail-datebox").datebox("setValue", date);
                     $('#tab2').tabs('select', '负荷');
                     //初始化负荷详情
-                    refreshTab('负荷', areaId, concentratorId, pn,date);
+                    refreshTab('负荷', areaId, concentratorId, pn, date);
                     getLoadDetailChart({
                         areaId: row.areaId,
                         concentratorId: row.concentratorId,
@@ -238,11 +238,11 @@ $(document).ready(function () {
                     areaId = singlerow.areaId33;
                     concentratorId = singlerow.concentratorId33;
                     pn = singlerow.pn33;
-                    
+
                     var dateStr = singlerow.clientoperationtime33.split(" ");
                     date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue",date)
-                    
+                    $("#input-detail-datebox").datebox("setValue", date)
+
                     $('#tab2').tabs('select', '示数');
 
 
@@ -253,7 +253,7 @@ $(document).ready(function () {
                     pn = singlerow.pn;
                     var dateStr = singlerow.clientoperationtime.split(" ");
                     date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue",date);
+                    $("#input-detail-datebox").datebox("setValue", date);
                     $('#tab2').tabs('select', '电压');
                     getVoltageDetailChart({
                         areaId: row.areaId,
@@ -268,8 +268,8 @@ $(document).ready(function () {
                     pn = singlerow.pn;
                     var dateStr = singlerow.clientoperationtime.split(" ");
                     date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue",date);
-                    
+                    $("#input-detail-datebox").datebox("setValue", date);
+
                     $('#tab2').tabs('select', '电流');
                     getCurrentDetailChart({
                         areaId: row.areaId,
@@ -282,10 +282,10 @@ $(document).ready(function () {
                     areaId = singlerow.areaId;
                     concentratorId = singlerow.concentratorId;
                     pn = singlerow.pn;
-                    
+
                     var dateStr = singlerow.clientoperationtime.split(" ");
                     date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue",date)
+                    $("#input-detail-datebox").datebox("setValue", date)
                     $('#tab2').tabs('select', '功率因数');
                     getPowerFactorDetailChart({
                         areaId: row.areaId,
@@ -316,8 +316,14 @@ $(document).ready(function () {
             concentratorId: row.concentratorId,
             pn: row.pn
         })
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
         paramChart.time.push(
-            new Date(time).format('yyyyMMdd') + "000000"
+            new Date(y, m, d).format('yyyyMMdd') + "000000"
         )
 
         $.ajax({
@@ -330,13 +336,14 @@ $(document).ready(function () {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
                         var series = [];
+
                         var item = ChartUtils.getLoadDailyDetailSeries({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn,
                             pt: pnInfo.pt,
                             ct: pnInfo.ct
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data);
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
                         series.push(item);
 
                         var config = $.parseJSON($.ajax({
@@ -386,8 +393,14 @@ $(document).ready(function () {
             concentratorId: row.concentratorId,
             pn: row.pn
         })
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
         paramChart.time.push(
-            new Date(time).format('yyyyMMdd') + "000000"
+            new Date(y, m, d).format('yyyyMMdd') + "000000"
         )
 
         $.ajax({
@@ -407,7 +420,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "A相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxA_Voltage");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_Voltage");
                         series.push(item);
 
                         var item = ChartUtils.getVoltageDailySeries({
@@ -417,7 +430,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "B相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxB_Voltage");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_Voltage");
                         series.push(item);
 
                         var item = ChartUtils.getVoltageDailySeries({
@@ -427,7 +440,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "C相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxC_Voltage");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_Voltage");
                         series.push(item);
 
                         var config = $.parseJSON($.ajax({
@@ -477,8 +490,14 @@ $(document).ready(function () {
             concentratorId: row.concentratorId,
             pn: row.pn
         })
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
         paramChart.time.push(
-            new Date(time).format('yyyyMMdd') + "000000"
+            new Date(y, m, d).format('yyyyMMdd') + "000000"
         )
 
         $.ajax({
@@ -498,7 +517,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "A相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxA_Current");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_Current");
                         series.push(item);
 
                         var item = ChartUtils.getCurrentDailySeries({
@@ -508,7 +527,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "B相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxB_Current");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_Current");
                         series.push(item);
 
                         var item = ChartUtils.getCurrentDailySeries({
@@ -518,7 +537,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "C相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxC_Current");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_Current");
                         series.push(item);
 
                         var config = $.parseJSON($.ajax({
@@ -568,8 +587,14 @@ $(document).ready(function () {
             concentratorId: row.concentratorId,
             pn: row.pn
         })
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
         paramChart.time.push(
-            new Date(time).format('yyyyMMdd') + "000000"
+            new Date(y, m, d).format('yyyyMMdd') + "000000"
         )
 
         $.ajax({
@@ -589,7 +614,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "A相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxA_PowerFactor");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_PowerFactor");
                         series.push(item);
 
                         var item = ChartUtils.getPowerFactorDailySeries({
@@ -599,7 +624,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "B相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxB_PowerFactor");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_PowerFactor");
                         series.push(item);
 
                         var item = ChartUtils.getPowerFactorDailySeries({
@@ -609,7 +634,7 @@ $(document).ready(function () {
                             pt: pnInfo.pt,
                             ct: pnInfo.ct,
                             name: "C相"
-                        }, new Date(time).format('yyyyMMdd') + "000000", r.data, "maxC_PowerFactor");
+                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_PowerFactor");
                         series.push(item);
 
                         var config = $.parseJSON($.ajax({
@@ -647,11 +672,11 @@ $(document).ready(function () {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
-            
+
             var tab = $('#tab2').tabs('getSelected');
             var title = tab.panel("options").title;
             if ("负荷" == title) {
-            	 handerBySouthTabType(title);
+                handerBySouthTabType(title);
                 //获取当前选中的行
                 var row = $('#tt1').datagrid('getSelected');
                 getLoadDetailChart({
@@ -661,10 +686,10 @@ $(document).ready(function () {
                     time: $("#input-detail-datebox").datebox("getValue")
                 });
             } else if ("示数" == title) {
-            	handerBySouthTabType(title);
+                handerBySouthTabType(title);
                 var row = $('#tt2').datagrid('getSelected');
             } else if ("电压" == title) {
-            	 handerBySouthTabType(title);
+                handerBySouthTabType(title);
                 var row = $('#tt3').datagrid('getSelected');
                 getVoltageDetailChart({
                     areaId: row.areaId,
@@ -673,7 +698,7 @@ $(document).ready(function () {
                     time: $("#input-detail-datebox").datebox("getValue"),
                 });
             } else if ("电流" == title) {
-            	handerBySouthTabType(title);
+                handerBySouthTabType(title);
                 var row = $('#tt4').datagrid('getSelected');
                 getCurrentDetailChart({
                     areaId: row.areaId,
@@ -682,7 +707,7 @@ $(document).ready(function () {
                     time: $("#input-detail-datebox").datebox("getValue"),
                 });
             } else if ("功率因数" == title) {
-            	handerBySouthTabType(title);
+                handerBySouthTabType(title);
                 var row = $('#tt5').datagrid('getSelected');
                 getPowerFactorDetailChart({
                     areaId: row.areaId,
@@ -713,7 +738,7 @@ $(document).ready(function () {
 
 //返回列表
 function backlist() {
-	$("#input-detail-datebox").datebox("clear");
+    $("#input-detail-datebox").datebox("clear");
     $('#cc').layout('collapse', 'south');
 }
 
