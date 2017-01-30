@@ -92,46 +92,63 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 
 	@Override
 	public VoltageDetail fetchVoltageDetail(String areaId, String ctrId,
-			String pnId) throws Exception {
+			String pnId,String date) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("concentratorId", ctrId);
 		params.put("areaId", areaId);
 		params.put("pn", pnId);
+		String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+		params.put("date", vdate);
 		VoltageDetail voltageDetail = powerDetailF25Mapper.queryVoltageDetail(params);
 		return voltageDetail;
 	}
 
 	@Override
-	public PowerDetailF25 fetchLastPowerDetailF25(String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf,String tap){
+	public PowerDetailF25 fetchLastPowerDetailF25(String date,String areaId,String ctrId,String pnId,String ua,String ub,String uc,String ia,String ib,String ic,String pfa,String pfb,String pfc,String tpf,String tap){
 		PowerDetailF25Example condition = new PowerDetailF25Example();
+		PowerDetailF25Example.Criteria criteria = condition.createCriteria();
 		if(ua != null && ua.length() > 0){
-			condition.or().andAVoltageEqualTo(ua);
-		}else if(ub != null && ub.length() > 0){
-			condition.or().andBVoltageEqualTo(ub);
-		}else if(uc != null && uc.length() > 0){
-			condition.or().andCVoltageEqualTo(uc);
-		}else if(ia != null && ia.length() > 0){
-			condition.or().andACurrentEqualTo(ia);
-		}else if(ib != null && ib.length() > 0){
-			condition.or().andBCurrentEqualTo(ib);
-		}else if(ic != null && ic.length() > 0){
-			condition.or().andCCurrentEqualTo(ic);
-		}else if(pfa != null && pfa.length() > 0){
-			condition.or().andAPowerfactorEqualTo(pfa);
-		}else if(pfb != null && pfb.length() > 0){
-			condition.or().andBPowerfactorEqualTo(pfb);
-		}else if(pfc != null && pfc.length() > 0){
-			condition.or().andCPowerfactorEqualTo(pfc);
-		}else if(tpf != null && tpf.length() > 0){
-			condition.or().andTotalpowerfactorEqualTo(tpf);
-		}else if(tap != null && tap.length() > 0){
-			condition.or().andTotalactivepowerEqualTo(tap);
+			criteria.andAVoltageEqualTo(ua);
 		}
-		condition.or().andAreaIdEqualTo(areaId);
-		condition.or().andConcentratorIdEqualTo(ctrId);
-		condition.or().andPnEqualTo(pnId);
+		if(ub != null && ub.length() > 0){
+			criteria.andBVoltageEqualTo(ub);
+		}
+		if(uc != null && uc.length() > 0){
+			criteria.andCVoltageEqualTo(uc);
+		}
+		if(ia != null && ia.length() > 0){
+			criteria.andACurrentEqualTo(ia);
+		}
+		if(ib != null && ib.length() > 0){
+			criteria.andBCurrentEqualTo(ib);
+		}
+		if(ic != null && ic.length() > 0){
+			criteria.andCCurrentEqualTo(ic);
+		}
+		if(pfa != null && pfa.length() > 0){
+			criteria.andAPowerfactorEqualTo(pfa);
+		}
+		if(pfb != null && pfb.length() > 0){
+			criteria.andBPowerfactorEqualTo(pfb);
+		}
+		if(pfc != null && pfc.length() > 0){
+			criteria.andCPowerfactorEqualTo(pfc);
+		}
+		if(tpf != null && tpf.length() > 0){
+			criteria.andTotalpowerfactorEqualTo(tpf);
+		}
+		if(tap != null && tap.length() > 0){
+			criteria.andTotalactivepowerEqualTo(tap);
+		}
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			criteria.andClientoperationtimeLike(vdate+"%");
+		}
+		criteria.andAreaIdEqualTo(areaId);
+		criteria.andConcentratorIdEqualTo(ctrId);
+		criteria.andPnEqualTo(pnId);
 		//排序后只取第一条记录返回
-		condition.setOrderByClause("clientOperationTime DESC");
+		//condition.setOrderByClause("clientOperationTime DESC");
 		condition.setLimitStart(0);
 		condition.setLimitEnd(1);
 		List<PowerDetailF25> powerDetailF25 = powerDetailF25Mapper.selectByExample(condition);
@@ -140,45 +157,56 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 
 	@Override
 	public CurrentDetail fetchCurrentDetail(String areaId, String ctrId,
-			String pnId) throws Exception {
+			String pnId,String date) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("concentratorId", ctrId);
 		params.put("areaId", areaId);
 		params.put("pn", pnId);
+		String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+		params.put("date", vdate);
 		CurrentDetail currentDetail = powerDetailF25Mapper.queryCurrentDetail(params);
 		return currentDetail;
 	}
 
 	@Override
 	public PowerFactorDetail fetchPowerFactorDetail(String areaId,
-			String ctrId, String pnId) throws Exception {
+			String ctrId, String pnId,String date) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("concentratorId", ctrId);
 		params.put("areaId", areaId);
 		params.put("pn", pnId);
+		String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+		params.put("date", vdate);
 		PowerFactorDetail powerFactorDetail = powerDetailF25Mapper.queryPowerFactorDetail(params);
 		return powerFactorDetail;
 	}
 
 	@Override
 	public TotalActivePowerDetail fetchTotalActivePowerDetail(String areaId,
-			String ctrId, String pnId) throws Exception {
+			String ctrId, String pnId,String date) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("concentratorId", ctrId);
 		params.put("areaId", areaId);
 		params.put("pn", pnId);
+		String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+		params.put("date", vdate);
 		TotalActivePowerDetail totalActivePowerDetail = powerDetailF25Mapper.queryTotalActivePowerDetail(params);
 		return totalActivePowerDetail;
 	}
 
 	@Override
-	public List<ViewDisplayF33F34> fetchAllDisplayDetailByPn(String areaId,
+	public List<ViewDisplayF33F34> fetchAllDisplayDetailByPn(String date,String areaId,
 			String ctrId, String pn, int rows, int page)
 			throws Exception {
 		ViewDisplayF33F34Example condition = new ViewDisplayF33F34Example();
-		condition.or().andConcentratorId33EqualTo(ctrId);
-		condition.or().andAreaId33EqualTo(areaId);
-		condition.or().andPn33EqualTo(pn);
+		ViewDisplayF33F34Example.Criteria criteria = condition.createCriteria();
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			criteria.andClientoperationtime33Like(vdate+"%");
+		}
+		criteria.andConcentratorId33EqualTo(ctrId);
+		criteria.andAreaId33EqualTo(areaId);
+		criteria.andPn33EqualTo(pn);
 		condition.setOrderByClause("clientOperationTime33 DESC");
 		if(rows > 0 && page > 0){
 			condition.setLimitStart((page - 1) * rows);
@@ -189,12 +217,14 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 	}
 
 	@Override
-	public int fetchAllDisplayDetailCountByPn(String areaId,
+	public int fetchAllDisplayDetailCountByPn(String date,String areaId,
 			String ctrId, String pn) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("concentratorId", ctrId);
 		params.put("areaId", areaId);
 		params.put("pn", pn);
+		String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+		params.put("date", vdate);
 		int num = viewDisplayF33F34Mapper.displayDetailCount(params);
 		return num;
 	}
