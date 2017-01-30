@@ -628,7 +628,7 @@
   </select>
   <!-- 获取每个监测点下最大和最小电压 -->
   <select id="queryVoltageDetail" resultType="com.elefirst.powerdetail.po.VoltageDetail">
-    select max(a.A_Voltage + 0)*b.pt as maxAVoltage,max(a.B_Voltage + 0)*b.pt as maxBVoltage,max(a.C_Voltage + 0)*b.pt as maxCVoltage,min(a.A_Voltage + 0)*b.pt as minAVoltage,min(a.B_Voltage + 0)*b.pt as minBVoltage,min(a.C_Voltage + 0)*b.pt as minCVoltage ,max(a.A_Voltage + 0) as orgMaxAVoltage,max(a.B_Voltage + 0) as orgMaxBVoltage,max(a.C_Voltage + 0) as orgMaxCVoltage,min(a.A_Voltage + 0) as orgMinAVoltage,min(a.B_Voltage + 0) as orgMinBVoltage,min(a.C_Voltage + 0) as orgMinCVoltage from t_003_type_one_data_fn25 a,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn
+    select max(a.A_Voltage + 0)*b.pt as maxAVoltage,max(a.B_Voltage + 0)*b.pt as maxBVoltage,max(a.C_Voltage + 0)*b.pt as maxCVoltage,min(a.A_Voltage + 0)*b.pt as minAVoltage,min(a.B_Voltage + 0)*b.pt as minBVoltage,min(a.C_Voltage + 0)*b.pt as minCVoltage ,ROUND(max(a.A_Voltage + 0),1) as orgMaxAVoltage,ROUND(max(a.B_Voltage + 0),1) as orgMaxBVoltage,ROUND(max(a.C_Voltage + 0),1) as orgMaxCVoltage,ROUND(min(a.A_Voltage + 0),1) as orgMinAVoltage,ROUND(min(a.B_Voltage + 0),1) as orgMinBVoltage,ROUND(min(a.C_Voltage + 0),1) as orgMinCVoltage from t_003_type_one_data_fn25 a,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -637,12 +637,15 @@
 	</if>
 	<if test="pn!= null and pn!= ''">
 		  and a.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+	<if test="date!= null and date!= ''">
+		  and a.clientOperationTime like CONCAT(#{date ,jdbcType=VARCHAR},'%')
 	</if>
   </select>
   
   <!-- 获取每个监测点下最大和最小电流-->
   <select id="queryCurrentDetail" resultType="com.elefirst.powerdetail.po.CurrentDetail">
-    select max(a.A_Current + 0)*b.ct as maxACurrent,max(a.B_Current + 0)*b.ct as maxBCurrent,max(a.C_Current + 0)*b.ct as maxCCurrent,min(a.A_Current + 0)*b.ct as minACurrent,min(a.B_Current + 0)*b.ct as minBCurrent,min(a.C_Current + 0)*b.ct as minCCurrent  ,max(a.A_Current + 0) as orgMaxACurrent,max(a.B_Current + 0) as orgMaxBCurrent,max(a.C_Current + 0) as orgMaxCCurrent,min(a.A_Current + 0) as orgMinACurrent,min(a.B_Current + 0) as orgMinBCurrent,min(a.C_Current + 0) as orgMinCCurrent from t_003_type_one_data_fn25 a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn
+	select max(a.A_Current + 0)*b.ct as maxACurrent,max(a.B_Current + 0)*b.ct as maxBCurrent,max(a.C_Current + 0)*b.ct as maxCCurrent,min(a.A_Current + 0)*b.ct as minACurrent,min(a.B_Current + 0)*b.ct as minBCurrent,min(a.C_Current + 0)*b.ct as minCCurrent  ,ROUND(max(a.A_Current + 0),3) as orgMaxACurrent,ROUND(max(a.B_Current + 0),3) as orgMaxBCurrent,ROUND(max(a.C_Current + 0),3) as orgMaxCCurrent,ROUND(min(a.A_Current + 0),3) as orgMinACurrent,ROUND(min(a.B_Current + 0),3) as orgMinBCurrent,ROUND(min(a.C_Current + 0),3) as orgMinCCurrent from t_003_type_one_data_fn25 a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -651,12 +654,15 @@
 	</if>
 	<if test="pn!= null and pn!= ''">
 		  and a.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+	<if test="date!= null and date!= ''">
+		  and a.clientOperationTime like CONCAT(#{date ,jdbcType=VARCHAR},'%')
 	</if>
   </select>
   
   <!-- 获取每个监测点下最大和最小功率因素-->
   <select id="queryPowerFactorDetail" resultType="com.elefirst.powerdetail.po.PowerFactorDetail">
-    select max(a.A_PowerFactor + 0) as maxAPowerFactor,max(a.B_PowerFactor + 0) as maxBPowerFactor,max(a.C_PowerFactor + 0) as maxCPowerFactor,max(a.totalPowerFactor + 0) as maxTotalPowerFactor,min(a.A_PowerFactor + 0) as minAPowerFactor,min(a.B_PowerFactor + 0) as minBPowerFactor,min(a.C_PowerFactor + 0) as minCPowerFactor,min(a.totalPowerFactor + 0) as minTotalPowerFactor from t_003_type_one_data_fn25 a where 1=1	
+	select max(a.A_PowerFactor + 0) as maxAPowerFactor,max(a.B_PowerFactor + 0) as maxBPowerFactor,max(a.C_PowerFactor + 0) as maxCPowerFactor,max(a.totalPowerFactor + 0)  as maxTotalPowerFactor,min(a.A_PowerFactor + 0) as minAPowerFactor,min(a.B_PowerFactor + 0) as minBPowerFactor,min(a.C_PowerFactor + 0) as minCPowerFactor,min(a.totalPowerFactor + 0) as minTotalPowerFactor, ROUND(max(a.A_PowerFactor + 0),1) as orgMaxAPowerFactor,ROUND(max(a.B_PowerFactor + 0),1) as orgMaxBPowerFactor,ROUND(max(a.C_PowerFactor + 0),1) as orgMaxCPowerFactor,ROUND(max(a.totalPowerFactor + 0),1)  as orgMaxTotalPowerFactor,ROUND(min(a.A_PowerFactor + 0),1) as orgMinAPowerFactor,ROUND(min(a.B_PowerFactor + 0),1) as orgMinBPowerFactor,ROUND(min(a.C_PowerFactor + 0),1) as orgMinCPowerFactor,ROUND(min(a.totalPowerFactor + 0),1) as orgMinTotalPowerFactor from t_003_type_one_data_fn25 a where 1=1	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -665,11 +671,14 @@
 	</if>
 	<if test="pn!= null and pn!= ''">
 		  and a.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+	<if test="date!= null and date!= ''">
+		  and a.clientOperationTime like CONCAT(#{date ,jdbcType=VARCHAR},'%')
 	</if>
   </select>
   <!-- 获取每个监测点下最大,最小以及平均负荷-->
   <select id="queryTotalActivePowerDetail" resultType="com.elefirst.powerdetail.po.TotalActivePowerDetail">
-    select max((a.totalActivePower + 0)*b.pt*b.ct) as maxTotalActivePower, min((a.totalActivePower + 0)*b.pt*b.ct) as minTotalActivePower,TRUNCATE(avg((a.totalActivePower + 0)*b.pt*b.ct),2) as avgTotalActivePower,max(a.totalActivePower + 0) as orgMaxTotalActivePower, min(a.totalActivePower + 0) as orgMinTotalActivePower  from t_003_type_one_data_fn25 a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.totalActivePower is not NULL
+	select max((a.totalActivePower + 0)*b.pt*b.ct) as maxTotalActivePower, min((a.totalActivePower + 0)*b.pt*b.ct) as minTotalActivePower,ROUND(avg((a.totalActivePower + 0)*b.pt*b.ct),2) as avgTotalActivePower,ROUND(max(a.totalActivePower + 0),4) as orgMaxTotalActivePower, ROUND(min(a.totalActivePower + 0),4) as orgMinTotalActivePower from t_003_type_one_data_fn25 a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.totalActivePower is not NULL	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -678,6 +687,9 @@
 	</if>
 	<if test="pn!= null and pn!= ''">
 		  and a.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+	<if test="date!= null and date!= ''">
+		  and a.clientOperationTime like CONCAT(#{date ,jdbcType=VARCHAR},'%')
 	</if>
   </select>
 </mapper>

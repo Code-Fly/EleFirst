@@ -1,15 +1,19 @@
 package com.elefirst.powerdetail.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
@@ -179,7 +183,7 @@ public class PowerDetailController {
 	 * @throws Exception
 	 */
 	@RequestMapping("listAllDisplayDetailByPn.do")
-	public @ResponseBody ErrorMsg queryAllDisplayDetailByPn(String page, String rows,String areaId,String concentratorId,String pn )
+	public @ResponseBody ErrorMsg queryAllDisplayDetailByPn(String page, String rows,String areaId,String concentratorId,String pn,String date )
 			throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
@@ -187,7 +191,7 @@ public class PowerDetailController {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
 			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
 			
-			List<ViewDisplayF33F34> viewDisplayF33F34s = powerDetailF25ServiceImpl.fetchAllDisplayDetailByPn(areaId, concentratorId, pn, rowsNum, pageNum);
+			List<ViewDisplayF33F34> viewDisplayF33F34s = powerDetailF25ServiceImpl.fetchAllDisplayDetailByPn(date,areaId, concentratorId, pn, rowsNum, pageNum);
 			
 			for (ViewDisplayF33F34 viewDisplayF33F34 : viewDisplayF33F34s) {
 				//获取电压、功率、电量 系数
@@ -204,7 +208,7 @@ public class PowerDetailController {
 				viewDisplayF33F34.setClientoperationtime33(dateStr);
 			}
 			
-			int total = powerDetailF25ServiceImpl.fetchAllDisplayDetailCountByPn(areaId, concentratorId, pn);
+			int total = powerDetailF25ServiceImpl.fetchAllDisplayDetailCountByPn(date,areaId, concentratorId, pn);
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询实时监测点用电示数成功！");
 			dg.setRows(viewDisplayF33F34s);
@@ -218,18 +222,18 @@ public class PowerDetailController {
 	}
 	
 	@RequestMapping("queryPowerDetail.do")
-	public @ResponseBody ErrorMsg queryAllPowerDetail(String tabName,String areaId,String concentratorId,String pn)
+	public @ResponseBody ErrorMsg queryAllPowerDetail(String tabName,String areaId,String concentratorId,String pn,String date)
 			throws Exception {
 		Map<String,String> paramMap = new HashMap<String,String>();
 		try {
 			if("负荷".equals(tabName)){
-				setTotalActivePowerDetail(areaId, concentratorId, pn, paramMap);
+				setTotalActivePowerDetail(areaId, concentratorId, pn, paramMap,date);
 			}else if("电压".equals(tabName)){
-				setVoltageDetail(areaId, concentratorId, pn, paramMap);
+				setVoltageDetail(areaId, concentratorId, pn, paramMap,date);
 			}else if("电流".equals(tabName)){
-				setCurrentDetail(areaId, concentratorId, pn, paramMap);
+				setCurrentDetail(areaId, concentratorId, pn, paramMap,date);
 			}else if("功率因数".equals(tabName)){
-				setPowerFactorDetail(areaId, concentratorId, pn, paramMap);
+				setPowerFactorDetail(areaId, concentratorId, pn, paramMap,date);
 			}
 			logger.error("查询实时用电信息成功！");
 			return new ErrorMsg(Error.SUCCESS, "success",paramMap);
@@ -240,16 +244,16 @@ public class PowerDetailController {
 	}
 
 	private void setTotalActivePowerDetail(String areaId,
-			String concentratorId, String pn, Map<String, String> paramMap)
+			String concentratorId, String pn, Map<String, String> paramMap,String date)
 			throws Exception {
 		//maxTotalActivePower minTotalActivePower  avgTotalActivePower
 		PowerDetailF25 powerDetailF25 = null;
 		
-		TotalActivePowerDetail totalActivePowerDetail = powerDetailF25ServiceImpl.fetchTotalActivePowerDetail(areaId, concentratorId, pn);
+		TotalActivePowerDetail totalActivePowerDetail = powerDetailF25ServiceImpl.fetchTotalActivePowerDetail(areaId, concentratorId, pn,date);
 		
 		String maxTotalActivePower = totalActivePowerDetail.getMaxTotalActivePower();
 		String orgMaxTotalActivePower = totalActivePowerDetail.getOrgMaxTotalActivePower();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,null,null,null,null,null,orgMaxTotalActivePower);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,null,null,null,orgMaxTotalActivePower);
 		String maxTotalActivePowerTime = powerDetailF25.getClientoperationtime();
 		maxTotalActivePowerTime = com.elefirst.base.utils.DateUtil.StringPattern(maxTotalActivePowerTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		//最大负荷
@@ -258,7 +262,7 @@ public class PowerDetailController {
 		
 		String minTotalActivePower = totalActivePowerDetail.getMinTotalActivePower();
 		String orgMinTotalActivePower = totalActivePowerDetail.getOrgMinTotalActivePower();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,null,null,null,null,null,orgMinTotalActivePower);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,null,null,null,orgMinTotalActivePower);
 		String minTotalActivePowerTime = powerDetailF25.getClientoperationtime();
 		minTotalActivePowerTime = com.elefirst.base.utils.DateUtil.StringPattern(minTotalActivePowerTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		//最小负荷
@@ -273,69 +277,86 @@ public class PowerDetailController {
 		double peakValleyDifference = Arith.sub(Double.parseDouble(maxTotalActivePower), Double.parseDouble(minTotalActivePower));
 		paramMap.put("peakValleyDifference","" + peakValleyDifference +"(kW)");
 		
-		//峰谷差率:峰谷差与最高负荷的比率
-		peakValleyDifference = Arith.mul(peakValleyDifference, new Double(100));
-		double peakValleyDifferenceRate = Arith.div(peakValleyDifference, Double.parseDouble(maxTotalActivePower), 2);
-		paramMap.put("peakValleyDifferenceRate","" + peakValleyDifferenceRate+"(%)");
-		
-		//负荷率:平均负荷与最高负荷的比率 load factor
-		double avgTotalActivePower = Arith.mul(Double.parseDouble(avgTotalActivePowerStr), new Double(100));
-		double loadFactorRate = Arith.div(avgTotalActivePower, Double.parseDouble(maxTotalActivePower),2);
-		paramMap.put("loadFactorRate","" + loadFactorRate+"(%)");
-		
+		double zeroMaxTotalActivePower = 0.0000; 
+		BigDecimal data1 = new BigDecimal(zeroMaxTotalActivePower); 
+		BigDecimal data2 = new BigDecimal(Double.parseDouble(maxTotalActivePower));
+		int result = data1.compareTo(data2);
+		//若maxTotalActivePower为0.0000
+		if(result == 0){
+			paramMap.put("peakValleyDifferenceRate","" + 0+"(%)");
+			paramMap.put("loadFactorRate","" + 0+"(%)");
+		}else{
+			//峰谷差率:峰谷差与最高负荷的比率
+			peakValleyDifference = Arith.mul(peakValleyDifference, new Double(100));
+			double peakValleyDifferenceRate = Arith.div(peakValleyDifference, Double.parseDouble(maxTotalActivePower), 2);
+			paramMap.put("peakValleyDifferenceRate","" + peakValleyDifferenceRate+"(%)");
+			
+			//负荷率:平均负荷与最高负荷的比率 load factor
+			double avgTotalActivePower = Arith.mul(Double.parseDouble(avgTotalActivePowerStr), new Double(100));
+			double loadFactorRate = Arith.div(avgTotalActivePower, Double.parseDouble(maxTotalActivePower),2);
+			paramMap.put("loadFactorRate","" + loadFactorRate+"(%)");
+		}
 		paramMap.put("type", "totalactivepower");
 	}
 
 	private void setPowerFactorDetail(String areaId, String concentratorId,
-			String pn, Map<String, String> paramMap) throws Exception {
+			String pn, Map<String, String> paramMap,String date) throws Exception {
 		PowerDetailF25 powerDetailF25 = null;
-		PowerFactorDetail powerFactorDetail = powerDetailF25ServiceImpl.fetchPowerFactorDetail(areaId, concentratorId, pn);
+		PowerFactorDetail powerFactorDetail = powerDetailF25ServiceImpl.fetchPowerFactorDetail(areaId, concentratorId, pn,date);
 		
 		String maxAPowerFactor = powerFactorDetail.getMaxAPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,maxAPowerFactor,null,null,null,null,null,null,null);
+		String orgMaxAPowerFactor = powerFactorDetail.getOrgMaxAPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,orgMaxAPowerFactor,null,null,null,null);
 		String maxAPowerFactorTime = powerDetailF25.getClientoperationtime();
 		maxAPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(maxAPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxAPowerFactor", maxAPowerFactor+"(%)"+"(" + maxAPowerFactorTime +")");
 		
 		String maxBPowerFactor = powerFactorDetail.getMaxBPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,maxBPowerFactor,null,null,null,null,null,null);
+		String orgMaxBPowerFactor = powerFactorDetail.getOrgMaxBPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,orgMaxBPowerFactor,null,null,null);
 		String maxBPowerFactorTime = powerDetailF25.getClientoperationtime();
 		maxBPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(maxBPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxBPowerFactor", maxBPowerFactor+"(%)"+"(" + maxBPowerFactorTime +")");
 		
 		String maxCPowerFactor = powerFactorDetail.getMaxCPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,maxCPowerFactor,null,null,null,null,null);
+		String orgMaxCPowerFactor = powerFactorDetail.getOrgMaxCPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,null,orgMaxCPowerFactor,null,null);
 		String maxCPowerFactorTime = powerDetailF25.getClientoperationtime();
 		maxCPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(maxCPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxCPowerFactor", maxCPowerFactor+"(%)"+"(" + maxCPowerFactorTime +")");
 		
 		String maxTotalPowerFactor = powerFactorDetail.getMaxTotalPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,maxTotalPowerFactor,null,null,null,null,null);
+		String orgMaxTotalPowerFactor = powerFactorDetail.getOrgMaxTotalPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,null,null,orgMaxTotalPowerFactor,null);
 		String maxTotalPowerFactorTime = powerDetailF25.getClientoperationtime();
 		maxTotalPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(maxTotalPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxTotalPowerFactor", maxTotalPowerFactor+"(%)"+"(" + maxTotalPowerFactorTime +")");
 		
 		
 		String minAPowerFactor = powerFactorDetail.getMinAPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,minAPowerFactor,null,null,null,null,null,null,null);
+		String orgMinAPowerFactor = powerFactorDetail.getOrgMinAPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,orgMinAPowerFactor,null,null,null,null);
 		String minAPowerFactorTime = powerDetailF25.getClientoperationtime();
 		minAPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(minAPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minAPowerFactor", minAPowerFactor+"(%)"+"(" + minAPowerFactorTime +")");
 		
 		String minBPowerFactor = powerFactorDetail.getMinBPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,minBPowerFactor,null,null,null,null,null,null);
+		String orgMinBPowerFactor = powerFactorDetail.getOrgMinBPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,orgMinBPowerFactor,null,null,null);
 		String minBPowerFactorTime = powerDetailF25.getClientoperationtime();
 		minBPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(minBPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minBPowerFactor", minBPowerFactor+"(%)"+"(" + minBPowerFactorTime +")");
 		
 		String minCPowerFactor = powerFactorDetail.getMinCPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,minCPowerFactor,null,null,null,null,null);
+		String orgMinCPowerFactor = powerFactorDetail.getOrgMinCPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,null,orgMinCPowerFactor,null,null);
 		String minCPowerFactorTime = powerDetailF25.getClientoperationtime();
 		minCPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(minCPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minCPowerFactor", minCPowerFactor+"(%)"+"(" + minCPowerFactorTime +")");
 		
 		String minTotalPowerFactor = powerFactorDetail.getMinTotalPowerFactor();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,minTotalPowerFactor,null,null,null,null,null);
+		String orgMinTotalPowerFactor = powerFactorDetail.getOrgMinTotalPowerFactor();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,null,null,null,null,orgMinTotalPowerFactor,null);
 		String minTotalPowerFactorTime = powerDetailF25.getClientoperationtime();
 		minTotalPowerFactorTime = com.elefirst.base.utils.DateUtil.StringPattern(minTotalPowerFactorTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minTotalPowerFactor", minTotalPowerFactor+"(%)"+"(" + minTotalPowerFactorTime +")");
@@ -344,49 +365,49 @@ public class PowerDetailController {
 	}
 
 	private void setCurrentDetail(String areaId, String concentratorId,
-			String pn, Map<String, String> paramMap) throws Exception {
+			String pn, Map<String, String> paramMap,String date) throws Exception {
 		PowerDetailF25 powerDetailF25 = null;
-		CurrentDetail currentDetail = powerDetailF25ServiceImpl.fetchCurrentDetail(areaId, concentratorId, pn);
+		CurrentDetail currentDetail = powerDetailF25ServiceImpl.fetchCurrentDetail(areaId, concentratorId, pn,date);
 		
 		String maxACurrent = currentDetail.getMaxACurrent();
 		String orgMaxACurrent = currentDetail.getOrgMaxACurrent();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,orgMaxACurrent,null,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,orgMaxACurrent,null,null,null,null,null,null,null);
 		String maxACurrentTime = powerDetailF25.getClientoperationtime();
 		maxACurrentTime = com.elefirst.base.utils.DateUtil.StringPattern(maxACurrentTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxACurrent", maxACurrent+"(A)"+"(" + maxACurrentTime +")");
 		
 		String maxBCurrent = currentDetail.getMaxBCurrent();
 		String orgMaxBCurrent = currentDetail.getOrgMaxBCurrent();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,orgMaxBCurrent,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,orgMaxBCurrent,null,null,null,null,null,null);
 		String maxBCurrentTime = powerDetailF25.getClientoperationtime();
 		maxBCurrentTime = com.elefirst.base.utils.DateUtil.StringPattern(maxBCurrentTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxBCurrent", maxBCurrent+"(A)"+"(" + maxBCurrentTime +")");
 		
 		String maxCCurrent = currentDetail.getMaxCCurrent();
 		String orgMaxCCurrent = currentDetail.getOrgMaxCCurrent();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,orgMaxCCurrent,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,orgMaxCCurrent,null,null,null,null,null);
 		String maxCCurrentTime = powerDetailF25.getClientoperationtime();
 		maxCCurrentTime = com.elefirst.base.utils.DateUtil.StringPattern(maxCCurrentTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxCCurrent", maxCCurrent+"(A)"+"(" + maxCCurrentTime +")");
 		
 		
 		String minACurrent = currentDetail.getMinACurrent();
-		String orgMinACurrent = currentDetail.getMinACurrent();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,orgMinACurrent,null,null,null,null,null,null,null);
+		String orgMinACurrent = currentDetail.getOrgMinACurrent();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,orgMinACurrent,null,null,null,null,null,null,null);
 		String minACurrentTime = powerDetailF25.getClientoperationtime();
 		minACurrentTime = com.elefirst.base.utils.DateUtil.StringPattern(minACurrentTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minACurrent", minACurrent+"(A)"+"(" + minACurrentTime +")");
 		
 		String minBCurrent = currentDetail.getMinBCurrent();
-		String orgMinBCurrent = currentDetail.getMinBCurrent();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,orgMinBCurrent,null,null,null,null,null,null);
+		String orgMinBCurrent = currentDetail.getOrgMinBCurrent();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,orgMinBCurrent,null,null,null,null,null,null);
 		String minBCurrentTime = powerDetailF25.getClientoperationtime();
 		minBCurrentTime = com.elefirst.base.utils.DateUtil.StringPattern(minBCurrentTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minBCurrent", minBCurrent+"(A)"+"(" + minBCurrentTime +")");
 		
 		String minCCurrent = currentDetail.getMinCCurrent();
-		String orgMinCCurrent = currentDetail.getMinCCurrent();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,null,null,null,orgMinCCurrent,null,null,null,null,null);
+		String orgMinCCurrent = currentDetail.getOrgMinCCurrent();
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,null,null,null,orgMinCCurrent,null,null,null,null,null);
 		String minCCurrentTime = powerDetailF25.getClientoperationtime();
 		minCCurrentTime = com.elefirst.base.utils.DateUtil.StringPattern(minCCurrentTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minCCurrent", minCCurrent+"(A)"+"(" + minCCurrentTime +")");
@@ -395,48 +416,48 @@ public class PowerDetailController {
 	}
 
 	private void setVoltageDetail(String areaId, String concentratorId,
-			String pn, Map<String, String> paramMap) throws Exception {
+			String pn, Map<String, String> paramMap,String date) throws Exception {
 		PowerDetailF25 powerDetailF25 = null;
-		VoltageDetail voltageDetail = powerDetailF25ServiceImpl.fetchVoltageDetail(areaId, concentratorId, pn);
+		VoltageDetail voltageDetail = powerDetailF25ServiceImpl.fetchVoltageDetail(areaId, concentratorId, pn,date);
 		
 		String maxAVoltage = voltageDetail.getMaxAVoltage();
 		String orgMaxAVoltage = voltageDetail.getOrgMaxAVoltage();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,orgMaxAVoltage,null,null,null,null,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,orgMaxAVoltage,null,null,null,null,null,null,null,null,null,null);
 		String maxAVoltageTime = powerDetailF25.getClientoperationtime();
 		maxAVoltageTime = com.elefirst.base.utils.DateUtil.StringPattern(maxAVoltageTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxAVoltage", maxAVoltage+"(V)"+"(" + maxAVoltageTime +")");
 		
 		String maxBVoltage = voltageDetail.getMaxBVoltage();
 		String orgMaxBVoltage = voltageDetail.getOrgMaxBVoltage();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,orgMaxBVoltage,null,null,null,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,orgMaxBVoltage,null,null,null,null,null,null,null,null,null);
 		String maxBVoltageTime = powerDetailF25.getClientoperationtime();
 		maxBVoltageTime = com.elefirst.base.utils.DateUtil.StringPattern(maxBVoltageTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxBVoltage", maxBVoltage+"(V)"+"(" + maxBVoltageTime +")");
 		
 		String maxCVoltage = voltageDetail.getMaxCVoltage();
 		String orgMaxCVoltage = voltageDetail.getOrgMaxCVoltage();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,orgMaxCVoltage,null,null,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,orgMaxCVoltage,null,null,null,null,null,null,null,null);
 		String maxCVoltageTime = powerDetailF25.getClientoperationtime();
 		maxCVoltageTime = com.elefirst.base.utils.DateUtil.StringPattern(maxCVoltageTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("maxCVoltage", maxCVoltage+"(V)"+"(" + maxCVoltageTime +")");
 		
 		String minAVoltage = voltageDetail.getMinAVoltage();
 		String orgMinAVoltage = voltageDetail.getOrgMinAVoltage();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,orgMinAVoltage,null,null,null,null,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,orgMinAVoltage,null,null,null,null,null,null,null,null,null,null);
 		String minAVoltageTime = powerDetailF25.getClientoperationtime();
 		minAVoltageTime = com.elefirst.base.utils.DateUtil.StringPattern(minAVoltageTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minAVoltage", minAVoltage+"(V)"+"(" + minAVoltageTime +")");
 		
 		String minBVoltage = voltageDetail.getMinBVoltage();
 		String orgMinBVoltage = voltageDetail.getOrgMinBVoltage();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,orgMinBVoltage,null,null,null,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,orgMinBVoltage,null,null,null,null,null,null,null,null,null);
 		String minBVoltageTime = powerDetailF25.getClientoperationtime();
 		minBVoltageTime = com.elefirst.base.utils.DateUtil.StringPattern(minBVoltageTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minBVoltage", minBVoltage+"(V)"+"(" + minBVoltageTime +")");
 		
 		String minCVoltage = voltageDetail.getMinCVoltage();
 		String orgMinCVoltage = voltageDetail.getOrgMinCVoltage();
-		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(areaId, concentratorId, pn,null,null,orgMinCVoltage,null,null,null,null,null,null,null,null);
+		powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25(date,areaId, concentratorId, pn,null,null,orgMinCVoltage,null,null,null,null,null,null,null,null);
 		String minCVoltageTime = powerDetailF25.getClientoperationtime();
 		minCVoltageTime = com.elefirst.base.utils.DateUtil.StringPattern(minCVoltageTime, "yyyyMMddHHmmss", "MM-dd HH:mm");
 		paramMap.put("minCVoltage", minCVoltage+"(V)"+"(" + minCVoltageTime +")");
