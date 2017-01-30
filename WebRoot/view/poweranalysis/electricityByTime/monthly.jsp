@@ -55,51 +55,19 @@
          style="margin-bottom: 10px;height: 400px;width: 95%;text-align: center;overflow: hidden;">
         <span style="font-size: medium;line-height: 400px;">请载入数据</span>
     </div>
-    <div class="easyui-panel" data-options="border:false"
-         style="margin-bottom: 10px;height: 200px;width: 95%;">
-        <table border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
-               style="height: 100%;width: 100%">
-            <tbody>
-            <tr>
-                <td width="25%" valign="center" align="center">最大负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            <tr>
-                <td width="25%" valign="center" align="center">最小负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            <tr>
-                <td width="25%" valign="center" align="center">平均负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">峰谷差</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            <tr>
-                <td width="25%" valign="center" align="center">峰谷差率</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">负荷率</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="easyui-panel" data-options="border:false"
-         style="margin-bottom: 10px;height: 200px;width: 95%;">
-        <table id="dg-table" class="easyui-datagrid" data-options="border:true,fit:true">
-            <thead>
-            <tr>
-                <th data-options="field:'price'" width="150" align="center">本期电量(kWh)</th>
-                <th data-options="field:'price'" width="150" align="center">去年同期电量(kWh)</th>
-                <th data-options="field:'price'" width="100" align="center">同比(%)</th>
-                <th data-options="field:'name'" width="150" align="center">日期</th>
-            </tr>
-            </thead>
-        </table>
+    <div class="easyui-panel" data-options="border:false" style="margin-bottom: 10px;height: 200px;width: 95%;">
+        <div class="easyui-layout" data-options="fit:true,border:false">
+            <div data-options="region:'center',border:false" style="width:50%;overflow: hidden">
+                <div class="easyui-panel" align="center" data-options="iconCls:'icon-chart_bar',fit:true" title="对比分析">
+                    <span style="font-size: medium;line-height: 150px;">请载入数据</span>
+                </div>
+            </div>
+            <div data-options="region:'east',border:false" style="width:50%;overflow: hidden;padding-left: 5px;">
+                <div class="easyui-panel" align="center" data-options="iconCls:'icon-chart_pie',fit:true" title="构成分析">
+                    <span style="font-size: medium;line-height: 150px;">请载入数据</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
