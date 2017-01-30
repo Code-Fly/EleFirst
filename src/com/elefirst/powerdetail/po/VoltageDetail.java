@@ -9,6 +9,15 @@ public class VoltageDetail {
 	private String minAVoltage;
 	private String minBVoltage;
 	private String minCVoltage;
+	
+	private String orgMaxAVoltage;
+	private String orgMaxBVoltage;
+	private String orgMaxCVoltage;
+	
+	private String orgMinAVoltage;
+	private String orgMinBVoltage;
+	private String orgMinCVoltage;
+	
 	public String getMaxAVoltage() {
 		return maxAVoltage;
 	}
@@ -45,4 +54,41 @@ public class VoltageDetail {
 	public void setMinCVoltage(String minCVoltage) {
 		this.minCVoltage = minCVoltage;
 	}
+	public String getOrgMaxAVoltage() {
+		return orgMaxAVoltage;
+	}
+	public void setOrgMaxAVoltage(String orgMaxAVoltage) {
+		this.orgMaxAVoltage = orgMaxAVoltage;
+	}
+	public String getOrgMaxBVoltage() {
+		return orgMaxBVoltage;
+	}
+	public void setOrgMaxBVoltage(String orgMaxBVoltage) {
+		this.orgMaxBVoltage = orgMaxBVoltage;
+	}
+	public String getOrgMaxCVoltage() {
+		return orgMaxCVoltage;
+	}
+	public void setOrgMaxCVoltage(String orgMaxCVoltage) {
+		this.orgMaxCVoltage = orgMaxCVoltage;
+	}
+	public String getOrgMinAVoltage() {
+		return orgMinAVoltage;
+	}
+	public void setOrgMinAVoltage(String orgMinAVoltage) {
+		this.orgMinAVoltage = orgMinAVoltage;
+	}
+	public String getOrgMinBVoltage() {
+		return orgMinBVoltage;
+	}
+	public void setOrgMinBVoltage(String orgMinBVoltage) {
+		this.orgMinBVoltage = orgMinBVoltage;
+	}
+	public String getOrgMinCVoltage() {
+		return orgMinCVoltage;
+	}
+	public void setOrgMinCVoltage(String orgMinCVoltage) {
+		this.orgMinCVoltage = orgMinCVoltage;
+	}
+	
 }

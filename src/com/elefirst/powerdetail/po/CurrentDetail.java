@@ -8,6 +8,15 @@ public class CurrentDetail {
 	private String minACurrent;
 	private String minBCurrent;
 	private String minCCurrent;
+	
+	private String orgMaxACurrent;
+	private String orgMaxBCurrent;
+	private String orgMaxCCurrent;
+	
+	private String orgMinACurrent;
+	private String orgMinBCurrent;
+	private String orgMinCCurrent;
+	
 	public String getMaxACurrent() {
 		return maxACurrent;
 	}
@@ -43,6 +52,42 @@ public class CurrentDetail {
 	}
 	public void setMinCCurrent(String minCCurrent) {
 		this.minCCurrent = minCCurrent;
+	}
+	public String getOrgMaxACurrent() {
+		return orgMaxACurrent;
+	}
+	public void setOrgMaxACurrent(String orgMaxACurrent) {
+		this.orgMaxACurrent = orgMaxACurrent;
+	}
+	public String getOrgMaxBCurrent() {
+		return orgMaxBCurrent;
+	}
+	public void setOrgMaxBCurrent(String orgMaxBCurrent) {
+		this.orgMaxBCurrent = orgMaxBCurrent;
+	}
+	public String getOrgMaxCCurrent() {
+		return orgMaxCCurrent;
+	}
+	public void setOrgMaxCCurrent(String orgMaxCCurrent) {
+		this.orgMaxCCurrent = orgMaxCCurrent;
+	}
+	public String getOrgMinACurrent() {
+		return orgMinACurrent;
+	}
+	public void setOrgMinACurrent(String orgMinACurrent) {
+		this.orgMinACurrent = orgMinACurrent;
+	}
+	public String getOrgMinBCurrent() {
+		return orgMinBCurrent;
+	}
+	public void setOrgMinBCurrent(String orgMinBCurrent) {
+		this.orgMinBCurrent = orgMinBCurrent;
+	}
+	public String getOrgMinCCurrent() {
+		return orgMinCCurrent;
+	}
+	public void setOrgMinCCurrent(String orgMinCCurrent) {
+		this.orgMinCCurrent = orgMinCCurrent;
 	}
 	
 }

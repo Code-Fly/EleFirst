@@ -20,7 +20,7 @@
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="80" align="center">监测点</th>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
                     <th colspan="4">有功负荷(kW)</th>
                     <th colspan="4">无功负荷(kW)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
@@ -45,14 +45,14 @@
                     <%--<th rowspan="2" field="areaId33" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="80" align="center">监测点</th>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
                     <th colspan="4">示数</th>
                     <th rowspan="2" field="clientoperationtime33" width="120" align="center">抄表时刻</th>
                 </tr>
                 <tr>
                     <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
                     <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-                    <th field="totalpositivereactivepower" width="80">正向无功</th>
+                    <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
                     <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
                 </tr>
                 </thead>
@@ -65,7 +65,7 @@
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="80" align="center">监测点</th>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
                     <th colspan="3">电压(V)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
                 </tr>
@@ -84,7 +84,7 @@
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="80" align="center">监测点</th>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
                     <th colspan="3">电流(A)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
                 </tr>
@@ -103,7 +103,7 @@
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="80" align="center">监测点</th>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
                     <th colspan="4">功率因数(%)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
                 </tr>
@@ -228,13 +228,13 @@
                     <table id="dtt2" class="easyui-datagrid" data-options="border:false" fit="true">
                         <thead>
                         <tr>
-                            <th rowspan="2" field="clientoperationtime33" width="80" align="center">日期</th>
+                            <th rowspan="2" field="clientoperationtime33" width="120" align="center">日期</th>
                             <th colspan="4">示数</th>
                         </tr>
                         <tr>
                             <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
 		                    <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-		                    <th field="totalpositivereactivepower" width="80">正向无功</th>
+		                    <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
 		                    <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
                         </tr>
                         </thead>

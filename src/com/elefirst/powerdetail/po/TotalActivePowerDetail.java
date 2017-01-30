@@ -6,6 +6,9 @@ public class TotalActivePowerDetail {
 	private String minTotalActivePower;
 	private String avgTotalActivePower;
 	
+	private String orgMaxTotalActivePower;
+	private String orgMinTotalActivePower;
+	
 	public String getMaxTotalActivePower() {
 		return maxTotalActivePower;
 	}
@@ -24,6 +27,16 @@ public class TotalActivePowerDetail {
 	public void setAvgTotalActivePower(String avgTotalActivePower) {
 		this.avgTotalActivePower = avgTotalActivePower;
 	}
-	
-	
+	public String getOrgMaxTotalActivePower() {
+		return orgMaxTotalActivePower;
+	}
+	public void setOrgMaxTotalActivePower(String orgMaxTotalActivePower) {
+		this.orgMaxTotalActivePower = orgMaxTotalActivePower;
+	}
+	public String getOrgMinTotalActivePower() {
+		return orgMinTotalActivePower;
+	}
+	public void setOrgMinTotalActivePower(String orgMinTotalActivePower) {
+		this.orgMinTotalActivePower = orgMinTotalActivePower;
+	}
 }
