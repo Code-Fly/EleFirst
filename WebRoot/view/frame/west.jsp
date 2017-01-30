@@ -41,10 +41,10 @@
             <%--data-options="iconCls:'icon-table'"--%>
             <%--onclick="addTab('电量分析','https://www.baidu.com','icon-table')"--%>
             <%--plain="true" href="javascript:void(0)">电量分析</a></li>--%>
-            <%--<li><a class="easyui-linkbutton"--%>
-            <%--data-options="iconCls:'icon-table'"--%>
-            <%--onclick="addTab('负荷分析','view/dme/workflowManager/workflowMonitor.jsp','icon-table')"--%>
-            <%--plain="true" href="javascript:void(0)">负荷分析</a></li>--%>
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-table'"
+                   onclick="addTab('负荷分析','view/poweranalysis/load/main.jsp','icon-table')"
+                   plain="true" href="javascript:void(0)">负荷分析</a></li>
             <%--<li><a class="easyui-linkbutton"--%>
             <%--data-options="iconCls:'icon-table'"--%>
             <%--onclick="addTab('电量构成分析','view/dme/workflowManager/workflowstrategymanager.jsp','icon-table')"--%>
