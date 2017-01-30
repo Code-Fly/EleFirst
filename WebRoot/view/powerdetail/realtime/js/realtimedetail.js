@@ -46,7 +46,7 @@ $(document).ready(function () {
                 areaId: areaId,
                 concentratorId: concentratorId,
                 pn: pn,
-                time: null
+                time: $("#input-detail-datebox").datebox("getValue")
             });
         } else if ("示数" == title) {
             //刷新当前监测点所有示数信息
@@ -77,21 +77,21 @@ $(document).ready(function () {
                 areaId: areaId,
                 concentratorId: concentratorId,
                 pn: pn,
-                time: null
+                time: $("#input-detail-datebox").datebox("getValue")
             });
         } else if ("电流" == title) {
             getCurrentDetailChart({
                 areaId: areaId,
                 concentratorId: concentratorId,
                 pn: pn,
-                time: null
+                time: $("#input-detail-datebox").datebox("getValue")
             });
         } else if ("功率因数" == title) {
             getPowerFactorDetailChart({
                 areaId: areaId,
                 concentratorId: concentratorId,
                 pn: pn,
-                time: null
+                time: $("#input-detail-datebox").datebox("getValue")
             });
         }
 
@@ -677,44 +677,14 @@ $(document).ready(function () {
             var title = tab.panel("options").title;
             if ("负荷" == title) {
                 handerBySouthTabType(title);
-                //获取当前选中的行
-                var row = $('#tt1').datagrid('getSelected');
-                getLoadDetailChart({
-                    areaId: row.areaId,
-                    concentratorId: row.concentratorId,
-                    pn: row.pn,
-                    time: $("#input-detail-datebox").datebox("getValue")
-                });
             } else if ("示数" == title) {
                 handerBySouthTabType(title);
-                var row = $('#tt2').datagrid('getSelected');
             } else if ("电压" == title) {
                 handerBySouthTabType(title);
-                var row = $('#tt3').datagrid('getSelected');
-                getVoltageDetailChart({
-                    areaId: row.areaId,
-                    concentratorId: row.concentratorId,
-                    pn: row.pn,
-                    time: $("#input-detail-datebox").datebox("getValue"),
-                });
             } else if ("电流" == title) {
                 handerBySouthTabType(title);
-                var row = $('#tt4').datagrid('getSelected');
-                getCurrentDetailChart({
-                    areaId: row.areaId,
-                    concentratorId: row.concentratorId,
-                    pn: row.pn,
-                    time: $("#input-detail-datebox").datebox("getValue"),
-                });
             } else if ("功率因数" == title) {
                 handerBySouthTabType(title);
-                var row = $('#tt5').datagrid('getSelected');
-                getPowerFactorDetailChart({
-                    areaId: row.areaId,
-                    concentratorId: row.concentratorId,
-                    pn: row.pn,
-                    time: $("#input-detail-datebox").datebox("getValue"),
-                });
             }
         }
     });
