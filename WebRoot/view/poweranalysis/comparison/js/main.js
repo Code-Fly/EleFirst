@@ -163,17 +163,17 @@ $(document).ready(function () {
                             // $.messager.alert("操作提示", JSON.stringify(r.data));
                             getLoadChart(r.data);
                         } else {
-                            $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                     }
                 },
                 beforeSend: function (XMLHttpRequest) {
                     MaskUtil.mask();
                 },
                 error: function (request) {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
                 },
                 complete: function (XMLHttpRequest, textStatus) {
                     MaskUtil.unmask();
@@ -228,17 +228,17 @@ $(document).ready(function () {
                             $("#dg-table").datagrid("loadData", d);
                             // getLoadChart(r.data);
                         } else {
-                            $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                     }
                 },
                 beforeSend: function (XMLHttpRequest) {
                     MaskUtil.mask();
                 },
                 error: function (request) {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
                 },
                 complete: function (XMLHttpRequest, textStatus) {
                     MaskUtil.unmask();
@@ -340,17 +340,17 @@ $(document).ready(function () {
                         $("#combo-pn").combobox("loadData", d);
                         // $.messager.alert("操作提示", JSON.stringify(r.data));
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
             beforeSend: function (XMLHttpRequest) {
                 MaskUtil.mask();
             },
             error: function (request) {
-                $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("3"), "info");
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
             },
             complete: function (XMLHttpRequest, textStatus) {
                 MaskUtil.unmask();
