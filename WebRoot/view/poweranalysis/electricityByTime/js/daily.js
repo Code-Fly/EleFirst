@@ -5,11 +5,13 @@ $(document).ready(function () {
     var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
     $("#datebox-time-start").datebox({
-        required: true
+        required: true,
+        editable: false
     });
 
     $("#datebox-time-end").datebox({
-        required: true
+        required: true,
+        editable: false
     });
 
 });

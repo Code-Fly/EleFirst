@@ -5,6 +5,7 @@ $(document).ready(function () {
     var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
     $("#datebox-time").datebox({
-        required: true
+        required: true,
+        editable: false
     });
 });

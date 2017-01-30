@@ -12,6 +12,7 @@ $(document).ready(function () {
 
     $("#datebox-time-start").datebox({
         required: true,
+        editable: false,
         onShowPanel: function () {//显示日趋选择对象后再触发弹出月份层的事件，初始化时没有生成月份层
             spanStart.trigger("click"); //触发click事件弹出月份层
             if (!tdsStart) setTimeout(function () {//延时触发获取月份对象，因为上面的事件触发和对象生成有时间间隔
@@ -45,6 +46,7 @@ $(document).ready(function () {
 
     $("#datebox-time-end").datebox({
         required: true,
+        editable: false,
         onShowPanel: function () {//显示日趋选择对象后再触发弹出月份层的事件，初始化时没有生成月份层
             spanEnd.trigger("click"); //触发click事件弹出月份层
             if (!tdsEnd) setTimeout(function () {//延时触发获取月份对象，因为上面的事件触发和对象生成有时间间隔
