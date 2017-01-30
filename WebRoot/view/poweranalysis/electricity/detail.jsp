@@ -11,17 +11,17 @@
 <head>
     <%@ include file="/view/common/meta.jsp" %>
     <script type="text/javascript">
-        require(["js/electricitydetail.js"]);
+        require(["js/detail.js"]);
     </script>
 </head>
 <body>
-<div id="tab-electricity" class="easyui-tabs" data-options="fit:true,border:false">
+<div id="tab-detail" class="easyui-tabs" data-options="fit:true,border:false">
     <div title="日数据" style="overflow:hidden;display:none;">
-        <iframe ref="electricitydaily.jsp" style="width: 100%;height: 100%;" frameborder="no" border="0"
+        <iframe ref="daily.jsp" style="width: 100%;height: 100%;" frameborder="no" border="0"
                 marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
     </div>
     <div title="月数据" style="overflow:hidden;display:none;">
-        <iframe ref="electricitymonthly.jsp" style="width: 100%;height: 100%;" frameborder="no" border="0"
+        <iframe ref="monthly.jsp" style="width: 100%;height: 100%;" frameborder="no" border="0"
                 marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
     </div>
 </div>

@@ -4,7 +4,7 @@
 $(document).ready(function () {
     var data = GetQueryString("data");
 
-    $("#tab-electricity").tabs({
+    $("#tab-detail").tabs({
         border: false,
         onSelect: function (title, index) {
             var panel = $(this).tabs("getTab", index);
@@ -14,6 +14,6 @@ $(document).ready(function () {
             }
         }
     });
-    $("#tab-electricity").tabs("unselect", 0);
-    $("#tab-electricity").tabs("select", 0);
+    $("#tab-detail").tabs("unselect", 0);
+    $("#tab-detail").tabs("select", 0);
 });

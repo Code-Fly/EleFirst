@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: barrie
   Date: 17/1/30
-  Time: 下午4:30
+  Time: 下午4:31
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,7 +13,7 @@
     <%@ include file="/view/common/common960.jsp" %>
     <%@ include file="/view/common/commonHighChart.jsp" %>
     <script type="text/javascript">
-        require(["js/loadrealtime.js"]);
+        require(["js/monthly.js"]);
     </script>
     <style>
         p {
@@ -33,7 +33,12 @@
     <div class="container_12" style="padding-top: 10px">
         <div class="grid_2 cell">
             <p>
-                <input id="datebox-time" type="text" class="easyui-datebox" style="width:100%">
+                <input id="datebox-time-start" type="text" class="easyui-datebox" style="width:100%">
+            </p>
+        </div>
+        <div class="grid_2 cell">
+            <p>
+                <input id="datebox-time-end" type="text" class="easyui-datebox" style="width:100%">
             </p>
         </div>
         <div class="grid_2 cell">
@@ -83,6 +88,19 @@
         </table>
     </div>
 
+    <div class="easyui-panel" data-options="border:false"
+         style="margin-bottom: 10px;height: 200px;width: 95%;">
+        <table id="dg-table" class="easyui-datagrid" data-options="border:true,fit:true">
+            <thead>
+            <tr>
+                <th data-options="field:'price'" width="150" align="center">本期电量(kWh)</th>
+                <th data-options="field:'price'" width="150" align="center">去年同期电量(kWh)</th>
+                <th data-options="field:'price'" width="100" align="center">同比(%)</th>
+                <th data-options="field:'name'" width="150" align="center">日期</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 </body>
 </html>

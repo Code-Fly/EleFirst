@@ -13,7 +13,7 @@
     <%@ include file="/view/common/common960.jsp" %>
     <%@ include file="/view/common/commonHighChart.jsp" %>
     <script type="text/javascript">
-        require(["js/loadmonthly.js"]);
+        require(["js/monthly.js"]);
     </script>
     <style>
         p {

@@ -13,7 +13,7 @@
     <%@ include file="/view/common/common960.jsp" %>
     <%@ include file="/view/common/commonHighChart.jsp" %>
     <script type="text/javascript">
-        require(["js/loaddaily.js"]);
+        require(["js/daily.js"]);
     </script>
     <style>
         p {
@@ -93,11 +93,11 @@
         <table id="dg-table" class="easyui-datagrid" data-options="border:true,fit:true">
             <thead>
             <tr>
-                <th data-options="field:'price'" width="100" align="center">最大负荷(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">最小负荷(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">平均负荷(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">峰谷差(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">负荷率</th>
+                <th data-options="field:'price'" width="150" align="center">本期电量(kWh)</th>
+                <th data-options="field:'price'" width="150" align="center">上月同期电量(kWh)</th>
+                <th data-options="field:'price'" width="150" align="center">去年同期电量(kWh)</th>
+                <th data-options="field:'price'" width="100" align="center">环比(%)</th>
+                <th data-options="field:'price'" width="100" align="center">同比(%)</th>
                 <th data-options="field:'name'" width="150" align="center">日期</th>
             </tr>
             </thead>
