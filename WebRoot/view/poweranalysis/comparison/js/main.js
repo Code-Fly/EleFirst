@@ -146,8 +146,13 @@ $(document).ready(function () {
                 })
             }
             for (var i = 0; i < time.length; i++) {
+                var ss = time[i].value.split('-');
+                var y = parseInt(ss[0], 10);
+                var m = parseInt(ss[1], 10) - 1;
+                var d = parseInt(ss[2], 10);
+
                 paramChart.time.push(
-                    new Date(time[i].value).format('yyyyMMdd') + "000000"
+                    new Date(y, m, d).format('yyyyMMdd') + "000000"
                 )
             }
 
@@ -197,8 +202,13 @@ $(document).ready(function () {
                 pn: pn
             })
             for (var i = 0; i < time.length; i++) {
+                var ss = time[i].value.split('-');
+                var y = parseInt(ss[0], 10);
+                var m = parseInt(ss[1], 10) - 1;
+                var d = parseInt(ss[2], 10);
+
                 paramTable.time.push(
-                    new Date(time[i].value).format('yyyyMMdd') + "000000"
+                    new Date(y, m, d).format('yyyyMMdd') + "000000"
                 )
             }
 
@@ -275,7 +285,12 @@ $(document).ready(function () {
             }
 
             for (var j = 0; j < time.length; j++) {
-                var item = ChartUtils.getLoadDailySumSeries(nodes, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
+                var ss = time[j].value.split('-');
+                var y = parseInt(ss[0], 10);
+                var m = parseInt(ss[1], 10) - 1;
+                var d = parseInt(ss[2], 10);
+
+                var item = ChartUtils.getLoadDailySumSeries(nodes, new Date(y, m, d).format('yyyyMMdd') + "000000", data);
                 series.push(item);
             }
 
@@ -290,6 +305,11 @@ $(document).ready(function () {
                 var name = node[i].name;
 
                 for (var j = 0; j < time.length; j++) {
+                    var ss = time[j].value.split('-');
+                    var y = parseInt(ss[0], 10);
+                    var m = parseInt(ss[1], 10) - 1;
+                    var d = parseInt(ss[2], 10);
+
                     var item = ChartUtils.getLoadDailySeries({
                         areaId: areaId,
                         concentratorId: concentratorId,
@@ -297,7 +317,7 @@ $(document).ready(function () {
                         pt: pt,
                         ct: ct,
                         name: name
-                    }, new Date(time[j].value).format('yyyyMMdd') + "000000", data);
+                    }, new Date(y, m, d).format('yyyyMMdd') + "000000", data);
                     series.push(item);
                 }
             }
@@ -309,10 +329,7 @@ $(document).ready(function () {
             async: false
         }).responseText);
 
-
         config.series = series;
-
-        console.log(JSON.stringify(config))
 
         $("#chart-load").highcharts(config);
     }

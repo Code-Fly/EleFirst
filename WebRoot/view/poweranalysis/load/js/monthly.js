@@ -8,7 +8,6 @@ $(document).ready(function () {
     var tdsStart = false;//日期选择对象中月份
     var yearIptStart = pStart.find("input.calendar-menu-year");//年份输入框
     var spanStart = pStart.find("span.calendar-text"); //显示月份层的触发控件
-    console.log(yearIptStart)
 
     $("#datebox-time-start").datebox({
         required: true,
@@ -42,7 +41,6 @@ $(document).ready(function () {
     var tdsEnd = false;//日期选择对象中月份
     var yearIptEnd = pEnd.find("input.calendar-menu-year");//年份输入框
     var spanEnd = pEnd.find("span.calendar-text"); //显示月份层的触发控件
-    console.log(yearIptEnd)
 
     $("#datebox-time-end").datebox({
         required: true,
