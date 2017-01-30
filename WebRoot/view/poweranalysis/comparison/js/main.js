@@ -260,7 +260,7 @@ $(document).ready(function () {
                                     d.push({
                                         clientOperationTime: (formatDbTimestamp(time) + "").substr(0, 10),
                                         totalactivepower: totalactivepower,
-                                        currentClientOperationTime: formatDbTimestamp(time)
+                                        currentClientOperationTime: (formatDbTimestamp(time) + "").substr(11)
                                     })
                                 }
 
