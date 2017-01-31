@@ -192,6 +192,17 @@ $(document).ready(function () {
     $("#dlg-add-pn-node").dialog({
         onBeforeOpen: function () {
             if (flag_dg_pn_edit) {
+                var rows = $("#dg-pn-detail").datagrid("getSelections");
+
+                var item = rows[0];
+
+                $("#text-dg-pn-name").textbox("setValue", item.name);
+                $("#text-dg-pn-id").textbox("setValue", item.pn);
+                $("#text-dg-pn-ct").textbox("setValue", item.ct);
+                $("#text-dg-pn-pt").textbox("setValue", item.pt);
+                $("#text-dg-pn-powerFactorStandard").textbox("setValue", item.powerFactorStandard);
+                $("#combo-dg-pn-concentratorId").combobox("reload");
+                $("#combo-dg-pn-concentratorId").combobox("select", item.concentratorId);
 
             } else {
                 $("#text-dg-pn-name").textbox("clear");
@@ -339,8 +350,6 @@ $(document).ready(function () {
                 return;
             }
 
-            var rows = $("#dg-pn-detail").datagrid("getSelections");
-
 
             var name = $("#text-dg-pn-name").textbox("getValue");
             var pn = $("#text-dg-pn-id").textbox("getValue");
@@ -350,16 +359,22 @@ $(document).ready(function () {
             var concentratorId = $("#combo-dg-pn-concentratorId").combobox("getValue");
 
             if (flag_dg_pn_edit) {
+                var rows = $("#dg-pn-detail").datagrid("getSelections");
+                var id = rows[0].id;
+
                 $.ajax({
                     url: _ctx + "system/pn/info/update.do",
                     type: "POST",
                     data: {
+                        id: id,
+                        areaId: _areaId,
+                        concentratorId: concentratorId,
                         pn: pn,
+                        name: name,
                         ct: ct,
                         pt: pt,
-                        powerFactorStandard: powerFactorStandard,
-                        concentratorId: concentratorId,
-                        name: name
+                        powerFactorStandard: powerFactorStandard
+
                     },
                     cache: false,
                     success: function (r) {

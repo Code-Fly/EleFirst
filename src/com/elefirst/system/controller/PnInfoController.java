@@ -77,6 +77,42 @@ public class PnInfoController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/info/update.do")
+    @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg updateTreeInfo(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @RequestParam(value = "id") String id,
+                                   @RequestParam(value = "areaId") String areaId,
+                                   @RequestParam(value = "concentratorId") String concentratorId,
+                                   @RequestParam(value = "pn") String pn,
+                                   @RequestParam(value = "ct") Double ct,
+                                   @RequestParam(value = "pt") Double pt,
+                                   @RequestParam(value = "powerFactorStandard") Double powerFactorStandard,
+                                   @RequestParam(value = "name") String name
+    ) {
+        PnInfo template = new PnInfo();
+
+        if (null != name && !name.isEmpty()) {
+
+            template.setId(id);
+            template.setAreaId(areaId);
+            template.setConcentratorId(concentratorId);
+            template.setPn(pn);
+            template.setPt(pt);
+            template.setCt(ct);
+            template.setPowerFactorStandard(powerFactorStandard);
+            template.setName(name);
+            template.setUpdatePerson("admin");
+            template.setUpdateDate(new Date());
+            int result = pnInfoService.updatePnInfo(template);
+            return new ErrorMsg(Error.SUCCESS, "success", result);
+        } else {
+            return new ErrorMsg(Error.SUCCESS, "success");
+        }
+
+    }
+
     @RequestMapping(value = "/info/add.do")
     @ApiOperation(value = "添加", notes = "", httpMethod = "POST")
     @ResponseBody
