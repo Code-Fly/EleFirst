@@ -884,7 +884,8 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`totalActivePower`) AS 'maxTotalActivePower' ,
+        -- MAX(`totalActivePower`) AS 'maxTotalActivePower' ,
+        totalActivePower AS 'maxTotalActivePower',
         TO_DAYS(`clientOperationTime`) AS 'toDaysClientOperationTime' ,
         HOUR(`clientOperationTime`) AS 'hourClientOperationTime'
         FROM
@@ -944,7 +945,9 @@
           This element was generated on Sat Jan 28 01:45:28 CST 2017.
         -->
         SELECT
-        *, MAX(`totalActivePower`) AS 'maxTotalActivePower'
+        *,
+        MAX(`totalActivePower`) AS 'maxTotalActivePower'
+        -- totalActivePower AS 'maxTotalActivePower'
         FROM
         (
         SELECT
@@ -1001,9 +1004,12 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`A_Voltage`) AS 'maxA_Voltage' ,
-        MAX(`B_Voltage`) AS 'maxB_Voltage' ,
-        MAX(`C_Voltage`) AS 'maxC_Voltage' ,
+        -- MAX(`A_Voltage`) AS 'maxA_Voltage' ,
+        -- MAX(`B_Voltage`) AS 'maxB_Voltage' ,
+        -- MAX(`C_Voltage`) AS 'maxC_Voltage' ,
+        A_Voltage AS 'maxA_Voltage' ,
+        B_Voltage AS 'maxB_Voltage' ,
+        C_Voltage AS 'maxC_Voltage' ,
         TO_DAYS(`clientOperationTime`) AS 'toDaysClientOperationTime' ,
         HOUR(`clientOperationTime`) AS 'hourClientOperationTime'
         FROM
@@ -1064,9 +1070,12 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`A_Current`) AS 'maxA_Current' ,
-        MAX(`B_Current`) AS 'maxB_Current' ,
-        MAX(`C_Current`) AS 'maxC_Current' ,
+        -- MAX(`A_Current`) AS 'maxA_Current' ,
+        -- MAX(`B_Current`) AS 'maxB_Current' ,
+        -- MAX(`C_Current`) AS 'maxC_Current' ,
+        A_Current AS 'maxA_Current' ,
+        B_Current AS 'maxB_Current' ,
+        C_Current AS 'maxC_Current' ,
         TO_DAYS(`clientOperationTime`) AS 'toDaysClientOperationTime' ,
         HOUR(`clientOperationTime`) AS 'hourClientOperationTime'
         FROM
@@ -1127,9 +1136,12 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`A_PowerFactor`) AS 'maxA_PowerFactor' ,
-        MAX(`B_PowerFactor`) AS 'maxB_PowerFactor' ,
-        MAX(`C_PowerFactor`) AS 'maxC_PowerFactor' ,
+        -- MAX(`A_PowerFactor`) AS 'maxA_PowerFactor' ,
+        -- MAX(`B_PowerFactor`) AS 'maxB_PowerFactor' ,
+        -- MAX(`C_PowerFactor`) AS 'maxC_PowerFactor' ,
+        A_PowerFactor AS 'maxA_PowerFactor' ,
+        B_PowerFactor AS 'maxB_PowerFactor' ,
+        C_PowerFactor AS 'maxC_PowerFactor' ,
         TO_DAYS(`clientOperationTime`) AS 'toDaysClientOperationTime' ,
         HOUR(`clientOperationTime`) AS 'hourClientOperationTime'
         FROM
