@@ -114,6 +114,10 @@
     background: url('icon/mini_refresh.png') no-repeat center center;
 }
 
+.icon-mini-delete {
+    background: url('icon/mini_delete.png') no-repeat center center;
+}
+
 .icon-large-picture {
     background: url('icon/large_picture.png') no-repeat center center;
 }

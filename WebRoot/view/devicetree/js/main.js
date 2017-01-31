@@ -2,8 +2,12 @@
  * Created by VM on 1/26/2017.
  */
 $(document).ready(function () {
+    var _areaId = "1";
+    var _areaName = "配用电监测";
+    var _treeId = "1";
+
     var info = {
-        areaId: "1",
+        areaId: _areaId,
         concentrators: [],
         type: "physical"
     }
@@ -12,7 +16,7 @@ $(document).ready(function () {
         // method: "get",
         url: _ctx + "system/tree/info/node.do",
         queryParams: {
-            treeId: info.areaId
+            treeId: _treeId
         },
         animate: true,
         lines: true,
