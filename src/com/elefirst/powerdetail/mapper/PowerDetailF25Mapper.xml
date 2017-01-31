@@ -597,7 +597,7 @@
   
   <!-- 自定义获取每个区域下相关集线器对应的监测点最新一条电力记录数(根据发送时间) -->
   <select id="myselectByExample" resultMap="BaseResultMap">
-	select a.*,c.`name`,c.ct,c.pt from t_003_type_one_data_fn25 a,(select concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by concentrator_id,pn) b ,t_202_pn_info c where a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and  b.concentrator_id = c.concentrator_id and b.pn = c.pn
+	select a.*,c.`name`,c.ct,c.pt from t_003_type_one_data_fn25 a,(select area_id,concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by area_id ,concentrator_id,pn) b ,t_202_pn_info c where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -615,7 +615,7 @@
   
   <!-- 获取每个区域下相关集线器对应的监测点总数 -->
   <select id="myselectByExampleCount" resultType="int">
-    select count(1) as num from t_003_type_one_data_fn25 a,(select concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by concentrator_id,pn) b ,t_202_pn_info c where a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and  b.concentrator_id = c.concentrator_id and b.pn = c.pn
+    select count(1) as num from t_003_type_one_data_fn25 a,(select area_id,concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by area_id ,concentrator_id,pn) b ,t_202_pn_info c where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
