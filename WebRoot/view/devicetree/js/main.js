@@ -31,7 +31,9 @@ $(document).ready(function () {
     });
 
     var root = $("#dTree").tree("getRoot");
-    $("#dTree").tree("select", root.target);
+    if (root != undefined && root != null) {
+        $("#dTree").tree("select", root.target);
+    }
 
 
     function traverse(tree) {
