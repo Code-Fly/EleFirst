@@ -122,7 +122,13 @@ $(document).ready(function () {
 
     $("#dg-pn-detail").datagrid({
         url: _ctx + "system/pn/info/list.do",
-        queryParams: {},
+        queryParams: {
+            node: JSON.stringify({
+                areaId: _areaId,
+                concentrators: [],
+                type: "physical"
+            })
+        },
         pagination: true,
         pageSize: DEFAULT_PAGE_SIZE,
         pageList: DEFAULT_PAGE_LIST,
@@ -455,7 +461,13 @@ $(document).ready(function () {
     // 馈线柜处理开始
     $("#dg-concentrator-detail").datagrid({
         url: _ctx + "system/concentrator/info/list.do",
-        queryParams: {},
+        queryParams: {
+            node: JSON.stringify({
+                areaId: _areaId,
+                concentrators: [],
+                type: "physical"
+            })
+        },
         pagination: true,
         pageSize: DEFAULT_PAGE_SIZE,
         pageList: DEFAULT_PAGE_LIST,
