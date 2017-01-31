@@ -84,6 +84,8 @@ public class ConcentratorInfoController extends BaseController {
     public ErrorMsg updateTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
                                    @RequestParam(value = "id") String id,
+                                   @RequestParam(value = "areaId") String areaId,
+                                   @RequestParam(value = "concentratorId") String concentratorId,
                                    @RequestParam(value = "name") String name
     ) {
         ConcentratorInfo template = new ConcentratorInfo();
@@ -91,6 +93,8 @@ public class ConcentratorInfoController extends BaseController {
         if (null != name && !name.isEmpty()) {
 
             template.setId(id);
+            template.setAreaId(areaId);
+            template.setConcentratorId(concentratorId);
             template.setName(name);
             template.setUpdatePerson("admin");
             template.setUpdateDate(new Date());

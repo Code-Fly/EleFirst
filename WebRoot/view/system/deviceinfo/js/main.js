@@ -16,7 +16,10 @@ $(document).ready(function () {
 
     var flag_tree_node_edit = false;
 
+    var flag_dg_concentrator_edit = false;
+
     var flag_dg_pn_edit = false;
+
 
     getConcentratorInfo();
 
@@ -161,28 +164,6 @@ $(document).ready(function () {
             }, {
                 field: "powerFactorStandard",
                 title: "功率因数标准",
-                align: "center",
-                width: 120
-            }
-        ]],
-    });
-
-    $("#dg-concentrator-detail").datagrid({
-        url: _ctx + "system/concentrator/info/list.do",
-        queryParams: {},
-        pagination: true,
-        pageSize: DEFAULT_PAGE_SIZE,
-        pageList: DEFAULT_PAGE_LIST,
-        pageNumber: 1,
-        columns: [[
-            {
-                field: "name",
-                title: "馈线柜名称",
-                align: "center",
-                width: 120
-            }, {
-                field: "concentratorId",
-                title: "馈线柜编号",
                 align: "center",
                 width: 120
             }
@@ -443,6 +424,214 @@ $(document).ready(function () {
     });
 
     // !监测点处理结束
+
+    // 馈线柜处理开始
+    $("#dg-concentrator-detail").datagrid({
+        url: _ctx + "system/concentrator/info/list.do",
+        queryParams: {},
+        pagination: true,
+        pageSize: DEFAULT_PAGE_SIZE,
+        pageList: DEFAULT_PAGE_LIST,
+        pageNumber: 1,
+        columns: [[
+            {
+                field: "name",
+                title: "馈线柜名称",
+                align: "center",
+                width: 120
+            }, {
+                field: "concentratorId",
+                title: "馈线柜编号",
+                align: "center",
+                width: 120
+            }
+        ]],
+    });
+
+    $("#dlg-add-concentrator-node").dialog({
+        onBeforeOpen: function () {
+            if (flag_dg_concentrator_edit) {
+                var rows = $("#dg-concentrator-detail").datagrid("getSelections");
+
+                var item = rows[0];
+
+                $("#text-dg-concentrator-name").textbox("setValue", item.name);
+                $("#text-dg-concentrator-id").textbox("setValue", item.concentratorId);
+            } else {
+                $("#text-dg-concentrator-name").textbox("clear");
+                $("#text-dg-concentrator-id").textbox("clear");
+            }
+        },
+        onOpen: function () {
+        },
+        onClose: function () {
+            flag_dg_concentrator_edit = false;
+        }
+    });
+
+    $("#text-dg-concentrator-name").textbox({
+        required: true
+    });
+
+    $("#text-dg-concentrator-id").textbox({
+        required: true
+    });
+
+    $("#btn-concentrator-tool-add").linkbutton({
+        onClick: function () {
+            $("#dlg-add-concentrator-node").dialog("open");
+        }
+    });
+
+    $("#btn-concentrator-tool-edit").linkbutton({
+        onClick: function () {
+            var rows = $("#dg-concentrator-detail").datagrid("getSelections");
+
+            if (rows.length == 0) {
+                $.messager.alert("操作提示", "请选择监测点！", "info");
+            } else {
+                flag_dg_concentrator_edit = true;
+                $("#dlg-add-concentrator-node").dialog("open");
+            }
+        }
+    });
+
+    $("#btn-concentrator-tool-delete").linkbutton({
+        onClick: function () {
+            var rows = $("#dg-concentrator-detail").datagrid("getSelections");
+
+            if (rows.length == 0) {
+                $.messager.alert("操作提示", "请选择监测点！", "info");
+                return;
+            }
+
+            $.messager.confirm("操作提示", "确定要删除吗？", function (r) {
+                if (r) {
+                    $.ajax({
+                        url: _ctx + "system/concentrator/info/delete.do",
+                        type: "POST",
+                        data: {
+                            id: rows[0].id
+                        },
+                        cache: false,
+                        success: function (r) {
+                            if (r.hasOwnProperty("errcode")) {
+                                if ("0" == r.errcode) {
+                                    $("#dg-concentrator-detail").datagrid("reload");
+                                    $.messager.alert("操作提示", "删除成功！", "info");
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                }
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            }
+                        },
+                        beforeSend: function (XMLHttpRequest) {
+                            MaskUtil.mask();
+                        },
+                        error: function (request) {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        },
+                        complete: function (XMLHttpRequest, textStatus) {
+                            MaskUtil.unmask();
+                        }
+                    });
+                }
+            });
+
+        }
+    });
+
+    $("#btn-dg-dlg-add-concentrator-submit").linkbutton({
+        onClick: function () {
+            if (!$("#text-dg-concentrator-name").textbox("isValid")) {
+                $.messager.alert("操作提示", "请输入正确名称！", "info");
+                return;
+            }
+
+            if (!$("#text-dg-concentrator-id").textbox("isValid")) {
+                $.messager.alert("操作提示", "请输入正确馈线柜id！", "info");
+                return;
+            }
+
+            var name = $("#text-dg-concentrator-name").textbox("getValue");
+            var concentratorId = $("#text-dg-concentrator-id").textbox("getValue");
+
+            if (flag_dg_concentrator_edit) {
+                var rows = $("#dg-concentrator-detail").datagrid("getSelections");
+                var id = rows[0].id;
+
+                $.ajax({
+                    url: _ctx + "system/concentrator/info/update.do",
+                    type: "POST",
+                    data: {
+                        id: id,
+                        areaId: _areaId,
+                        concentratorId: concentratorId,
+                        name: name
+                    },
+                    cache: false,
+                    success: function (r) {
+                        if (r.hasOwnProperty("errcode")) {
+                            if ("0" == r.errcode) {
+                                $("#dg-concentrator-detail").datagrid("reload");
+                                $("#dlg-add-concentrator-node").dialog("close");
+                                $.messager.alert("操作提示", "修改成功。", "info");
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            }
+                        } else {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                        }
+                    },
+                    beforeSend: function (XMLHttpRequest) {
+                        MaskUtil.mask();
+                    },
+                    error: function (request) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        MaskUtil.unmask();
+                    }
+                });
+            } else {
+
+                $.ajax({
+                    url: _ctx + "system/concentrator/info/add.do",
+                    type: "POST",
+                    data: {
+                        areaId: _areaId,
+                        concentratorId: concentratorId,
+                        name: name
+                    },
+                    cache: false,
+                    success: function (r) {
+                        if (r.hasOwnProperty("errcode")) {
+                            if ("0" == r.errcode) {
+                                $("#dg-concentrator-detail").datagrid("reload");
+                                $("#dlg-add-concentrator-node").dialog("close");
+                                $.messager.alert("操作提示", "添加成功。", "info");
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            }
+                        } else {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                        }
+                    },
+                    beforeSend: function (XMLHttpRequest) {
+                        MaskUtil.mask();
+                    },
+                    error: function (request) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        MaskUtil.unmask();
+                    }
+                });
+            }
+        }
+    });
+    // 馈线柜处理结束
 
     // 树形处理开始
     $("#dlg-add-tree-node").dialog({
