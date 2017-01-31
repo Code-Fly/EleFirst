@@ -345,28 +345,6 @@ $(document).ready(function () {
             var powerFactorStandard = $("#text-dg-pn-powerFactorStandard").textbox("getValue");
             var concentratorId = $("#combo-dg-pn-concentratorId").combobox("getValue");
 
-            var iList = $.parseJSON($.ajax({
-                url: _ctx + "system/pn/info/list.do",
-                type: "POST",
-                data: {
-                    areaId: _areaId,
-                    concentratorId: concentratorId
-                },
-                async: false
-            }).responseText);
-
-            if ("0" != iList.errcode) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
-                return;
-            }
-
-            for (var i = 0; i < iList.data.length; i++) {
-                if (iList.data[i].concentratorId == concentratorId && iList.data[i].pn == pn) {
-                    $.messager.alert("操作提示", "编号已存在！", "info");
-                    return;
-                }
-            }
-
             if (flag_dg_pn_edit) {
                 var rows = $("#dg-pn-detail").datagrid("getSelections");
                 var id = rows[0].id;
@@ -410,6 +388,27 @@ $(document).ready(function () {
                     }
                 });
             } else {
+                var iList = $.parseJSON($.ajax({
+                    url: _ctx + "system/pn/info/list.do",
+                    type: "POST",
+                    data: {
+                        areaId: _areaId,
+                        concentratorId: concentratorId
+                    },
+                    async: false
+                }).responseText);
+
+                if ("0" != iList.errcode) {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
+                    return;
+                }
+
+                for (var i = 0; i < iList.data.length; i++) {
+                    if (iList.data[i].concentratorId == concentratorId && iList.data[i].pn == pn) {
+                        $.messager.alert("操作提示", "编号已存在！", "info");
+                        return;
+                    }
+                }
 
                 $.ajax({
                     url: _ctx + "system/pn/info/add.do",
@@ -586,28 +585,6 @@ $(document).ready(function () {
             var name = $("#text-dg-concentrator-name").textbox("getValue");
             var concentratorId = $("#text-dg-concentrator-id").textbox("getValue");
 
-            var iList = $.parseJSON($.ajax({
-                url: _ctx + "system/concentrator/info/list.do",
-                type: "POST",
-                data: {
-                    areaId: _areaId
-                },
-                async: false
-            }).responseText);
-
-            if ("0" != iList.errcode) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
-                return;
-            }
-
-            for (var i = 0; i < iList.data.length; i++) {
-                if (iList.data[i].concentratorId == concentratorId) {
-                    $.messager.alert("操作提示", "编号已存在！", "info");
-                    return;
-                }
-            }
-
-
             if (flag_dg_concentrator_edit) {
                 var rows = $("#dg-concentrator-detail").datagrid("getSelections");
                 var id = rows[0].id;
@@ -647,6 +624,26 @@ $(document).ready(function () {
                     }
                 });
             } else {
+                var iList = $.parseJSON($.ajax({
+                    url: _ctx + "system/concentrator/info/list.do",
+                    type: "POST",
+                    data: {
+                        areaId: _areaId
+                    },
+                    async: false
+                }).responseText);
+
+                if ("0" != iList.errcode) {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
+                    return;
+                }
+
+                for (var i = 0; i < iList.data.length; i++) {
+                    if (iList.data[i].concentratorId == concentratorId) {
+                        $.messager.alert("操作提示", "编号已存在！", "info");
+                        return;
+                    }
+                }
 
                 $.ajax({
                     url: _ctx + "system/concentrator/info/add.do",

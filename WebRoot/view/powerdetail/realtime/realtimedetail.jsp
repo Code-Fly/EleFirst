@@ -146,7 +146,7 @@
                 <a id="btn-detail-back" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'" onclick="backlist()">返回列表</a>
                 &nbsp;&nbsp;<input id="input-detail-datebox" class="easyui-datebox"
-                                   data-options="editable:false,required: true" id="beginDate" label="日期:"
+                                   data-options="editable:false,required: true" label="日期:"
                                    style="width:250px"/>
                 <a id="btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'">查询</a>

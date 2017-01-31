@@ -5,26 +5,23 @@
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/commonHighChart.jsp" %>
     <script type="text/javascript">
-	   	  function dateformatter(value, row, index){
-	        if (value != null) {
-				return value.substring(0,4) + '-' + value.substring(4,6) + '-'+ value.substring(6,8);
-			}
-		  }
+        function dateformatter(value, row, index) {
+            if (value != null) {
+                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
+            }
+        }
         require(["js/dailydetail.js"]);
     </script>
 </head>
 <body class="easyui-layout" id="cc">
-<div data-options="region:'north',border:false,split:true" style="overflow: hidden;">
-    <div style="margin-left:20px;padding:5px">
+<div data-options="region:'center',border:false" style="width:100%;overflow: hidden">
+    <div id="tab-tt-tools" style="border-left: none;border-top: none;border-right: none;">
         <input id="main-input-detail-datebox" class="easyui-datebox"
-                           data-options="editable:false,required: true" id="beginDate" label="日期:"
-                           style="width:250px"/>
+               data-options="editable:false,required: true" style="width:150px"/>
         <a id="main-input-btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
            data-options="iconCls:'icon-search'">查询</a>
     </div>
-</div>
-<div data-options="region:'center',border:false" style="width:100%;overflow: hidden"">
-    <div id="tt" class="easyui-tabs" data-options="border:false" fit="true">
+    <div id="tt" class="easyui-tabs" data-options="border:false,tools:'#tab-tt-tools'" fit="true">
         <div title="负荷" style="display:none;overflow: hidden">
             <table id="tt1" style="display:none" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
@@ -35,7 +32,7 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center"  formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
                     <th colspan="5">有功负荷(kW)</th>
                 </tr>
                 <tr>
@@ -174,7 +171,7 @@
                 <a id="btn-detail-back" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'" onclick="backlist()">返回列表</a>
                 &nbsp;&nbsp;<input id="input-detail-datebox" class="easyui-datebox"
-                                   data-options="editable:false,required: true" id="beginDate" label="日期:"
+                                   data-options="editable:false,required: true" label="日期:"
                                    style="width:250px"/>
                 <a id="btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'">查询</a>
@@ -261,9 +258,9 @@
                         </tr>
                         <tr>
                             <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
-		                    <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-		                    <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
-		                    <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
+                            <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
+                            <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
+                            <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
                         </tr>
                         </thead>
                     </table>
