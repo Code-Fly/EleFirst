@@ -93,11 +93,11 @@
         <table id="dg-table" class="easyui-datagrid" data-options="border:true,fit:true">
             <thead>
             <tr>
-                <th data-options="field:'price'" width="100" align="center">最大负荷(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">最小负荷(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">平均负荷(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">峰谷差(kW)</th>
-                <th data-options="field:'price'" width="100" align="center">负荷率</th>
+                <th data-options="field:'price'" width="150" align="center">最大负荷(kW)</th>
+                <th data-options="field:'price'" width="150" align="center">最小负荷(kW)</th>
+                <th data-options="field:'price'" width="150" align="center">平均负荷(kW)</th>
+                <th data-options="field:'price'" width="150" align="center">峰谷差(kW)</th>
+                <th data-options="field:'price'" width="150" align="center">负荷率</th>
                 <th data-options="field:'name'" width="150" align="center">日期</th>
             </tr>
             </thead>
