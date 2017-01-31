@@ -65,9 +65,9 @@ public class TreeInfoController extends BaseController {
     public ErrorMsg updateTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
                                    @RequestParam(value = "id") Long id,
-                                   @RequestParam(value = "iconcls") String iconcls,
+                                   @RequestParam(value = "iconcls", required = false) String iconcls,
                                    @RequestParam(value = "state", required = false) String state,
-                                   @RequestParam(value = "attributes") String attributes,
+                                   @RequestParam(value = "attributes", required = false) String attributes,
                                    @RequestParam(value = "name") String name
     ) {
         TreeInfo template = new TreeInfo();
@@ -75,11 +75,16 @@ public class TreeInfoController extends BaseController {
         if (null != name && !name.isEmpty()) {
 
             template.setId(id);
-            template.setIconcls(iconcls);
+            if (null != iconcls && !iconcls.isEmpty()) {
+                template.setIconcls(iconcls);
+            }
             if (null != state && !state.isEmpty()) {
                 template.setState(state);
             }
-            template.setAttributes(attributes);
+            if (null != attributes && !attributes.isEmpty()) {
+                template.setAttributes(attributes);
+            }
+
             template.setName(name);
             template.setUpdatePerson("admin");
             template.setUpdateDate(new Date());

@@ -4,10 +4,13 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.entity.Page2;
 import com.elefirst.system.po.ConcentratorInfo;
 import com.elefirst.system.service.iface.IConcentratorInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +40,8 @@ public class ConcentratorInfoController extends BaseController {
     public ErrorMsg getConcentratorInfoList(HttpServletRequest request,
                                             HttpServletResponse response,
                                             @RequestParam(value = "areaId", required = false) String areaId,
+                                            @RequestParam(value = "name", required = false) String name,
+                                            @RequestParam(value = "node", required = false) String node,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "rows", required = false) Integer rows
     ) {
@@ -44,22 +50,41 @@ public class ConcentratorInfoController extends BaseController {
             template.setAreaId(areaId);
         }
 
+        if (null != name) {
+            template.setName(areaId);
+        }
+
+        List<ConcentratorInfo> result = new ArrayList<>();
+
+        if (null == node) {
+            result = concentratorInfoService.getConcentratorInfoList(template);
+        } else {
+            JSONObject jNode = JSONObject.fromObject(node);
+            JSONArray jIds = jNode.getJSONArray("concentrators");
+            for (int i = 0; i < jIds.size(); i++) {
+                String jId = jIds.getJSONObject(i).getString("concentratorId");
+                template.setConcentratorId(jId);
+                List<ConcentratorInfo> list = concentratorInfoService.getConcentratorInfoList(template);
+                for (int j = 0; j < list.size(); j++) {
+                    if (!result.contains(list.get(j))) {
+                        result.add(list.get(j));
+                    }
+                }
+            }
+        }
+
         if (null != page && null != rows) {
-            template.setPage(page);
-            template.setRows(rows);
-            List<ConcentratorInfo> result = concentratorInfoService.getConcentratorInfoList(template);
+
+            Page2 page2 = new Page2(result, rows);
 
             DataGrid dg = new DataGrid();
-            int count = concentratorInfoService.getConcentratorInfoListCount(template);
-            dg.setTotal(count);
-            dg.setRows(result);
+            dg.setTotal(result.size());
+            dg.setRows(page2.getPages(page));
 
             return new ErrorMsg(Error.SUCCESS, "success", dg);
         } else {
-            List<ConcentratorInfo> result = concentratorInfoService.getConcentratorInfoList(template);
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
-
     }
 
     @RequestMapping(value = "/info/detailByInfo.do")

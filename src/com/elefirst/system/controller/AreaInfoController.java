@@ -33,10 +33,20 @@ public class AreaInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg getAreaInfoList(HttpServletRequest request,
                                     HttpServletResponse response,
+                                    @RequestParam(value = "areaId", required = false) String areaId,
+                                    @RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "page", required = false) Integer page,
                                     @RequestParam(value = "rows", required = false) Integer rows
     ) {
         AreaInfo template = new AreaInfo();
+
+        if (null != areaId) {
+            template.setAreaId(areaId);
+        }
+
+        if (null != name) {
+            template.setName(areaId);
+        }
 
         if (null != page && null != rows) {
             template.setPage(page);

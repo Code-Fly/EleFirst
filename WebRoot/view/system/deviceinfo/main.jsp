@@ -24,7 +24,7 @@
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="padding: 5px;">
     <div class="easyui-layout" data-options="fit:true">
-        <div data-options="region:'west',title:'监测点',tools:'#tool-tree'" style="width:200px;overflow: hidden">
+        <div data-options="region:'west',title:'树形',tools:'#tool-tree'" style="width:200px;overflow: hidden">
             <ul id="dTree" class="easyui-tree">
 
             </ul>
@@ -220,7 +220,7 @@
                     <div class="clear"></div>
                     <div class="grid_4 cell title">
                         <p>
-                            功率因数
+                            功率因数标准
                         </p>
                     </div>
                     <div class="grid_8 cell">

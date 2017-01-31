@@ -71,6 +71,12 @@ $(document).ready(function () {
         },
         onSelect: function (node) {
             traverse(node);
+            $("#dg-pn-detail").datagrid("load", {
+                node: JSON.stringify(info)
+            });
+            $("#dg-concentrator-detail").datagrid("load", {
+                node: JSON.stringify(info)
+            });
             // parent.saveTreeInfo(info);
         },
         onBeforeSelect: function (node) {
@@ -539,6 +545,7 @@ $(document).ready(function () {
                         success: function (r) {
                             if (r.hasOwnProperty("errcode")) {
                                 if ("0" == r.errcode) {
+                                    getConcentratorInfo();
                                     $("#dg-concentrator-detail").datagrid("reload");
                                     $.messager.alert("操作提示", "删除成功！", "info");
                                 } else {
@@ -618,6 +625,7 @@ $(document).ready(function () {
                     success: function (r) {
                         if (r.hasOwnProperty("errcode")) {
                             if ("0" == r.errcode) {
+                                getConcentratorInfo();
                                 $("#dg-concentrator-detail").datagrid("reload");
                                 $("#dlg-add-concentrator-node").dialog("close");
                                 $.messager.alert("操作提示", "修改成功。", "info");
@@ -652,6 +660,7 @@ $(document).ready(function () {
                     success: function (r) {
                         if (r.hasOwnProperty("errcode")) {
                             if ("0" == r.errcode) {
+                                getConcentratorInfo();
                                 $("#dg-concentrator-detail").datagrid("reload");
                                 $("#dlg-add-concentrator-node").dialog("close");
                                 $.messager.alert("操作提示", "添加成功。", "info");
@@ -785,6 +794,10 @@ $(document).ready(function () {
             var attributes = {
                 type: type
             };
+
+            if (attributes.type == "concentrator") {
+                attributes.concentratorId = concentratorId;
+            }
 
             if (flag_tree_node_edit) {
                 $.ajax({

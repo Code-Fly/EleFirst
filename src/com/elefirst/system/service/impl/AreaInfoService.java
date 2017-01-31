@@ -26,6 +26,9 @@ public class AreaInfoService extends BaseService implements IAreaInfoService {
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
         }
+        if (null != template && null != template.getName()) {
+            criteria.andNameLike("%" + template.getName() + "%");
+        }
         if (template.getRows() > 0 && template.getPage() > 0) {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
