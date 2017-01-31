@@ -35,10 +35,18 @@ public class PnInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg getPnInfoList(HttpServletRequest request,
                                   HttpServletResponse response,
+                                  @RequestParam(value = "areaId", required = false) String areaId,
+                                  @RequestParam(value = "concentratorId", required = false) String concentratorId,
                                   @RequestParam(value = "page", required = false) Integer page,
                                   @RequestParam(value = "rows", required = false) Integer rows
     ) {
         PnInfo template = new PnInfo();
+        if (null != areaId) {
+            template.setAreaId(areaId);
+        }
+        if (null != concentratorId) {
+            template.setConcentratorId(concentratorId);
+        }
 
         if (null != page && null != rows) {
             template.setPage(page);

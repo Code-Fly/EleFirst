@@ -306,7 +306,7 @@ $(document).ready(function () {
             }
 
             if (!$("#text-dg-pn-id").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确监测点id！", "info");
+                $.messager.alert("操作提示", "请输入正确监测点编号！", "info");
                 return;
             }
 
@@ -338,6 +338,28 @@ $(document).ready(function () {
             var pt = $("#text-dg-pn-pt").textbox("getValue");
             var powerFactorStandard = $("#text-dg-pn-powerFactorStandard").textbox("getValue");
             var concentratorId = $("#combo-dg-pn-concentratorId").combobox("getValue");
+
+            var iList = $.parseJSON($.ajax({
+                url: _ctx + "system/pn/info/list.do",
+                type: "POST",
+                data: {
+                    areaId: _areaId,
+                    concentratorId: concentratorId
+                },
+                async: false
+            }).responseText);
+
+            if ("0" != iList.errcode) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
+                return;
+            }
+
+            for (var i = 0; i < iList.data.length; i++) {
+                if (iList.data[i].concentratorId == concentratorId && iList.data[i].pn == pn) {
+                    $.messager.alert("操作提示", "编号已存在！", "info");
+                    return;
+                }
+            }
 
             if (flag_dg_pn_edit) {
                 var rows = $("#dg-pn-detail").datagrid("getSelections");
@@ -550,12 +572,34 @@ $(document).ready(function () {
             }
 
             if (!$("#text-dg-concentrator-id").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确馈线柜id！", "info");
+                $.messager.alert("操作提示", "请输入正确馈线柜编号！", "info");
                 return;
             }
 
             var name = $("#text-dg-concentrator-name").textbox("getValue");
             var concentratorId = $("#text-dg-concentrator-id").textbox("getValue");
+
+            var iList = $.parseJSON($.ajax({
+                url: _ctx + "system/concentrator/info/list.do",
+                type: "POST",
+                data: {
+                    areaId: _areaId
+                },
+                async: false
+            }).responseText);
+
+            if ("0" != iList.errcode) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
+                return;
+            }
+
+            for (var i = 0; i < iList.data.length; i++) {
+                if (iList.data[i].concentratorId == concentratorId) {
+                    $.messager.alert("操作提示", "编号已存在！", "info");
+                    return;
+                }
+            }
+
 
             if (flag_dg_concentrator_edit) {
                 var rows = $("#dg-concentrator-detail").datagrid("getSelections");
