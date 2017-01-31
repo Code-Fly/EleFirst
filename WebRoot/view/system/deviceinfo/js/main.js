@@ -164,7 +164,7 @@ $(document).ready(function () {
             if (attributes.type == "concentrator") {
                 for (var i = 0; i < children.length; i++) {
                     if (children[i].attributes.type != "concentrator") {
-                        $.messager.alert("操作提示", "无法在此类目录下添加馈线柜！", "info");
+                        $.messager.alert("操作提示", "无法在此分类下添加馈线柜！", "info");
                         return;
                     }
                 }
@@ -172,7 +172,7 @@ $(document).ready(function () {
             else if (attributes.type == "category") {
                 for (var i = 0; i < children.length; i++) {
                     if (children[i].attributes.type == "concentrator") {
-                        $.messager.alert("操作提示", "无法在此类目录下添加分类目录！", "info");
+                        $.messager.alert("操作提示", "无法在此分类下添加子分类！", "info");
                         return;
                     }
                 }
