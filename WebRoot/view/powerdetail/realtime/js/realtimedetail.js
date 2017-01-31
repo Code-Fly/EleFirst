@@ -207,11 +207,7 @@ $(document).ready(function () {
             },
             onSelect: function (index, row) {
                 $('#cc').layout('expand', 'south');
-                if ('tt2' == dgId) {
-                    $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.pn33);
-                } else {
-                    $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.name);
-                }
+                $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.name);
 
 
                 $("#input-detail-datebox").datebox("clear");
