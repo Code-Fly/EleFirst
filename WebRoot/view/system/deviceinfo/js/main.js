@@ -14,7 +14,7 @@ $(document).ready(function () {
         // method: "get",
         url: _ctx + "system/tree/info/node.do",
         queryParams: {
-            treeId: _areaId
+            treeId: _treeId
         },
         animate: true,
         lines: true,
@@ -25,98 +25,35 @@ $(document).ready(function () {
         //     $(this).tree("beginEdit", node.target);
         // },
         onAfterEdit: function (node) {
-            if (node.attributes.type == "concentrator") {
-                $.ajax({
-                    url: _ctx + "system/concentrator/info/updateByInfo.do",
-                    type: "POST",
-                    data: {
-                        areaId: _treeId,
-                        concentratorId: node.attributes.concentratorId,
-                        name: node.text
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                $.ajax({
-                                    url: _ctx + "system/tree/info/update.do",
-                                    type: "POST",
-                                    data: {
-                                        id: node.id,
-                                        name: node.text
-                                    },
-                                    cache: false,
-                                    success: function (r) {
-                                        if (r.hasOwnProperty("errcode")) {
-                                            if ("0" == r.errcode) {
-                                                // $.messager.alert("操作提示", JSON.stringify(r.data));
-                                            } else {
-                                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                                            }
-                                        } else {
-                                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                                        }
-                                    },
-                                    beforeSend: function (XMLHttpRequest) {
-
-                                    },
-                                    error: function (request) {
-                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                                    },
-                                    complete: function (XMLHttpRequest, textStatus) {
-                                        MaskUtil.unmask();
-                                    }
-                                });
-                            } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                            }
+            $.ajax({
+                url: _ctx + "system/tree/info/update.do",
+                type: "POST",
+                data: {
+                    id: node.id,
+                    name: node.text
+                },
+                cache: false,
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            // $.messager.alert("操作提示", JSON.stringify(r.data));
                         } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                         }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                        MaskUtil.unmask();
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                     }
-                });
-            }
-            else if (node.attributes.type == "category") {
-                $.ajax({
-                    url: _ctx + "system/tree/info/update.do",
-                    type: "POST",
-                    data: {
-                        id: node.id,
-                        name: node.text
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                // $.messager.alert("操作提示", JSON.stringify(r.data));
-                            } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                            }
-                        } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                        }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
-                    }
-                });
-            }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    MaskUtil.mask();
+                },
+                error: function (request) {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    MaskUtil.unmask();
+                }
+            });
         },
         onSelect: function (node) {
             traverse(node);
@@ -166,8 +103,8 @@ $(document).ready(function () {
             $("#text-tree-node-name").textbox("clear");
             $("#combo-tree-node-type").combobox("clear");
             $("#combo-tree-node-iconcls").combobox("clear");
-            $("#text-tree-node-concentratorId").textbox("clear");
-            $("#text-tree-node-concentratorId").textbox("disable");
+            $("#combo-tree-node-concentratorId").combobox("clear");
+            $("#combo-tree-node-concentratorId").combobox("disable");
         },
         onOpen: function () {
         },
@@ -176,8 +113,15 @@ $(document).ready(function () {
         }
     });
 
-    $("#text-tree-node-concentratorId").textbox({
-        required: true
+    $("#combo-tree-node-concentratorId").combobox({
+        required: true,
+        textField: "name",
+        valueField: "concentratorId",
+        url: _ctx + "system/concentrator/info/list.do",
+        queryParams: {
+            areaId: _areaId
+        },
+        editable: false,
     });
 
     $("#text-tree-node-name").textbox({
@@ -195,12 +139,12 @@ $(document).ready(function () {
             $("#combo-tree-node-iconcls").combobox("clear");
             $("#combo-tree-node-iconcls").combobox("loadData", []);
             if (record.value == "category") {
-                $("#text-tree-node-concentratorId").textbox("clear");
-                $("#text-tree-node-concentratorId").textbox("disable");
+                $("#combo-tree-node-concentratorId").combobox("clear");
+                $("#combo-tree-node-concentratorId").combobox("disable");
                 $("#combo-tree-node-iconcls").combobox("reload", "data/comboTreeNodeCategoryIcons.json");
             } else if (record.value == "concentrator") {
-                $("#text-tree-node-concentratorId").textbox("clear");
-                $("#text-tree-node-concentratorId").textbox("enable");
+                $("#combo-tree-node-concentratorId").combobox("clear");
+                $("#combo-tree-node-concentratorId").combobox("enable");
                 $("#combo-tree-node-iconcls").combobox("reload", "data/comboTreeNodeConcentratorIcons.json");
             }
         }
@@ -232,8 +176,8 @@ $(document).ready(function () {
                 return;
             }
 
-            if (!$("#text-tree-node-concentratorId").textbox("isValid")) {
-                $.messager.alert("操作提示", "请选择正确编号！", "info");
+            if (!$("#combo-tree-node-concentratorId").combobox("isValid")) {
+                $.messager.alert("操作提示", "请选择正确馈线柜！", "info");
                 return;
             }
 
@@ -242,151 +186,67 @@ $(document).ready(function () {
             var name = $("#text-tree-node-name").textbox("getValue");
             var iconcls = $("#combo-tree-node-iconcls").combobox("getValue");
             var type = $("#combo-tree-node-type").combobox("getValue");
-            var concentratorId = $("#text-tree-node-concentratorId").textbox("getValue");
+            var concentratorId = $("#combo-tree-node-concentratorId").combobox("getValue");
             var attributes = {
                 type: type
             };
 
+            if (node.attributes.type == "concentrator") {
+                $.messager.alert("操作提示", "无法在此下添加节点！", "info");
+                return;
+            }
+
             if (attributes.type == "concentrator") {
                 for (var i = 0; i < children.length; i++) {
                     if (children[i].attributes.type != "concentrator") {
-                        $.messager.alert("操作提示", "无法在此分类下添加馈线柜！", "info");
+                        $.messager.alert("操作提示", "无法在此下添加馈线柜！", "info");
                         return;
                     }
                 }
-
-                var concentratorInfo = $.parseJSON($.ajax({
-                    url: _ctx + "system/concentrator/info/detailByInfo.do",
-                    type: "POST",
-                    data: {
-                        areaId: _areaId,
-                        concentratorId: concentratorId
-                    },
-                    async: false
-                }).responseText);
-
-
-                if ("0" == concentratorInfo.errcode) {
-                    if (concentratorInfo.data.length > 0) {
-                        $.messager.alert("操作提示", "编号已存在！", "info");
-                        return;
-                    }
-                } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(concentratorInfo.errcode), "info");
-                    return;
-                }
-
-                attributes.concentratorId = concentratorId;
-
-                $.ajax({
-                    url: _ctx + "system/concentrator/info/add.do",
-                    type: "POST",
-                    data: {
-                        areaId: _areaId,
-                        concentratorId: concentratorId,
-                        name: name
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                $.ajax({
-                                    url: _ctx + "system/tree/info/add.do",
-                                    type: "POST",
-                                    data: {
-                                        pid: node.id,
-                                        treeId: _areaId,
-                                        iconcls: iconcls,
-                                        attributes: JSON.stringify(attributes),
-                                        name: name
-                                    },
-                                    cache: false,
-                                    success: function (r) {
-                                        if (r.hasOwnProperty("errcode")) {
-                                            if ("0" == r.errcode) {
-                                                $("#dTree").tree("reload");
-                                                $("#dlg-add-tree-node").dialog("close");
-                                                $.messager.alert("操作提示", "添加成功。", "info");
-                                            } else {
-                                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                                            }
-                                        } else {
-                                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                                        }
-                                    },
-                                    beforeSend: function (XMLHttpRequest) {
-
-                                    },
-                                    error: function (request) {
-                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                                    },
-                                    complete: function (XMLHttpRequest, textStatus) {
-                                        MaskUtil.unmask();
-                                    }
-                                });
-
-                            } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                            }
-                        } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                        }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                        MaskUtil.unmask();
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-
-                    }
-                });
             }
             else if (attributes.type == "category") {
                 for (var i = 0; i < children.length; i++) {
                     if (children[i].attributes.type == "concentrator") {
-                        $.messager.alert("操作提示", "无法在此分类下添加子分类！", "info");
+                        $.messager.alert("操作提示", "无法在此下添加子分类！", "info");
                         return;
                     }
                 }
-
-                $.ajax({
-                    url: _ctx + "system/tree/info/add.do",
-                    type: "POST",
-                    data: {
-                        pid: node.id,
-                        treeId: _areaId,
-                        iconcls: iconcls,
-                        attributes: JSON.stringify(attributes),
-                        name: name
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                $("#dTree").tree("reload");
-                                $("#dlg-add-tree-node").dialog("close");
-                                $.messager.alert("操作提示", "添加成功。", "info");
-                            } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                            }
-                        } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                        }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
-                    }
-                });
             }
+
+            $.ajax({
+                url: _ctx + "system/tree/info/add.do",
+                type: "POST",
+                data: {
+                    pid: node.id,
+                    treeId: _treeId,
+                    iconcls: iconcls,
+                    attributes: JSON.stringify(attributes),
+                    name: name
+                },
+                cache: false,
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            $("#dTree").tree("reload");
+                            $("#dlg-add-tree-node").dialog("close");
+                            $.messager.alert("操作提示", "添加成功。", "info");
+                        } else {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        }
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    MaskUtil.mask();
+                },
+                error: function (request) {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    MaskUtil.unmask();
+                }
+            });
 
         }
     });
@@ -449,100 +309,36 @@ $(document).ready(function () {
 
         $.messager.confirm("操作提示", "确定要删除吗？", function (r) {
             if (r) {
-                if (node.attributes.type == "concentrator") {
-                    $.ajax({
-                        url: _ctx + "system/concentrator/info/deleteByInfo.do",
-                        type: "POST",
-                        data: {
-                            areaId: _areaId,
-                            concentratorId: node.attributes.concentratorId,
-                        },
-                        cache: false,
-                        success: function (r) {
-                            if (r.hasOwnProperty("errcode")) {
-                                if ("0" == r.errcode) {
-                                    $.ajax({
-                                        url: _ctx + "system/tree/info/delete.do",
-                                        type: "POST",
-                                        data: {
-                                            id: node.id
-                                        },
-                                        cache: false,
-                                        success: function (r) {
-                                            if (r.hasOwnProperty("errcode")) {
-                                                if ("0" == r.errcode) {
-                                                    $("#dTree").tree("loadData", []);
-                                                    $("#dTree").tree("reload");
-                                                    $.messager.alert("操作提示", "删除成功！", "info");
-                                                } else {
-                                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                                                }
-                                            } else {
-                                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                                            }
-                                        },
-                                        beforeSend: function (XMLHttpRequest) {
-
-                                        },
-                                        error: function (request) {
-                                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                                        },
-                                        complete: function (XMLHttpRequest, textStatus) {
-                                            MaskUtil.unmask();
-                                        }
-                                    });
-
-                                } else {
-                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                                }
+                $.ajax({
+                    url: _ctx + "system/tree/info/delete.do",
+                    type: "POST",
+                    data: {
+                        id: node.id
+                    },
+                    cache: false,
+                    success: function (r) {
+                        if (r.hasOwnProperty("errcode")) {
+                            if ("0" == r.errcode) {
+                                $("#dTree").tree("loadData", []);
+                                $("#dTree").tree("reload");
+                                $.messager.alert("操作提示", "删除成功！", "info");
                             } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                             }
-                        },
-                        beforeSend: function (XMLHttpRequest) {
-                            MaskUtil.mask();
-                        },
-                        error: function (request) {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                            MaskUtil.unmask();
-                        },
-                        complete: function (XMLHttpRequest, textStatus) {
-
+                        } else {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                         }
-                    });
-                }
-                else if (node.attributes.type == "category") {
-                    $.ajax({
-                        url: _ctx + "system/tree/info/delete.do",
-                        type: "POST",
-                        data: {
-                            id: node.id
-                        },
-                        cache: false,
-                        success: function (r) {
-                            if (r.hasOwnProperty("errcode")) {
-                                if ("0" == r.errcode) {
-                                    $("#dTree").tree("loadData", []);
-                                    $("#dTree").tree("reload");
-                                    $.messager.alert("操作提示", "删除成功！", "info");
-                                } else {
-                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                                }
-                            } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                            }
-                        },
-                        beforeSend: function (XMLHttpRequest) {
-                            MaskUtil.mask();
-                        },
-                        error: function (request) {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                        },
-                        complete: function (XMLHttpRequest, textStatus) {
-                            MaskUtil.unmask();
-                        }
-                    });
-                }
+                    },
+                    beforeSend: function (XMLHttpRequest) {
+                        MaskUtil.mask();
+                    },
+                    error: function (request) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        MaskUtil.unmask();
+                    }
+                });
             }
         });
 

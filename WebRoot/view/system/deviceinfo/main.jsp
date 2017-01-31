@@ -84,12 +84,12 @@
                     <div class="clear"></div>
                     <div class="grid_4 cell title cell-concentratorId">
                         <p>
-                            馈线柜编号
+                            馈线柜
                         </p>
                     </div>
                     <div class="grid_8 cell cell-concentratorId">
                         <p>
-                            <input id="text-tree-node-concentratorId" class="easyui-textbox" style="width: 100%;">
+                            <input id="combo-tree-node-concentratorId" class="easyui-combobox" style="width: 100%;">
                         </p>
                     </div>
                     <div class="clear"></div>

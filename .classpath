@@ -13,5 +13,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/barrie/Documents/Workspaces/MyEclipse/EleFirst/WebRoot/WEB-INF/lib/mybatis-page-plugin-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

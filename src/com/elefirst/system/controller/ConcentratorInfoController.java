@@ -35,10 +35,14 @@ public class ConcentratorInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg getConcentratorInfoList(HttpServletRequest request,
                                             HttpServletResponse response,
+                                            @RequestParam(value = "areaId", required = false) String areaId,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "rows", required = false) Integer rows
     ) {
         ConcentratorInfo template = new ConcentratorInfo();
+        if (null != areaId) {
+            template.setAreaId(areaId);
+        }
 
         if (null != page && null != rows) {
             template.setPage(page);
