@@ -213,87 +213,90 @@ $(document).ready(function () {
                     $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.name);
                 }
 
-
                 $("#input-detail-datebox").datebox("clear");
-                //选中对应的tab页
-                if ('tt1' == dgId) {
-                    singlerow = $('#tt1').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date);
-                    $('#tab2').tabs('select', '负荷');
-                    //初始化负荷详情
-                    refreshTab('负荷', areaId, concentratorId, pn, date);
-                    getLoadDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                } else if ('tt2' == dgId) {
-                    singlerow = $('#tt2').datagrid('getSelected');
-                    areaId = singlerow.areaId33;
-                    concentratorId = singlerow.concentratorId33;
-                    pn = singlerow.pn33;
 
-                    var dateStr = singlerow.clientoperationtime33.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date)
+                // 展开的时候有点卡顿，设置个延时
+                setTimeout(function () {
+                    //选中对应的tab页
+                    if ('tt1' == dgId) {
+                        singlerow = $('#tt1').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date);
+                        $('#tab2').tabs('select', '负荷');
+                        //初始化负荷详情
+                        refreshTab('负荷', areaId, concentratorId, pn, date);
+                        getLoadDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    } else if ('tt2' == dgId) {
+                        singlerow = $('#tt2').datagrid('getSelected');
+                        areaId = singlerow.areaId33;
+                        concentratorId = singlerow.concentratorId33;
+                        pn = singlerow.pn33;
 
-                    $('#tab2').tabs('select', '示数');
+                        var dateStr = singlerow.clientoperationtime33.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date)
+
+                        $('#tab2').tabs('select', '示数');
 
 
-                } else if ('tt3' == dgId) {
-                    singlerow = $('#tt3').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date);
-                    $('#tab2').tabs('select', '电压');
-                    getVoltageDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                } else if ('tt4' == dgId) {
-                    singlerow = $('#tt4').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date);
+                    } else if ('tt3' == dgId) {
+                        singlerow = $('#tt3').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date);
+                        $('#tab2').tabs('select', '电压');
+                        getVoltageDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    } else if ('tt4' == dgId) {
+                        singlerow = $('#tt4').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date);
 
-                    $('#tab2').tabs('select', '电流');
-                    getCurrentDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                } else if ('tt5' == dgId) {
-                    singlerow = $('#tt5').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
+                        $('#tab2').tabs('select', '电流');
+                        getCurrentDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    } else if ('tt5' == dgId) {
+                        singlerow = $('#tt5').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
 
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date)
-                    $('#tab2').tabs('select', '功率因数');
-                    getPowerFactorDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                }
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date)
+                        $('#tab2').tabs('select', '功率因数');
+                        getPowerFactorDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    }
+                }, 1000);
             }
         });
     }
