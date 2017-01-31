@@ -165,12 +165,15 @@ public class TreeInfoController extends BaseController {
         // 输出无序的树形菜单的JSON字符串
 //        System.out.println(root.toString());
         // 对多叉树进行横向排序
-        root.sortChildren();
+        JSONArray treeArr = new JSONArray();
+
+        if (null != root) {
+            root.sortChildren();
+            treeArr.add(JSONObject.fromObject(root.toString()));
+        }
         // 输出有序的树形菜单的JSON字符串
 //        System.out.println(root.toString());
 
-        JSONArray treeArr = new JSONArray();
-        treeArr.add(JSONObject.fromObject(root.toString()));
 
         return new ErrorMsg(Error.SUCCESS, "success", treeArr);
 

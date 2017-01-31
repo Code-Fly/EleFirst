@@ -62,7 +62,9 @@ $(document).ready(function () {
         },
         onLoadSuccess: function (node, data) {
             var root = $(this).tree("getRoot");
-            $(this).tree("select", root.target);
+            if (root != undefined && root != null) {
+                $(this).tree("select", root.target);
+            }
         }
 
     });
@@ -216,7 +218,50 @@ $(document).ready(function () {
     });
 
     $("#btn-tree-tool-add").click(function () {
-        $("#dlg-add-tree-node").dialog("open");
+        var roots = $("#dTree").tree("getRoots");
+
+        if (roots.length == 0) {
+            $.messager.confirm("操作提示", "是否添加根节点？", function (r) {
+                if (r) {
+                    $.ajax({
+                        url: _ctx + "system/tree/info/add.do",
+                        type: "POST",
+                        data: {
+                            pid: 0,
+                            treeId: info.areaId,
+                            iconcls: "icon-house",
+                            attributes: JSON.stringify({"type": "category"}),
+                            name: "配用电监测"
+                        },
+                        cache: false,
+                        success: function (r) {
+                            if (r.hasOwnProperty("errcode")) {
+                                if ("0" == r.errcode) {
+                                    $("#dTree").tree("reload");
+                                    $("#dlg-add-tree-node").dialog("close");
+                                    $.messager.alert("操作提示", "添加成功。", "info");
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                }
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            }
+                        },
+                        beforeSend: function (XMLHttpRequest) {
+                            MaskUtil.mask();
+                        },
+                        error: function (request) {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        },
+                        complete: function (XMLHttpRequest, textStatus) {
+                            MaskUtil.unmask();
+                        }
+                    });
+                }
+            });
+        } else {
+            $("#dlg-add-tree-node").dialog("open");
+        }
     });
 
     $("#btn-tree-tool-delete").click(function () {
@@ -240,6 +285,7 @@ $(document).ready(function () {
                     success: function (r) {
                         if (r.hasOwnProperty("errcode")) {
                             if ("0" == r.errcode) {
+                                $("#dTree").tree("loadData", []);
                                 $("#dTree").tree("reload");
                                 $.messager.alert("操作提示", "删除成功！", "info");
                             } else {
