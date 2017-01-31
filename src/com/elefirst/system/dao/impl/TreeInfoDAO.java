@@ -35,7 +35,7 @@ public class TreeInfoDAO extends BaseDAO implements ITreeInfoDAO {
 
     @Override
     public int updateTreeInfo(TreeInfoExample example, TreeInfo template) {
-        return treeInfoMapper.updateByExampleWithBLOBs(template, example);
+        return treeInfoMapper.updateByExampleSelective(template, example);
     }
 
     @Override

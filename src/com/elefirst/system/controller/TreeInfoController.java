@@ -59,6 +59,68 @@ public class TreeInfoController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/info/update.do")
+    @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg updateTreeInfo(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @RequestParam(value = "id") String id,
+                                   @RequestParam(value = "name") String name
+    ) {
+        TreeInfo template = new TreeInfo();
+
+        if (null != name && !name.isEmpty()) {
+
+            template.setId(id);
+            template.setName(name);
+            template.setUpdatePerson("admin");
+            template.setUpdateDate(new Date());
+            int result = treeInfoService.updateTreeInfo(template);
+            return new ErrorMsg(Error.SUCCESS, "success", result);
+        } else {
+            return new ErrorMsg(Error.SUCCESS, "success");
+        }
+
+    }
+
+    @RequestMapping(value = "/info/add.do")
+    @ApiOperation(value = "添加", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg addTreeInfo(HttpServletRequest request,
+                                HttpServletResponse response,
+                                @RequestParam(value = "pid") String pid,
+                                @RequestParam(value = "treeId") String treeId,
+                                @RequestParam(value = "iconcls") String iconcls,
+                                @RequestParam(value = "state", required = false) String state,
+                                @RequestParam(value = "attributes") String attributes,
+                                @RequestParam(value = "name") String name
+    ) {
+        TreeInfo template = new TreeInfo();
+        template.setPid(pid);
+        template.setTreeId(treeId);
+        template.setIconcls(iconcls);
+        if (null != state && !state.isEmpty()) {
+            template.setState(state);
+        }
+        template.setAttributes(attributes);
+        template.setName(name);
+        template.setCreatePerson("admin");
+        template.setCreateDate(new Date());
+        int result = treeInfoService.addTreeInfo(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/info/delete.do")
+    @ApiOperation(value = "删除", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg deleteTreeInfo(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @RequestParam(value = "id") String id
+    ) {
+        int result = treeInfoService.delTreeInfo(id);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
     @RequestMapping(value = "/info/node.do")
     @ApiOperation(value = "树形", notes = "", httpMethod = "POST")
     @ResponseBody

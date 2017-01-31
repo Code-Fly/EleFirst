@@ -190,9 +190,13 @@
             <%--onclick="addTab('角色管理','view/system/userinfo/rolemanager.jsp','icon-users')"--%>
             <%--plain="true" href="javascript:void(0)">角色管理</a></li>--%>
             <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-cog'"
-                   onclick="addTab('配置管理','view/system/userinfo/rolemanager.jsp','icon-cog')"
-                   plain="true" href="javascript:void(0)">配置管理</a></li>
+                   data-options="iconCls:'icon-calculator'"
+                   onclick="addTab('表计档案管理','view/system/deviceinfo/main.jsp','icon-calculator')"
+                   plain="true" href="javascript:void(0)">表计档案管理</a></li>
+                <li><a class="easyui-linkbutton"
+                       data-options="iconCls:'icon-building'"
+                       onclick="addTab('企业档案管理','view/system/userinfo/rolemanager.jsp','icon-building')"
+                       plain="true" href="javascript:void(0)">企业档案管理</a></li>
         </ul>
     </div>
 </div>

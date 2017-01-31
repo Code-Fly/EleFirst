@@ -12,9 +12,10 @@ $(document).ready(function () {
         // method: "get",
         url: _ctx + "system/tree/info/node.do",
         queryParams: {
-            treeId: "1"
+            treeId: info.areaId
         },
         animate: true,
+        lines: true,
         onSelect: function (node) {
             traverse(node);
             parent.saveTreeInfo(info);
