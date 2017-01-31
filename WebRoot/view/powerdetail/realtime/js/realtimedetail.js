@@ -209,148 +209,177 @@ $(document).ready(function () {
                 $('#cc').layout('expand', 'south');
                 $('#cc').layout('panel', 'south').panel('setTitle', '当前监测点:' + row.name);
 
-
                 $("#input-detail-datebox").datebox("clear");
-                //选中对应的tab页
-                if ('tt1' == dgId) {
-                    singlerow = $('#tt1').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date);
-                    $('#tab2').tabs('select', '负荷');
-                    //初始化负荷详情
-                    refreshTab('负荷', areaId, concentratorId, pn, date);
-                    getLoadDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                } else if ('tt2' == dgId) {
-                    singlerow = $('#tt2').datagrid('getSelected');
-                    areaId = singlerow.areaId33;
-                    concentratorId = singlerow.concentratorId33;
-                    pn = singlerow.pn33;
 
-                    var dateStr = singlerow.clientoperationtime33.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date)
+                // 展开的时候有点卡顿，设置个延时
+                setTimeout(function () {
+                    //选中对应的tab页
+                    if ('tt1' == dgId) {
+                        singlerow = $('#tt1').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date);
+                        $('#tab2').tabs('select', '负荷');
+                        //初始化负荷详情
+                        refreshTab('负荷', areaId, concentratorId, pn, date);
+                        getLoadDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    } else if ('tt2' == dgId) {
+                        singlerow = $('#tt2').datagrid('getSelected');
+                        areaId = singlerow.areaId33;
+                        concentratorId = singlerow.concentratorId33;
+                        pn = singlerow.pn33;
 
-                    $('#tab2').tabs('select', '示数');
+                        var dateStr = singlerow.clientoperationtime33.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date)
+
+                        $('#tab2').tabs('select', '示数');
 
 
-                } else if ('tt3' == dgId) {
-                    singlerow = $('#tt3').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date);
-                    $('#tab2').tabs('select', '电压');
-                    getVoltageDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                } else if ('tt4' == dgId) {
-                    singlerow = $('#tt4').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date);
+                    } else if ('tt3' == dgId) {
+                        singlerow = $('#tt3').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date);
+                        $('#tab2').tabs('select', '电压');
+                        getVoltageDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    } else if ('tt4' == dgId) {
+                        singlerow = $('#tt4').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date);
 
-                    $('#tab2').tabs('select', '电流');
-                    getCurrentDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                } else if ('tt5' == dgId) {
-                    singlerow = $('#tt5').datagrid('getSelected');
-                    areaId = singlerow.areaId;
-                    concentratorId = singlerow.concentratorId;
-                    pn = singlerow.pn;
+                        $('#tab2').tabs('select', '电流');
+                        getCurrentDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    } else if ('tt5' == dgId) {
+                        singlerow = $('#tt5').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
 
-                    var dateStr = singlerow.clientoperationtime.split(" ");
-                    date = dateStr[0];
-                    $("#input-detail-datebox").datebox("setValue", date)
-                    $('#tab2').tabs('select', '功率因数');
-                    getPowerFactorDetailChart({
-                        areaId: row.areaId,
-                        concentratorId: row.concentratorId,
-                        pn: row.pn,
-                        time: $("#input-detail-datebox").datebox("getValue")
-                    });
-                }
+                        var dateStr = singlerow.clientoperationtime.split(" ");
+                        date = dateStr[0];
+                        $("#input-detail-datebox").datebox("setValue", date)
+                        $('#tab2').tabs('select', '功率因数');
+                        getPowerFactorDetailChart({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn,
+                            time: $("#input-detail-datebox").datebox("getValue")
+                        });
+                    }
+                }, 1000);
             }
         });
     }
 
     function getLoadDetailChart(row) {
-        var pnInfo = getPnDetail(row);
-
-        var time = new Date().format("yyyy-MM-dd");
-        if (row.time != null && row.time != "") {
-            time = row.time;
-        }
-
-        var paramChart = {
-            node: [],
-            time: []
-        }
-
-        paramChart.node.push({
-            areaId: row.areaId,
-            concentratorId: row.concentratorId,
-            pn: row.pn
-        })
-
-        var ss = time.split('-');
-        var y = parseInt(ss[0], 10);
-        var m = parseInt(ss[1], 10) - 1;
-        var d = parseInt(ss[2], 10);
-
-        paramChart.time.push(
-            new Date(y, m, d).format('yyyyMMdd') + "000000"
-        )
-
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+            url: _ctx + "system/pn/info/detail.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: row,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
+                        var pnInfo = r.data[0];
 
-                        var item = ChartUtils.getLoadDailyDetailSeries({
+                        var time = new Date().format("yyyy-MM-dd");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
-                        series.push(item);
+                            pn: row.pn
+                        })
 
-                        var config = $.parseJSON($.ajax({
-                            url: "data/loadDetailChart.json",
-                            type: "GET",
-                            async: false
-                        }).responseText);
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+                        var d = parseInt(ss[2], 10);
 
-                        config.series = series;
+                        paramChart.time.push(
+                            new Date(y, m, d).format('yyyyMMdd') + "000000"
+                        )
 
-                        $("#chart-load-detail").highcharts(config);
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+
+                                        var item = ChartUtils.getLoadDailyDetailSeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
+                                        series.push(item);
+
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/loadDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+                                        config.series = series;
+
+                                        $("#chart-load-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
 
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -364,91 +393,116 @@ $(document).ready(function () {
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
             }
         });
     }
 
     function getVoltageDetailChart(row) {
-        var pnInfo = getPnDetail(row);
-
-        var time = new Date().format("yyyy-MM-dd");
-        if (row.time != null && row.time != "") {
-            time = row.time;
-        }
-
-        var paramChart = {
-            node: [],
-            time: []
-        }
-
-        paramChart.node.push({
-            areaId: row.areaId,
-            concentratorId: row.concentratorId,
-            pn: row.pn
-        })
-
-        var ss = time.split('-');
-        var y = parseInt(ss[0], 10);
-        var m = parseInt(ss[1], 10) - 1;
-        var d = parseInt(ss[2], 10);
-
-        paramChart.time.push(
-            new Date(y, m, d).format('yyyyMMdd') + "000000"
-        )
-
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/voltage/daily/chart.do",
+            url: _ctx + "system/pn/info/detail.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: row,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
-                        var item = ChartUtils.getVoltageDailySeries({
+                        var pnInfo = r.data[0];
+
+                        var time = new Date().format("yyyy-MM-dd");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "A相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_Voltage");
-                        series.push(item);
+                            pn: row.pn
+                        })
 
-                        var item = ChartUtils.getVoltageDailySeries({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "B相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_Voltage");
-                        series.push(item);
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+                        var d = parseInt(ss[2], 10);
 
-                        var item = ChartUtils.getVoltageDailySeries({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "C相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_Voltage");
-                        series.push(item);
+                        paramChart.time.push(
+                            new Date(y, m, d).format('yyyyMMdd') + "000000"
+                        )
 
-                        var config = $.parseJSON($.ajax({
-                            url: "data/voltageDetailChart.json",
-                            type: "GET",
-                            async: false
-                        }).responseText);
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/voltage/daily/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+                                        var item = ChartUtils.getVoltageDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_Voltage");
+                                        series.push(item);
 
-                        config.series = series;
+                                        var item = ChartUtils.getVoltageDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_Voltage");
+                                        series.push(item);
 
-                        $("#chart-voltage-detail").highcharts(config);
+                                        var item = ChartUtils.getVoltageDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_Voltage");
+                                        series.push(item);
 
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/voltageDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+                                        config.series = series;
+
+                                        $("#chart-voltage-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
@@ -461,90 +515,115 @@ $(document).ready(function () {
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
             }
         });
     }
 
     function getCurrentDetailChart(row) {
-        var pnInfo = getPnDetail(row);
-
-        var time = new Date().format("yyyy-MM-dd");
-        if (row.time != null && row.time != "") {
-            time = row.time;
-        }
-
-        var paramChart = {
-            node: [],
-            time: []
-        }
-
-        paramChart.node.push({
-            areaId: row.areaId,
-            concentratorId: row.concentratorId,
-            pn: row.pn
-        })
-
-        var ss = time.split('-');
-        var y = parseInt(ss[0], 10);
-        var m = parseInt(ss[1], 10) - 1;
-        var d = parseInt(ss[2], 10);
-
-        paramChart.time.push(
-            new Date(y, m, d).format('yyyyMMdd') + "000000"
-        )
-
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/current/daily/chart.do",
+            url: _ctx + "system/pn/info/detail.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: row,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
-                        var item = ChartUtils.getCurrentDailySeries({
+                        var pnInfo = r.data[0];
+                        var time = new Date().format("yyyy-MM-dd");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "A相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_Current");
-                        series.push(item);
+                            pn: row.pn
+                        })
 
-                        var item = ChartUtils.getCurrentDailySeries({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "B相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_Current");
-                        series.push(item);
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+                        var d = parseInt(ss[2], 10);
 
-                        var item = ChartUtils.getCurrentDailySeries({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "C相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_Current");
-                        series.push(item);
+                        paramChart.time.push(
+                            new Date(y, m, d).format('yyyyMMdd') + "000000"
+                        )
 
-                        var config = $.parseJSON($.ajax({
-                            url: "data/currentDetailChart.json",
-                            type: "GET",
-                            async: false
-                        }).responseText);
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/current/daily/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+                                        var item = ChartUtils.getCurrentDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_Current");
+                                        series.push(item);
 
-                        config.series = series;
+                                        var item = ChartUtils.getCurrentDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_Current");
+                                        series.push(item);
 
-                        $("#chart-current-detail").highcharts(config);
+                                        var item = ChartUtils.getCurrentDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_Current");
+                                        series.push(item);
+
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/currentDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+                                        config.series = series;
+
+                                        $("#chart-current-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
 
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -558,91 +637,116 @@ $(document).ready(function () {
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
             }
         });
     }
 
     function getPowerFactorDetailChart(row) {
-        var pnInfo = getPnDetail(row);
-
-        var time = new Date().format("yyyy-MM-dd");
-        if (row.time != null && row.time != "") {
-            time = row.time;
-        }
-
-        var paramChart = {
-            node: [],
-            time: []
-        }
-
-        paramChart.node.push({
-            areaId: row.areaId,
-            concentratorId: row.concentratorId,
-            pn: row.pn
-        })
-
-        var ss = time.split('-');
-        var y = parseInt(ss[0], 10);
-        var m = parseInt(ss[1], 10) - 1;
-        var d = parseInt(ss[2], 10);
-
-        paramChart.time.push(
-            new Date(y, m, d).format('yyyyMMdd') + "000000"
-        )
-
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/powerFactor/daily/chart.do",
+            url: _ctx + "system/pn/info/detail.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: row,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
-                        var item = ChartUtils.getPowerFactorDailySeries({
+                        var pnInfo = r.data[0];
+
+                        var time = new Date().format("yyyy-MM-dd");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "A相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_PowerFactor");
-                        series.push(item);
+                            pn: row.pn
+                        })
 
-                        var item = ChartUtils.getPowerFactorDailySeries({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "B相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_PowerFactor");
-                        series.push(item);
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+                        var d = parseInt(ss[2], 10);
 
-                        var item = ChartUtils.getPowerFactorDailySeries({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            pt: pnInfo.pt,
-                            ct: pnInfo.ct,
-                            name: "C相"
-                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_PowerFactor");
-                        series.push(item);
+                        paramChart.time.push(
+                            new Date(y, m, d).format('yyyyMMdd') + "000000"
+                        )
 
-                        var config = $.parseJSON($.ajax({
-                            url: "data/powerFactorDetailChart.json",
-                            type: "GET",
-                            async: false
-                        }).responseText);
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/powerFactor/daily/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+                                        var item = ChartUtils.getPowerFactorDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxA_PowerFactor");
+                                        series.push(item);
 
-                        config.series = series;
+                                        var item = ChartUtils.getPowerFactorDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxB_PowerFactor");
+                                        series.push(item);
 
-                        $("#chart-power-factor-detail").highcharts(config);
+                                        var item = ChartUtils.getPowerFactorDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "maxC_PowerFactor");
+                                        series.push(item);
 
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/powerFactorDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+                                        config.series = series;
+
+                                        $("#chart-power-factor-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
@@ -655,9 +759,9 @@ $(document).ready(function () {
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
             }
         });
     }

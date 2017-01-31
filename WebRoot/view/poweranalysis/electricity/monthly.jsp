@@ -95,7 +95,7 @@
             <tr>
                 <th data-options="field:'price'" width="150" align="center">本期电量(kWh)</th>
                 <th data-options="field:'price'" width="150" align="center">去年同期电量(kWh)</th>
-                <th data-options="field:'price'" width="100" align="center">同比(%)</th>
+                <th data-options="field:'price'" width="150" align="center">同比(%)</th>
                 <th data-options="field:'name'" width="150" align="center">日期</th>
             </tr>
             </thead>
