@@ -7,5 +7,7 @@ function saveTreeInfo(info) {
 }
 
 $(document).ready(function () {
-
+    $("#btn-tree-tool-refresh").click(function () {
+        $("#frame-tree").attr("src", $("#frame-tree").attr("src"));
+    });
 });

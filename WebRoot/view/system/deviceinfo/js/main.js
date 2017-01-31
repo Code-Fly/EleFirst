@@ -100,16 +100,30 @@ $(document).ready(function () {
 
     $("#dlg-add-tree-node").dialog({
         onBeforeOpen: function () {
-            $("#text-tree-node-name").textbox("clear");
-            $("#combo-tree-node-type").combobox("clear");
-            $("#combo-tree-node-iconcls").combobox("clear");
-            $("#combo-tree-node-concentratorId").combobox("clear");
-            $("#combo-tree-node-concentratorId").combobox("disable");
+            if (flag_edit) {
+                var node = $("#dTree").tree("getSelected");
+                var name = node.text;
+                var iconcls = node.iconCls;
+                var type = node.attributes.type;
+                var concentratorId = node.attributes.concentratorId;
+
+                $("#text-tree-node-name").textbox("setValue", name);
+                $("#combo-tree-node-type").combobox("select", type);
+                $("#combo-tree-node-iconcls").combobox("select", iconcls);
+                $("#combo-tree-node-concentratorId").combobox("select", concentratorId);
+
+            } else {
+                $("#text-tree-node-name").textbox("clear");
+                $("#combo-tree-node-type").combobox("clear");
+                $("#combo-tree-node-iconcls").combobox("clear");
+                $("#combo-tree-node-concentratorId").combobox("clear");
+                $("#combo-tree-node-concentratorId").combobox("disable");
+            }
         },
         onOpen: function () {
         },
         onClose: function () {
-
+            flag_edit = false;
         }
     });
 
@@ -191,63 +205,98 @@ $(document).ready(function () {
                 type: type
             };
 
-            if (node.attributes.type == "concentrator") {
-                $.messager.alert("操作提示", "无法在此下添加节点！", "info");
-                return;
-            }
-
-            if (attributes.type == "concentrator") {
-                for (var i = 0; i < children.length; i++) {
-                    if (children[i].attributes.type != "concentrator") {
-                        $.messager.alert("操作提示", "无法在此下添加馈线柜！", "info");
-                        return;
-                    }
-                }
-            }
-            else if (attributes.type == "category") {
-                for (var i = 0; i < children.length; i++) {
-                    if (children[i].attributes.type == "concentrator") {
-                        $.messager.alert("操作提示", "无法在此下添加子分类！", "info");
-                        return;
-                    }
-                }
-            }
-
-            $.ajax({
-                url: _ctx + "system/tree/info/add.do",
-                type: "POST",
-                data: {
-                    pid: node.id,
-                    treeId: _treeId,
-                    iconcls: iconcls,
-                    attributes: JSON.stringify(attributes),
-                    name: name
-                },
-                cache: false,
-                success: function (r) {
-                    if (r.hasOwnProperty("errcode")) {
-                        if ("0" == r.errcode) {
-                            $("#dTree").tree("reload");
-                            $("#dlg-add-tree-node").dialog("close");
-                            $.messager.alert("操作提示", "添加成功。", "info");
+            if (flag_edit) {
+                $.ajax({
+                    url: _ctx + "system/tree/info/update.do",
+                    type: "POST",
+                    data: {
+                        id: node.id,
+                        iconcls: iconcls,
+                        attributes: JSON.stringify(attributes),
+                        name: name
+                    },
+                    cache: false,
+                    success: function (r) {
+                        if (r.hasOwnProperty("errcode")) {
+                            if ("0" == r.errcode) {
+                                $("#dTree").tree("reload");
+                                $("#dlg-add-tree-node").dialog("close");
+                                $.messager.alert("操作提示", "添加成功。", "info");
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            }
                         } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                         }
-                    } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    },
+                    beforeSend: function (XMLHttpRequest) {
+                        MaskUtil.mask();
+                    },
+                    error: function (request) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        MaskUtil.unmask();
                     }
-                },
-                beforeSend: function (XMLHttpRequest) {
-                    MaskUtil.mask();
-                },
-                error: function (request) {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                },
-                complete: function (XMLHttpRequest, textStatus) {
-                    MaskUtil.unmask();
+                });
+            } else {
+                if (node.attributes.type == "concentrator") {
+                    $.messager.alert("操作提示", "无法在此下添加节点！", "info");
+                    return;
                 }
-            });
 
+                if (attributes.type == "concentrator") {
+                    for (var i = 0; i < children.length; i++) {
+                        if (children[i].attributes.type != "concentrator") {
+                            $.messager.alert("操作提示", "无法在此下添加馈线柜！", "info");
+                            return;
+                        }
+                    }
+                }
+                else if (attributes.type == "category") {
+                    for (var i = 0; i < children.length; i++) {
+                        if (children[i].attributes.type == "concentrator") {
+                            $.messager.alert("操作提示", "无法在此下添加子分类！", "info");
+                            return;
+                        }
+                    }
+                }
+
+                $.ajax({
+                    url: _ctx + "system/tree/info/add.do",
+                    type: "POST",
+                    data: {
+                        pid: node.id,
+                        treeId: _treeId,
+                        iconcls: iconcls,
+                        attributes: JSON.stringify(attributes),
+                        name: name
+                    },
+                    cache: false,
+                    success: function (r) {
+                        if (r.hasOwnProperty("errcode")) {
+                            if ("0" == r.errcode) {
+                                $("#dTree").tree("reload");
+                                $("#dlg-add-tree-node").dialog("close");
+                                $.messager.alert("操作提示", "添加成功。", "info");
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            }
+                        } else {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                        }
+                    },
+                    beforeSend: function (XMLHttpRequest) {
+                        MaskUtil.mask();
+                    },
+                    error: function (request) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        MaskUtil.unmask();
+                    }
+                });
+            }
         }
     });
 
@@ -294,6 +343,19 @@ $(document).ready(function () {
                 }
             });
         } else {
+            $("#dlg-add-tree-node").dialog("open");
+        }
+    });
+
+
+    var flag_edit = false;
+    $("#btn-tree-tool-edit").click(function () {
+        var node = $("#dTree").tree("getSelected");
+
+        if (node == undefined || node == null) {
+            $.messager.alert("操作提示", "请选择节点！", "info");
+        } else {
+            flag_edit = true;
             $("#dlg-add-tree-node").dialog("open");
         }
     });

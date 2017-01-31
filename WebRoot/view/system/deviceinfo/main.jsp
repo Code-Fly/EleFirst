@@ -31,6 +31,7 @@
         </div>
         <div id="tool-tree">
             <a href="javascript:void(0)" id="btn-tree-tool-add" class="icon-add"></a>
+            <a href="javascript:void(0)" id="btn-tree-tool-edit" class="icon-edit"></a>
             <a href="javascript:void(0)" id="btn-tree-tool-delete" class="icon-cross"></a>
             <a href="javascript:void(0)" id="btn-tree-tool-refresh" class="icon-reload"></a>
         </div>
