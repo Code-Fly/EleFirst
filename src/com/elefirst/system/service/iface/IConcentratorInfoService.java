@@ -18,5 +18,9 @@ public interface IConcentratorInfoService {
 
     int updateConcentratorInfo(ConcentratorInfo template);
 
+    int updateConcentratorInfoByInfo(ConcentratorInfo template);
+
     int delConcentratorInfo(String id);
+
+    int delConcentratorInfoByInfo(ConcentratorInfo template);
 }

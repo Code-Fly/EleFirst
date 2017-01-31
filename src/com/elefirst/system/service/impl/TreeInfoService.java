@@ -50,7 +50,7 @@ public class TreeInfoService extends BaseService implements ITreeInfoService {
     }
 
     @Override
-    public List<TreeInfo> getTreeInfoDetail(String id) {
+    public List<TreeInfo> getTreeInfoDetail(Long id) {
         TreeInfoExample condition = new TreeInfoExample();
         TreeInfoExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
@@ -71,7 +71,7 @@ public class TreeInfoService extends BaseService implements ITreeInfoService {
     }
 
     @Override
-    public int delTreeInfo(String id) {
+    public int delTreeInfo(Long id) {
         TreeInfoExample condition = new TreeInfoExample();
         TreeInfoExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);

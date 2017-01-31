@@ -8,8 +8,8 @@ import java.util.Comparator;
 public class TreeNodeIDComparator implements Comparator {
     // 按照节点编号比较
     public int compare(Object o1, Object o2) {
-        int j1 = Integer.parseInt(((TreeNode) o1).getId());
-        int j2 = Integer.parseInt(((TreeNode) o2).getId());
+        long j1 = ((TreeNode) o1).getId();
+        long j2 = ((TreeNode) o2).getId();
         return (j1 < j2 ? -1 : (j1 == j2 ? 0 : 1));
     }
 }

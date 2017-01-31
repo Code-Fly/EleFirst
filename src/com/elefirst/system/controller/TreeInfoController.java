@@ -64,7 +64,7 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg updateTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
-                                   @RequestParam(value = "id") String id,
+                                   @RequestParam(value = "id") Long id,
                                    @RequestParam(value = "name") String name
     ) {
         TreeInfo template = new TreeInfo();
@@ -88,7 +88,7 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg addTreeInfo(HttpServletRequest request,
                                 HttpServletResponse response,
-                                @RequestParam(value = "pid") String pid,
+                                @RequestParam(value = "pid") Long pid,
                                 @RequestParam(value = "treeId") String treeId,
                                 @RequestParam(value = "iconcls") String iconcls,
                                 @RequestParam(value = "state", required = false) String state,
@@ -115,7 +115,7 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg deleteTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
-                                   @RequestParam(value = "id") String id
+                                   @RequestParam(value = "id") Long id
     ) {
         int result = treeInfoService.delTreeInfo(id);
         return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -156,7 +156,7 @@ public class TreeInfoController extends BaseController {
         Set entrySet = nodeList.entrySet();
         for (Iterator it = entrySet.iterator(); it.hasNext(); ) {
             TreeNode node = (TreeNode) ((Map.Entry) it.next()).getValue();
-            if (node.getPid() == null || node.getPid().equals("0")) {
+            if (node.getPid() == null || node.getPid() == 0) {
                 root = node;
             } else {
                 ((TreeNode) nodeList.get(node.getPid())).addChild(node);
