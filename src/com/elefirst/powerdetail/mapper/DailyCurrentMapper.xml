@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.powerdetail.mapper.DailyCurrentMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.DailyCurrent" >
+    <result column="days" property="days" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="maxACurrent" property="maxacurrent" jdbcType="DOUBLE" />
+    <result column="maxBCurrent" property="maxbcurrent" jdbcType="DOUBLE" />
+    <result column="maxCCurrent" property="maxccurrent" jdbcType="DOUBLE" />
+    <result column="minACurrent" property="minacurrent" jdbcType="DOUBLE" />
+    <result column="minBCurrent" property="minbcurrent" jdbcType="DOUBLE" />
+    <result column="minCCurrent" property="minccurrent" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    days, area_id, concentrator_id, name, pn, maxACurrent, maxBCurrent, maxCCurrent, 
+    minACurrent, minBCurrent, minCCurrent
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elefirst.powerdetail.po.DailyCurrentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_view_dailycurrent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.elefirst.powerdetail.po.DailyCurrentExample" >
+    delete from t_view_dailycurrent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elefirst.powerdetail.po.DailyCurrent" >
+    insert into t_view_dailycurrent (days, area_id, concentrator_id, 
+      name, pn, maxACurrent, 
+      maxBCurrent, maxCCurrent, minACurrent, 
+      minBCurrent, minCCurrent)
+    values (#{days,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{concentratorId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{pn,jdbcType=VARCHAR}, #{maxacurrent,jdbcType=DOUBLE}, 
+      #{maxbcurrent,jdbcType=DOUBLE}, #{maxccurrent,jdbcType=DOUBLE}, #{minacurrent,jdbcType=DOUBLE}, 
+      #{minbcurrent,jdbcType=DOUBLE}, #{minccurrent,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elefirst.powerdetail.po.DailyCurrent" >
+    insert into t_view_dailycurrent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="days != null" >
+        days,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="concentratorId != null" >
+        concentrator_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pn != null" >
+        pn,
+      </if>
+      <if test="maxacurrent != null" >
+        maxACurrent,
+      </if>
+      <if test="maxbcurrent != null" >
+        maxBCurrent,
+      </if>
+      <if test="maxccurrent != null" >
+        maxCCurrent,
+      </if>
+      <if test="minacurrent != null" >
+        minACurrent,
+      </if>
+      <if test="minbcurrent != null" >
+        minBCurrent,
+      </if>
+      <if test="minccurrent != null" >
+        minCCurrent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="days != null" >
+        #{days,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="concentratorId != null" >
+        #{concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pn != null" >
+        #{pn,jdbcType=VARCHAR},
+      </if>
+      <if test="maxacurrent != null" >
+        #{maxacurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="maxbcurrent != null" >
+        #{maxbcurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="maxccurrent != null" >
+        #{maxccurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="minacurrent != null" >
+        #{minacurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="minbcurrent != null" >
+        #{minbcurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="minccurrent != null" >
+        #{minccurrent,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elefirst.powerdetail.po.DailyCurrentExample" resultType="java.lang.Integer" >
+    select count(*) from t_view_dailycurrent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_view_dailycurrent
+    <set >
+      <if test="record.days != null" >
+        days = #{record.days,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.concentratorId != null" >
+        concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pn != null" >
+        pn = #{record.pn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxacurrent != null" >
+        maxACurrent = #{record.maxacurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="record.maxbcurrent != null" >
+        maxBCurrent = #{record.maxbcurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="record.maxccurrent != null" >
+        maxCCurrent = #{record.maxccurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minacurrent != null" >
+        minACurrent = #{record.minacurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minbcurrent != null" >
+        minBCurrent = #{record.minbcurrent,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minccurrent != null" >
+        minCCurrent = #{record.minccurrent,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_view_dailycurrent
+    set days = #{record.days,jdbcType=VARCHAR},
+      area_id = #{record.areaId,jdbcType=VARCHAR},
+      concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      pn = #{record.pn,jdbcType=VARCHAR},
+      maxACurrent = #{record.maxacurrent,jdbcType=DOUBLE},
+      maxBCurrent = #{record.maxbcurrent,jdbcType=DOUBLE},
+      maxCCurrent = #{record.maxccurrent,jdbcType=DOUBLE},
+      minACurrent = #{record.minacurrent,jdbcType=DOUBLE},
+      minBCurrent = #{record.minbcurrent,jdbcType=DOUBLE},
+      minCCurrent = #{record.minccurrent,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
