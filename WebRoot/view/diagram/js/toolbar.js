@@ -46,7 +46,24 @@ $(document).ready(function () {
     toolbar.addItem("刷新", mxBasePath + "images/editors/refresh.gif", function (evt) {
         // XML is normally fetched from URL at server using mxUtils.get - this is a client-side
         // string with randomized states to demonstrate the idea of the workflow monitor
-        var xml = '<process><update id="3" state="' + getState() + '"/><update id="4" state="' + getState() + '"/></process>';
+        var xml = '<process><update id="3" state="1"/><update id="4" state="1"/><update id="5" state="1"/></process>';
+
+        var data = [
+            {
+                id: 3,
+                type: "switchStatus",
+                data: {
+                    state: 0
+                }
+            },
+            {
+                id: 4,
+                type: "switchStatus",
+                data: {
+                    state: 1
+                }
+            }
+        ];
         update(graph, xml);
     });
     toolbar.addLine()
@@ -132,11 +149,12 @@ $(document).ready(function () {
         var iconPath = _ctx + customToolbarInfo[i].iconPath;
         var imgPath = _ctx + customToolbarInfo[i].imgPath;
 
-        addVertex(name, iconPath, width, height, "customImg;image=" + imgPath);
+        addVertex(name, iconPath, width, height, graphConstants.USER_OBJECT_CUSTOM_IMG + ";image=" + imgPath);
     }
     toolbar.addLine()
-    addVertex("两相电流", mxBasePath + "images/editors/italic.gif", 80, 60, "current;phase=2");
-    addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 80, 60, "current;phase=3");
+    addVertex("两相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=2");
+    addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=3");
+    addVertex("开关", _ctx + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, "switchStatus");
     toolbar.addLine()
     toolbar.addItem("放大", mxBasePath + "images/editors/zoomin.gif", function (evt) {
         graph.zoomIn();
@@ -173,30 +191,20 @@ $(document).ready(function () {
 
 
             var vertex = graph.getModel().cloneCell(prototype);
-            // console.log(vertex.value.nodeName.toLowerCase() == "person")
 
-            if (isValidStyle(vertex.style, "current")) {
-                var parent = graph.getDefaultParent();
-                graph.getModel().beginUpdate();
-                try {
-                    if (isValidStyle(vertex.style, "phase=2")) {
-                        var v1 = graph.insertVertex(parent, null, twoPhaseCurrent, x, y, vertex.geometry.width, vertex.geometry.height, vertex.style);
-                    }
-                    if (isValidStyle(vertex.style, "phase=3")) {
-                        var v1 = graph.insertVertex(parent, null, threePhaseCurrent, x, y, vertex.geometry.width, vertex.geometry.height, vertex.style);
-                    }
+            if (isValidStyle(vertex.style, graphConstants.USER_OBJECT_CURRENT)) {
+                if (isValidStyle(vertex.style, "phase=2")) {
+                    vertex.setValue(getTwoPhaseCurrentLabel(0, 0));
                 }
-                finally {
-                    graph.getModel().endUpdate();
+                if (isValidStyle(vertex.style, "phase=3")) {
+                    vertex.setValue(getThreePhaseCurrentLabel(0, 0, 0));
                 }
-            } else {
-                vertex.geometry.x = x;
-                vertex.geometry.y = y;
-                graph.addCell(vertex);
-                graph.setSelectionCell(vertex);
             }
 
-
+            vertex.geometry.x = x;
+            vertex.geometry.y = y;
+            graph.addCell(vertex);
+            graph.setSelectionCell(vertex);
         }
 
         // Creates the icon which is used as the drag icon (preview)
@@ -276,45 +284,46 @@ $(document).ready(function () {
 
                 if (nodes != null &&
                     nodes.length > 0) {
+                    for (var i = 0; i < nodes.length; i++) {
+                        // Processes the activity nodes inside the process node
+                        var id = nodes[i].getAttribute("id");
+                        var state = nodes[i].getAttribute("state");
+                        // Gets the cell for the given activity name from the model
+                        var cell = model.getCell(id);
+                        // Updates the cell color and adds some tooltip information
+                        if (cell != null) {
+                            model.beginUpdate();
+                            try {
+                                if (isValidStyle(cell.style, "current")) {
+                                    if (isValidStyle(cell.style, "phase=2")) {
+                                        var L = 1;
+                                        var G = 3;
 
-                    model.beginUpdate();
-                    try {
-                        for (var i = 0; i < nodes.length; i++) {
-                            // Processes the activity nodes inside the process node
-                            var id = nodes[i].getAttribute("id");
-                            var state = nodes[i].getAttribute("state");
+                                        var content = getTwoPhaseCurrentLabel(L, G);
+                                        var edit = new mxValueChange(model, cell, content);
+                                        model.execute(edit);
+                                    }
+                                    if (isValidStyle(cell.style, "phase=3")) {
+                                        var L = 4;
+                                        var N = 5;
+                                        var G = 6;
 
-                            // Gets the cell for the given activity name from the model
-                            var cell = model.getCell(id);
+                                        var content = getThreePhaseCurrentLabel(L, N, G);
+                                        var edit = new mxValueChange(model, cell, content);
+                                        model.execute(edit);
+                                    }
 
-                            // Updates the cell color and adds some tooltip information
-                            if (cell != null) {
-                                // Resets the fillcolor and the overlay
-                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "white", [cell]);
-                                graph.removeCellOverlays(cell);
-
-                                // Changes the cell color for the known states
-                                if (state == "Running") {
-                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "#f8cecc", [cell]);
                                 }
-                                else if (state == "Waiting") {
-                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "#fff2cc", [cell]);
-                                }
-                                else if (state == "Completed") {
-                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "#d4e1f5", [cell]);
-                                }
 
-                                // Adds tooltip information using an overlay icon
-                                if (state != "Init") {
-                                    // Sets the overlay for the cell in the graph
-                                    graph.addCellOverlay(cell, createOverlay(graph.warningImage, "State: " + state));
+                                if (isValidStyle(cell.style, "switchStatus")) {
+                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "lime", [cell]);
                                 }
                             }
-                        } // for
-                    }
-                    finally {
-                        model.endUpdate();
-                    }
+                            finally {
+                                model.endUpdate();
+                            }
+                        }
+                    } // for
                 }
             }
         }
@@ -409,5 +418,13 @@ $(document).ready(function () {
             $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(customToolbarInfo.errcode), "info");
             return [];
         }
+    }
+
+    function getTwoPhaseCurrentLabel(L, G) {
+        return '<p style="color: red">' + '<span class="L">' + L + '</span>' + ' (A)</p>' + '<p style="color: orange">' + '<span class="G">' + G + '</span>' + ' (A)</p>';
+    }
+
+    function getThreePhaseCurrentLabel(L, N, G) {
+        return '<p style="color: red">' + '<span class="L">' + L + '</span>' + ' (A)</p>' + '<p style="color: green">' + '<span class="N">' + N + '</span>' + ' (A)</p>' + '<p style="color: orange">' + '<span class="G">' + G + '</span>' + ' (A)</p>';
     }
 });
