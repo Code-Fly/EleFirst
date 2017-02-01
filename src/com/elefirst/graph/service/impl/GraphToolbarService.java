@@ -30,7 +30,7 @@ public class GraphToolbarService extends BaseService implements IGraphToolbarSer
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`create_date` ASC");
+        condition.setOrderByClause("`display_order` ASC");
         return graphToolbarDAO.getGraphToolbarList(condition);
     }
 

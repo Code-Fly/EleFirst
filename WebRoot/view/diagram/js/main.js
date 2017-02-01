@@ -40,6 +40,12 @@ $(document).ready(function () {
         editable: false,
     });
 
+    $("#btn-refresh").linkbutton({
+        onClick: function () {
+            window.location.href = window.location.href;
+        }
+    });
+
     $("#btn-dlg-bound-pn-submit").linkbutton({
         onClick: function () {
             if (!$("#combo-bound-pn-id").combobox("isValid")) {

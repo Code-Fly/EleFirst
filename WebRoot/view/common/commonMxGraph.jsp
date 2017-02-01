@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    application.setAttribute("mxBasePath", basePath + "Content/js/mxgraph-3.6.0.0/javascript/src/");
+    application.setAttribute("mxBasePath", path + "Content/js/mxgraph-3.6.0.0/javascript/src/");
 %>
 <script type="text/javascript">
     mxBasePath = "${mxBasePath}";
