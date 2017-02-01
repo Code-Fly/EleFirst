@@ -701,20 +701,20 @@ $(document).ready(function () {
             if (flag_tree_node_edit) {
                 var node = $("#dTree").tree("getSelected");
                 var name = node.text;
-                var iconcls = node.iconCls;
+                var iconCls = node.iconCls;
                 var type = node.attributes.type;
                 var concentratorId = node.attributes.concentratorId;
 
                 $("#text-tree-node-name").textbox("setValue", name);
                 $("#combo-tree-node-type").combobox("select", type);
-                $("#combo-tree-node-iconcls").combobox("select", iconcls);
+                $("#combo-tree-node-iconCls").combobox("select", iconCls);
                 $("#combo-tree-node-concentratorId").combobox("reload");
                 $("#combo-tree-node-concentratorId").combobox("select", concentratorId);
 
             } else {
                 $("#text-tree-node-name").textbox("clear");
                 $("#combo-tree-node-type").combobox("clear");
-                $("#combo-tree-node-iconcls").combobox("clear");
+                $("#combo-tree-node-iconCls").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("disable");
             }
@@ -749,22 +749,22 @@ $(document).ready(function () {
         method: "GET",
         editable: false,
         onSelect: function (record) {
-            $("#combo-tree-node-iconcls").combobox("clear");
-            $("#combo-tree-node-iconcls").combobox("loadData", []);
+            $("#combo-tree-node-iconCls").combobox("clear");
+            $("#combo-tree-node-iconCls").combobox("loadData", []);
             if (record.value == "category") {
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("disable");
-                $("#combo-tree-node-iconcls").combobox("reload", "data/comboTreeNodeCategoryIcons.json");
+                $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeCategoryIcons.json");
             } else if (record.value == "concentrator") {
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("enable");
-                $("#combo-tree-node-iconcls").combobox("reload", "data/comboTreeNodeConcentratorIcons.json");
+                $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeConcentratorIcons.json");
             }
         }
 
     });
 
-    $("#combo-tree-node-iconcls").combobox({
+    $("#combo-tree-node-iconCls").combobox({
         required: true,
         method: "GET",
         textField: "name",
@@ -779,7 +779,7 @@ $(document).ready(function () {
                 return;
             }
 
-            if (!$("#combo-tree-node-iconcls").combobox("isValid")) {
+            if (!$("#combo-tree-node-iconCls").combobox("isValid")) {
                 $.messager.alert("操作提示", "请选择正确图标！", "info");
                 return;
             }
@@ -797,7 +797,7 @@ $(document).ready(function () {
             var node = $("#dTree").tree("getSelected");
             var children = node.children == undefined ? [] : node.children;
             var name = $("#text-tree-node-name").textbox("getValue");
-            var iconcls = $("#combo-tree-node-iconcls").combobox("getValue");
+            var iconCls = $("#combo-tree-node-iconCls").combobox("getValue");
             var type = $("#combo-tree-node-type").combobox("getValue");
             var concentratorId = $("#combo-tree-node-concentratorId").combobox("getValue");
             var attributes = {
@@ -814,7 +814,7 @@ $(document).ready(function () {
                     type: "POST",
                     data: {
                         id: node.id,
-                        iconcls: iconcls,
+                        iconCls: iconCls,
                         attributes: JSON.stringify(attributes),
                         name: name
                     },
@@ -871,7 +871,7 @@ $(document).ready(function () {
                     data: {
                         pid: node.id,
                         treeId: _treeId,
-                        iconcls: iconcls,
+                        iconCls: iconCls,
                         attributes: JSON.stringify(attributes),
                         name: name
                     },
@@ -915,7 +915,7 @@ $(document).ready(function () {
                         data: {
                             pid: 0,
                             treeId: info.areaId,
-                            iconcls: "icon-house",
+                            iconCls: "icon-house",
                             attributes: JSON.stringify({"type": "category"}),
                             name: _areaName
                         },

@@ -119,7 +119,7 @@
                     </div>
                     <div class="grid_8 cell">
                         <p>
-                            <input id="combo-tree-node-iconcls" class="easyui-combobox" style="width: 100%;">
+                            <input id="combo-tree-node-iconCls" class="easyui-combobox" style="width: 100%;">
                         </p>
                     </div>
                     <div class="clear"></div>

@@ -11,8 +11,9 @@ $(document).ready(function () {
     var toolbar = new mxToolbar(tbContainer);
 
     // toolbar.enabled = false
-    wnd = new mxWindow('工具栏', tbContainer, 10, 10, 44);
+    var wnd = new mxWindow('工具栏', tbContainer, 10, 50, 44);
     wnd.setMaximizable(false);
+    wnd.setMinimizable(false);
     wnd.setScrollable(false);
     wnd.setResizable(false);
     wnd.setVisible(true);
@@ -115,17 +116,15 @@ $(document).ready(function () {
         graph.removeCells();
     });
     toolbar.addLine()
-    addVertex("", mxBasePath + 'images/editors/rectangle.gif', 100, 40, '');
-    // addVertex(mxBasePath + 'images/editors/rounded.gif', 100, 40, 'shape=rounded');
-    addVertex("", mxBasePath + 'images/editors/ellipse.gif', 40, 40, 'shape=ellipse');
-    addVertex("", mxBasePath + 'images/editors/rhombus.gif', 40, 40, 'shape=rhombus');
-    addVertex("", mxBasePath + 'images/editors/triangle.gif', 40, 40, 'shape=triangle');
-    addVertex("", mxBasePath + 'images/editors/cylinder.gif', 40, 40, 'shape=cylinder');
-    addVertex("", mxBasePath + 'images/editors/actor.gif', 30, 40, 'shape=actor');
-    toolbar.addLine()
-    addVertex("", mxBasePath + 'images/editors/triangle.gif', 100, 55, 'triangle');
-    addVertex("", mxBasePath + 'images/editors/image.gif', 100, 40, 'earth');
+    // addVertex("", mxBasePath + 'images/editors/rectangle.gif', 100, 40, '');
+    // addVertex("", mxBasePath + 'images/editors/ellipse.gif', 40, 40, 'shape=ellipse');
+    // addVertex("", mxBasePath + 'images/editors/rhombus.gif', 40, 40, 'shape=rhombus');
+    // addVertex("", mxBasePath + 'images/editors/triangle.gif', 40, 40, 'shape=triangle');
+    // addVertex("", mxBasePath + 'images/editors/cylinder.gif', 40, 40, 'shape=cylinder');
+    // addVertex("", mxBasePath + 'images/editors/actor.gif', 30, 40, 'shape=actor');
     addVertex("", mxBasePath + 'images/editors/text.gif', 150, 30, 'text');
+    toolbar.addLine()
+    addVertex("", mxBasePath + 'images/editors/image.gif', 100, 40, 'customImg;image=' + mxBasePath + 'images/components/demo.png');
     toolbar.addLine()
     addVertex("两相电流", mxBasePath + 'images/editors/italic.gif', 80, 60, 'current;phase=2');
     addVertex("三相电流", mxBasePath + 'images/editors/italic.gif', 80, 60, 'current;phase=3');
@@ -140,18 +139,6 @@ $(document).ready(function () {
 
     toolbar.addItem('实际大小', mxBasePath + 'images/editors/zoomactual.gif', function (evt) {
         graph.zoomActual();
-    });
-    toolbar.addLine()
-    toolbar.addItem('控制台', mxBasePath + 'images/editors/console.gif', function (evt) {
-        mxLog.setVisible(!mxLog.isVisible());
-    });
-    toolbar.addItem('轮廓', mxBasePath + 'images/editors/outline.gif', function (evt) {
-        if (editor.outline == null) {
-            editor.showOutline();
-        }
-        else {
-            editor.outline.setVisible(!editor.outline.isVisible());
-        }
     });
 
     function addVertex(title, icon, w, h, style) {

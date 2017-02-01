@@ -65,7 +65,7 @@ public class TreeInfoController extends BaseController {
     public ErrorMsg updateTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
                                    @RequestParam(value = "id") Long id,
-                                   @RequestParam(value = "iconcls", required = false) String iconcls,
+                                   @RequestParam(value = "iconCls", required = false) String iconCls,
                                    @RequestParam(value = "state", required = false) String state,
                                    @RequestParam(value = "attributes", required = false) String attributes,
                                    @RequestParam(value = "name") String name
@@ -75,8 +75,8 @@ public class TreeInfoController extends BaseController {
         if (null != name && !name.isEmpty()) {
 
             template.setId(id);
-            if (null != iconcls && !iconcls.isEmpty()) {
-                template.setIconcls(iconcls);
+            if (null != iconCls && !iconCls.isEmpty()) {
+                template.setIconCls(iconCls);
             }
             if (null != state && !state.isEmpty()) {
                 template.setState(state);
@@ -103,7 +103,7 @@ public class TreeInfoController extends BaseController {
                                 HttpServletResponse response,
                                 @RequestParam(value = "pid") Long pid,
                                 @RequestParam(value = "treeId") String treeId,
-                                @RequestParam(value = "iconcls") String iconcls,
+                                @RequestParam(value = "iconCls") String iconCls,
                                 @RequestParam(value = "state", required = false) String state,
                                 @RequestParam(value = "attributes") String attributes,
                                 @RequestParam(value = "name") String name
@@ -111,7 +111,7 @@ public class TreeInfoController extends BaseController {
         TreeInfo template = new TreeInfo();
         template.setPid(pid);
         template.setTreeId(treeId);
-        template.setIconcls(iconcls);
+        template.setIconCls(iconCls);
         if (null != state && !state.isEmpty()) {
             template.setState(state);
         }
@@ -160,7 +160,7 @@ public class TreeInfoController extends BaseController {
             node.setId(dataRecord.getId());
             node.setPid(dataRecord.getPid());
             node.setText(dataRecord.getName());
-            node.setIconcls(dataRecord.getIconcls());
+            node.setIconcls(dataRecord.getIconCls());
             node.setState(dataRecord.getState());
             node.setAttributes(dataRecord.getAttributes());
             nodeList.put(node.getId(), node);

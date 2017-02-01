@@ -10,7 +10,7 @@ public class TreeNode {
 
     private String text;
 
-    private String iconcls;
+    private String iconCls;
 
     private String state;
 
@@ -43,11 +43,11 @@ public class TreeNode {
     }
 
     public String getIconcls() {
-        return iconcls;
+        return iconCls;
     }
 
-    public void setIconcls(String iconcls) {
-        this.iconcls = iconcls;
+    public void setIconcls(String iconCls) {
+        this.iconCls = iconCls;
     }
 
     public String getState() {
@@ -82,7 +82,7 @@ public class TreeNode {
         result.append(", ");
         result.append("text : '" + text + "'");
         result.append(", ");
-        result.append("iconCls : '" + iconcls + "'");
+        result.append("iconCls : '" + iconCls + "'");
         if (state != null && !state.isEmpty()) {
             if (children != null && children.getSize() != 0) {
                 result.append(", ");
