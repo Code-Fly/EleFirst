@@ -36,11 +36,11 @@
             cursor: crosshair;
         }
 
-        .current p {
-            padding: 0px;
-            margin: 5px;
-            text-align: left;
-        }
+        /*.current p {*/
+        /*padding: 0px;*/
+        /*margin: 5px;*/
+        /*text-align: left;*/
+        /*}*/
 
         #outlineContainer {
             z-index: 1;
