@@ -85,14 +85,16 @@ $(document).ready(function () {
 
 
                         for (var i = 0; i < r.data.length; i++) {
-                            nodes[graphConstants.USER_OBJECT_CURRENT].push({
-                                id: r.data[i].cellId,
-                                attributes: {
-                                    a: r.data[i].aCurrent,
-                                    b: r.data[i].bCurrent,
-                                    c: r.data[i].cCurrent
-                                }
-                            });
+                            if (r.data[i].cellType == graphConstants.USER_OBJECT_CURRENT) {
+                                nodes[graphConstants.USER_OBJECT_CURRENT].push({
+                                    id: r.data[i].cellId,
+                                    attributes: {
+                                        a: r.data[i].aCurrent,
+                                        b: r.data[i].bCurrent,
+                                        c: r.data[i].cCurrent
+                                    }
+                                });
+                            }
                         }
 
                         // var nodes = [
