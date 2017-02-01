@@ -18,9 +18,9 @@ import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyPowerFactorExample;
 import com.elefirst.powerdetail.po.DailyVoltage;
 import com.elefirst.powerdetail.po.DailyVoltageExample;
-import com.elefirst.powerdetail.service.IDailyPowerServie;
+import com.elefirst.powerdetail.service.IDailyPowerService;
 @Service
-public class DailyPowerServieImpl implements IDailyPowerServie{
+public class DailyPowerServieImpl implements IDailyPowerService{
 
 	@Resource(name = "dailyLoadMapper")
 	private DailyLoadMapper dailyLoadMapper;

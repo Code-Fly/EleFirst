@@ -54,7 +54,6 @@ public class PowerDetailController {
 			throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		StringBuffer sb = new StringBuffer();
 		List<String> ctrIds = new ArrayList<String>();
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -63,7 +62,7 @@ public class PowerDetailController {
 			Area area = JSON.parseObject(jasonStr,Area.class);
 			
 			List<Concentrator> concentrators = area.getConcentrators();
-			if(concentrators == null && concentrators.size() == 0){
+			if(concentrators == null || concentrators.size() == 0){
 				return null;
 			}
 			for (Concentrator concentrator : concentrators) {
@@ -123,7 +122,6 @@ public class PowerDetailController {
 			throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		StringBuffer sb = new StringBuffer();
 		List<String> ctrIds = new ArrayList<String>();
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -132,7 +130,7 @@ public class PowerDetailController {
 			Area area = JSON.parseObject(jasonStr,Area.class);
 			
 			List<Concentrator> concentrators = area.getConcentrators();
-			if(concentrators == null && concentrators.size() == 0){
+			if(concentrators == null || concentrators.size() == 0){
 				return null;
 			}
 			for (Concentrator concentrator : concentrators) {

@@ -10,7 +10,7 @@
                 return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
             }
         }
-        require(["js/dailydetail.js"]);
+        require(["js/weeklydetail.js"]);
     </script>
 </head>
 <body class="easyui-layout" id="cc">
@@ -32,7 +32,8 @@
                     <th rowspan="2" field="concentratorId" width="80" align="center" hidden="true"></th>
                     <th rowspan="2" field="pn" width="80" align="center" hidden="true"></th>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
                     <th colspan="5">有功负荷(kW)</th>
                 </tr>
                 <tr>
@@ -53,7 +54,8 @@
                     <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center">日期</th>
+                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
                     <th colspan="5">示数</th>
                     <th colspan="2">最大需量</th>
                 </tr>
@@ -77,7 +79,8 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
                     <th colspan="3">最高电压(V)</th>
                     <th colspan="3">最低电压(V)</th>
                 </tr>
@@ -100,7 +103,8 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
                     <th colspan="3">最高电流(A)</th>
                     <th colspan="3">最低电流(A)</th>
                 </tr>
@@ -123,7 +127,8 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
                     <th colspan="2">平均功率因数(%)</th>
                 </tr>
                 <tr>

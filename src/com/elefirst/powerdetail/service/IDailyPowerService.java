@@ -7,7 +7,7 @@ import com.elefirst.powerdetail.po.DailyLoad;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyVoltage;
 
-public interface IDailyPowerServie {
+public interface IDailyPowerService {
 	/**
 	 * 查询按日统计负荷相关数据
 	 * @param areaId

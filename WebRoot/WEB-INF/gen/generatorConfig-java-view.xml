@@ -36,7 +36,14 @@
 			targetPackage="com.elefirst.powerdetail.mapper" targetProject="elefirst">
 		    <property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<table tableName="t_view_dailypowerfactor" domainObjectName="DailyPowerFactor" />
+		
+		<table tableName="t_view_weeklypowerfactor" domainObjectName="WeeklyPowerFactor" /> 
+		<!-- <table tableName="t_view_weeklycurrent" domainObjectName="WeeklyCurrent" /> -->
+		<!-- <table tableName="t_view_weeklyvoltage" domainObjectName="WeeklyVoltage" /> -->
+		<!-- <table tableName="t_view_weeklyload" domainObjectName="WeeklyLoad" /> -->
+		
+		
+		<!-- <table tableName="t_view_dailypowerfactor" domainObjectName="DailyPowerFactor" /> -->
 		<!-- <table tableName="t_view_dailycurrent" domainObjectName="DailyCurrent" /> -->
 		<!-- <table tableName="t_view_dailyvoltage" domainObjectName="DailyVoltage" /> -->
 		<!-- <table tableName="t_view_dailyload" domainObjectName="DailyLoad" /> -->
