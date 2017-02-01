@@ -3,7 +3,7 @@
  */
 $(document).ready(function () {
     // Creates the div for the toolbar
-    var tbContainer = document.getElementById('toolbarContainer');
+    var tbContainer = document.getElementById("toolbarContainer");
     if (mxClient.IS_QUIRKS) {
         new mxDivResizer(tbContainer);
     }
@@ -11,30 +11,30 @@ $(document).ready(function () {
     var toolbar = new mxToolbar(tbContainer);
 
     // toolbar.enabled = false
-    var wnd = new mxWindow('工具栏', tbContainer, 10, 50, 44);
+    var wnd = new mxWindow("工具栏", tbContainer, 10, 50, 44);
     wnd.setMaximizable(false);
     wnd.setMinimizable(false);
     wnd.setScrollable(false);
     wnd.setResizable(false);
     wnd.setVisible(true);
 
-    toolbar.addItem('保存', mxBasePath + 'images/editors/save.gif', function (evt) {
+    toolbar.addItem("保存", mxBasePath + "images/editors/save.gif", function (evt) {
         var encoder = new mxCodec();
         var node = encoder.encode(graph.getModel());
         mxUtils.popup(mxUtils.getPrettyXml(node), true);
     });
-    toolbar.addItem('打印', mxBasePath + 'images/editors/print.gif', function (evt) {
+    toolbar.addItem("打印", mxBasePath + "images/editors/print.gif", function (evt) {
         mxUtils.printScreen(graph);
     });
-    toolbar.addItem('载入', mxBasePath + 'images/editors/open.gif', function (evt) {
+    toolbar.addItem("载入", mxBasePath + "images/editors/open.gif", function (evt) {
         // Load cells and layouts the graph
         graph.getModel().beginUpdate();
         try {
             // Loads the custom file format (TXT file)
-            // parse(graph, 'fileio.txt');
+            // parse(graph, "fileio.txt");
 
             // Loads the mxGraph file format (XML file)
-            read(graph, 'data/fileio.xml');
+            read(graph, "data/fileio.xml");
 
         }
         finally {
@@ -43,7 +43,7 @@ $(document).ready(function () {
         }
     });
     toolbar.addLine()
-    toolbar.addItem('刷新', mxBasePath + 'images/editors/refresh.gif', function (evt) {
+    toolbar.addItem("刷新", mxBasePath + "images/editors/refresh.gif", function (evt) {
         // XML is normally fetched from URL at server using mxUtils.get - this is a client-side
         // string with randomized states to demonstrate the idea of the workflow monitor
         var xml = '<process><update id="3" state="' + getState() + '"/><update id="4" state="' + getState() + '"/></process>';
@@ -80,64 +80,73 @@ $(document).ready(function () {
 
         connectionHandlerMouseUp.apply(this, arguments);
     };
-    toolbar.addSwitchMode("选择", mxBasePath + 'images/editors/select.gif', function (evt, cell) {
+    toolbar.addSwitchMode("选择", mxBasePath + "images/editors/select.gif", function (evt, cell) {
         wireMode = false;
     });
-    toolbar.addSwitchMode("画线", mxBasePath + 'images/editors/vertical.gif', function (evt, cell) {
+    toolbar.addSwitchMode("画线", mxBasePath + "images/editors/vertical.gif", function (evt, cell) {
         wireMode = true;
     });
     toolbar.addLine()
     // Undo/redo
     var undoManager = new mxUndoManager();
     var listener = function (sender, evt) {
-        undoManager.undoableEditHappened(evt.getProperty('edit'));
+        undoManager.undoableEditHappened(evt.getProperty("edit"));
     };
     graph.getModel().addListener(mxEvent.UNDO, listener);
     graph.getView().addListener(mxEvent.UNDO, listener);
 
-    toolbar.addItem('撤销', mxBasePath + 'images/editors/undo.gif', function (evt) {
+    toolbar.addItem("撤销", mxBasePath + "images/editors/undo.gif", function (evt) {
         undoManager.undo();
     });
 
-    toolbar.addItem('恢复', mxBasePath + 'images/editors/redo.gif', function (evt) {
+    toolbar.addItem("恢复", mxBasePath + "images/editors/redo.gif", function (evt) {
         undoManager.undo();
     });
     toolbar.addLine()
-    toolbar.addItem('剪切', mxBasePath + 'images/editors/cut.gif', function (evt) {
+    toolbar.addItem("剪切", mxBasePath + "images/editors/cut.gif", function (evt) {
         mxClipboard.cut(graph);
     });
-    toolbar.addItem('复制', mxBasePath + 'images/editors/copy.gif', function (evt) {
+    toolbar.addItem("复制", mxBasePath + "images/editors/copy.gif", function (evt) {
         mxClipboard.copy(graph);
     });
-    toolbar.addItem('粘贴', mxBasePath + 'images/editors/paste.gif', function (evt) {
+    toolbar.addItem("粘贴", mxBasePath + "images/editors/paste.gif", function (evt) {
         mxClipboard.paste(graph);
     });
-    toolbar.addItem('删除', mxBasePath + 'images/editors/delete.gif', function (evt) {
+    toolbar.addItem("删除", mxBasePath + "images/editors/delete.gif", function (evt) {
         graph.removeCells();
     });
     toolbar.addLine()
-    // addVertex("", mxBasePath + 'images/editors/rectangle.gif', 100, 40, '');
-    // addVertex("", mxBasePath + 'images/editors/ellipse.gif', 40, 40, 'shape=ellipse');
-    // addVertex("", mxBasePath + 'images/editors/rhombus.gif', 40, 40, 'shape=rhombus');
-    // addVertex("", mxBasePath + 'images/editors/triangle.gif', 40, 40, 'shape=triangle');
-    // addVertex("", mxBasePath + 'images/editors/cylinder.gif', 40, 40, 'shape=cylinder');
-    // addVertex("", mxBasePath + 'images/editors/actor.gif', 30, 40, 'shape=actor');
-    addVertex("", mxBasePath + 'images/editors/text.gif', 150, 30, 'text');
+    // addVertex("", mxBasePath + "images/editors/rectangle.gif", 100, 40, "");
+    // addVertex("", mxBasePath + "images/editors/ellipse.gif", 40, 40, "shape=ellipse");
+    // addVertex("", mxBasePath + "images/editors/rhombus.gif", 40, 40, "shape=rhombus");
+    // addVertex("", mxBasePath + "images/editors/triangle.gif", 40, 40, "shape=triangle");
+    // addVertex("", mxBasePath + "images/editors/cylinder.gif", 40, 40, "shape=cylinder");
+    // addVertex("", mxBasePath + "images/editors/actor.gif", 30, 40, "shape=actor");
+    addVertex("", mxBasePath + "images/editors/text.gif", 150, 30, "text");
     toolbar.addLine()
-    addVertex("", mxBasePath + 'images/editors/image.gif', 100, 40, 'customImg;image=' + mxBasePath + 'images/components/demo.png');
+    var customToolbarInfo = getCustomToolbarInfo();
+    for (var i = 0; i < customToolbarInfo.length; i++) {
+        var name = customToolbarInfo[i].name;
+        var width = customToolbarInfo[i].width;
+        var height = customToolbarInfo[i].height;
+        var iconPath = _ctx + customToolbarInfo[i].iconPath;
+        var imgPath = _ctx + customToolbarInfo[i].imgPath;
+
+        addVertex(name, iconPath, width, height, "customImg;image=" + imgPath);
+    }
     toolbar.addLine()
-    addVertex("两相电流", mxBasePath + 'images/editors/italic.gif', 80, 60, 'current;phase=2');
-    addVertex("三相电流", mxBasePath + 'images/editors/italic.gif', 80, 60, 'current;phase=3');
+    addVertex("两相电流", mxBasePath + "images/editors/italic.gif", 80, 60, "current;phase=2");
+    addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 80, 60, "current;phase=3");
     toolbar.addLine()
-    toolbar.addItem('放大', mxBasePath + 'images/editors/zoomin.gif', function (evt) {
+    toolbar.addItem("放大", mxBasePath + "images/editors/zoomin.gif", function (evt) {
         graph.zoomIn();
     });
 
-    toolbar.addItem('缩小', mxBasePath + 'images/editors/zoomout.gif', function (evt) {
+    toolbar.addItem("缩小", mxBasePath + "images/editors/zoomout.gif", function (evt) {
         graph.zoomOut();
     });
 
-    toolbar.addItem('实际大小', mxBasePath + 'images/editors/zoomactual.gif', function (evt) {
+    toolbar.addItem("实际大小", mxBasePath + "images/editors/zoomactual.gif", function (evt) {
         graph.zoomActual();
     });
 
@@ -164,7 +173,7 @@ $(document).ready(function () {
 
 
             var vertex = graph.getModel().cloneCell(prototype);
-            // console.log(vertex.value.nodeName.toLowerCase() == 'person')
+            // console.log(vertex.value.nodeName.toLowerCase() == "person")
 
             if (isValidStyle(vertex.style, "current")) {
                 var parent = graph.getDefaultParent();
@@ -200,13 +209,13 @@ $(document).ready(function () {
         // Disables dragging if element is disabled. This is a workaround
         // for wrong event order in IE. Following is a dummy listener that
         // is invoked as the last listener in IE.
-        mxEvent.addListener(img, 'mousedown', function (evt) {
+        mxEvent.addListener(img, "mousedown", function (evt) {
             // do nothing
         });
 
         // This listener is always called first before any other listener
         // in all browsers.
-        mxEvent.addListener(img, 'mousedown', function (evt) {
+        mxEvent.addListener(img, "mousedown", function (evt) {
             if (img.enabled == false) {
                 mxEvent.consume(evt);
             }
@@ -226,7 +235,7 @@ $(document).ready(function () {
 
         // Installs a handler for clicks on the overlay
         overlay.addListener(mxEvent.CLICK, function (sender, evt) {
-            mxUtils.alert(tooltip + '\nLast update: ' + new Date());
+            mxUtils.alert(tooltip + "\nLast update: " + new Date());
         });
 
         return overlay;
@@ -236,17 +245,17 @@ $(document).ready(function () {
      * Returns a random state.
      */
     function getState() {
-        var state = 'Init';
+        var state = "Init";
         var rnd = Math.random() * 4;
 
         if (rnd > 3) {
-            state = 'Completed';
+            state = "Completed";
         }
         else if (rnd > 2) {
-            state = 'Running';
+            state = "Running";
         }
         else if (rnd > 1) {
-            state = 'Waiting';
+            state = "Waiting";
         }
 
         return state;
@@ -263,7 +272,7 @@ $(document).ready(function () {
             if (doc != null &&
                 doc.documentElement != null) {
                 var model = graph.getModel();
-                var nodes = doc.documentElement.getElementsByTagName('update');
+                var nodes = doc.documentElement.getElementsByTagName("update");
 
                 if (nodes != null &&
                     nodes.length > 0) {
@@ -272,8 +281,8 @@ $(document).ready(function () {
                     try {
                         for (var i = 0; i < nodes.length; i++) {
                             // Processes the activity nodes inside the process node
-                            var id = nodes[i].getAttribute('id');
-                            var state = nodes[i].getAttribute('state');
+                            var id = nodes[i].getAttribute("id");
+                            var state = nodes[i].getAttribute("state");
 
                             // Gets the cell for the given activity name from the model
                             var cell = model.getCell(id);
@@ -281,24 +290,24 @@ $(document).ready(function () {
                             // Updates the cell color and adds some tooltip information
                             if (cell != null) {
                                 // Resets the fillcolor and the overlay
-                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, 'white', [cell]);
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "white", [cell]);
                                 graph.removeCellOverlays(cell);
 
                                 // Changes the cell color for the known states
-                                if (state == 'Running') {
-                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, '#f8cecc', [cell]);
+                                if (state == "Running") {
+                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "#f8cecc", [cell]);
                                 }
-                                else if (state == 'Waiting') {
-                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, '#fff2cc', [cell]);
+                                else if (state == "Waiting") {
+                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "#fff2cc", [cell]);
                                 }
-                                else if (state == 'Completed') {
-                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, '#d4e1f5', [cell]);
+                                else if (state == "Completed") {
+                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "#d4e1f5", [cell]);
                                 }
 
                                 // Adds tooltip information using an overlay icon
-                                if (state != 'Init') {
+                                if (state != "Init") {
                                     // Sets the overlay for the cell in the graph
-                                    graph.addCellOverlay(cell, createOverlay(graph.warningImage, 'State: ' + state));
+                                    graph.addCellOverlay(cell, createOverlay(graph.warningImage, "State: " + state));
                                 }
                             }
                         } // for
@@ -322,7 +331,7 @@ $(document).ready(function () {
         var req = mxUtils.load(filename);
         var text = req.getText();
 
-        var lines = text.split('\n');
+        var lines = text.split("\n");
 
         // Creates the lookup table for the vertices
         var vertices = [];
@@ -332,11 +341,11 @@ $(document).ready(function () {
         try {
             for (var i = 0; i < lines.length; i++) {
                 // Ignores comments (starting with #)
-                var colon = lines[i].indexOf(':');
+                var colon = lines[i].indexOf(":");
 
                 if (lines[i].substring(0, 1) != "#" ||
                     colon == -1) {
-                    var comma = lines[i].indexOf(',');
+                    var comma = lines[i].indexOf(",");
                     var value = lines[i].substring(colon + 2, lines[i].length);
 
                     if (comma == -1 || comma > colon) {
@@ -355,8 +364,8 @@ $(document).ready(function () {
                             var e = graph.insertEdge(parent, null, value, source, target);
 
                             // Uses the special 2-way style for 2-way labels
-                            if (value.indexOf('2-Way') >= 0) {
-                                e.style = '2way';
+                            if (value.indexOf("2-Way") >= 0) {
+                                e.style = "2way";
                             }
                         }
                     }
@@ -385,5 +394,20 @@ $(document).ready(function () {
             }
         }
         return false;
+    }
+
+    function getCustomToolbarInfo() {
+        var customToolbarInfo = $.parseJSON($.ajax({
+            url: _ctx + "system/graph/toolbar/list.do",
+            type: "POST",
+            async: false
+        }).responseText);
+
+        if ("0" == customToolbarInfo.errcode) {
+            return customToolbarInfo.data;
+        } else {
+            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(customToolbarInfo.errcode), "info");
+            return [];
+        }
     }
 });

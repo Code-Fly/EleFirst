@@ -4,7 +4,7 @@
 $(document).ready(function () {
     if (!mxClient.isBrowserSupported()) {
         // Displays an error message if the browser is not supported.
-        mxUtils.error('Browser is not supported!', 200, false);
+        $.messager.alert("操作提示", "浏览器不支持！", "info");
     } else {
         require([_ctx + "view/diagram/js/graph.js"], function () {
             require([_ctx + "view/diagram/js/popupmenu.js"]);
