@@ -197,6 +197,10 @@
                        data-options="iconCls:'icon-building'"
                        onclick="addTab('企业档案管理','view/system/userinfo/rolemanager.jsp','icon-building')"
                        plain="true" href="javascript:void(0)">企业档案管理</a></li>
+            <li><a class="easyui-linkbutton"
+                       data-options="iconCls:'icon-building'"
+                       onclick="addTab('菜单管理','view/system/deviceinfo/menu.jsp','icon-building')"
+                       plain="true" href="javascript:void(0)">菜单管理</a></li>
         </ul>
     </div>
 </div>

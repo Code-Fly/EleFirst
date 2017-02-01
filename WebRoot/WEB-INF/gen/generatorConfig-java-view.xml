@@ -18,7 +18,7 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- Model文件保存位置 -->
-		<javaModelGenerator targetPackage="com.elefirst.powerdetail.po"
+		<javaModelGenerator targetPackage="com.elefirst.system.po"
 			targetProject="elefirst">
 			<property name="enableSubPackages" value="true" />
 			<!-- 从数据库返回的值被清理前后的空格 -->
@@ -26,14 +26,14 @@
 		</javaModelGenerator>
 
 		<!-- 生成的mapper文件 -->
-		<sqlMapGenerator targetPackage="com.elefirst.powerdetail.mapper"
+		<sqlMapGenerator targetPackage="com.elefirst.system.mapper"
 			targetProject="elefirst">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 生成的查询条件的类 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.elefirst.powerdetail.mapper" targetProject="elefirst">
+			targetPackage="com.elefirst.system.mapper" targetProject="elefirst">
 		    <property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
@@ -47,8 +47,8 @@
 		<!-- <table tableName="t_view_weeklyvoltage" domainObjectName="WeeklyVoltage" /> -->
 		<!-- <table tableName="t_view_weeklyload" domainObjectName="WeeklyLoad" /> -->
 		
-		
-		<table tableName="t_view_monthlydemand" domainObjectName="MonthlyDemand" />
+		<table tableName="sys_menu" domainObjectName="MenuInfo" />
+		<!-- <table tableName="t_view_monthlydemand" domainObjectName="MonthlyDemand" /> -->
 		<!-- <table tableName="t_view_dailypowerfactor" domainObjectName="DailyPowerFactor" /> -->
 		<!-- <table tableName="t_view_dailycurrent" domainObjectName="DailyCurrent" /> -->
 		<!-- <table tableName="t_view_dailyvoltage" domainObjectName="DailyVoltage" /> -->
