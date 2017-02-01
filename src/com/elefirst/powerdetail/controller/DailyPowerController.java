@@ -1,7 +1,10 @@
 package com.elefirst.powerdetail.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,12 +19,18 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.GeneralMessage;
+import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
+import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.DailyCurrent;
 import com.elefirst.powerdetail.po.DailyLoad;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyVoltage;
+import com.elefirst.powerdetail.po.PowerDetailF25;
+import com.elefirst.powerdetail.po.PowerFactorDetail;
+import com.elefirst.powerdetail.po.TotalActivePowerDetail;
+import com.elefirst.powerdetail.po.VoltageDetail;
 import com.elefirst.powerdetail.service.IDailyPowerServie;
 import com.elefirst.powerdetail.service.IPowerDetailF25Service;
 
@@ -219,6 +228,101 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 			logger.error("查询相关的按功率因数统计数据失败！", e);
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
+	}
+	
+	@RequestMapping("queryDailyPower.do")
+	public @ResponseBody ErrorMsg queryAllDailyPower(String tabName,String areaId,String concentratorId,String pn,String date)
+			throws Exception {
+		Map<String,String> paramMap = new HashMap<String,String>();
+		try {
+			//处理日期
+			String dateStr = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			if("负荷".equals(tabName)){
+				setTotalActivePowerDetail(areaId, concentratorId, pn, paramMap,dateStr);
+			}else if("电压".equals(tabName)){
+				setVoltageDetail(areaId, concentratorId, pn, paramMap,dateStr);
+			}else if("电流".equals(tabName)){
+				setCurrentDetail(areaId, concentratorId, pn, paramMap,dateStr);
+			}else if("功率因数".equals(tabName)){
+				setPowerFactorDetail(areaId, concentratorId, pn, paramMap,dateStr);
+			}
+			logger.error("查询日用电信息成功！");
+			return new ErrorMsg(Error.SUCCESS, "success",paramMap);
+		} catch (Exception e) {
+			logger.error("查询日用电信息失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "failed", null);
+		}
+	}
+	
+	private void setTotalActivePowerDetail(String areaId,
+			String concentratorId, String pn, Map<String, String> paramMap,String date)
+			throws Exception {
+		//maxTotalActivePower minTotalActivePower  avgTotalActivePower
+		DailyLoad dailyload = dailyPowerServieImpl.fetchSingleDailyLoad(date, areaId, concentratorId,pn);
+		//最大负荷
+		paramMap.put("maxTotalActivePower", dailyload.getMaxactivepower()  +"(kW)");
+		paramMap.put("maxTotalActivePowerTime", com.elefirst.base.utils.DateUtil.StringPattern(dailyload.getDays(), "yyyyMMdd", "yyyy-MM-dd"));
+		
+		//最小负荷
+		paramMap.put("minTotalActivePower", dailyload.getMinactivepower()+"(kW)");
+		paramMap.put("minTotalActivePowerTime", com.elefirst.base.utils.DateUtil.StringPattern(dailyload.getDays(), "yyyyMMdd", "yyyy-MM-dd"));
+		
+		//平均负荷
+		paramMap.put("avgTotalActivePower", dailyload.getAvgactivepower()+"(kW)");
+		
+		//峰谷差:最高负荷与最低负荷之差  peak-valley difference
+		double peakValleyDifference = Arith.sub(dailyload.getMaxactivepower(), dailyload.getMinactivepower());
+		paramMap.put("peakValleyDifference","" + peakValleyDifference +"(kW)");
+		
+		//峰谷差率:峰谷差与最高负荷的比率
+		paramMap.put("peakValleyDifferenceRate","" + dailyload.getPeakrate()+"(%)");
+		//负荷率:平均负荷与最高负荷的比率 load factor
+		paramMap.put("loadFactorRate","" + dailyload.getLoadrate()+"(%)");
+		paramMap.put("type", "totalactivepower");
+	}
+    
+	private void setPowerFactorDetail(String areaId, String concentratorId,
+			String pn, Map<String, String> paramMap,String date) throws Exception {
+		DailyPowerFactor dailyPowerFactor = dailyPowerServieImpl.fetchSingleDailyPowerFactor(date, areaId, concentratorId, pn);
+		paramMap.put("maxAPowerFactor", dailyPowerFactor.getAmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("maxBPowerFactor", dailyPowerFactor.getBmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("maxCPowerFactor", dailyPowerFactor.getCmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("maxTotalPowerFactor", dailyPowerFactor.getMaxtotalpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		
+		
+		paramMap.put("minAPowerFactor", dailyPowerFactor.getAminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minBPowerFactor", dailyPowerFactor.getAminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minCPowerFactor", dailyPowerFactor.getAminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minTotalPowerFactor", dailyPowerFactor.getMintotalpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("type", "powerfactor");
+	}
+	
+	private void setCurrentDetail(String areaId, String concentratorId,
+			String pn, Map<String, String> paramMap,String date) throws Exception {
+		DailyCurrent dailyCurrent = dailyPowerServieImpl.fetchSingleDailyCurrent(date, areaId, concentratorId, pn);
+		
+		paramMap.put("maxACurrent", dailyCurrent.getMaxacurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("maxBCurrent", dailyCurrent.getMaxbcurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("maxCCurrent", dailyCurrent.getMaxccurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minACurrent", dailyCurrent.getMinacurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minBCurrent", dailyCurrent.getMinbcurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minCCurrent", dailyCurrent.getMinccurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		
+		paramMap.put("type", "current");
+	}
+	
+	private void setVoltageDetail(String areaId, String concentratorId,
+			String pn, Map<String, String> paramMap,String date) throws Exception {
+		DailyVoltage dailyVoltage = dailyPowerServieImpl.fetchSingleVoltage(date, areaId, concentratorId, pn);
+		
+		paramMap.put("maxAVoltage", dailyVoltage.getMaxavoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("maxBVoltage", dailyVoltage.getMaxbvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("maxCVoltage", dailyVoltage.getMaxcvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minAVoltage", dailyVoltage.getMinavoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minBVoltage", dailyVoltage.getMinbvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		paramMap.put("minCVoltage", dailyVoltage.getMincvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
+		
+		paramMap.put("type", "voltage");
 	}
 	
 }

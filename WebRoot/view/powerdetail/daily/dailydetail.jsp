@@ -28,9 +28,9 @@
                 <tr>
                     <!-- <th field="id" hidden="true"></th>
                     <th field="ck" data-options="checkbox:true"></th> -->
-                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
-                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
-                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
+                    <th rowspan="2" field="areaId" width="80" align="center" hidden="true"></th>
+                    <th rowspan="2" field="concentratorId" width="80" align="center" hidden="true"></th>
+                    <th rowspan="2" field="pn" width="80" align="center" hidden="true"></th>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
                     <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
                     <th colspan="5">有功负荷(kW)</th>

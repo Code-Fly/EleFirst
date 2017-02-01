@@ -57,6 +57,19 @@ public class DailyPowerServieImpl implements IDailyPowerServie{
 		List<DailyLoad> dailyLoads = dailyLoadMapper.selectByExample(condition);
 		return dailyLoads;
 	}
+	
+	@Override
+	public DailyLoad fetchSingleDailyLoad(String date, String areaId,
+			String ctrIds, String pn) throws Exception {
+		DailyLoadExample condition = new DailyLoadExample();
+		DailyLoadExample.Criteria criteria = condition.createCriteria();
+		criteria.andAreaIdEqualTo(areaId);
+		criteria.andConcentratorIdEqualTo(ctrIds);
+		criteria.andPnEqualTo(pn);
+		criteria.andDaysEqualTo(date);
+		List<DailyLoad> dailyLoads = dailyLoadMapper.selectByExample(condition);
+		return dailyLoads.get(0);
+	}
 
 	@Override
 	public List<DailyVoltage> fetchAllDailyVoltage(String date, String areaId,
@@ -84,6 +97,19 @@ public class DailyPowerServieImpl implements IDailyPowerServie{
 	}
 	
 	@Override
+	public DailyVoltage fetchSingleVoltage(String date, String areaId,
+			String ctrId, String pn) throws Exception {
+		DailyVoltageExample condition = new DailyVoltageExample();
+		DailyVoltageExample.Criteria criteria = condition.createCriteria();
+		criteria.andAreaIdEqualTo(areaId);
+		criteria.andConcentratorIdEqualTo(ctrId);
+		criteria.andPnEqualTo(pn);
+		criteria.andDaysEqualTo(date);
+		List<DailyVoltage> dailyVoltages = dailyVoltageMapper.selectByExample(condition);
+		return dailyVoltages.get(0);
+	}
+	
+	@Override
 	public List<DailyCurrent> fetchAllDailyCurrent(String date, String areaId,
 			List<String> ctrIds, int rows, int page, boolean isPagination)
 			throws Exception {
@@ -106,6 +132,19 @@ public class DailyPowerServieImpl implements IDailyPowerServie{
 		}
 		List<DailyCurrent> dailyCurrents = dailyCurrentMapper.selectByExample(condition);
 		return dailyCurrents;
+	}
+	
+	@Override
+	public DailyCurrent fetchSingleDailyCurrent(String date, String areaId,
+			String ctrId, String pn) throws Exception {
+		DailyCurrentExample condition = new DailyCurrentExample();
+		DailyCurrentExample.Criteria criteria = condition.createCriteria();
+		criteria.andAreaIdEqualTo(areaId);
+		criteria.andConcentratorIdEqualTo(ctrId);
+		criteria.andPnEqualTo(pn);
+		criteria.andDaysEqualTo(date);
+		List<DailyCurrent> dailyCurrents = dailyCurrentMapper.selectByExample(condition);
+		return dailyCurrents.get(0);
 	}
 
 	@Override
@@ -133,4 +172,16 @@ public class DailyPowerServieImpl implements IDailyPowerServie{
 		return dailyPowerFactors;
 	}
 
+	@Override
+	public DailyPowerFactor fetchSingleDailyPowerFactor(String date,
+			String areaId, String ctrId,String pn) throws Exception {
+		DailyPowerFactorExample condition = new DailyPowerFactorExample();
+		DailyPowerFactorExample.Criteria criteria = condition.createCriteria();
+		criteria.andAreaIdEqualTo(areaId);
+		criteria.andConcentratorIdEqualTo(ctrId);
+		criteria.andPnEqualTo(pn);
+		criteria.andDaysEqualTo(date);
+		List<DailyPowerFactor> dailyPowerFactors = dailyPowerFactorMapper.selectByExample(condition);
+		return dailyPowerFactors.get(0);
+	}
 }
