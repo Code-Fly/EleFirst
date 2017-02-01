@@ -133,6 +133,24 @@
                 </thead>
             </table>
         </div>
+        <div title="需量" style="display:none;overflow: hidden">
+            <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false">
+                <thead>
+                <tr>
+                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th colspan="2">最大需量</th>
+                </tr>
+                <tr>
+                    <th field="maxtotalpositivemaxactivepower" width="80" align="center">最大需量</th>
+                    <th field="totalpositivemaxactivepowertime" width="80" align="center" formatter="dateformatter">发生时间</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
         <!--  <div title="温度" style="display:none;overflow: hidden">
              <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false"
                     singleSelect="true" iconCls="icon-save" rownumbers="true">

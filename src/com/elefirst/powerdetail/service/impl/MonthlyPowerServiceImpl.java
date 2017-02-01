@@ -1,17 +1,17 @@
 package com.elefirst.powerdetail.service.impl;
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.elefirst.powerdetail.mapper.MonthlyCurrentMapper;
+import com.elefirst.powerdetail.mapper.MonthlyDemandMapper;
 import com.elefirst.powerdetail.mapper.MonthlyLoadMapper;
 import com.elefirst.powerdetail.mapper.MonthlyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.MonthlyVoltageMapper;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyCurrentExample;
+import com.elefirst.powerdetail.po.MonthlyDemand;
+import com.elefirst.powerdetail.po.MonthlyDemandExample;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyLoadExample;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
@@ -33,6 +33,9 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	
 	@Resource(name = "monthlyPowerFactorMapper")
 	private MonthlyPowerFactorMapper monthlyPowerFactorMapper;
+	
+	@Resource(name = "monthlyDemandMapper")
+	private MonthlyDemandMapper monthlyDemandMapper;
 	
 	@Override
 	public List<MonthlyLoad> fetchAllMonthlyLoad(String date, String areaId,
@@ -183,5 +186,28 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 		criteria.andDaysEqualTo(date);
 		List<MonthlyPowerFactor> monthlyPowerFactors = monthlyPowerFactorMapper.selectByExample(condition);
 		return monthlyPowerFactors.get(0);
+	}
+	
+	@Override
+	public List<MonthlyDemand> fetchAllDailyDemand(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception {
+		MonthlyDemandExample condition = new MonthlyDemandExample();
+		MonthlyDemandExample.Criteria criteria = condition.createCriteria();
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			criteria.andDaysEqualTo(vdate);
+		}
+		criteria.andAreaIdEqualTo(areaId);
+		criteria.andConcentratorIdIn(ctrIds);
+		//排序后只取第一条记录返回
+		condition.setOrderByClause("days DESC");
+		//是否分页
+		if(true == isPagination){
+			if (rows > 0 && page > 0) {
+				condition.setLimitStart((page - 1) * rows);
+				condition.setLimitEnd(rows);
+			}
+		}
+		List<MonthlyDemand> monthlyDemands = monthlyDemandMapper.selectByExample(condition);
+		return monthlyDemands;
 	}
 }
