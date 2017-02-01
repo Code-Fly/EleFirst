@@ -36,6 +36,24 @@ $(document).ready(function () {
             // Loads the mxGraph file format (XML file)
             read(graph, "data/fileio.xml");
 
+            var config = [{
+                "cellId": "5",
+                "cellType": "current",
+                "areaId": "1",
+                "concentratorId": "417",
+                "pn": "2",
+                "pnId": "56bdab99-713c-4f2d-904f-f8ff9104ad03"
+            }, {
+                "cellId": "2",
+                "cellType": "current",
+                "areaId": "1",
+                "concentratorId": "417",
+                "pn": "3",
+                "pnId": "9dd73393-d055-4dd1-8056-bd09064efc58"
+            }]
+
+            $("#hid-config").val(JSON.stringify(config));
+
         }
         finally {
             // Updates the display
@@ -47,36 +65,85 @@ $(document).ready(function () {
         // XML is normally fetched from URL at server using mxUtils.get - this is a client-side
         // string with randomized states to demonstrate the idea of the workflow monitor
 
-        var config = $.parseJSON($("#hid-config").val());
+        $.ajax({
+            url: _ctx + "system/graph/latest/current/list.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: $("#hid-config").val(),
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        if (r.data.length > 0) {
+                            var time = r.data[0].clientOperationTime;
+                            $("#updateTimeContainer").text("采集状态：成功获取到 " + getDbDate(time).toLocaleString() + " 实时数据");
+                        }
 
-        $.messager.alert("操作提示", $("#hid-config").val());
+                        var nodes = {};
+                        nodes[graphConstants.USER_OBJECT_SWITCH_STATE] = [];
+                        nodes[graphConstants.USER_OBJECT_CURRENT] = [];
 
-        var nodes = [
-            {
-                id: 3,
-                type: graphConstants.USER_OBJECT_SWITCH_STATE,
-                attributes: {
-                    state: graphConstants.SWITCH_STATE_ON
+
+                        for (var i = 0; i < r.data.length; i++) {
+                            nodes[graphConstants.USER_OBJECT_CURRENT].push({
+                                id: r.data[i].cellId,
+                                attributes: {
+                                    a: r.data[i].aCurrent,
+                                    b: r.data[i].bCurrent,
+                                    c: r.data[i].cCurrent
+                                }
+                            });
+                        }
+
+                        // var nodes = [
+                        //     {
+                        //         id: 3,
+                        //         type: graphConstants.USER_OBJECT_SWITCH_STATE,
+                        //         attributes: {
+                        //             state: graphConstants.SWITCH_STATE_ON
+                        //         }
+                        //     },
+                        //     {
+                        //         id: 4,
+                        //         type: graphConstants.USER_OBJECT_SWITCH_STATE,
+                        //         attributes: {
+                        //             state: graphConstants.SWITCH_STATE_OFF
+                        //         }
+                        //     },
+                        //     {
+                        //         id: 5,
+                        //         type: graphConstants.USER_OBJECT_CURRENT,
+                        //         attributes: {
+                        //             L: 1.2,
+                        //             N: 2.1,
+                        //             G: 1.9
+                        //         }
+                        //     }
+                        // ];
+                        update(graph, nodes);
+
+                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                    } else {
+                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode, param), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
-            {
-                id: 4,
-                type: graphConstants.USER_OBJECT_SWITCH_STATE,
-                attributes: {
-                    state: graphConstants.SWITCH_STATE_OFF
-                }
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
             },
-            {
-                id: 5,
-                type: graphConstants.USER_OBJECT_CURRENT,
-                attributes: {
-                    L: 1.2,
-                    N: 2.1,
-                    G: 1.9
-                }
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                MaskUtil.unmask();
             }
-        ];
-        update(graph, nodes);
+
+        });
+
+
     });
     toolbar.addLine()
 
@@ -285,41 +352,58 @@ $(document).ready(function () {
      */
     function update(graph, nodes) {
         var model = graph.getModel();
-        for (var i = 0; i < nodes.length; i++) {
+
+        var currentNodes = nodes[graphConstants.USER_OBJECT_CURRENT];
+
+        for (var i = 0; i < currentNodes.length; i++) {
             // Processes the activity nodes inside the process node
-            var id = nodes[i].id;
+            var id = currentNodes[i].id;
             // Gets the cell for the given activity name from the model
             var cell = model.getCell(id);
             // Updates the cell color and adds some tooltip information
             if (cell != null) {
                 model.beginUpdate();
                 try {
-                    if (isValidStyle(cell.style, graphConstants.USER_OBJECT_CURRENT)) {
-                        if (isValidStyle(cell.style, "phase=2")) {
-                            var L = nodes[i].attributes.L;
-                            var G = nodes[i].attributes.G;
+                    if (isValidStyle(cell.style, "phase=2")) {
+                        var a = currentNodes[i].attributes.a;
+                        var b = currentNodes[i].attributes.b;
 
-                            var content = getTwoPhaseCurrentLabel(L, G);
-                            var edit = new mxValueChange(model, cell, content);
-                            model.execute(edit);
-                        }
-                        else if (isValidStyle(cell.style, "phase=3")) {
-                            var L = nodes[i].attributes.L;
-                            var N = nodes[i].attributes.N;
-                            var G = nodes[i].attributes.G;
-
-                            var content = getThreePhaseCurrentLabel(L, N, G);
-                            var edit = new mxValueChange(model, cell, content);
-                            model.execute(edit);
-                        }
+                        var content = getTwoPhaseCurrentLabel(a, b);
+                        var edit = new mxValueChange(model, cell, content);
+                        model.execute(edit);
                     }
-                    else if (isValidStyle(cell.style, graphConstants.USER_OBJECT_SWITCH_STATE)) {
-                        if (nodes[i].attributes.state == graphConstants.SWITCH_STATE_ON) {
-                            graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "lime", [cell]);
-                        }
-                        else if (nodes[i].attributes.state == graphConstants.SWITCH_STATE_OFF) {
-                            graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "red", [cell]);
-                        }
+                    else if (isValidStyle(cell.style, "phase=3")) {
+                        var a = currentNodes[i].attributes.a;
+                        var b = currentNodes[i].attributes.b;
+                        var c = currentNodes[i].attributes.c;
+
+                        var content = getThreePhaseCurrentLabel(a, b, c);
+                        var edit = new mxValueChange(model, cell, content);
+                        model.execute(edit);
+                    }
+                }
+                finally {
+                    model.endUpdate();
+                }
+            }
+        } // for
+
+        var switchStateNodes = nodes[graphConstants.USER_OBJECT_SWITCH_STATE];
+
+        for (var i = 0; i < switchStateNodes.length; i++) {
+            // Processes the activity nodes inside the process node
+            var id = switchStateNodes[i].id;
+            // Gets the cell for the given activity name from the model
+            var cell = model.getCell(id);
+            // Updates the cell color and adds some tooltip information
+            if (cell != null) {
+                model.beginUpdate();
+                try {
+                    if (switchStateNodes[i].attributes.state == graphConstants.SWITCH_STATE_ON) {
+                        graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "lime", [cell]);
+                    }
+                    else if (switchStateNodes[i].attributes.state == graphConstants.SWITCH_STATE_OFF) {
+                        graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "red", [cell]);
                     }
                 }
                 finally {
@@ -420,11 +504,11 @@ $(document).ready(function () {
         }
     }
 
-    function getTwoPhaseCurrentLabel(L, G) {
-        return '<p style="color: red">' + '<span class="L">' + L + '</span>' + ' (A)</p>' + '<p style="color: orange">' + '<span class="G">' + G + '</span>' + ' (A)</p>';
+    function getTwoPhaseCurrentLabel(a, b) {
+        return '<p style="color: orange">' + '<span class="a">' + a + '</span>' + ' (A)</p>' + '<p style="color: green">' + '<span class="b">' + b + '</span>' + ' (A)</p>';
     }
 
-    function getThreePhaseCurrentLabel(L, N, G) {
-        return '<p style="color: red">' + '<span class="L">' + L + '</span>' + ' (A)</p>' + '<p style="color: green">' + '<span class="N">' + N + '</span>' + ' (A)</p>' + '<p style="color: orange">' + '<span class="G">' + G + '</span>' + ' (A)</p>';
+    function getThreePhaseCurrentLabel(a, b, c) {
+        return '<p style="color: orange">' + '<span class="a">' + a + '</span>' + ' (A)</p>' + '<p style="color: green">' + '<span class="b">' + b + '</span>' + ' (A)</p>' + '<p style="color: red">' + '<span class="c">' + c + '</span>' + ' (A)</p>';
     }
 });

@@ -21,6 +21,17 @@
         /*height: 100%;*/
         /*}*/
 
+        #updateTimeContainer {
+            margin: auto;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            font-size: medium;
+            color: grey;
+        }
+
         #graphContainer {
             overflow: hidden;
             /*position: relative;*/
@@ -88,7 +99,9 @@
         </div>
     </div>
 </div>
-<div data-options="region:'center',border:false">
+<div data-options="region:'center',border:false" align="center">
+    <div id="updateTimeContainer">
+    </div>
     <!-- Creates a container for the sidebar -->
     <div id="toolbarContainer">
     </div>

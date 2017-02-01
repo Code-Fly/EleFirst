@@ -42,8 +42,8 @@ $(document).ready(function () {
                     var horizontal = (p0.x - pe.x == 0);
 
                     // Stores the segment in the edge state
-                    var key = (source) ? 'sourceConstraint' : 'targetConstraint';
-                    var value = (horizontal) ? 'horizontal' : 'vertical';
+                    var key = (source) ? "sourceConstraint" : "targetConstraint";
+                    var value = (horizontal) ? "horizontal" : "vertical";
                     edge.style[key] = value;
 
                     // Keeps the coordinate within the segment bounds
@@ -86,8 +86,8 @@ $(document).ready(function () {
         var edge = this.graph.createEdge();
 
         if (this.sourceConstraint != null && this.previous != null) {
-            edge.style = mxConstants.STYLE_EXIT_X + '=' + this.sourceConstraint.point.x + ';' +
-                mxConstants.STYLE_EXIT_Y + '=' + this.sourceConstraint.point.y + ';';
+            edge.style = mxConstants.STYLE_EXIT_X + "=" + this.sourceConstraint.point.x + ";" +
+                mxConstants.STYLE_EXIT_Y + "=" + this.sourceConstraint.point.y + ";";
         }
         else if (this.graph.model.isEdge(me.getCell())) {
             var scale = this.graph.view.scale;
@@ -134,7 +134,7 @@ $(document).ready(function () {
         if (this.isSource || this.isTarget) {
             clone.cell.geometry = clone.cell.geometry.clone();
 
-            // Sets the terminal point of an edge if we're moving one of the endpoints
+            // Sets the terminal point of an edge if we"re moving one of the endpoints
             if (this.graph.getModel().isEdge(clone.cell)) {
                 // TODO: Only set this if the target or source terminal is an edge
                 clone.cell.geometry.setTerminalPoint(point, this.isSource);
@@ -209,8 +209,8 @@ $(document).ready(function () {
                     this.state.style = this.lastStyle;
 
                     // Workaround for shape using current stroke width if no strokewidth defined
-                    this.state.style['strokeWidth'] = this.state.style['strokeWidth'] || '1';
-                    this.state.style['strokeColor'] = this.state.style['strokeColor'] || 'none';
+                    this.state.style["strokeWidth"] = this.state.style["strokeWidth"] || "1";
+                    this.state.style["strokeColor"] = this.state.style["strokeColor"] || "none";
 
                     if (this.state.shape != null) {
                         this.state.view.graph.cellRenderer.configureShape(this.state);
@@ -221,8 +221,8 @@ $(document).ready(function () {
                 if (state != null) {
                     this.lastStyle = state.style;
                     state.style = mxUtils.clone(state.style);
-                    state.style['strokeColor'] = '#00ff00';
-                    state.style['strokeWidth'] = '3';
+                    state.style["strokeColor"] = "#00ff00";
+                    state.style["strokeWidth"] = "3";
 
                     if (state.shape != null) {
                         state.view.graph.cellRenderer.configureShape(state);
@@ -257,11 +257,11 @@ $(document).ready(function () {
             style = mxUtils.clone(style);
 
             if (this.model.isEdge(this.model.getTerminal(cell, true))) {
-                style['startArrow'] = 'oval';
+                style["startArrow"] = "oval";
             }
 
             if (this.model.isEdge(this.model.getTerminal(cell, false))) {
-                style['endArrow'] = 'oval';
+                style["endArrow"] = "oval";
             }
         }
 
@@ -294,7 +294,7 @@ $(document).ready(function () {
         }
     };
 
-    mxCellRenderer.prototype.defaultShapes['resistor'] = ResistorShape;
+    mxCellRenderer.prototype.defaultShapes["resistor"] = ResistorShape;
     // <!--
     //     Imlements a custom resistor shape. Direction currently ignored here.
     // -->
@@ -306,15 +306,15 @@ $(document).ready(function () {
 
         // Gets the initial connection from the source terminal or edge
         if (source != null && state.view.graph.model.isEdge(source.cell)) {
-            horizontal = state.style['sourceConstraint'] == 'horizontal';
+            horizontal = state.style["sourceConstraint"] == "horizontal";
         }
         else if (source != null) {
-            horizontal = source.style['portConstraint'] != 'vertical';
+            horizontal = source.style["portConstraint"] != "vertical";
 
             // Checks the direction of the shape and rotates
             var direction = source.style[mxConstants.STYLE_DIRECTION];
 
-            if (direction == 'north' || direction == 'south') {
+            if (direction == "north" || direction == "south") {
                 horizontal = !horizontal;
             }
         }
@@ -337,12 +337,12 @@ $(document).ready(function () {
             // FIXME: First segment not movable
             /*hint = state.view.transformControlPoint(state, hints[0]);
              mxLog.show();
-             mxLog.debug(hints.length,'hints0.y='+hint.y, pt.y)
+             mxLog.debug(hints.length,"hints0.y="+hint.y, pt.y)
 
              if (horizontal && Math.floor(hint.y) != Math.floor(pt.y))
              {
              mxLog.show();
-             mxLog.debug('add waypoint');
+             mxLog.debug("add waypoint");
 
              pt = new mxPoint(pt.x, hint.y);
              result.push(pt);
@@ -388,7 +388,7 @@ $(document).ready(function () {
         }
     };
 
-    mxStyleRegistry.putValue('wireEdgeStyle', mxEdgeStyle.WireConnector);
+    mxStyleRegistry.putValue("wireEdgeStyle", mxEdgeStyle.WireConnector);
 
     // This connector needs an mxEdgeSegmentHandler
     mxGraphCreateHandler = mxGraph.prototype.createHandler;

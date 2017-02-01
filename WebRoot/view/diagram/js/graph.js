@@ -2,10 +2,10 @@
  * Created by Administrator on 2017/1/19.
  */
 $(document).ready(function () {
-    var container = document.getElementById('graphContainer');
+    var container = document.getElementById("graphContainer");
 
     if (mxClient.IS_QUIRKS) {
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow = "hidden";
     }
     if (mxClient.IS_QUIRKS) {
         new mxDivResizer(container);
@@ -114,7 +114,7 @@ $(document).ready(function () {
     mxGraph.prototype.resetEdgesOnConnect = false;
 
     // Replaces the port image
-    mxConstraintHandler.prototype.pointImage = new mxImage(mxBasePath + "images/examples/dot.gif", 10, 10);
+    mxConstraintHandler.prototype.pointImage = new mxImage(_ctx + "Content/images/graph/dot.gif", 10, 10);
 
     // Enables guides
     mxGraphHandler.prototype.guidesEnabled = true;
