@@ -83,14 +83,12 @@
         </div>
     </div>
 </div>
-<div data-options="region:'center',border:false" style="padding: 5px;">
-    <div data-options="region:'center',border:false" style="padding-left: 5px;">
-        <!-- Creates a container for the sidebar -->
-        <div id="toolbarContainer">
-        </div>
-        <!-- Creates a container for the graph -->
-        <div id="graphContainer">
-        </div>
+<div data-options="region:'center',border:false">
+    <!-- Creates a container for the sidebar -->
+    <div id="toolbarContainer">
+    </div>
+    <!-- Creates a container for the graph -->
+    <div id="graphContainer">
     </div>
 </div>
 </body>

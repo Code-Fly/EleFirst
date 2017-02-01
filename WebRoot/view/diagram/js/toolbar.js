@@ -46,25 +46,33 @@ $(document).ready(function () {
     toolbar.addItem("刷新", mxBasePath + "images/editors/refresh.gif", function (evt) {
         // XML is normally fetched from URL at server using mxUtils.get - this is a client-side
         // string with randomized states to demonstrate the idea of the workflow monitor
-        var xml = '<process><update id="3" state="1"/><update id="4" state="1"/><update id="5" state="1"/></process>';
 
-        var data = [
+        var nodes = [
             {
                 id: 3,
-                type: "switchStatus",
-                data: {
-                    state: 0
+                type: graphConstants.USER_OBJECT_SWITCH_STATE,
+                attributes: {
+                    state: graphConstants.SWITCH_STATE_ON
                 }
             },
             {
                 id: 4,
-                type: "switchStatus",
-                data: {
-                    state: 1
+                type: graphConstants.USER_OBJECT_SWITCH_STATE,
+                attributes: {
+                    state: graphConstants.SWITCH_STATE_OFF
+                }
+            },
+            {
+                id: 5,
+                type: graphConstants.USER_OBJECT_CURRENT,
+                attributes: {
+                    L: 1.2,
+                    N: 2.1,
+                    G: 1.9
                 }
             }
         ];
-        update(graph, xml);
+        update(graph, nodes);
     });
     toolbar.addLine()
 
@@ -154,7 +162,7 @@ $(document).ready(function () {
     toolbar.addLine()
     addVertex("两相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=2");
     addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=3");
-    addVertex("开关", _ctx + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, "switchStatus");
+    addVertex("开关", _ctx + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
     toolbar.addLine()
     toolbar.addItem("放大", mxBasePath + "images/editors/zoomin.gif", function (evt) {
         graph.zoomIn();
@@ -272,61 +280,50 @@ $(document).ready(function () {
     /**
      * Updates the display of the given graph using the XML data
      */
-    function update(graph, xml) {
-        if (xml != null &&
-            xml.length > 0) {
-            var doc = mxUtils.parseXml(xml);
+    function update(graph, nodes) {
+        var model = graph.getModel();
+        for (var i = 0; i < nodes.length; i++) {
+            // Processes the activity nodes inside the process node
+            var id = nodes[i].id;
+            // Gets the cell for the given activity name from the model
+            var cell = model.getCell(id);
+            // Updates the cell color and adds some tooltip information
+            if (cell != null) {
+                model.beginUpdate();
+                try {
+                    if (isValidStyle(cell.style, graphConstants.USER_OBJECT_CURRENT)) {
+                        if (isValidStyle(cell.style, "phase=2")) {
+                            var L = nodes[i].attributes.L;
+                            var G = nodes[i].attributes.G;
 
-            if (doc != null &&
-                doc.documentElement != null) {
-                var model = graph.getModel();
-                var nodes = doc.documentElement.getElementsByTagName("update");
-
-                if (nodes != null &&
-                    nodes.length > 0) {
-                    for (var i = 0; i < nodes.length; i++) {
-                        // Processes the activity nodes inside the process node
-                        var id = nodes[i].getAttribute("id");
-                        var state = nodes[i].getAttribute("state");
-                        // Gets the cell for the given activity name from the model
-                        var cell = model.getCell(id);
-                        // Updates the cell color and adds some tooltip information
-                        if (cell != null) {
-                            model.beginUpdate();
-                            try {
-                                if (isValidStyle(cell.style, "current")) {
-                                    if (isValidStyle(cell.style, "phase=2")) {
-                                        var L = 1;
-                                        var G = 3;
-
-                                        var content = getTwoPhaseCurrentLabel(L, G);
-                                        var edit = new mxValueChange(model, cell, content);
-                                        model.execute(edit);
-                                    }
-                                    if (isValidStyle(cell.style, "phase=3")) {
-                                        var L = 4;
-                                        var N = 5;
-                                        var G = 6;
-
-                                        var content = getThreePhaseCurrentLabel(L, N, G);
-                                        var edit = new mxValueChange(model, cell, content);
-                                        model.execute(edit);
-                                    }
-
-                                }
-
-                                if (isValidStyle(cell.style, "switchStatus")) {
-                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "lime", [cell]);
-                                }
-                            }
-                            finally {
-                                model.endUpdate();
-                            }
+                            var content = getTwoPhaseCurrentLabel(L, G);
+                            var edit = new mxValueChange(model, cell, content);
+                            model.execute(edit);
                         }
-                    } // for
+                        else if (isValidStyle(cell.style, "phase=3")) {
+                            var L = nodes[i].attributes.L;
+                            var N = nodes[i].attributes.N;
+                            var G = nodes[i].attributes.G;
+
+                            var content = getThreePhaseCurrentLabel(L, N, G);
+                            var edit = new mxValueChange(model, cell, content);
+                            model.execute(edit);
+                        }
+                    }
+                    else if (isValidStyle(cell.style, graphConstants.USER_OBJECT_SWITCH_STATE)) {
+                        if (nodes[i].attributes.state == graphConstants.SWITCH_STATE_ON) {
+                            graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "lime", [cell]);
+                        }
+                        else if (nodes[i].attributes.state == graphConstants.SWITCH_STATE_OFF) {
+                            graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "red", [cell]);
+                        }
+                    }
+                }
+                finally {
+                    model.endUpdate();
                 }
             }
-        }
+        } // for
     }
 
     // Custom parser for simple file format
