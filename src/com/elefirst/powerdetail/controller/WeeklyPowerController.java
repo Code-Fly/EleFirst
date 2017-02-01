@@ -32,11 +32,11 @@ import com.elefirst.powerdetail.service.IWeeklyPowerService;
 public class WeeklyPowerController {
 private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerController.class);
 	
-	@Resource(name = "weeklyPowerServieImpl")
-	private IWeeklyPowerService weeklyPowerServieImpl;
+	@Resource(name = "weeklyPowerServiceImpl")
+	private IWeeklyPowerService weeklyPowerServiceImpl;
 	
 	/**
-	 * 根据日期查询相关的按日负荷统计数据
+	 * 根据周期查询相关的按周负荷统计数据
 	 * @param date
 	 * @param page
 	 * @param rows
@@ -67,22 +67,22 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			}
 			String areaId = area.getAreaId();
 			
-			List<WeeklyLoad> weeklyLoads = weeklyPowerServieImpl.fetchAllWeeklyLoad(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = weeklyPowerServieImpl.fetchAllWeeklyLoad(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<WeeklyLoad> weeklyLoads = weeklyPowerServiceImpl.fetchAllWeeklyLoad(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = weeklyPowerServiceImpl.fetchAllWeeklyLoad(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
-			gm.setMsg("查询相关的按日负荷统计数据成功！");
+			gm.setMsg("查询相关的按周负荷统计数据成功！");
 			dg.setRows(weeklyLoads);
 			dg.setTotal(total);
 			dg.setGm(gm);
 			return new ErrorMsg(Error.SUCCESS, "success", dg);
 		} catch (Exception e) {
-			logger.error("查询相关的按日负荷统计数据失败！", e);
+			logger.error("查询相关的按周负荷统计数据失败！", e);
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
 	}
 	
 	/**
-	 * 根据日期查询相关的按电压荷统计数据
+	 * 根据周期查询相关的按电压荷统计数据
 	 * @param date
 	 * @param page
 	 * @param rows
@@ -113,10 +113,10 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			}
 			String areaId = area.getAreaId();
 			
-			List<WeeklyVoltage> weeklyVoltages = weeklyPowerServieImpl.fetchAllWeeklyVoltage(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = weeklyPowerServieImpl.fetchAllWeeklyVoltage(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<WeeklyVoltage> weeklyVoltages = weeklyPowerServiceImpl.fetchAllWeeklyVoltage(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = weeklyPowerServiceImpl.fetchAllWeeklyVoltage(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
-			gm.setMsg("查询相关的按日电压统计数据成功！");
+			gm.setMsg("查询相关的按周电压统计数据成功！");
 			dg.setRows(weeklyVoltages);
 			dg.setTotal(total);
 			dg.setGm(gm);
@@ -128,7 +128,7 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 	}
 	
 	/**
-	 * 根据日期查询相关的按电流统计数据
+	 * 根据周期查询相关的按电流统计数据
 	 * @param date
 	 * @param page
 	 * @param rows
@@ -159,10 +159,10 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			}
 			String areaId = area.getAreaId();
 			
-			List<WeeklyCurrent> weeklyCurrents = weeklyPowerServieImpl.fetchAllWeeklyCurrent(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = weeklyPowerServieImpl.fetchAllWeeklyCurrent(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<WeeklyCurrent> weeklyCurrents = weeklyPowerServiceImpl.fetchAllWeeklyCurrent(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = weeklyPowerServiceImpl.fetchAllWeeklyCurrent(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
-			gm.setMsg("查询相关的按日电流统计数据成功！");
+			gm.setMsg("查询相关的按周电流统计数据成功！");
 			dg.setRows(weeklyCurrents);
 			dg.setTotal(total);
 			dg.setGm(gm);
@@ -174,7 +174,7 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 	}
 	
 	/**
-	 * 根据日期查询相关的按功率因数统计数据
+	 * 根据周期查询相关的按功率因数统计数据
 	 * @param date
 	 * @param page
 	 * @param rows
@@ -205,10 +205,10 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			}
 			String areaId = area.getAreaId();
 			
-			List<WeeklyPowerFactor> weeklyPowerFactors = weeklyPowerServieImpl.fetchAllWeeklyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = weeklyPowerServieImpl.fetchAllWeeklyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<WeeklyPowerFactor> weeklyPowerFactors = weeklyPowerServiceImpl.fetchAllWeeklyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = weeklyPowerServiceImpl.fetchAllWeeklyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
-			gm.setMsg("查询相关的按日功率因数统计数据成功！");
+			gm.setMsg("查询相关的按周功率因数统计数据成功！");
 			dg.setRows(weeklyPowerFactors);
 			dg.setTotal(total);
 			dg.setGm(gm);
@@ -233,10 +233,10 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			}else if("功率因数".equals(tabName)){
 				setPowerFactorDetail(areaId, concentratorId, pn, paramMap,date);
 			}
-			logger.error("查询日用电信息成功！");
+			logger.error("查询周用电信息成功！");
 			return new ErrorMsg(Error.SUCCESS, "success",paramMap);
 		} catch (Exception e) {
-			logger.error("查询日用电信息失败！", e);
+			logger.error("查询周用电信息失败！", e);
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "failed", null);
 		}
 	}
@@ -245,7 +245,7 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			String concentratorId, String pn, Map<String, String> paramMap,String date)
 			throws Exception {
 		//maxTotalActivePower minTotalActivePower  avgTotalActivePower
-		WeeklyLoad weeklyload = weeklyPowerServieImpl.fetchSingleWeeklyLoad(date, areaId, concentratorId,pn);
+		WeeklyLoad weeklyload = weeklyPowerServiceImpl.fetchSingleWeeklyLoad(date, areaId, concentratorId,pn);
 		//最大负荷
 		paramMap.put("maxTotalActivePower", weeklyload.getMaxactivepower()  +"(kW)");
 		paramMap.put("maxTotalActivePowerTime", weeklyload.getWeekstart());
@@ -270,7 +270,7 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
     
 	private void setPowerFactorDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
-		WeeklyPowerFactor weeklyPowerFactor = weeklyPowerServieImpl.fetchSingleWeeklyPowerFactor(date, areaId, concentratorId, pn);
+		WeeklyPowerFactor weeklyPowerFactor = weeklyPowerServiceImpl.fetchSingleWeeklyPowerFactor(date, areaId, concentratorId, pn);
 		paramMap.put("maxAPowerFactor", weeklyPowerFactor.getAmaxpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
 		paramMap.put("maxBPowerFactor", weeklyPowerFactor.getBmaxpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
 		paramMap.put("maxCPowerFactor", weeklyPowerFactor.getCmaxpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
@@ -286,7 +286,7 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 	
 	private void setCurrentDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
-		WeeklyCurrent weeklyCurrent = weeklyPowerServieImpl.fetchSingleWeeklyCurrent(date, areaId, concentratorId, pn);
+		WeeklyCurrent weeklyCurrent = weeklyPowerServiceImpl.fetchSingleWeeklyCurrent(date, areaId, concentratorId, pn);
 		
 		paramMap.put("maxACurrent", weeklyCurrent.getMaxacurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
 		paramMap.put("maxBCurrent", weeklyCurrent.getMaxbcurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
@@ -300,7 +300,7 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 	
 	private void setVoltageDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
-		WeeklyVoltage weeklyVoltage = weeklyPowerServieImpl.fetchSingleVoltage(date, areaId, concentratorId, pn);
+		WeeklyVoltage weeklyVoltage = weeklyPowerServiceImpl.fetchSingleVoltage(date, areaId, concentratorId, pn);
 		
 		paramMap.put("maxAVoltage", weeklyVoltage.getMaxavoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");
 		paramMap.put("maxBVoltage", weeklyVoltage.getMaxbvoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");

@@ -39,8 +39,8 @@
                     <th field="maxactivepower" width="80" align="center">最大负荷</th>
                     <th field="minactivepower" width="80" align="center">最小负荷</th>
                     <th field="avgactivepower" width="80" align="center">平均负荷</th>
-                    <th field="loadrate" width="80" align="center">峰谷差率</th>
-                    <th field="peakrate" width="80" align="center">负荷率</th>
+                    <th field="loadrate" width="80" align="center">负荷率</th>
+                    <th field="peakrate" width="80" align="center">峰谷差率</th>
                 </tr>
                 </thead>
             </table>

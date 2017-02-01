@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.powerdetail.mapper.MonthlyLoadMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.MonthlyLoad" >
+    <result column="days" property="days" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="maxActivePower" property="maxactivepower" jdbcType="DOUBLE" />
+    <result column="minActivePower" property="minactivepower" jdbcType="DOUBLE" />
+    <result column="avgActivePower" property="avgactivepower" jdbcType="DOUBLE" />
+    <result column="loadrate" property="loadrate" jdbcType="DOUBLE" />
+    <result column="peakrate" property="peakrate" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    days, area_id, concentrator_id, name, pn, maxActivePower, minActivePower, avgActivePower, 
+    loadrate, peakrate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elefirst.powerdetail.po.MonthlyLoadExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_view_monthlyload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.elefirst.powerdetail.po.MonthlyLoadExample" >
+    delete from t_view_monthlyload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elefirst.powerdetail.po.MonthlyLoad" >
+    insert into t_view_monthlyload (days, area_id, concentrator_id, 
+      name, pn, maxActivePower, 
+      minActivePower, avgActivePower, loadrate, 
+      peakrate)
+    values (#{days,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{concentratorId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{pn,jdbcType=VARCHAR}, #{maxactivepower,jdbcType=DOUBLE}, 
+      #{minactivepower,jdbcType=DOUBLE}, #{avgactivepower,jdbcType=DOUBLE}, #{loadrate,jdbcType=DOUBLE}, 
+      #{peakrate,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elefirst.powerdetail.po.MonthlyLoad" >
+    insert into t_view_monthlyload
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="days != null" >
+        days,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="concentratorId != null" >
+        concentrator_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pn != null" >
+        pn,
+      </if>
+      <if test="maxactivepower != null" >
+        maxActivePower,
+      </if>
+      <if test="minactivepower != null" >
+        minActivePower,
+      </if>
+      <if test="avgactivepower != null" >
+        avgActivePower,
+      </if>
+      <if test="loadrate != null" >
+        loadrate,
+      </if>
+      <if test="peakrate != null" >
+        peakrate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="days != null" >
+        #{days,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="concentratorId != null" >
+        #{concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pn != null" >
+        #{pn,jdbcType=VARCHAR},
+      </if>
+      <if test="maxactivepower != null" >
+        #{maxactivepower,jdbcType=DOUBLE},
+      </if>
+      <if test="minactivepower != null" >
+        #{minactivepower,jdbcType=DOUBLE},
+      </if>
+      <if test="avgactivepower != null" >
+        #{avgactivepower,jdbcType=DOUBLE},
+      </if>
+      <if test="loadrate != null" >
+        #{loadrate,jdbcType=DOUBLE},
+      </if>
+      <if test="peakrate != null" >
+        #{peakrate,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elefirst.powerdetail.po.MonthlyLoadExample" resultType="java.lang.Integer" >
+    select count(*) from t_view_monthlyload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_view_monthlyload
+    <set >
+      <if test="record.days != null" >
+        days = #{record.days,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.concentratorId != null" >
+        concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pn != null" >
+        pn = #{record.pn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxactivepower != null" >
+        maxActivePower = #{record.maxactivepower,jdbcType=DOUBLE},
+      </if>
+      <if test="record.minactivepower != null" >
+        minActivePower = #{record.minactivepower,jdbcType=DOUBLE},
+      </if>
+      <if test="record.avgactivepower != null" >
+        avgActivePower = #{record.avgactivepower,jdbcType=DOUBLE},
+      </if>
+      <if test="record.loadrate != null" >
+        loadrate = #{record.loadrate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.peakrate != null" >
+        peakrate = #{record.peakrate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_view_monthlyload
+    set days = #{record.days,jdbcType=VARCHAR},
+      area_id = #{record.areaId,jdbcType=VARCHAR},
+      concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      pn = #{record.pn,jdbcType=VARCHAR},
+      maxActivePower = #{record.maxactivepower,jdbcType=DOUBLE},
+      minActivePower = #{record.minactivepower,jdbcType=DOUBLE},
+      avgActivePower = #{record.avgactivepower,jdbcType=DOUBLE},
+      loadrate = #{record.loadrate,jdbcType=DOUBLE},
+      peakrate = #{record.peakrate,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

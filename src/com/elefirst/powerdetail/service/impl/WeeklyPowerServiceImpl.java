@@ -20,7 +20,7 @@ import com.elefirst.powerdetail.po.WeeklyVoltage;
 import com.elefirst.powerdetail.po.WeeklyVoltageExample;
 import com.elefirst.powerdetail.service.IWeeklyPowerService;
 @Service
-public class WeeklyPowerServieImpl implements IWeeklyPowerService{
+public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Resource(name = "weeklyLoadMapper")
 	private WeeklyLoadMapper weeklyLoadMapper;

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.powerdetail.mapper.MonthlyPowerFactorMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.MonthlyPowerFactor" >
+    <result column="days" property="days" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="power_factor_standard" property="powerFactorStandard" jdbcType="DOUBLE" />
+    <result column="avgTotalPowerFactor" property="avgtotalpowerfactor" jdbcType="DOUBLE" />
+    <result column="aMaxPowerFactor" property="amaxpowerfactor" jdbcType="DOUBLE" />
+    <result column="bMaxPowerFactor" property="bmaxpowerfactor" jdbcType="DOUBLE" />
+    <result column="cMaxPowerFactor" property="cmaxpowerfactor" jdbcType="DOUBLE" />
+    <result column="maxTotalPowerFactor" property="maxtotalpowerfactor" jdbcType="DOUBLE" />
+    <result column="aMinPowerFactor" property="aminpowerfactor" jdbcType="DOUBLE" />
+    <result column="bMinPowerFactor" property="bminpowerfactor" jdbcType="DOUBLE" />
+    <result column="cMinPowerFactor" property="cminpowerfactor" jdbcType="DOUBLE" />
+    <result column="minTotalPowerFactor" property="mintotalpowerfactor" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    days, area_id, concentrator_id, name, pn, power_factor_standard, avgTotalPowerFactor, 
+    aMaxPowerFactor, bMaxPowerFactor, cMaxPowerFactor, maxTotalPowerFactor, aMinPowerFactor, 
+    bMinPowerFactor, cMinPowerFactor, minTotalPowerFactor
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elefirst.powerdetail.po.MonthlyPowerFactorExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_view_monthlypowerfactor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.elefirst.powerdetail.po.MonthlyPowerFactorExample" >
+    delete from t_view_monthlypowerfactor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elefirst.powerdetail.po.MonthlyPowerFactor" >
+    insert into t_view_monthlypowerfactor (days, area_id, concentrator_id, 
+      name, pn, power_factor_standard, 
+      avgTotalPowerFactor, aMaxPowerFactor, bMaxPowerFactor, 
+      cMaxPowerFactor, maxTotalPowerFactor, aMinPowerFactor, 
+      bMinPowerFactor, cMinPowerFactor, minTotalPowerFactor
+      )
+    values (#{days,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{concentratorId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{pn,jdbcType=VARCHAR}, #{powerFactorStandard,jdbcType=DOUBLE}, 
+      #{avgtotalpowerfactor,jdbcType=DOUBLE}, #{amaxpowerfactor,jdbcType=DOUBLE}, #{bmaxpowerfactor,jdbcType=DOUBLE}, 
+      #{cmaxpowerfactor,jdbcType=DOUBLE}, #{maxtotalpowerfactor,jdbcType=DOUBLE}, #{aminpowerfactor,jdbcType=DOUBLE}, 
+      #{bminpowerfactor,jdbcType=DOUBLE}, #{cminpowerfactor,jdbcType=DOUBLE}, #{mintotalpowerfactor,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.elefirst.powerdetail.po.MonthlyPowerFactor" >
+    insert into t_view_monthlypowerfactor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="days != null" >
+        days,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="concentratorId != null" >
+        concentrator_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pn != null" >
+        pn,
+      </if>
+      <if test="powerFactorStandard != null" >
+        power_factor_standard,
+      </if>
+      <if test="avgtotalpowerfactor != null" >
+        avgTotalPowerFactor,
+      </if>
+      <if test="amaxpowerfactor != null" >
+        aMaxPowerFactor,
+      </if>
+      <if test="bmaxpowerfactor != null" >
+        bMaxPowerFactor,
+      </if>
+      <if test="cmaxpowerfactor != null" >
+        cMaxPowerFactor,
+      </if>
+      <if test="maxtotalpowerfactor != null" >
+        maxTotalPowerFactor,
+      </if>
+      <if test="aminpowerfactor != null" >
+        aMinPowerFactor,
+      </if>
+      <if test="bminpowerfactor != null" >
+        bMinPowerFactor,
+      </if>
+      <if test="cminpowerfactor != null" >
+        cMinPowerFactor,
+      </if>
+      <if test="mintotalpowerfactor != null" >
+        minTotalPowerFactor,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="days != null" >
+        #{days,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="concentratorId != null" >
+        #{concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pn != null" >
+        #{pn,jdbcType=VARCHAR},
+      </if>
+      <if test="powerFactorStandard != null" >
+        #{powerFactorStandard,jdbcType=DOUBLE},
+      </if>
+      <if test="avgtotalpowerfactor != null" >
+        #{avgtotalpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="amaxpowerfactor != null" >
+        #{amaxpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="bmaxpowerfactor != null" >
+        #{bmaxpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="cmaxpowerfactor != null" >
+        #{cmaxpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="maxtotalpowerfactor != null" >
+        #{maxtotalpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="aminpowerfactor != null" >
+        #{aminpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="bminpowerfactor != null" >
+        #{bminpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="cminpowerfactor != null" >
+        #{cminpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="mintotalpowerfactor != null" >
+        #{mintotalpowerfactor,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elefirst.powerdetail.po.MonthlyPowerFactorExample" resultType="java.lang.Integer" >
+    select count(*) from t_view_monthlypowerfactor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_view_monthlypowerfactor
+    <set >
+      <if test="record.days != null" >
+        days = #{record.days,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.concentratorId != null" >
+        concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pn != null" >
+        pn = #{record.pn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.powerFactorStandard != null" >
+        power_factor_standard = #{record.powerFactorStandard,jdbcType=DOUBLE},
+      </if>
+      <if test="record.avgtotalpowerfactor != null" >
+        avgTotalPowerFactor = #{record.avgtotalpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.amaxpowerfactor != null" >
+        aMaxPowerFactor = #{record.amaxpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bmaxpowerfactor != null" >
+        bMaxPowerFactor = #{record.bmaxpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.cmaxpowerfactor != null" >
+        cMaxPowerFactor = #{record.cmaxpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.maxtotalpowerfactor != null" >
+        maxTotalPowerFactor = #{record.maxtotalpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.aminpowerfactor != null" >
+        aMinPowerFactor = #{record.aminpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bminpowerfactor != null" >
+        bMinPowerFactor = #{record.bminpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.cminpowerfactor != null" >
+        cMinPowerFactor = #{record.cminpowerfactor,jdbcType=DOUBLE},
+      </if>
+      <if test="record.mintotalpowerfactor != null" >
+        minTotalPowerFactor = #{record.mintotalpowerfactor,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_view_monthlypowerfactor
+    set days = #{record.days,jdbcType=VARCHAR},
+      area_id = #{record.areaId,jdbcType=VARCHAR},
+      concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      pn = #{record.pn,jdbcType=VARCHAR},
+      power_factor_standard = #{record.powerFactorStandard,jdbcType=DOUBLE},
+      avgTotalPowerFactor = #{record.avgtotalpowerfactor,jdbcType=DOUBLE},
+      aMaxPowerFactor = #{record.amaxpowerfactor,jdbcType=DOUBLE},
+      bMaxPowerFactor = #{record.bmaxpowerfactor,jdbcType=DOUBLE},
+      cMaxPowerFactor = #{record.cmaxpowerfactor,jdbcType=DOUBLE},
+      maxTotalPowerFactor = #{record.maxtotalpowerfactor,jdbcType=DOUBLE},
+      aMinPowerFactor = #{record.aminpowerfactor,jdbcType=DOUBLE},
+      bMinPowerFactor = #{record.bminpowerfactor,jdbcType=DOUBLE},
+      cMinPowerFactor = #{record.cminpowerfactor,jdbcType=DOUBLE},
+      minTotalPowerFactor = #{record.mintotalpowerfactor,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -29,8 +29,8 @@ import com.elefirst.powerdetail.service.IDailyPowerService;
 public class DailyPowerController {
 private static final Logger logger = LoggerFactory.getLogger(DailyPowerController.class);
 	
-	@Resource(name = "dailyPowerServieImpl")
-	private IDailyPowerService dailyPowerServieImpl;
+	@Resource(name = "dailyPowerServiceImpl")
+	private IDailyPowerService dailyPowerServiceImpl;
 	
 	/**
 	 * 根据日期查询相关的按日负荷统计数据
@@ -64,8 +64,8 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 			}
 			String areaId = area.getAreaId();
 			
-			List<DailyLoad> dailyLoads = dailyPowerServieImpl.fetchAllDailyLoad(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = dailyPowerServieImpl.fetchAllDailyLoad(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<DailyLoad> dailyLoads = dailyPowerServiceImpl.fetchAllDailyLoad(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = dailyPowerServiceImpl.fetchAllDailyLoad(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日负荷统计数据成功！");
 			dg.setRows(dailyLoads);
@@ -110,8 +110,8 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 			}
 			String areaId = area.getAreaId();
 			
-			List<DailyVoltage> dailyVoltages = dailyPowerServieImpl.fetchAllDailyVoltage(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = dailyPowerServieImpl.fetchAllDailyVoltage(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<DailyVoltage> dailyVoltages = dailyPowerServiceImpl.fetchAllDailyVoltage(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = dailyPowerServiceImpl.fetchAllDailyVoltage(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日电压统计数据成功！");
 			dg.setRows(dailyVoltages);
@@ -156,8 +156,8 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 			}
 			String areaId = area.getAreaId();
 			
-			List<DailyCurrent> dailyCurrents = dailyPowerServieImpl.fetchAllDailyCurrent(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = dailyPowerServieImpl.fetchAllDailyCurrent(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<DailyCurrent> dailyCurrents = dailyPowerServiceImpl.fetchAllDailyCurrent(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = dailyPowerServiceImpl.fetchAllDailyCurrent(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日电流统计数据成功！");
 			dg.setRows(dailyCurrents);
@@ -202,8 +202,8 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 			}
 			String areaId = area.getAreaId();
 			
-			List<DailyPowerFactor> dailyPowerFactors = dailyPowerServieImpl.fetchAllDailyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = dailyPowerServieImpl.fetchAllDailyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<DailyPowerFactor> dailyPowerFactors = dailyPowerServiceImpl.fetchAllDailyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = dailyPowerServiceImpl.fetchAllDailyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum,false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日功率因数统计数据成功！");
 			dg.setRows(dailyPowerFactors);
@@ -244,7 +244,7 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 			String concentratorId, String pn, Map<String, String> paramMap,String date)
 			throws Exception {
 		//maxTotalActivePower minTotalActivePower  avgTotalActivePower
-		DailyLoad dailyload = dailyPowerServieImpl.fetchSingleDailyLoad(date, areaId, concentratorId,pn);
+		DailyLoad dailyload = dailyPowerServiceImpl.fetchSingleDailyLoad(date, areaId, concentratorId,pn);
 		//最大负荷
 		paramMap.put("maxTotalActivePower", dailyload.getMaxactivepower()  +"(kW)");
 		paramMap.put("maxTotalActivePowerTime", com.elefirst.base.utils.DateUtil.StringPattern(dailyload.getDays(), "yyyyMMdd", "yyyy-MM-dd"));
@@ -269,7 +269,7 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
     
 	private void setPowerFactorDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
-		DailyPowerFactor dailyPowerFactor = dailyPowerServieImpl.fetchSingleDailyPowerFactor(date, areaId, concentratorId, pn);
+		DailyPowerFactor dailyPowerFactor = dailyPowerServiceImpl.fetchSingleDailyPowerFactor(date, areaId, concentratorId, pn);
 		paramMap.put("maxAPowerFactor", dailyPowerFactor.getAmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
 		paramMap.put("maxBPowerFactor", dailyPowerFactor.getBmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
 		paramMap.put("maxCPowerFactor", dailyPowerFactor.getCmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyPowerFactor.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
@@ -285,7 +285,7 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 	
 	private void setCurrentDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
-		DailyCurrent dailyCurrent = dailyPowerServieImpl.fetchSingleDailyCurrent(date, areaId, concentratorId, pn);
+		DailyCurrent dailyCurrent = dailyPowerServiceImpl.fetchSingleDailyCurrent(date, areaId, concentratorId, pn);
 		
 		paramMap.put("maxACurrent", dailyCurrent.getMaxacurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
 		paramMap.put("maxBCurrent", dailyCurrent.getMaxbcurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyCurrent.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
@@ -299,7 +299,7 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 	
 	private void setVoltageDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
-		DailyVoltage dailyVoltage = dailyPowerServieImpl.fetchSingleVoltage(date, areaId, concentratorId, pn);
+		DailyVoltage dailyVoltage = dailyPowerServiceImpl.fetchSingleVoltage(date, areaId, concentratorId, pn);
 		
 		paramMap.put("maxAVoltage", dailyVoltage.getMaxavoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
 		paramMap.put("maxBVoltage", dailyVoltage.getMaxbvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd") +")");
