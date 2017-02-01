@@ -21,6 +21,19 @@ $(document).ready(function () {
             }
         }
     });
+    
+    $('#cc1').combobox({
+		    url:'data/combobox_data.json',
+		    valueField:'id',
+		    textField:'text',
+		    method:'get',
+		    onSelect: function(rec){
+            
+        }
+		});
+		
+		
+		
 
     //初始化databox为当前日期
     var d = new Date();
@@ -42,6 +55,7 @@ $(document).ready(function () {
             handerBySouthTabType(title);
         }
     });
+    
 
     //south区域不同类型tab页面板处理方式
     function handerBySouthTabType(title) {
