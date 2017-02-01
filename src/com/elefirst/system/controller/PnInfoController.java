@@ -112,6 +112,18 @@ public class PnInfoController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/info/detailById.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getPnInfoDetailById(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        @RequestParam(value = "id") String id
+    ) {
+        List<PnInfo> result = pnInfoService.getPnInfoDetail(id);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+
+    }
+
     @RequestMapping(value = "/info/update.do")
     @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
     @ResponseBody

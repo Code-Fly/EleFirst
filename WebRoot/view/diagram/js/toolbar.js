@@ -47,6 +47,10 @@ $(document).ready(function () {
         // XML is normally fetched from URL at server using mxUtils.get - this is a client-side
         // string with randomized states to demonstrate the idea of the workflow monitor
 
+        var config = $.parseJSON($("#hid-config").val());
+
+        $.messager.alert("操作提示", $("#hid-config").val());
+
         var nodes = [
             {
                 id: 3,
@@ -160,9 +164,8 @@ $(document).ready(function () {
         addVertex(name, iconPath, width, height, graphConstants.USER_OBJECT_CUSTOM_IMG + ";image=" + imgPath);
     }
     toolbar.addLine()
-    addVertex("两相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=2");
     addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=3");
-    addVertex("开关", _ctx + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
+    addVertex("开关状态", _ctx + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
     toolbar.addLine()
     toolbar.addItem("放大", mxBasePath + "images/editors/zoomin.gif", function (evt) {
         graph.zoomIn();

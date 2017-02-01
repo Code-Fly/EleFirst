@@ -55,6 +55,11 @@
             border-color: lightgray;
         }
     </style>
+    <style>
+        .title p {
+            text-align: left;
+        }
+    </style>
 </head>
 <body class="easyui-layout">
 <div data-options="region:'north'" style="height:40px;overflow: hidden;padding-top: 5px;">
@@ -89,6 +94,48 @@
     </div>
     <!-- Creates a container for the graph -->
     <div id="graphContainer">
+    </div>
+    <input id="hid-selected-node-info" type="hidden" value="{}">
+    <input id="hid-config" type="hidden" value="[]">
+</div>
+<div id="dlg-bound-pn" class="easyui-dialog" title="数据绑定"
+     data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
+     style="width:400px;height:200px;">
+
+    <div class="easyui-layout" data-options="fit:true,border:false">
+        <div data-options="region:'center'">
+            <div class="container_12" style="padding-top: 10px">
+                <div class="grid_4 cell title">
+                    <p>
+                        监测点
+                    </p>
+                </div>
+                <div class="grid_8 cell">
+                    <p>
+                        <input id="combo-bound-pn-id" class="easyui-combobox" style="width: 100%;">
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div data-options="region:'south'" style="height:50px;overflow: hidden;">
+            <div class="container_12">
+                <%--<div class="grid_4 prefix_2 cell">--%>
+                <%--<p style="text-align: center;">--%>
+                <%--<a id="btn-reset" style="width: 150px;" href="javascript:void(0)" class="easyui-linkbutton"--%>
+                <%--icon="icon-arrow_refresh" title="重置">重置</a>--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <div class="grid_4 prefix_4 cell">
+                    <p style="text-align: center;">
+                        <a id="btn-dlg-bound-pn-submit" style="width: 100%;max-width: 150px;"
+                           href="javascript:void(0)"
+                           class="easyui-linkbutton"
+                           icon="icon-save" title="提交">提交</a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
