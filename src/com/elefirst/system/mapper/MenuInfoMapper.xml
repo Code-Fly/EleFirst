@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.system.mapper.MenuInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.system.po.MenuInfo" >
+    <id column="MenuID" property="menuid" jdbcType="VARCHAR" />
+    <result column="MenuCode" property="menucode" jdbcType="VARCHAR" />
+    <result column="ParentCode" property="parentcode" jdbcType="VARCHAR" />
+    <result column="MenuName" property="menuname" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="IconClass" property="iconclass" jdbcType="VARCHAR" />
+    <result column="IconURL" property="iconurl" jdbcType="VARCHAR" />
+    <result column="MenuSeq" property="menuseq" jdbcType="INTEGER" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="IsEnable" property="isenable" jdbcType="CHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="VARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="VARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    MenuID, MenuCode, ParentCode, MenuName, URL, IconClass, IconURL, MenuSeq, Description, 
+    IsEnable, CreatePerson, CreateDate, UpdatePerson, UpdateDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elefirst.system.po.MenuInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where MenuID = #{menuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_menu
+    where MenuID = #{menuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.elefirst.system.po.MenuInfoExample" >
+    delete from sys_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elefirst.system.po.MenuInfo" >
+    insert into sys_menu (MenuID, MenuCode, ParentCode, 
+      MenuName, URL, IconClass, 
+      IconURL, MenuSeq, Description, 
+      IsEnable, CreatePerson, CreateDate, 
+      UpdatePerson, UpdateDate)
+    values (#{menuid,jdbcType=VARCHAR}, #{menucode,jdbcType=VARCHAR}, #{parentcode,jdbcType=VARCHAR}, 
+      #{menuname,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{iconclass,jdbcType=VARCHAR}, 
+      #{iconurl,jdbcType=VARCHAR}, #{menuseq,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
+      #{isenable,jdbcType=CHAR}, #{createperson,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updateperson,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elefirst.system.po.MenuInfo" >
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        MenuID,
+      </if>
+      <if test="menucode != null" >
+        MenuCode,
+      </if>
+      <if test="parentcode != null" >
+        ParentCode,
+      </if>
+      <if test="menuname != null" >
+        MenuName,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="iconclass != null" >
+        IconClass,
+      </if>
+      <if test="iconurl != null" >
+        IconURL,
+      </if>
+      <if test="menuseq != null" >
+        MenuSeq,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="isenable != null" >
+        IsEnable,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        #{menuid,jdbcType=VARCHAR},
+      </if>
+      <if test="menucode != null" >
+        #{menucode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcode != null" >
+        #{parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="iconclass != null" >
+        #{iconclass,jdbcType=VARCHAR},
+      </if>
+      <if test="iconurl != null" >
+        #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuseq != null" >
+        #{menuseq,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isenable != null" >
+        #{isenable,jdbcType=CHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elefirst.system.po.MenuInfoExample" resultType="java.lang.Integer" >
+    select count(*) from sys_menu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_menu
+    <set >
+      <if test="record.menuid != null" >
+        MenuID = #{record.menuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menucode != null" >
+        MenuCode = #{record.menucode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentcode != null" >
+        ParentCode = #{record.parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuname != null" >
+        MenuName = #{record.menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        URL = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconclass != null" >
+        IconClass = #{record.iconclass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconurl != null" >
+        IconURL = #{record.iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuseq != null" >
+        MenuSeq = #{record.menuseq,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null" >
+        Description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isenable != null" >
+        IsEnable = #{record.isenable,jdbcType=CHAR},
+      </if>
+      <if test="record.createperson != null" >
+        CreatePerson = #{record.createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdate != null" >
+        CreateDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateperson != null" >
+        UpdatePerson = #{record.updateperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedate != null" >
+        UpdateDate = #{record.updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_menu
+    set MenuID = #{record.menuid,jdbcType=VARCHAR},
+      MenuCode = #{record.menucode,jdbcType=VARCHAR},
+      ParentCode = #{record.parentcode,jdbcType=VARCHAR},
+      MenuName = #{record.menuname,jdbcType=VARCHAR},
+      URL = #{record.url,jdbcType=VARCHAR},
+      IconClass = #{record.iconclass,jdbcType=VARCHAR},
+      IconURL = #{record.iconurl,jdbcType=VARCHAR},
+      MenuSeq = #{record.menuseq,jdbcType=INTEGER},
+      Description = #{record.description,jdbcType=VARCHAR},
+      IsEnable = #{record.isenable,jdbcType=CHAR},
+      CreatePerson = #{record.createperson,jdbcType=VARCHAR},
+      CreateDate = #{record.createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{record.updateperson,jdbcType=VARCHAR},
+      UpdateDate = #{record.updatedate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elefirst.system.po.MenuInfo" >
+    update sys_menu
+    <set >
+      <if test="menucode != null" >
+        MenuCode = #{menucode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcode != null" >
+        ParentCode = #{parentcode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuname != null" >
+        MenuName = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="iconclass != null" >
+        IconClass = #{iconclass,jdbcType=VARCHAR},
+      </if>
+      <if test="iconurl != null" >
+        IconURL = #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuseq != null" >
+        MenuSeq = #{menuseq,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="isenable != null" >
+        IsEnable = #{isenable,jdbcType=CHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where MenuID = #{menuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elefirst.system.po.MenuInfo" >
+    update sys_menu
+    set MenuCode = #{menucode,jdbcType=VARCHAR},
+      ParentCode = #{parentcode,jdbcType=VARCHAR},
+      MenuName = #{menuname,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      IconClass = #{iconclass,jdbcType=VARCHAR},
+      IconURL = #{iconurl,jdbcType=VARCHAR},
+      MenuSeq = #{menuseq,jdbcType=INTEGER},
+      Description = #{description,jdbcType=VARCHAR},
+      IsEnable = #{isenable,jdbcType=CHAR},
+      CreatePerson = #{createperson,jdbcType=VARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where MenuID = #{menuid,jdbcType=VARCHAR}
+  </update>
+</mapper>
