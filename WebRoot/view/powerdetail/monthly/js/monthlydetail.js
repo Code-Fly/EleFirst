@@ -18,6 +18,8 @@ $(document).ready(function () {
                 dg('tt4', 'monthlypower/listMonthlyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'monthlypower/listMonthlyPowerFactor.do');
+            }else if ("需量" == title) {
+                dg('tt6', 'monthlypower/listMonthlyDemand.do');
             }
         }
     });
@@ -263,6 +265,15 @@ $(document).ready(function () {
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '功率因数');
+                    }else if ('tt6' == dgId) {
+                        singlerow = $('#tt6').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        date = singlerow.days;
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
+                        $("#input-detail-datebox").datebox("setValue", dateStr);
+                        $('#tab2').tabs('select', '示数');
                     }
                 }, 1000);
             }
@@ -311,6 +322,8 @@ $(document).ready(function () {
                 dg('tt4', 'monthlypower/listMonthlyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'monthlypower/listMonthlyPowerFactor.do');
+            }else if ("需量" == title) {
+                dg('tt6', 'monthlypower/listMonthlyDemand.do');
             }
         }
     });

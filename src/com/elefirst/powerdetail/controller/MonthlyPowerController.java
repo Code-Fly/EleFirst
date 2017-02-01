@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
@@ -19,6 +22,7 @@ import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
+import com.elefirst.powerdetail.po.MonthlyDemand;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
 import com.elefirst.powerdetail.po.MonthlyVoltage;
@@ -237,6 +241,52 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 		} catch (Exception e) {
 			logger.error("查询月用电信息失败！", e);
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "failed", null);
+		}
+	}
+	
+	/**
+	 * 根据日期查询相关的按需量荷统计数据
+	 * @param date
+	 * @param page
+	 * @param rows
+	 * @param jasonStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listMonthlyDemand.do")
+	public @ResponseBody ErrorMsg queryDailyDemand(String date,String page, String rows,String jasonStr)
+			throws Exception {
+		DataGrid dg = new DataGrid();
+		GeneralMessage gm = new GeneralMessage();
+		List<String> ctrIds = new ArrayList<String>();
+		
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			
+			Area area = JSON.parseObject(jasonStr,Area.class);
+			
+			List<Concentrator> concentrators = area.getConcentrators();
+			if(concentrators == null || concentrators.size() == 0){
+				return null;
+			}
+			for (Concentrator concentrator : concentrators) {
+				String tmpCId = concentrator.getConcentratorId();
+				ctrIds.add(tmpCId);
+			}
+			String areaId = area.getAreaId();
+			
+			List<MonthlyDemand> dailyDemands = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum,true);
+			int total = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			gm.setFlag(GeneralMessage.Result.SUCCESS);
+			gm.setMsg("查询相关的按日需量统计数据成功！");
+			dg.setRows(dailyDemands);
+			dg.setTotal(total);
+			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			logger.error("查询相关的按需量统计数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
 	}
 	

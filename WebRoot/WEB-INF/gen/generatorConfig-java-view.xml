@@ -37,10 +37,10 @@
 		    <property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
-		<table tableName="t_view_monthlypowerfactor" domainObjectName="MonthlyPowerFactor" />
+		<!-- <table tableName="t_view_monthlypowerfactor" domainObjectName="MonthlyPowerFactor" />
 		<table tableName="t_view_monthlycurrent" domainObjectName="MonthlyCurrent" /> 
 		<table tableName="t_view_monthlyvoltage" domainObjectName="MonthlyVoltage" /> 
-		<table tableName="t_view_monthlyload" domainObjectName="MonthlyLoad" />  
+		<table tableName="t_view_monthlyload" domainObjectName="MonthlyLoad" />   -->
 		
 		<!-- <table tableName="t_view_weeklypowerfactor" domainObjectName="WeeklyPowerFactor" />  -->
 		<!-- <table tableName="t_view_weeklycurrent" domainObjectName="WeeklyCurrent" /> -->
@@ -48,6 +48,7 @@
 		<!-- <table tableName="t_view_weeklyload" domainObjectName="WeeklyLoad" /> -->
 		
 		
+		<table tableName="t_view_monthlydemand" domainObjectName="MonthlyDemand" />
 		<!-- <table tableName="t_view_dailypowerfactor" domainObjectName="DailyPowerFactor" /> -->
 		<!-- <table tableName="t_view_dailycurrent" domainObjectName="DailyCurrent" /> -->
 		<!-- <table tableName="t_view_dailyvoltage" domainObjectName="DailyVoltage" /> -->

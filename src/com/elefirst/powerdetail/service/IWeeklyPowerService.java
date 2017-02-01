@@ -9,7 +9,7 @@ import com.elefirst.powerdetail.po.WeeklyVoltage;
 
 public interface IWeeklyPowerService {
 	/**
-	 * 查询按月统计负荷相关数据
+	 * 查询按周统计负荷相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception
@@ -17,7 +17,7 @@ public interface IWeeklyPowerService {
 	public List<WeeklyLoad> fetchAllWeeklyLoad(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
-	 * 查询单条按月统计负荷相关数据
+	 * 查询单条按周统计负荷相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception
@@ -25,7 +25,7 @@ public interface IWeeklyPowerService {
 	public WeeklyLoad fetchSingleWeeklyLoad(String date,String areaId,String ctrIds,String pn) throws Exception;
 	
 	/**
-	 * 查询按月统计电压相关数据
+	 * 查询按周统计电压相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception
@@ -33,15 +33,15 @@ public interface IWeeklyPowerService {
 	public List<WeeklyVoltage> fetchAllWeeklyVoltage(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
-	 * 查询单条按月统计电压相关数据
+	 * 查询单条按周统计电压相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception
 	 */
-	public WeeklyVoltage fetchSingleVoltage(String date,String 月,String ctrIds,String pn) throws Exception;
+	public WeeklyVoltage fetchSingleVoltage(String date,String 周,String ctrIds,String pn) throws Exception;
 	
 	/**
-	 * 查询按月统计电流相关数据
+	 * 查询按周统计电流相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception
@@ -49,15 +49,15 @@ public interface IWeeklyPowerService {
 	public List<WeeklyCurrent> fetchAllWeeklyCurrent(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
-	 * 查询单条按月统计功率因素相关数据
+	 * 查询单条按周统计功率因素相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception
 	 */
-	public WeeklyCurrent fetchSingleWeeklyCurrent(String date,String 月,String ctrId,String pn) throws Exception;
+	public WeeklyCurrent fetchSingleWeeklyCurrent(String date,String 周,String ctrId,String pn) throws Exception;
 	
 	/**
-	 * 查询按月统计功率因素相关数据
+	 * 查询按周统计功率因素相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception
@@ -65,7 +65,7 @@ public interface IWeeklyPowerService {
 	public List<WeeklyPowerFactor> fetchAllWeeklyPowerFactor(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
-	 * 查询单条按月统计功率因素相关数据
+	 * 查询单条按周统计功率因素相关数据
 	 * @param areaId
 	 * @return
 	 * @throws Exception

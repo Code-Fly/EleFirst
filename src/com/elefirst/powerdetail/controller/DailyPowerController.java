@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
@@ -215,6 +218,8 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
 	}
+	
+	
 	
 	@RequestMapping("queryDailyPower.do")
 	public @ResponseBody ErrorMsg queryAllDailyPower(String tabName,String areaId,String concentratorId,String pn,String date)

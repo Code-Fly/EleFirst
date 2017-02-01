@@ -184,4 +184,5 @@ public class DailyPowerServiceImpl implements IDailyPowerService{
 		List<DailyPowerFactor> dailyPowerFactors = dailyPowerFactorMapper.selectByExample(condition);
 		return dailyPowerFactors.get(0);
 	}
+
 }

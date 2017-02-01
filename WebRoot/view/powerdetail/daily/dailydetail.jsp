@@ -20,6 +20,7 @@
                data-options="editable:false,required: true" style="width:150px"/>
         <a id="main-input-btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
            data-options="iconCls:'icon-search'">查询</a>
+           
     </div>
     <div id="tt" class="easyui-tabs" data-options="border:false,tools:'#tab-tt-tools'" fit="true">
         <div title="负荷" style="display:none;overflow: hidden">
@@ -133,6 +134,33 @@
                 </thead>
             </table>
         </div>
+        <div title="谐波" style="display:none;overflow: hidden">
+        	  <div style="margin:5px">
+        	  		<span>谐波次数: </span>&nbsp;&nbsp;<input id="cc1" name="总" value="总">
+        	  </div>
+            <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
+                <thead>
+                <tr>
+                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">谐波次数</th>
+                    <th colspan="3">电压含有率(%）</th>
+                    <th colspan="3">电流最大值(A)</th>
+                </tr>
+                <tr>
+                    <th field="maxavoltage" width="80" align="center">U相</th>
+                    <th field="maxbvoltage" width="80" align="center">V相</th>
+                    <th field="maxcvoltage" width="80" align="center">W相</th>
+                    <th field="minavoltage" width="80" align="center">U相</th>
+                    <th field="minbvoltage" width="80" align="center">V相</th>
+                    <th field="mincvoltage" width="80" align="center">U相</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
         <!--  <div title="温度" style="display:none;overflow: hidden">
              <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false"
                     singleSelect="true" iconCls="icon-save" rownumbers="true">
@@ -167,6 +195,7 @@
                                    style="width:250px"/>
                 <a id="btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'">查询</a>
+                <span>谐波次数: </span>&nbsp;&nbsp;<input id="cc2" name="总" value="总">&nbsp;&nbsp;<span>类别: </span>&nbsp;&nbsp;<input id="cc3" name="总" value="总">
             </div>
         </div>
         <div data-options="region:'center',border:false" style="overflow: hidden;">
@@ -362,6 +391,42 @@
                         </div>
                     </div>
                 </div>
+
+                <div title="谐波" style="display:none;overflow: hidden">
+                    <div class="easyui-layout" data-options="fit:true">
+                    	  <!--
+                    	  <div data-options="region:'north',split:true,border:false"
+                             style="height:5%;text-align: left;padding:5px;">
+                            <span>谐波次数: </span>&nbsp;&nbsp;<input id="cc2">&nbsp;&nbsp;<span>类别: </span>&nbsp;&nbsp;<input id="cc3">
+                        </div>
+                        -->
+                        <div id="chart-power-factor-detail" data-options="region:'north',border:false"
+                             style="height:50%;text-align: center;">
+                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
+                        </div>
+                        <div data-options="region:'south',border:false" style="height:50%;">
+                            <table id="dtt3" class="easyui-datagrid" data-options="border:false" fit="true" title="谐波电压含有率(%)">
+				                        <thead>
+				                        <tr>
+				                            <th rowspan="2" field="clientoperationtime33" width="120" align="center">谐波次数</th>
+				                            <th colspan="2">U相</th>
+				                            <th colspan="2">V相</th>
+				                            <th colspan="2">W相</th>
+				                        </tr>
+				                        <tr>
+				                            <th field="totalpositiveactivepower" width="80" align="center">最大值/th>
+				                            <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
+				                            <th field="totalpositiveactivepower" width="80" align="center">最大值/th>
+				                            <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
+				                            <th field="totalpositiveactivepower" width="80" align="center">最大值/th>
+				                            <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
+				                        </tr>
+				                        </thead>
+				                    </table>
+                        </div>
+                    </div>
+                </div>
+            
                 <!-- <div title="谐波">
 
                 </div>
