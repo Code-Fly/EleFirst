@@ -1070,7 +1070,7 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        -- MAX(`totalActivePower`) AS 'maxTotalActivePower' ,
+        -- MAX(`totalActivePower`+ 0) AS 'maxTotalActivePower' ,
         totalActivePower AS 'maxTotalActivePower',
         TO_DAYS(`clientOperationTime`) AS 'toDaysClientOperationTime' ,
         HOUR(`clientOperationTime`) AS 'hourClientOperationTime'
@@ -1132,9 +1132,9 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`totalActivePower`) AS 'maxTotalActivePower' ,
-        MIN(`totalActivePower`) AS 'minTotalActivePower' ,
-        AVG(`totalActivePower`) AS 'avgTotalActivePower' ,
+        MAX(`totalActivePower`+ 0) AS 'maxTotalActivePower' ,
+        MIN(`totalActivePower`+ 0) AS 'minTotalActivePower' ,
+        AVG(`totalActivePower`+ 0) AS 'avgTotalActivePower' ,
         DAYOFMONTH(`clientOperationTime`) AS 'dayClientOperationTime'
         FROM
         (
@@ -1315,17 +1315,17 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`A_Voltage`) AS 'maxA_Voltage' ,
-        MAX(`B_Voltage`) AS 'maxB_Voltage' ,
-        MAX(`C_Voltage`) AS 'maxC_Voltage' ,
+        MAX(`A_Voltage`+ 0) AS 'maxA_Voltage' ,
+        MAX(`B_Voltage`+ 0) AS 'maxB_Voltage' ,
+        MAX(`C_Voltage`+ 0) AS 'maxC_Voltage' ,
 
-        MIN(`A_Voltage`) AS 'minA_Voltage' ,
-        MIN(`B_Voltage`) AS 'minB_Voltage' ,
-        MIN(`C_Voltage`) AS 'minC_Voltage' ,
+        MIN(`A_Voltage`+ 0) AS 'minA_Voltage' ,
+        MIN(`B_Voltage`+ 0) AS 'minB_Voltage' ,
+        MIN(`C_Voltage`+ 0) AS 'minC_Voltage' ,
 
-        AVG(`A_Voltage`) AS 'avgA_Voltage' ,
-        AVG(`B_Voltage`) AS 'avgB_Voltage' ,
-        AVG(`C_Voltage`) AS 'avgC_Voltage' ,
+        AVG(`A_Voltage`+ 0) AS 'avgA_Voltage' ,
+        AVG(`B_Voltage`+ 0) AS 'avgB_Voltage' ,
+        AVG(`C_Voltage`+ 0) AS 'avgC_Voltage' ,
 
         DAYOFMONTH(`clientOperationTime`) AS 'dayClientOperationTime'
         FROM
@@ -1449,17 +1449,17 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`A_Current`) AS 'maxA_Current' ,
-        MAX(`B_Current`) AS 'maxB_Current' ,
-        MAX(`C_Current`) AS 'maxC_Current' ,
+        MAX(`A_Current`+ 0) AS 'maxA_Current' ,
+        MAX(`B_Current`+ 0) AS 'maxB_Current' ,
+        MAX(`C_Current`+ 0) AS 'maxC_Current' ,
 
-        MIN(`A_Current`) AS 'minA_Current' ,
-        MIN(`B_Current`) AS 'minB_Current' ,
-        MIN(`C_Current`) AS 'minC_Current' ,
+        MIN(`A_Current`+ 0) AS 'minA_Current' ,
+        MIN(`B_Current`+ 0) AS 'minB_Current' ,
+        MIN(`C_Current`+ 0) AS 'minC_Current' ,
 
-        AVG(`A_Current`) AS 'avgA_Current' ,
-        AVG(`B_Current`) AS 'avgB_Current' ,
-        AVG(`C_Current`) AS 'avgC_Current' ,
+        AVG(`A_Current`+ 0) AS 'avgA_Current' ,
+        AVG(`B_Current`+ 0) AS 'avgB_Current' ,
+        AVG(`C_Current`+ 0) AS 'avgC_Current' ,
 
         DAYOFMONTH(`clientOperationTime`) AS 'dayClientOperationTime'
         FROM
@@ -1583,20 +1583,20 @@
         -->
         SELECT
         <include refid="Base_Column_List"/>,
-        MAX(`A_PowerFactor`) AS 'maxA_PowerFactor' ,
-        MAX(`B_PowerFactor`) AS 'maxB_PowerFactor' ,
-        MAX(`C_PowerFactor`) AS 'maxC_PowerFactor' ,
-        MAX(`totalPowerFactor`) AS 'maxTotalPowerFactor' ,
+        MAX(`A_PowerFactor`+ 0) AS 'maxA_PowerFactor' ,
+        MAX(`B_PowerFactor`+ 0) AS 'maxB_PowerFactor' ,
+        MAX(`C_PowerFactor`+ 0) AS 'maxC_PowerFactor' ,
+        MAX(`totalPowerFactor`+ 0) AS 'maxTotalPowerFactor' ,
 
-        MIN(`A_PowerFactor`) AS 'minA_PowerFactor' ,
-        MIN(`B_PowerFactor`) AS 'minB_PowerFactor' ,
-        MIN(`C_PowerFactor`) AS 'minC_PowerFactor' ,
-        MIN(`totalPowerFactor`) AS 'minTotalPowerFactor' ,
+        MIN(`A_PowerFactor`+ 0) AS 'minA_PowerFactor' ,
+        MIN(`B_PowerFactor`+ 0) AS 'minB_PowerFactor' ,
+        MIN(`C_PowerFactor`+ 0) AS 'minC_PowerFactor' ,
+        MIN(`totalPowerFactor`+ 0) AS 'minTotalPowerFactor' ,
 
-        AVG(`A_PowerFactor`) AS 'avgA_PowerFactor' ,
-        AVG(`B_PowerFactor`) AS 'avgB_PowerFactor' ,
-        AVG(`C_PowerFactor`) AS 'avgC_PowerFactor' ,
-        AVG(`totalPowerFactor`) AS 'avgTotalPowerFactor' ,
+        AVG(`A_PowerFactor`+ 0) AS 'avgA_PowerFactor' ,
+        AVG(`B_PowerFactor`+ 0) AS 'avgB_PowerFactor' ,
+        AVG(`C_PowerFactor`+ 0) AS 'avgC_PowerFactor' ,
+        AVG(`totalPowerFactor`+ 0) AS 'avgTotalPowerFactor' ,
 
         DAYOFMONTH(`clientOperationTime`) AS 'dayClientOperationTime'
         FROM
