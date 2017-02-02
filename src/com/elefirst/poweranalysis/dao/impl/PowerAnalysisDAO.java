@@ -71,6 +71,11 @@ public class PowerAnalysisDAO extends BaseDAO implements IPowerAnalysisDAO {
     }
 
     @Override
+    public List<PowerAnalysisCurrentWeeklyChartF25> getCurrentWeeklyChart(Map<String, Object> param) {
+        return powerAnalysisF25CurrentMapper.getCurrentWeeklyChart(param);
+    }
+
+    @Override
     public List<PowerAnalysisCurrentMonthlyChartF25> getCurrentMonthlyChart(Map<String, Object> param) {
         return powerAnalysisF25CurrentMapper.getCurrentMonthlyChart(param);
     }
