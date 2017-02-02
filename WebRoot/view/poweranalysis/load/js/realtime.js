@@ -4,11 +4,7 @@
 $(document).ready(function () {
     var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
-    $("#datebox-time-start").datebox("calendar").calendar({
-        firstDay: 1
-    });
-
-    $("#datebox-time-end").datebox("calendar").calendar({
+    $("#datebox-time").datebox("calendar").calendar({
         firstDay: 1
     });
 
