@@ -97,7 +97,12 @@ $(document).ready(function () {
                 time: $("#input-detail-datebox").datebox("getValue")
             });
         } else if ("功率因数" == title) {
-
+            getPowerFactorDetailChart({
+                areaId: areaId,
+                concentratorId: concentratorId,
+                pn: pn,
+                time: $("#input-detail-datebox").datebox("getValue")
+            });
         }
 
         //刷新tab
@@ -247,7 +252,7 @@ $(document).ready(function () {
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '负荷');
                         //初始化负荷详情
-                        refreshTab('负荷', areaId, concentratorId, pn, $("#input-detail-datebox").datebox("getValue"));
+                        handerBySouthTabType('负荷');
                     } else if ('tt2' == dgId) {
                         singlerow = $('#tt2').datagrid('getSelected');
                         areaId = singlerow.areaId33;
@@ -257,6 +262,8 @@ $(document).ready(function () {
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '示数');
+                        //初始化负荷详情
+                        handerBySouthTabType('示数');
                     } else if ('tt3' == dgId) {
                         singlerow = $('#tt3').datagrid('getSelected');
                         areaId = singlerow.areaId;
@@ -266,6 +273,8 @@ $(document).ready(function () {
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '电压');
+                        //初始化负荷详情
+                        handerBySouthTabType('电压');
                     } else if ('tt4' == dgId) {
                         singlerow = $('#tt4').datagrid('getSelected');
                         areaId = singlerow.areaId;
@@ -275,6 +284,8 @@ $(document).ready(function () {
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '电流');
+                        //初始化负荷详情
+                        handerBySouthTabType('电流');
                     } else if ('tt5' == dgId) {
                         singlerow = $('#tt5').datagrid('getSelected');
                         areaId = singlerow.areaId;
@@ -284,6 +295,8 @@ $(document).ready(function () {
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '功率因数');
+                        //初始化负荷详情
+                        handerBySouthTabType('功率因数');
                     } else if ('tt6' == dgId) {
                         singlerow = $('#tt6').datagrid('getSelected');
                         areaId = singlerow.areaId;
@@ -293,6 +306,8 @@ $(document).ready(function () {
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '示数');
+                        //初始化负荷详情
+                        handerBySouthTabType('示数');
                     }
                 }, 1000);
             }
@@ -679,7 +694,7 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "A相"
+                                            name: "A相最大"
                                         }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxA_Current");
                                         series.push(item);
 
@@ -689,7 +704,7 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "B相"
+                                            name: "B相最大"
                                         }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxB_Current");
                                         series.push(item);
 
@@ -699,8 +714,38 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "C相"
+                                            name: "C相最大"
                                         }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxC_Current");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getCurrentMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minA_Current");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getCurrentMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minB_Current");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getCurrentMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minC_Current");
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
@@ -732,6 +777,178 @@ $(document).ready(function () {
                             }
                         });
 
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+            }
+        });
+    }
+
+    function getPowerFactorDetailChart(row) {
+        $.ajax({
+            url: _ctx + "system/pn/info/detail.do",
+            type: "POST",
+            cache: false,
+            data: row,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var pnInfo = r.data[0];
+
+                        var time = new Date().format("yyyy-MM");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn
+                        })
+
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+
+                        paramChart.time.push(
+                            new Date(y, m).format('yyyyMM') + "01000000"
+                        )
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/powerFactor/monthly/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相最大"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxA_PowerFactor");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相最大"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxB_PowerFactor");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相最大"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxC_PowerFactor");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minA_PowerFactor");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minB_PowerFactor");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minC_PowerFactor");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "总最大"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxTotalPowerFactor");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getPowerFactorMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "总最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minTotalPowerFactor");
+                                        series.push(item);
+
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/powerFactorDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
+                                        config.series = series;
+
+                                        $("#chart-power-factor-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
