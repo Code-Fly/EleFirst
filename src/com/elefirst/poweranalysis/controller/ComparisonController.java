@@ -203,6 +203,40 @@ public class ComparisonController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
 
+    @RequestMapping(value = "/voltage/weekly/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getVoltageWeeklyChart(HttpServletRequest request,
+                                          HttpServletResponse response,
+                                          @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<PowerAnalysisF25> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF25 item = new PowerAnalysisF25();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
+
+        List<String> time = new ArrayList<>();
+        JSONArray jTime = jParam.getJSONArray("time");
+        for (int i = 0; i < jTime.size(); i++) {
+            time.add(jTime.getString(i));
+        }
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("time", time);
+
+        List<PowerAnalysisVoltageWeeklyChartF25> list = powerAnalysisService.getVoltageWeeklyChart(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
     @RequestMapping(value = "/voltage/monthly/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody

@@ -169,6 +169,41 @@ var ChartUtils = {
 
         return series;
     },
+    getVoltageWeeklyDetailSeries: function (node, time, data, type) {
+        var y = parseInt(time.substr(0, 4));
+        var m = parseInt(time.substr(4, 2)) - 1;
+        var d = parseInt(time.substr(6, 2));
+        var s = new Date(y, m, d);
+
+        var w = TimeUtils.weekFromODBC(s.getDay());
+
+        var firstDay = new Date(y, m, d);
+        firstDay.setDate(s.getDate() - w);
+        var lastDay = new Date(y, m, d);
+        lastDay.setDate(s.getDate() + (6 - w));
+
+
+        var series = {
+            name: node.name + "(" + firstDay.format("yyyy-MM-dd") + "~" + lastDay.format("yyyy-MM-dd") + ")",
+            data: []
+        };
+
+        for (var t = 0; t < 7; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (parseInt(data[i].dayClientOperationTime) == t) {
+                        tmp = parseFloat(data[i][type]) * node.pt;
+                        tmp = Math.floor(tmp * 100) / 100;
+                    }
+                }
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
     getVoltageMonthlySeries: function (node, time, data, phase) {
         var y = time.substr(0, 4);
         var m = time.substr(4, 2);

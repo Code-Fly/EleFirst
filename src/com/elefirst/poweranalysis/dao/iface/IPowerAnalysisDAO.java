@@ -19,6 +19,8 @@ public interface IPowerAnalysisDAO {
 
     List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param);
 
+    List<PowerAnalysisVoltageWeeklyChartF25> getVoltageWeeklyChart(Map<String, Object> param);
+
     List<PowerAnalysisVoltageMonthlyChartF25> getVoltageMonthlyChart(Map<String, Object> param);
 
     List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param);
