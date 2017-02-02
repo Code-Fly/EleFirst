@@ -4,6 +4,14 @@
 $(document).ready(function () {
     var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
+    $("#main-input-detail-datebox").datebox("calendar").calendar({
+        firstDay: 1
+    });
+
+    $("#input-detail-datebox").datebox("calendar").calendar({
+        firstDay: 1
+    });
+
     //初始化center中tabs
     $('#tt').tabs({
         border: false,
