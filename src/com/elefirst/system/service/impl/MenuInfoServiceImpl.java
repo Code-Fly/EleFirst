@@ -1,19 +1,15 @@
 package com.elefirst.system.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import com.elefirst.powerdetail.po.DailyLoad;
-import com.elefirst.powerdetail.po.DailyLoadExample;
 import com.elefirst.system.mapper.MenuInfoMapper;
 import com.elefirst.system.po.MenuInfo;
 import com.elefirst.system.po.MenuInfoExample;
 import com.elefirst.system.service.iface.IMenuInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 
 @Service
@@ -80,8 +76,8 @@ public class MenuInfoServiceImpl implements IMenuInfoService {
 		criteria.andParentcodeEqualTo(menuCode);
 		criteria.andIsenableEqualTo("Y");
 		//安菜单进行排序
-		condition.setOrderByClause("MenuSeq DESC");
-		List<MenuInfo> menuInfos = menuInfoMapper.selectByExample(condition);
+        condition.setOrderByClause("MenuSeq ASC");
+        List<MenuInfo> menuInfos = menuInfoMapper.selectByExample(condition);
 		return menuInfos;
 	}
 }
