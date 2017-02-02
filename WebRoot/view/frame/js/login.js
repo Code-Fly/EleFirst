@@ -8,7 +8,6 @@ $(document).ready(function () {
     })
     $("#btnLogin").click(function () {
         if ($("#userName").val() == "admin" && $("#password").val() == "admin") {
-        	alert(111);
         	  $("#f1").submit();
         	  return true;
             //window.location.href = "login/login.do";
