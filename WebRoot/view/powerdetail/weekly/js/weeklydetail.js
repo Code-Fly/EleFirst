@@ -307,7 +307,7 @@ $(document).ready(function () {
             } else if ("电流" == title) {
                 dg('tt4', 'weeklypower/listWeeklyCurrent.do');
             } else if ("功率因数" == title) {
-                dg('tt5', 'weeklypower/listWeeklyCurrent.do');
+                dg('tt5', 'weeklypower/listWeeklyPowerFactor.do');
             }
         }
     });
