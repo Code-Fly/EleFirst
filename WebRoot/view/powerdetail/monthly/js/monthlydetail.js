@@ -83,7 +83,12 @@ $(document).ready(function () {
                 }
             });
         } else if ("电压" == title) {
-
+            getVoltageDetailChart({
+                areaId: areaId,
+                concentratorId: concentratorId,
+                pn: pn,
+                time: $("#input-detail-datebox").datebox("getValue")
+            });
         } else if ("电流" == title) {
 
         } else if ("功率因数" == title) {
@@ -390,8 +395,29 @@ $(document).ready(function () {
                                             concentratorId: row.concentratorId,
                                             pn: row.pn,
                                             pt: pnInfo.pt,
-                                            ct: pnInfo.ct
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data);
+                                            ct: pnInfo.ct,
+                                            name: "最高"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxTotalActivePower");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getLoadMonthlyDetailSeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "最低"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minTotalActivePower");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getLoadMonthlyDetailSeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "平均"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "avgTotalActivePower");
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
@@ -424,6 +450,161 @@ $(document).ready(function () {
                             }
                         });
 
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+            }
+        });
+    }
+
+    function getVoltageDetailChart(row) {
+        $.ajax({
+            url: _ctx + "system/pn/info/detail.do",
+            type: "POST",
+            cache: false,
+            data: row,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var pnInfo = r.data[0];
+
+                        var time = new Date().format("yyyy-MM-dd");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn
+                        })
+
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+
+                        paramChart.time.push(
+                            new Date(y, m).format('yyyyMM') + "01000000"
+                        )
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/voltage/monthly/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+                                        var item = ChartUtils.getVoltageMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相最大"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxA_Voltage");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getVoltageMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相最大"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxB_Voltage");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getVoltageMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相最大"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxC_Voltage");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getVoltageMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minA_Voltage");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getVoltageMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "B相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minB_Voltage");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getVoltageMonthlySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "C相最小"
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minC_Voltage");
+                                        series.push(item);
+
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/voltageDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
+                                        config.series = series;
+
+                                        // $.messager.alert("操作提示", JSON.stringify(config));
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                                        $("#chart-voltage-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
