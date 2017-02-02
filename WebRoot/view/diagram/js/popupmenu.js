@@ -168,6 +168,21 @@ $(document).ready(function () {
             menu.addItem("删除", mxBasePath + "images/editors/delete.gif", function () {
                 var model = graph.getModel();
 
+                if (cell.edge == false && inList(cell.style, WHITE_LIST_USEROBJ_CURRENT)) {
+                    var node = {
+                        cellId: cell.id,
+                        cellType: graphConstants.USER_OBJECT_CURRENT
+                    };
+                    graphConfig.deleteConfig(node, $("#hid-config"));
+                }
+                else if (cell.edge == false && inList(cell.style, WHITE_LIST_USEROBJ_SWITCH_STATE)) {
+                    var node = {
+                        cellId: cell.id,
+                        cellType: graphConstants.USER_OBJECT_SWITCH_STATE
+                    };
+                    graphConfig.deleteConfig(node, $("#hid-config"));
+                }
+
                 model.beginUpdate();
                 try {
                     var newCell = model.getCell(cell.id);

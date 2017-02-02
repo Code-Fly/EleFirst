@@ -399,7 +399,7 @@ $(document).ready(function () {
 
         for (var i = 0; i < switchStateNodes.length; i++) {
             // Processes the activity nodes inside the process node
-            var id = switchStateNodes[i].id;
+            var id = switchStateNodes[i].cellId;
             // Gets the cell for the given activity name from the model
             var cell = model.getCell(id);
             // Updates the cell color and adds some tooltip information
