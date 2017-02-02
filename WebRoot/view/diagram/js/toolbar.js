@@ -36,21 +36,24 @@ $(document).ready(function () {
             // Loads the mxGraph file format (XML file)
             read(graph, "data/fileio.xml");
 
-            var config = [{
-                "cellId": "5",
-                "cellType": "current",
-                "areaId": "1",
-                "concentratorId": "417",
-                "pn": "2",
-                "pnId": "56bdab99-713c-4f2d-904f-f8ff9104ad03"
-            }, {
-                "cellId": "2",
-                "cellType": "current",
-                "areaId": "1",
-                "concentratorId": "417",
-                "pn": "3",
-                "pnId": "9dd73393-d055-4dd1-8056-bd09064efc58"
-            }]
+            var config = {
+                "current": [{
+                    "cellId": "5",
+                    "cellType": "current",
+                    "areaId": "1",
+                    "concentratorId": "417",
+                    "pn": "2",
+                    "pnId": "56bdab99-713c-4f2d-904f-f8ff9104ad03"
+                }, {
+                    "cellId": "2",
+                    "cellType": "current",
+                    "areaId": "1",
+                    "concentratorId": "417",
+                    "pn": "3",
+                    "pnId": "9dd73393-d055-4dd1-8056-bd09064efc58"
+                }],
+                "switch_state": []
+            };
 
             $("#hid-config").val(JSON.stringify(config));
 
@@ -65,6 +68,8 @@ $(document).ready(function () {
         // XML is normally fetched from URL at server using mxUtils.get - this is a client-side
         // string with randomized states to demonstrate the idea of the workflow monitor
 
+        // $.messager.alert("操作提示", $("#hid-config").val());
+
         $.ajax({
             url: _ctx + "system/graph/latest/current/list.do",
             type: "POST",
@@ -74,28 +79,28 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        if (r.data.length > 0) {
-                            var time = r.data[0].clientOperationTime;
+                        if (r.data[graphConstants.USER_OBJECT_CURRENT].length > 0) {
+                            var time = r.data[graphConstants.USER_OBJECT_CURRENT][0].clientOperationTime;
                             $("#updateTimeContainer").text("采集状态：成功获取到 " + getDbDate(time).toLocaleString() + " 实时数据");
                         }
 
-                        var nodes = {};
-                        nodes[graphConstants.USER_OBJECT_SWITCH_STATE] = [];
-                        nodes[graphConstants.USER_OBJECT_CURRENT] = [];
-
-
-                        for (var i = 0; i < r.data.length; i++) {
-                            if (r.data[i].cellType == graphConstants.USER_OBJECT_CURRENT) {
-                                nodes[graphConstants.USER_OBJECT_CURRENT].push({
-                                    id: r.data[i].cellId,
-                                    attributes: {
-                                        a: r.data[i].aCurrent,
-                                        b: r.data[i].bCurrent,
-                                        c: r.data[i].cCurrent
-                                    }
-                                });
-                            }
-                        }
+                        // var nodes = {};
+                        // nodes[graphConstants.USER_OBJECT_SWITCH_STATE] = [];
+                        // nodes[graphConstants.USER_OBJECT_CURRENT] = [];
+                        //
+                        //
+                        // for (var i = 0; i < r.data.length; i++) {
+                        //     if (r.data[i].cellType == graphConstants.USER_OBJECT_CURRENT) {
+                        //         nodes[graphConstants.USER_OBJECT_CURRENT].push({
+                        //             id: r.data[i].cellId,
+                        //             attributes: {
+                        //                 a: r.data[i].aCurrent,
+                        //                 b: r.data[i].bCurrent,
+                        //                 c: r.data[i].cCurrent
+                        //             }
+                        //         });
+                        //     }
+                        // }
 
                         // var nodes = [
                         //     {
@@ -122,7 +127,7 @@ $(document).ready(function () {
                         //         }
                         //     }
                         // ];
-                        update(graph, nodes);
+                        update(graph, r.data);
 
                         // $.messager.alert("操作提示", JSON.stringify(r.data));
 
@@ -359,7 +364,7 @@ $(document).ready(function () {
 
         for (var i = 0; i < currentNodes.length; i++) {
             // Processes the activity nodes inside the process node
-            var id = currentNodes[i].id;
+            var id = currentNodes[i].cellId;
             // Gets the cell for the given activity name from the model
             var cell = model.getCell(id);
             // Updates the cell color and adds some tooltip information
@@ -367,19 +372,19 @@ $(document).ready(function () {
                 model.beginUpdate();
                 try {
                     if (isValidStyle(cell.style, "phase=2")) {
-                        var a = currentNodes[i].attributes.a;
-                        var b = currentNodes[i].attributes.b;
+                        var aCurrent = currentNodes[i].aCurrent;
+                        var bCurrent = currentNodes[i].bCurrent;
 
-                        var content = getTwoPhaseCurrentLabel(a, b);
+                        var content = getTwoPhaseCurrentLabel(aCurrent, bCurrent);
                         var edit = new mxValueChange(model, cell, content);
                         model.execute(edit);
                     }
                     else if (isValidStyle(cell.style, "phase=3")) {
-                        var a = currentNodes[i].attributes.a;
-                        var b = currentNodes[i].attributes.b;
-                        var c = currentNodes[i].attributes.c;
+                        var aCurrent = currentNodes[i].aCurrent;
+                        var bCurrent = currentNodes[i].bCurrent;
+                        var cCurrent = currentNodes[i].cCurrent;
 
-                        var content = getThreePhaseCurrentLabel(a, b, c);
+                        var content = getThreePhaseCurrentLabel(aCurrent, bCurrent, cCurrent);
                         var edit = new mxValueChange(model, cell, content);
                         model.execute(edit);
                     }
@@ -394,7 +399,7 @@ $(document).ready(function () {
 
         for (var i = 0; i < switchStateNodes.length; i++) {
             // Processes the activity nodes inside the process node
-            var id = switchStateNodes[i].id;
+            var id = switchStateNodes[i].cellId;
             // Gets the cell for the given activity name from the model
             var cell = model.getCell(id);
             // Updates the cell color and adds some tooltip information

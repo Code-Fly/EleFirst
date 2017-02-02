@@ -10,8 +10,7 @@ $(document).ready(function () {
     $("#dlg-bound-pn").dialog({
         onBeforeOpen: function () {
             var node = $.parseJSON($("#hid-selected-node-info").val());
-            var config = $.parseJSON($("#hid-config").val());
-            var nodeConfig = getConfig(node, config);
+            var nodeConfig = graphConfig.getConfig(node, $("#hid-config"));
 
             $("#combo-bound-pn-id").combobox("reload");
             if (null != nodeConfig && nodeConfig.hasOwnProperty("pnId")) {
@@ -81,32 +80,12 @@ $(document).ready(function () {
             node.pn = pnInfo.pn;
             node.pnId = pnInfo.id;
 
-            var config = $.parseJSON($("#hid-config").val());
 
-            var newConfig = addConfig(node, config);
-            $("#hid-config").val(JSON.stringify(newConfig));
+            graphConfig.addConfig(node, $("#hid-config"));
 
             $("#dlg-bound-pn").dialog("close");
         }
     });
 
-    function addConfig(node, config) {
-        var newConfig = [];
-        for (var i = 0; i < config.length; i++) {
-            if (config[i].cellId != node.cellId) {
-                newConfig.push(config[i]);
-            }
-        }
-        newConfig.push(node);
-        return newConfig;
-    }
 
-    function getConfig(node, config) {
-        for (var i = 0; i < config.length; i++) {
-            if (config[i].cellId == node.cellId) {
-                return config[i];
-            }
-        }
-        return null;
-    }
 });

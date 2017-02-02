@@ -3,6 +3,7 @@
  */
 $(document).ready(function () {
     require([_ctx + "view/diagram/js/graphConstants.js"]);
+    require([_ctx + "view/diagram/js/graphConfig.js"]);
 
     if (!mxClient.isBrowserSupported()) {
         // Displays an error message if the browser is not supported.
