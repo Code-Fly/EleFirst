@@ -40,6 +40,7 @@
 <div class="loginbody">
     <span class="systemlogo"></span>
     <div class="loginbox">
+        <form id="f1" action="${ctx}login/login.do" method="post">
         <ul>
             <li>
                 <input id="userName" class="easyui-textbox" style="width:343px;height:40px;padding:12px"
@@ -61,6 +62,7 @@
                 <%--</label>--%>
             </li>
         </ul>
+        </form>
     </div>
 </div>
 <div class="loginbm">版权所有 © 2016-2017 光一科技股份有限公司</div>
