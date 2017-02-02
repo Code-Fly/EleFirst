@@ -2,6 +2,10 @@
  * Created by barrie on 17/1/27.
  */
 $(document).ready(function () {
+    $("#datebox-time").datebox("calendar").calendar({
+        firstDay: 1
+    });
+
     var MAX_PN_COUNT = 3;
 
     $("#input-pn").tagbox({
