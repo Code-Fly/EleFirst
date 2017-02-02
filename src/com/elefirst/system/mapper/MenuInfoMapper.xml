@@ -85,7 +85,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from sys_menu
+    from t_206_sys_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -99,21 +99,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from sys_menu
+    from t_206_sys_menu
     where MenuID = #{menuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from sys_menu
+    delete from t_206_sys_menu
     where MenuID = #{menuid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.elefirst.system.po.MenuInfoExample" >
-    delete from sys_menu
+    delete from t_206_sys_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.elefirst.system.po.MenuInfo" >
-    insert into sys_menu (MenuID, MenuCode, ParentCode, 
+    insert into t_206_sys_menu (MenuID, MenuCode, ParentCode, 
       MenuName, URL, IconClass, 
       IconURL, MenuSeq, Description, 
       IsEnable, CreatePerson, CreateDate, 
@@ -125,7 +125,7 @@
       #{updateperson,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.elefirst.system.po.MenuInfo" >
-    insert into sys_menu
+    insert into t_206_sys_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="menuid != null" >
         MenuID,
@@ -216,13 +216,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.elefirst.system.po.MenuInfoExample" resultType="java.lang.Integer" >
-    select count(*) from sys_menu
+    select count(*) from t_206_sys_menu
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update sys_menu
+    update t_206_sys_menu
     <set >
       <if test="record.menuid != null" >
         MenuID = #{record.menuid,jdbcType=VARCHAR},
@@ -272,7 +272,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update sys_menu
+    update t_206_sys_menu
     set MenuID = #{record.menuid,jdbcType=VARCHAR},
       MenuCode = #{record.menucode,jdbcType=VARCHAR},
       ParentCode = #{record.parentcode,jdbcType=VARCHAR},
@@ -292,7 +292,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.elefirst.system.po.MenuInfo" >
-    update sys_menu
+    update t_206_sys_menu
     <set >
       <if test="menucode != null" >
         MenuCode = #{menucode,jdbcType=VARCHAR},
@@ -337,7 +337,7 @@
     where MenuID = #{menuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.elefirst.system.po.MenuInfo" >
-    update sys_menu
+    update t_206_sys_menu
     set MenuCode = #{menucode,jdbcType=VARCHAR},
       ParentCode = #{parentcode,jdbcType=VARCHAR},
       MenuName = #{menuname,jdbcType=VARCHAR},
