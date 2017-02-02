@@ -90,23 +90,88 @@ $(document).ready(function () {
         }
     });
 
+    function initConfig(config) {
+        var newConfig = clone(config);
+        if (!newConfig.hasOwnProperty(graphConstants.USER_OBJECT_CURRENT)) {
+            newConfig[graphConstants.USER_OBJECT_CURRENT] = [];
+        }
+
+        if (!newConfig.hasOwnProperty(graphConstants.USER_OBJECT_SWITCH_STATE)) {
+            newConfig[graphConstants.USER_OBJECT_SWITCH_STATE] = [];
+        }
+
+        return newConfig;
+    }
+
     function addConfig(node, config) {
-        var newConfig = [];
-        for (var i = 0; i < config.length; i++) {
-            if (config[i].cellId != node.cellId) {
-                newConfig.push(config[i]);
+        var newConfig = initConfig(config);
+
+        var newList = [];
+        var oldList = newConfig[node.cellType];
+        for (var i = 0; i < oldList.length; i++) {
+            if (oldList[i].cellId != node.cellId) {
+                newList.push(oldList[i]);
             }
         }
-        newConfig.push(node);
+        newList.push(node);
+        newConfig[node.cellType] = newList;
+
+
+        // if (node.cellType == graphConstants.USER_OBJECT_CURRENT) {
+        //     var newList = [];
+        //     var oldList = newConfig[graphConstants.USER_OBJECT_CURRENT];
+        //     for (var i = 0; i < oldList.length; i++) {
+        //         if (oldList[i].cellId != node.cellId) {
+        //             newList.push(oldList[i]);
+        //         }
+        //     }
+        //     newList.push(node);
+        //     newConfig[graphConstants.USER_OBJECT_CURRENT] = newList;
+        // }
+        //
+        // if (node.cellType == graphConstants.USER_OBJECT_SWITCH_STATE) {
+        //     var newList = [];
+        //     var oldList = newConfig[graphConstants.USER_OBJECT_SWITCH_STATE];
+        //     for (var i = 0; i < oldList.length; i++) {
+        //         if (oldList[i].cellId != node.cellId) {
+        //             newList.push(oldList[i]);
+        //         }
+        //     }
+        //     newList.push(node);
+        //     newConfig[graphConstants.USER_OBJECT_SWITCH_STATE] = newList;
+        // }
+
         return newConfig;
     }
 
     function getConfig(node, config) {
-        for (var i = 0; i < config.length; i++) {
-            if (config[i].cellId == node.cellId) {
-                return config[i];
+        var config = initConfig(config);
+
+        var list = config[node.cellType];
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].cellId == node.cellId) {
+                return list[i];
             }
         }
+
+        // if (node.cellType == graphConstants.USER_OBJECT_CURRENT) {
+        //     var list = config[graphConstants.USER_OBJECT_CURRENT];
+        //     for (var i = 0; i < list.length; i++) {
+        //         if (list[i].cellId == node.cellId) {
+        //             return list[i];
+        //         }
+        //     }
+        // }
+        //
+        // if (node.cellType == graphConstants.USER_OBJECT_SWITCH_STATE) {
+        //     var list = config[graphConstants.USER_OBJECT_SWITCH_STATE];
+        //     for (var i = 0; i < list.length; i++) {
+        //         if (list[i].cellId == node.cellId) {
+        //             return list[i];
+        //         }
+        //     }
+        // }
+
         return null;
     }
 });

@@ -41,35 +41,45 @@ public class GraphUpdateController extends BaseController {
                                        HttpServletResponse response,
                                        @RequestBody String sData
     ) {
-        JSONArray jParam = JSONArray.fromObject(sData);
+        JSONObject jParam = JSONObject.fromObject(sData);
 
-        JSONArray result = new JSONArray();
-        for (int i = 0; i < jParam.size(); i++) {
-            JSONObject jItem = jParam.getJSONObject(i);
-            if (jItem.getString("cellType").equals("current")) {
-                DataF25 template = new DataF25();
-                template.setAreaId(jItem.getString("areaId"));
-                template.setConcentratorId(jItem.getString("concentratorId"));
-                template.setPn(jItem.getString("pn"));
-                template.setPage(1);
-                template.setRows(1);
-                List<DataF25> currentPnList = graphUpdateService.getLatestCurrentPnList(template);
+        JSONObject result = new JSONObject();
 
-                PnInfo pnTemplate = new PnInfo();
-                pnTemplate.setAreaId(jItem.getString("areaId"));
-                pnTemplate.setConcentratorId(jItem.getString("concentratorId"));
-                pnTemplate.setPn(jItem.getString("pn"));
-                List<PnInfo> pnList = pnInfoService.getPnInfoList(pnTemplate);
-                if (currentPnList.size() > 0 && pnList.size() > 0) {
-                    jItem.put("aCurrent", Double.valueOf(currentPnList.get(0).getaCurrent()) * pnList.get(0).getCt());
-                    jItem.put("bCurrent", Double.valueOf(currentPnList.get(0).getbCurrent()) * pnList.get(0).getCt());
-                    jItem.put("cCurrent", Double.valueOf(currentPnList.get(0).getcCurrent()) * pnList.get(0).getCt());
-                    jItem.put("clientOperationTime", currentPnList.get(0).getClientoperationtime());
-                    result.add(jItem);
-                }
+        JSONArray jCurrent = jParam.getJSONArray("current");
+        JSONArray newCurrent = new JSONArray();
+
+        for (int i = 0; i < jCurrent.size(); i++) {
+            JSONObject jItem = jCurrent.getJSONObject(i);
+            DataF25 template = new DataF25();
+            template.setAreaId(jItem.getString("areaId"));
+            template.setConcentratorId(jItem.getString("concentratorId"));
+            template.setPn(jItem.getString("pn"));
+            template.setPage(1);
+            template.setRows(1);
+            List<DataF25> currentPnList = graphUpdateService.getLatestCurrentPnList(template);
+
+            PnInfo pnTemplate = new PnInfo();
+            pnTemplate.setAreaId(jItem.getString("areaId"));
+            pnTemplate.setConcentratorId(jItem.getString("concentratorId"));
+            pnTemplate.setPn(jItem.getString("pn"));
+            List<PnInfo> pnList = pnInfoService.getPnInfoList(pnTemplate);
+            if (currentPnList.size() > 0 && pnList.size() > 0) {
+                jItem.put("aCurrent", Double.valueOf(currentPnList.get(0).getaCurrent()) * pnList.get(0).getCt());
+                jItem.put("bCurrent", Double.valueOf(currentPnList.get(0).getbCurrent()) * pnList.get(0).getCt());
+                jItem.put("cCurrent", Double.valueOf(currentPnList.get(0).getcCurrent()) * pnList.get(0).getCt());
+                jItem.put("clientOperationTime", currentPnList.get(0).getClientoperationtime());
+                newCurrent.add(jItem);
             }
         }
 
+        result.put("current", newCurrent);
+
+        JSONArray jSwitchState = jParam.getJSONArray("switch_state");
+        JSONArray newSwitchState = new JSONArray();
+        for (int i = 0; i < jSwitchState.size(); i++) {
+
+        }
+        result.put("switch_state", newSwitchState);
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }

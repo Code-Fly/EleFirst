@@ -109,7 +109,7 @@
     <div id="graphContainer">
     </div>
     <input id="hid-selected-node-info" type="hidden" value="{}">
-    <input id="hid-config" type="hidden" value="[]">
+    <input id="hid-config" type="hidden" value="{}">
 </div>
 <div id="dlg-bound-pn" class="easyui-dialog" title="数据绑定"
      data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
