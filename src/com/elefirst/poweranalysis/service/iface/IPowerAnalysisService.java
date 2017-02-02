@@ -31,5 +31,7 @@ public interface IPowerAnalysisService {
 
     List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param);
 
+    List<PowerAnalysisPowerFactorWeeklyChartF25> getPowerFactorWeeklyChart(Map<String, Object> param);
+
     List<PowerAnalysisPowerFactorMonthlyChartF25> getPowerFactorMonthlyChart(Map<String, Object> param);
 }
