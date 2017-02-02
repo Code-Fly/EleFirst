@@ -420,6 +420,7 @@ $(document).ready(function () {
                                             async: false
                                         }).responseText);
 
+                                        config.xAxis.categories = ChartUtils.getDailyCategories();
                                         config.series = series;
 
                                         $("#chart-load-detail").highcharts(config);
@@ -543,6 +544,7 @@ $(document).ready(function () {
                                             async: false
                                         }).responseText);
 
+                                        config.xAxis.categories = ChartUtils.getDailyCategories();
                                         config.series = series;
 
                                         $("#chart-voltage-detail").highcharts(config);
@@ -664,6 +666,7 @@ $(document).ready(function () {
                                             async: false
                                         }).responseText);
 
+                                        config.xAxis.categories = ChartUtils.getDailyCategories();
                                         config.series = series;
 
                                         $("#chart-current-detail").highcharts(config);
@@ -787,6 +790,7 @@ $(document).ready(function () {
                                             async: false
                                         }).responseText);
 
+                                        config.xAxis.categories = ChartUtils.getDailyCategories();
                                         config.series = series;
 
                                         $("#chart-power-factor-detail").highcharts(config);

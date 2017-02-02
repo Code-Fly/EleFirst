@@ -46,7 +46,7 @@ $(document).ready(function () {
     //south区域不同类型tab页面板处理方式
     function handerBySouthTabType(title) {
         if ("负荷" == title) {
-            
+
         } else if ("示数" == title) {
             //刷新当前监测点所有示数信息
             $("#dtt2").datagrid({
@@ -72,11 +72,11 @@ $(document).ready(function () {
                 }
             });
         } else if ("电压" == title) {
-            
+
         } else if ("电流" == title) {
-            
+
         } else if ("功率因数" == title) {
-            
+
         }
 
         //刷新tab
@@ -284,7 +284,7 @@ $(document).ready(function () {
             } else if ("功率因数" == title) {
                 handerBySouthTabType(title);
             }
-            
+
         }
     });
 
@@ -297,7 +297,7 @@ $(document).ready(function () {
 
             var tab = $('#tt').tabs('getSelected');
             var title = tab.panel("options").title;
-            
+
             if ("负荷" == title) {
                 dg('tt1', 'weeklypower/listWeeklyLoad.do');
             } else if ("示数" == title) {

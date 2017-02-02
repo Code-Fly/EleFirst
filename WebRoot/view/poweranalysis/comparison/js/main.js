@@ -365,6 +365,7 @@ $(document).ready(function () {
             async: false
         }).responseText);
 
+        config.xAxis.categories = ChartUtils.getDailyCategories();
         config.series = series;
 
         $("#chart-load").highcharts(config);

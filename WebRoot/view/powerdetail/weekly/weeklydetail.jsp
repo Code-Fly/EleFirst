@@ -19,7 +19,7 @@
         <input id="main-input-detail-datebox" class="easyui-datebox"
                data-options="editable:false,required: true" style="width:150px"/>
         <a id="main-input-btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
-           data-options="iconCls:'icon-search'">查询</a>
+           data-options="iconCls:'icon-search'">查询日期所在周</a>
     </div>
     <div id="tt" class="easyui-tabs" data-options="border:false,tools:'#tab-tt-tools'" fit="true">
         <div title="负荷" style="display:none;overflow: hidden">
