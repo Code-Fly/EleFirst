@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="/view/common/config.jsp" %>
 <html>
 <head>
@@ -7,45 +6,6 @@
 </head>
 <body>
 <div class="easyui-accordion" data-options="fit:true,border:false">
-    <c:forEach var="menuinfo" items="${oneLevelmenuInfos}">
-    	<div title="${menuinfo.menuname}" data-options="ionCls:'icon-save'">
-    	    <ul>
-    		<c:if test="${menuinfo.menucode =='01'}">
-    			<c:forEach var="menuinfo2" items="${twoLevelmenuInos01}">
-    				<li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('${menuinfo2.menuname}','${menuinfo2.url}','${menuinfo2.iconclass}')"
-                   plain="true" href="javascript:void(0)">${menuinfo2.menuname}</a></li>
-    			</c:forEach>
-    		</c:if>
-    		<c:if test="${menuinfo.menucode =='02'}">
-    			<c:forEach var="menuinfo2" items="${twoLevelmenuInos02}">
-    				<li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('${menuinfo2.menuname}','${menuinfo2.url}','${menuinfo2.iconclass}')"
-                   plain="true" href="javascript:void(0)">${menuinfo2.menuname}</a></li>
-    			</c:forEach>
-    		</c:if>
-    		<c:if test="${menuinfo.menucode =='03'}">
-    			<c:forEach var="menuinfo2" items="${twoLevelmenuInos03}">
-    				<li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('${menuinfo2.menuname}','${menuinfo2.url}','${menuinfo2.iconclass}')"
-                   plain="true" href="javascript:void(0)">${menuinfo2.menuname}</a></li>
-    			</c:forEach>
-    		</c:if>
-    		<c:if test="${menuinfo.menucode =='04'}">
-    			<c:forEach var="menuinfo2" items="${twoLevelmenuInos04}">
-    				<li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('${menuinfo2.menuname}','${menuinfo2.url}','${menuinfo2.iconclass}')"
-                   plain="true" href="javascript:void(0)">${menuinfo2.menuname}</a></li>
-    			</c:forEach>
-    		</c:if>
-    		</ul>
-    	</div>
-    </c:forEach>
-    <!-- 
     <div title="用电能耗" data-options="ionCls:'icon-save'">
         <ul>
             <li><a class="easyui-linkbutton"
@@ -238,12 +198,12 @@
                        onclick="addTab('企业档案管理','view/system/userinfo/rolemanager.jsp','icon-building')"
                        plain="true" href="javascript:void(0)">企业档案管理</a></li>
             <li><a class="easyui-linkbutton"
-                       data-options="iconCls:'icon-building'"
-                       onclick="addTab('菜单管理','view/system/deviceinfo/menu.jsp','icon-building')"
-                       plain="true" href="javascript:void(0)">菜单管理</a></li>
+                   data-options="iconCls:'icon-building'"
+                   onclick="addTab('菜单管理','view/system/deviceinfo/menu.jsp','icon-building')"
+                   plain="true" href="javascript:void(0)">菜单管理</a></li>
+
         </ul>
     </div>
 </div>
- -->
 </body>
 </html>

@@ -224,13 +224,7 @@ $(document).ready(function () {
                         $("#input-detail-datebox").datebox("setValue", date);
                         $('#tab2').tabs('select', '负荷');
                         //初始化负荷详情
-                        refreshTab('负荷', areaId, concentratorId, pn, date);
-                        getLoadDetailChart({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            time: $("#input-detail-datebox").datebox("getValue")
-                        });
+                        handerBySouthTabType('负荷');
                     } else if ('tt2' == dgId) {
                         singlerow = $('#tt2').datagrid('getSelected');
                         areaId = singlerow.areaId33;
@@ -240,9 +234,9 @@ $(document).ready(function () {
                         var dateStr = singlerow.clientoperationtime33.split(" ");
                         date = dateStr[0];
                         $("#input-detail-datebox").datebox("setValue", date)
-
                         $('#tab2').tabs('select', '示数');
-
+                        //初始化负荷详情
+                        handerBySouthTabType('示数');
 
                     } else if ('tt3' == dgId) {
                         singlerow = $('#tt3').datagrid('getSelected');
@@ -253,12 +247,8 @@ $(document).ready(function () {
                         date = dateStr[0];
                         $("#input-detail-datebox").datebox("setValue", date);
                         $('#tab2').tabs('select', '电压');
-                        getVoltageDetailChart({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            time: $("#input-detail-datebox").datebox("getValue")
-                        });
+                        //初始化负荷详情
+                        handerBySouthTabType('电压');
                     } else if ('tt4' == dgId) {
                         singlerow = $('#tt4').datagrid('getSelected');
                         areaId = singlerow.areaId;
@@ -269,12 +259,8 @@ $(document).ready(function () {
                         $("#input-detail-datebox").datebox("setValue", date);
 
                         $('#tab2').tabs('select', '电流');
-                        getCurrentDetailChart({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            time: $("#input-detail-datebox").datebox("getValue")
-                        });
+                        //初始化负荷详情
+                        handerBySouthTabType('电流');
                     } else if ('tt5' == dgId) {
                         singlerow = $('#tt5').datagrid('getSelected');
                         areaId = singlerow.areaId;
@@ -285,12 +271,8 @@ $(document).ready(function () {
                         date = dateStr[0];
                         $("#input-detail-datebox").datebox("setValue", date)
                         $('#tab2').tabs('select', '功率因数');
-                        getPowerFactorDetailChart({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn,
-                            time: $("#input-detail-datebox").datebox("getValue")
-                        });
+                        //初始化负荷详情
+                        handerBySouthTabType('功率因数');
                     }
                 }, 1000);
             }
