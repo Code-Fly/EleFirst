@@ -122,14 +122,14 @@ $(document).ready(function () {
         var name = customToolbarInfo[i].name;
         var width = customToolbarInfo[i].width;
         var height = customToolbarInfo[i].height;
-        var iconPath = _ctx + customToolbarInfo[i].iconPath;
-        var imgPath = _ctx + customToolbarInfo[i].imgPath;
+        var iconPath = BASE_PATH + customToolbarInfo[i].iconPath;
+        var imgPath = BASE_PATH + customToolbarInfo[i].imgPath;
 
         addVertex(name, iconPath, width, height, graphConstants.USER_OBJECT_CUSTOM_IMG + ";image=" + imgPath);
     }
     toolbar.addLine()
     addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=3");
-    addVertex("开关状态", _ctx + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
+    addVertex("开关状态", BASE_PATH + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
     toolbar.addLine()
     toolbar.addItem("放大", mxBasePath + "images/editors/zoomin.gif", function (evt) {
         graph.zoomIn();

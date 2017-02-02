@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/23.
  */
 $(document).ready(function () {
+    BASE_PATH = "../../";
+
     require([_ctx + "view/diagram/js/graphConstants.js"]);
     require([_ctx + "view/diagram/js/graphConfig.js"]);
 

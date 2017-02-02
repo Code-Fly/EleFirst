@@ -47,6 +47,11 @@ $(document).ready(function () {
 
     $("#btn-refresh").linkbutton({
         onClick: function () {
+            if ($("#hid-config").val() == "[]" || $("#hid-config").val() == "") {
+                $.messager.alert("操作提示", "请绑定数据！", "info");
+                return;
+            }
+
             $.ajax({
                 url: _ctx + "system/graph/latest/current/list.do",
                 type: "POST",
