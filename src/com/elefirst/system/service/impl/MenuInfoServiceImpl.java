@@ -63,9 +63,10 @@ public class MenuInfoServiceImpl implements IMenuInfoService {
 		MenuInfoExample condition = new MenuInfoExample();
 		MenuInfoExample.Criteria criteria = condition.createCriteria();
 		criteria.andCreatepersonEqualTo("admin");
+		criteria.andIsenableEqualTo("Y");
 		criteria.andMenuidIn(ids);
 		//安菜单进行排序
-		condition.setOrderByClause("MenuSeq DESC");
+		condition.setOrderByClause("MenuSeq ASC");
 		List<MenuInfo> menuInfos = menuInfoMapper.selectByExample(condition);
 		return menuInfos;
 	}
@@ -76,7 +77,8 @@ public class MenuInfoServiceImpl implements IMenuInfoService {
 		MenuInfoExample condition = new MenuInfoExample();
 		MenuInfoExample.Criteria criteria = condition.createCriteria();
 		criteria.andCreatepersonEqualTo("admin");
-		criteria.andMenucodeEqualTo(menuCode);
+		criteria.andParentcodeEqualTo(menuCode);
+		criteria.andIsenableEqualTo("Y");
 		//安菜单进行排序
 		condition.setOrderByClause("MenuSeq DESC");
 		List<MenuInfo> menuInfos = menuInfoMapper.selectByExample(condition);

@@ -47,7 +47,7 @@
 		<!-- <table tableName="t_view_weeklyvoltage" domainObjectName="WeeklyVoltage" /> -->
 		<!-- <table tableName="t_view_weeklyload" domainObjectName="WeeklyLoad" /> -->
 		
-		<table tableName="sys_menu" domainObjectName="MenuInfo" />
+		<table tableName="t_206_sys_menu" domainObjectName="MenuInfo" />
 		<!-- <table tableName="t_view_monthlydemand" domainObjectName="MonthlyDemand" /> -->
 		<!-- <table tableName="t_view_dailypowerfactor" domainObjectName="DailyPowerFactor" /> -->
 		<!-- <table tableName="t_view_dailycurrent" domainObjectName="DailyCurrent" /> -->
