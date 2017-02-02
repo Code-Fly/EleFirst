@@ -24,6 +24,11 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
     }
 
     @Override
+    public List<PowerAnalysisLoadWeeklyChartF25> getLoadWeeklyChart(Map<String, Object> param) {
+        return powerAnalysisDAO.getLoadWeeklyChart(param);
+    }
+
+    @Override
     public List<PowerAnalysisLoadMonthlyChartF25> getLoadMonthlyChart(Map<String, Object> param) {
         return powerAnalysisDAO.getLoadMonthlyChart(param);
     }

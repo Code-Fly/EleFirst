@@ -171,7 +171,7 @@
                                    data-options="editable:false,required: true" label="日期:"
                                    style="width:250px" hidden="true"/>
                 <a id="btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
-                   data-options="iconCls:'icon-search'" hidden="true">查询</a>
+                   data-options="iconCls:'icon-search'" hidden="true">查询日期所在周</a>
             </div>
         </div>
         <div data-options="region:'center',border:false" style="overflow: hidden;">

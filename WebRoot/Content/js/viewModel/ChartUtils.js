@@ -82,6 +82,41 @@ var ChartUtils = {
 
         return series;
     },
+    getLoadWeeklyDetailSeries: function (node, time, data, type) {
+        var y = parseInt(time.substr(0, 4));
+        var m = parseInt(time.substr(4, 2)) - 1;
+        var d = parseInt(time.substr(6, 2));
+        var s = new Date(y, m, d);
+
+        var w = TimeUtils.weekFromODBC(s.getDay());
+
+        var firstDay = new Date(y, m, d);
+        firstDay.setDate(s.getDate() - w);
+        var lastDay = new Date(y, m, d);
+        lastDay.setDate(s.getDate() + (6 - w));
+
+
+        var series = {
+            name: node.name + "(" + firstDay.format("yyyy-MM-dd") + "~" + lastDay.format("yyyy-MM-dd") + ")",
+            data: []
+        };
+
+        for (var t = 0; t < 7; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (parseInt(data[i].dayClientOperationTime) == t) {
+                        tmp = parseFloat(data[i][type]) * node.pt * node.ct;
+                        tmp = Math.floor(tmp * 100) / 100;
+                    }
+                }
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
     getLoadMonthlyDetailSeries: function (node, time, data, type) {
         var y = time.substr(0, 4);
         var m = time.substr(4, 2);
@@ -265,6 +300,14 @@ var ChartUtils = {
         var categories = [];
         for (var i = 0; i < 24; i++) {
             categories.push(i);
+        }
+        return categories;
+    },
+    getWeeklyCategories: function () {
+        var categories = [];
+        var week = ["一", "二", "三", "四", "五", "六", "日"]
+        for (var i = 0; i < 7; i++) {
+            categories.push(week[i]);
         }
         return categories;
     },

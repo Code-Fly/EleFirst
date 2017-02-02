@@ -6,6 +6,18 @@
  * @type {{toDateString, toGMTString, toISOString, toJSON, toLocaleDateString, toLocaleString, toLocaleTimeString, toString, toTimeString, toUTCString}}
  */
 var TimeUtils = {
+    weekFromODBC: function (i) {
+        var map = {
+            1: 0,
+            2: 1,
+            3: 2,
+            4: 3,
+            5: 4,
+            6: 5,
+            0: 6
+        };
+        return map[i];
+    },
     toDateString: function (timestamp) {
         var newDate = new Date();
         newDate.setTime(timestamp);
