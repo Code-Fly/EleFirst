@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by barrie on 17/2/2.
@@ -54,5 +56,68 @@ public class GraphTemplateController extends BaseController {
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
 
+    }
+
+    @RequestMapping(value = "/template/detail.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getGraphTemplatedetail(HttpServletRequest request,
+                                           HttpServletResponse response,
+                                           @RequestParam(value = "id") String id
+    ) {
+        List<GraphTemplateWithBLOBs> result = graphTemplateService.getGraphTemplateDetail(id);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+
+    }
+
+    @RequestMapping(value = "/template/update.do")
+    @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg updateTreeInfo(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @RequestParam(value = "id") String id,
+                                   @RequestParam(value = "config") String config,
+                                   @RequestParam(value = "content") String content
+    ) {
+        GraphTemplateWithBLOBs template = new GraphTemplateWithBLOBs();
+        template.setId(id);
+        template.setConfig(config);
+        template.setContent(content);
+        template.setCreatePerson("admin");
+        template.setCreateDate(new Date());
+        int result = graphTemplateService.updateGraphTemplate(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+
+    }
+
+    @RequestMapping(value = "/template/add.do")
+    @ApiOperation(value = "添加", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg addGraphTemplate(HttpServletRequest request,
+                                     HttpServletResponse response,
+                                     @RequestParam(value = "config") String config,
+                                     @RequestParam(value = "content") String content,
+                                     @RequestParam(value = "name") String name
+    ) {
+        GraphTemplateWithBLOBs template = new GraphTemplateWithBLOBs();
+        template.setId(UUID.randomUUID().toString());
+        template.setConfig(config);
+        template.setContent(content);
+        template.setName(name);
+        template.setCreatePerson("admin");
+        template.setCreateDate(new Date());
+        int result = graphTemplateService.addGraphTemplate(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/template/delete.do")
+    @ApiOperation(value = "删除", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg deletePnInfo(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @RequestParam(value = "id") String id
+    ) {
+        int result = graphTemplateService.delGraphTemplate(id);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 }

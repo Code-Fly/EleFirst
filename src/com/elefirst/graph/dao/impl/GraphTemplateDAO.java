@@ -35,7 +35,7 @@ public class GraphTemplateDAO extends BaseDAO implements IGraphTemplateDAO {
 
     @Override
     public int updateGraphTemplate(GraphTemplateExample example, GraphTemplateWithBLOBs template) {
-        return graphTemplateMapper.updateByExampleWithBLOBs(template, example);
+        return graphTemplateMapper.updateByExampleSelective(template, example);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class GraphToolbarDAO extends BaseDAO implements IGraphToolbarDAO {
 
     @Override
     public int updateGraphToolbar(GraphToolbarExample example, GraphToolbarWithBLOBs template) {
-        return graphToolbarMapper.updateByExampleWithBLOBs(template, example);
+        return graphToolbarMapper.updateByExampleSelective(template, example);
     }
 
     @Override

@@ -18,140 +18,30 @@ $(document).ready(function () {
     wnd.setResizable(false);
     wnd.setVisible(true);
 
-    toolbar.addItem("保存", mxBasePath + "images/editors/save.gif", function (evt) {
-        var encoder = new mxCodec();
-        var node = encoder.encode(graph.getModel());
-        mxUtils.popup(mxUtils.getPrettyXml(node), true);
-    });
+    // toolbar.addItem("保存", mxBasePath + "images/editors/save.gif", function (evt) {
+    //     var encoder = new mxCodec();
+    //     var node = encoder.encode(graph.getModel());
+    //     mxUtils.popup(mxUtils.getPrettyXml(node), true);
+    // });
     toolbar.addItem("打印", mxBasePath + "images/editors/print.gif", function (evt) {
         mxUtils.printScreen(graph);
     });
-    toolbar.addItem("载入", mxBasePath + "images/editors/open.gif", function (evt) {
-        // Load cells and layouts the graph
-        graph.getModel().beginUpdate();
-        try {
-            // Loads the custom file format (TXT file)
-            // parse(graph, "fileio.txt");
-
-            // Loads the mxGraph file format (XML file)
-            read(graph, "data/fileio.xml");
-
-            var config = {
-                "current": [{
-                    "cellId": "5",
-                    "cellType": "current",
-                    "areaId": "1",
-                    "concentratorId": "417",
-                    "pn": "2",
-                    "pnId": "56bdab99-713c-4f2d-904f-f8ff9104ad03"
-                }, {
-                    "cellId": "2",
-                    "cellType": "current",
-                    "areaId": "1",
-                    "concentratorId": "417",
-                    "pn": "3",
-                    "pnId": "9dd73393-d055-4dd1-8056-bd09064efc58"
-                }],
-                "switch_state": []
-            };
-
-            $("#hid-config").val(JSON.stringify(config));
-
-        }
-        finally {
-            // Updates the display
-            graph.getModel().endUpdate();
-        }
-    });
-    toolbar.addLine()
-    toolbar.addItem("刷新", mxBasePath + "images/editors/refresh.gif", function (evt) {
-        // XML is normally fetched from URL at server using mxUtils.get - this is a client-side
-        // string with randomized states to demonstrate the idea of the workflow monitor
-
-        // $.messager.alert("操作提示", $("#hid-config").val());
-
-        $.ajax({
-            url: _ctx + "system/graph/latest/current/list.do",
-            type: "POST",
-            cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: $("#hid-config").val(),
-            success: function (r) {
-                if (r.hasOwnProperty("errcode")) {
-                    if ("0" == r.errcode) {
-                        if (r.data[graphConstants.USER_OBJECT_CURRENT].length > 0) {
-                            var time = r.data[graphConstants.USER_OBJECT_CURRENT][0].clientOperationTime;
-                            $("#updateTimeContainer").text("采集状态：成功获取到 " + getDbDate(time).toLocaleString() + " 实时数据");
-                        }
-
-                        // var nodes = {};
-                        // nodes[graphConstants.USER_OBJECT_SWITCH_STATE] = [];
-                        // nodes[graphConstants.USER_OBJECT_CURRENT] = [];
-                        //
-                        //
-                        // for (var i = 0; i < r.data.length; i++) {
-                        //     if (r.data[i].cellType == graphConstants.USER_OBJECT_CURRENT) {
-                        //         nodes[graphConstants.USER_OBJECT_CURRENT].push({
-                        //             id: r.data[i].cellId,
-                        //             attributes: {
-                        //                 a: r.data[i].aCurrent,
-                        //                 b: r.data[i].bCurrent,
-                        //                 c: r.data[i].cCurrent
-                        //             }
-                        //         });
-                        //     }
-                        // }
-
-                        // var nodes = [
-                        //     {
-                        //         id: 3,
-                        //         type: graphConstants.USER_OBJECT_SWITCH_STATE,
-                        //         attributes: {
-                        //             state: graphConstants.SWITCH_STATE_ON
-                        //         }
-                        //     },
-                        //     {
-                        //         id: 4,
-                        //         type: graphConstants.USER_OBJECT_SWITCH_STATE,
-                        //         attributes: {
-                        //             state: graphConstants.SWITCH_STATE_OFF
-                        //         }
-                        //     },
-                        //     {
-                        //         id: 5,
-                        //         type: graphConstants.USER_OBJECT_CURRENT,
-                        //         attributes: {
-                        //             L: 1.2,
-                        //             N: 2.1,
-                        //             G: 1.9
-                        //         }
-                        //     }
-                        // ];
-                        update(graph, r.data);
-
-                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                    } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode, param), "info");
-                    }
-                } else {
-                    $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
-                }
-            },
-            beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
-            },
-            error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-            },
-            complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
-            }
-
-        });
-
-
-    });
+    // toolbar.addItem("载入", mxBasePath + "images/editors/open.gif", function (evt) {
+    //     // Load cells and layouts the graph
+    //     graph.getModel().beginUpdate();
+    //     try {
+    //         // Loads the custom file format (TXT file)
+    //         // parse(graph, "fileio.txt");
+    //
+    //         // Loads the mxGraph file format (XML file)
+    //         read(graph, "data/fileio.xml");
+    //
+    //     }
+    //     finally {
+    //         // Updates the display
+    //         graph.getModel().endUpdate();
+    //     }
+    // });
     toolbar.addLine()
 
     var wireMode = false;

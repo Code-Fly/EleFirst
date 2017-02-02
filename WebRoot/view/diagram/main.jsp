@@ -76,9 +76,12 @@
 <div data-options="region:'north'" style="height:40px;overflow: hidden;padding-top: 5px;">
     <div class="container_12">
         <div class="grid_7">
+            <a id="btn-reset" href="javascript:void(0)" plain="true" class="easyui-linkbutton"
+               icon="icon-arrow_rotate_clockwise"
+               title="重置">重置</a>
             <a id="btn-refresh" href="javascript:void(0)" plain="true" class="easyui-linkbutton"
                icon="icon-arrow_refresh"
-               title="重置">重置</a>
+               title="刷新">刷新</a>
         </div>
         <div class="grid_3" style="padding-top: 2px;">
             <input id="combo-template" class="easyui-combobox" style="width: 100%;"
