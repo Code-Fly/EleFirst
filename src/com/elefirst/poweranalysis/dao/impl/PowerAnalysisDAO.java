@@ -2,7 +2,10 @@ package com.elefirst.poweranalysis.dao.impl;
 
 import com.elefirst.base.dao.BaseDAO;
 import com.elefirst.poweranalysis.dao.iface.IPowerAnalysisDAO;
-import com.elefirst.poweranalysis.mapper.PowerAnalysisF25Mapper;
+import com.elefirst.poweranalysis.mapper.PowerAnalysisF25CurrentMapper;
+import com.elefirst.poweranalysis.mapper.PowerAnalysisF25LoadMapper;
+import com.elefirst.poweranalysis.mapper.PowerAnalysisF25PowerFactorMapper;
+import com.elefirst.poweranalysis.mapper.PowerAnalysisF25VoltageMapper;
 import com.elefirst.poweranalysis.po.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,50 +19,59 @@ import java.util.Map;
 @Repository
 public class PowerAnalysisDAO extends BaseDAO implements IPowerAnalysisDAO {
     @Autowired
-    private PowerAnalysisF25Mapper powerAnalysisF25Mapper;
+    private PowerAnalysisF25VoltageMapper powerAnalysisF25VoltageMapper;
+
+    @Autowired
+    private PowerAnalysisF25CurrentMapper powerAnalysisF25CurrentMapper;
+
+    @Autowired
+    private PowerAnalysisF25LoadMapper powerAnalysisF25LoadMapper;
+
+    @Autowired
+    private PowerAnalysisF25PowerFactorMapper powerAnalysisF25PowerFactorMapper;
 
     @Override
     public List<PowerAnalysisLoadDailyChartF25> getLoadDailyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getLoadDailyChart(param);
+        return powerAnalysisF25LoadMapper.getLoadDailyChart(param);
     }
 
     @Override
     public List<PowerAnalysisLoadMonthlyChartF25> getLoadMonthlyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getLoadMonthlyChart(param);
+        return powerAnalysisF25LoadMapper.getLoadMonthlyChart(param);
     }
 
     @Override
     public List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getLoadDailyTable(param);
+        return powerAnalysisF25LoadMapper.getLoadDailyTable(param);
     }
 
     @Override
     public List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getVoltageDailyChart(param);
+        return powerAnalysisF25VoltageMapper.getVoltageDailyChart(param);
     }
 
     @Override
     public List<PowerAnalysisVoltageMonthlyChartF25> getVoltageMonthlyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getVoltageMonthlyChart(param);
+        return powerAnalysisF25VoltageMapper.getVoltageMonthlyChart(param);
     }
 
     @Override
     public List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getCurrentDailyChart(param);
+        return powerAnalysisF25CurrentMapper.getCurrentDailyChart(param);
     }
 
     @Override
     public List<PowerAnalysisCurrentMonthlyChartF25> getCurrentMonthlyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getCurrentMonthlyChart(param);
+        return powerAnalysisF25CurrentMapper.getCurrentMonthlyChart(param);
     }
 
     @Override
     public List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getPowerFactorDailyChart(param);
+        return powerAnalysisF25PowerFactorMapper.getPowerFactorDailyChart(param);
     }
 
     @Override
     public List<PowerAnalysisPowerFactorMonthlyChartF25> getPowerFactorMonthlyChart(Map<String, Object> param) {
-        return powerAnalysisF25Mapper.getPowerFactorMonthlyChart(param);
+        return powerAnalysisF25PowerFactorMapper.getPowerFactorMonthlyChart(param);
     }
 }
