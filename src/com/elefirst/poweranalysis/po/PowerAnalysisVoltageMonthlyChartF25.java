@@ -9,6 +9,13 @@ public class PowerAnalysisVoltageMonthlyChartF25 extends PowerAnalysisF25 {
     private String maxC_Voltage;
     private String minA_Voltage;
     private String minB_Voltage;
+    private String minC_Voltage;
+
+    private String avgA_Voltage;
+    private String avgB_Voltage;
+    private String avgC_Voltage;
+
+    private String dayClientOperationTime;
 
     public String getMaxA_Voltage() {
         return maxA_Voltage;
@@ -89,12 +96,4 @@ public class PowerAnalysisVoltageMonthlyChartF25 extends PowerAnalysisF25 {
     public void setDayClientOperationTime(String dayClientOperationTime) {
         this.dayClientOperationTime = dayClientOperationTime;
     }
-
-    private String minC_Voltage;
-
-    private String avgA_Voltage;
-    private String avgB_Voltage;
-    private String avgC_Voltage;
-
-    private String dayClientOperationTime;
 }

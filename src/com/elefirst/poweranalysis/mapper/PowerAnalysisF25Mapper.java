@@ -107,5 +107,7 @@ public interface PowerAnalysisF25Mapper {
 
     List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param);
 
+    List<PowerAnalysisCurrentMonthlyChartF25> getCurrentMonthlyChart(Map<String, Object> param);
+
     List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param);
 }

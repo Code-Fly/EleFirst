@@ -185,6 +185,32 @@ var ChartUtils = {
 
         return series;
     },
+    getCurrentMonthlySeries: function (node, time, data, phase) {
+        var y = time.substr(0, 4);
+        var m = time.substr(4, 2);
+        var series = {
+            name: node.name + "(" + y + "-" + m + ")",
+            data: []
+        };
+
+        for (var t = 0; t < TimeUtils.getMonthDays(new Date(parseInt(y), (parseInt(m) - 1))); t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (time.substr(0, 6) == data[i].clientoperationtime.substr(0, 6)) {
+                        if (parseInt(data[i].dayClientOperationTime) == (t + 1)) {
+                            tmp = parseFloat(data[i][phase]) * node.pt;
+                            tmp = Math.floor(tmp * 100) / 100;
+                        }
+                    }
+                }
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
     getPowerFactorDailySeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
