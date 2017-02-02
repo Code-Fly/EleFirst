@@ -8,7 +8,7 @@ $(document).ready(function () {
     })
     $("#btnLogin").click(function () {
         if ($("#userName").val() == "admin" && $("#password").val() == "admin") {
-            window.location.href = "login/login.do";
+            window.location.href = "index.jsp";
         } else {
             $.messager.alert("信息提示", "用户名或密码错误！", "warning");
         }
