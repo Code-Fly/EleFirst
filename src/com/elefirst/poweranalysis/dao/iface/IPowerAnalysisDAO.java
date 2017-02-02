@@ -11,6 +11,8 @@ import java.util.Map;
 public interface IPowerAnalysisDAO {
     List<PowerAnalysisLoadDailyChartF25> getLoadDailyChart(Map<String, Object> param);
 
+    List<PowerAnalysisLoadMonthlyChartF25> getLoadMonthlyChart(Map<String, Object> param);
+
     List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param);
 
     List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param);

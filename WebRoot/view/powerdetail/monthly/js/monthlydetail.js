@@ -4,6 +4,10 @@
 $(document).ready(function () {
     var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
+    DateBoxUtils.initMonthBox($("#main-input-detail-datebox"));
+
+    DateBoxUtils.initMonthBox($("#input-detail-datebox"));
+
     //初始化center中tabs
     $('#tt').tabs({
         border: false,
@@ -18,7 +22,7 @@ $(document).ready(function () {
                 dg('tt4', 'monthlypower/listMonthlyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'monthlypower/listMonthlyPowerFactor.do');
-            }else if ("需量" == title) {
+            } else if ("需量" == title) {
                 dg('tt6', 'monthlypower/listMonthlyDemand.do');
             }
         }
@@ -26,7 +30,7 @@ $(document).ready(function () {
 
     //初始化databox为当前日期
     var d = new Date();
-    var dateboxDate = d.getFullYear() + "-" + (d.getMonth() + 1)+"-01";
+    var dateboxDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-01";
     $("#main-input-detail-datebox").datebox("clear");
     $("#main-input-detail-datebox").datebox("setValue", dateboxDate);
     //初始化第一个页面
@@ -48,7 +52,12 @@ $(document).ready(function () {
     //south区域不同类型tab页面板处理方式
     function handerBySouthTabType(title) {
         if ("负荷" == title) {
-            
+            getLoadDetailChart({
+                areaId: areaId,
+                concentratorId: concentratorId,
+                pn: pn,
+                time: $("#input-detail-datebox").datebox("getValue")
+            });
         } else if ("示数" == title) {
             //刷新当前监测点所有示数信息
             $("#dtt2").datagrid({
@@ -74,11 +83,11 @@ $(document).ready(function () {
                 }
             });
         } else if ("电压" == title) {
-            
+
         } else if ("电流" == title) {
-            
+
         } else if ("功率因数" == title) {
-            
+
         }
 
         //刷新tab
@@ -224,7 +233,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '负荷');
                         //初始化负荷详情
@@ -235,7 +244,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId33;
                         pn = singlerow.pn33;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '示数');
                     } else if ('tt3' == dgId) {
@@ -244,7 +253,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '电压');
                     } else if ('tt4' == dgId) {
@@ -253,7 +262,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '电流');
                     } else if ('tt5' == dgId) {
@@ -262,16 +271,16 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '功率因数');
-                    }else if ('tt6' == dgId) {
+                    } else if ('tt6' == dgId) {
                         singlerow = $('#tt6').datagrid('getSelected');
                         areaId = singlerow.areaId;
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+"-01";
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '示数');
                     }
@@ -322,11 +331,117 @@ $(document).ready(function () {
                 dg('tt4', 'monthlypower/listMonthlyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'monthlypower/listMonthlyPowerFactor.do');
-            }else if ("需量" == title) {
+            } else if ("需量" == title) {
                 dg('tt6', 'monthlypower/listMonthlyDemand.do');
             }
         }
     });
+
+    function getLoadDetailChart(row) {
+        $.ajax({
+            url: _ctx + "system/pn/info/detail.do",
+            type: "POST",
+            cache: false,
+            data: row,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var pnInfo = r.data[0];
+
+                        var time = new Date().format("yyyy-MM");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn
+                        })
+
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+
+                        paramChart.time.push(
+                            new Date(y, m).format('yyyyMM') + "01000000"
+                        )
+
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/load/monthly/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+
+                                        var item = ChartUtils.getLoadMonthlyDetailSeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct
+                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data);
+                                        series.push(item);
+
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/loadDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+
+                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
+                                        config.series = series;
+
+                                        $("#chart-load-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
+
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+            }
+        });
+    }
 
 
     $("#btn-detail-search").linkbutton({
