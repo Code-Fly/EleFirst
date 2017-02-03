@@ -26,7 +26,7 @@
                 return '禁用'
             }
         }
-        require(["js/menu.js"]);
+          require(["js/main.js"]);
     </script>
 </head>
 <body>
