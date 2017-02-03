@@ -21,6 +21,7 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
                     <th colspan="4">有功负荷(kW)</th>
                     <th colspan="4">无功负荷(kVar)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
@@ -46,6 +47,7 @@
                     <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
                     <th colspan="4">示数</th>
                     <th rowspan="2" field="clientoperationtime33" width="120" align="center">抄表时刻</th>
                 </tr>
@@ -66,6 +68,7 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
                     <th colspan="3">电压(V)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
                 </tr>
@@ -85,6 +88,7 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
                     <th colspan="3">电流(A)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
                 </tr>
@@ -104,6 +108,7 @@
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
                     <th colspan="4">功率因数(%)</th>
                     <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
                 </tr>
