@@ -53,7 +53,7 @@ $(document).ready(function () {
     $("#dlg-bound-pn").dialog({
         onBeforeOpen: function () {
             var node = $.parseJSON($("#hid-selected-node-info").val());
-            var nodeConfig = graphConfig.getConfig(node, $("#hid-config"));
+            var nodeConfig = graphUtils.getConfig(node, $("#hid-config"));
 
             $("#combo-bound-pn-id").combobox("reload");
             if (null != nodeConfig && nodeConfig.hasOwnProperty("pnId")) {
@@ -219,7 +219,7 @@ $(document).ready(function () {
             node.pnId = pnInfo.id;
 
 
-            graphConfig.addConfig(node, $("#hid-config"));
+            graphUtils.addConfig(node, $("#hid-config"));
 
             $("#dlg-bound-pn").dialog("close");
         }
