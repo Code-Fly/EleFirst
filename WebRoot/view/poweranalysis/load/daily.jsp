@@ -62,27 +62,27 @@
             <tbody>
             <tr>
                 <td width="25%" valign="center" align="center">最大负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="maxTotalActivePower">--</td>
                 <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="maxTotalActivePowerTime">--</td>
             </tr>
             <tr>
                 <td width="25%" valign="center" align="center">最小负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="minTotalActivePower">--</td>
                 <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="minTotalActivePowerTime">--</td>
             </tr>
             <tr>
                 <td width="25%" valign="center" align="center">平均负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="avgTotalActivePower">--</td>
                 <td width="25%" valign="center" align="center">峰谷差</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="differ">--</td>
             </tr>
             <tr>
                 <td width="25%" valign="center" align="center">峰谷差率</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="differRate">--</td>
                 <td width="25%" valign="center" align="center">负荷率</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="loadRate">--</td>
             </tr>
             </tbody>
         </table>

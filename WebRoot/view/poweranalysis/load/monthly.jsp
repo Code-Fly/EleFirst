@@ -62,27 +62,27 @@
             <tbody>
             <tr>
                 <td width="25%" valign="center" align="center">最大负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="maxTotalActivePower">--</td>
                 <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="maxTotalActivePowerTime">--</td>
             </tr>
             <tr>
                 <td width="25%" valign="center" align="center">最小负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="minTotalActivePower">--</td>
                 <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="minTotalActivePowerTime">--</td>
             </tr>
             <tr>
                 <td width="25%" valign="center" align="center">平均负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="avgTotalActivePower">--</td>
                 <td width="25%" valign="center" align="center">峰谷差</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="differ">--</td>
             </tr>
             <tr>
                 <td width="25%" valign="center" align="center">峰谷差率</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="differRate">--</td>
                 <td width="25%" valign="center" align="center">负荷率</td>
-                <td width="25%" valign="center" align="center">--</td>
+                <td width="25%" valign="center" align="center" id="loadRate">--</td>
             </tr>
             </tbody>
         </table>
@@ -91,16 +91,6 @@
     <div class="easyui-panel" data-options="border:false"
          style="margin-bottom: 10px;height: 200px;width: 95%;">
         <table id="dg-table" class="easyui-datagrid" data-options="border:true,fit:true">
-            <thead>
-            <tr>
-                <th data-options="field:'price'" width="150" align="center">最大负荷(kW)</th>
-                <th data-options="field:'price'" width="150" align="center">最小负荷(kW)</th>
-                <th data-options="field:'price'" width="150" align="center">平均负荷(kW)</th>
-                <th data-options="field:'price'" width="150" align="center">峰谷差(kW)</th>
-                <th data-options="field:'price'" width="150" align="center">负荷率</th>
-                <th data-options="field:'name'" width="150" align="center">日期</th>
-            </tr>
-            </thead>
         </table>
     </div>
 </div>

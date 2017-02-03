@@ -28,6 +28,94 @@ $(document).ready(function () {
         editable: false
     });
 
+    $("#dg-table").datagrid({
+        singleSelect: true,
+        rownumbers: true,
+        fitColumns: true,
+        columns: [[
+            {
+                field: "clientoperationtime",
+                title: "日期",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var y = value.substr(0, 4);
+                    var m = value.substr(4, 2);
+
+                    return y + "-" + m;
+                }
+            },
+            {
+                field: "maxTotalActivePower",
+                title: "最大负荷(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(value);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "minTotalActivePower",
+                title: "最小负荷(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(value);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "avgTotalActivePower",
+                title: "平均负荷(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(value);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "differ",
+                title: "峰谷差(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(row.maxTotalActivePower) - parseFloat(row.minTotalActivePower);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "rate",
+                title: "负荷率(%)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(row.avgTotalActivePower) / parseFloat(row.maxTotalActivePower);
+                    t = t * 100;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            }
+        ]]
+    });
+
     $("#btn-search").linkbutton({
         onClick: function () {
             var interval = getDateInterval($("#datebox-time-start").datebox("getValue"), $("#datebox-time-end").datebox("getValue"));
@@ -89,6 +177,10 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        $("#dg-table").datagrid("loadData", getDgData(r.data, pnList));
+
+                        getTbData(getDgData(r.data, pnList));
+
                         var series = [];
 
                         var item = ChartUtils.getLoadMonthlyIntervalMonthSeries("最大", pnList, time, interval, r.data, "maxTotalActivePower");
@@ -131,6 +223,88 @@ $(document).ready(function () {
                 MaskUtil.unmask();
             }
         });
+    }
+
+    function getTbData(data) {
+        var tmp = {
+            maxTotalActivePower: 0,
+            maxTotalActivePowerTime: "",
+            minTotalActivePower: 10000000,
+            minTotalActivePowerTime: "",
+            avgTotalActivePower: 0,
+        };
+        for (var i = 0; i < data.length; i++) {
+            var max = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
+            max = Math.floor(max * 100) / 100;
+            if (max > tmp.maxTotalActivePower) {
+                tmp.maxTotalActivePower = max;
+                tmp.maxTotalActivePowerTime = data[i].clientoperationtime;
+            }
+
+            var min = parseFloat(data[i].minTotalActivePower) * data[i].pt * data[i].ct;
+            min = Math.floor(min * 100) / 100;
+            if (min < tmp.minTotalActivePower) {
+                tmp.minTotalActivePower = min;
+                tmp.minTotalActivePowerTime = data[i].clientoperationtime;
+            }
+            var avg = parseFloat(data[i].avgTotalActivePower) * data[i].pt * data[i].ct;
+
+            tmp.avgTotalActivePower += avg;
+        }
+        tmp.avgTotalActivePower = tmp.avgTotalActivePower / data.length;
+        tmp.avgTotalActivePower = Math.floor(tmp.avgTotalActivePower * 100) / 100;
+
+
+        $("#maxTotalActivePower").text(tmp.maxTotalActivePower + "(kW)");
+        $("#minTotalActivePower").text(tmp.minTotalActivePower + "(kW)");
+        $("#avgTotalActivePower").text(tmp.avgTotalActivePower + "(kW)");
+
+        var maxTime = tmp.maxTotalActivePowerTime.substr(0, 4) + "-" + tmp.maxTotalActivePowerTime.substr(4, 2) + "-" + tmp.maxTotalActivePowerTime.substr(6, 2);
+        $("#maxTotalActivePowerTime").text(maxTime);
+
+        var minTime = tmp.minTotalActivePowerTime.substr(0, 4) + "-" + tmp.minTotalActivePowerTime.substr(4, 2) + "-" + tmp.minTotalActivePowerTime.substr(6, 2);
+        $("#minTotalActivePowerTime").text(minTime);
+
+        var differ = tmp.maxTotalActivePower - tmp.minTotalActivePower;
+        differ = Math.floor(differ * 100) / 100;
+        $("#differ").text(differ + "(kW)");
+
+        var differRate = ((tmp.maxTotalActivePower - tmp.minTotalActivePower) / tmp.maxTotalActivePower) * 100
+        differRate = Math.floor(differRate * 100) / 100;
+        $("#differRate").text(differRate + "(%)");
+
+        var loadRate = (tmp.avgTotalActivePower / tmp.maxTotalActivePower) * 100
+        loadRate = Math.floor(loadRate * 100) / 100;
+        $("#loadRate").text(loadRate + "(%)");
+
+
+        return tmp;
+    }
+
+    function getDgData(data, pnList) {
+        var tmp = {};
+        for (var i = 0; i < data.length; i++) {
+            var day = data[i].clientoperationtime.substr(0, 6);
+            if (!tmp.hasOwnProperty(day)) {
+                tmp[day] = data[i];
+            } else {
+                var item = clone(tmp[day]);
+                item.maxTotalActivePower = parseFloat(item.maxTotalActivePower) + parseFloat(data[i].maxTotalActivePower);
+                item.minTotalActivePower = parseFloat(item.minTotalActivePower) + parseFloat(data[i].minTotalActivePower);
+                item.avgTotalActivePower = parseFloat(item.avgTotalActivePower) + parseFloat(data[i].avgTotalActivePower);
+                tmp[day] = item;
+            }
+        }
+        var nData = [];
+        $.each(tmp, function (i, n) {
+            for (var j = 0; j < pnList.length; j++) {
+                var target = clone(n);
+                if (pnList[j].areaId == n.areaId && pnList[j].concentratorId == n.concentratorId && pnList[j].pn == n.pn) {
+                    nData.push($.extend(target, pnList[j]));
+                }
+            }
+        });
+        return nData;
     }
 
     function getPnDetail(nodes) {

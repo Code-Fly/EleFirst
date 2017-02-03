@@ -58,6 +58,7 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        getTbData(getDgData(r.data, pnList));
 
                         var series = [];
 
@@ -83,7 +84,7 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-
+                MaskUtil.mask();
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
@@ -92,6 +93,95 @@ $(document).ready(function () {
                 MaskUtil.unmask();
             }
         });
+    }
+
+
+    function getTbData(data) {
+
+        var tmp = {
+            maxTotalActivePower: 0,
+            maxTotalActivePowerTime: "",
+            maxTotalActivePowerHour: "",
+            minTotalActivePower: 10000000,
+            minTotalActivePowerTime: "",
+            minTotalActivePowerHour: "",
+            avgTotalActivePower: 0,
+        };
+        for (var i = 0; i < data.length; i++) {
+            var max = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
+            max = Math.floor(max * 100) / 100;
+            if (max > tmp.maxTotalActivePower) {
+                tmp.maxTotalActivePower = max;
+                tmp.maxTotalActivePowerTime = data[i].clientoperationtime;
+                tmp.maxTotalActivePowerHour = data[i].hourClientOperationTime;
+            }
+
+            var min = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
+            min = Math.floor(min * 100) / 100;
+            if (min < tmp.minTotalActivePower) {
+                tmp.minTotalActivePower = min;
+                tmp.minTotalActivePowerTime = data[i].clientoperationtime;
+                tmp.minTotalActivePowerHour = data[i].hourClientOperationTime;
+            }
+            var avg = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
+
+            tmp.avgTotalActivePower += avg;
+        }
+        tmp.avgTotalActivePower = tmp.avgTotalActivePower / data.length;
+        tmp.avgTotalActivePower = Math.floor(tmp.avgTotalActivePower * 100) / 100;
+
+
+        $("#maxTotalActivePower").text(tmp.maxTotalActivePower + "(kW)");
+        $("#minTotalActivePower").text(tmp.minTotalActivePower + "(kW)");
+        $("#avgTotalActivePower").text(tmp.avgTotalActivePower + "(kW)");
+
+        var maxTime = tmp.maxTotalActivePowerTime.substr(0, 4) + "-" + tmp.maxTotalActivePowerTime.substr(4, 2) + "-" + tmp.maxTotalActivePowerTime.substr(6, 2) + " " + tmp.maxTotalActivePowerHour + " 时";
+        $("#maxTotalActivePowerTime").text(maxTime);
+
+        var minTime = tmp.minTotalActivePowerTime.substr(0, 4) + "-" + tmp.minTotalActivePowerTime.substr(4, 2) + "-" + tmp.minTotalActivePowerTime.substr(6, 2) + " " + tmp.minTotalActivePowerHour + " 时";
+        $("#minTotalActivePowerTime").text(minTime);
+
+        var differ = tmp.maxTotalActivePower - tmp.minTotalActivePower;
+        differ = Math.floor(differ * 100) / 100;
+        $("#differ").text(differ + "(kW)");
+
+        var differRate = ((tmp.maxTotalActivePower - tmp.minTotalActivePower) / tmp.maxTotalActivePower) * 100
+        differRate = Math.floor(differRate * 100) / 100;
+        $("#differRate").text(differRate + "(%)");
+
+        var loadRate = (tmp.avgTotalActivePower / tmp.maxTotalActivePower) * 100
+        loadRate = Math.floor(loadRate * 100) / 100;
+        $("#loadRate").text(loadRate + "(%)");
+
+
+        return tmp;
+    }
+
+    function getDgData(data, pnList) {
+
+        var tmp = {};
+        for (var i = 0; i < data.length; i++) {
+            var day = data[i].clientoperationtime.substr(0, 10);
+            if (!tmp.hasOwnProperty(day)) {
+                tmp[day] = data[i];
+            } else {
+                var item = clone(tmp[day]);
+                item.maxTotalActivePower = parseFloat(item.maxTotalActivePower) + parseFloat(data[i].maxTotalActivePower);
+                item.minTotalActivePower = parseFloat(item.minTotalActivePower) + parseFloat(data[i].minTotalActivePower);
+                item.avgTotalActivePower = parseFloat(item.avgTotalActivePower) + parseFloat(data[i].avgTotalActivePower);
+                tmp[day] = item;
+            }
+        }
+        var nData = [];
+        $.each(tmp, function (i, n) {
+            for (var j = 0; j < pnList.length; j++) {
+                var target = clone(n);
+                if (pnList[j].areaId == n.areaId && pnList[j].concentratorId == n.concentratorId && pnList[j].pn == n.pn) {
+                    nData.push($.extend(target, pnList[j]));
+                }
+            }
+        });
+        return nData;
     }
 
     function getPnDetail(nodes) {
