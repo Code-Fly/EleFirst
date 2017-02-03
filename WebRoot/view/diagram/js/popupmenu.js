@@ -185,8 +185,8 @@ $(document).ready(function () {
                     var style = graph.getCellStyle(cell);
                     _sizeCell = {
                         cell: cell,
-                        style: mxConstants.STYLE_FONTSIZE,
-                        value: style[mxConstants.STYLE_FONTSIZE]
+                        style: mxConstants.STYLE_STROKEWIDTH,
+                        value: style[mxConstants.STYLE_STROKEWIDTH]
                     };
 
                     $("#dlg-size-picker").dialog("open");

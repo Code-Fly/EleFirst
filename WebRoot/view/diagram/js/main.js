@@ -98,6 +98,13 @@ $(document).ready(function () {
 
     $("#dlg-size-picker").dialog({
         onBeforeOpen: function () {
+            if (_sizeCell.style == mxConstants.STYLE_FONTSIZE) {
+                $("#combo-size-picker").combobox("loadData", initSizeCombo(12, 40));
+            }
+            else if (_sizeCell.style == mxConstants.STYLE_STROKEWIDTH) {
+                $("#combo-size-picker").combobox("loadData", initSizeCombo(1, 10));
+            }
+
             $("#combo-size-picker").combobox("select", _sizeCell.value);
         },
         onOpen: function () {
@@ -113,7 +120,6 @@ $(document).ready(function () {
         required: true,
         textField: "name",
         valueField: "value",
-        data: initSizeCombo(),
         editable: false,
     });
 
@@ -527,9 +533,9 @@ $(document).ready(function () {
         return false;
     }
 
-    function initSizeCombo() {
+    function initSizeCombo(min, max) {
         var sizeData = [];
-        for (var i = 12; i <= 40; i++) {
+        for (var i = min; i <= max; i++) {
             sizeData.push({
                 name: i,
                 value: i
