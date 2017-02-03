@@ -58,6 +58,35 @@ var ChartUtils = {
 
         return series;
     },
+    getLoadDailyIntervalDaySeries: function (name, nodes, time, interval, data, type) {
+        var series = {
+            name: name,
+            data: []
+        };
+
+        var category = this.getDailyIntervalDayCategories(time, interval);
+        for (var t = 0; t < category.length; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < nodes.length; j++) {
+                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                        if (parseInt(data[i].dayClientOperationTime) == category[t]) {
+                            if (tmp == null) {
+                                tmp = parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
+                            } else {
+                                tmp += parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
+                            }
+                            tmp = Math.floor(tmp * 100) / 100;
+                        }
+                    }
+                }
+            }
+
+            series.data.push(tmp);
+        }
+
+        return series;
+    },
     getLoadDailyDetailSeries: function (node, time, data) {
         var series = {
             name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),
@@ -406,6 +435,21 @@ var ChartUtils = {
         for (var i = 0; i < 24; i++) {
             categories.push(i);
         }
+        return categories;
+    },
+    getDailyIntervalDayCategories: function (time, interval) {
+        var categories = [];
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        for (var i = 0; i < (interval + 1); i++) {
+            var dt = new Date(y, m, d);
+            dt.setDate(dt.getDate() + i);
+            categories.push(dt.getDate());
+        }
+
         return categories;
     },
     getWeeklyCategories: function () {

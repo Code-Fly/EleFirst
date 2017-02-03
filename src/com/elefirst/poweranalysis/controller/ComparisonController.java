@@ -66,7 +66,7 @@ public class ComparisonController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
 
-    @RequestMapping(value = "/load/daily/chart/sum.do")
+    @RequestMapping(value = "/load/daily/sum/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getLoadDailyChartSum(HttpServletRequest request,
@@ -96,6 +96,40 @@ public class ComparisonController extends BaseController {
         param.put("time", time);
 
         List<PowerAnalysisLoadDailyChartSumF25> list = powerAnalysisService.getLoadDailyChartSum(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
+    @RequestMapping(value = "/load/daily/interval/day/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getLoadDailyChartIntervalDay(HttpServletRequest request,
+                                                 HttpServletResponse response,
+                                                 @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<PowerAnalysisF25> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF25 item = new PowerAnalysisF25();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
+
+        List<String> time = new ArrayList<>();
+        JSONArray jTime = jParam.getJSONArray("time");
+        for (int i = 0; i < jTime.size(); i++) {
+            time.add(jTime.getString(i));
+        }
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("time", time);
+
+        List<PowerAnalysisLoadDailyChartIntervalDayF25> list = powerAnalysisService.getLoadDailyChartIntervalDay(param);
 
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }

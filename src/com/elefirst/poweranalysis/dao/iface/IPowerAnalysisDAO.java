@@ -13,6 +13,8 @@ public interface IPowerAnalysisDAO {
 
     List<PowerAnalysisLoadDailyChartSumF25> getLoadDailyChartSum(Map<String, Object> param);
 
+    List<PowerAnalysisLoadDailyChartIntervalDayF25> getLoadDailyChartIntervalDay(Map<String, Object> param);
+
     List<PowerAnalysisLoadWeeklyChartF25> getLoadWeeklyChart(Map<String, Object> param);
 
     List<PowerAnalysisLoadMonthlyChartF25> getLoadMonthlyChart(Map<String, Object> param);
