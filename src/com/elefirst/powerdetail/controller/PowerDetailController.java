@@ -89,6 +89,14 @@ public class PowerDetailController {
 				//处理电流
 				handerCurrent(powerDetailF252, ct);
 				
+
+				//查看状态
+				if("0".equals(powerDetailF252.getStat().trim())){
+					powerDetailF252.setStat("正常");
+				}else{
+					powerDetailF252.setStat("异常");
+				}
+				
 				//处理日期
 				String dateStr = powerDetailF252.getClientoperationtime();
 				dateStr = com.elefirst.base.utils.DateUtil.StringPattern(dateStr, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm");
@@ -155,6 +163,13 @@ public class PowerDetailController {
 				String dateStr = viewDisplayF33F34.getClientoperationtime33();
 				dateStr = com.elefirst.base.utils.DateUtil.StringPattern(dateStr, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm");
 				viewDisplayF33F34.setClientoperationtime33(dateStr);
+				
+				//查看状态
+				if("0".equals(viewDisplayF33F34.getStat().trim())){
+					viewDisplayF33F34.setStat("正常");
+				}else{
+					viewDisplayF33F34.setStat("异常");
+				}
 			}
 			
 			int total = powerDetailF25ServiceImpl.fetchLastDisplayDetailCountByCtrId(areaId, ctrIds);
@@ -488,6 +503,7 @@ public class PowerDetailController {
 		powerDetailF252.setaVoltage("" + aVoltage);
 		powerDetailF252.setbVoltage("" + bVoltage);
 		powerDetailF252.setcVoltage("" + cVoltage);
+		
 	}
 
 	private void handerCurrent(PowerDetailF25 powerDetailF252, double ct) {
@@ -617,5 +633,6 @@ public class PowerDetailController {
 		viewDisplayF33F34.setTotalpositivereactivepower("" + totalpositivereactivepower);
 		viewDisplayF33F34.setTotalreverseactivepower("" + totalreverseactivepower);
 		viewDisplayF33F34.setTotalreversereactivepower("" + totalreversereactivepower);
+		
 	}
 }

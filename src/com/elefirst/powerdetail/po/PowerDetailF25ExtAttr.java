@@ -5,6 +5,7 @@ public class PowerDetailF25ExtAttr {
 	private String name;
 	private double pt;
 	private double ct;
+	private String stat;
 	public String getName() {
 		return name;
 	}
@@ -22,5 +23,11 @@ public class PowerDetailF25ExtAttr {
 	}
 	public void setCt(double ct) {
 		this.ct = ct;
+	}
+	public String getStat() {
+		return stat;
+	}
+	public void setStat(String stat) {
+		this.stat = stat;
 	}
 }
