@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/30.
  */
 $(document).ready(function () {
+    var DEFAULT_INTERVAL = 6;
+
     var _nodes = $.parseJSON($.base64.atob(decodeURIComponent(GetQueryString("data")), true));
 
     $("#datebox-time-start").datebox("calendar").calendar({
@@ -22,6 +24,95 @@ $(document).ready(function () {
         editable: false
     });
 
+    $("#dg-table").datagrid({
+        singleSelect: true,
+        rownumbers: true,
+        fitColumns: true,
+        columns: [[
+            {
+                field: "clientoperationtime",
+                title: "日期",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var y = value.substr(0, 4);
+                    var m = value.substr(4, 2);
+                    var d = value.substr(6, 2);
+
+                    return y + "-" + m + "-" + d;
+                }
+            },
+            {
+                field: "maxTotalActivePower",
+                title: "最大负荷(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(value);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "minTotalActivePower",
+                title: "最小负荷(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(value);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "avgTotalActivePower",
+                title: "平均负荷(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(value);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "differ",
+                title: "峰谷差(kW)",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(row.maxTotalActivePower) - parseFloat(row.minTotalActivePower);
+                    var pt = row.pt;
+                    var ct = row.ct;
+                    t = t * pt * ct;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            },
+            {
+                field: "rate",
+                title: "负荷率",
+                align: "center",
+                width: 100,
+                formatter: function (value, row, index) {
+                    var t = parseFloat(row.avgTotalActivePower) / parseFloat(row.maxTotalActivePower);
+                    t = t * 100;
+                    t = Math.floor(t * 100) / 100;
+                    return t;
+                }
+            }
+        ]]
+    });
+
 
     $("#btn-search").linkbutton({
         onClick: function () {
@@ -32,8 +123,8 @@ $(document).ready(function () {
                 return;
             }
 
-            if (interval > 6) {
-                $.messager.alert("操作提示", "最大间隔为 7 天！", "info");
+            if (interval > DEFAULT_INTERVAL) {
+                $.messager.alert("操作提示", "最大间隔为 " + (DEFAULT_INTERVAL + 1) + " 天！", "info");
                 return;
             }
 
@@ -85,6 +176,8 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        $("#dg-table").datagrid("loadData", getDgData(r.data, pnList));
+
                         var series = [];
 
                         var item = ChartUtils.getLoadDailyIntervalDaySeries("最大", pnList, time, interval, r.data, "maxTotalActivePower");
@@ -116,7 +209,7 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-
+                MaskUtil.mask();
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
@@ -125,6 +218,32 @@ $(document).ready(function () {
                 MaskUtil.unmask();
             }
         });
+    }
+
+    function getDgData(data, pnList) {
+        var tmp = {};
+        for (var i = 0; i < data.length; i++) {
+            var day = data[i].clientoperationtime.substr(0, 8);
+            if (!tmp.hasOwnProperty(day)) {
+                tmp[day] = data[i];
+            } else {
+                var item = clone(tmp[day]);
+                item.maxTotalActivePower = parseFloat(item.maxTotalActivePower) + parseFloat(data[i].maxTotalActivePower);
+                item.minTotalActivePower = parseFloat(item.minTotalActivePower) + parseFloat(data[i].minTotalActivePower);
+                item.avgTotalActivePower = parseFloat(item.avgTotalActivePower) + parseFloat(data[i].avgTotalActivePower);
+                tmp[day] = item;
+            }
+        }
+        var nData = [];
+        $.each(tmp, function (i, n) {
+            for (var j = 0; j < pnList.length; j++) {
+                var target = clone(n);
+                if (pnList[j].areaId == n.areaId && pnList[j].concentratorId == n.concentratorId && pnList[j].pn == n.pn) {
+                    nData.push($.extend(target, pnList[j]));
+                }
+            }
+        });
+        return nData;
     }
 
     function getPnDetail(nodes) {
@@ -157,7 +276,8 @@ $(document).ready(function () {
 
         getLoadDetailChart({
             nodes: _nodes,
-            time: $("#datebox-time").datebox("getValue")
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: DEFAULT_INTERVAL
         });
     }
 
