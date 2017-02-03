@@ -77,7 +77,6 @@ $(document).ready(function () {
         onSubmit: function (hsb, hex, rgb, el) {
             $(el).val(hex);
             graph.setCellStyles(_colorPickerCell.style, "#" + hex, [_colorPickerCell.cell]);
-            _colorPickerCell = null;
             $("#dlg-color-picker").dialog("close");
         },
         onBeforeShow: function () {
@@ -87,19 +86,37 @@ $(document).ready(function () {
 
     $("#dlg-color-picker").dialog({
         onBeforeOpen: function () {
-            // var color = $("#hid-color").val();
-            //
-            // if (null != color && "" != color) {
-            //     $("#input-color-picker").val(color);
-            // }
+            $("#input-color-picker").ColorPicker().ColorPickerSetColor(_colorPickerCell.value);
         },
         onOpen: function () {
 
         },
         onClose: function () {
-
+            _colorPickerCell = null;
         }
     });
+
+    $("#dlg-size-picker").dialog({
+        onBeforeOpen: function () {
+            $("#combo-size-picker").combobox("select", _sizeCell.value);
+        },
+        onOpen: function () {
+
+        },
+        onClose: function () {
+            _sizeCell = null;
+        }
+    });
+
+
+    $("#combo-size-picker").combobox({
+        required: true,
+        textField: "name",
+        valueField: "value",
+        data: initSizeCombo(),
+        editable: false,
+    });
+
 
     $("#combo-bound-pn-id").combobox({
         required: true,
@@ -204,9 +221,14 @@ $(document).ready(function () {
 
     $("#btn-dlg-color-picker-submit").linkbutton({
         onClick: function () {
-
-
             $("#dlg-color-picker").dialog("close");
+        }
+    });
+
+    $("#btn-dlg-size-picker-submit").linkbutton({
+        onClick: function () {
+            graph.setCellStyles(_sizeCell.style, $("#combo-size-picker").combobox("getValue"), [_sizeCell.cell]);
+            $("#dlg-size-picker").dialog("close");
         }
     });
 
@@ -503,6 +525,17 @@ $(document).ready(function () {
             }
         }
         return false;
+    }
+
+    function initSizeCombo() {
+        var sizeData = [];
+        for (var i = 12; i <= 40; i++) {
+            sizeData.push({
+                name: i,
+                value: i
+            })
+        }
+        return sizeData;
     }
 
     function getTwoPhaseCurrentLabel(a, b) {

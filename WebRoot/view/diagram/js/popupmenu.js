@@ -77,10 +77,9 @@ $(document).ready(function () {
                     var style = graph.getCellStyle(cell);
                     _colorPickerCell = {
                         cell: cell,
-                        style: mxConstants.STYLE_FONTCOLOR
+                        style: mxConstants.STYLE_FONTCOLOR,
+                        value: style[mxConstants.STYLE_FONTCOLOR]
                     };
-
-                    $("#input-color-picker").ColorPicker().ColorPickerSetColor(style[mxConstants.STYLE_FONTCOLOR]);
 
                     $("#dlg-color-picker").dialog("open");
 
@@ -89,9 +88,17 @@ $(document).ready(function () {
 
                 });
                 menu.addItem("大小", mxBasePath + "images/editors/plain.gif", function () {
-                    var r = prompt("请输入大小", "12");
+                    var style = graph.getCellStyle(cell);
+                    _sizeCell = {
+                        cell: cell,
+                        style: mxConstants.STYLE_FONTSIZE,
+                        value: style[mxConstants.STYLE_FONTSIZE]
+                    };
+
+                    $("#dlg-size-picker").dialog("open");
+
                     // Resets the fillcolor and the overlay
-                    graph.setCellStyles(mxConstants.STYLE_FONTSIZE, r, [cell]);
+                    // graph.setCellStyles(mxConstants.STYLE_FONTSIZE, r, [cell]);
 
                 });
                 menu.addItem("加粗", mxBasePath + "images/editors/bold.gif", function () {
@@ -165,10 +172,9 @@ $(document).ready(function () {
                     var style = graph.getCellStyle(cell);
                     _colorPickerCell = {
                         cell: cell,
-                        style: mxConstants.STYLE_STROKECOLOR
+                        style: mxConstants.STYLE_FONTCOLOR,
+                        value: style[mxConstants.STYLE_FONTCOLOR]
                     };
-
-                    $("#input-color-picker").ColorPicker().ColorPickerSetColor(style[mxConstants.STYLE_STROKECOLOR]);
 
                     $("#dlg-color-picker").dialog("open");
                     // Resets the fillcolor and the overlay
@@ -176,9 +182,17 @@ $(document).ready(function () {
 
                 });
                 menu.addItem("大小", mxBasePath + "images/editors/plain.gif", function () {
-                    var r = prompt("请输入大小", "2");
+                    var style = graph.getCellStyle(cell);
+                    _sizeCell = {
+                        cell: cell,
+                        style: mxConstants.STYLE_FONTSIZE,
+                        value: style[mxConstants.STYLE_FONTSIZE]
+                    };
+
+                    $("#dlg-size-picker").dialog("open");
+
                     // Resets the fillcolor and the overlay
-                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, r, [cell]);
+                    // graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, r, [cell]);
 
                 });
             }

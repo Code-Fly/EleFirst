@@ -155,7 +155,39 @@
         </div>
     </div>
 </div>
-
+<div id="dlg-size-picker" class="easyui-dialog" title="选择大小"
+     data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
+     style="width:300px;height:180px;">
+    <div class="easyui-layout" data-options="fit:true,border:false">
+        <div data-options="region:'center'">
+            <div class="container_12" style="padding-top: 10px">
+                <div class="grid_4 cell title">
+                    <p>
+                        大小
+                    </p>
+                </div>
+                <div class="grid_8 cell">
+                    <p>
+                        <input id="combo-size-picker" class="easyui-combobox" style="width: 100%;">
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div data-options="region:'south'" style="height:50px;overflow: hidden;">
+            <div class="container_12">
+                <div class="grid_4 prefix_4 cell">
+                    <p style="text-align: center;">
+                        <a id="btn-dlg-size-picker-submit" style="width: 100%;max-width: 150px;"
+                           href="javascript:void(0)"
+                           class="easyui-linkbutton"
+                           icon="icon-save" title="提交">提交</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="dlg-color-picker" class="easyui-dialog" title="选择颜色"
      data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
      style="width:380px;height:240px;" align="center">
