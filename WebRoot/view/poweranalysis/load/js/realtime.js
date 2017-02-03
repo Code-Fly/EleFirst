@@ -13,6 +13,8 @@ $(document).ready(function () {
         editable: false
     });
 
+    $("#datebox-time").datebox("setValue", new Date().getFullYear() + "-", (new Date().getMonth() + 1) + "-" + new Date().getDate());
+
     $("#btn-search").linkbutton({
         onClick: function () {
             getLoadDetailChart({
@@ -21,6 +23,8 @@ $(document).ready(function () {
             });
         }
     });
+
+    init();
 
     function getLoadDetailChart(row) {
         var pnList = getPnDetail(row.nodes);
@@ -106,5 +110,12 @@ $(document).ready(function () {
             $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(pnInfo.errcode), "info");
             return null;
         }
+    }
+
+    function init() {
+        getLoadDetailChart({
+            nodes: _nodes,
+            time: $("#datebox-time").datebox("getValue")
+        });
     }
 });
