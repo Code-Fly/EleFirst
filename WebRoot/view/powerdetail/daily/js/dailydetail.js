@@ -29,19 +29,18 @@ $(document).ready(function () {
             }
         }
     });
-    
+
     $('#cc1').combobox({
-		    url:'data/combobox_data.json',
-		    valueField:'id',
-		    textField:'text',
-		    method:'get',
-		    onSelect: function(rec){
-            
+        url: 'data/combobox_data.json',
+        valueField: 'id',
+        textField: 'text',
+        method: 'get',
+        editable: false,
+        onSelect: function (rec) {
+
         }
-		});
-		
-		
-		
+    });
+
 
     //初始化databox为当前日期
     var d = new Date();
@@ -63,7 +62,7 @@ $(document).ready(function () {
             handerBySouthTabType(title);
         }
     });
-    
+
 
     //south区域不同类型tab页面板处理方式
     function handerBySouthTabType(title) {
@@ -264,7 +263,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+ '-' + date.substring(6, 8);
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '负荷');
                         //初始化负荷详情
@@ -276,7 +275,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId33;
                         pn = singlerow.pn33;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+ '-' + date.substring(6, 8);
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '示数');
                         //初始化负荷详情
@@ -287,7 +286,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+ '-' + date.substring(6, 8);
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '电压');
                         //初始化负荷详情
@@ -298,7 +297,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+ '-' + date.substring(6, 8);
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '电流');
                         //初始化负荷详情
@@ -309,7 +308,7 @@ $(document).ready(function () {
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
                         date = singlerow.days;
-                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6)+ '-' + date.substring(6, 8);
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '功率因数');
                         //初始化负荷详情
