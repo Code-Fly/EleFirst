@@ -278,8 +278,8 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 		
 		
 		paramMap.put("minAPowerFactor", weeklyPowerFactor.getAminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("minBPowerFactor", weeklyPowerFactor.getAminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("minCPowerFactor", weeklyPowerFactor.getAminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
+		paramMap.put("minBPowerFactor", weeklyPowerFactor.getBminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
+		paramMap.put("minCPowerFactor", weeklyPowerFactor.getCminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
 		paramMap.put("minTotalPowerFactor", weeklyPowerFactor.getMintotalpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
 		paramMap.put("type", "powerfactor");
 	}

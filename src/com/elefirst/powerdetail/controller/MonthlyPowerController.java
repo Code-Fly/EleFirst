@@ -327,8 +327,8 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 		
 		
 		paramMap.put("minAPowerFactor", monthlyPowerFactor.getAminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minBPowerFactor", monthlyPowerFactor.getAminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minCPowerFactor", monthlyPowerFactor.getAminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
+		paramMap.put("minBPowerFactor", monthlyPowerFactor.getBminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
+		paramMap.put("minCPowerFactor", monthlyPowerFactor.getCminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
 		paramMap.put("minTotalPowerFactor", monthlyPowerFactor.getMintotalpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
 		paramMap.put("type", "powerfactor");
 	}
