@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/30.
  */
 $(document).ready(function () {
+    var DEFAULT_INTERVAL = 6;
+
     var _nodes = $.parseJSON($.base64.atob(decodeURIComponent(GetQueryString("data")), true));
 
     $("#datebox-time-start").datebox("calendar").calendar({
@@ -32,8 +34,8 @@ $(document).ready(function () {
                 return;
             }
 
-            if (interval > 6) {
-                $.messager.alert("操作提示", "最大间隔为 7 天！", "info");
+            if (interval > DEFAULT_INTERVAL) {
+                $.messager.alert("操作提示", "最大间隔为 " + (DEFAULT_INTERVAL + 1) + " 天！", "info");
                 return;
             }
 
@@ -116,7 +118,7 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-
+                MaskUtil.mask();
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
@@ -157,7 +159,8 @@ $(document).ready(function () {
 
         getLoadDetailChart({
             nodes: _nodes,
-            time: $("#datebox-time").datebox("getValue")
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: DEFAULT_INTERVAL
         });
     }
 
