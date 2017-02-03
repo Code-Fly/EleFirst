@@ -2,6 +2,49 @@
  * Created by barrie on 17/1/16.
  */
 $(document).ready(function () {
+    $.extend($.fn.datagrid.defaults.editors, {
+        colorpicker: {//colorpicker就是你要自定义editor的名称
+            init: function (container, options) {
+                // var input = $('<input class="easyuidatetimebox">').appendTo(container);
+                var input = $('<input>').appendTo(container);
+
+                input.ColorPicker({
+                    color: '#0000ff',
+                    onShow: function (colpkr) {
+                        $(colpkr).fadeIn(500);
+                        return false;
+                    },
+                    onHide: function (colpkr) {
+                        $(colpkr).fadeOut(500);
+                        return false;
+                    },
+                    onChange: function (hsb, hex, rgb) {
+                        //                    $('#colorSelector div').css('backgroundColor', '#' + hex);
+                        input.css('backgroundColor', '#' + hex);
+                        input.val('#' + hex);
+                    }
+                });
+                return input;
+            },
+            getValue: function (target) {
+                return $(target).val();
+            },
+            setValue: function (target, value) {
+                $(target).val(value);
+                $(target).css('backgroundColor', value);
+                $(target).ColorPickerSetColor(value);
+            },
+            resize: function (target, width) {
+                var input = $(target);
+                if ($.boxModel == true) {
+                    input.width(width - (input.outerWidth() - input.width()));
+                } else {
+                    input.width(width);
+                }
+            }
+        }
+    });
+
     var _areaId = "1";
     var _areaName = "配用电监测";
 
@@ -25,6 +68,36 @@ $(document).ready(function () {
         },
         onClose: function () {
             flag_bound_pn_edit = false;
+        }
+    });
+
+
+    $("#input-color-picker").ColorPicker({
+        flat: true,
+        onSubmit: function (hsb, hex, rgb, el) {
+            $(el).val(hex);
+            graph.setCellStyles(_colorPickerCell.style, "#" + hex, [_colorPickerCell.cell]);
+            _colorPickerCell = null;
+            $("#dlg-color-picker").dialog("close");
+        },
+        onBeforeShow: function () {
+            $(this).ColorPickerSetColor(this.value);
+        }
+    });
+
+    $("#dlg-color-picker").dialog({
+        onBeforeOpen: function () {
+            // var color = $("#hid-color").val();
+            //
+            // if (null != color && "" != color) {
+            //     $("#input-color-picker").val(color);
+            // }
+        },
+        onOpen: function () {
+
+        },
+        onClose: function () {
+
         }
     });
 
@@ -126,6 +199,14 @@ $(document).ready(function () {
             graphConfig.addConfig(node, $("#hid-config"));
 
             $("#dlg-bound-pn").dialog("close");
+        }
+    });
+
+    $("#btn-dlg-color-picker-submit").linkbutton({
+        onClick: function () {
+
+
+            $("#dlg-color-picker").dialog("close");
         }
     });
 

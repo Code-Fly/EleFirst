@@ -74,9 +74,18 @@ $(document).ready(function () {
             }
             if (cell.edge == false && inList(cell.style, WHITE_LIST_FONT)) {
                 menu.addItem("颜色", mxBasePath + "images/editors/fontcolor.gif", function () {
-                    var r = prompt("请输入颜色", "red");
+                    var style = graph.getCellStyle(cell);
+                    _colorPickerCell = {
+                        cell: cell,
+                        style: mxConstants.STYLE_FONTCOLOR
+                    };
+
+                    $("#input-color-picker").ColorPicker().ColorPickerSetColor(style[mxConstants.STYLE_FONTCOLOR]);
+
+                    $("#dlg-color-picker").dialog("open");
+
                     // Resets the fillcolor and the overlay
-                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, r, [cell]);
+                    // graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, r, [cell]);
 
                 });
                 menu.addItem("大小", mxBasePath + "images/editors/plain.gif", function () {
@@ -153,9 +162,17 @@ $(document).ready(function () {
             }
             if (cell.edge == true) {
                 menu.addItem("颜色", mxBasePath + "images/editors/fontcolor.gif", function () {
-                    var r = prompt("请输入颜色", "red");
+                    var style = graph.getCellStyle(cell);
+                    _colorPickerCell = {
+                        cell: cell,
+                        style: mxConstants.STYLE_STROKECOLOR
+                    };
+
+                    $("#input-color-picker").ColorPicker().ColorPickerSetColor(style[mxConstants.STYLE_STROKECOLOR]);
+
+                    $("#dlg-color-picker").dialog("open");
                     // Resets the fillcolor and the overlay
-                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, r, [cell]);
+                    // graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, r, [cell]);
 
                 });
                 menu.addItem("大小", mxBasePath + "images/editors/plain.gif", function () {

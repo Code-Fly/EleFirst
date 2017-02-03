@@ -113,6 +113,7 @@
     </div>
     <input id="hid-selected-node-info" type="hidden" value="{}">
     <input id="hid-config" type="hidden" value="{}">
+    <input id="hid-color" type="hidden" value="">
 </div>
 <div id="dlg-bound-pn" class="easyui-dialog" title="数据绑定"
      data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
@@ -153,6 +154,12 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="dlg-color-picker" class="easyui-dialog" title="选择颜色"
+     data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
+     style="width:380px;height:240px;" align="center">
+    <p id="input-color-picker"></p>
 </div>
 </body>
 </html>

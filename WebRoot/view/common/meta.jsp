@@ -49,11 +49,15 @@
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DashboardUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/ChartUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DateBoxUtils.js"></script>
-<!-- 注释原因:经过测试发现引入下面 两个js datagrid 不显示也不报错-->
-<script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script> 
-<script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.validate.define.js"></script> 
 
+
+<script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.validate.define.js"></script>
+
+<%-- color picker--%>
+<link rel="stylesheet" href="${ctx}Content/js/jquery-plugin/color-picker/css/colorpicker.css" type="text/css"/>
+<script type="text/javascript" src="${ctx}Content/js/jquery-plugin/color-picker/js/colorpicker.js"></script>
 
 <!-- 提示对话框 -->
 <script type="text/javascript" src="${ctx}Content/js/jquery-notify/jNotify.jquery.js"></script>
