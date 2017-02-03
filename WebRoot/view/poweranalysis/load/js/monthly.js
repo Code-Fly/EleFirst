@@ -247,9 +247,10 @@ $(document).ready(function () {
                 tmp.minTotalActivePower = min;
                 tmp.minTotalActivePowerTime = data[i].clientoperationtime;
             }
-            var avg = parseFloat(data[i].avgTotalActivePower) * data[i].pt * data[i].ct;
-
-            tmp.avgTotalActivePower += avg;
+            if (data[i].avgTotalActivePower != null) {
+                var avg = parseFloat(data[i].avgTotalActivePower) * data[i].pt * data[i].ct;
+                tmp.avgTotalActivePower += avg;
+            }
         }
         tmp.avgTotalActivePower = tmp.avgTotalActivePower / data.length;
         tmp.avgTotalActivePower = Math.floor(tmp.avgTotalActivePower * 100) / 100;

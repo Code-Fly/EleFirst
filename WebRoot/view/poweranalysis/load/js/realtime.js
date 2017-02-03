@@ -123,10 +123,13 @@ $(document).ready(function () {
                 tmp.minTotalActivePowerTime = data[i].clientoperationtime;
                 tmp.minTotalActivePowerHour = data[i].hourClientOperationTime;
             }
-            var avg = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
+            if (data[i].maxTotalActivePower != null) {
+                var avg = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
 
-            tmp.avgTotalActivePower += avg;
+                tmp.avgTotalActivePower += avg;
+            }
         }
+
         tmp.avgTotalActivePower = tmp.avgTotalActivePower / data.length;
         tmp.avgTotalActivePower = Math.floor(tmp.avgTotalActivePower * 100) / 100;
 

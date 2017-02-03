@@ -419,9 +419,6 @@
         *
         FROM
         `t_003_type_one_data_fn25`
-        ORDER BY
-        `clientOperationTime` DESC
-        ) t
         WHERE
         <if test="node.size() >0">
             (
@@ -447,8 +444,9 @@
             </foreach>
             )
         </if>
-
-
+        ORDER BY
+        `clientOperationTime` DESC
+        ) t
         GROUP BY
         `area_id` ,
         `concentrator_id` ,
@@ -480,9 +478,6 @@
         *
         FROM
         `t_003_type_one_data_fn25`
-        ORDER BY
-        `clientOperationTime` DESC
-        ) t
         WHERE
         <if test="node.size() >0">
             (
@@ -508,8 +503,9 @@
             </foreach>
             )
         </if>
-
-
+        ORDER BY
+        `clientOperationTime` DESC
+        ) t
         GROUP BY
         TO_DAYS(`clientOperationTime`) ,
         HOUR(`clientOperationTime`)
