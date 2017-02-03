@@ -196,8 +196,6 @@
                                    style="width:250px"/>
                 <a id="btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'">查询</a>
-                <span>谐波次数: </span>&nbsp;&nbsp;<input id="cc2" name="总" value="总">&nbsp;&nbsp;<span>类别: </span>&nbsp;&nbsp;<input
-                    id="cc3" name="总" value="总">
             </div>
         </div>
         <div data-options="region:'center',border:false" style="overflow: hidden;">
@@ -402,13 +400,17 @@
                           <span>谐波次数: </span>&nbsp;&nbsp;<input id="cc2">&nbsp;&nbsp;<span>类别: </span>&nbsp;&nbsp;<input id="cc3">
                       </div>
                       -->
-                        <div id="chart-power-factor-detail" data-options="region:'north',border:false"
+                        <div id="chart-harmonic-detail" data-options="region:'north',border:false"
                              style="height:50%;text-align: center;">
-                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
+                            <span style="font-size: medium;line-height: 200px;">请载入数据</span>
                         </div>
                         <div data-options="region:'south',border:false" style="height:50%;">
-                            <table id="dtt3" class="easyui-datagrid" data-options="border:false" fit="true"
-                                   title="谐波电压含有率(%)">
+                            <div id="dtt3-tools" style="border-left: none;border-top: none;border-right: none;">
+                                <input class="easyui-combobox" label="谐波次数:">
+                                <input class="easyui-combobox" label="数据类别:">
+                            </div>
+                            <table id="dtt3" class="easyui-datagrid" data-options="border:false,toolbar:'#dtt3-tools'"
+                                   fit="true">
                                 <thead>
                                 <tr>
                                     <th rowspan="2" field="clientoperationtime33" width="120" align="center">谐波次数</th>
@@ -417,11 +419,11 @@
                                     <th colspan="2">W相</th>
                                 </tr>
                                 <tr>
-                                    <th field="totalpositiveactivepower" width="80" align="center">最大值/th>
+                                    <th field="totalpositiveactivepower" width="80" align="center">最大值</th>
                                     <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
-                                    <th field="totalpositiveactivepower" width="80" align="center">最大值/th>
+                                    <th field="totalpositiveactivepower" width="80" align="center">最大值</th>
                                     <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
-                                    <th field="totalpositiveactivepower" width="80" align="center">最大值/th>
+                                    <th field="totalpositiveactivepower" width="80" align="center">最大值</th>
                                     <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
                                 </tr>
                                 </thead>
