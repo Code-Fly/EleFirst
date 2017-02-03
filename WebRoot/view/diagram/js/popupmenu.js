@@ -172,8 +172,8 @@ $(document).ready(function () {
                     var style = graph.getCellStyle(cell);
                     _colorPickerCell = {
                         cell: cell,
-                        style: mxConstants.STYLE_FONTCOLOR,
-                        value: style[mxConstants.STYLE_FONTCOLOR]
+                        style: mxConstants.STYLE_STROKECOLOR,
+                        value: style[mxConstants.STYLE_STROKECOLOR]
                     };
 
                     $("#dlg-color-picker").dialog("open");
