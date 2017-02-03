@@ -46,7 +46,7 @@
     </div>
 </div>
 <div data-options="region:'center',border:false" align="center">
-    <div id="chart-load" class="easyui-panel" data-options="border:true"
+    <div id="chart-load-sum" class="easyui-panel" data-options="border:true"
          style="margin-bottom: 10px;height: 400px;width: 95%;text-align: center;overflow: hidden;">
         <span style="font-size: medium;line-height: 400px;">请载入数据</span>
     </div>
