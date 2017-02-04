@@ -271,16 +271,16 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 	private void setPowerFactorDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
 		WeeklyPowerFactor weeklyPowerFactor = weeklyPowerServiceImpl.fetchSingleWeeklyPowerFactor(date, areaId, concentratorId, pn);
-		paramMap.put("maxAPowerFactor", weeklyPowerFactor.getAmaxpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("maxBPowerFactor", weeklyPowerFactor.getBmaxpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("maxCPowerFactor", weeklyPowerFactor.getCmaxpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("maxTotalPowerFactor", weeklyPowerFactor.getMaxtotalpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
+		paramMap.put("maxAPowerFactor", weeklyPowerFactor.getAmaxpowerfactor()+"(%)");
+		paramMap.put("maxBPowerFactor", weeklyPowerFactor.getBmaxpowerfactor()+"(%)");
+		paramMap.put("maxCPowerFactor", weeklyPowerFactor.getCmaxpowerfactor()+"(%)");
+		paramMap.put("maxTotalPowerFactor", weeklyPowerFactor.getMaxtotalpowerfactor()+"(%)");
 		
 		
-		paramMap.put("minAPowerFactor", weeklyPowerFactor.getAminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("minBPowerFactor", weeklyPowerFactor.getBminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("minCPowerFactor", weeklyPowerFactor.getCminpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
-		paramMap.put("minTotalPowerFactor", weeklyPowerFactor.getMintotalpowerfactor()+"(%)"+"(" + weeklyPowerFactor.getWeekstart() +")");
+		paramMap.put("minAPowerFactor", weeklyPowerFactor.getAminpowerfactor()+"(%)");
+		paramMap.put("minBPowerFactor", weeklyPowerFactor.getBminpowerfactor()+"(%)");
+		paramMap.put("minCPowerFactor", weeklyPowerFactor.getCminpowerfactor()+"(%)");
+		paramMap.put("minTotalPowerFactor", weeklyPowerFactor.getMintotalpowerfactor()+"(%)");
 		paramMap.put("type", "powerfactor");
 	}
 	
@@ -288,12 +288,12 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			String pn, Map<String, String> paramMap,String date) throws Exception {
 		WeeklyCurrent weeklyCurrent = weeklyPowerServiceImpl.fetchSingleWeeklyCurrent(date, areaId, concentratorId, pn);
 		
-		paramMap.put("maxACurrent", weeklyCurrent.getMaxacurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
-		paramMap.put("maxBCurrent", weeklyCurrent.getMaxbcurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
-		paramMap.put("maxCCurrent", weeklyCurrent.getMaxccurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
-		paramMap.put("minACurrent", weeklyCurrent.getMinacurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
-		paramMap.put("minBCurrent", weeklyCurrent.getMinbcurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
-		paramMap.put("minCCurrent", weeklyCurrent.getMinccurrent()+"(A)"+"(" + weeklyCurrent.getWeekstart() +")");
+		paramMap.put("maxACurrent", weeklyCurrent.getMaxacurrent()+"(A)");
+		paramMap.put("maxBCurrent", weeklyCurrent.getMaxbcurrent()+"(A)");
+		paramMap.put("maxCCurrent", weeklyCurrent.getMaxccurrent()+"(A)");
+		paramMap.put("minACurrent", weeklyCurrent.getMinacurrent()+"(A)");
+		paramMap.put("minBCurrent", weeklyCurrent.getMinbcurrent()+"(A)");
+		paramMap.put("minCCurrent", weeklyCurrent.getMinccurrent()+"(A)");
 		
 		paramMap.put("type", "current");
 	}
@@ -302,12 +302,12 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			String pn, Map<String, String> paramMap,String date) throws Exception {
 		WeeklyVoltage weeklyVoltage = weeklyPowerServiceImpl.fetchSingleVoltage(date, areaId, concentratorId, pn);
 		
-		paramMap.put("maxAVoltage", weeklyVoltage.getMaxavoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");
-		paramMap.put("maxBVoltage", weeklyVoltage.getMaxbvoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");
-		paramMap.put("maxCVoltage", weeklyVoltage.getMaxcvoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");
-		paramMap.put("minAVoltage", weeklyVoltage.getMinavoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");
-		paramMap.put("minBVoltage", weeklyVoltage.getMinbvoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");
-		paramMap.put("minCVoltage", weeklyVoltage.getMincvoltage()+"(V)"+"(" + weeklyVoltage.getWeekstart() +")");
+		paramMap.put("maxAVoltage", weeklyVoltage.getMaxavoltage()+"(V)");
+		paramMap.put("maxBVoltage", weeklyVoltage.getMaxbvoltage()+"(V)");
+		paramMap.put("maxCVoltage", weeklyVoltage.getMaxcvoltage()+"(V)");
+		paramMap.put("minAVoltage", weeklyVoltage.getMinavoltage()+"(V)");
+		paramMap.put("minBVoltage", weeklyVoltage.getMinbvoltage()+"(V)");
+		paramMap.put("minCVoltage", weeklyVoltage.getMincvoltage()+"(V)");
 		
 		paramMap.put("type", "voltage");
 	}

@@ -1,6 +1,9 @@
 package com.elefirst.powerdetail.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.elefirst.powerdetail.mapper.MonthlyCurrentMapper;
@@ -11,7 +14,6 @@ import com.elefirst.powerdetail.mapper.MonthlyVoltageMapper;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyCurrentExample;
 import com.elefirst.powerdetail.po.MonthlyDemand;
-import com.elefirst.powerdetail.po.MonthlyDemandExample;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyLoadExample;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
@@ -189,25 +191,36 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	}
 	
 	@Override
-	public List<MonthlyDemand> fetchAllDailyDemand(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception {
-		MonthlyDemandExample condition = new MonthlyDemandExample();
-		MonthlyDemandExample.Criteria criteria = condition.createCriteria();
+	public List<MonthlyDemand> fetchAllDailyDemand(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		
 		if(date != null && date.length() > 0){
 			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
-			criteria.andDaysEqualTo(vdate);
+			params.put("date", vdate);
 		}
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
-		//排序后只取第一条记录返回
-		condition.setOrderByClause("days DESC");
-		//是否分页
-		if(true == isPagination){
-			if (rows > 0 && page > 0) {
-				condition.setLimitStart((page - 1) * rows);
-				condition.setLimitEnd(rows);
-			}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
 		}
-		List<MonthlyDemand> monthlyDemands = monthlyDemandMapper.selectByExample(condition);
+		List<MonthlyDemand> monthlyDemands = monthlyDemandMapper.selectByExample(params);
 		return monthlyDemands;
 	}
+
+	@Override
+	public int fetchAllDailyDemandCount(String date, String areaId, List<String> ctrIds)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			params.put("date", vdate);
+		}
+		int count = monthlyDemandMapper.countByExample(params);
+		return count;
+	}
+	
 }

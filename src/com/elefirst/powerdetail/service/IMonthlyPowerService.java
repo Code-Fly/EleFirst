@@ -79,5 +79,18 @@ public interface IMonthlyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<MonthlyDemand> fetchAllDailyDemand(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<MonthlyDemand> fetchAllDailyDemand(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	
+	/**
+	 *  查询按月统计需量相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllDailyDemandCount(String date,String areaId,List<String> ctrIds) throws Exception;
 }
