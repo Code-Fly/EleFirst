@@ -138,7 +138,7 @@
             <div id="tool-harmonicTimes" style="">
                 <input id="cc1" class="easyui-combobox" label="谐波次数:" style="width: 150px;">
             </div>
-            <table id="tt3" class="easyui-datagrid" fit="true"
+            <table id="tt6" class="easyui-datagrid" fit="true"
                    data-options="border:false,toolbar:'#tool-harmonicTimes'">
                 <thead>
                 <tr>
@@ -406,8 +406,8 @@
                         </div>
                         <div data-options="region:'south',border:false" style="height:50%;">
                             <div id="dtt3-tools" style="border-left: none;border-top: none;border-right: none;">
-                                <input class="easyui-combobox" label="谐波次数:">
-                                <input class="easyui-combobox" label="数据类别:">
+                                <input class="easyui-combobox" label="谐波次数:" style="width: 150px;">
+                                <input class="easyui-combobox" label="数据类别:" style="width: 150px;">
                             </div>
                             <table id="dtt3" class="easyui-datagrid" data-options="border:false,toolbar:'#dtt3-tools'"
                                    fit="true">

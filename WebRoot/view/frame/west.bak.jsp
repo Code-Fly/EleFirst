@@ -37,22 +37,22 @@
     </div>
     <div title="用电分析" data-options="ionCls:'icon-save'">
         <ul>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('负荷分析','view/poweranalysis/load/main.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">负荷分析</a></li>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('电量分析','view/poweranalysis/electricity/main.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">电量分析</a></li>
+            <%--<li><a class="easyui-linkbutton"--%>
+            <%--data-options="iconCls:'icon-table'"--%>
+            <%--onclick="addTab('负荷分析','view/poweranalysis/load/main.jsp','icon-table')"--%>
+            <%--plain="true" href="javascript:void(0)">负荷分析</a></li>--%>
+            <%--<li><a class="easyui-linkbutton"--%>
+            <%--data-options="iconCls:'icon-table'"--%>
+            <%--onclick="addTab('电量分析','view/poweranalysis/electricity/main.jsp','icon-table')"--%>
+            <%--plain="true" href="javascript:void(0)">电量分析</a></li>--%>
             <%--<li><a class="easyui-linkbutton"--%>
             <%--data-options="iconCls:'icon-table'"--%>
             <%--onclick="addTab('电量构成分析','view/dme/workflowManager/workflowstrategymanager.jsp','icon-table')"--%>
             <%--plain="true" href="javascript:void(0)">电量构成分析</a></li>--%>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-table'"
-                   onclick="addTab('分时电量分析','view/poweranalysis/electricityByTime/main.jsp','icon-table')"
-                   plain="true" href="javascript:void(0)">分时电量分析</a></li>
+            <%--<li><a class="easyui-linkbutton"--%>
+            <%--data-options="iconCls:'icon-table'"--%>
+            <%--onclick="addTab('分时电量分析','view/poweranalysis/electricityByTime/main.jsp','icon-table')"--%>
+            <%--plain="true" href="javascript:void(0)">分时电量分析</a></li>--%>
             <%--<li><a class="easyui-linkbutton"--%>
             <%--data-options="iconCls:'icon-table'"--%>
             <%--onclick="addTab('报装方式分析','view/dme/workflowManager/workflowtable.jsp','icon-table')"--%>
@@ -171,14 +171,14 @@
     <%--plain="true" href="javascript:void(0)">电压日监测报表</a></li>--%>
     <%--</ul>--%>
     <%--</div>--%>
-    <div title="配用接线图" data-options="ionCls:'icon-save'">
-        <ul id="nav-graph">
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-chart_organisation'"
-                   onclick="addTab('配用接线图','view/diagram/main.jsp','icon-chart_organisation')"
-                   plain="true" href="javascript:void(0)">配用接线图</a></li>
-        </ul>
-    </div>
+    <%--<div title="配用接线图" data-options="ionCls:'icon-save'">--%>
+    <%--<ul id="nav-graph">--%>
+    <%--<li><a class="easyui-linkbutton"--%>
+    <%--data-options="iconCls:'icon-chart_organisation'"--%>
+    <%--onclick="addTab('配用接线图','view/diagram/main.jsp','icon-chart_organisation')"--%>
+    <%--plain="true" href="javascript:void(0)">配用接线图</a></li>--%>
+    <%--</ul>--%>
+    <%--</div>--%>
     <div title="系统管理" data-options="ionCls:'icon-save'">
         <ul id="nav-sys">
             <%--<li><a class="easyui-linkbutton"--%>
@@ -189,10 +189,10 @@
             <%--data-options="iconCls:'icon-users'"--%>
             <%--onclick="addTab('角色管理','view/system/userinfo/rolemanager.jsp','icon-users')"--%>
             <%--plain="true" href="javascript:void(0)">角色管理</a></li>--%>
-            <li><a class="easyui-linkbutton"
-                   data-options="iconCls:'icon-calculator'"
-                   onclick="addTab('表计档案管理','view/system/deviceinfo/main.jsp','icon-calculator')"
-                   plain="true" href="javascript:void(0)">表计档案管理</a></li>
+            <%--<li><a class="easyui-linkbutton"--%>
+            <%--data-options="iconCls:'icon-calculator'"--%>
+            <%--onclick="addTab('表计档案管理','view/system/deviceinfo/main.jsp','icon-calculator')"--%>
+            <%--plain="true" href="javascript:void(0)">表计档案管理</a></li>--%>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-building'"
                    onclick="addTab('企业档案管理','view/system/userinfo/rolemanager.jsp','icon-building')"
