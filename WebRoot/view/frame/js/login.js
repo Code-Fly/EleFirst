@@ -2,6 +2,11 @@
  * Created by barrie on 17/1/22.
  */
 $(document).ready(function () {
+    if (!isTopWindow()) {
+        var topWindow = getTopWinow();
+        topWindow.location.href = _ctx;
+    }
+
     var error = GetQueryString("error");
     if (error == "1") {
         $.messager.alert("信息提示", "用户名或密码错误！", "warning");
@@ -62,5 +67,25 @@ $(document).ready(function () {
         }
 
     });
+
+    function isTopWindow() {
+        var p = window;
+        if (p != p.parent) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 在页面中任何嵌套层次的窗口中获取顶层窗口
+     * @return 当前页面的顶层窗口对象
+     */
+    function getTopWinow() {
+        var p = window;
+        while (p != p.parent) {
+            p = p.parent;
+        }
+        return p;
+    }
 
 });
