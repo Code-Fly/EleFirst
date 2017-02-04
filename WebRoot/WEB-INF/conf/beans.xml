@@ -83,4 +83,6 @@
     </aop:config>
 
     <aop:aspectj-autoproxy/>
+
+    <import resource="spring-security.xml"/>
 </beans>
