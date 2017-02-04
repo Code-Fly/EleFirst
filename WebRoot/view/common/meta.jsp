@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="-1">
@@ -15,6 +16,9 @@
 <meta name="format-detection" content="telephone=no"/>
 <SCRIPT type="text/javascript">
     var _ctx = "${ctx}";
+    var _csrfHeaderName = "${_csrf.headerName}"
+    var _csrfParameterName = "${_csrf.parameterName}";
+    var _csrToken = "${_csrf.token}";
 </SCRIPT>
 
 <link href="${ctx}Content/css/base.css" rel="stylesheet" type="text/css"/>
@@ -74,5 +78,28 @@
     // `utf8decode` - utf8 decoding only (default: `false`)
     // `raw` - both (default: `true`)
     $.base64.utf8encode = true;
+
+    var headers = {};
+    //防伪标记放入headers
+    //也可以将防伪标记放入data
+    headers[_csrfHeaderName] = _csrToken;
+    $.ajaxSetup({
+        statusCode: {
+            403: function () {
+                top.location.href = _ctx;
+            },
+
+        },
+        headers: headers,
+//        beforeSend: function (xhr) {
+//            xhr.setRequestHeader(_csrfHeaderName, _csrToken);
+//        },
+    });
+
+    $(document).ajaxComplete(function (event, xhr, settings) {
+        if (xhr.getResponseHeader("sessionstatus") == "timeOut") {
+            top.location.href = _ctx
+        }
+    });
 
 </SCRIPT>
