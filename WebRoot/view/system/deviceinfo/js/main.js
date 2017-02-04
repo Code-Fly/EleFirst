@@ -672,7 +672,7 @@ $(document).ready(function () {
                                 getConcentratorInfo();
                                 $("#dg-concentrator-detail").datagrid("reload");
                                 $("#dlg-add-concentrator-node").dialog("close");
-                                $.messager.alert("操作提示", "添加成功。", "info");
+                                $.messager.alert("操作提示", "添加成功，请在树形目录中选择并添加该馈线柜。", "info");
                             } else {
                                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                             }

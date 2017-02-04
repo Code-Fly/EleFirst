@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="view/common/config.jsp" %>
 <html>
 <head>
@@ -40,28 +41,31 @@
 <div class="loginbody">
     <span class="systemlogo"></span>
     <div class="loginbox">
-        <form id="f1" action="${ctx}login/login.do" method="post">
-        <ul>
-            <li>
-                <input id="userName" class="easyui-textbox" style="width:343px;height:40px;padding:12px"
-                       data-options="prompt:'用户名',iconCls:'icon-man',iconWidth:38">
-            </li>
-            <li>
-                <%--<input id="password" class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"--%>
-                <%--data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">--%>
-                <input id="password" class="easyui-passwordbox" prompt="密码" iconWidth="38"
-                       style="width:343px;height:40px;padding:12px">
+        <%--<form id="f1" action="${ctx}user/login.do" method="post">--%>
+        <form id="form-login" action="<c:url value="/login"/>" method="post">
+            <ul>
+                <li>
+                    <input id="userName" name="username" class="easyui-textbox"
+                           style="width:343px;height:40px;padding:12px"
+                           data-options="prompt:'用户名',iconCls:'icon-man',iconWidth:38">
+                </li>
+                <li>
+                    <%--<input id="password" class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"--%>
+                    <%--data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">--%>
+                    <input id="password" name="password" class="easyui-passwordbox" prompt="密码" iconWidth="38"
+                           style="width:343px;height:40px;padding:12px" onkeydown=KeyDown()>
 
-            </li>
-            <li>
-                <input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
-                <%--<label>--%>
-                <%--<input name="" type="checkbox" value="" checked="checked"/>记住密码</label>--%>
-                <%--<label>--%>
-                <%--<a href="#">忘记密码？</a>--%>
-                <%--</label>--%>
-            </li>
-        </ul>
+                </li>
+                <li>
+                    <input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
+                    <%--<label>--%>
+                    <%--<input name="" type="checkbox" value="" checked="checked"/>记住密码</label>--%>
+                    <%--<label>--%>
+                    <%--<a href="#">忘记密码？</a>--%>
+                    <%--</label>--%>
+                </li>
+            </ul>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         </form>
     </div>
 </div>

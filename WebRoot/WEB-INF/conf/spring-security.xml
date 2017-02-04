@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:http pattern="/Content/**" security="none"/>
+    <security:http pattern="/view/frame/js/cloud.js" security="none"/>
+    <security:http pattern="/view/frame/js/login.js" security="none"/>
+
+
+    <security:http use-expressions="false">
+        <!-- 启用 csrf后login 和logout必须使用post提交，并带上token -->
+        <security:csrf disabled="false"/>
+        <security:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <security:intercept-url pattern="/**" access="ROLE_USER"/>
+
+        <security:form-login login-page="/"
+                             login-processing-url="/login"
+                             authentication-failure-url="/?error=1"
+                             username-parameter="username"
+                             password-parameter="password"
+                             default-target-url="/user/login.do"
+                             always-use-default-target="true"/>
+        <security:logout logout-url="/logout"
+                         logout-success-url="/"
+                         invalidate-session="true"/>
+        <security:headers defaults-disabled="true">
+            <security:frame-options disabled="true"/>
+        </security:headers>
+
+        <security:session-management session-authentication-error-url="/?error=2">
+            <!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后踢出前一个账号，expired-url session过期跳转界面 -->
+            <security:concurrency-control max-sessions="1"
+                                          error-if-maximum-exceeded="false"
+                                          expired-url="/?error=2"
+                                          session-registry-ref="sessionRegistry"/>
+        </security:session-management>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="user" password="user" authorities="ROLE_USER"/>
+                <security:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
+
+</beans>
