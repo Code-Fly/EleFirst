@@ -276,8 +276,8 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 			}
 			String areaId = area.getAreaId();
 			
-			List<MonthlyDemand> dailyDemands = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum,true);
-			int total = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum,false).size();
+			List<MonthlyDemand> dailyDemands = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum);
+			int total = monthlyPowerServiceImpl.fetchAllDailyDemandCount(date, areaId, ctrIds);
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日需量统计数据成功！");
 			dg.setRows(dailyDemands);
@@ -320,16 +320,16 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 	private void setPowerFactorDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap,String date) throws Exception {
 		MonthlyPowerFactor monthlyPowerFactor = monthlyPowerServiceImpl.fetchSingleMonthlyPowerFactor(date, areaId, concentratorId, pn);
-		paramMap.put("maxAPowerFactor", monthlyPowerFactor.getAmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("maxBPowerFactor", monthlyPowerFactor.getBmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("maxCPowerFactor", monthlyPowerFactor.getCmaxpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("maxTotalPowerFactor", monthlyPowerFactor.getMaxtotalpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
+		paramMap.put("maxAPowerFactor", monthlyPowerFactor.getAmaxpowerfactor()+"(%)");
+		paramMap.put("maxBPowerFactor", monthlyPowerFactor.getBmaxpowerfactor()+"(%)");
+		paramMap.put("maxCPowerFactor", monthlyPowerFactor.getCmaxpowerfactor()+"(%)");
+		paramMap.put("maxTotalPowerFactor", monthlyPowerFactor.getMaxtotalpowerfactor()+"(%)");
 		
 		
-		paramMap.put("minAPowerFactor", monthlyPowerFactor.getAminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minBPowerFactor", monthlyPowerFactor.getBminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minCPowerFactor", monthlyPowerFactor.getCminpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minTotalPowerFactor", monthlyPowerFactor.getMintotalpowerfactor()+"(%)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyPowerFactor.getDays(), "yyyyMM", "yyyy-MM") +")");
+		paramMap.put("minAPowerFactor", monthlyPowerFactor.getAminpowerfactor()+"(%)");
+		paramMap.put("minBPowerFactor", monthlyPowerFactor.getBminpowerfactor()+"(%)");
+		paramMap.put("minCPowerFactor", monthlyPowerFactor.getCminpowerfactor()+"(%)");
+		paramMap.put("minTotalPowerFactor", monthlyPowerFactor.getMintotalpowerfactor()+"(%)");
 		paramMap.put("type", "powerfactor");
 	}
 	
@@ -337,12 +337,12 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 			String pn, Map<String, String> paramMap,String date) throws Exception {
 		MonthlyCurrent monthlyCurrent = monthlyPowerServiceImpl.fetchSingleMonthlyCurrent(date, areaId, concentratorId, pn);
 		
-		paramMap.put("maxACurrent", monthlyCurrent.getMaxacurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyCurrent.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("maxBCurrent", monthlyCurrent.getMaxbcurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyCurrent.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("maxCCurrent", monthlyCurrent.getMaxccurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyCurrent.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minACurrent", monthlyCurrent.getMinacurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyCurrent.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minBCurrent", monthlyCurrent.getMinbcurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyCurrent.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minCCurrent", monthlyCurrent.getMinccurrent()+"(A)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyCurrent.getDays(), "yyyyMM", "yyyy-MM") +")");
+		paramMap.put("maxACurrent", monthlyCurrent.getMaxacurrent()+"(A)");
+		paramMap.put("maxBCurrent", monthlyCurrent.getMaxbcurrent()+"(A)");
+		paramMap.put("maxCCurrent", monthlyCurrent.getMaxccurrent()+"(A)");
+		paramMap.put("minACurrent", monthlyCurrent.getMinacurrent()+"(A)");
+		paramMap.put("minBCurrent", monthlyCurrent.getMinbcurrent()+"(A)");
+		paramMap.put("minCCurrent", monthlyCurrent.getMinccurrent()+"(A)");
 		
 		paramMap.put("type", "current");
 	}
@@ -351,12 +351,12 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 			String pn, Map<String, String> paramMap,String date) throws Exception {
 		MonthlyVoltage monthlyVoltage = monthlyPowerServiceImpl.fetchSingleVoltage(date, areaId, concentratorId, pn);
 		
-		paramMap.put("maxAVoltage", monthlyVoltage.getMaxavoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyVoltage.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("maxBVoltage", monthlyVoltage.getMaxbvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyVoltage.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("maxCVoltage", monthlyVoltage.getMaxcvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyVoltage.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minAVoltage", monthlyVoltage.getMinavoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyVoltage.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minBVoltage", monthlyVoltage.getMinbvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyVoltage.getDays(), "yyyyMM", "yyyy-MM") +")");
-		paramMap.put("minCVoltage", monthlyVoltage.getMincvoltage()+"(V)"+"(" + com.elefirst.base.utils.DateUtil.StringPattern(monthlyVoltage.getDays(), "yyyyMM", "yyyy-MM") +")");
+		paramMap.put("maxAVoltage", monthlyVoltage.getMaxavoltage()+"(V)");
+		paramMap.put("maxBVoltage", monthlyVoltage.getMaxbvoltage()+"(V)");
+		paramMap.put("maxCVoltage", monthlyVoltage.getMaxcvoltage()+"(V)");
+		paramMap.put("minAVoltage", monthlyVoltage.getMinavoltage()+"(V)");
+		paramMap.put("minBVoltage", monthlyVoltage.getMinbvoltage()+"(V)");
+		paramMap.put("minCVoltage", monthlyVoltage.getMincvoltage()+"(V)");
 		
 		paramMap.put("type", "voltage");
 	}

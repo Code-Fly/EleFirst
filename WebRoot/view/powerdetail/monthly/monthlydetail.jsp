@@ -10,6 +10,11 @@
                 return value.substring(0, 4) + '-' + value.substring(4, 6);
             }
         }
+        function dateformatter4demand(value, row, index) {
+            if (value != null) {
+                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8) + " "+ value.substring(8, 10) + ":" +  value.substring(10, 12)+ ":" +value.substring(12, 14);
+            }
+        }
         require(["js/monthlydetail.js"]);
     </script>
 </head>
@@ -127,8 +132,8 @@
                     <th colspan="2">平均功率因数(%)</th>
                 </tr>
                 <tr>
-                    <th field="powerFactorStandard" width="80" align="center">标准</th>
-                    <th field="avgtotalpowerfactor" width="80" align="center">功率因素</th>
+                    <th field="powerFactorStandard" width="120" align="center">标准</th>
+                    <th field="avgtotalpowerfactor" width="120" align="center">功率因素</th>
                 </tr>
                 </thead>
             </table>
@@ -145,8 +150,8 @@
                     <th colspan="2">最大需量</th>
                 </tr>
                 <tr>
-                    <th field="maxtotalpositivemaxactivepower" width="80" align="center">最大需量</th>
-                    <th field="totalpositivemaxactivepowertime" width="80" align="center" formatter="dateformatter">发生时间</th>
+                    <th field="maxtotalpositivemaxactivepower" width="120" align="center">最大需量</th>
+                    <th field="totalpositivemaxactivepowertime" width="150" align="center" formatter="dateformatter4demand">发生时间</th>
                 </tr>
                 </thead>
             </table>

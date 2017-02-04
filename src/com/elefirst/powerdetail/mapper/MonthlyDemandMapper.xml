@@ -6,198 +6,44 @@
     <result column="area_id" property="areaId" jdbcType="VARCHAR" />
     <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
     <result column="pn" property="pn" jdbcType="VARCHAR" />
-    <result column="maxTotalPositiveMaxActivePower" property="maxtotalpositivemaxactivepower" jdbcType="DOUBLE" />
+    <result column="totalPositiveMaxActivePower" property="maxtotalpositivemaxactivepower" jdbcType="DOUBLE" />
     <result column="totalPositiveMaxActivePowerTime" property="totalpositivemaxactivepowertime" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    days, area_id, concentrator_id, pn, maxTotalPositiveMaxActivePower, totalPositiveMaxActivePowerTime, 
-    name
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elefirst.powerdetail.po.MonthlyDemandExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_view_monthlydemand
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-    <if test="limitStart != null and limitStart >=0" >
+  <select id="selectByExample" resultMap="BaseResultMap">
+	select DISTINCT days,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name` from t_016_type_one_data_fn145 a ,(select date_format(clientOperationTime,'%Y%m') AS days, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  days,area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_format(a.clientOperationTime,'%Y%m') = days and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn    
+    <if test="areaId!= null and areaId!= ''">
+		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and a.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	<if test="date!= null and date!= ''">
+		  and days = #{date ,jdbcType=VARCHAR} 
+	</if>
+	order by days desc
+	<if test="limitStart != null and limitStart >=0" >
       limit ${limitStart} , ${limitEnd}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.elefirst.powerdetail.po.MonthlyDemandExample" >
-    delete from t_view_monthlydemand
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.elefirst.powerdetail.po.MonthlyDemand" >
-    insert into t_view_monthlydemand (days, area_id, concentrator_id, 
-      pn, maxTotalPositiveMaxActivePower, totalPositiveMaxActivePowerTime, 
-      name)
-    values (#{days,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{concentratorId,jdbcType=VARCHAR}, 
-      #{pn,jdbcType=VARCHAR}, #{maxtotalpositivemaxactivepower,jdbcType=DOUBLE}, #{totalpositivemaxactivepowertime,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.elefirst.powerdetail.po.MonthlyDemand" >
-    insert into t_view_monthlydemand
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="days != null" >
-        days,
-      </if>
-      <if test="areaId != null" >
-        area_id,
-      </if>
-      <if test="concentratorId != null" >
-        concentrator_id,
-      </if>
-      <if test="pn != null" >
-        pn,
-      </if>
-      <if test="maxtotalpositivemaxactivepower != null" >
-        maxTotalPositiveMaxActivePower,
-      </if>
-      <if test="totalpositivemaxactivepowertime != null" >
-        totalPositiveMaxActivePowerTime,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="days != null" >
-        #{days,jdbcType=VARCHAR},
-      </if>
-      <if test="areaId != null" >
-        #{areaId,jdbcType=VARCHAR},
-      </if>
-      <if test="concentratorId != null" >
-        #{concentratorId,jdbcType=VARCHAR},
-      </if>
-      <if test="pn != null" >
-        #{pn,jdbcType=VARCHAR},
-      </if>
-      <if test="maxtotalpositivemaxactivepower != null" >
-        #{maxtotalpositivemaxactivepower,jdbcType=DOUBLE},
-      </if>
-      <if test="totalpositivemaxactivepowertime != null" >
-        #{totalpositivemaxactivepowertime,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.elefirst.powerdetail.po.MonthlyDemandExample" resultType="java.lang.Integer" >
-    select count(*) from t_view_monthlydemand
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+  <select id="countByExample" resultType="java.lang.Integer" >
+    select count(1) from (
+        select DISTINCT days,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name` from t_016_type_one_data_fn145 a ,(select date_format(clientOperationTime,'%Y%m') AS days, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  days,area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_format(a.clientOperationTime,'%Y%m') = days and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
+    ) ct where 1= 1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and ct.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	<if test="date!= null and date!= ''">
+		  and ct.days = #{date ,jdbcType=VARCHAR} 
+	</if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update t_view_monthlydemand
-    <set >
-      <if test="record.days != null" >
-        days = #{record.days,jdbcType=VARCHAR},
-      </if>
-      <if test="record.areaId != null" >
-        area_id = #{record.areaId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.concentratorId != null" >
-        concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.pn != null" >
-        pn = #{record.pn,jdbcType=VARCHAR},
-      </if>
-      <if test="record.maxtotalpositivemaxactivepower != null" >
-        maxTotalPositiveMaxActivePower = #{record.maxtotalpositivemaxactivepower,jdbcType=DOUBLE},
-      </if>
-      <if test="record.totalpositivemaxactivepowertime != null" >
-        totalPositiveMaxActivePowerTime = #{record.totalpositivemaxactivepowertime,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update t_view_monthlydemand
-    set days = #{record.days,jdbcType=VARCHAR},
-      area_id = #{record.areaId,jdbcType=VARCHAR},
-      concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
-      pn = #{record.pn,jdbcType=VARCHAR},
-      maxTotalPositiveMaxActivePower = #{record.maxtotalpositivemaxactivepower,jdbcType=DOUBLE},
-      totalPositiveMaxActivePowerTime = #{record.totalpositivemaxactivepowertime,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
 </mapper>
