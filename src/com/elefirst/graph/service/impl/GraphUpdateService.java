@@ -55,11 +55,6 @@ public class GraphUpdateService extends BaseService implements IGraphUpdateServi
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
-        if (template.getRows() > 0 && template.getPage() > 0) {
-            condition.setLimitStart((template.getPage() - 1) * template.getRows());
-            condition.setLimitEnd(template.getRows());
-        }
-
         condition.setOrderByClause("`clientOperationTime` DESC");
         return dataF25DAO.getDataF25ListCount(condition);
     }
