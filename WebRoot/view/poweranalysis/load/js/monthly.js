@@ -110,6 +110,9 @@ $(document).ready(function () {
                     var t = parseFloat(row.avgTotalActivePower) / parseFloat(row.maxTotalActivePower);
                     t = t * 100;
                     t = Math.floor(t * 100) / 100;
+                    if (parseFloat(row.maxTotalActivePower) == 0) {
+                        t = "";
+                    }
                     return t;
                 }
             }
@@ -267,16 +270,22 @@ $(document).ready(function () {
         $("#minTotalActivePowerTime").text(minTime);
 
         var differ = tmp.maxTotalActivePower - tmp.minTotalActivePower;
-        differ = Math.floor(differ * 100) / 100;
-        $("#differ").text(differ + "(kW)");
+        differ = Math.floor(differ * 100) / 100 + "(kW)";
+        $("#differ").text(differ);
 
         var differRate = ((tmp.maxTotalActivePower - tmp.minTotalActivePower) / tmp.maxTotalActivePower) * 100
-        differRate = Math.floor(differRate * 100) / 100;
-        $("#differRate").text(differRate + "(%)");
+        differRate = Math.floor(differRate * 100) / 100 + "(%)";
+        if (tmp.maxTotalActivePower == 0) {
+            differRate = "--";
+        }
+        $("#differRate").text(differRate);
 
         var loadRate = (tmp.avgTotalActivePower / tmp.maxTotalActivePower) * 100
-        loadRate = Math.floor(loadRate * 100) / 100;
-        $("#loadRate").text(loadRate + "(%)");
+        loadRate = Math.floor(loadRate * 100) / 100 + "(%)";
+        if (tmp.maxTotalActivePower == 0) {
+            loadRate = "--";
+        }
+        $("#loadRate").text(loadRate);
 
 
         return tmp;
