@@ -2,9 +2,7 @@ package com.elefirst.base.utils;
 
 import com.elefirst.base.entity.Page;
 import com.google.gson.Gson;
-
 import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.CellType;
@@ -17,7 +15,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/12/1.
  */
-public class ExportUtils {
+public class ExportUtil {
     public static List doImport(HSSFWorkbook wb, String sheetName, Class cls) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchFieldException {
         List list = new ArrayList<>();
         HSSFSheet sheet = wb.getSheet(sheetName);

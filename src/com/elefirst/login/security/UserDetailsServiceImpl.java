@@ -1,8 +1,7 @@
 package com.elefirst.login.security;
 
-import com.elefirst.login.po.UserInfo;
-import com.elefirst.login.service.iface.IUserInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.elefirst.base.utils.ConfigUtil;
+import com.elefirst.base.utils.Const;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,33 +14,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-    @Autowired
-    private IUserInfoService userInfoService;
-
     public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
 
-        List<UserInfo> users = userInfoService.getUserInfoDetailByUserName(loginName);
-        if (users.size() != 1) {
-            throw new UsernameNotFoundException(new MessageFormat("用户 {0} 不存在").format(new Object[]{loginName}));
-        }
-
-        UserInfo user = users.get(0);
+        String adminName = Const.SUPER_USER_NAME;
+        String adminPassword = ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_SUPER_USER_PASSWORD);
 
         Set<GrantedAuthority> grantedAuths = obtionGrantedAuthorities();
+        if (loginName.equals(adminName)) {
+            Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 
-        Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+            User userInfo = new User(adminName, encoder.encodePassword(adminPassword, adminName), grantedAuths);
 
-        User userInfo = new User(user.getUserName(), user.getPassword(), grantedAuths);
-
-        return userInfo;
+            return userInfo;
+        } else {
+            throw new UsernameNotFoundException(new MessageFormat("用户 {0} 不存在").format(new Object[]{loginName}));
+        }
     }
 
     //取得用户的权限

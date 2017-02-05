@@ -38,8 +38,8 @@ import java.util.Map;
 /**
  * Created by 123 on 2016/4/21.
  */
-public class HttpClientUtils {
-    private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+public class HttpClientUtil {
+    private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
 
     public static String get(String url, String charset) throws ConnectionFailedException {
         return doGet(url, null, charset);

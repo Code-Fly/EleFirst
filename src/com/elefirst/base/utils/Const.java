@@ -10,6 +10,15 @@ import java.io.File;
  * @author Barrie
  */
 public class Const {
+    public static final String SUPER_USER_NAME = "admin";
+
+    public static final String CONFIG_PATH_SETTING = "settings.properties";
+
+    public static final String CONFIG_KEY_SUPER_USER_PASSWORD = "system.password";
+
+    public static final String CONFIG_KEY_AREA_ID = "system.areaId";
+
+    public static final String CONFIG_KEY_AREA_NAME = "system.areaName";
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 
