@@ -232,15 +232,14 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,
-			String areaId, String ctrId, int rows, int page,String pn)
+			String areaId, List<String> ctrIds, int rows, int page,String pn)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorId", ctrId);
+ 		params.put("concentratorIds", ctrIds);
 		params.put("areaId", areaId);
 		params.put("pn", pn);
 		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
-			params.put("date", vdate);
+			params.put("date", date);
 		} 
 		if (rows > 0 && page > 0) {
 			params.put("limitStart", (page - 1) * rows);
@@ -252,14 +251,13 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public int fetchAllDailyDetailDemandCount(String date, String areaId,
-			String ctrId,String pn) throws Exception {
+			List<String> ctrIds,String pn) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrId);
+		params.put("concentratorIds", ctrIds);
 		params.put("areaId", areaId);
 		params.put("pn", pn);
 		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
-			params.put("date", vdate);
+			params.put("date", date);
 		}
 		int count = monthlyDemandDetailMapper.countByExample(params);
 		return count;

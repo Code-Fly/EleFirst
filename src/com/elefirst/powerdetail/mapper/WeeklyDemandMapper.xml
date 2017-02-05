@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.powerdetail.mapper.WeeklyDemandMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.WeeklyDemand" >
+    <result column="weekstart" property="weekstart" jdbcType="VARCHAR" />
+    <result column="weekend" property="weekend" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="totalPositiveMaxActivePower" property="maxtotalpositivemaxactivepower" jdbcType="DOUBLE" />
+    <result column="totalPositiveMaxActivePowerTime" property="totalpositivemaxactivepowertime" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByExample" resultMap="BaseResultMap">
+	select DISTINCT b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name` from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+    date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn        
+    <if test="areaId!= null and areaId!= ''">
+		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and a.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	<if test="date!= null and date!= ''">
+		  and #{date ,jdbcType=VARCHAR} &gt;= b.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= b.weekend
+	</if>
+	order by b.weekstart desc
+	<if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="countByExample" resultType="java.lang.Integer" >
+    select count(1) from (
+        	select DISTINCT b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name` from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
+    ) ct where 1= 1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and ct.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	<if test="date!= null and date!= ''">
+		  and #{date ,jdbcType=VARCHAR} &gt;= ct.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= ct.weekend
+	</if>
+  </select>
+</mapper>

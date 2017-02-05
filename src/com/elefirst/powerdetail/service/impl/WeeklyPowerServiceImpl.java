@@ -1,17 +1,25 @@
 package com.elefirst.powerdetail.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.elefirst.powerdetail.mapper.WeeklyCurrentMapper;
+import com.elefirst.powerdetail.mapper.WeeklyDemandDetailMapper;
+import com.elefirst.powerdetail.mapper.WeeklyDemandMapper;
 import com.elefirst.powerdetail.mapper.WeeklyLoadMapper;
 import com.elefirst.powerdetail.mapper.WeeklyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.WeeklyVoltageMapper;
+import com.elefirst.powerdetail.po.MonthlyDemand;
+import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.po.WeeklyCurrent;
 import com.elefirst.powerdetail.po.WeeklyCurrentExample;
+import com.elefirst.powerdetail.po.WeeklyDemand;
+import com.elefirst.powerdetail.po.WeeklyDemandDetail;
 import com.elefirst.powerdetail.po.WeeklyLoad;
 import com.elefirst.powerdetail.po.WeeklyLoadExample;
 import com.elefirst.powerdetail.po.WeeklyPowerFactor;
@@ -33,6 +41,12 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 	
 	@Resource(name = "weeklyPowerFactorMapper")
 	private WeeklyPowerFactorMapper weeklyPowerFactorMapper;
+	
+	@Resource(name = "weeklyDemandMapper")
+	private WeeklyDemandMapper weeklyDemandMapper;
+	
+	@Resource(name = "weeklyDemandDetailMapper")
+	private WeeklyDemandDetailMapper weeklyDemandDetailMapper;
 	
 	@Override
 	public List<WeeklyLoad> fetchAllWeeklyLoad(String date, String areaId,
@@ -180,5 +194,70 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 		criteria.andWeekendGreaterThanOrEqualTo(date);
 		List<WeeklyPowerFactor> weeklyPowerFactors = weeklyPowerFactorMapper.selectByExample(condition);
 		return weeklyPowerFactors.get(0);
+	}
+
+	@Override
+	public List<WeeklyDemand> fetchAllWeeklyDemand(String date, String areaId,
+			List<String> ctrIds, int rows, int page) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		
+		if(date != null && date.length() > 0){
+			params.put("date", date);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		List<WeeklyDemand> weeklyDemands = weeklyDemandMapper.selectByExample(params);
+		return weeklyDemands;
+	}
+
+	@Override
+	public int fetchAllWeeklyDemandCount(String date, String areaId,
+			List<String> ctrIds) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		
+		if(date != null && date.length() > 0){
+			params.put("date", date);
+		}
+		int count = weeklyDemandMapper.countByExample(params);
+		return count;
+	}
+
+	@Override
+	public List<WeeklyDemandDetail> fetchAllWeeklyDetailDemand(String date,
+			String areaId, List<String> ctrIds, int rows, int page, String pn)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+ 		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		if(date != null && date.length() > 0){
+			params.put("date", date);
+		} 
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		List<WeeklyDemandDetail> weeklyDetailDemands = weeklyDemandDetailMapper.selectByExample(params);
+		return weeklyDetailDemands;
+	}
+
+	@Override
+	public int fetchAllWeeklyDetailDemandCount(String date, String areaId,
+			List<String> ctrIds, String pn) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		if(date != null && date.length() > 0){
+			params.put("date", date);
+		}
+		int count = weeklyDemandDetailMapper.countByExample(params);
+		return count;
 	}
 }

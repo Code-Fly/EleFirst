@@ -72,6 +72,4 @@ public interface IDailyPowerService {
 	 */
 	public DailyPowerFactor fetchSingleDailyPowerFactor(String date,String areaId,String ctrId,String pn) throws Exception;
 	
-	
-	
 }

@@ -310,9 +310,12 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
 			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			List<String> ctrIds = new ArrayList<String>();
+			ctrIds.add(concentratorId);
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
 			
-			List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl.fetchAllMonthlyDetailDemand(date, areaId, concentratorId, rowsNum, pageNum,pn);
-			int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(date, areaId, concentratorId,pn);
+			List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl.fetchAllMonthlyDetailDemand(vdate, areaId, ctrIds, rowsNum, pageNum,pn);
+			int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(vdate, areaId, ctrIds,pn);
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日需量统计数据成功！");
 			dg.setRows(monthlyDemandDetails);

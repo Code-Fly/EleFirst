@@ -1,7 +1,9 @@
 package com.elefirst.powerdetail.po;
 
-public class MonthlyDemandDetail {
-    private String days;
+public class WeeklyDemandDetail {
+    private String weekstart;
+    
+    private String weekend;
 
     private String areaId;
 
@@ -25,12 +27,21 @@ public class MonthlyDemandDetail {
     
     private String name;
 
-	public String getDays() {
-		return days;
+
+	public String getWeekstart() {
+		return weekstart;
 	}
 
-	public void setDays(String days) {
-		this.days = days;
+	public void setWeekstart(String weekstart) {
+		this.weekstart = weekstart;
+	}
+
+	public String getWeekend() {
+		return weekend;
+	}
+
+	public void setWeekend(String weekend) {
+		this.weekend = weekend;
 	}
 
 	public String getAreaId() {

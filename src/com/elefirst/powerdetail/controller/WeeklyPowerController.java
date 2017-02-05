@@ -21,7 +21,10 @@ import com.elefirst.base.entity.GeneralMessage;
 import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
+import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.po.WeeklyCurrent;
+import com.elefirst.powerdetail.po.WeeklyDemand;
+import com.elefirst.powerdetail.po.WeeklyDemandDetail;
 import com.elefirst.powerdetail.po.WeeklyLoad;
 import com.elefirst.powerdetail.po.WeeklyPowerFactor;
 import com.elefirst.powerdetail.po.WeeklyVoltage;
@@ -215,6 +218,88 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 			return new ErrorMsg(Error.SUCCESS, "success", dg);
 		} catch (Exception e) {
 			logger.error("查询相关的按功率因数统计数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
+		}
+	}
+	
+	
+	/**
+	 * 根据周期查询相关的按需量统计数据
+	 * @param date
+	 * @param page
+	 * @param rows
+	 * @param jasonStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listWeeklyDemand.do")
+	public @ResponseBody ErrorMsg queryWeeklyDemand(String date,String page, String rows,String jasonStr)
+			throws Exception {
+		DataGrid dg = new DataGrid();
+		GeneralMessage gm = new GeneralMessage();
+		List<String> ctrIds = new ArrayList<String>();
+		
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			
+			Area area = JSON.parseObject(jasonStr,Area.class);
+			
+			List<Concentrator> concentrators = area.getConcentrators();
+			if(concentrators == null || concentrators.size() == 0){
+				return null;
+			}
+			for (Concentrator concentrator : concentrators) {
+				String tmpCId = concentrator.getConcentratorId();
+				ctrIds.add(tmpCId);
+			}
+			String areaId = area.getAreaId();
+			
+			List<WeeklyDemand> weeklyDemands = weeklyPowerServiceImpl.fetchAllWeeklyDemand(date, areaId, ctrIds, rowsNum, pageNum);
+			int total = weeklyPowerServiceImpl.fetchAllWeeklyDemandCount(date, areaId, ctrIds);
+			gm.setFlag(GeneralMessage.Result.SUCCESS);
+			gm.setMsg("查询相关的按周需量统计数据成功！");
+			dg.setRows(weeklyDemands);
+			dg.setTotal(total);
+			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			logger.error("查询相关的按需量统计数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
+		}
+	}
+	
+	
+	/**
+	 * 根据日期查询相关的按周需量详情荷统计数据
+	 * @param date
+	 * @param page
+	 * @param rows
+	 * @param jasonStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listWeeklyDetailDemand.do")
+	public @ResponseBody ErrorMsg queryWeeklyDemandDetail(String date,String page, String rows,String areaId,String concentratorId,String pn)
+			throws Exception {
+		DataGrid dg = new DataGrid();
+		GeneralMessage gm = new GeneralMessage();
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			List<String> ctrIds = new ArrayList<String>();
+			ctrIds.add(concentratorId);
+			
+			List<WeeklyDemandDetail> weeklyDemandDetails = weeklyPowerServiceImpl.fetchAllWeeklyDetailDemand(date, areaId, ctrIds, rowsNum, pageNum,pn);
+			int total = weeklyPowerServiceImpl.fetchAllWeeklyDetailDemandCount(date, areaId, ctrIds,pn);
+			gm.setFlag(GeneralMessage.Result.SUCCESS);
+			gm.setMsg("查询相关的按周需量详情统计数据成功！");
+			dg.setRows(weeklyDemandDetails);
+			dg.setTotal(total);
+			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			logger.error("查询相关的按需量详情统计数据失败！", e);
 			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
 		}
 	}
