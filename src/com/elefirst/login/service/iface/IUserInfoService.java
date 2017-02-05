@@ -12,7 +12,9 @@ public interface IUserInfoService {
 
     int getUserInfoListCount(UserInfo template);
 
-    List<UserInfo> getUserInfoDetail(String id);
+    List<UserInfo> getUserInfoDetailByUserName(String userName);
+
+    List<UserInfo> getUserInfoDetailById(String id);
 
     int addUserInfo(UserInfo template);
 

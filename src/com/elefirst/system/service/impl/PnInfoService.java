@@ -60,10 +60,6 @@ public class PnInfoService extends BaseService implements IPnInfoService {
         if (null != template && null != template.getName()) {
             criteria.andNameLike("%" + template.getName() + "%");
         }
-        if (template.getRows() > 0 && template.getPage() > 0) {
-            condition.setLimitStart((template.getPage() - 1) * template.getRows());
-            condition.setLimitEnd(template.getRows());
-        }
         return pnInfoDAO.getPnInfoListCount(condition);
     }
 

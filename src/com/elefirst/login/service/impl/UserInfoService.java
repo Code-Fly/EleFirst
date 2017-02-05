@@ -30,7 +30,10 @@ public class UserInfoService extends BaseService implements IUserInfoService {
         if (null != template && null != template.getName()) {
             criteria.andNameLike("%" + template.getName() + "%");
         }
-        condition.setOrderByClause("`create_date` ASC");
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
         return userInfoDAO.getUserInfoList(condition);
     }
 
@@ -50,7 +53,15 @@ public class UserInfoService extends BaseService implements IUserInfoService {
     }
 
     @Override
-    public List<UserInfo> getUserInfoDetail(String id) {
+    public List<UserInfo> getUserInfoDetailByUserName(String userName) {
+        UserInfoExample condition = new UserInfoExample();
+        UserInfoExample.Criteria criteria = condition.createCriteria();
+        criteria.andUserNameEqualTo(userName);
+        return userInfoDAO.getUserInfoList(condition);
+    }
+
+    @Override
+    public List<UserInfo> getUserInfoDetailById(String id) {
         UserInfoExample condition = new UserInfoExample();
         UserInfoExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);

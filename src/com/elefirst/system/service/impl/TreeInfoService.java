@@ -42,10 +42,6 @@ public class TreeInfoService extends BaseService implements ITreeInfoService {
         if (null != template && null != template.getTreeId()) {
             criteria.andTreeIdEqualTo(template.getTreeId());
         }
-        if (template.getRows() > 0 && template.getPage() > 0) {
-            condition.setLimitStart((template.getPage() - 1) * template.getRows());
-            condition.setLimitEnd(template.getRows());
-        }
         return treeInfoDAO.getTreeInfoListCount(condition);
     }
 

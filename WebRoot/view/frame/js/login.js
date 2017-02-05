@@ -4,7 +4,7 @@
 $(document).ready(function () {
     if (!isTopWindow()) {
         var topWindow = getTopWinow();
-        topWindow.location.href = _ctx;
+        topWindow.location.href = window.location.href;
     }
 
     var error = GetQueryString("error");
