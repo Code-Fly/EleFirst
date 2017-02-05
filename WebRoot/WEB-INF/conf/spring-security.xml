@@ -23,7 +23,7 @@
                              authentication-failure-url="/?error=1"
                              username-parameter="username"
                              password-parameter="password"
-                             default-target-url="/user/login.do"
+                             default-target-url="/index.do"
                              always-use-default-target="true"/>
         <security:logout logout-url="/logout"
                          logout-success-url="/"

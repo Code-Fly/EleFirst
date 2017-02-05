@@ -17,15 +17,19 @@ import java.util.List;
  * Created by barrie on 17/1/14.
  */
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/")
 public class LoginController extends BaseController {
 
     @Resource(name = "menuInfoServiceImpl")
     private IMenuInfoService menuInfoServiceImpl;
 
-    @RequestMapping("login.do")
+    @RequestMapping("index.do")
     public String login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        loadMenu(session);
+        return "index";
+    }
 
+    public void loadMenu(HttpSession session) throws Exception {
         //获取一级菜单
         List<String> oneLevelMenuIds = new ArrayList<String>();
         oneLevelMenuIds.add("1");
@@ -43,7 +47,6 @@ public class LoginController extends BaseController {
         session.setAttribute("twoLevelmenuInos02", twoLevelmenuInos02);
         session.setAttribute("twoLevelmenuInos03", twoLevelmenuInos03);
         session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
-        return "redirect:/index.jsp";
     }
 
 }
