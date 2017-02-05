@@ -101,7 +101,7 @@ public interface IMonthlyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,String areaId,String ctrId,int rows,int page,String pn) throws Exception;
+	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,String areaId,List<String> ctrIds,int rows,int page,String pn) throws Exception;
 	
 	/**
 	 *  查查询按月统计需量详情示数相关数据条数
@@ -114,5 +114,5 @@ public interface IMonthlyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllDailyDetailDemandCount(String date,String areaId,String ctrId,String pn) throws Exception;
+	public int fetchAllDailyDetailDemandCount(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
 }

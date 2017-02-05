@@ -10,6 +10,11 @@
                 return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
             }
         }
+        function dateformatter4demand(value, row, index) {
+            if (value != null) {
+                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8) + " "+ value.substring(8, 10) + ":" +  value.substring(10, 12)+ ":" +value.substring(12, 14);
+            }
+        }
         require(["js/weeklydetail.js"]);
     </script>
 </head>
@@ -42,31 +47,6 @@
                     <th field="avgactivepower" width="80" align="center">平均负荷</th>
                     <th field="loadrate" width="80" align="center">负荷率</th>
                     <th field="peakrate" width="80" align="center">峰谷差率</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-        <div title="示数" style="display:none;overflow: hidden">
-            <table id="tt2" class="easyui-datagrid" fit="true" data-options="border:false">
-                <thead>
-                <tr>
-                    <%--<th rowspan="2" field="areaId33" width="80" align="center">区域</th>--%>
-                    <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
-                    <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
-                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
-                    <th colspan="5">示数</th>
-                    <th colspan="2">最大需量</th>
-                </tr>
-                <tr>
-                    <th field="1" width="80" align="center">总</th>
-                    <th field="2" width="80" align="center">峰</th>
-                    <th field="3" width="80" align="center">平</th>
-                    <th field="4" width="80" align="center">谷</th>
-                    <th field="5" width="80" align="center">尖峰</th>
-                    <th field="6" width="80" align="center">最大需量</th>
-                    <th field="7" width="80" align="center">发生时间</th>
                 </tr>
                 </thead>
             </table>
@@ -134,6 +114,25 @@
                 <tr>
                     <th field="powerFactorStandard" width="80" align="center">标准</th>
                     <th field="avgtotalpowerfactor" width="80" align="center">功率因素</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div title="需量" style="display:none;overflow: hidden">
+            <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false">
+                <thead>
+                <tr>
+                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
+                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
+                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
+                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
+                    <th colspan="2">最大需量</th>
+                </tr>
+                <tr>
+                    <th field="maxtotalpositivemaxactivepower" width="120" align="center">最大需量</th>
+                    <th field="totalpositivemaxactivepowertime" width="150" align="center" formatter="dateformatter4demand">发生时间</th>
                 </tr>
                 </thead>
             </table>
@@ -246,22 +245,33 @@
                         </div>
                     </div>
                 </div> -->
-                <div title="示数" style="display:none;overflow: hidden">
-                    <table id="dtt2" class="easyui-datagrid" data-options="border:false" fit="true">
-                        <thead>
-                        <tr>
-                            <th rowspan="2" field="clientoperationtime33" width="120" align="center">日期</th>
-                            <th colspan="4">示数</th>
-                        </tr>
-                        <tr>
-                            <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
-                            <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-                            <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
-                            <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
+                
+				        <div title="示数" style="display:none;overflow: hidden">
+				            <table id="dtt2" class="easyui-datagrid" fit="true" data-options="border:false">
+				                <thead>
+				                <tr>
+				                    <%--<th rowspan="2" field="areaId33" width="80" align="center">区域</th>--%>
+				                    <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
+				                    <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
+				                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
+				                    <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+				                    <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
+				                    <th colspan="5">示数</th>
+				                    <th colspan="2">最大需量</th>
+				                </tr>
+				                <tr>
+				                    <th field="totalpositiveactivePower" width="80" align="center">总</th>
+                            <th field="rateseq1" width="80" align="center">峰</th>
+                            <th field="rateseq2" width="80" align="center">平</th>
+                            <th field="rateseq3" width="80" align="center">谷</th>
+                            <th field="rateseq4" width="80" align="center">尖峰</th>
+                            <th field="totalpositivemaxactivepower" width="120" align="center">最大需量</th>
+                            <th field="totalpositivemaxactivepowertime" width="150" align="center" formatter="dateformatter4demand">发生时间</th>
+				                </tr>
+				                </thead>
+				            </table>
+				        </div>
+                
                 <div title="电压" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
                         <div id="chart-voltage-detail" data-options="region:'north',split:true,border:false"

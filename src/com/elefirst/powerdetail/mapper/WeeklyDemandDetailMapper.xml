@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.elefirst.powerdetail.mapper.MonthlyDemandDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.MonthlyDemandDetail" >
-    <result column="days" property="days" jdbcType="VARCHAR" />
+<mapper namespace="com.elefirst.powerdetail.mapper.WeeklyDemandDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.WeeklyDemandDetail" >
+    <result column="weekstart" property="weekstart" jdbcType="VARCHAR" />
+    <result column="weekend" property="weekend" jdbcType="VARCHAR" />
     <result column="area_id" property="areaId" jdbcType="VARCHAR" />
     <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
     <result column="pn" property="pn" jdbcType="VARCHAR" />
@@ -17,7 +18,7 @@
   </resultMap>
   <select id="selectByExample" resultMap="BaseResultMap">
     select * from (
-	    select dm.`name`,dp.clientOperationTime,days,dp.area_id,dp.concentrator_id,dp.pn,dp.totalPositiveActivePower,dp.rateseq1,dp.rateseq2,dp.rateseq3,dp.rateseq4,dm.totalPositiveMaxActivePower,dm.totalPositiveMaxActivePowerTime from (
+	    select dm.`name`,dp.clientOperationTime,dm.weekstart,dm.weekend,dp.area_id,dp.concentrator_id,dp.pn,dp.totalPositiveActivePower,dp.rateseq1,dp.rateseq2,dp.rateseq3,dp.rateseq4,dm.totalPositiveMaxActivePower,dm.totalPositiveMaxActivePowerTime from (
 		select b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
 		(select id,
 		max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
@@ -28,7 +29,8 @@
 		group by id) c where b.id = c.id
 		) dp,
 		(
-			select   a.clientOperationTime,days,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name`   from t_016_type_one_data_fn145 a ,(select date_format(clientOperationTime,'%Y%m%d') AS days, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  days,area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_format(a.clientOperationTime,'%Y%m%d') = days and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
+			select   a.clientOperationTime,b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name`   from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+            date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend  and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
 		) dm where dp.clientOperationTime = dm.clientOperationTime and dp.area_id = dm.area_id and dp.concentrator_id = dm.concentrator_id and dp.pn = dm.pn 
     ) ct where 1=1
     <if test="areaId!= null and areaId!= ''">
@@ -41,19 +43,19 @@
 	      </foreach>
 	</if>
 	<if test="date!= null and date!= ''">
-	      and ct.clientOperationTime like CONCAT(#{date ,jdbcType=VARCHAR},'%')
+		  and #{date ,jdbcType=VARCHAR} &gt;= ct.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= ct.weekend
 	</if>
 	<if test="pn!= null and pn!= ''">
 		  and ct.pn = #{pn ,jdbcType=VARCHAR}
 	</if>
-	order by ct.days desc
+	order by ct.weekstart desc
 	<if test="limitStart != null and limitStart >=0" >
       limit ${limitStart} , ${limitEnd}
     </if>
   </select>
   <select id="countByExample" resultType="java.lang.Integer" >
     select count(1) from (
-    	select dm.`name`,dp.clientOperationTime,days,dp.area_id,dp.concentrator_id,dp.pn,dp.totalPositiveActivePower,dp.rateseq1,dp.rateseq2,dp.rateseq3,dp.rateseq4,dm.totalPositiveMaxActivePower,dm.totalPositiveMaxActivePowerTime from (
+    	select dm.`name`,dp.clientOperationTime,dm.weekstart,dm.weekend,dp.area_id,dp.concentrator_id,dp.pn,dp.totalPositiveActivePower,dp.rateseq1,dp.rateseq2,dp.rateseq3,dp.rateseq4,dm.totalPositiveMaxActivePower,dm.totalPositiveMaxActivePowerTime from (
 		select b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
 		(select id,
 		max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
@@ -64,7 +66,8 @@
 		group by id) c where b.id = c.id
 		) dp,
 		(
-			select   a.clientOperationTime,days,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name`   from t_016_type_one_data_fn145 a ,(select date_format(clientOperationTime,'%Y%m%d') AS days, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  days,area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_format(a.clientOperationTime,'%Y%m%d') = days and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
+			select   a.clientOperationTime,b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name`   from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+			date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend  and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
 		) dm where dp.clientOperationTime = dm.clientOperationTime and dp.area_id = dm.area_id and dp.concentrator_id = dm.concentrator_id and dp.pn = dm.pn 
     ) ct where 1=1
     <if test="areaId!= null and areaId!= ''">
@@ -77,7 +80,7 @@
 	      </foreach>
 	</if>
 	<if test="date!= null and date!= ''">
-		  and ct.clientOperationTime like CONCAT(#{date ,jdbcType=VARCHAR},'%')
+		  and #{date ,jdbcType=VARCHAR} &gt;= ct.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= ct.weekend
 	</if>
 	<if test="pn!= null and pn!= ''">
 		  and ct.pn = #{pn ,jdbcType=VARCHAR}

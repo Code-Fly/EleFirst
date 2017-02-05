@@ -2,7 +2,10 @@ package com.elefirst.powerdetail.service;
 
 import java.util.List;
 
+import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.po.WeeklyCurrent;
+import com.elefirst.powerdetail.po.WeeklyDemand;
+import com.elefirst.powerdetail.po.WeeklyDemandDetail;
 import com.elefirst.powerdetail.po.WeeklyLoad;
 import com.elefirst.powerdetail.po.WeeklyPowerFactor;
 import com.elefirst.powerdetail.po.WeeklyVoltage;
@@ -71,4 +74,41 @@ public interface IWeeklyPowerService {
 	 * @throws Exception
 	 */
 	public WeeklyPowerFactor fetchSingleWeeklyPowerFactor(String date,String areaId,String ctrId,String pn) throws Exception;
+	
+	/**
+	 * 查询按周统计需量相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<WeeklyDemand> fetchAllWeeklyDemand(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	
+	/**
+	 * 查询按周统计需量相关数据记录数
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllWeeklyDemandCount(String date, String areaId, List<String> ctrIds);
+	
+	/**
+	 * 查询按周统计需量详情示数相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<WeeklyDemandDetail> fetchAllWeeklyDetailDemand(String date,String areaId,List<String> ctrIds,int rows,int page,String pn) throws Exception;
+	
+	/**
+	 *  查询按周统计需量详情示数相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllWeeklyDetailDemandCount(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
 }

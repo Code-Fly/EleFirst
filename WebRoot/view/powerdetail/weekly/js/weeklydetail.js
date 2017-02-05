@@ -26,6 +26,8 @@ $(document).ready(function () {
                 dg('tt4', 'weeklypower/listWeeklyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'weeklypower/listWeeklyPowerFactor.do');
+            }else if ("需量" == title) {
+                dg('tt6', 'weeklypower/listWeeklyDemand.do');
             }
         }
     });
@@ -63,7 +65,7 @@ $(document).ready(function () {
         } else if ("示数" == title) {
             //刷新当前监测点所有示数信息
             $("#dtt2").datagrid({
-                url: _ctx + 'powerdetail/listAllDisplayDetailByPn.do',
+                url: _ctx + 'weeklypower/listWeeklyDetailDemand.do',
                 pagination: true,
                 rownumbers: true,
                 pageSize: 10,
@@ -254,11 +256,11 @@ $(document).ready(function () {
                         $('#tab2').tabs('select', '负荷');
                         //初始化负荷详情
                         handerBySouthTabType('负荷');
-                    } else if ('tt2' == dgId) {
-                        singlerow = $('#tt2').datagrid('getSelected');
-                        areaId = singlerow.areaId33;
-                        concentratorId = singlerow.concentratorId33;
-                        pn = singlerow.pn33;
+                    } else if ('tt6' == dgId) {
+                        singlerow = $('#tt6').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
                         date = singlerow.weekstart;
                         $("#input-detail-datebox").datebox("setValue", date);
                         $('#tab2').tabs('select', '示数');
@@ -344,6 +346,8 @@ $(document).ready(function () {
                 dg('tt4', 'weeklypower/listWeeklyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'weeklypower/listWeeklyPowerFactor.do');
+            }else if ("需量" == title) {
+                dg('tt6', 'weeklypower/listWeeklyDemand.do');
             }
         }
     });

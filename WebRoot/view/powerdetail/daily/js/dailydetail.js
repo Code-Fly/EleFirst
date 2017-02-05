@@ -19,7 +19,7 @@ $(document).ready(function () {
             if ("负荷" == title) {
                 dg('tt1', 'dailypower/listDailyLoad.do');
             } else if ("示数" == title) {
-                //dg('tt2', 'powerdetail/listCurrentDisplayDetail.do');
+                dg('tt2', 'dailypower/listDailyDisPlay.do');
             } else if ("电压" == title) {
                 dg('tt3', 'dailypower/listDailyVoltage.do');
             } else if ("电流" == title) {
@@ -271,9 +271,9 @@ $(document).ready(function () {
                         handerBySouthTabType('负荷');
                     } else if ('tt2' == dgId) {
                         singlerow = $('#tt2').datagrid('getSelected');
-                        areaId = singlerow.areaId33;
-                        concentratorId = singlerow.concentratorId33;
-                        pn = singlerow.pn33;
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
                         date = singlerow.days;
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
                         $("#input-detail-datebox").datebox("setValue", dateStr);
@@ -354,9 +354,9 @@ $(document).ready(function () {
             if ("负荷" == title) {
                 dg('tt1', 'dailypower/listDailyLoad.do');
             } else if ("示数" == title) {
-                dg('tt2', 'powerdetail/listCurrentDisplayDetail.do');
+                dg('tt2', 'dailypower/listDailyDisPlay.do');
             } else if ("电压" == title) {
-                //dg('tt3', 'dailypower/listDailyVoltage.do');
+                dg('tt3', 'dailypower/listDailyVoltage.do');
             } else if ("电流" == title) {
                 dg('tt4', 'dailypower/listDailyCurrent.do');
             } else if ("功率因数" == title) {

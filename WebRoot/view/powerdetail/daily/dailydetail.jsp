@@ -49,25 +49,22 @@
         <div title="示数" style="display:none;overflow: hidden">
             <table id="tt2" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
-                <tr>
-                    <%--<th rowspan="2" field="areaId33" width="80" align="center">区域</th>--%>
-                    <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
-                    <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center">日期</th>
-                    <th colspan="5">示数</th>
-                    <th colspan="2">最大需量</th>
-                </tr>
-                <tr>
-                    <th field="1" width="80" align="center">总</th>
-                    <th field="2" width="80" align="center">峰</th>
-                    <th field="3" width="80" align="center">平</th>
-                    <th field="4" width="80" align="center">谷</th>
-                    <th field="5" width="80" align="center">尖峰</th>
-                    <th field="6" width="80" align="center">最大需量</th>
-                    <th field="7" width="80" align="center">发生时间</th>
-                </tr>
-                </thead>
+                        <tr>
+                        	  <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                            <th rowspan="2" field="days" width="120" align="center">日期</th>
+                            <th colspan="5">示数</th>
+                            <th colspan="2">最大需量</th>
+                        </tr>
+                        <tr>
+                            <th field="totalpositiveactivePower" width="80" align="center">总</th>
+                            <th field="rateseq1" width="80" align="center">峰</th>
+                            <th field="rateseq2" width="80" align="center">平</th>
+                            <th field="rateseq3" width="80" align="center">谷</th>
+                            <th field="rateseq4" width="80" align="center">尖峰</th>
+                            <th field="totalpositivemaxactivepower" width="120" align="center">最大需量</th>
+                            <th field="totalpositivemaxactivepowertime" width="150" align="center">发生时间</th>
+                        </tr>
+                        </thead>
             </table>
         </div>
         <div title="电压" style="display:none;overflow: hidden">
