@@ -1,8 +1,12 @@
 package com.elefirst.login.controller;
 
 import com.elefirst.base.controller.BaseController;
+import com.elefirst.base.utils.ConfigUtil;
+import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.MenuInfo;
 import com.elefirst.system.service.iface.IMenuInfoService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,8 +29,25 @@ public class LoginController extends BaseController {
 
     @RequestMapping("index.do")
     public String login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        loadUserInfo(session);
+        loadAreaInfo(session);
         loadMenu(session);
         return "index";
+    }
+
+    public void loadUserInfo(HttpSession session) {
+        User user = (User) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+        System.out.println(user.getUsername());
+        System.out.println(user.getAuthorities());
+
+    }
+
+    public void loadAreaInfo(HttpSession session) {
+        session.setAttribute("areaId", ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
+        session.setAttribute("areaName", ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
+        session.setAttribute("treeId", ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
     }
 
     public void loadMenu(HttpSession session) throws Exception {

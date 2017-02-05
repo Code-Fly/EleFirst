@@ -16,6 +16,10 @@
 <meta name="format-detection" content="telephone=no"/>
 <SCRIPT type="text/javascript">
     var _ctx = "${ctx}";
+    var _areaId = "${sessionScope.areaId}";
+    var _areaName = "${sessionScope.areaName}";
+    var _treeId = "${sessionScope.treeId}";
+
     var _csrfHeaderName = "${_csrf.headerName}"
     var _csrfParameterName = "${_csrf.parameterName}";
     var _csrToken = "${_csrf.token}";

@@ -2,10 +2,6 @@
  * Created by barrie on 17/1/31.
  */
 $(document).ready(function () {
-    var _areaId = "1";
-    var _areaName = "配用电监测";
-    var _treeId = "1";
-
     var info = {
         areaId: _areaId,
         concentrators: [],

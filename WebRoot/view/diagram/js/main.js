@@ -2,9 +2,6 @@
  * Created by barrie on 17/1/16.
  */
 $(document).ready(function () {
-    var _areaId = "1";
-    var _areaName = "配用电监测";
-
     var flag_bound_pn_edit = false;
 
     $("#dlg-bound-pn").dialog({
