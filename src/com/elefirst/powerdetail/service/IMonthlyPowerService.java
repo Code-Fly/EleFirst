@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyDemand;
+import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
 import com.elefirst.powerdetail.po.MonthlyVoltage;
@@ -92,5 +93,26 @@ public interface IMonthlyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllDailyDemandCount(String date,String areaId,List<String> ctrIds) throws Exception;
+	public int fetchAllMonthlyDemandCount(String date,String areaId,List<String> ctrIds) throws Exception;
+	
+	/**
+	 * 查询按月统计需量详情示数相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,String areaId,String ctrId,int rows,int page,String pn) throws Exception;
+	
+	/**
+	 *  查查询按月统计需量详情示数相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllDailyDetailDemandCount(String date,String areaId,String ctrId,String pn) throws Exception;
 }

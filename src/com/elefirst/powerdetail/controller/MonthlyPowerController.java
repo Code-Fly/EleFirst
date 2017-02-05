@@ -23,6 +23,7 @@ import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyDemand;
+import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
 import com.elefirst.powerdetail.po.MonthlyVoltage;
@@ -244,6 +245,8 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 		}
 	}
 	
+	
+
 	/**
 	 * 根据日期查询相关的按需量荷统计数据
 	 * @param date
@@ -254,7 +257,7 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 	 * @throws Exception
 	 */
 	@RequestMapping("listMonthlyDemand.do")
-	public @ResponseBody ErrorMsg queryDailyDemand(String date,String page, String rows,String jasonStr)
+	public @ResponseBody ErrorMsg queryMonthlyemand(String date,String page, String rows,String jasonStr)
 			throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
@@ -276,11 +279,43 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 			}
 			String areaId = area.getAreaId();
 			
-			List<MonthlyDemand> dailyDemands = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum);
-			int total = monthlyPowerServiceImpl.fetchAllDailyDemandCount(date, areaId, ctrIds);
+			List<MonthlyDemand> monthlyDemands = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum);
+			int total = monthlyPowerServiceImpl.fetchAllMonthlyDemandCount(date, areaId, ctrIds);
+			gm.setFlag(GeneralMessage.Result.SUCCESS);
+			gm.setMsg("查询相关的按月需量统计数据成功！");
+			dg.setRows(monthlyDemands);
+			dg.setTotal(total);
+			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			logger.error("查询相关的按需量统计数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
+		}
+	}
+	
+	/**
+	 * 根据日期查询相关的按日需量荷统计数据
+	 * @param date
+	 * @param page
+	 * @param rows
+	 * @param jasonStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listDailylyDetailDemand.do")
+	public @ResponseBody ErrorMsg queryDailylyDemandDetail(String date,String page, String rows,String areaId,String concentratorId,String pn)
+			throws Exception {
+		DataGrid dg = new DataGrid();
+		GeneralMessage gm = new GeneralMessage();
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			
+			List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl.fetchAllMonthlyDetailDemand(date, areaId, concentratorId, rowsNum, pageNum,pn);
+			int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(date, areaId, concentratorId,pn);
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日需量统计数据成功！");
-			dg.setRows(dailyDemands);
+			dg.setRows(monthlyDemandDetails);
 			dg.setTotal(total);
 			dg.setGm(gm);
 			return new ErrorMsg(Error.SUCCESS, "success", dg);

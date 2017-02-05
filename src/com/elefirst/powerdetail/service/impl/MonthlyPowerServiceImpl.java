@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
 import com.elefirst.powerdetail.mapper.MonthlyCurrentMapper;
+import com.elefirst.powerdetail.mapper.MonthlyDemandDetailMapper;
 import com.elefirst.powerdetail.mapper.MonthlyDemandMapper;
 import com.elefirst.powerdetail.mapper.MonthlyLoadMapper;
 import com.elefirst.powerdetail.mapper.MonthlyPowerFactorMapper;
@@ -14,6 +17,7 @@ import com.elefirst.powerdetail.mapper.MonthlyVoltageMapper;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyCurrentExample;
 import com.elefirst.powerdetail.po.MonthlyDemand;
+import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyLoadExample;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
@@ -38,6 +42,9 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	
 	@Resource(name = "monthlyDemandMapper")
 	private MonthlyDemandMapper monthlyDemandMapper;
+	
+	@Resource(name = "monthlyDemandDetailMapper")
+	private MonthlyDemandDetailMapper monthlyDemandDetailMapper;
 	
 	@Override
 	public List<MonthlyLoad> fetchAllMonthlyLoad(String date, String areaId,
@@ -209,7 +216,7 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	}
 
 	@Override
-	public int fetchAllDailyDemandCount(String date, String areaId, List<String> ctrIds)
+	public int fetchAllMonthlyDemandCount(String date, String areaId, List<String> ctrIds)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("concentratorIds", ctrIds);
@@ -220,6 +227,41 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 			params.put("date", vdate);
 		}
 		int count = monthlyDemandMapper.countByExample(params);
+		return count;
+	}
+
+	@Override
+	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,
+			String areaId, String ctrId, int rows, int page,String pn)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorId", ctrId);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			params.put("date", vdate);
+		} 
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		List<MonthlyDemandDetail> monthlyDetailDemands = monthlyDemandDetailMapper.selectByExample(params);
+		return monthlyDetailDemands;
+	}
+
+	@Override
+	public int fetchAllDailyDetailDemandCount(String date, String areaId,
+			String ctrId,String pn) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrId);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			params.put("date", vdate);
+		}
+		int count = monthlyDemandDetailMapper.countByExample(params);
 		return count;
 	}
 	

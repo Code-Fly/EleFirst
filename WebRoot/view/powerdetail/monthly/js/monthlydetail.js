@@ -61,7 +61,7 @@ $(document).ready(function () {
         } else if ("示数" == title) {
             //刷新当前监测点所有示数信息
             $("#dtt2").datagrid({
-                url: _ctx + 'monthlypower/listAllDisplayDetailByPn.do',
+                url: _ctx + 'monthlypower/listDailylyDetailDemand.do',
                 pagination: true,
                 rownumbers: true,
                 pageSize: 10,

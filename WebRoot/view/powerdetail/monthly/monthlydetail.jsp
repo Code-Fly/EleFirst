@@ -15,6 +15,11 @@
                 return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8) + " "+ value.substring(8, 10) + ":" +  value.substring(10, 12)+ ":" +value.substring(12, 14);
             }
         }
+        function dateformatter4demanddetail(value, row, index) {
+            if (value != null) {
+                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
+            }
+        }
         require(["js/monthlydetail.js"]);
     </script>
 </head>
@@ -268,14 +273,18 @@
                     <table id="dtt2" class="easyui-datagrid" data-options="border:false" fit="true">
                         <thead>
                         <tr>
-                            <th rowspan="2" field="clientoperationtime33" width="120" align="center">日期</th>
-                            <th colspan="4">示数</th>
+                            <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter4demanddetail">日期</th>
+                            <th colspan="5">示数</th>
+                            <th colspan="2">最大需量</th>
                         </tr>
                         <tr>
-                            <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
-                            <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-                            <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
-                            <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
+                            <th field="totalpositiveactivePower" width="80" align="center">总</th>
+                            <th field="rateseq1" width="80" align="center">峰</th>
+                            <th field="rateseq2" width="80" align="center">平</th>
+                            <th field="rateseq3" width="80" align="center">谷</th>
+                            <th field="rateseq4" width="80" align="center">尖峰</th>
+                            <th field="totalpositivemaxactivepower" width="120" align="center">最大需量</th>
+                            <th field="totalpositivemaxactivepowertime" width="150" align="center" formatter="dateformatter4demand">发生时间</th>
                         </tr>
                         </thead>
                     </table>
