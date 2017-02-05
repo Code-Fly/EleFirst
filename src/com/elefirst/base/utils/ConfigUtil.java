@@ -40,7 +40,7 @@ public class ConfigUtil {
         String result = "";
         try {
             String path = Const.getServerPath() + "conf/" + fileName;
-            p.load(new FileInputStream(path));
+            p.load(new InputStreamReader(new FileInputStream(path), "UTF-8"));
             result = p.getProperty(keyname);
         } catch (Exception e) {
             logger.error("获取配置失败", e);
