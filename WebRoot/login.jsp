@@ -30,7 +30,7 @@
 
 
 <div class="logintop">
-    <span>欢迎登录后台管理界面平台</span>
+    <span>欢迎登录光一电管家</span>
     <%--<ul>--%>
     <%--<li><a href="#">回首页</a></li>--%>
     <%--<li><a href="#">帮助</a></li>--%>
@@ -69,6 +69,8 @@
         </form>
     </div>
 </div>
-<div class="loginbm">版权所有 © 2016-2017 光一科技股份有限公司</div>
+<div class="loginbm">
+    江苏苏源光一科技有限公司 <a href="http://www.miitbeian.gov.cn/">苏ICP备17005691号</a>
+</div>
 </body>
 </html>
