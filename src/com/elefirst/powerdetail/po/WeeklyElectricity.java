@@ -64,13 +64,6 @@ public class WeeklyElectricity {
 			this.pn = pn;
 		}
 
-		public Double getTotalpositiveactivePower() {
-			return totalpositiveactivePower;
-		}
-
-		public void setTotalpositiveactivePower(Double totalpositiveactivePower) {
-			this.totalpositiveactivePower = totalpositiveactivePower;
-		}
 
 		public Double getRateseq1() {
 			return rateseq1;
@@ -111,4 +104,14 @@ public class WeeklyElectricity {
 		public void setName(String name) {
 			this.name = name;
 		}
+
+		public Double getTotalpositiveactivePower() {
+			return totalpositiveactivePower;
+		}
+
+		public void setTotalpositiveactivePower(Double totalpositiveactivePower) {
+			this.totalpositiveactivePower = totalpositiveactivePower;
+		}
+		
+		
 }
