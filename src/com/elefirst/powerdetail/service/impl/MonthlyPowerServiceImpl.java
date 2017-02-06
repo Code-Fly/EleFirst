@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 import com.elefirst.powerdetail.mapper.MonthlyCurrentMapper;
 import com.elefirst.powerdetail.mapper.MonthlyDemandDetailMapper;
 import com.elefirst.powerdetail.mapper.MonthlyDemandMapper;
+import com.elefirst.powerdetail.mapper.MonthlyElectricityMapper;
 import com.elefirst.powerdetail.mapper.MonthlyLoadMapper;
 import com.elefirst.powerdetail.mapper.MonthlyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.MonthlyVoltageMapper;
+import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyCurrentExample;
 import com.elefirst.powerdetail.po.MonthlyDemand;
 import com.elefirst.powerdetail.po.MonthlyDemandDetail;
+import com.elefirst.powerdetail.po.MonthlyElectricity;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyLoadExample;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
@@ -45,6 +48,9 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	
 	@Resource(name = "monthlyDemandDetailMapper")
 	private MonthlyDemandDetailMapper monthlyDemandDetailMapper;
+	
+	@Resource(name = "monthlyElectricityMapper")
+	private MonthlyElectricityMapper monthlyElectricityMapper;
 	
 	@Override
 	public List<MonthlyLoad> fetchAllMonthlyLoad(String date, String areaId,
@@ -263,4 +269,52 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 		return count;
 	}
 	
+	@Override
+	public List<MonthlyElectricity> fetchAllMonthlyElectricity(String date,
+			String areaId, List<String> ctrIds, int rows, int page)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			params.put("date", vdate);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		List<MonthlyElectricity> monthlyElectricity = monthlyElectricityMapper.selectByExample(params);
+		return monthlyElectricity;
+	}
+
+	@Override
+	public int fetchAllMonthlyElectricityCount(String date, String areaId,
+			List<String> ctrIds) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+			
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			params.put("date", vdate);
+		}
+		int count = monthlyElectricityMapper.countByExample(params);
+		return count;
+	}
+
+	@Override
+	public MonthlyElectricity fetchSingleMonthlyElectricity(String date,
+			String areaId, List<String> ctrIds, String pn) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		if(date != null && date.length() > 0){
+			params.put("date", date);
+		}
+		List<MonthlyElectricity> monthlyElectricity = monthlyElectricityMapper.selectByExample(params);
+		return monthlyElectricity.get(0);
+	}
 }

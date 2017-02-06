@@ -21,9 +21,11 @@ import com.elefirst.base.entity.GeneralMessage;
 import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
+import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyDemand;
 import com.elefirst.powerdetail.po.MonthlyDemandDetail;
+import com.elefirst.powerdetail.po.MonthlyElectricity;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
 import com.elefirst.powerdetail.po.MonthlyVoltage;
@@ -236,6 +238,8 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 				setCurrentDetail(areaId, concentratorId, pn, paramMap,dateStr);
 			}else if("功率因数".equals(tabName)){
 				setPowerFactorDetail(areaId, concentratorId, pn, paramMap,dateStr);
+			}else if("电量".equals(tabName)){
+				setElectricityDetail(areaId, concentratorId, pn, paramMap,dateStr);
 			}
 			logger.error("查询月用电信息成功！");
 			return new ErrorMsg(Error.SUCCESS, "success",paramMap);
@@ -328,6 +332,52 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 		}
 	}
 	
+	/**
+	 * 根据日期查询相关的电量统计数据
+	 * @param date
+	 * @param page
+	 * @param rows
+	 * @param jasonStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listMonthlyElectricity.do")
+	public @ResponseBody ErrorMsg queryMonthlyElectricity(String date,String page, String rows,String jasonStr)
+			throws Exception {
+		DataGrid dg = new DataGrid();
+		GeneralMessage gm = new GeneralMessage();
+		List<String> ctrIds = new ArrayList<String>();
+		
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			
+			Area area = JSON.parseObject(jasonStr,Area.class);
+			
+			List<Concentrator> concentrators = area.getConcentrators();
+			if(concentrators == null || concentrators.size() == 0){
+				return null;
+			}
+			for (Concentrator concentrator : concentrators) {
+				String tmpCId = concentrator.getConcentratorId();
+				ctrIds.add(tmpCId);
+			}
+			String areaId = area.getAreaId();
+			
+			List<MonthlyElectricity> monthlyElectricity = monthlyPowerServiceImpl.fetchAllMonthlyElectricity(date, areaId, ctrIds, rowsNum, pageNum);
+			int total = monthlyPowerServiceImpl.fetchAllMonthlyElectricityCount(date, areaId, ctrIds);
+			gm.setFlag(GeneralMessage.Result.SUCCESS);
+			gm.setMsg("查询相关的按月的电量统计数据成功！");
+			dg.setRows(monthlyElectricity);
+			dg.setTotal(total);
+			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			logger.error("查询相关的按月的电量统计数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
+		}
+	}
+	
 	private void setTotalActivePowerDetail(String areaId,
 			String concentratorId, String pn, Map<String, String> paramMap,String date)
 			throws Exception {
@@ -369,6 +419,20 @@ private static final Logger logger = LoggerFactory.getLogger(MonthlyPowerControl
 		paramMap.put("minCPowerFactor", monthlyPowerFactor.getCminpowerfactor()+"(%)");
 		paramMap.put("minTotalPowerFactor", monthlyPowerFactor.getMintotalpowerfactor()+"(%)");
 		paramMap.put("type", "powerfactor");
+	}
+	
+	
+	private void setElectricityDetail(String areaId, String concentratorId,
+			String pn, Map<String, String> paramMap, String date) throws Exception{
+		List<String> ctrIds = new ArrayList<String>();
+		ctrIds.add(concentratorId);
+		MonthlyElectricity monthlyElectricity = monthlyPowerServiceImpl.fetchSingleMonthlyElectricity(date, areaId, ctrIds, pn);
+		paramMap.put("totalpositiveactivePower", monthlyElectricity.getTotalpositiveactivePower()+"(kWh)");
+		paramMap.put("rateseq1", monthlyElectricity.getRateseq1()+"(kWh)");
+		paramMap.put("rateseq2", monthlyElectricity.getRateseq2()+"(kWh)");
+		paramMap.put("rateseq3", monthlyElectricity.getRateseq3()+"(kWh)");
+		paramMap.put("rateseq4", monthlyElectricity.getRateseq4()+"(kWh)");
+		paramMap.put("type", "electricity");
 	}
 	
 	private void setCurrentDetail(String areaId, String concentratorId,

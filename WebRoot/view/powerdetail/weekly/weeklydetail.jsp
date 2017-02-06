@@ -51,6 +51,27 @@
                 </thead>
             </table>
         </div>
+        <div title="电量" style="display:none;overflow: hidden">
+            <table id="tt7" style="display:none" class="easyui-datagrid" fit="true" data-options="border:false">
+                <thead>
+                    <tr>
+                    	  <th rowspan="2" field="name" width="200" align="center">监测点</th>
+                        <th rowspan="2" field="weekstart" width="120" align="center">开始日期</th>
+                        <th rowspan="2" field="weekend" width="120" align="center">结束日期</th>
+                        <th colspan="5">有功电量(kWh)</th>
+                        <th rowspan="2" field="name" width="120" align="center">无功电量</th>
+                    </tr>
+                    <tr>
+                        <th field="totalpositiveactivePower" width="80" align="center">总</th>
+                        <th field="rateseq1" width="80" align="center">峰</th>
+                        <th field="rateseq2" width="80" align="center">平</th>
+                        <th field="rateseq3" width="80" align="center">谷</th>
+                        <th field="rateseq4" width="80" align="center">尖峰</th>
+                        <th field="totalpositivemaxactivepower" width="120" align="center">无功电量</th>
+                    </tr>
+               </thead>
+            </table>
+        </div>
         <div title="电压" style="display:none;overflow: hidden">
             <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
                 <thead>
@@ -214,38 +235,37 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div title="电量">
+                <div title="电量" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
                         <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
                             图表
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
-                            <table border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
+                            <table id="dtt4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
                                    style="height: 100%;width: 100%">
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">总电量</td>
-                                    <td width="25%" valign="center" align="center" rowspan="1" colspan="3">33.58(kW)
+                                    <td width="25%" valign="center" align="center" rowspan="1" colspan="3">--
                                     </td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">峰电量</td>
-                                    <td width="25%" valign="center" align="center">-(kWh)</td>
+                                    <td width="25%" valign="center" align="center">--(kWh)</td>
                                     <td width="25%" valign="center" align="center">平电量</td>
-                                    <td width="25%" valign="center" align="center">-(kWh)</td>
+                                    <td width="25%" valign="center" align="center">--(kWh)</td>
                                 </tr>
                                 <tr>
                                     <td width="25%" valign="center" align="center">谷电量</td>
-                                    <td width="25%" valign="center" align="center">-(kWh)</td>
+                                    <td width="25%" valign="center" align="center">--(kWh)</td>
                                     <td width="25%" valign="center" align="center">尖峰电量</td>
-                                    <td width="25%" valign="center" align="center">-(kWh)</td>
+                                    <td width="25%" valign="center" align="center">--(kWh)</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div> -->
-                
+                </div>
 				        <div title="示数" style="display:none;overflow: hidden">
 				            <table id="dtt2" class="easyui-datagrid" fit="true" data-options="border:false">
 				                <thead>

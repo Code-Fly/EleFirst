@@ -24,6 +24,8 @@ $(document).ready(function () {
                 dg('tt5', 'monthlypower/listMonthlyPowerFactor.do');
             } else if ("需量" == title) {
                 dg('tt6', 'monthlypower/listMonthlyDemand.do');
+            }else if ("电量" == title) {
+                dg('tt7', 'monthlypower/listMonthlyElectricity.do');
             }
         }
     });
@@ -159,6 +161,19 @@ $(document).ready(function () {
             $("#table1 tr:eq(2) td:eq(3)").html("" + data.peakValleyDifference);
             //负荷率
             $("#table1 tr:eq(3) td:eq(3)").html("" + data.loadFactorRate);
+        } else if("electricity" == tabType){
+        	//总电量
+        	$("#dtt4 tr:eq(0) td:eq(1)").html("" + data.totalpositiveactivePower);
+        	//峰电量
+        	$("#dtt4 tr:eq(1) td:eq(1)").html("" + data.rateseq1);
+        	
+        	//谷电量
+        	$("#dtt4 tr:eq(2) td:eq(1)").html("" + data.rateseq2);
+        	
+        	//平电量
+        	$("#dtt4 tr:eq(1) td:eq(3)").html("" + data.rateseq3);
+        	//尖峰电量
+          $("#dtt4 tr:eq(2) td:eq(3)").html("" + data.rateseq4);
         }
     }
 
@@ -308,6 +323,17 @@ $(document).ready(function () {
                         $('#tab2').tabs('select', '示数');
                         //初始化负荷详情
                         handerBySouthTabType('示数');
+                    } else if ('tt7' == dgId) {
+                        singlerow = $('#tt7').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        date = singlerow.days;
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
+                        $("#input-detail-datebox").datebox("setValue", dateStr);
+                        $('#tab2').tabs('select', '电量');
+                        //初始化负荷详情
+                        handerBySouthTabType('电量');
                     }
                 }, 1000);
             }
@@ -332,6 +358,8 @@ $(document).ready(function () {
             } else if ("电流" == title) {
                 handerBySouthTabType(title);
             } else if ("功率因数" == title) {
+                handerBySouthTabType(title);
+            }else if ("电量" == title) {
                 handerBySouthTabType(title);
             }
         }
@@ -358,6 +386,8 @@ $(document).ready(function () {
                 dg('tt5', 'monthlypower/listMonthlyPowerFactor.do');
             } else if ("需量" == title) {
                 dg('tt6', 'monthlypower/listMonthlyDemand.do');
+            }else if ("电量" == title) {
+                dg('tt7', 'monthlypower/listMonthlyElectricity.do');
             }
         }
     });
@@ -987,6 +1017,8 @@ $(document).ready(function () {
             } else if ("电流" == title) {
                 handerBySouthTabType(title);
             } else if ("功率因数" == title) {
+                handerBySouthTabType(title);
+            }else if ("电量" == title) {
                 handerBySouthTabType(title);
             }
         }

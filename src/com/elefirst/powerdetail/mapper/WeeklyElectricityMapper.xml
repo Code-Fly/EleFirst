@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.powerdetail.mapper.WeeklyElectricityMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.WeeklyElectricity" >
+    <result column="weekstart" property="weekstart" jdbcType="VARCHAR" />
+    <result column="weekend" property="weekend" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="totalPositiveActivePower" property="totalpositiveactivePower" jdbcType="DOUBLE" />
+    <result column="rateseq1" property="rateseq1" jdbcType="DOUBLE" />
+    <result column="rateseq2" property="rateseq2" jdbcType="DOUBLE" />
+    <result column="rateseq3" property="rateseq3" jdbcType="DOUBLE" />
+    <result column="rateseq4" property="rateseq4" jdbcType="DOUBLE" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByExample" resultMap="BaseResultMap">
+    select * from (
+	    select tt3.`name`,tt3.area_id,tt3.concentrator_id,tt3.pn,tt1.weekstart,tt1.weekend,round((tt1.totalPositiveActivePower -tt2.totalPositiveActivePower2)*tt3.pt*tt3.ct,0) totalPositiveActivePower,ROUND((tt1.rateseq1 - tt2.rateseq12),0) rateseq1, ROUND((tt1.rateseq2 - tt2.rateseq22),0) rateseq2,ROUND((tt1.rateseq3 - tt2.rateseq32),0) rateseq3,ROUND((tt1.rateseq4 - tt2.rateseq42),0) rateseq4  from (
+			select  bb.weekstart,bb.weekend,aa.clientOperationTime,aa.area_id,aa.concentrator_id,aa.pn,(aa.totalPositiveActivePower+ 0) as totalPositiveActivePower,(aa.rateseq1+0) as rateseq1,(aa.rateseq2+0) as rateseq2,(aa.rateseq3+0) as rateseq3,(aa.rateseq4+0) as rateseq4 from (
+			select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+			(select id,
+			max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+			max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+			max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+			max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+			from t_005_type_one_data_fn33_rate a
+			group by id) c where b.id = c.id
+
+		) aa,
+		(
+			select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+		date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(clientOperationTime +0) clientOperationTime from (
+			 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+			(select id,
+			max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+			max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+			max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+			max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+			from t_005_type_one_data_fn33_rate a
+			group by id) c where b.id = c.id
+			) tb GROUP BY floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id,concentrator_id,pn
+		)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
+		) tt1,(
+		select bb.weekstart as weekstart2,bb.weekend as weekend2,aa.clientOperationTime as clientOperationTime2,aa.area_id as area_id2,aa.concentrator_id as concentrator_id2,aa.pn as pn2, (aa.totalPositiveActivePower+0) as totalPositiveActivePower2,(aa.rateseq1+0) as rateseq12,(aa.rateseq2+0) as rateseq22,(aa.rateseq3+0) as rateseq32,(aa.rateseq4+0)  as rateseq42 from (
+		select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+		(select id,
+		max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+		max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+		max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+		max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+		from t_005_type_one_data_fn33_rate a
+		group by id) c where b.id = c.id
+
+	) aa,
+	(
+		select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+		date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,min(clientOperationTime +0) clientOperationTime from (
+				 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+				(select id,
+				max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+				max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+				max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+				max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+				from t_005_type_one_data_fn33_rate a
+				group by id) c where b.id = c.id
+				) tb GROUP BY floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7), area_id,concentrator_id,pn
+			)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
+		) tt2,t_202_pn_info tt3 where  tt1.weekstart = tt2.weekstart2 and tt1.area_id = tt2.area_id2 and tt1.concentrator_id = tt2.concentrator_id2 and tt1.pn = tt2.pn2 and tt1.area_id = tt3.area_id and tt1.concentrator_id = tt3.concentrator_id and tt1.pn = tt3.pn
+    ) ct where 1=1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and ct.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	<if test="date!= null and date!= ''">
+		  and #{date ,jdbcType=VARCHAR} &gt;= ct.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= ct.weekend
+	</if>
+	<if test="pn!= null and pn!= ''">
+		  and ct.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+	order by ct.weekstart desc
+	<if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="countByExample" resultType="java.lang.Integer" >
+    select count(1) from (
+	    	select tt3.`name`,tt3.area_id,tt3.concentrator_id,tt3.pn,tt1.weekstart,tt1.weekend,round((tt1.totalPositiveActivePower -tt2.totalPositiveActivePower2)*tt3.pt*tt3.ct,0) totalPositiveActivePower,ROUND((tt1.rateseq1 - tt2.rateseq12),0) rateseq1, ROUND((tt1.rateseq2 - tt2.rateseq22),0) rateseq2,ROUND((tt1.rateseq3 - tt2.rateseq32),0) rateseq3,ROUND((tt1.rateseq4 - tt2.rateseq42),0) rateseq4  from (
+			select  bb.weekstart,bb.weekend,aa.clientOperationTime,aa.area_id,aa.concentrator_id,aa.pn,(aa.totalPositiveActivePower+ 0) as totalPositiveActivePower,(aa.rateseq1+0) as rateseq1,(aa.rateseq2+0) as rateseq2,(aa.rateseq3+0) as rateseq3,(aa.rateseq4+0) as rateseq4 from (
+			select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+			(select id,
+			max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+			max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+			max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+			max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+			from t_005_type_one_data_fn33_rate a
+			group by id) c where b.id = c.id
+				) aa,
+				(
+					select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+			    date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(clientOperationTime +0) clientOperationTime from (
+					 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+					(select id,
+					max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+					max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+					max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+					max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+					from t_005_type_one_data_fn33_rate a
+					group by id) c where b.id = c.id
+					) tb GROUP BY floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id,concentrator_id,pn
+				)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
+			) tt1,(
+			select bb.weekstart as weekstart2,bb.weekend as weekend2,aa.clientOperationTime as clientOperationTime2,aa.area_id as area_id2,aa.concentrator_id as concentrator_id2,aa.pn as pn2, (aa.totalPositiveActivePower+0) as totalPositiveActivePower2,(aa.rateseq1+0) as rateseq12,(aa.rateseq2+0) as rateseq22,(aa.rateseq3+0) as rateseq32,(aa.rateseq4+0)  as rateseq42 from (
+				select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+				(select id,
+				max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+				max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+				max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+				max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+				from t_005_type_one_data_fn33_rate a
+				group by id) c where b.id = c.id
+			
+			) aa,
+			(
+				select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
+			date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,min(clientOperationTime +0) clientOperationTime from (
+				 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
+				(select id,
+				max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
+				max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
+				max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
+				max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
+				from t_005_type_one_data_fn33_rate a
+				group by id) c where b.id = c.id
+				) tb GROUP BY floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7), area_id,concentrator_id,pn
+			)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
+			) tt2,t_202_pn_info tt3 where  tt1.weekstart = tt2.weekstart2 and tt1.area_id = tt2.area_id2 and tt1.concentrator_id = tt2.concentrator_id2 and tt1.pn = tt2.pn2 and tt1.area_id = tt3.area_id and tt1.concentrator_id = tt3.concentrator_id and tt1.pn = tt3.pn
+    ) ct where 1=1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="concentratorIds!= null and concentratorIds!= ''">
+		  and ct.concentrator_id in
+		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
+	      		#{item}  
+	      </foreach>
+	</if>
+	<if test="date!= null and date!= ''">
+		  and #{date ,jdbcType=VARCHAR} &gt;= ct.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= ct.weekend
+	</if>
+	<if test="pn!= null and pn!= ''">
+		  and ct.pn = #{pn ,jdbcType=VARCHAR}
+	</if>
+  </select>
+</mapper>

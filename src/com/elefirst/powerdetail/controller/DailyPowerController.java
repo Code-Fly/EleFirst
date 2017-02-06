@@ -22,6 +22,7 @@ import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.DailyCurrent;
+import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.DailyLoad;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyVoltage;
@@ -225,6 +226,52 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 	}
 	
 	/**
+	 * 根据日期查询相关的电量统计数据
+	 * @param date
+	 * @param page
+	 * @param rows
+	 * @param jasonStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listDailyElectricity.do")
+	public @ResponseBody ErrorMsg queryDailyElectricity(String date,String page, String rows,String jasonStr)
+			throws Exception {
+		DataGrid dg = new DataGrid();
+		GeneralMessage gm = new GeneralMessage();
+		List<String> ctrIds = new ArrayList<String>();
+		
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			
+			Area area = JSON.parseObject(jasonStr,Area.class);
+			
+			List<Concentrator> concentrators = area.getConcentrators();
+			if(concentrators == null || concentrators.size() == 0){
+				return null;
+			}
+			for (Concentrator concentrator : concentrators) {
+				String tmpCId = concentrator.getConcentratorId();
+				ctrIds.add(tmpCId);
+			}
+			String areaId = area.getAreaId();
+			
+			List<DailyElectricity> dailyElectricity = dailyPowerServiceImpl.fetchAllDailyElectricity(date, areaId, ctrIds, rowsNum, pageNum);
+			int total = dailyPowerServiceImpl.fetchAllDailyElectricityCount(date, areaId, ctrIds);
+			gm.setFlag(GeneralMessage.Result.SUCCESS);
+			gm.setMsg("查询相关的按日的电量统计数据成功！");
+			dg.setRows(dailyElectricity);
+			dg.setTotal(total);
+			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			logger.error("查询相关的按日的电量统计数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
+		}
+	}
+	
+	/**
 	 * 根据日期查询相关的按示数统计数据
 	 * @param date
 	 * @param page
@@ -290,6 +337,8 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 				setCurrentDetail(areaId, concentratorId, pn, paramMap,dateStr);
 			}else if("功率因数".equals(tabName)){
 				setPowerFactorDetail(areaId, concentratorId, pn, paramMap,dateStr);
+			}else if("电量".equals(tabName)){
+				setElectricityDetail(areaId, concentratorId, pn, paramMap,dateStr);
 			}
 			logger.error("查询日用电信息成功！");
 			return new ErrorMsg(Error.SUCCESS, "success",paramMap);
@@ -299,6 +348,19 @@ private static final Logger logger = LoggerFactory.getLogger(DailyPowerControlle
 		}
 	}
 	
+	private void setElectricityDetail(String areaId, String concentratorId,
+			String pn, Map<String, String> paramMap, String date) throws Exception{
+		List<String> ctrIds = new ArrayList<String>();
+		ctrIds.add(concentratorId);
+		DailyElectricity dailyElectricity = dailyPowerServiceImpl.fetchSingleDailyElectricity(date, areaId, ctrIds, pn);
+		paramMap.put("totalpositiveactivePower", dailyElectricity.getTotalpositiveactivePower()+"(kWh)");
+		paramMap.put("rateseq1", dailyElectricity.getRateseq1()+"(kWh)");
+		paramMap.put("rateseq2", dailyElectricity.getRateseq2()+"(kWh)");
+		paramMap.put("rateseq3", dailyElectricity.getRateseq3()+"(kWh)");
+		paramMap.put("rateseq4", dailyElectricity.getRateseq4()+"(kWh)");
+		paramMap.put("type", "electricity");
+	}
+
 	private void setTotalActivePowerDetail(String areaId,
 			String concentratorId, String pn, Map<String, String> paramMap,String date)
 			throws Exception {

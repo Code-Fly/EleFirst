@@ -1,23 +1,28 @@
 package com.elefirst.powerdetail.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.elefirst.powerdetail.mapper.DailyCurrentMapper;
+import com.elefirst.powerdetail.mapper.DailyElectricityMapper;
 import com.elefirst.powerdetail.mapper.DailyLoadMapper;
 import com.elefirst.powerdetail.mapper.DailyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.DailyVoltageMapper;
 import com.elefirst.powerdetail.po.DailyCurrent;
 import com.elefirst.powerdetail.po.DailyCurrentExample;
+import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.DailyLoad;
 import com.elefirst.powerdetail.po.DailyLoadExample;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyPowerFactorExample;
 import com.elefirst.powerdetail.po.DailyVoltage;
 import com.elefirst.powerdetail.po.DailyVoltageExample;
+import com.elefirst.powerdetail.po.WeeklyDemand;
 import com.elefirst.powerdetail.service.IDailyPowerService;
 @Service
 public class DailyPowerServiceImpl implements IDailyPowerService{
@@ -33,6 +38,10 @@ public class DailyPowerServiceImpl implements IDailyPowerService{
 	
 	@Resource(name = "dailyPowerFactorMapper")
 	private DailyPowerFactorMapper dailyPowerFactorMapper;
+	
+	@Resource(name = "dailyElectricityMapper")
+	private DailyElectricityMapper dailyElectricityMapper;
+	
 	
 	@Override
 	public List<DailyLoad> fetchAllDailyLoad(String date, String areaId,
@@ -183,6 +192,55 @@ public class DailyPowerServiceImpl implements IDailyPowerService{
 		criteria.andDaysEqualTo(date);
 		List<DailyPowerFactor> dailyPowerFactors = dailyPowerFactorMapper.selectByExample(condition);
 		return dailyPowerFactors.get(0);
+	}
+
+	@Override
+	public List<DailyElectricity> fetchAllDailyElectricity(String date,
+			String areaId, List<String> ctrIds, int rows, int page)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		List<DailyElectricity> dailyElectricity = dailyElectricityMapper.selectByExample(params);
+		return dailyElectricity;
+	}
+
+	@Override
+	public int fetchAllDailyElectricityCount(String date, String areaId,
+			List<String> ctrIds) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+			
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		int count = dailyElectricityMapper.countByExample(params);
+		return count;
+	}
+
+	@Override
+	public DailyElectricity fetchSingleDailyElectricity(String date,
+			String areaId, List<String> ctrIds, String pn) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		if(date != null && date.length() > 0){
+			params.put("date", date);
+		}
+		List<DailyElectricity> dailyElectricity = dailyElectricityMapper.selectByExample(params);
+		return dailyElectricity.get(0);
 	}
 
 }

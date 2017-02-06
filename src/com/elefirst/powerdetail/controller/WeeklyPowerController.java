@@ -22,9 +22,11 @@ import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.Area;
 import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.MonthlyDemandDetail;
+import com.elefirst.powerdetail.po.MonthlyElectricity;
 import com.elefirst.powerdetail.po.WeeklyCurrent;
 import com.elefirst.powerdetail.po.WeeklyDemand;
 import com.elefirst.powerdetail.po.WeeklyDemandDetail;
+import com.elefirst.powerdetail.po.WeeklyElectricity;
 import com.elefirst.powerdetail.po.WeeklyLoad;
 import com.elefirst.powerdetail.po.WeeklyPowerFactor;
 import com.elefirst.powerdetail.po.WeeklyVoltage;
@@ -304,6 +306,52 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 		}
 	}
 	
+	/**
+	 * 根据日期查询相关的电量统计数据
+	 * @param date
+	 * @param page
+	 * @param rows
+	 * @param jasonStr
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("listWeeklyElectricity.do")
+	public @ResponseBody ErrorMsg queryWeeklyElectricity(String date,String page, String rows,String jasonStr)
+			throws Exception {
+		DataGrid dg = new DataGrid();
+		GeneralMessage gm = new GeneralMessage();
+		List<String> ctrIds = new ArrayList<String>();
+		
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			
+			Area area = JSON.parseObject(jasonStr,Area.class);
+			
+			List<Concentrator> concentrators = area.getConcentrators();
+			if(concentrators == null || concentrators.size() == 0){
+				return null;
+			}
+			for (Concentrator concentrator : concentrators) {
+				String tmpCId = concentrator.getConcentratorId();
+				ctrIds.add(tmpCId);
+			}
+			String areaId = area.getAreaId();
+			
+			List<WeeklyElectricity> weeklyElectricity = weeklyPowerServiceImpl.fetchAllWeeklyElectricity(date, areaId, ctrIds, rowsNum, pageNum);
+			int total = weeklyPowerServiceImpl.fetchAllWeeklyElectricityCount(date, areaId, ctrIds);
+			gm.setFlag(GeneralMessage.Result.SUCCESS);
+			gm.setMsg("查询相关的按周的电量统计数据成功！");
+			dg.setRows(weeklyElectricity);
+			dg.setTotal(total);
+			dg.setGm(gm);
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			logger.error("查询相关的按周的电量统计数据失败！", e);
+			return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
+		}
+	}
+	
 	@RequestMapping("queryWeeklyPower.do")
 	public @ResponseBody ErrorMsg queryAllWeeklyPower(String tabName,String areaId,String concentratorId,String pn,String date)
 			throws Exception {
@@ -317,6 +365,8 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 				setCurrentDetail(areaId, concentratorId, pn, paramMap,date);
 			}else if("功率因数".equals(tabName)){
 				setPowerFactorDetail(areaId, concentratorId, pn, paramMap,date);
+			}else if("电量".equals(tabName)){
+				setElectricityDetail(areaId, concentratorId, pn, paramMap,date);
 			}
 			logger.error("查询周用电信息成功！");
 			return new ErrorMsg(Error.SUCCESS, "success",paramMap);
@@ -397,4 +447,16 @@ private static final Logger logger = LoggerFactory.getLogger(WeeklyPowerControll
 		paramMap.put("type", "voltage");
 	}
 	
+	private void setElectricityDetail(String areaId, String concentratorId,
+			String pn, Map<String, String> paramMap, String date) throws Exception{
+		List<String> ctrIds = new ArrayList<String>();
+		ctrIds.add(concentratorId);
+		WeeklyElectricity weeklyElectricity = weeklyPowerServiceImpl.fetchSingleWeeklyElectricity(date, areaId, ctrIds, pn);
+		paramMap.put("totalpositiveactivePower", weeklyElectricity.getTotalpositiveactivePower()+"(kWh)");
+		paramMap.put("rateseq1", weeklyElectricity.getRateseq1()+"(kWh)");
+		paramMap.put("rateseq2", weeklyElectricity.getRateseq2()+"(kWh)");
+		paramMap.put("rateseq3", weeklyElectricity.getRateseq3()+"(kWh)");
+		paramMap.put("rateseq4", weeklyElectricity.getRateseq4()+"(kWh)");
+		paramMap.put("type", "electricity");
+	}
 }

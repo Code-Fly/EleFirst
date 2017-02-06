@@ -3,6 +3,7 @@ package com.elefirst.powerdetail.service;
 import java.util.List;
 
 import com.elefirst.powerdetail.po.DailyCurrent;
+import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.DailyLoad;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyVoltage;
@@ -72,4 +73,32 @@ public interface IDailyPowerService {
 	 */
 	public DailyPowerFactor fetchSingleDailyPowerFactor(String date,String areaId,String ctrId,String pn) throws Exception;
 	
+	/**
+	 * 查询按日统计电量相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DailyElectricity> fetchAllDailyElectricity(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	
+	/**
+	 *  查询按日统计电量相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllDailyElectricityCount(String date,String areaId,List<String> ctrIds) throws Exception;
+	
+	/**
+	 * 查询单条按日统计电量相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public DailyElectricity fetchSingleDailyElectricity(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
 }

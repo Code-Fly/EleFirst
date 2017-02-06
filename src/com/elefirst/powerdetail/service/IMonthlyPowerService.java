@@ -2,9 +2,11 @@ package com.elefirst.powerdetail.service;
 
 import java.util.List;
 
+import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyDemand;
 import com.elefirst.powerdetail.po.MonthlyDemandDetail;
+import com.elefirst.powerdetail.po.MonthlyElectricity;
 import com.elefirst.powerdetail.po.MonthlyLoad;
 import com.elefirst.powerdetail.po.MonthlyPowerFactor;
 import com.elefirst.powerdetail.po.MonthlyVoltage;
@@ -115,4 +117,33 @@ public interface IMonthlyPowerService {
 	 * @throws Exception
 	 */
 	public int fetchAllDailyDetailDemandCount(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
+	
+	/**
+	 * 查询按月统计电量相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<MonthlyElectricity> fetchAllMonthlyElectricity(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	
+	/**
+	 *  查询按月统计电量相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllMonthlyElectricityCount(String date,String areaId,List<String> ctrIds) throws Exception;
+	
+	/**
+	 * 查询单条按月统计电量相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public MonthlyElectricity fetchSingleMonthlyElectricity(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
 }
