@@ -5,6 +5,8 @@ import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.graph.service.iface.IGraphUpdateService;
 import com.elefirst.power.po.DataF25;
+import com.elefirst.power.po.PnStat;
+import com.elefirst.power.service.iface.IPnStatService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import io.swagger.annotations.Api;
@@ -33,6 +35,9 @@ public class GraphUpdateController extends BaseController {
 
     @Autowired
     private IPnInfoService pnInfoService;
+
+    @Autowired
+    private IPnStatService pnStatService;
 
     @RequestMapping(value = "/latest/current/list.do")
     @ApiOperation(value = "自定义图形列表", notes = "", httpMethod = "POST")
@@ -77,9 +82,29 @@ public class GraphUpdateController extends BaseController {
         JSONArray jSwitchState = jParam.getJSONArray("switch_state");
         JSONArray newSwitchState = new JSONArray();
         for (int i = 0; i < jSwitchState.size(); i++) {
+            JSONObject jItem = jSwitchState.getJSONObject(i);
+            PnStat template = new PnStat();
+            template.setAreaId(jItem.getString("areaId"));
+            template.setConcentratorId(jItem.getString("concentratorId"));
+            template.setPn(jItem.getString("pn"));
+            template.setPage(1);
+            template.setRows(1);
+            List<PnStat> pnStatList = graphUpdateService.getLatestPnStatList(template);
+
+            PnInfo pnTemplate = new PnInfo();
+            pnTemplate.setAreaId(jItem.getString("areaId"));
+            pnTemplate.setConcentratorId(jItem.getString("concentratorId"));
+            pnTemplate.setPn(jItem.getString("pn"));
+            List<PnInfo> pnList = pnInfoService.getPnInfoList(pnTemplate);
+
+            if (pnStatList.size() > 0 && pnList.size() > 0) {
+                jItem.put("state", Integer.valueOf(pnStatList.get(0).getStat()));
+                newSwitchState.add(jItem);
+            }
 
         }
         result.put("switch_state", newSwitchState);
+
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }

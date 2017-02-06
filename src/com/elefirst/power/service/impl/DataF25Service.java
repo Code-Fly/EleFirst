@@ -54,10 +54,6 @@ public class DataF25Service extends BaseService implements IDataF25Service {
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
-        if (template.getRows() > 0 && template.getPage() > 0) {
-            condition.setLimitStart((template.getPage() - 1) * template.getRows());
-            condition.setLimitEnd(template.getRows());
-        }
         return dataF25DAO.getDataF25ListCount(condition);
     }
 

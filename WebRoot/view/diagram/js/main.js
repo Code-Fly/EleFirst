@@ -463,10 +463,10 @@ $(document).ready(function () {
             if (cell != null) {
                 model.beginUpdate();
                 try {
-                    if (switchStateNodes[i].attributes.state == graphConstants.SWITCH_STATE_ON) {
+                    if (switchStateNodes[i].state == graphConstants.SWITCH_STATE_ON) {
                         graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "lime", [cell]);
                     }
-                    else if (switchStateNodes[i].attributes.state == graphConstants.SWITCH_STATE_OFF) {
+                    else if (switchStateNodes[i].state == graphConstants.SWITCH_STATE_OFF) {
                         graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "red", [cell]);
                     }
                 }
