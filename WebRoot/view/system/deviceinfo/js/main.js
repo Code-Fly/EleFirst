@@ -247,6 +247,20 @@ $(document).ready(function () {
         }
     });
 
+    $("#btn-pn-tool-load-current").linkbutton({
+        onClick: function () {
+            $("#dg-pn-detail").datagrid("load", {
+                node: JSON.stringify(info)
+            });
+        }
+    });
+
+    $("#btn-pn-tool-load-all").linkbutton({
+        onClick: function () {
+            $("#dg-pn-detail").datagrid("load", {});
+        }
+    });
+
     $("#btn-pn-tool-edit").linkbutton({
         onClick: function () {
             var rows = $("#dg-pn-detail").datagrid("getSelections");
@@ -512,6 +526,20 @@ $(document).ready(function () {
         required: true
     });
 
+    $("#btn-concentrator-tool-load-current").linkbutton({
+        onClick: function () {
+            $("#dg-concentrator-detail").datagrid("load", {
+                node: JSON.stringify(info)
+            });
+        }
+    });
+
+    $("#btn-concentrator-tool-load-all").linkbutton({
+        onClick: function () {
+            $("#dg-concentrator-detail").datagrid("load", {});
+        }
+    });
+
     $("#btn-concentrator-tool-add").linkbutton({
         onClick: function () {
             $("#dlg-add-concentrator-node").dialog("open");
@@ -668,7 +696,7 @@ $(document).ready(function () {
                                 getConcentratorInfo();
                                 $("#dg-concentrator-detail").datagrid("reload");
                                 $("#dlg-add-concentrator-node").dialog("close");
-                                $.messager.alert("操作提示", "添加成功，请在树形目录中选择并添加该馈线柜。", "info");
+                                $.messager.alert("操作提示", "添加成功。", "info");
                             } else {
                                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                             }

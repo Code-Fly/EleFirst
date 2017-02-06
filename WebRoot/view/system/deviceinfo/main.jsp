@@ -61,6 +61,10 @@
                                    data-options="plain:true,iconCls:'icon-edit'">编辑</a>
                                 <a href="#" id="btn-pn-tool-delete" class="easyui-linkbutton"
                                    data-options="plain:true,iconCls:'icon-cross'">删除</a>
+                                <a href="#" id="btn-pn-tool-load-current" class="easyui-linkbutton"
+                                   data-options="plain:true,iconCls:'icon-arrow_refresh'">加载当前</a>
+                                <a href="#" id="btn-pn-tool-load-all" class="easyui-linkbutton"
+                                   data-options="plain:true,iconCls:'icon-arrow_refresh'">加载全部</a>
                             </div>
                         </div>
                         <div title="馈线柜">
@@ -75,6 +79,10 @@
                                    data-options="plain:true,iconCls:'icon-edit'">编辑</a>
                                 <a href="#" id="btn-concentrator-tool-delete" class="easyui-linkbutton"
                                    data-options="plain:true,iconCls:'icon-cross'">删除</a>
+                                <a href="#" id="btn-concentrator-tool-load-current" class="easyui-linkbutton"
+                                   data-options="plain:true,iconCls:'icon-arrow_refresh'">加载当前</a>
+                                <a href="#" id="btn-concentrator-tool-load-all" class="easyui-linkbutton"
+                                   data-options="plain:true,iconCls:'icon-arrow_refresh'">加载全部</a>
                             </div>
                         </div>
                     </div>

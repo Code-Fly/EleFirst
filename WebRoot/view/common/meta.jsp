@@ -106,4 +106,6 @@
         }
     });
 
+
+    window.history.forward(1);
 </SCRIPT>
