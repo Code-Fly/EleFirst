@@ -740,6 +740,7 @@ $(document).ready(function () {
                 $("#combo-tree-node-type").combobox("clear");
                 $("#combo-tree-node-iconCls").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("clear");
+                $("#combo-tree-node-concentratorId").combobox("reload");
                 $("#combo-tree-node-concentratorId").combobox("disable");
             }
         },
