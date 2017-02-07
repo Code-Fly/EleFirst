@@ -14,21 +14,19 @@
     <!--本页面样式-->
     <link href="${ctx}Content/css/page/login.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
-        require([_ctx + "view/frame/js/cloud.js"]);
-    </script>
-    <script type="text/javascript">
-        require([_ctx + "view/frame/js/login.js"]);
+        <c:if test="${sessionScope.SPRING_SECURITY_CONTEXT ==null}">
+        require([_ctx + "view/frame/js/cloud.js", _ctx + "view/frame/js/login.js"]);
+        </c:if>
+        <c:if test="${sessionScope.SPRING_SECURITY_CONTEXT !=null}">
+        window.location.href = "index.do";
+        </c:if>
     </script>
 </head>
 <body>
-
-
 <div id="mainBody">
     <div id="cloud1" class="cloud"></div>
     <div id="cloud2" class="cloud"></div>
 </div>
-
-
 <div class="logintop">
     <span>欢迎登录光一电管家</span>
     <%--<ul>--%>
@@ -37,7 +35,6 @@
     <%--<li><a href="#">关于</a></li>--%>
     <%--</ul>--%>
 </div>
-
 <div class="loginbody">
     <span class="systemlogo"></span>
     <div class="loginbox">
@@ -53,8 +50,7 @@
                     <%--<input id="password" class="easyui-textbox" type="password" style="width:343px;height:40px;padding:12px"--%>
                     <%--data-options="prompt:'密码',iconCls:'icon-lock',iconWidth:38">--%>
                     <input id="password" name="password" class="easyui-passwordbox" prompt="密码" iconWidth="38"
-                           style="width:343px;height:40px;padding:12px" onkeydown=KeyDown()>
-
+                           style="width:343px;height:40px;padding:12px">
                 </li>
                 <li>
                     <input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
