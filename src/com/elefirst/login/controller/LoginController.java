@@ -3,6 +3,7 @@ package com.elefirst.login.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
+import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.po.MenuInfo;
 import com.elefirst.system.service.iface.IMenuInfoService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,11 +29,16 @@ public class LoginController extends BaseController {
     private IMenuInfoService menuInfoServiceImpl;
 
     @RequestMapping("index.do")
-    public String login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    public String index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         loadUserInfo(session);
-        loadAreaInfo(session);
         loadMenu(session);
         return "index";
+    }
+
+    @RequestMapping("login.do")
+    public String login(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        loadAreaInfo(session);
+        return "login";
     }
 
     public void loadUserInfo(HttpSession session) {
@@ -45,9 +51,12 @@ public class LoginController extends BaseController {
     }
 
     public void loadAreaInfo(HttpSession session) {
-        session.setAttribute("areaId", ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
-        session.setAttribute("areaName", ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
-        session.setAttribute("treeId", ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
+        AreaInfo info = new AreaInfo();
+        info.setAreaId(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
+        info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
+
+        session.setAttribute("areaInfo", info);
+        session.setAttribute("treeId", info.getAreaId());
     }
 
     public void loadMenu(HttpSession session) throws Exception {

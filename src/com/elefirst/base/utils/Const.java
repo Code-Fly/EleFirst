@@ -20,6 +20,9 @@ public class Const {
 
     public static final String CONFIG_KEY_AREA_NAME = "system.areaName";
 
+    public static final String CONFIG_KEY_ICP = "system.icp";
+
+
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 
     public static final String PATH_SEPARATOR = File.separator;

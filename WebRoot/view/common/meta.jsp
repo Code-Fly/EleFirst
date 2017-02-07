@@ -16,8 +16,8 @@
 <meta name="format-detection" content="telephone=no"/>
 <SCRIPT type="text/javascript">
     var _ctx = "${ctx}";
-    var _areaId = "${sessionScope.areaId}";
-    var _areaName = "${sessionScope.areaName}";
+    var _areaId = "${sessionScope.areaInfo.areaId}";
+    var _areaName = "${sessionScope.areaInfo.name}";
     var _treeId = "${sessionScope.treeId}";
 
     var _csrfHeaderName = "${_csrf.headerName}"

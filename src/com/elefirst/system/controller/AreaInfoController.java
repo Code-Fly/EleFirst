@@ -4,6 +4,8 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.utils.ConfigUtil;
+import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import io.swagger.annotations.Api;
@@ -64,5 +66,37 @@ public class AreaInfoController extends BaseController {
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
 
+    }
+
+    @RequestMapping(value = "/info/detail.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getAreaInfoDetail(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      @RequestParam(value = "id") String id
+    ) {
+        List<AreaInfo> result = areaInfoService.getAreaInfoDetail(id);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+
+    }
+
+    @RequestMapping(value = "/info/detailByAreaId.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getAreaInfoDetailByAreaId(HttpServletRequest request,
+                                              HttpServletResponse response,
+                                              @RequestParam(value = "areaId") String areaId
+    ) {
+        AreaInfo template = new AreaInfo();
+        template.setAreaId(areaId);
+        List<AreaInfo> result = areaInfoService.getAreaInfoList(template);
+        if (result.size() > 0) {
+            return new ErrorMsg(Error.SUCCESS, "success", result.get(0));
+        } else {
+            AreaInfo info = new AreaInfo();
+            info.setAreaId(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
+            info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
+            return new ErrorMsg(Error.SUCCESS, "success", info);
+        }
     }
 }
