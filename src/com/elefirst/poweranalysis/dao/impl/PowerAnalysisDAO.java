@@ -119,4 +119,9 @@ public class PowerAnalysisDAO extends BaseDAO implements IPowerAnalysisDAO {
     public List<PowerAnalysisElectricityWeeklyChartF33> getElectricityWeeklyChart(Map<String, Object> param) {
         return powerAnalysisF33ElectricityMapper.getElectricityWeeklyChart(param);
     }
+
+    @Override
+    public List<PowerAnalysisElectricityMonthlyChartF33> getElectricityMonthlyChart(Map<String, Object> param) {
+        return powerAnalysisF33ElectricityMapper.getElectricityMonthlyChart(param);
+    }
 }

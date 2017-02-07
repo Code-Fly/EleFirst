@@ -525,6 +525,36 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityMonthlySeries: function (node, time, data) {
+        var y = time.substr(0, 4);
+        var m = time.substr(4, 2);
+        var series = {
+            name: y + "-" + m,
+            data: []
+        };
+
+        for (var t = 0; t < TimeUtils.getMonthDays(new Date(parseInt(y), (parseInt(m) - 1))); t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (time.substr(0, 6) == data[i].clientoperationtime.substr(0, 6)) {
+                        if (parseInt(data[i].dayClientOperationTime) == (t + 1)) {
+                            if (i == 0) {
+                                tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[i]["firstTotalPositiveActivePower"])) * node.ct * node.pt;
+                            } else {
+                                tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[(i - 1)]["lastTotalPositiveActivePower"])) * node.ct * node.pt;
+                            }
+                            tmp = Math.floor(tmp * 100) / 100;
+                        }
+                    }
+                }
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
     getDailyCategories: function () {
         var categories = [];
         for (var i = 0; i < 24; i++) {

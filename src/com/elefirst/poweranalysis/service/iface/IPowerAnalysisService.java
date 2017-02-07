@@ -54,4 +54,7 @@ public interface IPowerAnalysisService {
 
     List<PowerAnalysisElectricityWeeklyChartF33> getElectricityWeeklyChart(Map<String, Object> param);
 
+    List<PowerAnalysisElectricityMonthlyChartF33> getElectricityMonthlyChart(Map<String, Object> param);
+
+
 }
