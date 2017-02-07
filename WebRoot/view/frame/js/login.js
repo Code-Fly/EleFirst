@@ -15,10 +15,10 @@ $(document).ready(function () {
         $.messager.alert("信息提示", "Session 已过期，请重新登陆！", "warning");
     }
 
-    $(".loginbox").css({"position": "absolute", "left": ($(window).width() - 692) / 2});
-    $(window).resize(function () {
-        $(".loginbox").css({"position": "absolute", "left": ($(window).width() - 692) / 2});
-    })
+    // $(".loginbox").css({"position": "absolute", "left": ($(window).width() - 692) / 2});
+    // $(window).resize(function () {
+    //     $(".loginbox").css({"position": "absolute", "left": ($(window).width() - 692) / 2});
+    // })
 
     $("#userName").textbox({
         required: true,

@@ -37,7 +37,7 @@
 </div>
 <div class="loginbody">
     <span class="systemlogo"></span>
-    <div class="loginbox">
+    <div class="loginbox" style="position: absolute;margin: auto; left: 0; right: 0;">
         <%--<form id="f1" action="${ctx}user/login.do" method="post">--%>
         <form id="form-login" action="<c:url value="/login"/>" method="post">
             <ul>
