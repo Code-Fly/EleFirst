@@ -34,7 +34,7 @@
 
         <security:session-management session-authentication-error-url="/?error=2">
             <security:concurrency-control max-sessions="2"
-                                          error-if-maximum-exceeded="true"
+                                          error-if-maximum-exceeded="false"
                                           expired-url="/?error=2"
                                           session-registry-ref="sessionRegistry"/>
         </security:session-management>
