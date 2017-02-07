@@ -83,9 +83,11 @@
                icon="icon-arrow_refresh"
                title="刷新">刷新</a>
         </div>
-        <div class="grid_3" style="padding-top: 2px;">
-            <input id="combo-template" class="easyui-combobox" style="width: 100%;"
-                   label="接线图" labelPosition="before">
+        <div class="grid_1" style="padding-top: 2px;">
+            接线图
+        </div>
+        <div class="grid_2" style="padding-top: 2px;">
+            <input id="combo-template" class="easyui-combobox" style="width: 100%">
         </div>
         <div class="grid_2">
             <div style="float: right">
