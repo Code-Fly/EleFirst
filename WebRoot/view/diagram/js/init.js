@@ -9,18 +9,20 @@ $(document).ready(function () {
         $.messager.alert("操作提示", "浏览器不支持！", "info");
     } else {
         // base js
-        require([_ctx + "view/diagram/config/constants.js", _ctx + "view/diagram/config/utils.js", _ctx + "view/diagram/base/graph.js"], function () {
-            require([_ctx + "view/diagram/base/wire.js"]);
-            require([_ctx + "view/diagram/base/style.js"]);
+        require(["config/constants.js", "config/utils.js", "base/graph.js"], function () {
+            require([
+                "base/wire.js",
+                "base/style.js",
 
-            // config file
-            require([_ctx + "view/diagram/config/object.js"]);
-            require([_ctx + "view/diagram/config/menu.js"]);
-            require([_ctx + "view/diagram/config/toolbar.js"]);
-            require([_ctx + "view/diagram/config/tooltips.js"]);
-
-            // main js
-            require([_ctx + "view/diagram/js/main.js"]);
+                // config file
+                "config/object.js",
+                "config/menu.js",
+                "config/toolbar.js",
+                "config/tooltips.js",
+            ], function () {
+                // main js
+                require(["js/main.js"]);
+            });
         });
     }
 });
