@@ -259,8 +259,9 @@
                 </div>
                 <div title="电量" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div data-options="region:'north',split:true,border:false" style="height:70%;padding:10px;">
-                            图表
+                        <div id="chart-electricity-detail" data-options="region:'north',split:true,border:false"
+                             style="height:70%;text-align: center;">
+                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
                         </div>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
                             <table id="dtt4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"

@@ -97,4 +97,9 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
     public List<PowerAnalysisPowerFactorMonthlyChartF25> getPowerFactorMonthlyChart(Map<String, Object> param) {
         return powerAnalysisDAO.getPowerFactorMonthlyChart(param);
     }
+
+    @Override
+    public List<PowerAnalysisElectricityDailyChartF33> getElectricityDailyChart(Map<String, Object> param) {
+        return powerAnalysisDAO.getElectricityDailyChart(param);
+    }
 }

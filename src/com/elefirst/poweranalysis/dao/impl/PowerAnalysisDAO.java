@@ -2,10 +2,7 @@ package com.elefirst.poweranalysis.dao.impl;
 
 import com.elefirst.base.dao.BaseDAO;
 import com.elefirst.poweranalysis.dao.iface.IPowerAnalysisDAO;
-import com.elefirst.poweranalysis.mapper.PowerAnalysisF25CurrentMapper;
-import com.elefirst.poweranalysis.mapper.PowerAnalysisF25LoadMapper;
-import com.elefirst.poweranalysis.mapper.PowerAnalysisF25PowerFactorMapper;
-import com.elefirst.poweranalysis.mapper.PowerAnalysisF25VoltageMapper;
+import com.elefirst.poweranalysis.mapper.*;
 import com.elefirst.poweranalysis.po.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,6 +26,9 @@ public class PowerAnalysisDAO extends BaseDAO implements IPowerAnalysisDAO {
 
     @Autowired
     private PowerAnalysisF25PowerFactorMapper powerAnalysisF25PowerFactorMapper;
+
+    @Autowired
+    private PowerAnalysisF33ElectricityMapper powerAnalysisF33ElectricityMapper;
 
     @Override
     public List<PowerAnalysisLoadDailyChartF25> getLoadDailyChart(Map<String, Object> param) {
@@ -108,5 +108,10 @@ public class PowerAnalysisDAO extends BaseDAO implements IPowerAnalysisDAO {
     @Override
     public List<PowerAnalysisPowerFactorMonthlyChartF25> getPowerFactorMonthlyChart(Map<String, Object> param) {
         return powerAnalysisF25PowerFactorMapper.getPowerFactorMonthlyChart(param);
+    }
+
+    @Override
+    public List<PowerAnalysisElectricityDailyChartF33> getElectricityDailyChart(Map<String, Object> param) {
+        return powerAnalysisF33ElectricityMapper.getElectricityDailyChart(param);
     }
 }

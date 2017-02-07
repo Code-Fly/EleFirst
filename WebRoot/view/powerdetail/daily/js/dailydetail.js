@@ -26,7 +26,7 @@ $(document).ready(function () {
                 dg('tt4', 'dailypower/listDailyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'dailypower/listDailyPowerFactor.do');
-            }else if ("电量" == title) {
+            } else if ("电量" == title) {
                 dg('tt7', 'dailypower/listDailyElectricity.do');
             }
         }
@@ -120,6 +120,13 @@ $(document).ready(function () {
                 pn: pn,
                 time: $("#input-detail-datebox").datebox("getValue")
             });
+        } else if ("电量" == title) {
+            getElectricityDetailChart({
+                areaId: areaId,
+                concentratorId: concentratorId,
+                pn: pn,
+                time: $("#input-detail-datebox").datebox("getValue")
+            });
         }
 
         //刷新tab
@@ -176,19 +183,19 @@ $(document).ready(function () {
             $("#table1 tr:eq(2) td:eq(3)").html("" + data.peakValleyDifference);
             //负荷率
             $("#table1 tr:eq(3) td:eq(3)").html("" + data.loadFactorRate);
-        } else if("electricity" == tabType){
-        	//总电量
-        	$("#dtt4 tr:eq(0) td:eq(1)").html("" + data.totalpositiveactivePower);
-        	//峰电量
-        	$("#dtt4 tr:eq(1) td:eq(1)").html("" + data.rateseq1);
-        	
-        	//谷电量
-        	$("#dtt4 tr:eq(2) td:eq(1)").html("" + data.rateseq2);
-        	
-        	//平电量
-        	$("#dtt4 tr:eq(1) td:eq(3)").html("" + data.rateseq3);
-        	//尖峰电量
-          $("#dtt4 tr:eq(2) td:eq(3)").html("" + data.rateseq4);
+        } else if ("electricity" == tabType) {
+            //总电量
+            $("#dtt4 tr:eq(0) td:eq(1)").html("" + data.totalpositiveactivePower);
+            //峰电量
+            $("#dtt4 tr:eq(1) td:eq(1)").html("" + data.rateseq1);
+
+            //谷电量
+            $("#dtt4 tr:eq(2) td:eq(1)").html("" + data.rateseq2);
+
+            //平电量
+            $("#dtt4 tr:eq(1) td:eq(3)").html("" + data.rateseq3);
+            //尖峰电量
+            $("#dtt4 tr:eq(2) td:eq(3)").html("" + data.rateseq4);
         }
     }
 
@@ -328,7 +335,7 @@ $(document).ready(function () {
                         $('#tab2').tabs('select', '功率因数');
                         //初始化负荷详情
                         handerBySouthTabType('功率因数');
-                    }else if ('tt7' == dgId) {
+                    } else if ('tt7' == dgId) {
                         singlerow = $('#tt7').datagrid('getSelected');
                         areaId = singlerow.areaId;
                         concentratorId = singlerow.concentratorId;
@@ -364,7 +371,7 @@ $(document).ready(function () {
                 handerBySouthTabType(title);
             } else if ("功率因数" == title) {
                 handerBySouthTabType(title);
-            }else if ("电量" == title) {
+            } else if ("电量" == title) {
                 handerBySouthTabType(title);
             }
         }
@@ -389,7 +396,7 @@ $(document).ready(function () {
                 dg('tt4', 'dailypower/listDailyCurrent.do');
             } else if ("功率因数" == title) {
                 dg('tt5', 'dailypower/listDailyPowerFactor.do');
-            }else if ("电量" == title) {
+            } else if ("电量" == title) {
                 dg('tt7', 'dailypower/listDailyElectricity.do');
             }
         }
@@ -831,6 +838,110 @@ $(document).ready(function () {
                                         config.series = series;
 
                                         $("#chart-power-factor-detail").highcharts(config);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
+                            }
+                        });
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+            }
+        });
+    }
+
+    function getElectricityDetailChart(row) {
+        $.ajax({
+            url: _ctx + "system/pn/info/detail.do",
+            type: "POST",
+            cache: false,
+            data: row,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var pnInfo = r.data[0];
+
+                        var time = new Date().format("yyyy-MM-dd");
+                        if (row.time != null && row.time != "") {
+                            time = row.time;
+                        }
+
+                        var paramChart = {
+                            node: [],
+                            time: []
+                        }
+
+                        paramChart.node.push({
+                            areaId: row.areaId,
+                            concentratorId: row.concentratorId,
+                            pn: row.pn
+                        })
+
+                        var ss = time.split('-');
+                        var y = parseInt(ss[0], 10);
+                        var m = parseInt(ss[1], 10) - 1;
+                        var d = parseInt(ss[2], 10);
+
+                        paramChart.time.push(
+                            new Date(y, m, d).format('yyyyMMdd') + "000000"
+                        )
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/electricity/daily/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        var series = [];
+                                        var item = ChartUtils.getElectricityDailySeries({
+                                            areaId: row.areaId,
+                                            concentratorId: row.concentratorId,
+                                            pn: row.pn,
+                                            pt: pnInfo.pt,
+                                            ct: pnInfo.ct,
+                                            name: "A相"
+                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
+                                        series.push(item);
+
+
+                                        var config = $.parseJSON($.ajax({
+                                            url: "data/electricityDetailChart.json",
+                                            type: "GET",
+                                            async: false
+                                        }).responseText);
+
+                                        config.xAxis.categories = ChartUtils.getDailyCategories();
+                                        config.series = series;
+
+                                        $("#chart-electricity-detail").highcharts(config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");

@@ -40,4 +40,6 @@ public interface IPowerAnalysisDAO {
     List<PowerAnalysisPowerFactorWeeklyChartF25> getPowerFactorWeeklyChart(Map<String, Object> param);
 
     List<PowerAnalysisPowerFactorMonthlyChartF25> getPowerFactorMonthlyChart(Map<String, Object> param);
+
+    List<PowerAnalysisElectricityDailyChartF33> getElectricityDailyChart(Map<String, Object> param);
 }

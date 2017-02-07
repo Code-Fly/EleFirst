@@ -576,4 +576,38 @@ public class ComparisonController extends BaseController {
 
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
+
+    @RequestMapping(value = "/electricity/daily/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getElectricityDailyChart(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<PowerAnalysisF33> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF33 item = new PowerAnalysisF33();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
+
+        List<String> time = new ArrayList<>();
+        JSONArray jTime = jParam.getJSONArray("time");
+        for (int i = 0; i < jTime.size(); i++) {
+            time.add(jTime.getString(i));
+        }
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("time", time);
+
+        List<PowerAnalysisElectricityDailyChartF33> list = powerAnalysisService.getElectricityDailyChart(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
 }
