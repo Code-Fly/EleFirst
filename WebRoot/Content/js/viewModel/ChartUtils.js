@@ -461,7 +461,7 @@ var ChartUtils = {
     },
     getElectricityDailySeries: function (node, time, data) {
         var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),
             data: []
         };
 
@@ -487,7 +487,44 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityWeeklySeries: function (node, time, data) {
+        var y = parseInt(time.substr(0, 4));
+        var m = parseInt(time.substr(4, 2)) - 1;
+        var d = parseInt(time.substr(6, 2));
+        var s = new Date(y, m, d);
 
+        var w = TimeUtils.weekFromODBC(s.getDay());
+
+        var firstDay = new Date(y, m, d);
+        firstDay.setDate(s.getDate() - w);
+        var lastDay = new Date(y, m, d);
+        lastDay.setDate(s.getDate() + (6 - w));
+
+        var series = {
+            name: firstDay.format("yyyy-MM-dd") + "~" + lastDay.format("yyyy-MM-dd"),
+            data: []
+        };
+
+        for (var t = 0; t < 7; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                    if (parseInt(data[i].dayClientOperationTime) == t) {
+                        if (i == 0) {
+                            tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[i]["firstTotalPositiveActivePower"])) * node.ct * node.pt;
+                        } else {
+                            tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[(i - 1)]["lastTotalPositiveActivePower"])) * node.ct * node.pt;
+                        }
+                        tmp = Math.floor(tmp * 100) / 100;
+                    }
+                }
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
     getDailyCategories: function () {
         var categories = [];
         for (var i = 0; i < 24; i++) {
