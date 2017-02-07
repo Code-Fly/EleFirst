@@ -23,11 +23,15 @@ public interface IPowerAnalysisDAO {
 
     List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param);
 
+    //
+
     List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param);
 
     List<PowerAnalysisVoltageWeeklyChartF25> getVoltageWeeklyChart(Map<String, Object> param);
 
     List<PowerAnalysisVoltageMonthlyChartF25> getVoltageMonthlyChart(Map<String, Object> param);
+
+    //
 
     List<PowerAnalysisCurrentDailyChartF25> getCurrentDailyChart(Map<String, Object> param);
 
@@ -35,11 +39,17 @@ public interface IPowerAnalysisDAO {
 
     List<PowerAnalysisCurrentMonthlyChartF25> getCurrentMonthlyChart(Map<String, Object> param);
 
+    //
+
     List<PowerAnalysisPowerFactorDailyChartF25> getPowerFactorDailyChart(Map<String, Object> param);
 
     List<PowerAnalysisPowerFactorWeeklyChartF25> getPowerFactorWeeklyChart(Map<String, Object> param);
 
     List<PowerAnalysisPowerFactorMonthlyChartF25> getPowerFactorMonthlyChart(Map<String, Object> param);
 
+    //
+
     List<PowerAnalysisElectricityDailyChartF33> getElectricityDailyChart(Map<String, Object> param);
+
+    List<PowerAnalysisElectricityWeeklyChartF33> getElectricityWeeklyChart(Map<String, Object> param);
 }

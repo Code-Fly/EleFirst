@@ -926,8 +926,7 @@ $(document).ready(function () {
                                             concentratorId: row.concentratorId,
                                             pn: row.pn,
                                             pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "A相"
+                                            ct: pnInfo.ct
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
                                         series.push(item);
 
