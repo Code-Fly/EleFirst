@@ -15,7 +15,7 @@ var ChartUtils = {
                     if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
                         if (parseInt(data[i].hourClientOperationTime) == t) {
                             tmp = parseFloat(data[i].maxTotalActivePower) * node.pt * node.ct;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -45,7 +45,7 @@ var ChartUtils = {
                                 } else {
                                     tmp += parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
                                 }
-                                tmp = Math.floor(tmp * 100) / 100;
+                                tmp = DataGridUtils.floatFormatter(tmp);
                             }
                         }
                     }
@@ -76,7 +76,7 @@ var ChartUtils = {
                             } else {
                                 tmp += parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
                             }
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -105,7 +105,7 @@ var ChartUtils = {
                             } else {
                                 tmp += parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
                             }
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -129,7 +129,7 @@ var ChartUtils = {
                     if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
                         if (parseInt(data[i].hourClientOperationTime) == t) {
                             tmp = parseFloat(data[i].maxTotalActivePower) * node.pt * node.ct;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -165,7 +165,7 @@ var ChartUtils = {
                 if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
                     if (parseInt(data[i].dayClientOperationTime) == t) {
                         tmp = parseFloat(data[i][type]) * node.pt * node.ct;
-                        tmp = Math.floor(tmp * 100) / 100;
+                        tmp = DataGridUtils.floatFormatter(tmp);
                     }
                 }
             }
@@ -192,7 +192,7 @@ var ChartUtils = {
                     if (time.substr(0, 6) == data[i].clientoperationtime.substr(0, 6)) {
                         if (parseInt(data[i].dayClientOperationTime) == (t + 1)) {
                             tmp = parseFloat(data[i][type]) * node.pt * node.ct;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -216,7 +216,7 @@ var ChartUtils = {
                     if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
                         if (parseInt(data[i].hourClientOperationTime) == t) {
                             tmp = parseFloat(data[i][phase]) * node.pt;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -252,7 +252,7 @@ var ChartUtils = {
                 if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
                     if (parseInt(data[i].dayClientOperationTime) == t) {
                         tmp = parseFloat(data[i][type]) * node.pt;
-                        tmp = Math.floor(tmp * 100) / 100;
+                        tmp = DataGridUtils.floatFormatter(tmp);
                     }
                 }
             }
@@ -277,7 +277,7 @@ var ChartUtils = {
                     if (time.substr(0, 6) == data[i].clientoperationtime.substr(0, 6)) {
                         if (parseInt(data[i].dayClientOperationTime) == (t + 1)) {
                             tmp = parseFloat(data[i][phase]) * node.pt;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -302,7 +302,7 @@ var ChartUtils = {
                     if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
                         if (parseInt(data[i].hourClientOperationTime) == t) {
                             tmp = parseFloat(data[i][phase]) * node.ct;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -338,7 +338,7 @@ var ChartUtils = {
                 if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
                     if (parseInt(data[i].dayClientOperationTime) == t) {
                         tmp = parseFloat(data[i][type]) * node.ct;
-                        tmp = Math.floor(tmp * 100) / 100;
+                        tmp = DataGridUtils.floatFormatter(tmp);
                     }
                 }
             }
@@ -363,7 +363,7 @@ var ChartUtils = {
                     if (time.substr(0, 6) == data[i].clientoperationtime.substr(0, 6)) {
                         if (parseInt(data[i].dayClientOperationTime) == (t + 1)) {
                             tmp = parseFloat(data[i][phase]) * node.pt;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -387,7 +387,7 @@ var ChartUtils = {
                     if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
                         if (parseInt(data[i].hourClientOperationTime) == t) {
                             tmp = parseFloat(data[i][phase]);
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -423,7 +423,7 @@ var ChartUtils = {
                 if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
                     if (parseInt(data[i].dayClientOperationTime) == t) {
                         tmp = parseFloat(data[i][type]);
-                        tmp = Math.floor(tmp * 100) / 100;
+                        tmp = DataGridUtils.floatFormatter(tmp);
                     }
                 }
             }
@@ -448,7 +448,7 @@ var ChartUtils = {
                     if (time.substr(0, 6) == data[i].clientoperationtime.substr(0, 6)) {
                         if (parseInt(data[i].dayClientOperationTime) == (t + 1)) {
                             tmp = parseFloat(data[i][phase]) * node.pt;
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -476,7 +476,7 @@ var ChartUtils = {
                             } else {
                                 tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[(i - 1)]["lastTotalPositiveActivePower"])) * node.ct * node.pt;
                             }
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
@@ -515,7 +515,7 @@ var ChartUtils = {
                         } else {
                             tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[(i - 1)]["lastTotalPositiveActivePower"])) * node.ct * node.pt;
                         }
-                        tmp = Math.floor(tmp * 100) / 100;
+                        tmp = DataGridUtils.floatFormatter(tmp);
                     }
                 }
             }
@@ -544,7 +544,7 @@ var ChartUtils = {
                             } else {
                                 tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[(i - 1)]["lastTotalPositiveActivePower"])) * node.ct * node.pt;
                             }
-                            tmp = Math.floor(tmp * 100) / 100;
+                            tmp = DataGridUtils.floatFormatter(tmp);
                         }
                     }
                 }
