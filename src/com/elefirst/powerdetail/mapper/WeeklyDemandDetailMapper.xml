@@ -18,20 +18,11 @@
   </resultMap>
   <select id="selectByExample" resultMap="BaseResultMap">
     select * from (
-	    select dm.`name`,dp.clientOperationTime,dm.weekstart,dm.weekend,dp.area_id,dp.concentrator_id,dp.pn,dp.totalPositiveActivePower,dp.rateseq1,dp.rateseq2,dp.rateseq3,dp.rateseq4,dm.totalPositiveMaxActivePower,dm.totalPositiveMaxActivePowerTime from (
-		select b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
-		(select id,
-		max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-		max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-		max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-		max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-		from t_005_type_one_data_fn33_rate a
-		group by id) c where b.id = c.id
-		) dp,
-		(
-			select   a.clientOperationTime,b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name`   from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
-            date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend  and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
-		) dm where dp.clientOperationTime = dm.clientOperationTime and dp.area_id = dm.area_id and dp.concentrator_id = dm.concentrator_id and dp.pn = dm.pn 
+	    SELECT date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 DAY ) AS weekstart, date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 + 6 DAY ) AS weekend, t.`name`,t.clientOperationTime,t.area_id,t.concentrator_id,t.pn,t.totalPositiveActivePower, 
+		t.rateseq1,t.rateseq2,t.rateseq3,t.rateseq4,t.totalPositiveMaxActivePower,t.totalPositiveMaxActivePowerTime
+		from (
+		SELECT dm.`name`, dp.clientOperationTime, dp.area_id, dp.concentrator_id, dp.pn, dp.totalPositiveActivePower, dp.rateseq1, dp.rateseq2, dp.rateseq3, dp.rateseq4, dm.totalPositiveMaxActivePower, dm.totalPositiveMaxActivePowerTime FROM ( SELECT b.clientOperationTime, b.area_id, b.concentrator_id, b.pn, b.totalPositiveActivePower, c.rateseq1, c.rateseq2, c.rateseq3, c.rateseq4 FROM t_004_type_one_data_fn33 b, ( SELECT id, max( CASE rate_seq WHEN '1' THEN a.positiveActivePower ELSE '' END ) AS rateseq1, max( CASE rate_seq WHEN '2' THEN a.positiveActivePower ELSE '' END ) AS rateseq2, max( CASE rate_seq WHEN '3' THEN a.positiveActivePower ELSE '' END ) AS rateseq3, max( CASE rate_seq WHEN '4' THEN a.positiveActivePower ELSE '' END ) AS rateseq4 FROM t_005_type_one_data_fn33_rate a GROUP BY id ) c WHERE b.id = c.id ) dp, ( SELECT a.clientOperationTime, a.area_id, a.concentrator_id, a.pn, a.totalPositiveMaxActivePower, a.totalPositiveMaxActivePowerTime, a.`name` FROM ( SELECT t3.clientOperationTime, t3.area_id, t3.concentrator_id, t3.pn, t3.totalPositiveMaxActivePower, t3.totalPositiveMaxActivePowerTime, t3.`name` FROM ( SELECT t1.`name`, t2.area_id, t2.concentrator_id, t2.pn, t2.totalPositiveMaxActivePower, t2.totalPositiveMaxActivePowerTime, t2.clientOperationTime FROM t_202_pn_info t1 INNER JOIN t_016_type_one_data_fn145 t2 ON t1.area_id = t2.area_id AND t1.concentrator_id = t2.concentrator_id AND t1.pn = t2.pn ORDER BY (t2.clientOperationTime + 0) DESC ) t3 GROUP BY t3.area_id, t3.concentrator_id, t3.pn ) a GROUP BY a.area_id, a.concentrator_id, a.pn ) dm WHERE dp.clientOperationTime = dm.clientOperationTime AND dp.area_id = dm.area_id AND dp.concentrator_id = dm.concentrator_id AND dp.pn = dm.pn
+		) t GROUP BY floor( datediff( str_to_date( clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ),t.area_id,t.concentrator_id,t.pn 
     ) ct where 1=1
     <if test="areaId!= null and areaId!= ''">
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
@@ -55,20 +46,11 @@
   </select>
   <select id="countByExample" resultType="java.lang.Integer" >
     select count(1) from (
-    	select dm.`name`,dp.clientOperationTime,dm.weekstart,dm.weekend,dp.area_id,dp.concentrator_id,dp.pn,dp.totalPositiveActivePower,dp.rateseq1,dp.rateseq2,dp.rateseq3,dp.rateseq4,dm.totalPositiveMaxActivePower,dm.totalPositiveMaxActivePowerTime from (
-		select b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_type_one_data_fn33 b ,
-		(select id,
-		max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-		max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-		max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-		max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-		from t_005_type_one_data_fn33_rate a
-		group by id) c where b.id = c.id
-		) dp,
-		(
-			select   a.clientOperationTime,b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name`   from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
-			date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend  and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
-		) dm where dp.clientOperationTime = dm.clientOperationTime and dp.area_id = dm.area_id and dp.concentrator_id = dm.concentrator_id and dp.pn = dm.pn 
+    	SELECT date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 DAY ) AS weekstart, date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 + 6 DAY ) AS weekend, t.`name`,t.clientOperationTime,t.area_id,t.concentrator_id,t.pn,t.totalPositiveActivePower, 
+		t.rateseq1,t.rateseq2,t.rateseq3,t.rateseq4,t.totalPositiveMaxActivePower,t.totalPositiveMaxActivePowerTime
+		from (
+		SELECT dm.`name`, dp.clientOperationTime, dp.area_id, dp.concentrator_id, dp.pn, dp.totalPositiveActivePower, dp.rateseq1, dp.rateseq2, dp.rateseq3, dp.rateseq4, dm.totalPositiveMaxActivePower, dm.totalPositiveMaxActivePowerTime FROM ( SELECT b.clientOperationTime, b.area_id, b.concentrator_id, b.pn, b.totalPositiveActivePower, c.rateseq1, c.rateseq2, c.rateseq3, c.rateseq4 FROM t_004_type_one_data_fn33 b, ( SELECT id, max( CASE rate_seq WHEN '1' THEN a.positiveActivePower ELSE '' END ) AS rateseq1, max( CASE rate_seq WHEN '2' THEN a.positiveActivePower ELSE '' END ) AS rateseq2, max( CASE rate_seq WHEN '3' THEN a.positiveActivePower ELSE '' END ) AS rateseq3, max( CASE rate_seq WHEN '4' THEN a.positiveActivePower ELSE '' END ) AS rateseq4 FROM t_005_type_one_data_fn33_rate a GROUP BY id ) c WHERE b.id = c.id ) dp, ( SELECT a.clientOperationTime, a.area_id, a.concentrator_id, a.pn, a.totalPositiveMaxActivePower, a.totalPositiveMaxActivePowerTime, a.`name` FROM ( SELECT t3.clientOperationTime, t3.area_id, t3.concentrator_id, t3.pn, t3.totalPositiveMaxActivePower, t3.totalPositiveMaxActivePowerTime, t3.`name` FROM ( SELECT t1.`name`, t2.area_id, t2.concentrator_id, t2.pn, t2.totalPositiveMaxActivePower, t2.totalPositiveMaxActivePowerTime, t2.clientOperationTime FROM t_202_pn_info t1 INNER JOIN t_016_type_one_data_fn145 t2 ON t1.area_id = t2.area_id AND t1.concentrator_id = t2.concentrator_id AND t1.pn = t2.pn ORDER BY (t2.clientOperationTime + 0) DESC ) t3 GROUP BY t3.area_id, t3.concentrator_id, t3.pn ) a GROUP BY a.area_id, a.concentrator_id, a.pn ) dm WHERE dp.clientOperationTime = dm.clientOperationTime AND dp.area_id = dm.area_id AND dp.concentrator_id = dm.concentrator_id AND dp.pn = dm.pn
+		) t GROUP BY floor( datediff( str_to_date( clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ),t.area_id,t.concentrator_id,t.pn
     ) ct where 1=1
     <if test="areaId!= null and areaId!= ''">
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 

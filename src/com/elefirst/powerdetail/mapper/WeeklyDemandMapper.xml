@@ -12,29 +12,29 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectByExample" resultMap="BaseResultMap">
-	select DISTINCT b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name` from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
-    date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn        
+    select * from (
+		SELECT date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( a.clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 DAY ) AS weekstart, date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( a.clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 + 6 DAY ) AS weekend, a.area_id, a.concentrator_id, a.pn, a.totalPositiveMaxActivePower, a.totalPositiveMaxActivePowerTime, a.`name` FROM ( SELECT t3.clientOperationTime, t3.area_id, t3.concentrator_id, t3.pn, t3.totalPositiveMaxActivePower, t3.totalPositiveMaxActivePowerTime, t3.`name` FROM ( SELECT t1.`name`, t2.area_id, t2.concentrator_id, t2.pn, t2.totalPositiveMaxActivePower, t2.totalPositiveMaxActivePowerTime, t2.clientOperationTime FROM t_202_pn_info t1 INNER JOIN t_016_type_one_data_fn145 t2 ON t1.area_id = t2.area_id AND t1.concentrator_id = t2.concentrator_id AND t1.pn = t2.pn ORDER BY (t2.clientOperationTime + 0) DESC ) t3 GROUP BY t3.area_id, t3.concentrator_id, t3.pn ) a GROUP BY floor( datediff( str_to_date( a.clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ), a.area_id, a.concentrator_id, a.pn       
+    ) ct where 1=1
     <if test="areaId!= null and areaId!= ''">
-		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
 	<if test="concentratorIds!= null and concentratorIds!= ''">
-		  and a.concentrator_id in
+		  and ct.concentrator_id in
 		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
 	      		#{item}  
 	      </foreach>
 	</if>
 	<if test="date!= null and date!= ''">
-		  and #{date ,jdbcType=VARCHAR} &gt;= b.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= b.weekend
+		  and #{date ,jdbcType=VARCHAR} &gt;= ct.weekstart AND #{date ,jdbcType=VARCHAR} &lt;= ct.weekend
 	</if>
-	order by b.weekstart desc
+	order by weekstart desc
 	<if test="limitStart != null and limitStart >=0" >
       limit ${limitStart} , ${limitEnd}
     </if>
   </select>
   <select id="countByExample" resultType="java.lang.Integer" >
     select count(1) from (
-        	select DISTINCT b.weekstart,b.weekend,a.area_id,a.concentrator_id,a.pn,a.totalPositiveMaxActivePower,a.totalPositiveMaxActivePowerTime,c.`name` from t_016_type_one_data_fn145 a ,(select date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) as weekstart,  
-date_add('1900-01-01',interval floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day)as weekend, area_id,concentrator_id,pn,max(totalPositiveMaxActivePowerTime + 0) as totalPositiveMaxActivePowerTime from t_016_type_one_data_fn145 where totalPositiveMaxActivePowerTime is not null group by  floor(datediff(str_to_date(clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7),area_id ,concentrator_id,pn) b , t_202_pn_info c  where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and (a.totalPositiveMaxActivePowerTime+0) = b.totalPositiveMaxActivePowerTime and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7 day) = b.weekstart  and date_add('1900-01-01',interval floor(datediff(str_to_date(a.clientOperationTime, '%Y%m%d%H%i%s'),'1900-01-01')/7)*7+6 day) = b.weekend and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn
+        	SELECT date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( a.clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 DAY ) AS weekstart, date_add( '1900-01-01', INTERVAL floor( datediff( str_to_date( a.clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ) * 7 + 6 DAY ) AS weekend, a.area_id, a.concentrator_id, a.pn, a.totalPositiveMaxActivePower, a.totalPositiveMaxActivePowerTime, a.`name` FROM ( SELECT t3.clientOperationTime, t3.area_id, t3.concentrator_id, t3.pn, t3.totalPositiveMaxActivePower, t3.totalPositiveMaxActivePowerTime, t3.`name` FROM ( SELECT t1.`name`, t2.area_id, t2.concentrator_id, t2.pn, t2.totalPositiveMaxActivePower, t2.totalPositiveMaxActivePowerTime, t2.clientOperationTime FROM t_202_pn_info t1 INNER JOIN t_016_type_one_data_fn145 t2 ON t1.area_id = t2.area_id AND t1.concentrator_id = t2.concentrator_id AND t1.pn = t2.pn ORDER BY (t2.clientOperationTime + 0) DESC ) t3 GROUP BY t3.area_id, t3.concentrator_id, t3.pn ) a GROUP BY floor( datediff( str_to_date( a.clientOperationTime, '%Y%m%d%H%i%s' ), '1900-01-01' ) / 7 ), a.area_id, a.concentrator_id, a.pn 
     ) ct where 1= 1
     <if test="areaId!= null and areaId!= ''">
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
