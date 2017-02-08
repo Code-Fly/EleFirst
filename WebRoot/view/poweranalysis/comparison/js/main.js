@@ -260,7 +260,7 @@ $(document).ready(function () {
                                 for (var j = 0; j < r.data.length; j++) {
                                     var time = r.data[j].clientoperationtime + "";
                                     var totalactivepower = parseFloat(r.data[j].maxTotalActivePower) * pt * ct;
-                                    totalactivepower = Math.floor(totalactivepower * 100) / 100;
+                                    totalactivepower = DataGridUtils.floatFormatter(totalactivepower);
                                     d.push({
                                         clientOperationTime: (formatDbTimestamp(time) + "").substr(0, 10),
                                         totalactivepower: totalactivepower,
