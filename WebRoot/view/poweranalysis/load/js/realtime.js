@@ -138,10 +138,10 @@ $(document).ready(function () {
         $("#minTotalActivePower").text(tmp.minTotalActivePower + "(kW)");
         $("#avgTotalActivePower").text(tmp.avgTotalActivePower + "(kW)");
 
-        var maxTime = tmp.maxTotalActivePowerTime.substr(0, 4) + "-" + tmp.maxTotalActivePowerTime.substr(4, 2) + "-" + tmp.maxTotalActivePowerTime.substr(6, 2) + " " + tmp.maxTotalActivePowerHour + " 时";
+        var maxTime = tmp.maxTotalActivePowerTime.substr(0, 4) + "-" + tmp.maxTotalActivePowerTime.substr(4, 2) + "-" + tmp.maxTotalActivePowerTime.substr(6, 2) + " " + fixNum(tmp.maxTotalActivePowerHour, 2) + ":00";
         $("#maxTotalActivePowerTime").text(maxTime);
 
-        var minTime = tmp.minTotalActivePowerTime.substr(0, 4) + "-" + tmp.minTotalActivePowerTime.substr(4, 2) + "-" + tmp.minTotalActivePowerTime.substr(6, 2) + " " + tmp.minTotalActivePowerHour + " 时";
+        var minTime = tmp.minTotalActivePowerTime.substr(0, 4) + "-" + tmp.minTotalActivePowerTime.substr(4, 2) + "-" + tmp.minTotalActivePowerTime.substr(6, 2) + " " + fixNum(tmp.minTotalActivePowerHour, 2) + ":00";
         $("#minTotalActivePowerTime").text(minTime);
 
         var differ = tmp.maxTotalActivePower - tmp.minTotalActivePower;

@@ -2,7 +2,7 @@
  * Created by VM on 2/8/2017.
  */
 var DataGridUtils = {
-    FLOAT_PRECISION: 2,
+    FLOAT_PRECISION: 1,
     strFormatter: function (value, row, index) {
         if (value != null && value != "null") {
             return "<div title='" + HTMLUtils.encode(value) + "'>" + HTMLUtils.encode(value) + "</div>";
