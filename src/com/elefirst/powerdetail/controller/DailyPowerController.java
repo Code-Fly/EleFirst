@@ -473,7 +473,7 @@ public class DailyPowerController {
         paramMap.put("minBVoltageTime", com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd"));
 
         paramMap.put("minCVoltage", dailyVoltage.getMincvoltage() + "");
-        paramMap.put("minCVoltage", com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd"));
+        paramMap.put("minCVoltageTime", com.elefirst.base.utils.DateUtil.StringPattern(dailyVoltage.getDays(), "yyyyMMdd", "yyyy-MM-dd"));
 
         paramMap.put("type", "voltage");
     }
