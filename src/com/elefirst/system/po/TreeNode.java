@@ -1,5 +1,7 @@
 package com.elefirst.system.po;
 
+import java.util.Date;
+
 /**
  * Created by barrie on 17/1/30.
  */
@@ -17,6 +19,9 @@ public class TreeNode {
     private String attributes;
 
     private TreeChildren children = new TreeChildren();
+
+    private Date createDate;
+
 
     public String getId() {
         return id;
@@ -72,6 +77,14 @@ public class TreeNode {
 
     public void setChildren(TreeChildren children) {
         this.children = children;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     // 先序遍历，拼接JSON字符串

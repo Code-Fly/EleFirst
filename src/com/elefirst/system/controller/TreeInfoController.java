@@ -103,6 +103,7 @@ public class TreeInfoController extends BaseController {
                                 HttpServletResponse response,
                                 @RequestParam(value = "pid") String pid,
                                 @RequestParam(value = "treeId") String treeId,
+                                @RequestParam(value = "areaId") String areaId,
                                 @RequestParam(value = "iconCls") String iconCls,
                                 @RequestParam(value = "state", required = false) String state,
                                 @RequestParam(value = "attributes") String attributes,
@@ -111,6 +112,7 @@ public class TreeInfoController extends BaseController {
         TreeInfo template = new TreeInfo();
         template.setId(UUID.randomUUID().toString());
         template.setPid(pid);
+        template.setAreaId(areaId);
         template.setTreeId(treeId);
         template.setIconCls(iconCls);
         if (null != state && !state.isEmpty()) {
@@ -164,6 +166,7 @@ public class TreeInfoController extends BaseController {
             node.setIconCls(dataRecord.getIconCls());
             node.setState(dataRecord.getState());
             node.setAttributes(dataRecord.getAttributes());
+            node.setCreateDate(dataRecord.getCreateDate());
             nodeList.put(node.getId(), node);
         }
         // 构造无序的多叉树
@@ -182,7 +185,7 @@ public class TreeInfoController extends BaseController {
         JSONArray treeArr = new JSONArray();
 
         if (null != root) {
-//            root.sortChildren();
+            root.sortChildren();
             treeArr.add(JSONObject.fromObject(root.toString()));
         }
         // 输出有序的树形菜单的JSON字符串

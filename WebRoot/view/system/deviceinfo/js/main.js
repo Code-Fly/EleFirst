@@ -894,6 +894,7 @@ $(document).ready(function () {
                     url: _ctx + "system/tree/info/add.do",
                     type: "POST",
                     data: {
+                        areaId: _areaId,
                         pid: node.id,
                         treeId: _treeId,
                         iconCls: iconCls,
@@ -938,6 +939,7 @@ $(document).ready(function () {
                         url: _ctx + "system/tree/info/add.do",
                         type: "POST",
                         data: {
+                            areaId: _areaId,
                             pid: 0,
                             treeId: info.areaId,
                             iconCls: "icon-house",
