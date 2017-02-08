@@ -31,21 +31,30 @@
                     </th>
                 </tr>
                 <tr>
-                    <th field="totalactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">总
+                    <th field="totalactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">总
                     </th>
-                    <th field="aActivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">Pu/PI
+                    <th field="aActivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pu/PI
                     </th>
-                    <th field="bActivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">Pv</th>
-                    <th field="cActivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">Pw/PII
+                    <th field="bActivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pv
                     </th>
-                    <th field="totalreactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">
+                    <th field="cActivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pw/PII
+                    </th>
+                    <th field="totalreactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">
                         总
                     </th>
-                    <th field="aReactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">U相
+                    <th field="aReactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">U相
                     </th>
-                    <th field="bReactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">V相
+                    <th field="bReactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">V相
                     </th>
-                    <th field="cReactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">W相
+                    <th field="cReactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">W相
                     </th>
                 </tr>
                 </thead>
@@ -69,18 +78,18 @@
                 </tr>
                 <tr>
                     <th field="totalpositiveactivepower" width="80" align="center"
-                        formatter="DataGridUtils.floatFormatter">
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
                         正向有功
                     </th>
                     <th field="totalreverseactivepower" width="80" align="center"
-                        formatter="DataGridUtils.floatFormatter">
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
                         反向有功
                     </th>
                     <th field="totalpositivereactivepower" width="80" align="center"
-                        formatter="DataGridUtils.floatFormatter">正向无功
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">正向无功
                     </th>
                     <th field="totalreversereactivepower" width="80" align="center"
-                        formatter="DataGridUtils.floatFormatter">正向无功
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">正向无功
                     </th>
                 </tr>
                 </thead>
@@ -103,9 +112,15 @@
                     </th>
                 </tr>
                 <tr>
-                    <th field="aVoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uu/Uuv</th>
-                    <th field="bVoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uv</th>
-                    <th field="cVoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uw/Uwv</th>
+                    <th field="aVoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uu/Uuv
+                    </th>
+                    <th field="bVoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uv
+                    </th>
+                    <th field="cVoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uw/Uwv
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -127,9 +142,15 @@
                     </th>
                 </tr>
                 <tr>
-                    <th field="aCurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iu</th>
-                    <th field="bCurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iv</th>
-                    <th field="cCurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iw</th>
+                    <th field="aCurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iu
+                    </th>
+                    <th field="bCurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iv
+                    </th>
+                    <th field="cCurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iw
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -151,11 +172,18 @@
                     </th>
                 </tr>
                 <tr>
-                    <th field="totalpowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">总
+                    <th field="totalpowerfactor" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">总
                     </th>
-                    <th field="aPowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">U相</th>
-                    <th field="bPowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">V相</th>
-                    <th field="cPowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">W相</th>
+                    <th field="aPowerfactor" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">U相
+                    </th>
+                    <th field="bPowerfactor" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">V相
+                    </th>
+                    <th field="cPowerfactor" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">W相
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -279,16 +307,20 @@
                         </tr>
                         <tr>
                             <th field="totalpositiveactivepower" width="80" align="center"
-                                formatter="DataGridUtils.floatFormatter">正向有功
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                正向有功
                             </th>
                             <th field="totalreverseactivepower" width="80" align="center"
-                                formatter="DataGridUtils.floatFormatter">反向有功
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                反向有功
                             </th>
                             <th field="totalpositivereactivepower" width="80" align="center"
-                                formatter="DataGridUtils.floatFormatter">正向无功
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                正向无功
                             </th>
                             <th field="totalreversereactivepower" width="80" align="center"
-                                formatter="DataGridUtils.floatFormatter">正向无功
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                正向无功
                             </th>
                         </tr>
                         </thead>
