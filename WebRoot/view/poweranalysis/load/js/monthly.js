@@ -55,7 +55,7 @@ $(document).ready(function () {
                     var pt = row.pt;
                     var ct = row.ct;
                     t = t * pt * ct;
-                    t = Math.floor(t * 100) / 100;
+                    t = DataGridUtils.floatFormatter(t);
                     return t;
                 }
             },
@@ -69,7 +69,7 @@ $(document).ready(function () {
                     var pt = row.pt;
                     var ct = row.ct;
                     t = t * pt * ct;
-                    t = Math.floor(t * 100) / 100;
+                    t = DataGridUtils.floatFormatter(t);
                     return t;
                 }
             },
@@ -83,7 +83,7 @@ $(document).ready(function () {
                     var pt = row.pt;
                     var ct = row.ct;
                     t = t * pt * ct;
-                    t = Math.floor(t * 100) / 100;
+                    t = DataGridUtils.floatFormatter(t);
                     return t;
                 }
             },
@@ -97,7 +97,7 @@ $(document).ready(function () {
                     var pt = row.pt;
                     var ct = row.ct;
                     t = t * pt * ct;
-                    t = Math.floor(t * 100) / 100;
+                    t = DataGridUtils.floatFormatter(t);
                     return t;
                 }
             },
@@ -109,7 +109,7 @@ $(document).ready(function () {
                 formatter: function (value, row, index) {
                     var t = parseFloat(row.avgTotalActivePower) / parseFloat(row.maxTotalActivePower);
                     t = t * 100;
-                    t = Math.floor(t * 100) / 100;
+                    t = DataGridUtils.floatFormatter(t);
                     if (parseFloat(row.maxTotalActivePower) == 0) {
                         t = "";
                     }
@@ -238,14 +238,14 @@ $(document).ready(function () {
         };
         for (var i = 0; i < data.length; i++) {
             var max = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
-            max = Math.floor(max * 100) / 100;
+            max = DataGridUtils.floatFormatter(max);
             if (max > tmp.maxTotalActivePower) {
                 tmp.maxTotalActivePower = max;
                 tmp.maxTotalActivePowerTime = data[i].clientoperationtime;
             }
 
             var min = parseFloat(data[i].minTotalActivePower) * data[i].pt * data[i].ct;
-            min = Math.floor(min * 100) / 100;
+            min = DataGridUtils.floatFormatter(min);
             if (min < tmp.minTotalActivePower) {
                 tmp.minTotalActivePower = min;
                 tmp.minTotalActivePowerTime = data[i].clientoperationtime;
@@ -256,7 +256,7 @@ $(document).ready(function () {
             }
         }
         tmp.avgTotalActivePower = tmp.avgTotalActivePower / data.length;
-        tmp.avgTotalActivePower = Math.floor(tmp.avgTotalActivePower * 100) / 100;
+        tmp.avgTotalActivePower = DataGridUtils.floatFormatter(tmp.avgTotalActivePower);
 
 
         $("#maxTotalActivePower").text(tmp.maxTotalActivePower + "(kW)");
@@ -270,20 +270,20 @@ $(document).ready(function () {
         $("#minTotalActivePowerTime").text(minTime);
 
         var differ = tmp.maxTotalActivePower - tmp.minTotalActivePower;
-        differ = Math.floor(differ * 100) / 100 + "(kW)";
+        differ = DataGridUtils.floatFormatter(differ) + "(kW)";
         $("#differ").text(differ);
 
         var differRate = ((tmp.maxTotalActivePower - tmp.minTotalActivePower) / tmp.maxTotalActivePower) * 100
-        differRate = Math.floor(differRate * 100) / 100 + "(%)";
+        differRate = DataGridUtils.floatFormatter(differRate) + "(%)";
         if (tmp.maxTotalActivePower == 0) {
-            differRate = "--";
+            differRate = "-%";
         }
         $("#differRate").text(differRate);
 
         var loadRate = (tmp.avgTotalActivePower / tmp.maxTotalActivePower) * 100
-        loadRate = Math.floor(loadRate * 100) / 100 + "(%)";
+        loadRate = DataGridUtils.floatFormatter(loadRate) + "(%)";
         if (tmp.maxTotalActivePower == 0) {
-            loadRate = "--";
+            loadRate = "-%";
         }
         $("#loadRate").text(loadRate);
 
