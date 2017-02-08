@@ -31,7 +31,8 @@
                     -->
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    <th rowspan="2" field="days" width="120" align="center"
+                        formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th colspan="5">有功负荷(kW)</th>
                 </tr>
@@ -54,7 +55,8 @@
                 <tr>
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    <th rowspan="2" field="days" width="120" align="center"
+                        formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th colspan="5">有功电量(kWh)</th>
                     <th rowspan="2" field="totalpositiveactivePower" width="120" align="center"
@@ -79,7 +81,8 @@
                 <tr>
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    <th rowspan="2" field="days" width="120" align="center"
+                        formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th colspan="5">示数</th>
                     <th colspan="2">最大需量</th>
@@ -96,7 +99,7 @@
                         formatter="DataGridUtils.floatFormatter">最大需量
                     </th>
                     <th field="totalpositivemaxactivepowertime" width="150" align="center"
-                        formatter="DataGridUtils.floatFormatter">发生时间
+                        formatter="DataGridUtils.dateToDayFormatter">发生时间
                     </th>
                 </tr>
                 </thead>
@@ -111,7 +114,8 @@
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    <th rowspan="2" field="days" width="120" align="center"
+                        formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th colspan="3">最高电压(V)</th>
                     <th colspan="3">最低电压(V)</th>
@@ -140,7 +144,8 @@
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    <th rowspan="2" field="days" width="120" align="center"
+                        formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th colspan="3">最高电流(A)</th>
                     <th colspan="3">最低电流(A)</th>
@@ -165,7 +170,8 @@
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    <th rowspan="2" field="days" width="120" align="center"
+                        formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th colspan="2">平均功率因数(%)</th>
                 </tr>
@@ -193,7 +199,8 @@
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    <th rowspan="2" field="days" width="120" align="center"
+                        formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th rowspan="2" field="days" width="120" align="center">
                         谐波次数

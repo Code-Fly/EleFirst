@@ -20,9 +20,24 @@ var DataGridUtils = {
             return "-";
         }
     },
-    dateFormatter: function (value, row, index) {
+    dateToDayFormatter: function (value, row, index) {
         if (value != null) {
-            return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
+            if ((value + "").split("-").length == 1) {
+                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
+            } else {
+                return value;
+            }
+        } else {
+            return "-";
+        }
+    },
+    dateToMonthFormatter: function (value, row, index) {
+        if (value != null) {
+            if ((value + "").split("-").length == 1) {
+                return value.substring(0, 4) + '-' + value.substring(4, 6);
+            } else {
+                return value;
+            }
         } else {
             return "-";
         }
