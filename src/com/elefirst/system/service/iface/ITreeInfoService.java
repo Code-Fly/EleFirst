@@ -12,11 +12,11 @@ public interface ITreeInfoService {
 
     int getTreeInfoListCount(TreeInfo template);
 
-    List<TreeInfo> getTreeInfoDetail(Long id);
+    List<TreeInfo> getTreeInfoDetail(String id);
 
     int addTreeInfo(TreeInfo template);
 
     int updateTreeInfo(TreeInfo template);
 
-    int delTreeInfo(Long id);
+    int delTreeInfo(String id);
 }

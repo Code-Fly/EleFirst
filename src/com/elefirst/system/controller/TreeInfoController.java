@@ -64,7 +64,7 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg updateTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
-                                   @RequestParam(value = "id") Long id,
+                                   @RequestParam(value = "id") String id,
                                    @RequestParam(value = "iconCls", required = false) String iconCls,
                                    @RequestParam(value = "state", required = false) String state,
                                    @RequestParam(value = "attributes", required = false) String attributes,
@@ -101,7 +101,7 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg addTreeInfo(HttpServletRequest request,
                                 HttpServletResponse response,
-                                @RequestParam(value = "pid") Long pid,
+                                @RequestParam(value = "pid") String pid,
                                 @RequestParam(value = "treeId") String treeId,
                                 @RequestParam(value = "iconCls") String iconCls,
                                 @RequestParam(value = "state", required = false) String state,
@@ -109,6 +109,7 @@ public class TreeInfoController extends BaseController {
                                 @RequestParam(value = "name") String name
     ) {
         TreeInfo template = new TreeInfo();
+        template.setId(UUID.randomUUID().toString());
         template.setPid(pid);
         template.setTreeId(treeId);
         template.setIconCls(iconCls);
@@ -128,7 +129,7 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg deleteTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
-                                   @RequestParam(value = "id") Long id
+                                   @RequestParam(value = "id") String id
     ) {
         int result = treeInfoService.delTreeInfo(id);
         return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -160,7 +161,7 @@ public class TreeInfoController extends BaseController {
             node.setId(dataRecord.getId());
             node.setPid(dataRecord.getPid());
             node.setText(dataRecord.getName());
-            node.setIconcls(dataRecord.getIconCls());
+            node.setIconCls(dataRecord.getIconCls());
             node.setState(dataRecord.getState());
             node.setAttributes(dataRecord.getAttributes());
             nodeList.put(node.getId(), node);
@@ -169,7 +170,7 @@ public class TreeInfoController extends BaseController {
         Set entrySet = nodeList.entrySet();
         for (Iterator it = entrySet.iterator(); it.hasNext(); ) {
             TreeNode node = (TreeNode) ((Map.Entry) it.next()).getValue();
-            if (node.getPid() == null || node.getPid() == 0) {
+            if (node.getPid() == null || node.getPid().equals("0")) {
                 root = node;
             } else {
                 ((TreeNode) nodeList.get(node.getPid())).addChild(node);
@@ -181,7 +182,7 @@ public class TreeInfoController extends BaseController {
         JSONArray treeArr = new JSONArray();
 
         if (null != root) {
-            root.sortChildren();
+//            root.sortChildren();
             treeArr.add(JSONObject.fromObject(root.toString()));
         }
         // 输出有序的树形菜单的JSON字符串

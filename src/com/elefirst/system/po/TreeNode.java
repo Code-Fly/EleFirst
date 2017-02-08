@@ -4,9 +4,9 @@ package com.elefirst.system.po;
  * Created by barrie on 17/1/30.
  */
 public class TreeNode {
-    private Long id;
+    private String id;
 
-    private Long pid;
+    private String pid;
 
     private String text;
 
@@ -18,19 +18,19 @@ public class TreeNode {
 
     private TreeChildren children = new TreeChildren();
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getPid() {
+    public String getPid() {
         return pid;
     }
 
-    public void setPid(Long pid) {
+    public void setPid(String pid) {
         this.pid = pid;
     }
 
@@ -42,11 +42,11 @@ public class TreeNode {
         this.text = text;
     }
 
-    public String getIconcls() {
+    public String getIconCls() {
         return iconCls;
     }
 
-    public void setIconcls(String iconCls) {
+    public void setIconCls(String iconCls) {
         this.iconCls = iconCls;
     }
 
