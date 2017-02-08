@@ -272,14 +272,24 @@
                     <table id="dtt2" class="easyui-datagrid" data-options="border:false" fit="true">
                         <thead>
                         <tr>
-                            <th rowspan="2" field="clientoperationtime33" width="120" align="center">日期</th>
+                            <th rowspan="2" field="clientoperationtime33" width="120" align="center"
+                                formatter="DataGridUtils.dateToMinuteFormatter">日期
+                            </th>
                             <th colspan="4">示数</th>
                         </tr>
                         <tr>
-                            <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
-                            <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-                            <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
-                            <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
+                            <th field="totalpositiveactivepower" width="80" align="center"
+                                formatter="DataGridUtils.floatFormatter">正向有功
+                            </th>
+                            <th field="totalreverseactivepower" width="80" align="center"
+                                formatter="DataGridUtils.floatFormatter">反向有功
+                            </th>
+                            <th field="totalpositivereactivepower" width="80" align="center"
+                                formatter="DataGridUtils.floatFormatter">正向无功
+                            </th>
+                            <th field="totalreversereactivepower" width="80" align="center"
+                                formatter="DataGridUtils.floatFormatter">正向无功
+                            </th>
                         </tr>
                         </thead>
                     </table>
