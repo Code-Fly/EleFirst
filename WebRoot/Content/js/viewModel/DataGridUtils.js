@@ -2,7 +2,7 @@
  * Created by VM on 2/8/2017.
  */
 var DataGridUtils = {
-    FLOAT_PRECISION: 1,
+    FLOAT_PRECISION: 2,
     strFormatter: function (value, row, index) {
         if (value != null) {
             return "<div title='" + HTMLUtils.encode(value) + "'>" + HTMLUtils.encode(value) + "</div>";
@@ -20,9 +20,20 @@ var DataGridUtils = {
             return "-";
         }
     },
+    dateToMinuteFormatter: function (value, row, index) {
+        if (value != null) {
+            if ((value + "").indexOf("-") < 0) {
+                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8) + " " + value.substring(8, 10) + ":" + value.substring(10, 12) + ":" + value.substring(12, 14);
+            } else {
+                return value;
+            }
+        } else {
+            return "-";
+        }
+    },
     dateToDayFormatter: function (value, row, index) {
         if (value != null) {
-            if ((value + "").split("-").length == 1) {
+            if ((value + "").indexOf("-") < 0) {
                 return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
             } else {
                 return value;
@@ -33,7 +44,7 @@ var DataGridUtils = {
     },
     dateToMonthFormatter: function (value, row, index) {
         if (value != null) {
-            if ((value + "").split("-").length == 1) {
+            if ((value + "").indexOf("-") < 0) {
                 return value.substring(0, 4) + '-' + value.substring(4, 6);
             } else {
                 return value;

@@ -5,16 +5,6 @@
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/commonHighChart.jsp" %>
     <script type="text/javascript">
-        function dateformatter(value, row, index) {
-            if (value != null) {
-                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
-            }
-        }
-        function dateformatter4demand(value, row, index) {
-            if (value != null) {
-                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8) + " " + value.substring(8, 10) + ":" + value.substring(10, 12) + ":" + value.substring(12, 14);
-            }
-        }
         require(["js/weeklydetail.js"]);
     </script>
 </head>
@@ -60,7 +50,7 @@
             </table>
         </div>
         <div title="电量" style="display:none;overflow: hidden">
-            <table id="tt7" style="display:none" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt7" style="display:none;overflow: hidden">
                 <thead>
                 <tr>
                     <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
@@ -89,7 +79,7 @@
             </table>
         </div>
         <div title="电压" style="display:none;overflow: hidden">
-            <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt3" style="display:none;overflow: hidden">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
@@ -122,7 +112,7 @@
             </table>
         </div>
         <div title="电流" style="display:none;overflow: hidden">
-            <table id="tt4" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt4" style="display:none;overflow: hidden">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
@@ -151,7 +141,7 @@
             </table>
         </div>
         <div title="功率因数" style="display:none;overflow: hidden">
-            <table id="tt5" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt5" style="display:none;overflow: hidden">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
@@ -179,7 +169,7 @@
             </table>
         </div>
         <div title="需量" style="display:none;overflow: hidden">
-            <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt6" style="display:none;overflow: hidden">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
@@ -200,7 +190,7 @@
                         formatter="DataGridUtils.floatFormatter">最大需量
                     </th>
                     <th field="totalpositivemaxactivepowertime" width="150" align="center"
-                        formatter="DataGridUtils.dateToDayFormatter">发生时间
+                        formatter="DataGridUtils.dateToMinuteFormatter">发生时间
                     </th>
                 </tr>
                 </thead>
@@ -336,7 +326,7 @@
                             <th field="rateseq4" width="80" align="center">尖峰</th>
                             <th field="totalpositivemaxactivepower" width="120" align="center">最大需量</th>
                             <th field="totalpositivemaxactivepowertime" width="150" align="center"
-                                formatter="dateformatter4demand">发生时间
+                                formatter="DataGridUtils.dateToMinuteFormatter">发生时间
                             </th>
                         </tr>
                         </thead>

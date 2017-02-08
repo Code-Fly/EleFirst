@@ -99,7 +99,7 @@
                         formatter="DataGridUtils.floatFormatter">最大需量
                     </th>
                     <th field="totalpositivemaxactivepowertime" width="150" align="center"
-                        formatter="DataGridUtils.dateToDayFormatter">发生时间
+                        formatter="DataGridUtils.dateToMinuteFormatter">发生时间
                     </th>
                 </tr>
                 </thead>
