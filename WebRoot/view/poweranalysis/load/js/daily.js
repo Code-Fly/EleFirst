@@ -203,7 +203,6 @@ $(document).ready(function () {
                         config.xAxis.categories = ChartUtils.getDailyIntervalDayCategories(time, interval);
                         config.series = series;
 
-
                         $("#chart-load").highcharts(config);
 
                     } else {
@@ -223,32 +222,6 @@ $(document).ready(function () {
                 MaskUtil.unmask();
             }
         });
-    }
-
-    function getDgData(data, pnList) {
-        var tmp = {};
-        for (var i = 0; i < data.length; i++) {
-            var day = data[i].clientoperationtime.substr(0, 8);
-            if (!tmp.hasOwnProperty(day)) {
-                tmp[day] = data[i];
-            } else {
-                var item = clone(tmp[day]);
-                item.maxTotalActivePower = parseFloat(item.maxTotalActivePower) + parseFloat(data[i].maxTotalActivePower);
-                item.minTotalActivePower = parseFloat(item.minTotalActivePower) + parseFloat(data[i].minTotalActivePower);
-                item.avgTotalActivePower = parseFloat(item.avgTotalActivePower) + parseFloat(data[i].avgTotalActivePower);
-                tmp[day] = item;
-            }
-        }
-        var nData = [];
-        $.each(tmp, function (i, n) {
-            for (var j = 0; j < pnList.length; j++) {
-                var target = clone(n);
-                if (pnList[j].areaId == n.areaId && pnList[j].concentratorId == n.concentratorId && pnList[j].pn == n.pn) {
-                    nData.push($.extend(target, pnList[j]));
-                }
-            }
-        });
-        return nData;
     }
 
     function getTbData(data) {

@@ -70,7 +70,7 @@ var ChartUtils = {
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < nodes.length; j++) {
                     if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
-                        if (parseInt(data[i].dayClientOperationTime) == category[t]) {
+                        if (parseInt(data[i].dayClientOperationTime) == parseInt(category[t])) {
                             if (tmp == null) {
                                 tmp = parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
                             } else {
@@ -99,7 +99,7 @@ var ChartUtils = {
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < nodes.length; j++) {
                     if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
-                        if (parseInt(data[i].monthClientOperationTime) == category[t]) {
+                        if (parseInt(data[i].monthClientOperationTime) == parseInt(category[t])) {
                             if (tmp == null) {
                                 tmp = parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
                             } else {
