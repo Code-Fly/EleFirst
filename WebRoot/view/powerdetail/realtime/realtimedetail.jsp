@@ -9,10 +9,10 @@
     </script>
 </head>
 <body class="easyui-layout" id="cc">
-<div data-options="region:'center',border:false" style="width:100%;overflow: hidden"">
+<div data-options="region:'center',border:false" style="width:100%;overflow: hidden">
     <div id="tt" class="easyui-tabs" data-options="border:false" fit="true">
         <div title="负荷" style="display:none;overflow: hidden">
-            <table id="tt1" style="display:none" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt1" style="display:none">
                 <thead>
                 <tr>
                     <!-- <th field="id" hidden="true"></th>
@@ -20,103 +20,142 @@
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="stat" width="80" align="center" formatter="DataGridUtils.strFormatter">状态
+                    </th>
                     <th colspan="4">有功负荷(kW)</th>
                     <th colspan="4">无功负荷(kVar)</th>
-                    <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
+                    <th rowspan="2" field="clientoperationtime" width="120" align="center"
+                        formatter="DataGridUtils.dateToMinuteFormatter">抄表时刻
+                    </th>
                 </tr>
                 <tr>
-                    <th field="totalactivepower" width="80" align="center">总</th>
-                    <th field="aActivepower" width="80" align="center">Pu/PI</th>
-                    <th field="bActivepower" width="80" align="center">Pv</th>
-                    <th field="cActivepower" width="80" align="center">Pw/PII</th>
-                    <th field="totalreactivepower" width="80" align="center">总</th>
-                    <th field="aReactivepower" width="80" align="center">U相</th>
-                    <th field="bReactivepower" width="80" align="center">V相</th>
-                    <th field="cReactivepower" width="80" align="center">W相</th>
+                    <th field="totalactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">总
+                    </th>
+                    <th field="aActivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">Pu/PI
+                    </th>
+                    <th field="bActivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">Pv</th>
+                    <th field="cActivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">Pw/PII
+                    </th>
+                    <th field="totalreactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">
+                        总
+                    </th>
+                    <th field="aReactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">U相
+                    </th>
+                    <th field="bReactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">V相
+                    </th>
+                    <th field="cReactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">W相
+                    </th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="示数" style="display:none;overflow: hidden">
-            <table id="tt2" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt2" style="display:none">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId33" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn33" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="stat" width="80" align="center" formatter="DataGridUtils.strFormatter">状态
+                    </th>
                     <th colspan="4">示数</th>
-                    <th rowspan="2" field="clientoperationtime33" width="120" align="center">抄表时刻</th>
+                    <th rowspan="2" field="clientoperationtime33" width="120" align="center"
+                        formatter="DataGridUtils.dateToMinuteFormatter">抄表时刻
+                    </th>
                 </tr>
                 <tr>
-                    <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
-                    <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-                    <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
-                    <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
+                    <th field="totalpositiveactivepower" width="80" align="center"
+                        formatter="DataGridUtils.floatFormatter">
+                        正向有功
+                    </th>
+                    <th field="totalreverseactivepower" width="80" align="center"
+                        formatter="DataGridUtils.floatFormatter">
+                        反向有功
+                    </th>
+                    <th field="totalpositivereactivepower" width="80" align="center"
+                        formatter="DataGridUtils.floatFormatter">正向无功
+                    </th>
+                    <th field="totalreversereactivepower" width="80" align="center"
+                        formatter="DataGridUtils.floatFormatter">正向无功
+                    </th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="电压" style="display:none;overflow: hidden">
-            <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt3" style="display:none">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="stat" width="80" align="center" formatter="DataGridUtils.strFormatter">状态
+                    </th>
                     <th colspan="3">电压(V)</th>
-                    <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
+                    <th rowspan="2" field="clientoperationtime" width="120" align="center"
+                        formatter="DataGridUtils.dateToMinuteFormatter">抄表时刻
+                    </th>
                 </tr>
                 <tr>
-                    <th field="aVoltage" width="80" align="center">Uu/Uuv</th>
-                    <th field="bVoltage" width="80" align="center">Uv</th>
-                    <th field="cVoltage" width="80" align="center">Uw/Uwv</th>
+                    <th field="aVoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uu/Uuv</th>
+                    <th field="bVoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uv</th>
+                    <th field="cVoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uw/Uwv</th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="电流" style="display:none;overflow: hidden">
-            <table id="tt4" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt4" style="display:none">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="stat" width="80" align="center" formatter="DataGridUtils.strFormatter">状态
+                    </th>
                     <th colspan="3">电流(A)</th>
-                    <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
+                    <th rowspan="2" field="clientoperationtime" width="120" align="center"
+                        formatter="DataGridUtils.dateToMinuteFormatter">抄表时刻
+                    </th>
                 </tr>
                 <tr>
-                    <th field="aCurrent" width="80" align="center">Iu</th>
-                    <th field="bCurrent" width="80" align="center">Iv</th>
-                    <th field="cCurrent" width="80" align="center">Iw</th>
+                    <th field="aCurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iu</th>
+                    <th field="bCurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iv</th>
+                    <th field="cCurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iw</th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="功率因数" style="display:none;overflow: hidden">
-            <table id="tt5" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt5" style="display:none">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="stat" width="80" align="center">状态</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="stat" width="80" align="center" formatter="DataGridUtils.strFormatter">状态
+                    </th>
                     <th colspan="4">功率因数(%)</th>
-                    <th rowspan="2" field="clientoperationtime" width="120" align="center">抄表时刻</th>
+                    <th rowspan="2" field="clientoperationtime" width="120" align="center"
+                        formatter="DataGridUtils.dateToMinuteFormatter">抄表时刻
+                    </th>
                 </tr>
                 <tr>
-                    <th field="totalpowerfactor" width="80" align="center">总</th>
-                    <th field="aPowerfactor" width="80" align="center">U相</th>
-                    <th field="bPowerfactor" width="80" align="center">V相</th>
-                    <th field="cPowerfactor" width="80" align="center">W相</th>
+                    <th field="totalpowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">总
+                    </th>
+                    <th field="aPowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">U相</th>
+                    <th field="bPowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">V相</th>
+                    <th field="cPowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">W相</th>
                 </tr>
                 </thead>
             </table>
@@ -238,9 +277,9 @@
                         </tr>
                         <tr>
                             <th field="totalpositiveactivepower" width="80" align="center">正向有功</th>
-		                    <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
-		                    <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
-		                    <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
+                            <th field="totalreverseactivepower" width="80" align="center">反向有功</th>
+                            <th field="totalpositivereactivepower" width="80" align="center">正向无功</th>
+                            <th field="totalreversereactivepower" width="80" align="center">正向无功</th>
                         </tr>
                         </thead>
                     </table>
