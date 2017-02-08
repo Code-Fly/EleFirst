@@ -124,63 +124,63 @@ $(document).ready(function () {
         //电压详情
         if ('voltage' == tabType) {
             //设置最大电压a,b,c
-            $("#table2 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxAVoltage) + "(V)");
-            $("#table2 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxBVoltage) + "(V)");
-            $("#table2 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxCVoltage) + "(V)");
+            $("#table2 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxAVoltage, 1) + "(V)");
+            $("#table2 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxBVoltage, 1) + "(V)");
+            $("#table2 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxCVoltage, 1) + "(V)");
             //设置最小电压a,b,c
-            $("#table2 tr:eq(0) td:eq(3)").html(DataGridUtils.floatFormatter(data.minAVoltage) + "(V)");
-            $("#table2 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.minBVoltage) + "(V)");
-            $("#table2 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.minCVoltage) + "(V)");
+            $("#table2 tr:eq(0) td:eq(3)").html(DataGridUtils.floatFormatter(data.minAVoltage, 1) + "(V)");
+            $("#table2 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.minBVoltage, 1) + "(V)");
+            $("#table2 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.minCVoltage, 1) + "(V)");
         } else if ('current' == tabType) {
             //设置最大电流a,b,c
-            $("#table3 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxACurrent) + "(A)");
-            $("#table3 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxBCurrent) + "(A)");
-            $("#table3 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxCCurrent) + "(A)");
+            $("#table3 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxACurrent, 3) + "(A)");
+            $("#table3 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxBCurrent, 3) + "(A)");
+            $("#table3 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxCCurrent, 3) + "(A)");
             //设置最小电流a,b,c
-            $("#table3 tr:eq(0) td:eq(3)").html(DataGridUtils.floatFormatter(data.minACurrent) + "(A)");
-            $("#table3 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.minBCurrent) + "(A)");
-            $("#table3 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.minCCurrent) + "(A)");
+            $("#table3 tr:eq(0) td:eq(3)").html(DataGridUtils.floatFormatter(data.minACurrent, 3) + "(A)");
+            $("#table3 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.minBCurrent, 3) + "(A)");
+            $("#table3 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.minCCurrent, 3) + "(A)");
         } else if ('powerfactor' == tabType) {
             //设置最大功率因素a,b,c
-            $("#table4 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxAPowerFactor) + "(%)");
-            $("#table4 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxBPowerFactor) + "(%)");
-            $("#table4 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxCPowerFactor) + "(%)");
-            $("#table4 tr:eq(3) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxTotalPowerFactor) + "(%)");
+            $("#table4 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxAPowerFactor, 1) + "(%)");
+            $("#table4 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxBPowerFactor, 1) + "(%)");
+            $("#table4 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxCPowerFactor, 1) + "(%)");
+            $("#table4 tr:eq(3) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxTotalPowerFactor, 1) + "(%)");
             //设置最小功率因素a,b,c
-            $("#table4 tr:eq(0) td:eq(3)").html(DataGridUtils.floatFormatter(data.minAPowerFactor) + "(%)");
-            $("#table4 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.minBPowerFactor) + "(%)");
-            $("#table4 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.minCPowerFactor) + "(%)");
-            $("#table4 tr:eq(3) td:eq(3)").html(DataGridUtils.floatFormatter(data.minTotalPowerFactor) + "(%)");
+            $("#table4 tr:eq(0) td:eq(3)").html(DataGridUtils.floatFormatter(data.minAPowerFactor, 1) + "(%)");
+            $("#table4 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.minBPowerFactor, 1) + "(%)");
+            $("#table4 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.minCPowerFactor, 1) + "(%)");
+            $("#table4 tr:eq(3) td:eq(3)").html(DataGridUtils.floatFormatter(data.minTotalPowerFactor, 1) + "(%)");
         } else if ('totalactivepower' == tabType) {
             //最大负荷
-            $("#table1 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxTotalActivePower) + "(kW)");
+            $("#table1 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.maxTotalActivePower, 3) + "(kW)");
             //最小负荷
-            $("#table1 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.minTotalActivePower) + "(kW)");
+            $("#table1 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.minTotalActivePower, 3) + "(kW)");
             //平均负荷
-            $("#table1 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.avgTotalActivePower) + "(kW)");
+            $("#table1 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.avgTotalActivePower, 3) + "(kW)");
             //峰谷差率
-            $("#table1 tr:eq(3) td:eq(1)").html(DataGridUtils.floatFormatter(data.peakValleyDifferenceRate) + "(kW)");
+            $("#table1 tr:eq(3) td:eq(1)").html(DataGridUtils.floatFormatter(data.peakValleyDifferenceRate, 1) + "%");
             //最大负荷发生时间
             $("#table1 tr:eq(0) td:eq(3)").html(DataGridUtils.dateToMonthFormatter(data.maxTotalActivePowerTime));
             //最小负荷发生时间
             $("#table1 tr:eq(1) td:eq(3)").html(DataGridUtils.dateToMonthFormatter(data.minTotalActivePowerTime));
             //峰谷差
-            $("#table1 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.peakValleyDifference) + "(%)");
+            $("#table1 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.peakValleyDifference, 3) + "(kw)");
             //负荷率
-            $("#table1 tr:eq(3) td:eq(3)").html(DataGridUtils.floatFormatter(data.loadFactorRate) + "(%)");
+            $("#table1 tr:eq(3) td:eq(3)").html(DataGridUtils.floatFormatter(data.loadFactorRate, 1) + "(%)");
         } else if ("electricity" == tabType) {
             //总电量
-            $("#dtt4 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.totalpositiveactivePower) + "(kWh)");
+            $("#dtt4 tr:eq(0) td:eq(1)").html(DataGridUtils.floatFormatter(data.totalpositiveactivePower, 4) + "(kWh)");
             //峰电量
-            $("#dtt4 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.rateseq1) + "(kWh)");
+            $("#dtt4 tr:eq(1) td:eq(1)").html(DataGridUtils.floatFormatter(data.rateseq1, 4) + "(kWh)");
 
             //谷电量
-            $("#dtt4 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.rateseq2) + "(kWh)");
+            $("#dtt4 tr:eq(2) td:eq(1)").html(DataGridUtils.floatFormatter(data.rateseq2, 4) + "(kWh)");
 
             //平电量
-            $("#dtt4 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.rateseq3) + "(kWh)");
+            $("#dtt4 tr:eq(1) td:eq(3)").html(DataGridUtils.floatFormatter(data.rateseq3, 4) + "(kWh)");
             //尖峰电量
-            $("#dtt4 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.rateseq4) + "(kWh)");
+            $("#dtt4 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.rateseq4, 4) + "(kWh)");
         }
     }
 

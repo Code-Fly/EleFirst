@@ -37,14 +37,21 @@
                     <th colspan="5">有功负荷(kW)</th>
                 </tr>
                 <tr>
-                    <th field="maxactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">最大负荷
+                    <th field="maxactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">最大负荷
                     </th>
-                    <th field="minactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">最小负荷
+                    <th field="minactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">最小负荷
                     </th>
-                    <th field="avgactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">平均负荷
+                    <th field="avgactivepower" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">平均负荷
                     </th>
-                    <th field="loadrate" width="80" align="center" formatter="DataGridUtils.floatFormatter">负荷率</th>
-                    <th field="peakrate" width="80" align="center" formatter="DataGridUtils.floatFormatter">峰谷差率</th>
+                    <th field="loadrate" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">负荷率
+                    </th>
+                    <th field="peakrate" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">峰谷差率
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -63,17 +70,25 @@
                     </th>
                     <th colspan="5">有功电量(kWh)</th>
                     <th rowspan="2" field="totalpositiveactivePower" width="120" align="center"
-                        formatter="DataGridUtils.floatFormatter">无功电量
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">无功电量
                     </th>
                 </tr>
                 <tr>
                     <th field="totalpositiveactivePower" width="80" align="center"
-                        formatter="DataGridUtils.floatFormatter">总
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">总
                     </th>
-                    <th field="rateseq1" width="80" align="center" formatter="DataGridUtils.floatFormatter">峰</th>
-                    <th field="rateseq2" width="80" align="center" formatter="DataGridUtils.floatFormatter">平</th>
-                    <th field="rateseq3" width="80" align="center" formatter="DataGridUtils.floatFormatter">谷</th>
-                    <th field="rateseq4" width="80" align="center" formatter="DataGridUtils.floatFormatter">尖峰</th>
+                    <th field="rateseq1" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">峰
+                    </th>
+                    <th field="rateseq2" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">平
+                    </th>
+                    <th field="rateseq3" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">谷
+                    </th>
+                    <th field="rateseq4" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">尖峰
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -97,15 +112,23 @@
                     <th colspan="3">最低电压(V)</th>
                 </tr>
                 <tr>
-                    <th field="maxavoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uu/Uuv
+                    <th field="maxavoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uu/Uuv
                     </th>
-                    <th field="maxbvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uv</th>
-                    <th field="maxcvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uw/Uwv
+                    <th field="maxbvoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uv
                     </th>
-                    <th field="minavoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uu/Uuv
+                    <th field="maxcvoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uw/Uwv
                     </th>
-                    <th field="minbvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uv</th>
-                    <th field="mincvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uw/Uwv
+                    <th field="minavoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uu/Uuv
+                    </th>
+                    <th field="minbvoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uv
+                    </th>
+                    <th field="mincvoltage" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">Uw/Uwv
                     </th>
                 </tr>
                 </thead>
@@ -130,12 +153,24 @@
                     <th colspan="3">最低电流(A)</th>
                 </tr>
                 <tr>
-                    <th field="maxacurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iu</th>
-                    <th field="maxbcurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iv</th>
-                    <th field="maxccurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iw</th>
-                    <th field="minacurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iu</th>
-                    <th field="minbcurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iv</th>
-                    <th field="minacurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iw</th>
+                    <th field="maxacurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iu
+                    </th>
+                    <th field="maxbcurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iv
+                    </th>
+                    <th field="maxccurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iw
+                    </th>
+                    <th field="minacurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iu
+                    </th>
+                    <th field="minbcurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iv
+                    </th>
+                    <th field="minacurrent" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">Iw
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -158,10 +193,12 @@
                     <th colspan="2">平均功率因数(%)</th>
                 </tr>
                 <tr>
-                    <th field="powerFactorStandard" width="80" align="center" formatter="DataGridUtils.floatFormatter">
+                    <th field="powerFactorStandard" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">
                         标准
                     </th>
-                    <th field="avgtotalpowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">
+                    <th field="avgtotalpowerfactor" width="80" align="center"
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">
                         功率因素
                     </th>
                 </tr>
@@ -187,7 +224,7 @@
                 </tr>
                 <tr>
                     <th field="maxtotalpositivemaxactivepower" width="120" align="center"
-                        formatter="DataGridUtils.floatFormatter">最大需量
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">最大需量
                     </th>
                     <th field="totalpositivemaxactivepowertime" width="150" align="center"
                         formatter="DataGridUtils.dateToMinuteFormatter">发生时间
@@ -319,12 +356,30 @@
                             <th colspan="2">最大需量</th>
                         </tr>
                         <tr>
-                            <th field="totalpositiveactivePower" width="80" align="center">总</th>
-                            <th field="rateseq1" width="80" align="center">峰</th>
-                            <th field="rateseq2" width="80" align="center">平</th>
-                            <th field="rateseq3" width="80" align="center">谷</th>
-                            <th field="rateseq4" width="80" align="center">尖峰</th>
-                            <th field="totalpositivemaxactivepower" width="120" align="center">最大需量</th>
+                            <th field="totalpositiveactivePower" width="80" align="center"
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                总
+                            </th>
+                            <th field="rateseq1" width="80" align="center"
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                峰
+                            </th>
+                            <th field="rateseq2" width="80" align="center"
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                平
+                            </th>
+                            <th field="rateseq3" width="80" align="center"
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                谷
+                            </th>
+                            <th field="rateseq4" width="80" align="center"
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                尖峰
+                            </th>
+                            <th field="totalpositivemaxactivepower" width="120" align="center"
+                                data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
+                                最大需量
+                            </th>
                             <th field="totalpositivemaxactivepowertime" width="150" align="center"
                                 formatter="DataGridUtils.dateToMinuteFormatter">发生时间
                             </th>
