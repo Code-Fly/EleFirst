@@ -44,10 +44,10 @@
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">平均负荷
                     </th>
                     <th field="loadrate" width="80" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">负荷率
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">负荷率
                     </th>
                     <th field="peakrate" width="80" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">峰谷差率
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 1)}">峰谷差率
                     </th>
                 </tr>
                 </thead>
