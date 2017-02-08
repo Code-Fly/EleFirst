@@ -343,7 +343,7 @@
                     </div>
                 </div>
                 <div title="示数" style="display:none;overflow: hidden">
-                    <table id="dtt2" class="easyui-datagrid" fit="true" data-options="border:false">
+                    <table id="dtt2" style="display: none">
                         <thead>
                         <tr>
                             <%--<th rowspan="2" field="areaId33" width="80" align="center">区域</th>--%>

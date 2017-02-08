@@ -61,6 +61,7 @@ $(document).ready(function () {
                 pageList: [2, 10, 20],
                 singleSelect: true,
                 fit: true,
+                border: false,
                 queryParams: {
                     areaId: areaId,
                     concentratorId: concentratorId,
