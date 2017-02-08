@@ -44,6 +44,36 @@ public class PnInfoService extends BaseService implements IPnInfoService {
     }
 
     @Override
+    public List<PnInfo> getPnInfoListByInfos(List<PnInfo> templates) {
+        PnInfoExample condition = new PnInfoExample();
+        for (int i = 0; i < templates.size(); i++) {
+            PnInfoExample.Criteria criteria = condition.createCriteria();
+            PnInfo template = templates.get(i);
+
+            if (null != template && null != template.getAreaId()) {
+                criteria.andAreaIdEqualTo(template.getAreaId());
+            }
+            if (null != template && null != template.getConcentratorId()) {
+                criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+            }
+            if (null != template && null != template.getPn()) {
+                criteria.andPnEqualTo(template.getPn());
+            }
+            if (null != template && null != template.getName()) {
+                criteria.andNameLike("%" + template.getName() + "%");
+            }
+            if (template.getRows() > 0 && template.getPage() > 0) {
+                condition.setLimitStart((template.getPage() - 1) * template.getRows());
+                condition.setLimitEnd(template.getRows());
+            }
+            condition.or(criteria);
+        }
+
+        condition.setOrderByClause("`create_date` ASC");
+        return pnInfoDAO.getPnInfoList(condition);
+    }
+
+    @Override
     public int getPnInfoListCount(PnInfo template) {
         PnInfoExample condition = new PnInfoExample();
         PnInfoExample.Criteria criteria = condition.createCriteria();

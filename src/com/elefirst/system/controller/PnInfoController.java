@@ -46,36 +46,40 @@ public class PnInfoController extends BaseController {
                                   @RequestParam(value = "page", required = false) Integer page,
                                   @RequestParam(value = "rows", required = false) Integer rows
     ) {
-        PnInfo template = new PnInfo();
-        if (null != areaId) {
-            template.setAreaId(areaId);
-        }
-
-        if (null != name) {
-            template.setName(areaId);
-        }
 
         List<PnInfo> result = new ArrayList<>();
 
         if (null == node) {
+            PnInfo template = new PnInfo();
+            if (null != areaId) {
+                template.setAreaId(areaId);
+            }
+            if (null != name) {
+                template.setName(areaId);
+            }
             if (null != concentratorId) {
                 template.setConcentratorId(concentratorId);
             }
             result = pnInfoService.getPnInfoList(template);
         } else {
-
             JSONObject jNode = JSONObject.fromObject(node);
             JSONArray jIds = jNode.getJSONArray("concentrators");
+
+            List<PnInfo> templates = new ArrayList<>();
             for (int i = 0; i < jIds.size(); i++) {
                 String jId = jIds.getJSONObject(i).getString("concentratorId");
-                template.setConcentratorId(jId);
-                List<PnInfo> list = pnInfoService.getPnInfoList(template);
-                for (int j = 0; j < list.size(); j++) {
-                    if (!result.contains(list.get(j))) {
-                        result.add(list.get(j));
-                    }
+                PnInfo template = new PnInfo();
+                if (null != areaId) {
+                    template.setAreaId(areaId);
                 }
+                if (null != name) {
+                    template.setName(areaId);
+                }
+                template.setConcentratorId(jId);
+                templates.add(template);
+
             }
+            result = pnInfoService.getPnInfoListByInfos(templates);
         }
 
         if (null != page && null != rows) {

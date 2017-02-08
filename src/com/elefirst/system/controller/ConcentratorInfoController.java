@@ -45,32 +45,38 @@ public class ConcentratorInfoController extends BaseController {
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "rows", required = false) Integer rows
     ) {
-        ConcentratorInfo template = new ConcentratorInfo();
-        if (null != areaId) {
-            template.setAreaId(areaId);
-        }
-
-        if (null != name) {
-            template.setName(areaId);
-        }
-
         List<ConcentratorInfo> result = new ArrayList<>();
 
         if (null == node) {
+            ConcentratorInfo template = new ConcentratorInfo();
+            if (null != areaId) {
+                template.setAreaId(areaId);
+            }
+
+            if (null != name) {
+                template.setName(areaId);
+            }
             result = concentratorInfoService.getConcentratorInfoList(template);
         } else {
             JSONObject jNode = JSONObject.fromObject(node);
             JSONArray jIds = jNode.getJSONArray("concentrators");
+
+            List<ConcentratorInfo> templates = new ArrayList<>();
             for (int i = 0; i < jIds.size(); i++) {
                 String jId = jIds.getJSONObject(i).getString("concentratorId");
-                template.setConcentratorId(jId);
-                List<ConcentratorInfo> list = concentratorInfoService.getConcentratorInfoList(template);
-                for (int j = 0; j < list.size(); j++) {
-                    if (!result.contains(list.get(j))) {
-                        result.add(list.get(j));
-                    }
+                ConcentratorInfo template = new ConcentratorInfo();
+                if (null != areaId) {
+                    template.setAreaId(areaId);
                 }
+
+                if (null != name) {
+                    template.setName(areaId);
+                }
+                template.setConcentratorId(jId);
+                templates.add(template);
             }
+
+            result = concentratorInfoService.getConcentratorInfoListByInfos(templates);
         }
 
         if (null != page && null != rows) {

@@ -41,6 +41,33 @@ public class ConcentratorInfoService extends BaseService implements IConcentrato
     }
 
     @Override
+    public List<ConcentratorInfo> getConcentratorInfoListByInfos(List<ConcentratorInfo> templates) {
+        ConcentratorInfoExample condition = new ConcentratorInfoExample();
+
+        for (int i = 0; i < templates.size(); i++) {
+            ConcentratorInfoExample.Criteria criteria = condition.createCriteria();
+            ConcentratorInfo template = templates.get(i);
+            if (null != template && null != template.getAreaId()) {
+                criteria.andAreaIdEqualTo(template.getAreaId());
+            }
+            if (null != template && null != template.getConcentratorId()) {
+                criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+            }
+            if (null != template && null != template.getName()) {
+                criteria.andNameLike("%" + template.getName() + "%");
+            }
+            if (template.getRows() > 0 && template.getPage() > 0) {
+                condition.setLimitStart((template.getPage() - 1) * template.getRows());
+                condition.setLimitEnd(template.getRows());
+            }
+
+            condition.or(criteria);
+        }
+        condition.setOrderByClause("`create_date` ASC");
+        return concentratorInfoDAO.getConcentratorInfoList(condition);
+    }
+
+    @Override
     public int getConcentratorInfoListCount(ConcentratorInfo template) {
         ConcentratorInfoExample condition = new ConcentratorInfoExample();
         ConcentratorInfoExample.Criteria criteria = condition.createCriteria();

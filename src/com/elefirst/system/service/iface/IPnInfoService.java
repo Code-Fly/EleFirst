@@ -10,6 +10,8 @@ import java.util.List;
 public interface IPnInfoService {
     List<PnInfo> getPnInfoList(PnInfo template);
 
+    List<PnInfo> getPnInfoListByInfos(List<PnInfo> templates);
+
     int getPnInfoListCount(PnInfo template);
 
     List<PnInfo> getPnInfoDetail(String id);

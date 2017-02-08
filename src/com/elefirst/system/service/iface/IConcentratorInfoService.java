@@ -10,6 +10,8 @@ import java.util.List;
 public interface IConcentratorInfoService {
     List<ConcentratorInfo> getConcentratorInfoList(ConcentratorInfo template);
 
+    List<ConcentratorInfo> getConcentratorInfoListByInfos(List<ConcentratorInfo> templates);
+
     int getConcentratorInfoListCount(ConcentratorInfo template);
 
     List<ConcentratorInfo> getConcentratorInfoDetail(String id);
