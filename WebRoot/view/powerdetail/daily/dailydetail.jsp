@@ -5,11 +5,6 @@
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/commonHighChart.jsp" %>
     <script type="text/javascript">
-        function dateformatter(value, row, index) {
-            if (value != null) {
-                return value.substring(0, 4) + '-' + value.substring(4, 6) + '-' + value.substring(6, 8);
-            }
-        }
         require(["js/dailydetail.js"]);
     </script>
 </head>
@@ -24,7 +19,7 @@
     </div>
     <div id="tt" class="easyui-tabs" data-options="border:false,tools:'#tab-tt-tools'" fit="true">
         <div title="负荷" style="display:none;overflow: hidden">
-            <table id="tt1" style="display:none" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt1" style="display:none">
                 <thead>
                 <tr>
                     <!-- <th field="id" hidden="true"></th>
@@ -34,120 +29,153 @@
                     <th rowspan="2" field="concentratorId" width="80" align="center" hidden="true"></th>
                     <th rowspan="2" field="pn" width="80" align="center" hidden="true"></th>
                     -->
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    </th>
                     <th colspan="5">有功负荷(kW)</th>
                 </tr>
                 <tr>
-                    <th field="maxactivepower" width="80" align="center">最大负荷</th>
-                    <th field="minactivepower" width="80" align="center">最小负荷</th>
-                    <th field="avgactivepower" width="80" align="center">平均负荷</th>
-                    <th field="loadrate" width="80" align="center">负荷率</th>
-                    <th field="peakrate" width="80" align="center">峰谷差率</th>
+                    <th field="maxactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">最大负荷
+                    </th>
+                    <th field="minactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">最小负荷
+                    </th>
+                    <th field="avgactivepower" width="80" align="center" formatter="DataGridUtils.floatFormatter">平均负荷
+                    </th>
+                    <th field="loadrate" width="80" align="center" formatter="DataGridUtils.floatFormatter">负荷率</th>
+                    <th field="peakrate" width="80" align="center" formatter="DataGridUtils.floatFormatter">峰谷差率</th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="电量" style="display:none;overflow: hidden">
-            <table id="tt7" style="display:none" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt7" style="display:none">
                 <thead>
-                    <tr>
-                    	  <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                        <th rowspan="2" field="days" width="120" align="center">日期</th>
-                        <th colspan="5">有功电量(kWh)</th>
-                        <th rowspan="2" field="totalpositiveactivePower" width="120" align="center">无功电量</th>
-                    </tr>
-                    <tr>
-                        <th field="totalpositiveactivePower" width="80" align="center">总</th>
-                        <th field="rateseq1" width="80" align="center">峰</th>
-                        <th field="rateseq2" width="80" align="center">平</th>
-                        <th field="rateseq3" width="80" align="center">谷</th>
-                        <th field="rateseq4" width="80" align="center">尖峰</th>
-                    </tr>
-               </thead>
+                <tr>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    </th>
+                    <th colspan="5">有功电量(kWh)</th>
+                    <th rowspan="2" field="totalpositiveactivePower" width="120" align="center"
+                        formatter="DataGridUtils.floatFormatter">无功电量
+                    </th>
+                </tr>
+                <tr>
+                    <th field="totalpositiveactivePower" width="80" align="center"
+                        formatter="DataGridUtils.floatFormatter">总
+                    </th>
+                    <th field="rateseq1" width="80" align="center" formatter="DataGridUtils.floatFormatter">峰</th>
+                    <th field="rateseq2" width="80" align="center" formatter="DataGridUtils.floatFormatter">平</th>
+                    <th field="rateseq3" width="80" align="center" formatter="DataGridUtils.floatFormatter">谷</th>
+                    <th field="rateseq4" width="80" align="center" formatter="DataGridUtils.floatFormatter">尖峰</th>
+                </tr>
+                </thead>
             </table>
         </div>
         <div title="示数" style="display:none;overflow: hidden">
-            <table id="tt2" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt2" style="display:none">
                 <thead>
-                        <tr>
-                        	  <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                            <th rowspan="2" field="days" width="120" align="center">日期</th>
-                            <th colspan="5">示数</th>
-                            <th colspan="2">最大需量</th>
-                        </tr>
-                        <tr>
-                            <th field="totalpositiveactivePower" width="80" align="center">总</th>
-                            <th field="rateseq1" width="80" align="center">峰</th>
-                            <th field="rateseq2" width="80" align="center">平</th>
-                            <th field="rateseq3" width="80" align="center">谷</th>
-                            <th field="rateseq4" width="80" align="center">尖峰</th>
-                            <th field="totalpositivemaxactivepower" width="120" align="center">最大需量</th>
-                            <th field="totalpositivemaxactivepowertime" width="150" align="center">发生时间</th>
-                        </tr>
-                        </thead>
+                <tr>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    </th>
+                    <th colspan="5">示数</th>
+                    <th colspan="2">最大需量</th>
+                </tr>
+                <tr>
+                    <th field="totalpositiveactivePower" width="80" align="center"
+                        formatter="DataGridUtils.floatFormatter">总
+                    </th>
+                    <th field="rateseq1" width="80" align="center" formatter="DataGridUtils.floatFormatter">峰</th>
+                    <th field="rateseq2" width="80" align="center" formatter="DataGridUtils.floatFormatter">平</th>
+                    <th field="rateseq3" width="80" align="center" formatter="DataGridUtils.floatFormatter">谷</th>
+                    <th field="rateseq4" width="80" align="center" formatter="DataGridUtils.floatFormatter">尖峰</th>
+                    <th field="totalpositivemaxactivepower" width="120" align="center"
+                        formatter="DataGridUtils.floatFormatter">最大需量
+                    </th>
+                    <th field="totalpositivemaxactivepowertime" width="150" align="center"
+                        formatter="DataGridUtils.floatFormatter">发生时间
+                    </th>
+                </tr>
+                </thead>
             </table>
         </div>
         <div title="电压" style="display:none;overflow: hidden">
-            <table id="tt3" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt3" style="display:none">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    </th>
                     <th colspan="3">最高电压(V)</th>
                     <th colspan="3">最低电压(V)</th>
                 </tr>
                 <tr>
-                    <th field="maxavoltage" width="80" align="center">Uu/Uuv</th>
-                    <th field="maxbvoltage" width="80" align="center">Uv</th>
-                    <th field="maxcvoltage" width="80" align="center">Uw/Uwv</th>
-                    <th field="minavoltage" width="80" align="center">Uu/Uuv</th>
-                    <th field="minbvoltage" width="80" align="center">Uv</th>
-                    <th field="mincvoltage" width="80" align="center">Uw/Uwv</th>
+                    <th field="maxavoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uu/Uuv
+                    </th>
+                    <th field="maxbvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uv</th>
+                    <th field="maxcvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uw/Uwv
+                    </th>
+                    <th field="minavoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uu/Uuv
+                    </th>
+                    <th field="minbvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uv</th>
+                    <th field="mincvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">Uw/Uwv
+                    </th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="电流" style="display:none;overflow: hidden">
-            <table id="tt4" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt4" style="display:none">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    </th>
                     <th colspan="3">最高电流(A)</th>
                     <th colspan="3">最低电流(A)</th>
                 </tr>
                 <tr>
-                    <th field="maxacurrent" width="80" align="center">Iu</th>
-                    <th field="maxbcurrent" width="80" align="center">Iv</th>
-                    <th field="maxccurrent" width="80" align="center">Iw</th>
-                    <th field="minacurrent" width="80" align="center">Iu</th>
-                    <th field="minbcurrent" width="80" align="center">Iv</th>
-                    <th field="minacurrent" width="80" align="center">Iw</th>
+                    <th field="maxacurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iu</th>
+                    <th field="maxbcurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iv</th>
+                    <th field="maxccurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iw</th>
+                    <th field="minacurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iu</th>
+                    <th field="minbcurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iv</th>
+                    <th field="minacurrent" width="80" align="center" formatter="DataGridUtils.floatFormatter">Iw</th>
                 </tr>
                 </thead>
             </table>
         </div>
         <div title="功率因数" style="display:none;overflow: hidden">
-            <table id="tt5" class="easyui-datagrid" fit="true" data-options="border:false">
+            <table id="tt5" style="display:none">
                 <thead>
                 <tr>
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    </th>
                     <th colspan="2">平均功率因数(%)</th>
                 </tr>
                 <tr>
-                    <th field="powerFactorStandard" width="80" align="center">标准</th>
-                    <th field="avgtotalpowerfactor" width="80" align="center">功率因素</th>
+                    <th field="powerFactorStandard" width="80" align="center" formatter="DataGridUtils.floatFormatter">
+                        标准
+                    </th>
+                    <th field="avgtotalpowerfactor" width="80" align="center" formatter="DataGridUtils.floatFormatter">
+                        功率因素
+                    </th>
                 </tr>
                 </thead>
             </table>
@@ -163,19 +191,23 @@
                     <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
                     <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
                     <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center">监测点</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">日期</th>
-                    <th rowspan="2" field="days" width="120" align="center" formatter="dateformatter">谐波次数</th>
+                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center" formatter="DataGridUtils.dateFormatter">日期
+                    </th>
+                    <th rowspan="2" field="days" width="120" align="center">
+                        谐波次数
+                    </th>
                     <th colspan="3">电压含有率(%）</th>
                     <th colspan="3">电流最大值(A)</th>
                 </tr>
                 <tr>
-                    <th field="maxavoltage" width="80" align="center">U相</th>
-                    <th field="maxbvoltage" width="80" align="center">V相</th>
-                    <th field="maxcvoltage" width="80" align="center">W相</th>
-                    <th field="minavoltage" width="80" align="center">U相</th>
-                    <th field="minbvoltage" width="80" align="center">V相</th>
-                    <th field="mincvoltage" width="80" align="center">U相</th>
+                    <th field="maxavoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">U相</th>
+                    <th field="maxbvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">V相</th>
+                    <th field="maxcvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">W相</th>
+                    <th field="minavoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">U相</th>
+                    <th field="minbvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">V相</th>
+                    <th field="mincvoltage" width="80" align="center" formatter="DataGridUtils.floatFormatter">U相</th>
                 </tr>
                 </thead>
             </table>

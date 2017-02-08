@@ -259,6 +259,7 @@ $(document).ready(function () {
             pageList: [2, 10, 20],
             singleSelect: true,
             fit: true,
+            border: false,
             queryParams: {
                 jasonStr: data,
                 date: $("#main-input-detail-datebox").datebox("getValue")
