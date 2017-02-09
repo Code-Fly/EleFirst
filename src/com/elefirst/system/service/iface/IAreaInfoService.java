@@ -1,6 +1,6 @@
 package com.elefirst.system.service.iface;
 
-import com.elefirst.system.po.AreaInfo;
+import com.elefirst.system.po.AreaInfoWithBLOBs;
 
 import java.util.List;
 
@@ -8,15 +8,15 @@ import java.util.List;
  * Created by barrie on 17/1/29.
  */
 public interface IAreaInfoService {
-    List<AreaInfo> getAreaInfoList(AreaInfo template);
+    List<AreaInfoWithBLOBs> getAreaInfoList(AreaInfoWithBLOBs template);
 
-    int getAreaInfoListCount(AreaInfo template);
+    long getAreaInfoListCount(AreaInfoWithBLOBs template);
 
-    List<AreaInfo> getAreaInfoDetail(String id);
+    List<AreaInfoWithBLOBs> getAreaInfoDetail(String id);
 
-    int addAreaInfo(AreaInfo template);
+    int addAreaInfo(AreaInfoWithBLOBs template);
 
-    int updateAreaInfo(AreaInfo template);
+    int updateAreaInfo(AreaInfoWithBLOBs template);
 
     int delAreaInfo(String id);
 }

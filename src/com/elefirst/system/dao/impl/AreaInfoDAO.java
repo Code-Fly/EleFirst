@@ -3,8 +3,8 @@ package com.elefirst.system.dao.impl;
 import com.elefirst.base.dao.BaseDAO;
 import com.elefirst.system.dao.iface.IAreaInfoDAO;
 import com.elefirst.system.mapper.AreaInfoMapper;
-import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.po.AreaInfoExample;
+import com.elefirst.system.po.AreaInfoWithBLOBs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,22 +19,22 @@ public class AreaInfoDAO extends BaseDAO implements IAreaInfoDAO {
     private AreaInfoMapper areaInfoMapper;
 
     @Override
-    public List<AreaInfo> getAreaInfoList(AreaInfoExample example) {
-        return areaInfoMapper.selectByExample(example);
+    public List<AreaInfoWithBLOBs> getAreaInfoList(AreaInfoExample example) {
+        return areaInfoMapper.selectByExampleWithBLOBs(example);
     }
 
     @Override
-    public int getAreaInfoListCount(AreaInfoExample example) {
+    public long getAreaInfoListCount(AreaInfoExample example) {
         return areaInfoMapper.countByExample(example);
     }
 
     @Override
-    public int addAreaInfo(AreaInfo template) {
+    public int addAreaInfo(AreaInfoWithBLOBs template) {
         return areaInfoMapper.insertSelective(template);
     }
 
     @Override
-    public int updateAreaInfo(AreaInfoExample example, AreaInfo template) {
+    public int updateAreaInfo(AreaInfoExample example, AreaInfoWithBLOBs template) {
         return areaInfoMapper.updateByExampleSelective(template, example);
     }
 

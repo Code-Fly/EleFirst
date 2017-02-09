@@ -1,7 +1,7 @@
 package com.elefirst.system.dao.iface;
 
-import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.po.AreaInfoExample;
+import com.elefirst.system.po.AreaInfoWithBLOBs;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import java.util.List;
  * Created by barrie on 17/1/29.
  */
 public interface IAreaInfoDAO {
-    List<AreaInfo> getAreaInfoList(AreaInfoExample example);
+    List<AreaInfoWithBLOBs> getAreaInfoList(AreaInfoExample example);
 
-    int getAreaInfoListCount(AreaInfoExample example);
+    long getAreaInfoListCount(AreaInfoExample example);
 
-    int addAreaInfo(AreaInfo template);
+    int addAreaInfo(AreaInfoWithBLOBs template);
 
-    int updateAreaInfo(AreaInfoExample example, AreaInfo template);
+    int updateAreaInfo(AreaInfoExample example, AreaInfoWithBLOBs template);
 
     int delAreaInfo(AreaInfoExample example);
 }

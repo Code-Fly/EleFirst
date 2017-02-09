@@ -7,6 +7,7 @@ import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.AreaInfo;
+import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +41,7 @@ public class AreaInfoController extends BaseController {
                                     @RequestParam(value = "page", required = false) Integer page,
                                     @RequestParam(value = "rows", required = false) Integer rows
     ) {
-        AreaInfo template = new AreaInfo();
+        AreaInfoWithBLOBs template = new AreaInfoWithBLOBs();
 
         if (null != areaId) {
             template.setAreaId(areaId);
@@ -53,16 +54,16 @@ public class AreaInfoController extends BaseController {
         if (null != page && null != rows) {
             template.setPage(page);
             template.setRows(rows);
-            List<AreaInfo> result = areaInfoService.getAreaInfoList(template);
+            List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
 
             DataGrid dg = new DataGrid();
-            int count = areaInfoService.getAreaInfoListCount(template);
+            long count = areaInfoService.getAreaInfoListCount(template);
             dg.setTotal(count);
             dg.setRows(result);
 
             return new ErrorMsg(Error.SUCCESS, "success", dg);
         } else {
-            List<AreaInfo> result = areaInfoService.getAreaInfoList(template);
+            List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
 
@@ -75,7 +76,7 @@ public class AreaInfoController extends BaseController {
                                       HttpServletResponse response,
                                       @RequestParam(value = "id") String id
     ) {
-        List<AreaInfo> result = areaInfoService.getAreaInfoDetail(id);
+        List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoDetail(id);
         return new ErrorMsg(Error.SUCCESS, "success", result);
 
     }
@@ -87,9 +88,9 @@ public class AreaInfoController extends BaseController {
                                               HttpServletResponse response,
                                               @RequestParam(value = "areaId") String areaId
     ) {
-        AreaInfo template = new AreaInfo();
+        AreaInfoWithBLOBs template = new AreaInfoWithBLOBs();
         template.setAreaId(areaId);
-        List<AreaInfo> result = areaInfoService.getAreaInfoList(template);
+        List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
         if (result.size() > 0) {
             return new ErrorMsg(Error.SUCCESS, "success", result.get(0));
         } else {

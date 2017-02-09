@@ -2,8 +2,8 @@ package com.elefirst.system.service.impl;
 
 import com.elefirst.base.service.BaseService;
 import com.elefirst.system.dao.iface.IAreaInfoDAO;
-import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.po.AreaInfoExample;
+import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class AreaInfoService extends BaseService implements IAreaInfoService {
     private IAreaInfoDAO areaInfoDAO;
 
     @Override
-    public List<AreaInfo> getAreaInfoList(AreaInfo template) {
+    public List<AreaInfoWithBLOBs> getAreaInfoList(AreaInfoWithBLOBs template) {
         AreaInfoExample condition = new AreaInfoExample();
         AreaInfoExample.Criteria criteria = condition.createCriteria();
 
@@ -38,7 +38,7 @@ public class AreaInfoService extends BaseService implements IAreaInfoService {
     }
 
     @Override
-    public int getAreaInfoListCount(AreaInfo template) {
+    public long getAreaInfoListCount(AreaInfoWithBLOBs template) {
         AreaInfoExample condition = new AreaInfoExample();
         AreaInfoExample.Criteria criteria = condition.createCriteria();
 
@@ -52,7 +52,7 @@ public class AreaInfoService extends BaseService implements IAreaInfoService {
     }
 
     @Override
-    public List<AreaInfo> getAreaInfoDetail(String id) {
+    public List<AreaInfoWithBLOBs> getAreaInfoDetail(String id) {
         AreaInfoExample condition = new AreaInfoExample();
         AreaInfoExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
@@ -60,12 +60,12 @@ public class AreaInfoService extends BaseService implements IAreaInfoService {
     }
 
     @Override
-    public int addAreaInfo(AreaInfo template) {
+    public int addAreaInfo(AreaInfoWithBLOBs template) {
         return areaInfoDAO.addAreaInfo(template);
     }
 
     @Override
-    public int updateAreaInfo(AreaInfo template) {
+    public int updateAreaInfo(AreaInfoWithBLOBs template) {
         AreaInfoExample condition = new AreaInfoExample();
         AreaInfoExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(template.getId());
