@@ -4,8 +4,7 @@
 $(document).ready(function () {
     var BLACK_LIST_ROTATE = [
         graphConstants.USER_OBJECT_CURRENT,
-        graphConstants.USER_OBJECT_TEXT,
-        graphConstants.USER_OBJECT_SWITCH_STATE
+        graphConstants.USER_OBJECT_TEXT
     ];
 
     var WHITE_LIST_FONT = [
@@ -79,6 +78,17 @@ $(document).ready(function () {
                 });
                 menu.addItem("倾斜", mxBasePath + "images/editors/italic.gif", function () {
                     graph.toggleCellStyleFlags(mxConstants.STYLE_FONTSTYLE, mxConstants.FONT_ITALIC, [cell]);
+                });
+                menu.addSeparator();
+                var state = graph.view.getState(cell);
+
+                var dir = state.style[mxConstants.STYLE_ROTATION] || 0;
+
+                menu.addItem("旋转", mxBasePath + "images/editors/redo.gif", function () {
+                    graph.setCellStyles(mxConstants.STYLE_ROTATION, (dir + 90), [cell]);
+                });
+                menu.addItem("翻转", mxBasePath + "images/editors/redo.gif", function () {
+                    graph.setCellStyles(mxConstants.STYLE_ROTATION, (dir + 180), [cell]);
                 });
                 menu.addSeparator();
             }
@@ -163,18 +173,16 @@ $(document).ready(function () {
                 var model = graph.getModel();
 
                 if (cell.edge == false && graphUtils.inList(cell.style, WHITE_LIST_USEROBJ_CURRENT)) {
-                    var node = {
+                    graphUtils.deleteConfig({
                         cellId: cell.id,
                         cellType: graphConstants.USER_OBJECT_CURRENT
-                    };
-                    graphUtils.deleteConfig(node, $("#hid-config"));
+                    }, $("#hid-config"));
                 }
                 else if (cell.edge == false && graphUtils.inList(cell.style, WHITE_LIST_USEROBJ_SWITCH_STATE)) {
-                    var node = {
+                    graphUtils.deleteConfig({
                         cellId: cell.id,
                         cellType: graphConstants.USER_OBJECT_SWITCH_STATE
-                    };
-                    graphUtils.deleteConfig(node, $("#hid-config"));
+                    }, $("#hid-config"));
                 }
 
                 model.beginUpdate();
