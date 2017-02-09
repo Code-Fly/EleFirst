@@ -50,7 +50,7 @@
                 <div class="clear"></div>
                 <div class="grid_2 cell title">
                     <p>
-                        系统名称
+                        ICP备案号
                     </p>
                 </div>
                 <div class="grid_4 cell">
