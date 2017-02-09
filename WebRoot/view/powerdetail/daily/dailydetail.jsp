@@ -409,7 +409,7 @@
                             </th>
                             <th field="totalreversereactivepower" width="80" align="center"
                                 data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">
-                                正向无功
+                                反向无功
                             </th>
                         </tr>
                         </thead>

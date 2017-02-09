@@ -84,7 +84,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    totalPositiveActivePower, totalPositiveReactivePower, id33, area_id33, clientOperationTime33, 
+    ct,pt,totalPositiveActivePower, totalPositiveReactivePower, id33, area_id33, clientOperationTime33, 
     concentrator_id33, pn33, rate33, sendTime33, totalReverseActivePower, totalReverseReactivePower, 
     id34, area_id34, clientOperationTime34, concentrator_id34, pn34, rate34, sendTime34
   </sql>
