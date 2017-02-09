@@ -231,9 +231,9 @@
             </div>
         </div>
 
-        <div class="easyui-panel" title="变压器信息" style="width:95%;margin-bottom: 20px;height: 400px;">
+        <div class="easyui-panel" title="变压器信息" style="width:95%;margin-bottom: 20px;height: 300px;">
             <div class="easyui-layout" data-options="fit:true">
-                <div data-options="region:'north',border:false">
+                <div data-options="region:'north',border:false" style="padding-left:30px;padding-right:30px;">
                     <div class="container_12" style="padding-top: 10px;padding-bottom: 10px;">
                         <div class="grid_2 cell title">
                             <p>
