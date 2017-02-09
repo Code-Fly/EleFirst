@@ -25,7 +25,8 @@
 <%--<div data-options="region:'west',href:'${ctx}view/frame/west.jsp'" style="width: 150px;overflow: hidden;"></div>--%>
 <div data-options="region:'center',href:'${ctx}view/frame/center.jsp'" style="overflow: hidden;"></div>
 <div data-options="region:'south'" class="head-south">
-    江苏苏源光一科技有限公司 <a href="http://www.miitbeian.gov.cn/" style="color: black;text-decoration: none">苏ICP备17005691号</a>
+    ${sessionScope.areaInfo.name} <a href="http://www.miitbeian.gov.cn/"
+                                     style="color: black;text-decoration: none">${sessionScope.areaInfo.icp}</a>
 </div>
 </body>
 </html>

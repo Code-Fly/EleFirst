@@ -3,9 +3,11 @@ package com.elefirst.login.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
-import com.elefirst.system.po.AreaInfo;
+import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.MenuInfo;
+import com.elefirst.system.service.iface.IAreaInfoService;
 import com.elefirst.system.service.iface.IMenuInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,9 @@ public class LoginController extends BaseController {
 
     @Resource(name = "menuInfoServiceImpl")
     private IMenuInfoService menuInfoServiceImpl;
+
+    @Autowired
+    private IAreaInfoService areaInfoService;
 
     @RequestMapping("index.do")
     public String index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
@@ -51,12 +56,18 @@ public class LoginController extends BaseController {
     }
 
     public void loadAreaInfo(HttpSession session) {
-        AreaInfo info = new AreaInfo();
-        info.setAreaId(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
-        info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
 
-        session.setAttribute("areaInfo", info);
-        session.setAttribute("treeId", info.getAreaId());
+        AreaInfoWithBLOBs template = new AreaInfoWithBLOBs();
+        template.setAreaId(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
+        List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
+        if (result.size() > 0) {
+            session.setAttribute("areaInfo", result.get(0));
+        } else {
+            template.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
+            template.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
+            session.setAttribute("areaInfo", template);
+        }
+        session.setAttribute("treeId", template.getAreaId());
     }
 
     public void loadMenu(HttpSession session) throws Exception {

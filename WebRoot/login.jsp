@@ -66,7 +66,7 @@
     </div>
 </div>
 <div class="loginbm">
-    江苏苏源光一科技有限公司 <a href="http://www.miitbeian.gov.cn/">苏ICP备17005691号</a>
+    ${sessionScope.areaInfo.name} <a href="http://www.miitbeian.gov.cn/">${sessionScope.areaInfo.icp}</a>
 </div>
 </body>
 </html>
