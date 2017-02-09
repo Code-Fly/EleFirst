@@ -39,9 +39,10 @@ function fixNum(num, length) {
  */
 function formToJson(form) {
     var json = {};
-    form.serializeArray().map(function (x) {
-        json[x.name] = x.value;
-    });
+    var array = $(form).serializeArray()
+    for (var i = 0; i < array.length; i++) {
+        json[array[i].name] = array[i].value;
+    }
     return json;
 }
 
