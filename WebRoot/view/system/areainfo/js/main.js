@@ -8,12 +8,17 @@ $(document).ready(function () {
 
     $("#btn-reset").linkbutton({
         onClick: function () {
-            $("#ff").form('clear');
+            $("#ff").form("clear");
         }
     });
 
     $("#btn-submit").linkbutton({
         onClick: function () {
+            $("#ff").form("submit", {
+                onSubmit: function () {
+                    return $(this).form("enableValidation").form("validate");
+                }
+            });
             alert(JSON.stringify(formToJson($("#ff"))))
         }
     });

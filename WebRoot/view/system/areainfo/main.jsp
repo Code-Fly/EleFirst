@@ -34,7 +34,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="name" class="easyui-textbox" style="width: 100%;">
+                        <input name="name" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="abbreviation" class="easyui-textbox" style="width: 100%;">
+                        <input name="abbreviation" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="icp" class="easyui-textbox" style="width: 100%;">
+                        <input name="icp" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -65,7 +65,8 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="establishmentDate" class="easyui-datebox" style="width: 100%;">
+                        <input name="establishmentDate" required="true" editable="false" class="easyui-datebox"
+                               style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -76,7 +77,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="nature" class="easyui-textbox" style="width: 100%;">
+                        <input name="nature" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -86,7 +87,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="registeredCapital" class="easyui-textbox" style="width: 100%;">
+                        <input name="registeredCapital" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -97,7 +98,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="bussinessIndustry" class="easyui-textbox" style="width: 100%;">
+                        <input name="bussinessIndustry" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -107,7 +108,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="numberOfEmployees" class="easyui-textbox" style="width: 100%;">
+                        <input name="numberOfEmployees" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -118,7 +119,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="stockCode" class="easyui-textbox" style="width: 100%;">
+                        <input name="stockCode" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -128,7 +129,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="area" class="easyui-textbox" style="width: 100%;">
+                        <input name="area" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -145,7 +146,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="contractCapacity" class="easyui-textbox" style="width: 100%;">
+                        <input name="contractCapacity" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -155,7 +156,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="operationCapacity" class="easyui-textbox" style="width: 100%;">
+                        <input name="operationCapacity" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -166,7 +167,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="accountNumber" class="easyui-textbox" style="width: 100%;">
+                        <input name="accountNumber" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -176,7 +177,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="voltageLevel" class="easyui-textbox" style="width: 100%;">
+                        <input name="voltageLevel" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -193,7 +194,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="executiveName" class="easyui-textbox" style="width: 100%;">
+                        <input name="executiveName" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -203,7 +204,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="executiveTel" class="easyui-textbox" style="width: 100%;">
+                        <input name="executiveTel" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -214,7 +215,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="personInChargeName" class="easyui-textbox" style="width: 100%;">
+                        <input name="personInChargeName" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -224,7 +225,7 @@
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="personInChargeTel" class="easyui-textbox" style="width: 100%;">
+                        <input name="personInChargeTel" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -285,7 +286,7 @@
         <div class="grid_4 prefix_2 cell">
             <p style="text-align: center;">
                 <a id="btn-reset" style="width: 150px;" href="javascript:void(0)" class="easyui-linkbutton"
-                   icon="icon-arrow_refresh" title="重置">重置</a>
+                   icon="icon-arrow_refresh" title="清空">清空</a>
             </p>
         </div>
         <div class="grid_4 suffix_2 cell">

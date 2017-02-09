@@ -41,7 +41,7 @@ function formToJson(form) {
     var json = {};
     var array = $(form).serializeArray()
     for (var i = 0; i < array.length; i++) {
-        json[array[i].name] = array[i].value;
+        json[array[i].name] = array[i].value == "" ? null : array[i].value;
     }
     return json;
 }
