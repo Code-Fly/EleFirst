@@ -231,55 +231,59 @@
                 <div class="clear"></div>
             </div>
         </div>
+    </form>
 
-        <div class="easyui-panel" title="变压器信息" style="width:95%;margin-bottom: 20px;height: 300px;">
-            <div class="easyui-layout" data-options="fit:true">
-                <div data-options="region:'north',border:false" style="padding-left:30px;padding-right:30px;">
-                    <div class="container_12" style="padding-top: 10px;padding-bottom: 10px;">
-                        <div class="grid_2 cell title">
-                            <p>
-                                变压器名称
-                            </p>
-                        </div>
-                        <div class="grid_4 cell">
-                            <p>
-                                <input class="easyui-combobox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="grid_2 cell title">
-                            <p>
-                                额定容量
-                            </p>
-                        </div>
-                        <div class="grid_4 cell">
-                            <p>
-                                <input class="easyui-textbox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="clear"></div>
+    <div class="easyui-panel" title="变压器信息" style="width:95%;margin-bottom: 20px;height: 300px;">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'north',border:false" style="padding-left:30px;padding-right:30px;">
+                <div class="container_12" style="padding-top: 10px;padding-bottom: 10px;">
+                    <div class="grid_2 cell title">
+                        <p>
+                            变压器名称
+                        </p>
                     </div>
-                </div>
-                <div data-options="region:'center',border:false">
-                    <div id="tool-dg-transformer" style="">
-                        <a href="#" id="btn-pn-tool-add" class="easyui-linkbutton"
-                           data-options="plain:true,iconCls:'icon-add'">添加</a>
-                        <a href="#" id="btn-pn-tool-delete" class="easyui-linkbutton"
-                           data-options="plain:true,iconCls:'icon-cross'">删除</a>
+                    <div class="grid_4 cell">
+                        <p>
+                            <input id="combo-pn-list" required="true" editable="false" textField="name"
+                                   valueField="id" validateOnCreate="false" class="easyui-combobox"
+                                   style="width: 100%;">
+                        </p>
                     </div>
-                    <table class="easyui-datagrid"
-                           data-options="singleSelect:true,fit:true,border:false,fitColumns:true,toolbar:'#tool-dg-transformer'">
-                        <thead>
-                        <tr>
-                            <th data-options="field:'itemid',width:100" align="center">变压器名称</th>
-                            <th data-options="field:'productid',width:100" align="center">额定容量</th>
-                        </tr>
-                        </thead>
-                    </table>
+                    <div class="grid_2 cell title">
+                        <p>
+                            额定容量
+                        </p>
+                    </div>
+                    <div class="grid_4 cell">
+                        <p>
+                            <input id="text-rated-capacity" validateOnCreate="false" class="easyui-textbox"
+                                   required="true"
+                                   style="width: 100%;">
+                        </p>
+                    </div>
+                    <div class="clear"></div>
                 </div>
             </div>
+            <div data-options="region:'center',border:false">
+                <div id="tool-dg-transformer" style="">
+                    <a href="#" id="btn-dg-add" class="easyui-linkbutton"
+                       data-options="plain:true,iconCls:'icon-add'">添加</a>
+                    <a href="#" id="btn-dg-delete" class="easyui-linkbutton"
+                       data-options="plain:true,iconCls:'icon-cross'">删除</a>
+                </div>
+                <table id="dg-column" class="easyui-datagrid"
+                       data-options="singleSelect:true,fit:true,border:false,fitColumns:true,rownumbers:true,toolbar:'#tool-dg-transformer'">
+                    <thead>
+                    <tr>
+                        <th data-options="field:'pnName',width:100" align="center">变压器名称</th>
+                        <th data-options="field:'ratedCapacity',width:100" align="center">额定容量</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
+    </div>
 
-    </form>
 </div>
 <div data-options="region:'south'" style="height:50px;overflow: hidden;">
     <div class="container_12">

@@ -6,7 +6,6 @@ import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
-import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import com.google.gson.Gson;
@@ -21,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by barrie on 17/1/29.
@@ -96,9 +97,10 @@ public class AreaInfoController extends BaseController {
         if (result.size() > 0) {
             return new ErrorMsg(Error.SUCCESS, "success", result.get(0));
         } else {
-            AreaInfo info = new AreaInfo();
-            info.setAreaId(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID));
+            AreaInfoWithBLOBs info = new AreaInfoWithBLOBs();
+            info.setAreaId("-1");
             info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
+            info.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
             return new ErrorMsg(Error.SUCCESS, "success", info);
         }
     }
@@ -111,7 +113,11 @@ public class AreaInfoController extends BaseController {
                                    @RequestBody String sData
     ) {
         AreaInfoWithBLOBs template = new Gson().fromJson(sData, AreaInfoWithBLOBs.class);
+        template.setUpdatePerson("admin");
+        template.setUpdateDate(new Date());
         int result = areaInfoService.updateAreaInfo(template);
+        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME, template.getName());
+        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP, template.getIcp());
         return new ErrorMsg(Error.SUCCESS, "success", result);
 
     }
@@ -124,6 +130,9 @@ public class AreaInfoController extends BaseController {
                             @RequestBody String sData
     ) {
         AreaInfoWithBLOBs template = new Gson().fromJson(sData, AreaInfoWithBLOBs.class);
+        template.setId(UUID.randomUUID().toString());
+        template.setCreatePerson("admin");
+        template.setCreateDate(new Date());
         int result = areaInfoService.addAreaInfo(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
