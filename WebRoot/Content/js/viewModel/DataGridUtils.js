@@ -14,9 +14,6 @@ var DataGridUtils = {
         if (value != null && value != "null" && !isNaN(value)) {
             var t = parseFloat(value);
             // t = Math.floor(t * Math.pow(10, DataGridUtils.FLOAT_PRECISION)) / Math.pow(10, DataGridUtils.FLOAT_PRECISION);
-            console.log(value)
-            console.log(t.toFixed(precision))
-            console.log("----")
             return parseFloat(t.toFixed(precision));
             // return t;
         } else {
