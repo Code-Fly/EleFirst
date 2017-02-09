@@ -9,10 +9,12 @@ import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.service.iface.IAreaInfoService;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -99,5 +101,41 @@ public class AreaInfoController extends BaseController {
             info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
             return new ErrorMsg(Error.SUCCESS, "success", info);
         }
+    }
+
+    @RequestMapping(value = "/info/update.do")
+    @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg updateTreeInfo(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @RequestBody String sData
+    ) {
+        AreaInfoWithBLOBs template = new Gson().fromJson(sData, AreaInfoWithBLOBs.class);
+        int result = areaInfoService.updateAreaInfo(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+
+    }
+
+    @RequestMapping(value = "/info/add.do")
+    @ApiOperation(value = "添加", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg addPnfo(HttpServletRequest request,
+                            HttpServletResponse response,
+                            @RequestBody String sData
+    ) {
+        AreaInfoWithBLOBs template = new Gson().fromJson(sData, AreaInfoWithBLOBs.class);
+        int result = areaInfoService.addAreaInfo(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/info/delete.do")
+    @ApiOperation(value = "删除", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg deletePnInfo(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @RequestParam(value = "id") String id
+    ) {
+        int result = areaInfoService.delAreaInfo(id);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 }
