@@ -42,11 +42,13 @@
       "week": "%m-%d",
       "month": "%Y-%m",
       "year": "%Y"
-    }
+    },
+    "valueSuffix": "V",
+    "shared": true
   },
   "yAxis": {
     "title": {
-      "text": "单位（kW）"
+      "text": "单位（V）"
     }
   },
   "series": [

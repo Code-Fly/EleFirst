@@ -474,7 +474,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/loadDetailChart.json",
+                                            url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
@@ -635,7 +635,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/voltageDetailChart.json",
+                                            url: "data/voltageDetailChart.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
@@ -797,7 +797,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/currentDetailChart.json",
+                                            url: "data/currentDetailChart.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
@@ -977,7 +977,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/powerFactorDetailChart.json",
+                                            url: "data/powerFactorDetailChart.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
@@ -1086,7 +1086,7 @@ $(document).ready(function () {
 
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/electricityDetailChart.json",
+                                            url: "data/electricityDetailChart.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
