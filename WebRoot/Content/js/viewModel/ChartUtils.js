@@ -219,6 +219,21 @@ var ChartUtils = {
 
         return series;
     },
+    getVoltageAllSeries: function (node, time, data, phase) {
+        var series = {
+            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                var tmp = parseFloat(data[i][phase]) * node.pt;
+                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+                series.data.push([TimeUtils.dbTimeToDate(data[i].clientoperationtime), tmp]);
+            }
+        }
+        return series;
+    },
     getVoltageDailySeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
@@ -304,7 +319,21 @@ var ChartUtils = {
 
         return series;
     },
+    getCurrentAllSeries: function (node, time, data, phase) {
+        var series = {
+            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            data: []
+        };
 
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                var tmp = parseFloat(data[i][phase]) * node.ct;
+                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+                series.data.push([TimeUtils.dbTimeToDate(data[i].clientoperationtime), tmp]);
+            }
+        }
+        return series;
+    },
     getCurrentDailySeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
@@ -388,6 +417,21 @@ var ChartUtils = {
 
         }
 
+        return series;
+    },
+    getPowerFactorAllSeries: function (node, time, data, phase) {
+        var series = {
+            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                var tmp = parseFloat(data[i][phase]);
+                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+                series.data.push([TimeUtils.dbTimeToDate(data[i].clientoperationtime), tmp]);
+            }
+        }
         return series;
     },
     getPowerFactorDailySeries: function (node, time, data, phase) {
