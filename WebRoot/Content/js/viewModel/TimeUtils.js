@@ -18,6 +18,22 @@ var TimeUtils = {
         };
         return map[i];
     },
+    toDate: function (timestamp) {
+        var newDate = new Date();
+        newDate.setTime(timestamp);
+        return newDate;
+    },
+    dbTimeToDate: function (time) {
+        var year = parseInt(time.substr(0, 4));
+        var month = parseInt(time.substr(4, 2)) - 1;
+        var day = parseInt(time.substr(6, 2))
+        var hour = parseInt(time.substr(8, 2));
+        var minute = parseInt(time.substr(10, 2));
+        var second = parseInt(time.substr(12, 2));
+
+        var d = Date.UTC(year, month, day, hour, minute, second);
+        return d;
+    },
     toDateString: function (timestamp) {
         var newDate = new Date();
         newDate.setTime(timestamp);

@@ -10,6 +10,8 @@ import java.util.List;
 public interface IDataF25Service {
     List<DataF25> getDataF25List(DataF25 template);
 
+    List<DataF25> getDataF25List(List<DataF25> node, String startDate, String endDate);
+
     int getDataF25ListCount(DataF25 template);
 
     List<DataF25> getDataF25Detail(String id);

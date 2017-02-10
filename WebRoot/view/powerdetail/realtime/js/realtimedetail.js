@@ -302,7 +302,7 @@ $(document).ready(function () {
 
                         var paramChart = {
                             node: [],
-                            time: []
+                            time: {}
                         }
 
                         paramChart.node.push({
@@ -316,12 +316,15 @@ $(document).ready(function () {
                         var m = parseInt(ss[1], 10) - 1;
                         var d = parseInt(ss[2], 10);
 
-                        paramChart.time.push(
-                            new Date(y, m, d).format('yyyyMMdd') + "000000"
-                        )
+                        var startDate = new Date(y, m, d);
+                        var endDate = new Date(y, m, d);
+                        endDate.setDate(endDate.getDate() + 1);
+
+                        paramChart.time.start = startDate.format('yyyyMMdd') + "000000";
+                        paramChart.time.end = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+                            url: _ctx + "poweranalysis/comparison/load/daily/all/chart.do",
                             type: "POST",
                             cache: false,
                             contentType: "text/plain;charset=UTF-8",
@@ -331,7 +334,7 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var series = [];
 
-                                        var item = ChartUtils.getLoadDailyDetailSeries({
+                                        var item = ChartUtils.getLoadAllSeries({
                                             areaId: row.areaId,
                                             concentratorId: row.concentratorId,
                                             pn: row.pn,
@@ -346,9 +349,7 @@ $(document).ready(function () {
                                             async: false
                                         }).responseText);
 
-                                        config.xAxis.categories = ChartUtils.getDailyCategories();
                                         config.series = series;
-
                                         $("#chart-load-detail").highcharts(config);
 
                                     } else {

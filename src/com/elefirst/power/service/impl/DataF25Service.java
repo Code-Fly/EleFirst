@@ -41,6 +41,23 @@ public class DataF25Service extends BaseService implements IDataF25Service {
     }
 
     @Override
+    public List<DataF25> getDataF25List(List<DataF25> nodes, String startDate, String endDate) {
+        DataF25Example condition = new DataF25Example();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25 node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startDate)
+                    .andClientoperationtimeLessThan(endDate)
+            ;
+        }
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25DAO.getDataF25List(condition);
+    }
+
+    @Override
     public int getDataF25ListCount(DataF25 template) {
         DataF25Example condition = new DataF25Example();
         DataF25Example.Criteria criteria = condition.createCriteria();

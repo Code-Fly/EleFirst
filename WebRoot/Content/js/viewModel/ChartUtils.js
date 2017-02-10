@@ -140,6 +140,22 @@ var ChartUtils = {
 
         return series;
     },
+    getLoadAllSeries: function (node, time, data) {
+        var series = {
+            name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
+                var tmp = parseFloat(data[i].totalactivepower) * node.pt * node.ct;
+                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+                series.data.push([TimeUtils.dbTimeToDate(data[i].clientoperationtime), tmp]);
+            }
+        }
+
+        return series;
+    },
     getLoadWeeklyDetailSeries: function (node, time, data, type) {
         var y = parseInt(time.substr(0, 4));
         var m = parseInt(time.substr(4, 2)) - 1;

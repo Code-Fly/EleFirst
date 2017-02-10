@@ -3,6 +3,8 @@ package com.elefirst.poweranalysis.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.power.po.DataF25;
+import com.elefirst.power.service.iface.IDataF25Service;
 import com.elefirst.poweranalysis.po.*;
 import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
 import io.swagger.annotations.Api;
@@ -31,6 +33,9 @@ import java.util.Map;
 public class ComparisonController extends BaseController {
     @Autowired
     private IPowerAnalysisService powerAnalysisService;
+
+    @Autowired
+    private IDataF25Service dataF25Service;
 
     @RequestMapping(value = "/load/daily/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
@@ -96,6 +101,33 @@ public class ComparisonController extends BaseController {
         param.put("time", time);
 
         List<PowerAnalysisLoadDailyChartSumF25> list = powerAnalysisService.getLoadDailyChartSum(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
+    @RequestMapping(value = "/load/daily/all/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getLoadDailyChartAll(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<DataF25> nodes = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            DataF25 item = new DataF25();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            nodes.add(item);
+        }
+
+        JSONObject jTime = jParam.getJSONObject("time");
+        String startDate = jTime.getString("start");
+        String endDate = jTime.getString("end");
+        List<DataF25> list = dataF25Service.getDataF25List(nodes, startDate, endDate);
 
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
