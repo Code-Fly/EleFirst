@@ -624,6 +624,80 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityDailyIntervalDayTable: function (nodes, time, interval, data) {
+        var tbData = [];
+
+        var category = this.getDailyIntervalDayCategories(time, interval);
+
+        var nData = [];
+
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < nodes.length; j++) {
+                if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                    var item = $.extend(data[i], nodes[j]);
+                    nData.push(item);
+                }
+            }
+        }
+
+
+        var cData = {};
+
+        for (var i = 0; i < nData.length; i++) {
+            var key = nData[i].areaId + " " + nData[i].concentratorId + " " + nData[i].pn;
+            if (!cData.hasOwnProperty(key)) {
+                cData[key] = [];
+            }
+            cData[key].push(
+                nData[i]
+            );
+        }
+
+
+        var sData = {};
+        $.each(cData, function (k, n) {
+            var key = k;
+
+            if (!sData.hasOwnProperty(key)) {
+                sData[key] = [];
+            }
+            for (i = 0; i < n.length; i++) {
+                if (i == 0) {
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: n[i].dayClientOperationTime
+                    });
+                } else {
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: n[i].dayClientOperationTime
+                    });
+                }
+            }
+        });
+
+
+        for (var t = 0; t < category.length; t++) {
+            tbData.push(0);
+        }
+
+        $.each(sData, function (k, n) {
+            for (var t = 0; t < category.length; t++) {
+                for (i = 0; i < n.length; i++) {
+                    if (parseInt(category[t]) == parseInt(n[i].key)) {
+                        tbData[t] = DataGridUtils.floatFormatter((tbData[t] + n[i].value), 4, true);
+                    }
+                }
+            }
+        });
+
+        // $.messager.alert("操作提示", JSON.stringify(cData));
+        // $.messager.alert("操作提示", JSON.stringify(category));
+        // $.messager.alert("操作提示", JSON.stringify(sData));
+        // $.messager.alert("操作提示", JSON.stringify(series));
+
+        return tbData;
+    },
     getElectricityWeeklySeries: function (node, time, data) {
         var y = parseInt(time.substr(0, 4));
         var m = parseInt(time.substr(4, 2)) - 1;

@@ -44,6 +44,12 @@ $(document).ready(function () {
                 interval: interval
             });
 
+            getElectricityDetailTable({
+                node: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
+
         }
     });
 
@@ -193,6 +199,159 @@ $(document).ready(function () {
         });
     }
 
+    function getElectricityDetailTable(param) {
+        $.ajax({
+            url: _ctx + "system/pn/info/list.do",
+            type: "POST",
+            cache: false,
+            data: {
+                node: param.node
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+
+                        var paramNode = r.data;
+                        var paramChart = {
+                            node: paramNode,
+                            time: []
+                        };
+
+                        for (var i = 0; i <= param.interval; i++) {
+                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            item.setDate(item.getDate() + i);
+                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
+                        }
+
+                        var currentData = [];
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            type: "POST",
+                            cache: false,
+                            async: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                                        currentData = ChartUtils.getElectricityDailyIntervalDayTable(paramNode, param.time, param.interval, r.data);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            }
+                        });
+
+
+                        paramChart.time = [];
+                        for (var i = 0; i <= param.interval; i++) {
+                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            item.setDate(item.getDate() + i);
+                            item.setMonth(item.getMonth() - 1);
+                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
+                        }
+
+                        var lastMonthData = [];
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            type: "POST",
+                            cache: false,
+                            async: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                                        lastMonthData = ChartUtils.getElectricityDailyIntervalDayTable(paramNode, param.time, param.interval, r.data);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            }
+                        });
+
+                        paramChart.time = [];
+                        for (var i = 0; i <= param.interval; i++) {
+                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            item.setDate(item.getDate() + i);
+                            item.setFullYear(item.getFullYear() - 1);
+                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
+                        }
+
+                        var lastYearData = [];
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            type: "POST",
+                            cache: false,
+                            async: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                                        lastYearData = ChartUtils.getElectricityDailyIntervalDayTable(paramNode, param.time, param.interval, r.data);
+
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            }
+                        });
+
+                        var dgData = [];
+
+                        for (var i = 0; i < (param.interval + 1); i++) {
+                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            item.setDate(item.getDate() + i);
+
+                            dgData.push({
+                                time: item.format("yyyy-MM-dd"),
+                                currentData: currentData[i],
+                                lastMonthData: lastMonthData[i],
+                                lastYearData: lastYearData[i],
+                                rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastYearData[i]), 1),
+                                rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1),
+                            });
+                        }
+
+                        $("#dg-table").datagrid("loadData", dgData);
+
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                MaskUtil.unmask();
+            }
+        });
+    }
+
     function getPnInfo(areaId, concentratorId, pn, data) {
         for (var i = 0; i < data.length; i++) {
             if (data[i].areaId == areaId && data[i].concentratorId == concentratorId && data[i].pn == pn) {
@@ -233,6 +392,12 @@ $(document).ready(function () {
         $("#datebox-time-end").datebox("setValue", endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate());
 
         getElectricityDetailChart({
+            node: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: DEFAULT_INTERVAL
+        });
+
+        getElectricityDetailTable({
             node: _nodes,
             time: $("#datebox-time-start").datebox("getValue"),
             interval: DEFAULT_INTERVAL
