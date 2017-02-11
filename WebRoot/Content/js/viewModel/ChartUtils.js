@@ -553,7 +553,7 @@ var ChartUtils = {
             data: []
         };
 
-        var category = this.getDailyIntervalDayCategories(time, interval);
+        var category = this.getDailyIntervalDayStrCategories(time, interval);
 
         var nData = [];
 
@@ -591,12 +591,12 @@ var ChartUtils = {
                 if (i == 0) {
                     sData[key].push({
                         value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
                     });
                 } else {
                     sData[key].push({
                         value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
                     });
                 }
             }
@@ -610,7 +610,7 @@ var ChartUtils = {
         $.each(sData, function (k, n) {
             for (var t = 0; t < category.length; t++) {
                 for (i = 0; i < n.length; i++) {
-                    if (parseInt(category[t]) == parseInt(n[i].key)) {
+                    if (category[t] == n[i].key) {
                         series.data[t] = DataGridUtils.floatFormatter((series.data[t] + n[i].value), 4, true);
                     }
                 }
@@ -627,7 +627,7 @@ var ChartUtils = {
     getElectricityDailyIntervalDayTable: function (nodes, time, interval, data) {
         var tbData = [];
 
-        var category = this.getDailyIntervalDayCategories(time, interval);
+        var category = this.getDailyIntervalDayStrCategories(time, interval);
 
         var nData = [];
 
@@ -665,12 +665,12 @@ var ChartUtils = {
                 if (i == 0) {
                     sData[key].push({
                         value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
                     });
                 } else {
                     sData[key].push({
                         value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
                     });
                 }
             }
@@ -684,7 +684,7 @@ var ChartUtils = {
         $.each(sData, function (k, n) {
             for (var t = 0; t < category.length; t++) {
                 for (i = 0; i < n.length; i++) {
-                    if (parseInt(category[t]) == parseInt(n[i].key)) {
+                    if (category[t] == n[i].key) {
                         tbData[t] = DataGridUtils.floatFormatter((tbData[t] + n[i].value), 4, true);
                     }
                 }
@@ -924,8 +924,7 @@ var ChartUtils = {
             categories.push(fixNum(i, 2) + ":00");
         }
         return categories;
-    }
-    ,
+    },
     getDailyIntervalDayCategories: function (time, interval) {
         var categories = [];
         var ss = time.split('-');
@@ -940,8 +939,22 @@ var ChartUtils = {
         }
 
         return categories;
-    }
-    ,
+    },
+    getDailyIntervalDayStrCategories: function (time, interval) {
+        var categories = [];
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        for (var i = 0; i < (interval + 1); i++) {
+            var dt = new Date(y, m, d);
+            dt.setDate(dt.getDate() + i);
+            categories.push(dt.format("yyyyMMdd"));
+        }
+
+        return categories;
+    },
     getMonthlyIntervalMonthCategories: function (time, interval) {
         var categories = [];
         var ss = time.split('-');
@@ -955,8 +968,7 @@ var ChartUtils = {
         }
 
         return categories;
-    }
-    ,
+    },
     getWeeklyCategories: function () {
         var categories = [];
         var week = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
@@ -964,8 +976,7 @@ var ChartUtils = {
             categories.push(week[i]);
         }
         return categories;
-    }
-    ,
+    },
     getMonthCategories: function (date) {
         var y = date.getFullYear();
         var m = date.getMonth();

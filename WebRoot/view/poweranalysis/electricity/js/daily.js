@@ -2,7 +2,7 @@
  * Created by barrie on 17/1/30.
  */
 $(document).ready(function () {
-    var DEFAULT_INTERVAL = 6;
+    var DEFAULT_INTERVAL = 30;
 
     var _nodes = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
@@ -385,7 +385,7 @@ $(document).ready(function () {
         var endDate = new Date();
 
         var startDate = new Date();
-        startDate.setDate(startDate.getDate() - 6);
+        startDate.setDate(startDate.getDate() - DEFAULT_INTERVAL);
 
         $("#datebox-time-start").datebox("setValue", startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
 
