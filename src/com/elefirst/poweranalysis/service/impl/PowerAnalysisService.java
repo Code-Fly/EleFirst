@@ -118,5 +118,10 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
         return powerAnalysisDAO.getElectricityMonthlyChart(param);
     }
 
+    @Override
+    public List<PowerAnalysisElectricityMonthlyChartIntervalMonthF33> getElectricityMonthlyChartIntervalMonth(Map<String, Object> param) {
+        return powerAnalysisDAO.getElectricityMonthlyChartIntervalMonth(param);
+    }
+
 
 }

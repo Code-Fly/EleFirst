@@ -34,13 +34,21 @@ var TimeUtils = {
         var d = Date.UTC(year, month, day, hour, minute, second);
         return d;
     },
-    dataBoxTimeToDate: function (time) {
+    dataBoxDateToDate: function (time) {
         var ss = time.split('-');
         var year = parseInt(ss[0], 10);
         var month = parseInt(ss[1], 10) - 1;
         var day = parseInt(ss[2], 10);
 
         var d = new Date(year, month, day);
+        return d;
+    },
+    dataBoxMonthToDate: function (time) {
+        var ss = time.split('-');
+        var year = parseInt(ss[0], 10);
+        var month = parseInt(ss[1], 10) - 1;
+
+        var d = new Date(year, month);
         return d;
     },
     toDateString: function (timestamp) {

@@ -75,7 +75,7 @@ $(document).ready(function () {
                         };
 
                         for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
                             paramChart.time.push(item.format('yyyyMMdd') + "000000");
                         }
@@ -107,7 +107,7 @@ $(document).ready(function () {
 
                         paramChart.time = [];
                         for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
                             item.setMonth(item.getMonth() - 1);
                             paramChart.time.push(item.format('yyyyMMdd') + "000000");
@@ -139,7 +139,7 @@ $(document).ready(function () {
 
                         paramChart.time = [];
                         for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
                             item.setFullYear(item.getFullYear() - 1);
                             paramChart.time.push(item.format('yyyyMMdd') + "000000");
@@ -218,7 +218,7 @@ $(document).ready(function () {
                         };
 
                         for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
                             paramChart.time.push(item.format('yyyyMMdd') + "000000");
                         }
@@ -251,7 +251,7 @@ $(document).ready(function () {
 
                         paramChart.time = [];
                         for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
                             item.setMonth(item.getMonth() - 1);
                             paramChart.time.push(item.format('yyyyMMdd') + "000000");
@@ -284,7 +284,7 @@ $(document).ready(function () {
 
                         paramChart.time = [];
                         for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
                             item.setFullYear(item.getFullYear() - 1);
                             paramChart.time.push(item.format('yyyyMMdd') + "000000");
@@ -318,7 +318,7 @@ $(document).ready(function () {
                         var dgData = [];
 
                         for (var i = 0; i < (param.interval + 1); i++) {
-                            var item = TimeUtils.dataBoxTimeToDate(param.time);
+                            var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
 
                             dgData.push({
