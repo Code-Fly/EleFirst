@@ -548,32 +548,74 @@ var ChartUtils = {
         return series;
     },
     getElectricityDailyIntervalDaySeries: function (name, nodes, time, interval, data) {
+        var startTime = TimeUtils.dataBoxTimeToDate(time);
+        var endTime = TimeUtils.dataBoxTimeToDate(time);
+        endTime.setDate(endTime.getDate() + interval);
+
         var series = {
-            name: name,
+            name: startTime.format("yyyy-MM-dd") + "~" + endTime.format("yyyy-MM-dd"),
             data: []
         };
 
         var category = this.getDailyIntervalDayCategories(time, interval);
 
-        for (var t = 0; t < category.length; t++) {
-            var tmp = null;
-            for (var i = 0; i < data.length; i++) {
-                for (var j = 0; j < nodes.length; j++) {
-                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
-                        if (parseInt(data[i].dayClientOperationTime) == parseInt(category[t])) {
-                            if (i == 0) {
-                                tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[i]["firstTotalPositiveActivePower"])) * nodes[j].ct * nodes[j].pt;
-                            } else {
-                                tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[(i - 1)]["lastTotalPositiveActivePower"])) * nodes[j].ct * nodes[j].pt;
-                            }
-                            tmp = DataGridUtils.floatFormatter(tmp, 4, true);
-                        }
-                    }
+        var nData = [];
+
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < nodes.length; j++) {
+                if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                    var item = $.extend(data[i], nodes[j]);
+                    nData.push(item);
+                }
+            }
+        }
+
+        var cData = {};
+
+        for (var i = 0; i < nData.length; i++) {
+            var key = nData[i].areaId + " " + nData[i].concentratorId + " " + nData[i].pn;
+            if (!cData.hasOwnProperty(key)) {
+                cData[key] = [];
+            }
+            cData[key].push(
+                nData[i]
+            );
+        }
+
+        var sData = {};
+        $.each(cData, function (k, n) {
+            var key = k;
+
+            if (!sData.hasOwnProperty(key)) {
+                sData[key] = [];
+            }
+            for (i = 0; i < n.length; i++) {
+                if (i == 0) {
+                    sData[key].push(
+                        (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt
+                    );
+                } else {
+                    sData[key].push(
+                        (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt
+                    );
+                }
+            }
+        });
+
+
+        $.each(sData, function (k, n) {
+            if (series.data == 0) {
+                for (i = 0; i < n.length; i++) {
+                    series.data.push(0);
                 }
             }
 
-            series.data.push(tmp);
-        }
+            for (i = 0; i < n.length; i++) {
+                series.data[i] = DataGridUtils.floatFormatter((series.data[i] + n[i]), 4), true;
+            }
+        });
+
+
         return series;
     },
     getElectricityWeeklySeries: function (node, time, data) {
@@ -613,7 +655,8 @@ var ChartUtils = {
         }
 
         return series;
-    },
+    }
+    ,
     getElectricityMonthlySeries: function (node, time, data) {
         var y = time.substr(0, 4);
         var m = time.substr(4, 2);
@@ -643,14 +686,16 @@ var ChartUtils = {
         }
 
         return series;
-    },
+    }
+    ,
     getDailyCategories: function () {
         var categories = [];
         for (var i = 0; i < 24; i++) {
             categories.push(fixNum(i, 2) + ":00");
         }
         return categories;
-    },
+    }
+    ,
     getDailyIntervalDayCategories: function (time, interval) {
         var categories = [];
         var ss = time.split('-');
@@ -665,7 +710,8 @@ var ChartUtils = {
         }
 
         return categories;
-    },
+    }
+    ,
     getMonthlyIntervalMonthCategories: function (time, interval) {
         var categories = [];
         var ss = time.split('-');
@@ -679,7 +725,8 @@ var ChartUtils = {
         }
 
         return categories;
-    },
+    }
+    ,
     getWeeklyCategories: function () {
         var categories = [];
         var week = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
@@ -687,7 +734,8 @@ var ChartUtils = {
             categories.push(week[i]);
         }
         return categories;
-    },
+    }
+    ,
     getMonthCategories: function (date) {
         var y = date.getFullYear();
         var m = date.getMonth();

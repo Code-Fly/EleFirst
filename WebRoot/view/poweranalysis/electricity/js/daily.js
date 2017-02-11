@@ -52,7 +52,9 @@ $(document).ready(function () {
             url: _ctx + "system/pn/info/list.do",
             type: "POST",
             cache: false,
-            data: param.node,
+            data: {
+                node: param.node
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
@@ -77,6 +79,8 @@ $(document).ready(function () {
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
                                         var series = [];
                                         var item = ChartUtils.getElectricityDailyIntervalDaySeries("xxx", paramNode, param.time, param.interval, r.data);
                                         series.push(item);
