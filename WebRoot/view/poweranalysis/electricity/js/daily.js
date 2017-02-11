@@ -385,22 +385,24 @@ $(document).ready(function () {
         var endDate = new Date();
 
         var startDate = new Date();
-        startDate.setDate(startDate.getDate() - DEFAULT_INTERVAL);
+        startDate.setDate(startDate.getDate() - 6);
 
         $("#datebox-time-start").datebox("setValue", startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
 
         $("#datebox-time-end").datebox("setValue", endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate());
 
+        var interval = getDateInterval($("#datebox-time-start").datebox("getValue"), $("#datebox-time-end").datebox("getValue"));
+
         getElectricityDetailChart({
             node: _nodes,
             time: $("#datebox-time-start").datebox("getValue"),
-            interval: DEFAULT_INTERVAL
+            interval: interval
         });
 
         getElectricityDetailTable({
             node: _nodes,
             time: $("#datebox-time-start").datebox("getValue"),
-            interval: DEFAULT_INTERVAL
+            interval: interval
         });
     }
 });
