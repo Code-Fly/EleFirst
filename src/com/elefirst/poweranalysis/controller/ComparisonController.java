@@ -4,7 +4,9 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF25;
+import com.elefirst.power.po.DataF33;
 import com.elefirst.power.service.iface.IDataF25Service;
+import com.elefirst.power.service.iface.IDataF33Service;
 import com.elefirst.poweranalysis.po.*;
 import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
 import io.swagger.annotations.Api;
@@ -36,6 +38,9 @@ public class ComparisonController extends BaseController {
 
     @Autowired
     private IDataF25Service dataF25Service;
+
+    @Autowired
+    private IDataF33Service dataF33Service;
 
     @RequestMapping(value = "/load/all/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
@@ -609,6 +614,33 @@ public class ComparisonController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
 
+    @RequestMapping(value = "/electricity/all/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getElectricityChartAll(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<DataF33> nodes = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            DataF33 item = new DataF33();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            nodes.add(item);
+        }
+
+        JSONObject jTime = jParam.getJSONObject("time");
+        String startDate = jTime.getString("start");
+        String endDate = jTime.getString("end");
+        List<DataF33> list = dataF33Service.getDataF33List(nodes, startDate, endDate);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
     @RequestMapping(value = "/electricity/daily/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody
@@ -639,6 +671,40 @@ public class ComparisonController extends BaseController {
         param.put("time", time);
 
         List<PowerAnalysisElectricityDailyChartF33> list = powerAnalysisService.getElectricityDailyChart(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
+    @RequestMapping(value = "/electricity/daily/interval/day/chart.do")
+    @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getElectricityDailyChartIntervalDay(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<PowerAnalysisF33> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF33 item = new PowerAnalysisF33();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
+
+        List<String> time = new ArrayList<>();
+        JSONArray jTime = jParam.getJSONArray("time");
+        for (int i = 0; i < jTime.size(); i++) {
+            time.add(jTime.getString(i));
+        }
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("time", time);
+
+        List<PowerAnalysisElectricityDailyChartIntervalDayF33> list = powerAnalysisService.getElectricityDailyChartIntervalDay(param);
 
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
@@ -680,7 +746,7 @@ public class ComparisonController extends BaseController {
     @RequestMapping(value = "/electricity/monthly/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getMonthlyWeeklyChart(HttpServletRequest request,
+    public ErrorMsg getElectricityMonthlyChart(HttpServletRequest request,
                                           HttpServletResponse response,
                                           @RequestBody String sData
     ) {

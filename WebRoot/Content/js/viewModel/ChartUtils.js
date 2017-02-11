@@ -547,6 +547,35 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityDailyIntervalDaySeries: function (name, nodes, time, interval, data) {
+        var series = {
+            name: name,
+            data: []
+        };
+
+        var category = this.getDailyIntervalDayCategories(time, interval);
+
+        for (var t = 0; t < category.length; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < nodes.length; j++) {
+                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                        if (parseInt(data[i].dayClientOperationTime) == parseInt(category[t])) {
+                            if (i == 0) {
+                                tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[i]["firstTotalPositiveActivePower"])) * nodes[j].ct * nodes[j].pt;
+                            } else {
+                                tmp = (parseFloat(data[i]["lastTotalPositiveActivePower"]) - parseFloat(data[(i - 1)]["lastTotalPositiveActivePower"])) * nodes[j].ct * nodes[j].pt;
+                            }
+                            tmp = DataGridUtils.floatFormatter(tmp, 4, true);
+                        }
+                    }
+                }
+            }
+
+            series.data.push(tmp);
+        }
+        return series;
+    },
     getElectricityWeeklySeries: function (node, time, data) {
         var y = parseInt(time.substr(0, 4));
         var m = parseInt(time.substr(4, 2)) - 1;

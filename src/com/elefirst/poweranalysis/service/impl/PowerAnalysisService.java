@@ -104,6 +104,11 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
     }
 
     @Override
+    public List<PowerAnalysisElectricityDailyChartIntervalDayF33> getElectricityDailyChartIntervalDay(Map<String, Object> param) {
+        return powerAnalysisDAO.getElectricityDailyChartIntervalDay(param);
+    }
+
+    @Override
     public List<PowerAnalysisElectricityWeeklyChartF33> getElectricityWeeklyChart(Map<String, Object> param) {
         return powerAnalysisDAO.getElectricityWeeklyChart(param);
     }
