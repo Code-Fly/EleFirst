@@ -548,12 +548,8 @@ var ChartUtils = {
         return series;
     },
     getElectricityDailyIntervalDaySeries: function (name, nodes, time, interval, data) {
-        var startTime = TimeUtils.dataBoxTimeToDate(time);
-        var endTime = TimeUtils.dataBoxTimeToDate(time);
-        endTime.setDate(endTime.getDate() + interval);
-
         var series = {
-            name: startTime.format("yyyy-MM-dd") + "~" + endTime.format("yyyy-MM-dd"),
+            name: name,
             data: []
         };
 
