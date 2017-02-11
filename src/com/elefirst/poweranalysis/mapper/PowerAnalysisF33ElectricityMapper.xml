@@ -695,6 +695,7 @@
         `area_id` ,
         `concentrator_id` ,
         `pn` ,
+        left(`clientOperationTime` , 8),
         DAYOFMONTH(`clientOperationTime`)
         ORDER BY
         `area_id` ,
@@ -746,6 +747,7 @@
         `area_id` ,
         `concentrator_id` ,
         `pn` ,
+        left(`clientOperationTime` , 8),
         DAYOFMONTH(`clientOperationTime`)
         ORDER BY
         `area_id` ,
