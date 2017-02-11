@@ -367,7 +367,7 @@ $(document).ready(function () {
             return "<div title='" + HTMLUtils.encode(row.name) + "'>" + HTMLUtils.encode(row.name) + "</div>";
         },
         onSelect: function (record) {
-            getTemplate(record.id);
+            getTemplate(record);
         },
         onBeforeLoad: function (param) {
             $(this).combobox("clear");
@@ -377,51 +377,13 @@ $(document).ready(function () {
         }
     });
 
-    function getTemplate(id) {
-        $.ajax({
-            url: _ctx + "system/graph/template/detail.do",
-            type: "POST",
-            cache: false,
-            data: {
-                id: id
-            },
-            success: function (r) {
-                if (r.hasOwnProperty("errcode")) {
-                    if ("0" == r.errcode) {
-                        if (0 == r.data.length) {
-                            $("#combo-template").combobox("clear");
-                            $("#combo-template").combobox("reload");
-                            $.messager.alert("操作提示", "模板已失效，请重新选择！", "info");
-                            return;
-                        }
+    function getTemplate(record) {
+        $("#updateTimeContainer").text("");
+        $("#hid-config").val(record.config);
 
-                        $("#updateTimeContainer").text("");
-                        $("#hid-config").val(r.data[0].config);
-
-                        var doc = mxUtils.parseXml(r.data[0].content);
-                        var codec = new mxCodec(doc);
-                        codec.decode(doc.documentElement, graph.getModel());
-
-
-                        $("#btn-save-template").linkbutton("enable");
-                    } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                    }
-                } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                }
-            },
-            beforeSend: function (XMLHttpRequest) {
-                $("#combo-template").combobox("disable");
-            },
-            error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-            },
-            complete: function (XMLHttpRequest, textStatus) {
-                $("#combo-template").combobox("enable");
-            }
-
-        });
+        var doc = mxUtils.parseXml(record.content);
+        var codec = new mxCodec(doc);
+        codec.decode(doc.documentElement, graph.getModel());
     }
 
     /**
