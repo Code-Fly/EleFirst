@@ -48,9 +48,9 @@ var graphUtils = {
         return newConfig;
     },
     getConfig: function (node, config) {
-        var config = this.initConfig($.parseJSON($(config).val()));
+        var newConfig = this.initConfig($.parseJSON($(config).val()));
 
-        var list = config[node.cellType];
+        var list = newConfig[node.cellType];
         for (var i = 0; i < list.length; i++) {
             if (list[i].cellId == node.cellId) {
                 return list[i];

@@ -8,4 +8,4 @@ var graphConstants = {
     USER_OBJECT_CURRENT: "current",
     SWITCH_STATE_ON: 0,
     SWITCH_STATE_OFF: 1
-}
+};

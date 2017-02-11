@@ -208,17 +208,6 @@ function formatDbTimestamp(time) {
     return time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + " " + time.substr(8, 2) + ":" + time.substr(10, 2) + ":" + time.substr(12, 2);
 }
 
-function getDbDate(time) {
-    var date = new Date();
-    date.setFullYear(parseInt(time.substr(0, 4)));
-    date.setMonth(parseInt(time.substr(4, 2)) - 1);
-    date.setDate(parseInt(time.substr(6, 2)));
-    date.setHours(parseInt(time.substr(8, 2)));
-    date.setMinutes(parseInt(time.substr(10, 2)));
-    date.setSeconds(parseInt(time.substr(12, 2)));
-    return date;
-}
-
 /**
  * 是否以指定字符串结尾
  * @param s

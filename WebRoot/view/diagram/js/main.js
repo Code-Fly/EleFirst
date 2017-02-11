@@ -74,7 +74,7 @@ $(document).ready(function () {
         required: true,
         textField: "name",
         valueField: "value",
-        editable: false,
+        editable: false
     });
 
 
@@ -86,7 +86,7 @@ $(document).ready(function () {
         queryParams: {
             areaId: _areaId
         },
-        editable: false,
+        editable: false
     });
 
     $("#btn-reset").linkbutton({
@@ -111,9 +111,22 @@ $(document).ready(function () {
                 success: function (r) {
                     if (r.hasOwnProperty("errcode")) {
                         if ("0" == r.errcode) {
-                            if (r.data[graphConstants.USER_OBJECT_CURRENT].length > 0) {
-                                var time = r.data[graphConstants.USER_OBJECT_CURRENT][0].clientOperationTime;
-                                $("#updateTimeContainer").text("采集状态：成功获取到 " + getDbDate(time).toLocaleString() + " 实时数据");
+                            var maxTime = null;
+                            var timeList = r.data[graphConstants.USER_OBJECT_CURRENT];
+                            for (var i = 0; i < timeList.length; i++) {
+                                if (timeList[i].clientOperationTime != null) {
+                                    var timeItem = TimeUtils.dbTimeToDate(timeList[i].clientOperationTime);
+                                    if (i == 0) {
+                                        maxTime = timeItem;
+                                    } else {
+                                        if (timeItem.getTime() > maxTime.getTime()) {
+                                            maxTime = timeItem;
+                                        }
+                                    }
+                                }
+                            }
+                            if (null != maxTime) {
+                                $("#updateTimeContainer").text("采集状态：成功获取到 " + maxTime.toLocaleString() + " 实时数据");
                             }
                             update(graph, r.data);
                         } else {
@@ -361,7 +374,7 @@ $(document).ready(function () {
         },
         onLoadError: function (r) {
             $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-        },
+        }
     });
 
     function getTemplate(id) {

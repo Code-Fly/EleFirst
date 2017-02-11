@@ -42,7 +42,7 @@ $(document).ready(function () {
     //         graph.getModel().endUpdate();
     //     }
     // });
-    toolbar.addLine()
+    toolbar.addLine();
 
     var wireMode = false;
     // Starts connections on the background in wire-mode
@@ -95,7 +95,7 @@ $(document).ready(function () {
     toolbar.addItem("恢复", mxBasePath + "images/editors/redo.gif", function (evt) {
         undoManager.undo();
     });
-    toolbar.addLine()
+    toolbar.addLine();
     toolbar.addItem("剪切", mxBasePath + "images/editors/cut.gif", function (evt) {
         mxClipboard.cut(graph);
     });
@@ -108,7 +108,7 @@ $(document).ready(function () {
     toolbar.addItem("删除", mxBasePath + "images/editors/delete.gif", function (evt) {
         graph.removeCells();
     });
-    toolbar.addLine()
+    toolbar.addLine();
     // addVertex("", mxBasePath + "images/editors/rectangle.gif", 100, 40, "");
     // addVertex("", mxBasePath + "images/editors/ellipse.gif", 40, 40, "shape=ellipse");
     // addVertex("", mxBasePath + "images/editors/rhombus.gif", 40, 40, "shape=rhombus");
@@ -127,10 +127,10 @@ $(document).ready(function () {
 
         addVertex(name, iconPath, width, height, graphConstants.USER_OBJECT_CUSTOM_IMG + ";image=" + imgPath);
     }
-    toolbar.addLine()
+    toolbar.addLine();
     addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=3");
     addVertex("开关状态", BASE_PATH + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
-    toolbar.addLine()
+    toolbar.addLine();
     toolbar.addItem("放大", mxBasePath + "images/editors/zoomin.gif", function (evt) {
         graph.zoomIn();
     });
@@ -309,8 +309,6 @@ $(document).ready(function () {
             }
         } // for
     }
-
-
 
 
     function getCustomToolbarInfo() {

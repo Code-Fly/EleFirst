@@ -31,7 +31,7 @@ $(document).ready(function () {
                     var node = {
                         cellId: cell.id,
                         cellType: graphConstants.USER_OBJECT_CURRENT
-                    }
+                    };
                     $("#hid-selected-node-info").val(JSON.stringify(node));
                     $("#dlg-bound-pn").dialog("open");
                 });
@@ -42,7 +42,7 @@ $(document).ready(function () {
                     var node = {
                         cellId: cell.id,
                         cellType: graphConstants.USER_OBJECT_SWITCH_STATE
-                    }
+                    };
                     $("#hid-selected-node-info").val(JSON.stringify(node));
                     $("#dlg-bound-pn").dialog("open");
                 });
