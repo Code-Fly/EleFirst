@@ -79,7 +79,7 @@ $(document).ready(function () {
     toolbar.addSwitchMode("画线", mxBasePath + "images/editors/vertical.gif", function (evt, cell) {
         wireMode = true;
     });
-    toolbar.addLine()
+    toolbar.addLine();
     // Undo/redo
     var undoManager = new mxUndoManager();
     var listener = function (sender, evt) {
@@ -116,7 +116,7 @@ $(document).ready(function () {
     // addVertex("", mxBasePath + "images/editors/cylinder.gif", 40, 40, "shape=cylinder");
     // addVertex("", mxBasePath + "images/editors/actor.gif", 30, 40, "shape=actor");
     addVertex("", mxBasePath + "images/editors/text.gif", 150, 30, "text");
-    toolbar.addLine()
+    toolbar.addLine();
     var customToolbarInfo = getCustomToolbarInfo();
     for (var i = 0; i < customToolbarInfo.length; i++) {
         var name = customToolbarInfo[i].name;
@@ -155,7 +155,7 @@ $(document).ready(function () {
             mxUtils.setOpacity(img, (tmp) ? 100 : 20);
             img.enabled = tmp;
         });
-    };
+    }
 
     function addToolbarItem(title, icon, graph, toolbar, prototype) {
         // Function that is executed when the icon is dropped on
@@ -180,7 +180,7 @@ $(document).ready(function () {
             vertex.geometry.y = y;
             graph.addCell(vertex);
             graph.setSelectionCell(vertex);
-        }
+        };
 
         // Creates the icon which is used as the drag icon (preview)
         // var img = toolbar.addMode(null, icon, function (evt, cell) {
