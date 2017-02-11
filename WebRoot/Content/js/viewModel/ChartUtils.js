@@ -566,6 +566,7 @@ var ChartUtils = {
             }
         }
 
+
         var cData = {};
 
         for (var i = 0; i < nData.length; i++) {
@@ -578,6 +579,7 @@ var ChartUtils = {
             );
         }
 
+
         var sData = {};
         $.each(cData, function (k, n) {
             var key = k;
@@ -587,30 +589,38 @@ var ChartUtils = {
             }
             for (i = 0; i < n.length; i++) {
                 if (i == 0) {
-                    sData[key].push(
-                        (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt
-                    );
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: n[i].dayClientOperationTime
+                    });
                 } else {
-                    sData[key].push(
-                        (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt
-                    );
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: n[i].dayClientOperationTime
+                    });
                 }
             }
         });
 
+
+        for (var t = 0; t < category.length; t++) {
+            series.data.push(0);
+        }
 
         $.each(sData, function (k, n) {
-            if (series.data == 0) {
+            for (var t = 0; t < category.length; t++) {
                 for (i = 0; i < n.length; i++) {
-                    series.data.push(0);
+                    if (parseInt(category[t]) == parseInt(n[i].key)) {
+                        series.data[t] = DataGridUtils.floatFormatter((series.data[t] + n[i].value), 4, true);
+                    }
                 }
-            }
-
-            for (i = 0; i < n.length; i++) {
-                series.data[i] = DataGridUtils.floatFormatter((series.data[i] + n[i]), 4), true;
             }
         });
 
+        // $.messager.alert("操作提示", JSON.stringify(cData));
+        // $.messager.alert("操作提示", JSON.stringify(category));
+        // $.messager.alert("操作提示", JSON.stringify(sData));
+        // $.messager.alert("操作提示", JSON.stringify(series));
 
         return series;
     },

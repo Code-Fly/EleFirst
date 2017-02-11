@@ -57,39 +57,6 @@
     </div>
     <div class="easyui-panel" data-options="border:false"
          style="margin-bottom: 10px;height: 200px;width: 95%;">
-        <table border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
-               style="height: 100%;width: 100%">
-            <tbody>
-            <tr>
-                <td width="25%" valign="center" align="center">最大负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            <tr>
-                <td width="25%" valign="center" align="center">最小负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">发生时间</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            <tr>
-                <td width="25%" valign="center" align="center">平均负荷</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">峰谷差</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            <tr>
-                <td width="25%" valign="center" align="center">峰谷差率</td>
-                <td width="25%" valign="center" align="center">--</td>
-                <td width="25%" valign="center" align="center">负荷率</td>
-                <td width="25%" valign="center" align="center">--</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="easyui-panel" data-options="border:false"
-         style="margin-bottom: 10px;height: 200px;width: 95%;">
         <table id="dg-table" class="easyui-datagrid" data-options="border:true,fit:true">
             <thead>
             <tr>

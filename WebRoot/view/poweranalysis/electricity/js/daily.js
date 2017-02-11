@@ -47,6 +47,8 @@ $(document).ready(function () {
         }
     });
 
+    init();
+
     function getElectricityDetailChart(param) {
         $.ajax({
             url: _ctx + "system/pn/info/list.do",
@@ -218,5 +220,22 @@ $(document).ready(function () {
         var days = end.getTime() - start.getTime();
         var time = parseInt(days / (1000 * 60 * 60 * 24));
         return time
+    }
+
+    function init() {
+        var endDate = new Date();
+
+        var startDate = new Date();
+        startDate.setDate(startDate.getDate() - 6);
+
+        $("#datebox-time-start").datebox("setValue", startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
+
+        $("#datebox-time-end").datebox("setValue", endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate());
+
+        getElectricityDetailChart({
+            node: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: DEFAULT_INTERVAL
+        });
     }
 });
