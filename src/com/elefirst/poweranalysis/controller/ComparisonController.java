@@ -618,27 +618,76 @@ public class ComparisonController extends BaseController {
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getElectricityChartAll(HttpServletRequest request,
-                                         HttpServletResponse response,
-                                         @RequestBody String sData
+                                           HttpServletResponse response,
+                                           @RequestBody String sData
     ) {
-        JSONObject jParam = JSONObject.fromObject(sData);
+        JSONArray jParam = JSONArray.fromObject(sData);
 
-        List<DataF33> nodes = new ArrayList<>();
-        JSONArray jNode = jParam.getJSONArray("node");
-        for (int i = 0; i < jNode.size(); i++) {
-            DataF33 item = new DataF33();
-            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
-            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
-            item.setPn(jNode.getJSONObject(i).getString("pn"));
-            nodes.add(item);
+        JSONArray result = new JSONArray();
+
+        for (int i = 0; i < jParam.size(); i++) {
+            JSONObject jItem = jParam.getJSONObject(i);
+
+            JSONArray jNode = jItem.getJSONArray("node");
+            String id = jItem.getString("id");
+            String name = jItem.getString("name");
+            String start = jItem.getString("start");
+            String end = jItem.getString("end");
+
+            List<DataF33> nodes = new ArrayList<>();
+            for (int j = 0; j < jNode.size(); j++) {
+                DataF33 item = new DataF33();
+                item.setAreaId(jNode.getJSONObject(j).getString("areaId"));
+                item.setConcentratorId(jNode.getJSONObject(j).getString("concentratorId"));
+                item.setPn(jNode.getJSONObject(j).getString("pn"));
+                nodes.add(item);
+            }
+
+            List<DataF33> list = dataF33Service.getDataF33List(nodes, start, end);
+
+            Double electricity = 0.0;
+            for (int j = 0; j < jNode.size(); j++) {
+                String areaId = jNode.getJSONObject(j).getString("areaId");
+                String concentratorId = jNode.getJSONObject(j).getString("concentratorId");
+                String pn = jNode.getJSONObject(j).getString("pn");
+                Double ct = jNode.getJSONObject(j).getDouble("ct");
+                Double pt = jNode.getJSONObject(j).getDouble("pt");
+
+                Double minVal = 1000000000.0;
+                Double maxVal = -1.0;
+                int count = 0;
+
+                for (int k = 0; k < list.size(); k++) {
+                    DataF33 item = list.get(k);
+                    if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
+                        count++;
+                        if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) < minVal) {
+                            minVal = Double.valueOf(item.getTotalpositiveactivepower());
+                        }
+
+                        if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) > maxVal) {
+                            maxVal = Double.valueOf(item.getTotalpositiveactivepower());
+                        }
+                    }
+                }
+
+
+                if (count > 0) {
+                    electricity += (maxVal - minVal) * ct * pt;
+                }
+
+            }
+
+            JSONObject resultItem = new JSONObject();
+            resultItem.put("id", id);
+            resultItem.put("name", name);
+            resultItem.put("electricity", electricity);
+
+            result.add(resultItem);
+
         }
 
-        JSONObject jTime = jParam.getJSONObject("time");
-        String startDate = jTime.getString("start");
-        String endDate = jTime.getString("end");
-        List<DataF33> list = dataF33Service.getDataF33List(nodes, startDate, endDate);
-
-        return new ErrorMsg(Error.SUCCESS, "success", list);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
     @RequestMapping(value = "/electricity/daily/chart.do")
@@ -679,8 +728,8 @@ public class ComparisonController extends BaseController {
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getElectricityDailyChartIntervalDay(HttpServletRequest request,
-                                             HttpServletResponse response,
-                                             @RequestBody String sData
+                                                        HttpServletResponse response,
+                                                        @RequestBody String sData
     ) {
         JSONObject jParam = JSONObject.fromObject(sData);
 
@@ -747,8 +796,8 @@ public class ComparisonController extends BaseController {
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getElectricityMonthlyChart(HttpServletRequest request,
-                                          HttpServletResponse response,
-                                          @RequestBody String sData
+                                               HttpServletResponse response,
+                                               @RequestBody String sData
     ) {
         JSONObject jParam = JSONObject.fromObject(sData);
 

@@ -918,6 +918,28 @@ var ChartUtils = {
 
         return tbData;
     },
+    getElectricityComparisonSeries: function (name, nodes, data) {
+        var category = this.getElectricityComparisonCategories(nodes);
+
+        var series = {
+            name: name,
+            data: []
+        };
+
+        for (var t = 0; t < category.length; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+
+                if (category[t] == data[i].name) {
+                    tmp = data[i].electricity;
+                    tmp = DataGridUtils.floatFormatter(tmp, 4, true);
+                }
+            }
+            series.data.push(tmp);
+
+        }
+        return series;
+    },
     getDailyCategories: function () {
         var categories = [];
         for (var i = 0; i < 24; i++) {
@@ -987,5 +1009,13 @@ var ChartUtils = {
         }
 
         return categories;
-    }
-}
+    },
+    getElectricityComparisonCategories: function (data) {
+        var categories = [];
+        for (var i = 0; i < data.length; i++) {
+            categories.push(data[i].name);
+        }
+        return categories;
+    },
+
+};

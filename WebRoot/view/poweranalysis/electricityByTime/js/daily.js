@@ -26,10 +26,6 @@ $(document).ready(function () {
 
     $("#btn-search").linkbutton({
         onClick: function () {
-            var selectedNode = parent.parent.getSelectedNodeInfo();
-            var selectedNodeChildren = selectedNode.children;
-            alert(selectedNodeChildren.length);
-
             var interval = getDateInterval($("#datebox-time-start").datebox("getValue"), $("#datebox-time-end").datebox("getValue"));
 
             if (interval < 0) {
@@ -43,6 +39,12 @@ $(document).ready(function () {
             }
 
             getElectricityDetailChart({
+                node: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
+
+            getElectricityComparisonBarChart({
                 node: _nodes,
                 time: $("#datebox-time-start").datebox("getValue"),
                 interval: interval
@@ -132,6 +134,71 @@ $(document).ready(function () {
         });
     }
 
+    function getElectricityComparisonBarChart(param) {
+        var sNode = parent.parent.getSelectedNodeInfo();
+        var paramChart = [];
+        if (sNode.hasOwnProperty("children")) {
+            for (var ch = 0; ch < sNode.children.length; ch++) {
+                var sChildren = sNode.children[ch];
+
+                var sInfo = parent.parent.findNode(sChildren.id);
+
+                var pnInfos = getPnList(sInfo);
+
+                var startTime = TimeUtils.dataBoxDateToDate(param.time);
+                var endTime = TimeUtils.dataBoxDateToDate(param.time);
+                endTime.setDate(endTime.getDate() + (param.interval + 1));
+                paramChart.push({
+                    node: pnInfos,
+                    id: sChildren.id,
+                    name: sChildren.text,
+                    start: startTime.format("yyyyMMdd") + "000000",
+                    end: endTime.format("yyyyMMdd") + "000000"
+                });
+            }
+        }
+
+        var series = [];
+
+        $.ajax({
+            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: JSON.stringify(paramChart),
+            async: false,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                        var item = ChartUtils.getElectricityComparisonSeries("本期", paramChart, r.data);
+                        series.push(item);
+
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            }
+        });
+
+        var config = $.parseJSON($.ajax({
+            url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
+            type: "GET",
+            async: false
+        }).responseText);
+
+        config.xAxis.categories = ChartUtils.getElectricityComparisonCategories(paramChart);
+        config.series = series;
+
+        // $.messager.alert("操作提示", JSON.stringify(config));
+
+        $("#chart-electricity-comparison").highcharts(config);
+
+    }
+
 
     function getPnInfo(areaId, concentratorId, pn, data) {
         for (var i = 0; i < data.length; i++) {
@@ -162,6 +229,24 @@ $(document).ready(function () {
         return time
     }
 
+    function getPnList(nodes) {
+        var pnInfo = $.parseJSON($.ajax({
+            url: _ctx + "system/pn/info/list.do",
+            type: "POST",
+            data: {
+                node: JSON.stringify(nodes)
+            },
+            async: false
+        }).responseText);
+
+        if ("0" == pnInfo.errcode) {
+            return pnInfo.data;
+        } else {
+            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(pnInfo.errcode), "info");
+            return [];
+        }
+    }
+
     function init() {
         var endDate = new Date();
 
@@ -175,6 +260,12 @@ $(document).ready(function () {
         var interval = getDateInterval($("#datebox-time-start").datebox("getValue"), $("#datebox-time-end").datebox("getValue"));
 
         getElectricityDetailChart({
+            node: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: interval
+        });
+
+        getElectricityComparisonBarChart({
             node: _nodes,
             time: $("#datebox-time-start").datebox("getValue"),
             interval: interval

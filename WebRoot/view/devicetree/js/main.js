@@ -8,10 +8,8 @@ function getSelectedNodeInfo() {
 
 function findNode(id) {
     var node = $("#dTree").tree("find", id);
-
+    initInfo();
     traverse(node);
-    $.messager.alert("操作提示", JSON.stringify(info));
-
     return info;
 }
 
@@ -51,6 +49,14 @@ function isExist(data, id) {
     return false;
 }
 
+function initInfo() {
+    info = {
+        areaId: _areaId,
+        concentrators: [],
+        type: "physical"
+    };
+}
+
 var info = {
     areaId: _areaId,
     concentrators: [],
@@ -68,6 +74,7 @@ $(document).ready(function () {
         animate: true,
         lines: true,
         onSelect: function (node) {
+            initInfo();
             traverse(node);
             parent.saveTreeInfo(info);
         },
