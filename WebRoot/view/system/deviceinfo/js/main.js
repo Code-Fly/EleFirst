@@ -180,65 +180,35 @@ $(document).ready(function () {
 
     $("#dlg-add-pn-node").dialog({
         onBeforeOpen: function () {
+            $("#combo-dg-pn-concentratorId").combobox("reload", _ctx + "system/concentrator/info/list.do?" + $.param({
+                    areaId: _areaId
+                })
+            );
+
+            $("#form-add-pn-node").form("clear");
+
             if (flag_dg_pn_edit) {
                 var rows = $("#dg-pn-detail").datagrid("getSelections");
 
                 var item = rows[0];
 
-                $("#text-dg-pn-name").textbox("setValue", item.name);
-                $("#text-dg-pn-id").textbox("setValue", item.pn);
-                $("#text-dg-pn-ct").textbox("setValue", item.ct);
-                $("#text-dg-pn-pt").textbox("setValue", item.pt);
-                $("#text-dg-pn-powerFactorStandard").textbox("setValue", item.powerFactorStandard);
-                $("#combo-dg-pn-concentratorId").combobox("reload");
-                $("#combo-dg-pn-concentratorId").combobox("select", item.concentratorId);
+                $("#form-add-pn-node").form("load", item);
 
-            } else {
-                $("#text-dg-pn-name").textbox("clear");
-                $("#text-dg-pn-id").textbox("clear");
-                $("#text-dg-pn-ct").textbox("clear");
-                $("#text-dg-pn-pt").textbox("clear");
-                $("#text-dg-pn-powerFactorStandard").textbox("clear");
-                $("#combo-dg-pn-concentratorId").combobox("reload");
-                $("#combo-dg-pn-concentratorId").combobox("clear");
+                // $("#text-dg-pn-name").textbox("setValue", item.name);
+                // $("#text-dg-pn-id").textbox("setValue", item.pn);
+                // $("#text-dg-pn-ct").textbox("setValue", item.ct);
+                // $("#text-dg-pn-pt").textbox("setValue", item.pt);
+                // $("#text-dg-pn-powerFactorStandard").textbox("setValue", item.powerFactorStandard);
+                // $("#combo-dg-pn-concentratorId").combobox("select", item.concentratorId);
+
             }
         },
         onOpen: function () {
+
         },
         onClose: function () {
             flag_dg_pn_edit = false;
         }
-    });
-
-    $("#combo-dg-pn-concentratorId").combobox({
-        required: true,
-        textField: "name",
-        valueField: "concentratorId",
-        url: _ctx + "system/concentrator/info/list.do",
-        queryParams: {
-            areaId: _areaId
-        },
-        editable: false,
-    });
-
-    $("#text-dg-pn-name").textbox({
-        required: true
-    });
-
-    $("#text-dg-pn-id").textbox({
-        required: true
-    });
-
-    $("#text-dg-pn-ct").textbox({
-        required: true
-    });
-
-    $("#text-dg-pn-pt").textbox({
-        required: true
-    });
-
-    $("#text-dg-pn-powerFactorStandard").textbox({
-        required: true
     });
 
     $("#btn-pn-tool-add").linkbutton({
@@ -322,146 +292,97 @@ $(document).ready(function () {
 
     $("#btn-dg-dlg-add-pn-submit").linkbutton({
         onClick: function () {
-            if (!$("#text-dg-pn-name").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确名称！", "info");
-                return;
-            }
+            if ($("#form-add-pn-node").form("enableValidation").form("validate")) {
+                if (flag_dg_pn_edit) {
+                    var rows = $("#dg-pn-detail").datagrid("getSelections");
 
-            if (!$("#text-dg-pn-id").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确监测点编号！", "info");
-                return;
-            }
+                    var param = formToJson($("#form-add-pn-node"));
+                    param.id = rows[0].id;
+                    param.areaId = _areaId;
 
-            if (!$("#text-dg-pn-ct").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确CT值！", "info");
-                return;
-            }
-
-            if (!$("#text-dg-pn-pt").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确PT值！", "info");
-                return;
-            }
-
-            if (!$("#text-dg-pn-powerFactorStandard").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确功率因数！", "info");
-                return;
-            }
-
-
-            if (!$("#combo-dg-pn-concentratorId").combobox("isValid")) {
-                $.messager.alert("操作提示", "请选择正确馈线柜！", "info");
-                return;
-            }
-
-
-            var name = $("#text-dg-pn-name").textbox("getValue");
-            var pn = $("#text-dg-pn-id").textbox("getValue");
-            var ct = $("#text-dg-pn-ct").textbox("getValue");
-            var pt = $("#text-dg-pn-pt").textbox("getValue");
-            var powerFactorStandard = $("#text-dg-pn-powerFactorStandard").textbox("getValue");
-            var concentratorId = $("#combo-dg-pn-concentratorId").combobox("getValue");
-
-            if (flag_dg_pn_edit) {
-                var rows = $("#dg-pn-detail").datagrid("getSelections");
-                var id = rows[0].id;
-
-                $.ajax({
-                    url: _ctx + "system/pn/info/update.do",
-                    type: "POST",
-                    data: {
-                        id: id,
-                        areaId: _areaId,
-                        concentratorId: concentratorId,
-                        pn: pn,
-                        name: name,
-                        ct: ct,
-                        pt: pt,
-                        powerFactorStandard: powerFactorStandard
-
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                $("#dg-pn-detail").datagrid("reload");
-                                $("#dlg-add-pn-node").dialog("close");
-                                $.messager.alert("操作提示", "修改成功。", "info");
+                    $.ajax({
+                        url: _ctx + "system/pn/info/update.do",
+                        type: "POST",
+                        data: param,
+                        cache: false,
+                        success: function (r) {
+                            if (r.hasOwnProperty("errcode")) {
+                                if ("0" == r.errcode) {
+                                    $("#dg-pn-detail").datagrid("reload");
+                                    $("#dlg-add-pn-node").dialog("close");
+                                    $.messager.alert("操作提示", "修改成功。", "info");
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                }
                             } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                             }
-                        } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                        },
+                        beforeSend: function (XMLHttpRequest) {
+                            MaskUtil.mask();
+                        },
+                        error: function (request) {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        },
+                        complete: function (XMLHttpRequest, textStatus) {
+                            MaskUtil.unmask();
                         }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
-                    }
-                });
-            } else {
-                var iList = $.parseJSON($.ajax({
-                    url: _ctx + "system/pn/info/list.do",
-                    type: "POST",
-                    data: {
-                        areaId: _areaId,
-                        concentratorId: concentratorId
-                    },
-                    async: false
-                }).responseText);
+                    });
+                } else {
+                    var param = formToJson($("#form-add-pn-node"));
+                    param.areaId = _areaId;
 
-                if ("0" != iList.errcode) {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
-                    return;
-                }
+                    var iList = $.parseJSON($.ajax({
+                        url: _ctx + "system/pn/info/list.do",
+                        type: "POST",
+                        data: {
+                            areaId: _areaId,
+                            concentratorId: param.concentratorId
+                        },
+                        async: false
+                    }).responseText);
 
-                for (var i = 0; i < iList.data.length; i++) {
-                    if (iList.data[i].concentratorId == concentratorId && iList.data[i].pn == pn) {
-                        $.messager.alert("操作提示", "编号已存在！", "info");
+                    if ("0" != iList.errcode) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(iList.errcode), "info");
                         return;
                     }
-                }
 
-                $.ajax({
-                    url: _ctx + "system/pn/info/add.do",
-                    type: "POST",
-                    data: {
-                        areaId: _areaId,
-                        concentratorId: concentratorId,
-                        pn: pn,
-                        name: name,
-                        ct: ct,
-                        pt: pt,
-                        powerFactorStandard: powerFactorStandard
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                $("#dg-pn-detail").datagrid("reload");
-                                $("#dlg-add-pn-node").dialog("close");
-                                $.messager.alert("操作提示", "添加成功。", "info");
-                            } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                            }
-                        } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    for (var i = 0; i < iList.data.length; i++) {
+                        if (iList.data[i].concentratorId == param.concentratorId && iList.data[i].pn == param.pn) {
+                            $.messager.alert("操作提示", "编号已存在！", "info");
+                            return;
                         }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
                     }
-                });
+
+                    $.ajax({
+                        url: _ctx + "system/pn/info/add.do",
+                        type: "POST",
+                        data: param,
+                        cache: false,
+                        success: function (r) {
+                            if (r.hasOwnProperty("errcode")) {
+                                if ("0" == r.errcode) {
+                                    $("#dg-pn-detail").datagrid("reload");
+                                    $("#dlg-add-pn-node").dialog("close");
+                                    $.messager.alert("操作提示", "添加成功。", "info");
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                }
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            }
+                        },
+                        beforeSend: function (XMLHttpRequest) {
+                            MaskUtil.mask();
+                        },
+                        error: function (request) {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        },
+                        complete: function (XMLHttpRequest, textStatus) {
+                            MaskUtil.unmask();
+                        }
+                    });
+                }
             }
         }
     });

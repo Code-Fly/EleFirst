@@ -167,77 +167,85 @@
     <div id="dlg-add-pn-node" class="easyui-dialog" title="监测点"
          data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
          style="width:400px;height:300px;">
-
         <div class="easyui-layout" data-options="fit:true,border:false">
             <div data-options="region:'center'">
-                <div class="container_12" style="padding-top: 10px">
-                    <div class="grid_4 cell title">
-                        <p>
-                            名称
-                        </p>
+                <form id="form-add-pn-node" class="easyui-form" method="post" data-options="novalidate:true,fit:true">
+                    <div class="container_12" style="padding-top: 10px">
+                        <div class="grid_4 cell title">
+                            <p>
+                                名称
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-name" name="name" class="easyui-textbox" style="width: 100%;"
+                                       required="true">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                监测点编号
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-id" name="pn" class="easyui-textbox" style="width: 100%;"
+                                       required="true">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title cell-concentratorId">
+                            <p>
+                                馈线柜
+                            </p>
+                        </div>
+                        <div class="grid_8 cell cell-concentratorId">
+                            <p>
+                                <input id="combo-dg-pn-concentratorId" name="concentratorId" class="easyui-combobox"
+                                       style="width: 100%;"
+                                       editable="false" required="true" textField="name" valueField="concentratorId">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                CT
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-ct" name="ct" class="easyui-textbox" style="width: 100%;"
+                                       required="true">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                PT
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-pt" name="pt" class="easyui-textbox" style="width: 100%;"
+                                       required="true">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                功率因数标准
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-powerFactorStandard" name="powerFactorStandard"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
                     </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="text-dg-pn-name" class="easyui-textbox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title">
-                        <p>
-                            监测点编号
-                        </p>
-                    </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="text-dg-pn-id" class="easyui-textbox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title cell-concentratorId">
-                        <p>
-                            馈线柜
-                        </p>
-                    </div>
-                    <div class="grid_8 cell cell-concentratorId">
-                        <p>
-                            <input id="combo-dg-pn-concentratorId" class="easyui-combobox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title">
-                        <p>
-                            CT
-                        </p>
-                    </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="text-dg-pn-ct" class="easyui-textbox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title">
-                        <p>
-                            PT
-                        </p>
-                    </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="text-dg-pn-pt" class="easyui-textbox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title">
-                        <p>
-                            功率因数标准
-                        </p>
-                    </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="text-dg-pn-powerFactorStandard" class="easyui-textbox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+                </form>
             </div>
             <div data-options="region:'south'" style="height:50px;overflow: hidden;">
                 <div class="container_12">
