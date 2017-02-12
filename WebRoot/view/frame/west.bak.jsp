@@ -189,10 +189,10 @@
             <%--data-options="iconCls:'icon-users'"--%>
             <%--onclick="addTab('角色管理','view/system/userinfo/rolemanager.jsp','icon-users')"--%>
             <%--plain="true" href="javascript:void(0)">角色管理</a></li>--%>
-            <%--<li><a class="easyui-linkbutton"--%>
-            <%--data-options="iconCls:'icon-calculator'"--%>
-            <%--onclick="addTab('表计档案管理','view/system/deviceinfo/main.jsp','icon-calculator')"--%>
-            <%--plain="true" href="javascript:void(0)">表计档案管理</a></li>--%>
+                <li><a class="easyui-linkbutton"
+                       data-options="iconCls:'icon-calculator'"
+                       onclick="addTab('表计档案管理','view/devicetree/main.jsp','icon-calculator')"
+                       plain="true" href="javascript:void(0)">表计档案管理</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-building'"
                    onclick="addTab('企业档案管理','view/system/userinfo/rolemanager.jsp','icon-building')"
