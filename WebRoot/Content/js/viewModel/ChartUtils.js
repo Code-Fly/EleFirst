@@ -940,6 +940,25 @@ var ChartUtils = {
         }
         return series;
     },
+    getElectricityComparisonPieSeries: function (name, nodes, data) {
+        var series = {
+            type: "pie",
+            name: name,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var sName = data[i].name;
+            var sValue = data[i].electricity;
+            sValue = DataGridUtils.floatFormatter(sValue, 4, true);
+            series.data.push([
+                sName,
+                sValue
+            ]);
+        }
+
+        return series;
+    },
     getDailyCategories: function () {
         var categories = [];
         for (var i = 0; i < 24; i++) {
