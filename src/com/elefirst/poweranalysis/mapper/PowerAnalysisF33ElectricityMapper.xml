@@ -569,6 +569,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` ASC
         ) t
@@ -622,6 +624,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t
@@ -688,6 +692,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` ASC
         ) t
@@ -740,6 +746,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t
@@ -755,7 +763,8 @@
         `pn` ,
         DAYOFMONTH(`clientOperationTime`)
         ) t2
-        ON t1.area_id=t2.area_id AND t1.concentrator_id=t2.concentrator_id AND t1.pn=t2.pn AND  t1.dayClientOperationTime = t2.dayClientOperationTime
+        ON t1.area_id=t2.area_id AND t1.concentrator_id=t2.concentrator_id AND t1.pn=t2.pn AND t1.dayClientOperationTime
+        = t2.dayClientOperationTime
     </select>
 
     <select id="getElectricityWeeklyChart" resultMap="ElectricityWeeklyChartResultMap">
@@ -805,6 +814,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` ASC
         ) t
@@ -856,6 +867,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t
@@ -919,6 +932,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` ASC
         ) t
@@ -970,6 +985,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t
@@ -984,7 +1001,8 @@
         `pn` ,
         DAYOFMONTH(`clientOperationTime`)
         ) t2
-        ON t1.area_id=t2.area_id AND t1.concentrator_id=t2.concentrator_id AND t1.pn=t2.pn AND t1.dayClientOperationTime = t2.dayClientOperationTime
+        ON t1.area_id=t2.area_id AND t1.concentrator_id=t2.concentrator_id AND t1.pn=t2.pn AND t1.dayClientOperationTime
+        = t2.dayClientOperationTime
     </select>
 
     <select id="getElectricityMonthlyChartIntervalMonth" resultMap="ElectricityMonthlyChartIntervalMonthResultMap">
@@ -1033,6 +1051,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` ASC
         ) t
@@ -1085,6 +1105,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalPositiveActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t
