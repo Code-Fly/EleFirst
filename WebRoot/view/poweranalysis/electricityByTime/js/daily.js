@@ -79,6 +79,8 @@ $(document).ready(function () {
                             time: []
                         };
 
+                        var chartCnt = 1;
+
                         for (var i = 0; i <= param.interval; i++) {
                             var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
@@ -89,14 +91,28 @@ $(document).ready(function () {
                             url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
                             type: "POST",
                             cache: false,
-                            async: false,
                             contentType: "text/plain;charset=UTF-8",
                             data: JSON.stringify(paramChart),
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
+                                        chartCnt = chartCnt - 1;
+
                                         var item = ChartUtils.getElectricityDailyIntervalDaySeries("本期", paramNode, param.time, param.interval, r.data);
                                         series.push(item);
+
+                                        if (chartCnt <= 0) {
+                                            var config = $.parseJSON($.ajax({
+                                                url: "data/electricityDetailChart.json?bust=" + new Date().getTime(),
+                                                type: "GET",
+                                                async: false
+                                            }).responseText);
+
+                                            config.xAxis.categories = ChartUtils.getDailyIntervalDayCategories(param.time, param.interval);
+                                            config.series = series;
+
+                                            $("#chart-electricity-detail").highcharts(config);
+                                        }
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                                     }
@@ -105,17 +121,6 @@ $(document).ready(function () {
                                 }
                             }
                         });
-
-                        var config = $.parseJSON($.ajax({
-                            url: "data/electricityDetailChart.json?bust=" + new Date().getTime(),
-                            type: "GET",
-                            async: false
-                        }).responseText);
-
-                        config.xAxis.categories = ChartUtils.getDailyIntervalDayCategories(param.time, param.interval);
-                        config.series = series;
-
-                        $("#chart-electricity-detail").highcharts(config);
 
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -163,18 +168,33 @@ $(document).ready(function () {
             }
         }
 
+        var chartCnt = 3;
+
         $.ajax({
             url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
             type: "POST",
             cache: false,
             contentType: "text/plain;charset=UTF-8",
             data: JSON.stringify(paramChart),
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        chartCnt = chartCnt - 1;
                         var item = ChartUtils.getElectricityComparisonSeries("本期", paramChart, r.data);
                         series.push(item);
+
+                        if (chartCnt <= 0) {
+                            var config = $.parseJSON($.ajax({
+                                url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.xAxis.categories = ChartUtils.getElectricityComparisonCategories(paramChart);
+                            config.series = series;
+
+                            $("#chart-electricity-comparison").highcharts(config);
+                        }
 
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -182,6 +202,15 @@ $(document).ready(function () {
                 } else {
                     $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
             }
         });
 
@@ -215,19 +244,41 @@ $(document).ready(function () {
             cache: false,
             contentType: "text/plain;charset=UTF-8",
             data: JSON.stringify(paramChart),
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        chartCnt = chartCnt - 1;
+
                         var item = ChartUtils.getElectricityComparisonSeries("上月同期", paramChart, r.data);
                         series.push(item);
 
+                        if (chartCnt <= 0) {
+                            var config = $.parseJSON($.ajax({
+                                url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.xAxis.categories = ChartUtils.getElectricityComparisonCategories(paramChart);
+                            config.series = series;
+
+                            $("#chart-electricity-comparison").highcharts(config);
+                        }
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
                     $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
             }
         });
 
@@ -261,42 +312,51 @@ $(document).ready(function () {
             cache: false,
             contentType: "text/plain;charset=UTF-8",
             data: JSON.stringify(paramChart),
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        chartCnt = chartCnt - 1;
+
                         var item = ChartUtils.getElectricityComparisonSeries("去年同期", paramChart, r.data);
                         series.push(item);
 
+                        if (chartCnt <= 0) {
+                            var config = $.parseJSON($.ajax({
+                                url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.xAxis.categories = ChartUtils.getElectricityComparisonCategories(paramChart);
+                            config.series = series;
+
+                            $("#chart-electricity-comparison").highcharts(config);
+                        }
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
                     $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
             }
         });
-
-
-        var config = $.parseJSON($.ajax({
-            url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
-            type: "GET",
-            async: false
-        }).responseText);
-
-        config.xAxis.categories = ChartUtils.getElectricityComparisonCategories(paramChart);
-        config.series = series;
-
-        // $.messager.alert("操作提示", JSON.stringify(config));
-
-        $("#chart-electricity-comparison").highcharts(config);
-
     }
 
     function getElectricityComparisonPieChart(param) {
         var series = [];
 
         var sNode = parent.parent.getSelectedNodeInfo();
+
+        var chartCnt = 1;
 
         var paramChart = [];
         if (sNode.hasOwnProperty("children")) {
@@ -326,13 +386,24 @@ $(document).ready(function () {
             cache: false,
             contentType: "text/plain;charset=UTF-8",
             data: JSON.stringify(paramChart),
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        chartCnt = chartCnt - 1;
+
                         var item = ChartUtils.getElectricityComparisonPieSeries("本期", paramChart, r.data);
                         series.push(item);
 
+                        if (chartCnt <= 0) {
+                            var config = $.parseJSON($.ajax({
+                                url: "data/electricityCompositionChart.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.series = series
+                            $("#chart-electricity-composition").highcharts(config);
+                        }
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
@@ -341,19 +412,6 @@ $(document).ready(function () {
                 }
             }
         });
-
-        var config = $.parseJSON($.ajax({
-            url: "data/electricityCompositionChart.json?bust=" + new Date().getTime(),
-            type: "GET",
-            async: false
-        }).responseText);
-
-        config.series = series
-
-        // $.messager.alert("操作提示", JSON.stringify(config));
-
-        $("#chart-electricity-composition").highcharts(config);
-
     }
 
 
