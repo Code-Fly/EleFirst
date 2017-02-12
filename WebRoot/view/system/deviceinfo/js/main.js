@@ -170,8 +170,78 @@ $(document).ready(function () {
                 align: "center",
                 width: 120
             }, {
+                field: "voltageStandard",
+                title: "电压标准",
+                align: "center",
+                width: 120
+            }, {
+                field: "voltageUpperLimit",
+                title: "电压上限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "voltageLowerLimit",
+                title: "电压下限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "currentStandard",
+                title: "电流标准",
+                align: "center",
+                width: 120
+            }, {
+                field: "currentUpperLimit",
+                title: "电流上限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "currentLowerLimit",
+                title: "电流下限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "loadStandard",
+                title: "负荷标准",
+                align: "center",
+                width: 120
+            }, {
+                field: "loadUpperLimit",
+                title: "负荷上限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "loadLowerLimit",
+                title: "负荷下限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "electricityStandard",
+                title: "电量标准",
+                align: "center",
+                width: 120
+            }, {
+                field: "electricityUpperLimit",
+                title: "电量上限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "electricityLowerLimit",
+                title: "电量下限(%)",
+                align: "center",
+                width: 120
+            }, {
                 field: "powerFactorStandard",
                 title: "功率因数标准",
+                align: "center",
+                width: 120
+            }, {
+                field: "powerFactorUpperLimit",
+                title: "功率因数上限(%)",
+                align: "center",
+                width: 120
+            }, {
+                field: "powerFactorLowerLimit",
+                title: "功率因数下限(%)",
                 align: "center",
                 width: 120
             }

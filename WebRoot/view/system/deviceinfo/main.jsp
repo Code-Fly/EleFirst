@@ -234,12 +234,180 @@
                         <div class="clear"></div>
                         <div class="grid_4 cell title">
                             <p>
+                                电压标准
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-voltageStandard" name="voltageStandard"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电压上限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-voltageUpperLimit" name="voltageUpperLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电压下限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-voltageLowerLimit" name="voltageLowerLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电流标准
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-currentStandard" name="currentStandard"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电流上限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-currentUpperLimit" name="currentUpperLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电流下限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-currentLowerLimit" name="currentLowerLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                负荷标准
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-loadStandard" name="loadStandard"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                负荷上限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-loadUpperLimit" name="loadUpperLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                负荷下限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-loadLowerLimit" name="loadLowerLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电量标准
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-electricityStandard" name="electricityStandard"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电量上限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-electricityUpperLimit" name="electricityUpperLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                电量下限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-electricityLowerLimit" name="electricityLowerLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
                                 功率因数标准
                             </p>
                         </div>
                         <div class="grid_8 cell">
                             <p>
                                 <input id="text-dg-pn-powerFactorStandard" name="powerFactorStandard"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                功率因数上限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-powerFactorUpperLimit" name="powerFactorUpperLimit"
+                                       class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                功率因数下限(%)
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-dg-pn-powerFactorLowerLimit" name="powerFactorLowerLimit"
                                        class="easyui-textbox" style="width: 100%;">
                             </p>
                         </div>
