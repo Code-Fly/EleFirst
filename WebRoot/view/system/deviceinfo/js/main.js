@@ -303,7 +303,8 @@ $(document).ready(function () {
                     $.ajax({
                         url: _ctx + "system/pn/info/update.do",
                         type: "POST",
-                        data: param,
+                        data: JSON.stringify(param),
+                        contentType: "text/plain;charset=UTF-8",
                         cache: false,
                         success: function (r) {
                             if (r.hasOwnProperty("errcode")) {
@@ -357,7 +358,8 @@ $(document).ready(function () {
                     $.ajax({
                         url: _ctx + "system/pn/info/add.do",
                         type: "POST",
-                        data: param,
+                        data: JSON.stringify(param),
+                        contentType: "text/plain;charset=UTF-8",
                         cache: false,
                         success: function (r) {
                             if (r.hasOwnProperty("errcode")) {

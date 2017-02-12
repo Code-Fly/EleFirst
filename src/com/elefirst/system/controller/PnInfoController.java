@@ -7,12 +7,14 @@ import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.Page2;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -133,34 +135,14 @@ public class PnInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg updateTreeInfo(HttpServletRequest request,
                                    HttpServletResponse response,
-                                   @RequestParam(value = "id") String id,
-                                   @RequestParam(value = "areaId") String areaId,
-                                   @RequestParam(value = "concentratorId") String concentratorId,
-                                   @RequestParam(value = "pn") String pn,
-                                   @RequestParam(value = "ct") Double ct,
-                                   @RequestParam(value = "pt") Double pt,
-                                   @RequestParam(value = "powerFactorStandard") Double powerFactorStandard,
-                                   @RequestParam(value = "name") String name
+                                   @RequestBody String sData
     ) {
-        PnInfo template = new PnInfo();
+        PnInfo template = new Gson().fromJson(sData, PnInfo.class);
+        template.setUpdatePerson("admin");
+        template.setUpdateDate(new Date());
 
-        if (null != name && !name.isEmpty()) {
-
-            template.setId(id);
-            template.setAreaId(areaId);
-            template.setConcentratorId(concentratorId);
-            template.setPn(pn);
-            template.setPt(pt);
-            template.setCt(ct);
-            template.setPowerFactorStandard(powerFactorStandard);
-            template.setName(name);
-            template.setUpdatePerson("admin");
-            template.setUpdateDate(new Date());
-            int result = pnInfoService.updatePnInfo(template);
-            return new ErrorMsg(Error.SUCCESS, "success", result);
-        } else {
-            return new ErrorMsg(Error.SUCCESS, "success");
-        }
+        int result = pnInfoService.updatePnInfo(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
 
     }
 
@@ -169,23 +151,12 @@ public class PnInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg addPnfo(HttpServletRequest request,
                             HttpServletResponse response,
-                            @RequestParam(value = "areaId") String areaId,
-                            @RequestParam(value = "concentratorId") String concentratorId,
-                            @RequestParam(value = "pn") String pn,
-                            @RequestParam(value = "ct") Double ct,
-                            @RequestParam(value = "pt") Double pt,
-                            @RequestParam(value = "powerFactorStandard") Double powerFactorStandard,
-                            @RequestParam(value = "name") String name
+                            @RequestBody String sData
     ) {
-        PnInfo template = new PnInfo();
+
+        System.out.println(sData);
+        PnInfo template = new Gson().fromJson(sData, PnInfo.class);
         template.setId(UUID.randomUUID().toString());
-        template.setAreaId(areaId);
-        template.setConcentratorId(concentratorId);
-        template.setPn(pn);
-        template.setPt(pt);
-        template.setCt(ct);
-        template.setPowerFactorStandard(powerFactorStandard);
-        template.setName(name);
         template.setCreatePerson("admin");
         template.setCreateDate(new Date());
         int result = pnInfoService.addPnInfo(template);
