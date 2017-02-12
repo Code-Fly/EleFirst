@@ -808,7 +808,7 @@ $(document).ready(function () {
         required: true,
         textField: "name",
         valueField: "value",
-        url: "data/comboTreeNodeType.json",
+        url: "data/comboTreeNodeType.json?bust=" + new Date().getTime(),
         method: "GET",
         editable: false,
         onSelect: function (record) {
@@ -817,11 +817,11 @@ $(document).ready(function () {
             if (record.value == "category") {
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("disable");
-                $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeCategoryIcons.json");
+                $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeCategoryIcons.json?bust=" + new Date().getTime());
             } else if (record.value == "concentrator") {
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("enable");
-                $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeConcentratorIcons.json");
+                $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeConcentratorIcons.json?bust=" + new Date().getTime());
             }
         }
 

@@ -1,5 +1,9 @@
 [
   {
+    "name": "根节点",
+    "value": "icon-house"
+  },
+  {
     "name": "线路",
     "value": "icon-drive_network"
   },
