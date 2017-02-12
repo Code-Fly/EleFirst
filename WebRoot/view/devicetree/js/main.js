@@ -1,12 +1,63 @@
 /**
  * Created by VM on 1/26/2017.
  */
-$(document).ready(function () {
-    var info = {
-        areaId: _areaId,
-        concentrators: [],
-        type: "physical"
+function getSelectedNodeInfo() {
+    var node = $("#dTree").tree("getSelected");
+    return node;
+}
+
+function findNode(id) {
+    var node = $("#dTree").tree("find", id);
+
+    traverse(node);
+    $.messager.alert("操作提示", JSON.stringify(info));
+
+    return info;
+}
+
+function traverse(tree) {
+    var nodes = tree.children;
+    if ("concentrator" == tree.attributes.type) {
+        if (!isExist(info.concentrators, tree.attributes.concentratorId)) {
+            info.concentrators.push({
+                concentratorId: tree.attributes.concentratorId,
+                pns: []
+            });
+        }
     }
+    if (nodes != null) {
+        for (var i = 0; i < nodes.length; i++) {
+            if ("concentrator" == nodes[i].attributes.type) {
+                if (!isExist(info.concentrators, nodes[i].attributes.concentratorId)) {
+                    info.concentrators.push({
+                        concentratorId: nodes[i].attributes.concentratorId,
+                        pns: []
+                    });
+                }
+            }
+            if (nodes[i].children) { //递归调用自己，以实现遍历
+                traverse(nodes[i]);
+            }
+        }
+    }
+}
+
+function isExist(data, id) {
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].concentratorId == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+var info = {
+    areaId: _areaId,
+    concentrators: [],
+    type: "physical"
+};
+
+$(document).ready(function () {
     $("#dTree").tree({
         // url: "data/test.json",
         // method: "get",
@@ -27,7 +78,6 @@ $(document).ready(function () {
             var root = $(this).tree("getRoot");
             $(this).tree("select", root.target);
         }
-
     });
 
     var root = $("#dTree").tree("getRoot");
@@ -36,26 +86,4 @@ $(document).ready(function () {
     }
 
 
-    function traverse(tree) {
-        var nodes = tree.children;
-        if ("concentrator" == tree.attributes.type) {
-            info.concentrators.push({
-                concentratorId: tree.attributes.concentratorId,
-                pns: []
-            });
-        }
-        if (nodes != null) {
-            for (var i = 0; i < nodes.length; i++) {
-                if ("concentrator" == nodes[i].attributes.type) {
-                    info.concentrators.push({
-                        concentratorId: nodes[i].attributes.concentratorId,
-                        pns: []
-                    });
-                }
-                if (nodes[i].children) { //递归调用自己，以实现遍历
-                    traverse(nodes[i]);
-                }
-            }
-        }
-    }
 });

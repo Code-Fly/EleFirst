@@ -36,10 +36,23 @@ public class TreeInfoController extends BaseController {
     @ResponseBody
     public ErrorMsg getTreeInfoList(HttpServletRequest request,
                                     HttpServletResponse response,
+                                    @RequestParam(value = "pid") String pid,
+                                    @RequestParam(value = "treeId") String treeId,
+                                    @RequestParam(value = "areaId") String areaId,
                                     @RequestParam(value = "page", required = false) Integer page,
                                     @RequestParam(value = "rows", required = false) Integer rows
     ) {
         TreeInfo template = new TreeInfo();
+        if (null != areaId && !areaId.isEmpty()) {
+            template.setAreaId(areaId);
+        }
+        if (null != treeId && !treeId.isEmpty()) {
+            template.setTreeId(treeId);
+        }
+
+        if (null != pid && !pid.isEmpty()) {
+            template.setPid(pid);
+        }
 
         if (null != page && null != rows) {
             template.setPage(page);

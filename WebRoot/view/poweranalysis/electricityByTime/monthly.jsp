@@ -51,18 +51,20 @@
     </div>
 </div>
 <div data-options="region:'center',border:false" align="center">
-    <div id="chart-load" class="easyui-panel" data-options="border:true"
+    <div id="chart-electricity-detail" class="easyui-panel" data-options="border:true"
          style="margin-bottom: 10px;height: 400px;width: 95%;text-align: center;overflow: hidden;">
         <span style="font-size: medium;line-height: 400px;">请载入数据</span>
     </div>
     <div class="easyui-panel" data-options="border:false" style="margin-bottom: 10px;height: 200px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true,border:false">
             <div data-options="region:'center',border:false" style="width:50%;overflow: hidden">
-                <div class="easyui-panel" align="center" data-options="iconCls:'icon-chart_bar',fit:true" title="对比分析">
+                <div id="chart-electricity-comparison" class="easyui-panel" align="center"
+                     data-options="iconCls:'icon-chart_bar',fit:true" title="对比分析">
                     <span style="font-size: medium;line-height: 150px;">请载入数据</span>
                 </div>
             </div>
-            <div data-options="region:'east',border:false" style="width:50%;overflow: hidden;padding-left: 5px;">
+            <div id="chart-electricity-composition" data-options="region:'east',border:false"
+                 style="width:50%;overflow: hidden;padding-left: 5px;">
                 <div class="easyui-panel" align="center" data-options="iconCls:'icon-chart_pie',fit:true" title="构成分析">
                     <span style="font-size: medium;line-height: 150px;">请载入数据</span>
                 </div>
