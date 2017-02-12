@@ -191,7 +191,7 @@
             <%--plain="true" href="javascript:void(0)">角色管理</a></li>--%>
                 <li><a class="easyui-linkbutton"
                        data-options="iconCls:'icon-calculator'"
-                       onclick="addTab('表计档案管理','view/devicetree/main.jsp','icon-calculator')"
+                       onclick="addTab('表计档案管理','view/system/deviceinfo/main.jsp','icon-calculator')"
                        plain="true" href="javascript:void(0)">表计档案管理</a></li>
             <li><a class="easyui-linkbutton"
                    data-options="iconCls:'icon-building'"
