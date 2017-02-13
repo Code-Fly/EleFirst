@@ -318,4 +318,40 @@ public class DailyPowerServiceImpl implements IDailyPowerService{
 		return count;
 	}
 
+	@Override
+	public List<DailyHarmonic> fetchAllHarmonicBypn(String date, String areaId,
+			List<String> ctrIds, String pn, int rows, int page)
+			throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("pn", pn);
+		
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}                                                 
+		List<DailyHarmonic> dailyPartionHarmonic = dailyHarmonicMapper.selectByExample(params);
+		return dailyPartionHarmonic;
+	}
+
+	@Override
+	public int fetchAllPartionHarmonicByPnCount(String date, String areaId,
+			List<String> ctrIds, String pn) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("pn", pn);	
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		int count = dailyHarmonicMapper.countByExample(params);
+		return count;
+	}
+
 }

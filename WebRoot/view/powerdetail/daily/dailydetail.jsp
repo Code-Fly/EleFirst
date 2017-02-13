@@ -235,7 +235,7 @@
             <div id="tool-harmonicTimes" style="">
                 <input id="cc1" class="easyui-combobox" label="谐波次数:" style="width: 150px;">
             </div>
-            <table id="tt6" class="easyui-datagrid" fit="true"
+            <table id="tt6" fit="true"
                    data-options="border:false,toolbar:'#tool-harmonicTimes'">
                 <thead>
                 <tr>
@@ -254,22 +254,22 @@
                     <th colspan="3">电流最大值(A)</th>
                 </tr>
                 <tr>
-                    <th field="aharmonicvoltagerate" width="80" align="center"
+                    <th field="aharmonicvoltagerate" width="100" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
                     </th>
-                    <th field="bharmonicvoltagerate" width="80" align="center"
+                    <th field="bharmonicvoltagerate" width="100" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相
                     </th>
-                    <th field="charmonicvoltagerate" width="80" align="center"
+                    <th field="charmonicvoltagerate" width="100" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">W相
                     </th>
-                    <th field="aharmoniccurrent" width="80" align="center"
+                    <th field="aharmoniccurrent" width="100" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
                     </th>
-                    <th field="bharmoniccurrent" width="80" align="center"
+                    <th field="bharmoniccurrent" width="100" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相
                     </th>
-                    <th field="charmoniccurrent" width="80" align="center"
+                    <th field="charmoniccurrent" width="100" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
                     </th>
                 </tr>
@@ -542,18 +542,27 @@
                                    fit="true">
                                 <thead>
                                 <tr>
-                                    <th rowspan="2" field="clientoperationtime33" width="120" align="center">谐波次数</th>
-                                    <th colspan="2">U相</th>
-                                    <th colspan="2">V相</th>
-                                    <th colspan="2">W相</th>
+                                    <th rowspan="2" field="harmonicseq" width="120" align="center">谐波次数</th>
+                                    <th colspan="3">谐波电压含有率最大值(%)</th>
+                                    <th colspan="3">谐波电流有效值最大值(A)</th>
+                           
                                 </tr>
                                 <tr>
-                                    <th field="totalpositiveactivepower" width="80" align="center">最大值</th>
+                                    <th field="aharmonicvoltagerate" width="80" align="center">U相</th>
+                                    <!--
                                     <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
-                                    <th field="totalpositiveactivepower" width="80" align="center">最大值</th>
+                                    -->
+                                    <th field="bharmonicvoltagerate" width="80" align="center">V相</th>
+                                    <!--
                                     <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
-                                    <th field="totalpositiveactivepower" width="80" align="center">最大值</th>
+                                    -->
+                                    <th field="charmonicvoltagerate" width="80" align="center">W相</th>
+                                    <!--
                                     <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
+                                    -->
+                                    <th field="aharmoniccurrent" width="80" align="center">U相</th>
+                                    <th field="bharmoniccurrent" width="80" align="center">V相</th>
+                                    <th field="charmoniccurrent" width="80" align="center">W相</th>
                                 </tr>
                                 </thead>
                             </table>

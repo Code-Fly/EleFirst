@@ -135,6 +135,31 @@ $(document).ready(function () {
                 pn: pn,
                 time: $("#input-detail-datebox").datebox("getValue")
             });
+        }else if ("谐波" == title) {
+            //刷新当前监测点所有示数信息
+            $("#dtt3").datagrid({
+                url: _ctx + 'dailypower/listDailyAllHarmonicBypn.do',
+                pagination: true,
+                rownumbers: true,
+                pageSize: 20,
+                pageList: [2, 10, 20],
+                singleSelect: true,
+                fit: true,
+                border: false,
+                queryParams: {
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn,
+                    date: $("#input-detail-datebox").datebox("getValue")
+                },
+                onLoadError: function () {
+                    jError("查询监测点示数信息错误！", {
+                        VerticalPosition: 'center',
+                        HorizontalPosition: 'center',
+                        ShowOverlay: false
+                    });
+                }
+            });
         }
 
         //刷新tab
@@ -357,7 +382,7 @@ $(document).ready(function () {
                         //初始化负荷详情
                         handerBySouthTabType('电量');
                     }else if ('tt6' == dgId) {
-                        singlerow = $('#tt7').datagrid('getSelected');
+                        singlerow = $('#tt6').datagrid('getSelected');
                         areaId = singlerow.areaId;
                         concentratorId = singlerow.concentratorId;
                         pn = singlerow.pn;
@@ -366,7 +391,7 @@ $(document).ready(function () {
                         $("#input-detail-datebox").datebox("setValue", dateStr);
                         $('#tab2').tabs('select', '谐波');
                         //初始化负荷详情
-                        handerBySouthTabType('电量');
+                        handerBySouthTabType('谐波');
                     }
                 }, 1000);
             }
@@ -1022,6 +1047,8 @@ $(document).ready(function () {
             } else if ("功率因数" == title) {
                 handerBySouthTabType(title);
             } else if ("电量" == title) {
+                handerBySouthTabType(title);
+            } else if ("谐波" == title) {
                 handerBySouthTabType(title);
             }
         }

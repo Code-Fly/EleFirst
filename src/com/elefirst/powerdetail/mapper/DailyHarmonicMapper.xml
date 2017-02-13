@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.elefirst.powerdetail.mapper.DailyHarmonicMapper">
-	<resultMap id="BaseResultMap"
-		type="com.elefirst.powerdetail.po.DailyHarmonic">
+	<resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.DailyHarmonic">
 		<result column="days" property="days" jdbcType="VARCHAR" />
 		<result column="area_id" property="areaId" jdbcType="VARCHAR" />
 		<result column="concentrator_id" property="concentratorId"
@@ -29,10 +28,10 @@
 			days,t1.area_id,t1.concentrator_id,t1.pn,t1.harmonic_seq,t3.`name`,max(t1.A_harmonicVoltage_rate+0)
 			as AharmonicVoltagerate,max(t1.B_harmonicVoltage_rate+0) as
 			BharmonicVoltagerate,max(t1.C_harmonicVoltage_rate+0) as
-			CharmonicVoltagerate,max(t2.A_harmonicCurrent+0) as
-			AharmonicCurrent,max(t2.B_harmonicCurrent+0) as
-			BharmonicCurrent,max(t2.C_harmonicCurrent+0) as CharmonicCurrent from
-			(select
+			CharmonicVoltagerate,ROUND(max(t2.A_harmonicCurrent+0)*t3.ct,1) as
+			AharmonicCurrent,ROUND(max(t2.B_harmonicCurrent+0)*t3.ct,1) as
+			BharmonicCurrent,ROUND(max(t2.C_harmonicCurrent+0)*t3.ct,1) as
+			CharmonicCurrent from (select
 			a.area_id,a.concentrator_id,a.pn,a.sendTime,b.A_harmonicVoltage_rate,b.B_harmonicVoltage_rate,b.C_harmonicVoltage_rate,b.harmonic_seq
 			from t_014_type_one_data_fn58 a,t_015_type_one_data_fn58_harmonic b
 			where a.id = b.id) t1,(select
@@ -64,21 +63,21 @@
 		<if test="harmonicseq!= null and harmonicseq!= ''">
 			and ct.harmonic_seq = #{harmonicseq ,jdbcType=VARCHAR}
 		</if>
-		order by ct.days desc
+		order by (ct.harmonic_seq+0)
 		<if test="limitStart != null and limitStart >=0">
 			limit ${limitStart} , ${limitEnd}
 		</if>
 	</select>
 	<select id="countByExample" resultType="java.lang.Integer">
 		select count(1) from (
-		select DATE_FORMAT(t1.sendTime,'%Y%m%d')
+			select DATE_FORMAT(t1.sendTime,'%Y%m%d')
 			days,t1.area_id,t1.concentrator_id,t1.pn,t1.harmonic_seq,t3.`name`,max(t1.A_harmonicVoltage_rate+0)
 			as AharmonicVoltagerate,max(t1.B_harmonicVoltage_rate+0) as
 			BharmonicVoltagerate,max(t1.C_harmonicVoltage_rate+0) as
-			CharmonicVoltagerate,max(t2.A_harmonicCurrent+0) as
-			AharmonicCurrent,max(t2.B_harmonicCurrent+0) as
-			BharmonicCurrent,max(t2.C_harmonicCurrent+0) as CharmonicCurrent from
-			(select
+			CharmonicVoltagerate,ROUND(max(t2.A_harmonicCurrent+0)*t3.ct,1) as
+			AharmonicCurrent,ROUND(max(t2.B_harmonicCurrent+0)*t3.ct,1) as
+			BharmonicCurrent,ROUND(max(t2.C_harmonicCurrent+0)*t3.ct,1) as
+			CharmonicCurrent from (select
 			a.area_id,a.concentrator_id,a.pn,a.sendTime,b.A_harmonicVoltage_rate,b.B_harmonicVoltage_rate,b.C_harmonicVoltage_rate,b.harmonic_seq
 			from t_014_type_one_data_fn58 a,t_015_type_one_data_fn58_harmonic b
 			where a.id = b.id) t1,(select
@@ -111,10 +110,21 @@
 			and ct.harmonic_seq = #{harmonicseq ,jdbcType=VARCHAR}
 		</if>
 	</select>
-	
+
 	<select id="selectByExample2" resultMap="BaseResultMap">
 		select * from (
-			select DATE_FORMAT(a.sendTime,'%Y%m%d') days,a.area_id,a.concentrator_id,a.pn, CONCAT(b.harmonicTimes,'t') as harmonic_seq,max(b.total_A_harmonicVoltage_rate+0) as AharmonicVoltagerate,max(b.total_B_harmonicVoltage_rate+0) as BharmonicVoltagerate,max(b.total_C_harmonicVoltage_rate+0) as CharmonicVoltagerate,c.`name` from t_012_type_one_data_fn57 a, t_014_type_one_data_fn58 b, t_202_pn_info c  where a.sendTime is not null and b.sendTime is not null and a.sendTime = b.sendTime and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn group by days,a.area_id,a.concentrator_id,a.pn
+		select DATE_FORMAT(a.sendTime,'%Y%m%d')
+		days,a.area_id,a.concentrator_id,a.pn, CONCAT(b.harmonicTimes,'t') as
+		harmonic_seq,max(b.total_A_harmonicVoltage_rate+0) as
+		AharmonicVoltagerate,max(b.total_B_harmonicVoltage_rate+0) as
+		BharmonicVoltagerate,max(b.total_C_harmonicVoltage_rate+0) as
+		CharmonicVoltagerate,c.`name` from t_012_type_one_data_fn57 a,
+		t_014_type_one_data_fn58 b, t_202_pn_info c where a.sendTime is not
+		null and b.sendTime is not null and a.sendTime = b.sendTime and
+		a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and
+		a.pn = b.pn and b.area_id = c.area_id and b.concentrator_id =
+		c.concentrator_id and b.pn = c.pn group by
+		days,a.area_id,a.concentrator_id,a.pn
 		) ct where 1=1
 		<if test="areaId!= null and areaId!= ''">
 			and ct.area_id = #{areaId ,jdbcType=VARCHAR}
@@ -132,14 +142,24 @@
 		<if test="pn!= null and pn!= ''">
 			and ct.pn = #{pn ,jdbcType=VARCHAR}
 		</if>
-		order by ct.days desc
 		<if test="limitStart != null and limitStart >=0">
 			limit ${limitStart} , ${limitEnd}
 		</if>
 	</select>
 	<select id="countByExample2" resultType="java.lang.Integer">
 		select count(1) from (
-			select DATE_FORMAT(a.sendTime,'%Y%m%d') days,a.area_id,a.concentrator_id,a.pn, CONCAT(b.harmonicTimes,'t') as harmonic_seq,max(b.total_A_harmonicVoltage_rate+0) as AharmonicVoltagerate,max(b.total_B_harmonicVoltage_rate+0) as BharmonicVoltagerate,max(b.total_C_harmonicVoltage_rate+0) as CharmonicVoltagerate,c.`name` from t_012_type_one_data_fn57 a, t_014_type_one_data_fn58 b, t_202_pn_info c  where a.sendTime is not null and b.sendTime is not null and a.sendTime = b.sendTime and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn group by days,a.area_id,a.concentrator_id,a.pn
+		select DATE_FORMAT(a.sendTime,'%Y%m%d')
+		days,a.area_id,a.concentrator_id,a.pn, CONCAT(b.harmonicTimes,'t') as
+		harmonic_seq,max(b.total_A_harmonicVoltage_rate+0) as
+		AharmonicVoltagerate,max(b.total_B_harmonicVoltage_rate+0) as
+		BharmonicVoltagerate,max(b.total_C_harmonicVoltage_rate+0) as
+		CharmonicVoltagerate,c.`name` from t_012_type_one_data_fn57 a,
+		t_014_type_one_data_fn58 b, t_202_pn_info c where a.sendTime is not
+		null and b.sendTime is not null and a.sendTime = b.sendTime and
+		a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and
+		a.pn = b.pn and b.area_id = c.area_id and b.concentrator_id =
+		c.concentrator_id and b.pn = c.pn group by
+		days,a.area_id,a.concentrator_id,a.pn
 		) ct where 1=1
 		<if test="areaId!= null and areaId!= ''">
 			and ct.area_id = #{areaId ,jdbcType=VARCHAR}

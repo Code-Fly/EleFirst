@@ -124,6 +124,29 @@ public interface IDailyPowerService {
 	 */
 	public int fetchAllPartionHarmonicCount(String date,String areaId,List<String> ctrIds,String harmonicseq) throws Exception;
 	
+	
+	/**
+	 * 查询按日统计分谐波相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DailyHarmonic> fetchAllHarmonicBypn(String date,String areaId,List<String> ctrIds,String pn,int rows,int page) throws Exception;
+	
+	/**
+	 *  查询按日统计分谐波相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllPartionHarmonicByPnCount(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
+	
+	
 	/**
 	 * 查询按日统计总谐波相关数据
 	 * @param areaId
