@@ -276,6 +276,62 @@ public class DailyPowerController {
             return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
         }
     }
+    
+    /**
+     * 根据日期查询相关的分谐波统计数据
+     *
+     * @param date
+     * @param page
+     * @param rows
+     * @param jasonStr
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("listDailyPartionHarmonic.do")
+    public
+    @ResponseBody
+    ErrorMsg queryDailyPartionHarmonic(String date, String page, String rows, String jasonStr,String harmonicseq)
+            throws Exception {
+        DataGrid dg = new DataGrid();
+        GeneralMessage gm = new GeneralMessage();
+        List<String> ctrIds = new ArrayList<String>();
+
+        try {
+            int pageNum = Integer.valueOf(page == null ? "1" : page);
+            int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+
+            Area area = JSON.parseObject(jasonStr, Area.class);
+
+            List<Concentrator> concentrators = area.getConcentrators();
+            if (concentrators == null || concentrators.size() == 0) {
+                return null;
+            }
+            for (Concentrator concentrator : concentrators) {
+                String tmpCId = concentrator.getConcentratorId();
+                ctrIds.add(tmpCId);
+            }
+            String areaId = area.getAreaId();
+            List<DailyHarmonic> dailyPartionHarmonic = null;
+            int total = 0;
+            if("0".endsWith(harmonicseq)){
+            	dailyPartionHarmonic = dailyPowerServiceImpl.fetchAllTotalHarmonic(date, areaId, ctrIds,harmonicseq ,rowsNum, pageNum);
+                total = dailyPowerServiceImpl.fetchAllTotalHarmonicCount(date, areaId, ctrIds,harmonicseq);
+            }else{
+            	 dailyPartionHarmonic = dailyPowerServiceImpl.fetchAllPartionHarmonic(date, areaId, ctrIds,harmonicseq ,rowsNum, pageNum);
+                 total = dailyPowerServiceImpl.fetchAllPartionHarmonicCount(date, areaId, ctrIds,harmonicseq);
+            }
+           
+            gm.setFlag(GeneralMessage.Result.SUCCESS);
+            gm.setMsg("查询相关的按日的分谐波统计数据成功！");
+            dg.setRows(dailyPartionHarmonic);
+            dg.setTotal(total);
+            dg.setGm(gm);
+            return new ErrorMsg(Error.SUCCESS, "success", dg);
+        } catch (Exception e) {
+            logger.error("查询相关的按日的分谐波统计数据失败！", e);
+            return new ErrorMsg(Error.UNKNOW_EXCEPTION, "faile", null);
+        }
+    }
 
     /**
      * 根据日期查询相关的按示数统计数据

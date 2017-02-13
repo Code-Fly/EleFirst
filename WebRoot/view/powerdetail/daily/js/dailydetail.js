@@ -11,6 +11,8 @@ $(document).ready(function () {
     $("#input-detail-datebox").datebox("calendar").calendar({
         firstDay: 1
     });
+    
+    var harmonicComboxVal = 0;
 
     //初始化center中tabs
     $('#tt').tabs({
@@ -28,18 +30,23 @@ $(document).ready(function () {
                 dg('tt5', 'dailypower/listDailyPowerFactor.do');
             } else if ("电量" == title) {
                 dg('tt7', 'dailypower/listDailyElectricity.do');
+            } else if("谐波" == title){
+            	  $('#cc1').combobox({
+						        url: 'data/combobox_data.json',
+						        valueField: 'id',
+						        textField: 'text',
+						        method: 'get',
+						        editable: false,
+						        onClick: function (rec) {
+						        	  harmonicComboxVal = rec.id
+						            dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
+						        },
+						        onLoadSuccess: function(){
+						        	harmonicComboxVal = $('#cc1').combobox('getValue');
+                      dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
+						        }
+						    });
             }
-        }
-    });
-
-    $('#cc1').combobox({
-        url: 'data/combobox_data.json',
-        valueField: 'id',
-        textField: 'text',
-        method: 'get',
-        editable: false,
-        onSelect: function (rec) {
-
         }
     });
 
@@ -263,6 +270,7 @@ $(document).ready(function () {
             border: false,
             queryParams: {
                 jasonStr: data,
+                harmonicseq: harmonicComboxVal,
                 date: $("#main-input-detail-datebox").datebox("getValue")
             },
             onLoadError: function () {
@@ -348,6 +356,17 @@ $(document).ready(function () {
                         $('#tab2').tabs('select', '电量');
                         //初始化负荷详情
                         handerBySouthTabType('电量');
+                    }else if ('tt6' == dgId) {
+                        singlerow = $('#tt7').datagrid('getSelected');
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
+                        date = singlerow.days;
+                        var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
+                        $("#input-detail-datebox").datebox("setValue", dateStr);
+                        $('#tab2').tabs('select', '谐波');
+                        //初始化负荷详情
+                        handerBySouthTabType('电量');
                     }
                 }, 1000);
             }
@@ -400,6 +419,8 @@ $(document).ready(function () {
                 dg('tt5', 'dailypower/listDailyPowerFactor.do');
             } else if ("电量" == title) {
                 dg('tt7', 'dailypower/listDailyElectricity.do');
+            } else if("谐波" == title){
+                dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
             }
         }
     });

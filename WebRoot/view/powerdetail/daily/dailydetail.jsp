@@ -247,29 +247,29 @@
                     <th rowspan="2" field="days" width="120" align="center"
                         formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
-                    <th rowspan="2" field="days" width="120" align="center">
+                    <th rowspan="2" field="harmonicseq" data-options="formatter:function(value){return DataGridUtils.totalHarmonicFormatter(value)}"  width="120" align="center"> 
                         谐波次数
                     </th>
                     <th colspan="3">电压含有率(%）</th>
                     <th colspan="3">电流最大值(A)</th>
                 </tr>
                 <tr>
-                    <th field="maxavoltage" width="80" align="center"
+                    <th field="aharmonicvoltagerate" width="80" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
                     </th>
-                    <th field="maxbvoltage" width="80" align="center"
+                    <th field="bharmonicvoltagerate" width="80" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相
                     </th>
-                    <th field="maxcvoltage" width="80" align="center"
+                    <th field="charmonicvoltagerate" width="80" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">W相
                     </th>
-                    <th field="minavoltage" width="80" align="center"
+                    <th field="aharmoniccurrent" width="80" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
                     </th>
-                    <th field="minbvoltage" width="80" align="center"
+                    <th field="bharmoniccurrent" width="80" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相
                     </th>
-                    <th field="mincvoltage" width="80" align="center"
+                    <th field="charmoniccurrent" width="80" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
                     </th>
                 </tr>

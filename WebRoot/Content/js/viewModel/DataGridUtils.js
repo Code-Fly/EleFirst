@@ -16,13 +16,21 @@ var DataGridUtils = {
             // t = Math.floor(t * Math.pow(10, DataGridUtils.FLOAT_PRECISION)) / Math.pow(10, DataGridUtils.FLOAT_PRECISION);
             return parseFloat(t.toFixed(precision));
             // return t;
-        } else {
+        }
+        else {
             if (isNull) {
                 return null;
             } else {
                 return "-";
             }
         }
+    },
+    totalHarmonicFormatter: function(value){
+    	if(value != null && value != "null" && value=="19t"){
+        	return '总';
+        }else {
+            return value;
+        } 
     },
     dateToMinuteFormatter: function (value) {
         if (value != null && value != "null") {

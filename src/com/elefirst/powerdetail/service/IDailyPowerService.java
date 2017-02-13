@@ -5,6 +5,7 @@ import java.util.List;
 import com.elefirst.powerdetail.po.DailyCurrent;
 import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.DailyLoad;
+import com.elefirst.powerdetail.po.DailyHarmonic;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyVoltage;
 
@@ -101,4 +102,46 @@ public interface IDailyPowerService {
 	 * @throws Exception
 	 */
 	public DailyElectricity fetchSingleDailyElectricity(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
+	
+	/**
+	 * 查询按日统计分谐波相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DailyHarmonic> fetchAllPartionHarmonic(String date,String areaId,List<String> ctrIds,String harmonicseq,int rows,int page) throws Exception;
+	
+	/**
+	 *  查询按日统计分谐波相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllPartionHarmonicCount(String date,String areaId,List<String> ctrIds,String harmonicseq) throws Exception;
+	
+	/**
+	 * 查询按日统计总谐波相关数据
+	 * @param areaId
+	 * @return
+	 * @throws Exception
+	 */
+	public List<DailyHarmonic> fetchAllTotalHarmonic(String date,String areaId,List<String> ctrIds,String harmonicseq,int rows,int page) throws Exception;
+	
+	/**
+	 *  查询按日统计总谐波相关数据条数
+	 * @param date
+	 * @param areaId
+	 * @param ctrIds
+	 * @param rows
+	 * @param page
+	 * @param isPagination
+	 * @return
+	 * @throws Exception
+	 */
+	public int fetchAllTotalHarmonicCount(String date,String areaId,List<String> ctrIds,String harmonicseq) throws Exception;
 }

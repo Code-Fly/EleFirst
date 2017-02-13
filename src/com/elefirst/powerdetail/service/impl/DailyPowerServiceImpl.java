@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.elefirst.powerdetail.mapper.DailyCurrentMapper;
 import com.elefirst.powerdetail.mapper.DailyElectricityMapper;
+import com.elefirst.powerdetail.mapper.DailyHarmonicMapper;
 import com.elefirst.powerdetail.mapper.DailyLoadMapper;
 import com.elefirst.powerdetail.mapper.DailyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.DailyVoltageMapper;
@@ -18,6 +19,7 @@ import com.elefirst.powerdetail.po.DailyCurrentExample;
 import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.DailyLoad;
 import com.elefirst.powerdetail.po.DailyLoadExample;
+import com.elefirst.powerdetail.po.DailyHarmonic;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyPowerFactorExample;
 import com.elefirst.powerdetail.po.DailyVoltage;
@@ -41,6 +43,9 @@ public class DailyPowerServiceImpl implements IDailyPowerService{
 	
 	@Resource(name = "dailyElectricityMapper")
 	private DailyElectricityMapper dailyElectricityMapper;
+	
+	@Resource(name = "dailyHarmonicMapper")
+	private DailyHarmonicMapper dailyHarmonicMapper;
 	
 	
 	@Override
@@ -241,6 +246,76 @@ public class DailyPowerServiceImpl implements IDailyPowerService{
 		}
 		List<DailyElectricity> dailyElectricity = dailyElectricityMapper.selectByExample(params);
 		return dailyElectricity.get(0);
+	}
+
+	@Override
+	public List<DailyHarmonic> fetchAllPartionHarmonic(String date,
+			String areaId, List<String> ctrIds, String harmonicseq, int rows,
+			int page) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("harmonicseq", harmonicseq);
+		
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}                                                 
+		List<DailyHarmonic> dailyPartionHarmonic = dailyHarmonicMapper.selectByExample(params);
+		return dailyPartionHarmonic;
+	}
+
+	@Override
+	public int fetchAllPartionHarmonicCount(String date, String areaId,
+			List<String> ctrIds, String harmonicseq) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		params.put("harmonicseq", harmonicseq);	
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		int count = dailyHarmonicMapper.countByExample(params);
+		return count;
+	}
+
+	@Override
+	public List<DailyHarmonic> fetchAllTotalHarmonic(String date,
+			String areaId, List<String> ctrIds, String harmonicseq, int rows,
+			int page) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}                                                 
+		List<DailyHarmonic> dailyPartionHarmonic = dailyHarmonicMapper.selectByExample2(params);
+		return dailyPartionHarmonic;
+	}
+
+	@Override
+	public int fetchAllTotalHarmonicCount(String date, String areaId,
+			List<String> ctrIds, String harmonicseq) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("concentratorIds", ctrIds);
+		params.put("areaId", areaId);
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		int count = dailyHarmonicMapper.countByExample2(params);
+		return count;
 	}
 
 }
