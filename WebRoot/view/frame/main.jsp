@@ -51,7 +51,7 @@
                             <td style="width: 50%">主变台数</td>
                             <td style="width: 50%">
                                 <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="transformers"></span>
+                                    <span id="transformers">&nbsp;</span>
                                     <span class="unitStyle">台</span>
                                 </h4>
                             </td>
@@ -60,7 +60,7 @@
                             <td style="vertical-align: middle;">主变容量</td>
                             <td>
                                 <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="ratedCapacity"></span>
+                                    <span id="ratedCapacity">&nbsp;</span>
                                     <span class="unitStyle">kVA</span>
                                 </h4>
                             </td>
@@ -69,7 +69,7 @@
                             <td style="vertical-align: middle;">监测分路个数</td>
                             <td>
                                 <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="pns"></span>
+                                    <span id="pns">&nbsp;</span>
                                     <span class="unitStyle">个</span>
                                 </h4>
                             </td>
@@ -90,7 +90,7 @@
                             <td>本月累计电量</td>
                             <td>
                                 <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="electricityThisMonth"></span>
+                                    <span id="electricityThisMonth">&nbsp;</span>
                                     <span class="unitStyle">kWh</span>
                                 </h4>
                             </td>
@@ -99,7 +99,7 @@
                             <td style="width: 45%">上月总电量</td>
                             <td style="width: 55%">
                                 <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="electricityLastMonth"></span>
+                                    <span id="electricityLastMonth">&nbsp;</span>
                                     <span class="unitStyle">kWh</span>
                                 </h4>
                             </td>
@@ -108,7 +108,7 @@
                             <td style="width: 45%">上上月总电量</td>
                             <td style="width: 55%">
                                 <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="electricityLastLastMonth"></span>
+                                    <span id="electricityLastLastMonth">&nbsp;</span>
                                     <span class="unitStyle">kWh</span>
                                 </h4>
                             </td>
@@ -131,7 +131,7 @@
                             <td>
                                 <div class="tooltipMaxMonth" data-toggle="tooltip" data-placement="top" title="">
                                     <h4 style="font-size: 18px; margin: 0px">
-                                        <span id="maxLoadThisMonth"></span>
+                                        <span id="maxLoadThisMonth">&nbsp;</span>
                                         <span class="unitStyle">kW</span>
                                     </h4>
                                 </div>
@@ -142,7 +142,7 @@
                             <td>
                                 <div class="tooltipMaxYear" data-toggle="tooltip" data-placement="top" title="">
                                     <h4 style="font-size: 18px; margin: 0px">
-                                        <span id="maxLoadThisYear"></span>
+                                        <span id="maxLoadThisYear">&nbsp;</span>
                                         <span class="unitStyle">kW</span>
                                     </h4>
                                 </div>
@@ -153,7 +153,7 @@
                             <td style="width: 60%">
                                 <div class="tooltipMaxHistory" data-toggle="tooltip" data-placement="top" title="">
                                     <h4 style="font-size: 18px; margin: 0px">
-                                        <span id="maxLoadTotal"></span>
+                                        <span id="maxLoadTotal">&nbsp;</span>
                                         <span class="unitStyle">kW</span>
                                     </h4>
                                 </div>
