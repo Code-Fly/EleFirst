@@ -2,6 +2,48 @@
  * Created by VM on 1/25/2017.
  */
 $(document).ready(function () {
+
+    loadSummaryInfo();
+
+    function loadSummaryInfo() {
+        $.ajax({
+            url: _ctx + "index/summary/info.do",
+            type: "POST",
+            data: {
+                areaId: _areaId
+            },
+            cache: false,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        $("#transformers").text(r.data.transformers);
+                        $("#ratedCapacity").text(r.data.ratedCapacity);
+                        $("#pns").text(r.data.pns);
+                        $("#electricityThisMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.electricityThisMonth, 4));
+                        $("#electricityLastMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.electricityLastMonth, 4));
+                        $("#electricityLastLastMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.electricityLastLastMonth, 4));
+                        $("#maxLoadThisMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadThisMonth, 3));
+                        $("#maxLoadThisYear").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadThisYear, 3));
+                        $("#maxLoadTotal").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadTotal, 3));
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
+            }
+        });
+    }
+
     $('#chart-day-load').highcharts({
             "credits": {
                 "enabled": false

@@ -251,7 +251,7 @@
                     </div>
                     <div class="grid_2 cell title">
                         <p>
-                            额定容量
+                            额定容量(kVA)
                         </p>
                     </div>
                     <div class="grid_4 cell">

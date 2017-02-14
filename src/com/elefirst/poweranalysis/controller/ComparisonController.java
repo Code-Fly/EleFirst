@@ -308,6 +308,35 @@ public class ComparisonController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", list);
     }
 
+    @RequestMapping(value = "/load/daily/max.do")
+    @ApiOperation(value = "表格", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getLoadMax(HttpServletRequest request,
+                               HttpServletResponse response,
+                               @RequestBody String sData
+    ) {
+        JSONObject jParam = JSONObject.fromObject(sData);
+
+        List<PowerAnalysisF25> node = new ArrayList<>();
+        JSONArray jNode = jParam.getJSONArray("node");
+        for (int i = 0; i < jNode.size(); i++) {
+            PowerAnalysisF25 item = new PowerAnalysisF25();
+            item.setAreaId(jNode.getJSONObject(i).getString("areaId"));
+            item.setConcentratorId(jNode.getJSONObject(i).getString("concentratorId"));
+            item.setPn(jNode.getJSONObject(i).getString("pn"));
+            node.add(item);
+        }
+
+        Map<String, Object> param = new HashMap();
+        param.put("node", node);
+        param.put("start", jParam.getString("start"));
+        param.put("end", jParam.getString("end"));
+
+        List<PowerAnalysisLoadDailyTableF25> list = powerAnalysisService.getLoadDailyTable(param);
+
+        return new ErrorMsg(Error.SUCCESS, "success", list);
+    }
+
     @RequestMapping(value = "/voltage/daily/chart.do")
     @ApiOperation(value = "图表", notes = "", httpMethod = "POST")
     @ResponseBody

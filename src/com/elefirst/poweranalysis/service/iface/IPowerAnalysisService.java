@@ -24,6 +24,8 @@ public interface IPowerAnalysisService {
 
     List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param);
 
+    List<PowerAnalysisLoadMaxF25> getLoadMax(Map<String, Object> param);
+
     //
 
     List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param);

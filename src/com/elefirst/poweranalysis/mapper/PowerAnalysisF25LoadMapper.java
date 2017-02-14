@@ -19,4 +19,7 @@ public interface PowerAnalysisF25LoadMapper {
     List<PowerAnalysisLoadMonthlyChartIntervalMonthF25> getLoadMonthlyChartIntervalMonth(Map<String, Object> param);
 
     List<PowerAnalysisLoadDailyTableF25> getLoadDailyTable(Map<String, Object> param);
+
+    List<PowerAnalysisLoadMaxF25> getLoadMax(Map<String, Object> param);
+
 }

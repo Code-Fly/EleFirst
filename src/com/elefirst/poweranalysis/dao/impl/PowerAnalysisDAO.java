@@ -66,6 +66,11 @@ public class PowerAnalysisDAO extends BaseDAO implements IPowerAnalysisDAO {
     }
 
     @Override
+    public List<PowerAnalysisLoadMaxF25> getLoadMax(Map<String, Object> param) {
+        return powerAnalysisF25LoadMapper.getLoadMax(param);
+    }
+
+    @Override
     public List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param) {
         return powerAnalysisF25VoltageMapper.getVoltageDailyChart(param);
     }

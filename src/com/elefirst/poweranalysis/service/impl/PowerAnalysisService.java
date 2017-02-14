@@ -59,6 +59,11 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
     }
 
     @Override
+    public List<PowerAnalysisLoadMaxF25> getLoadMax(Map<String, Object> param) {
+        return powerAnalysisDAO.getLoadMax(param);
+    }
+
+    @Override
     public List<PowerAnalysisVoltageDailyChartF25> getVoltageDailyChart(Map<String, Object> param) {
         return powerAnalysisDAO.getVoltageDailyChart(param);
     }

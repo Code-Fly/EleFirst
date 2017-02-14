@@ -5,6 +5,8 @@ import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF33;
 import com.elefirst.power.service.iface.IDataF33Service;
+import com.elefirst.poweranalysis.po.PowerAnalysisLoadMaxF25;
+import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IAreaInfoService;
@@ -22,9 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by barrie on 17/2/14.
@@ -42,12 +42,15 @@ public class IndexController extends BaseController {
     @Autowired
     private IDataF33Service dataF33Service;
 
+    @Autowired
+    private IPowerAnalysisService powerAnalysisService;
+
     @RequestMapping(value = "/summary/info.do")
     @ApiOperation(value = "统计信息", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getSummaryInfo(HttpServletRequest request,
                                    HttpServletResponse response,
-                                   @RequestParam(value = "areaId", required = false) String areaId
+                                   @RequestParam(value = "areaId") String areaId
     ) {
         JSONObject result = new JSONObject();
         AreaInfoWithBLOBs areaTemplate = new AreaInfoWithBLOBs();
@@ -88,126 +91,119 @@ public class IndexController extends BaseController {
                 Calendar nextMonth = Calendar.getInstance();
                 nextMonth.add(Calendar.MONTH, 1);
 
-                String thisMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "000000";
-                String nextMonthStr = new SimpleDateFormat("yyyyMM").format(nextMonth.getTime()) + "000000";
+                String thisMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
+                String nextMonthStr = new SimpleDateFormat("yyyyMM").format(nextMonth.getTime()) + "01000000";
 
-                List<DataF33> list = dataF33Service.getDataF33List(nodes, thisMonthStr, nextMonthStr);
-
-                Double electricity = 0.0;
-                for (int j = 0; j < pns.size(); j++) {
-                    String concentratorId = pns.get(j).getConcentratorId();
-                    String pn = pns.get(j).getPn();
-                    Double ct = pns.get(j).getCt();
-                    Double pt = pns.get(j).getPt();
-
-                    Double minVal = 1000000000.0;
-                    Double maxVal = -1.0;
-                    int count = 0;
-
-                    for (int k = 0; k < list.size(); k++) {
-                        DataF33 item = list.get(k);
-                        if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
-                            count++;
-                            if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) < minVal) {
-                                minVal = Double.valueOf(item.getTotalpositiveactivepower());
-                            }
-
-                            if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) > maxVal) {
-                                maxVal = Double.valueOf(item.getTotalpositiveactivepower());
-                            }
-                        }
-                    }
-
-                    if (count > 0) {
-                        electricity += (maxVal - minVal) * ct * pt;
-                    }
-
-                }
-                result.put("electricityThisMonth", electricity);
+                result.put("electricityThisMonth", getElectricity(pns, dataF33Service.getDataF33List(nodes, thisMonthStr, nextMonthStr)));
 
                 //上月
                 Calendar lastMonth = Calendar.getInstance();
                 lastMonth.add(Calendar.MONTH, -1);
 
-                String lastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "000000";
+                String lastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
 
-                list = dataF33Service.getDataF33List(nodes, lastMonthStr, thisMonthStr);
-
-                electricity = 0.0;
-                for (int j = 0; j < pns.size(); j++) {
-                    String concentratorId = pns.get(j).getConcentratorId();
-                    String pn = pns.get(j).getPn();
-                    Double ct = pns.get(j).getCt();
-                    Double pt = pns.get(j).getPt();
-
-                    Double minVal = 1000000000.0;
-                    Double maxVal = -1.0;
-                    int count = 0;
-
-                    for (int k = 0; k < list.size(); k++) {
-                        DataF33 item = list.get(k);
-                        if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
-                            count++;
-                            if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) < minVal) {
-                                minVal = Double.valueOf(item.getTotalpositiveactivepower());
-                            }
-
-                            if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) > maxVal) {
-                                maxVal = Double.valueOf(item.getTotalpositiveactivepower());
-                            }
-                        }
-                    }
-
-                    if (count > 0) {
-                        electricity += (maxVal - minVal) * ct * pt;
-                    }
-
-                }
-                result.put("electricityLastMonth", electricity);
+                result.put("electricityLastMonth", getElectricity(pns, dataF33Service.getDataF33List(nodes, lastMonthStr, thisMonthStr)));
 
                 //上上月
                 Calendar lastLastMonth = Calendar.getInstance();
                 lastLastMonth.add(Calendar.MONTH, -2);
 
-                String lastLastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "000000";
+                String lastLastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
 
-                list = dataF33Service.getDataF33List(nodes, lastLastMonthStr, lastMonthStr);
+                result.put("electricityLastLastMonth", getElectricity(pns, dataF33Service.getDataF33List(nodes, lastLastMonthStr, lastMonthStr)));
 
-                electricity = 0.0;
-                for (int j = 0; j < pns.size(); j++) {
-                    String concentratorId = pns.get(j).getConcentratorId();
-                    String pn = pns.get(j).getPn();
-                    Double ct = pns.get(j).getCt();
-                    Double pt = pns.get(j).getPt();
 
-                    Double minVal = 1000000000.0;
-                    Double maxVal = -1.0;
-                    int count = 0;
+                //本月
+                Map<String, Object> param = new HashMap();
+                param.put("node", nodes);
+                param.put("start", thisMonthStr);
+                param.put("end", nextMonthStr);
 
-                    for (int k = 0; k < list.size(); k++) {
-                        DataF33 item = list.get(k);
-                        if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
-                            count++;
-                            if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) < minVal) {
-                                minVal = Double.valueOf(item.getTotalpositiveactivepower());
-                            }
+                result.put("maxLoadThisMonth", getTotalMaxLoad(pns, param));
 
-                            if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) > maxVal) {
-                                maxVal = Double.valueOf(item.getTotalpositiveactivepower());
-                            }
-                        }
-                    }
+                //今年
+                Calendar thisYear = Calendar.getInstance();
+                String thisYearStr = new SimpleDateFormat("yyyy").format(thisYear.getTime()) + "0101000000";
+                Calendar nextYear = Calendar.getInstance();
+                nextYear.add(Calendar.YEAR, 1);
+                String nextYearStr = new SimpleDateFormat("yyyy").format(nextYear.getTime()) + "0101000000";
 
-                    if (count > 0) {
-                        electricity += (maxVal - minVal) * ct * pt;
-                    }
+                param = new HashMap();
+                param.put("node", nodes);
+                param.put("start", thisYearStr);
+                param.put("end", nextYearStr);
 
-                }
-                result.put("electricityLastLastMonth", electricity);
+                result.put("maxLoadThisYear", getTotalMaxLoad(pns, param));
+
+                //历史
+                param = new HashMap();
+                param.put("node", nodes);
+                param.put("start", null);
+                param.put("end", null);
+
+                result.put("maxLoadTotal", getTotalMaxLoad(pns, param));
+
             }
         }
 
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    public double getElectricity(List<PnInfo> pns, List<DataF33> data) {
+        double electricity = 0.0;
+        for (int j = 0; j < pns.size(); j++) {
+            String areaId = pns.get(j).getAreaId();
+            String concentratorId = pns.get(j).getConcentratorId();
+            String pn = pns.get(j).getPn();
+            Double ct = pns.get(j).getCt();
+            Double pt = pns.get(j).getPt();
+
+            Double minVal = 1000000000.0;
+            Double maxVal = -1.0;
+            int count = 0;
+
+            for (int k = 0; k < data.size(); k++) {
+                DataF33 item = data.get(k);
+                if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
+                    count++;
+                    if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) < minVal) {
+                        minVal = Double.valueOf(item.getTotalpositiveactivepower());
+                    }
+
+                    if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) > maxVal) {
+                        maxVal = Double.valueOf(item.getTotalpositiveactivepower());
+                    }
+                }
+            }
+
+            if (count > 0) {
+                electricity += (maxVal - minVal) * ct * pt;
+            }
+
+        }
+
+        return electricity;
+    }
+
+    public double getTotalMaxLoad(List<PnInfo> pns, Map<String, Object> param) {
+        double totalLoad = 0;
+
+        List<PowerAnalysisLoadMaxF25> list = powerAnalysisService.getLoadMax(param);
+
+        for (int j = 0; j < pns.size(); j++) {
+            String areaId = pns.get(j).getAreaId();
+            String concentratorId = pns.get(j).getConcentratorId();
+            String pn = pns.get(j).getPn();
+            Double ct = pns.get(j).getCt();
+            Double pt = pns.get(j).getPt();
+            for (int i = 0; i < list.size(); i++) {
+                PowerAnalysisLoadMaxF25 item = list.get(i);
+                if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
+                    totalLoad += (Double.valueOf(list.get(i).getMaxTotalActivePower()) * ct * pt);
+                }
+            }
+        }
+        return totalLoad;
     }
 }

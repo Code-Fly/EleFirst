@@ -25,12 +25,31 @@ var DataGridUtils = {
             }
         }
     },
-    totalHarmonicFormatter: function(value){
-    	if(value != null && value != "null" && value=="19t"){
-        	return '总';
-        }else {
+    floatWithUnitFormatter: function (value, precision, isNull) {
+        if (value != null && value != "null" && !isNaN(value)) {
+            var t = parseFloat(value);
+            if (t > 10000) {
+                t = t / 10000.0
+                return parseFloat(t.toFixed(2)) + "万";
+            }
+            else {
+                return parseFloat(t.toFixed(precision));
+            }
+        }
+        else {
+            if (isNull) {
+                return null;
+            } else {
+                return "-";
+            }
+        }
+    },
+    totalHarmonicFormatter: function (value) {
+        if (value != null && value != "null" && value == "19t") {
+            return '总';
+        } else {
             return value;
-        } 
+        }
     },
     dateToMinuteFormatter: function (value) {
         if (value != null && value != "null") {

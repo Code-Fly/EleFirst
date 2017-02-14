@@ -27,6 +27,11 @@
         .small-box {
             margin: 0px !important;
         }
+
+        .unitStyle {
+            font-size: 14px;
+            margin: 0;
+        }
     </style>
 </head>
 <body class="easyui-layout">
@@ -45,19 +50,28 @@
                         <tr style="border-bottom: 1px solid">
                             <td style="width: 50%">主变台数</td>
                             <td style="width: 50%">
-                                <h4 id="d1" style="font-size: 18px; margin: 0px"></h4>
+                                <h4 style="font-size: 18px; margin: 0px">
+                                    <span id="transformers"></span>
+                                    <span class="unitStyle">台</span>
+                                </h4>
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid">
                             <td style="vertical-align: middle;">主变容量</td>
                             <td>
-                                <h4 id="d2" style="font-size: 18px; margin: 0px"></h4>
+                                <h4 style="font-size: 18px; margin: 0px">
+                                    <span id="ratedCapacity"></span>
+                                    <span class="unitStyle">kVA</span>
+                                </h4>
                             </td>
                         </tr>
                         <tr>
                             <td style="vertical-align: middle;">监测分路个数</td>
                             <td>
-                                <h4 id="d3" style="font-size: 18px; margin: 0px"></h4>
+                                <h4 style="font-size: 18px; margin: 0px">
+                                    <span id="pns"></span>
+                                    <span class="unitStyle">个</span>
+                                </h4>
                             </td>
                         </tr>
                     </table>
@@ -75,19 +89,28 @@
                         <tr style="border-bottom: 1px solid">
                             <td>本月累计电量</td>
                             <td>
-                                <h4 id="d5" style="font-size: 18px; margin: 0px"></h4>
+                                <h4 style="font-size: 18px; margin: 0px">
+                                    <span id="electricityThisMonth"></span>
+                                    <span class="unitStyle">kWh</span>
+                                </h4>
                             </td>
                         </tr>
                         <tr style="border-bottom: 1px solid">
                             <td style="width: 45%">上月总电量</td>
                             <td style="width: 55%">
-                                <h4 id="d4" style="font-size: 18px; margin: 0px"></h4>
+                                <h4 style="font-size: 18px; margin: 0px">
+                                    <span id="electricityLastMonth"></span>
+                                    <span class="unitStyle">kWh</span>
+                                </h4>
                             </td>
                         </tr>
                         <tr style="border-bottom: 0px solid">
                             <td style="width: 45%">上上月总电量</td>
                             <td style="width: 55%">
-                                <h4 id="d6" style="font-size: 18px; margin: 0px"></h4>
+                                <h4 style="font-size: 18px; margin: 0px">
+                                    <span id="electricityLastLastMonth"></span>
+                                    <span class="unitStyle">kWh</span>
+                                </h4>
                             </td>
                         </tr>
 
@@ -107,7 +130,10 @@
                             <td>本月最大负荷</td>
                             <td>
                                 <div class="tooltipMaxMonth" data-toggle="tooltip" data-placement="top" title="">
-                                    <h4 id="d8" style="font-size: 18px; margin: 0px"></h4>
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="maxLoadThisMonth"></span>
+                                        <span class="unitStyle">kW</span>
+                                    </h4>
                                 </div>
                             </td>
                         </tr>
@@ -115,7 +141,10 @@
                             <td>本年最大负荷</td>
                             <td>
                                 <div class="tooltipMaxYear" data-toggle="tooltip" data-placement="top" title="">
-                                    <h4 id="d9" style="font-size: 18px; margin: 0px"></h4>
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="maxLoadThisYear"></span>
+                                        <span class="unitStyle">kW</span>
+                                    </h4>
                                 </div>
                             </td>
                         </tr>
@@ -123,7 +152,10 @@
                             <td style="width: 50%" class="tooltipMaxHistoryName">历史最大负荷</td>
                             <td style="width: 60%">
                                 <div class="tooltipMaxHistory" data-toggle="tooltip" data-placement="top" title="">
-                                    <h4 id="d7" style="font-size: 18px; margin: 0px"></h4>
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="maxLoadTotal"></span>
+                                        <span class="unitStyle">kW</span>
+                                    </h4>
                                 </div>
                             </td>
                         </tr>
