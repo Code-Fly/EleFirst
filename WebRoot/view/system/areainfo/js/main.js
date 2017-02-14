@@ -64,7 +64,7 @@ $(document).ready(function () {
                 var param = formToJson($("#ff"));
                 param.id = areaDbId;
                 param.areaId = _areaId;
-                param.transformers = JSON.stringify($("#dg-column").datagrid("getData"));
+                param.transformers = JSON.stringify($("#dg-column").datagrid("getRows"));
                 if ($("#ff").form("enableValidation").form("validate")) {
                     $.ajax({
                         url: _ctx + "/system/area/info/update.do",
@@ -98,7 +98,7 @@ $(document).ready(function () {
             } else {
                 var param = formToJson($("#ff"));
                 param.areaId = _areaId;
-                param.transformers = JSON.stringify($("#dg-column").datagrid("getData"));
+                param.transformers = JSON.stringify($("#dg-column").datagrid("getRows"));
                 if ($("#ff").form("enableValidation").form("validate")) {
                     $.ajax({
                         url: _ctx + "/system/area/info/add.do",
