@@ -313,6 +313,10 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `A_PowerFactor` IS NOT NULL
+        AND `B_PowerFactor` IS NOT NULL
+        AND `C_PowerFactor` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t

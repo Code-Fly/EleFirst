@@ -306,6 +306,10 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `A_Voltage` IS NOT NULL
+        AND `B_Voltage` IS NOT NULL
+        AND `C_Voltage` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t

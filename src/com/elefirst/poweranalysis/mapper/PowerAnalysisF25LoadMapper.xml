@@ -444,6 +444,8 @@
             </foreach>
             )
         </if>
+        AND `clientOperationTime` IS NOT NULL
+        AND `totalActivePower` IS NOT NULL
         ORDER BY
         `clientOperationTime` DESC
         ) t
