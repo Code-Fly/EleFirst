@@ -317,19 +317,35 @@ $(document).ready(function () {
 
                         var dgData = [];
 
+                        var currentDataTotal = 0;
+                        var lastMonthDataTotal = 0;
+                        var lastYearDataTotal = 0;
+
                         for (var i = 0; i < (param.interval + 1); i++) {
                             var item = TimeUtils.dataBoxDateToDate(param.time);
                             item.setDate(item.getDate() + i);
+
+                            currentDataTotal = currentDataTotal + currentData[i];
+                            lastMonthDataTotal = lastMonthDataTotal + lastMonthData[i];
+                            lastYearDataTotal = lastYearDataTotal + lastYearData[i];
 
                             dgData.push({
                                 time: item.format("yyyy-MM-dd"),
                                 currentData: currentData[i],
                                 lastMonthData: lastMonthData[i],
                                 lastYearData: lastYearData[i],
-                                rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastYearData[i]), 1),
+                                rate1: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastYearData[i]), 1),
                                 rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1),
                             });
                         }
+                        dgData.push({
+                            time: "总计",
+                            currentData: currentDataTotal,
+                            lastMonthData: lastMonthDataTotal,
+                            lastYearData: lastYearDataTotal,
+                            rate1: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastMonthDataTotal) * 100) / lastYearDataTotal), 1),
+                            rate2: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastYearDataTotal) * 100 ) / lastYearDataTotal), 1),
+                        });
 
                         $("#dg-table").datagrid("loadData", dgData);
 

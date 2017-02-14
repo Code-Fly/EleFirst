@@ -246,7 +246,13 @@ $(document).ready(function () {
 
                         var dgData = [];
 
+                        var currentDataTotal = 0;
+                        var lastYearDataTotal = 0;
+
                         for (var i = 0; i < (param.interval + 1); i++) {
+                            currentDataTotal = currentDataTotal + currentData[i];
+                            lastYearDataTotal = lastYearDataTotal + lastYearData[i];
+
                             var item = TimeUtils.dataBoxMonthToDate(param.time);
                             item.setMonth(item.getMonth() + i);
 
@@ -257,6 +263,13 @@ $(document).ready(function () {
                                 rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1),
                             });
                         }
+
+                        dgData.push({
+                            time: "总计",
+                            currentData: currentDataTotal,
+                            lastYearData: lastYearDataTotal,
+                            rate2: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastYearDataTotal) * 100 ) / lastYearDataTotal), 1),
+                        });
 
                         $("#dg-table").datagrid("loadData", dgData);
 
