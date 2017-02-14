@@ -46,8 +46,8 @@
                                 <%--<tr>--%>
                                 <%--<th field="name" width="120" align="center">监测点名称</th>--%>
                                 <%--<th field="pn" width="120" align="center">监测点编号</th>--%>
-                                <%--<th field="concentratorName" width="120" align="center">馈线柜名称</th>--%>
-                                <%--<th field="concentratorId" width="120" align="center">馈线柜编号</th>--%>
+                                <%--<th field="concentratorName" width="120" align="center">集中器名称</th>--%>
+                                <%--<th field="concentratorId" width="120" align="center">集中器编号</th>--%>
                                 <%--<th field="ct" width="120" align="center">CT</th>--%>
                                 <%--<th field="pt" width="120" align="center">PT</th>--%>
                                 <%--<th field="powerFactorStandard" width="120" align="center">功率因数标准</th>--%>
@@ -67,7 +67,7 @@
                                    data-options="plain:true,iconCls:'icon-arrow_refresh'">加载全部</a>
                             </div>
                         </div>
-                        <div title="馈线柜">
+                        <div title="集中器">
                             <table id="dg-concentrator-detail" class="easyui-datagrid"
                                    data-options="border:false,fit:true,rownumbers:true,singleSelect:true,toolbar:'#tool-concentrator'">
 
@@ -133,7 +133,7 @@
                     <div class="clear"></div>
                     <div class="grid_4 cell title cell-concentratorId">
                         <p>
-                            馈线柜
+                            集中器
                         </p>
                     </div>
                     <div class="grid_8 cell cell-concentratorId">
@@ -197,7 +197,7 @@
                         <div class="clear"></div>
                         <div class="grid_4 cell title cell-concentratorId">
                             <p>
-                                馈线柜
+                                集中器
                             </p>
                         </div>
                         <div class="grid_8 cell cell-concentratorId">
@@ -436,7 +436,7 @@
         </div>
     </div>
 
-    <div id="dlg-add-concentrator-node" class="easyui-dialog" title="馈线柜"
+    <div id="dlg-add-concentrator-node" class="easyui-dialog" title="集中器"
          data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
          style="width:400px;height:300px;">
 
@@ -456,7 +456,7 @@
                     <div class="clear"></div>
                     <div class="grid_4 cell title">
                         <p>
-                            馈线柜编号
+                            集中器编号
                         </p>
                     </div>
                     <div class="grid_8 cell">

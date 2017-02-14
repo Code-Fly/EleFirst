@@ -143,7 +143,7 @@ $(document).ready(function () {
                 width: 120
             }, {
                 field: "concentratorName",
-                title: "馈线柜名称",
+                title: "集中器名称",
                 align: "center",
                 width: 120,
                 formatter: function (value, row, index) {
@@ -156,7 +156,7 @@ $(document).ready(function () {
                 }
             }, {
                 field: "concentratorId",
-                title: "馈线柜编号",
+                title: "集中器编号",
                 align: "center",
                 width: 120
             }, {
@@ -506,7 +506,7 @@ $(document).ready(function () {
 
     // !监测点处理结束
 
-    // 馈线柜处理开始
+    // 集中器处理开始
     $("#dg-concentrator-detail").datagrid({
         url: _ctx + "system/concentrator/info/list.do",
         queryParams: {
@@ -523,12 +523,12 @@ $(document).ready(function () {
         columns: [[
             {
                 field: "name",
-                title: "馈线柜名称",
+                title: "集中器名称",
                 align: "center",
                 width: 120
             }, {
                 field: "concentratorId",
-                title: "馈线柜编号",
+                title: "集中器编号",
                 align: "center",
                 width: 120
             }
@@ -652,7 +652,7 @@ $(document).ready(function () {
             }
 
             if (!$("#text-dg-concentrator-id").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确馈线柜编号！", "info");
+                $.messager.alert("操作提示", "请输入正确集中器编号！", "info");
                 return;
             }
 
@@ -755,7 +755,7 @@ $(document).ready(function () {
             }
         }
     });
-    // 馈线柜处理结束
+    // 集中器处理结束
 
     // 树形处理开始
     $("#dlg-add-tree-node").dialog({
@@ -853,7 +853,7 @@ $(document).ready(function () {
             }
 
             if (!$("#combo-tree-node-concentratorId").combobox("isValid")) {
-                $.messager.alert("操作提示", "请选择正确馈线柜！", "info");
+                $.messager.alert("操作提示", "请选择正确集中器！", "info");
                 return;
             }
 
@@ -914,7 +914,7 @@ $(document).ready(function () {
                 if (attributes.type == "concentrator") {
                     for (var i = 0; i < children.length; i++) {
                         if (children[i].attributes.type != "concentrator") {
-                            $.messager.alert("操作提示", "无法在此下添加馈线柜！", "info");
+                            $.messager.alert("操作提示", "无法在此下添加集中器！", "info");
                             return;
                         }
                     }
