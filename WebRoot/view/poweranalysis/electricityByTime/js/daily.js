@@ -73,22 +73,21 @@ $(document).ready(function () {
                     if ("0" == r.errcode) {
                         var series = [];
 
+                        var startTime = TimeUtils.dataBoxDateToDate(param.time);
+                        var endTime = TimeUtils.dataBoxDateToDate(param.time);
+                        endTime.setDate(endTime.getDate() + (param.interval + 1));
+
                         var paramNode = r.data;
                         var paramChart = {
                             node: paramNode,
-                            time: []
+                            start: startTime.format("yyyyMMdd") + "000000",
+                            end: endTime.format("yyyyMMdd") + "000000"
                         };
 
                         var chartCnt = 1;
 
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
-
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            url: _ctx + "poweranalysis/comparison/electricity/monthly/rateseq/all/chart.do",
                             type: "POST",
                             cache: false,
                             contentType: "text/plain;charset=UTF-8",
@@ -96,9 +95,20 @@ $(document).ready(function () {
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
                                         chartCnt = chartCnt - 1;
 
-                                        var item = ChartUtils.getElectricityDailyIntervalDaySeries("本期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("尖", paramNode, param.time, param.interval, r.data, "1");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("峰", paramNode, param.time, param.interval, r.data, "2");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("平", paramNode, param.time, param.interval, r.data, "3");
+                                        series.push(item);
+
+                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("谷", paramNode, param.time, param.interval, r.data, "4");
                                         series.push(item);
 
                                         if (chartCnt <= 0) {

@@ -62,6 +62,7 @@ public interface IPowerAnalysisService {
 
     List<PowerAnalysisElectricityMonthlyChartIntervalMonthF33> getElectricityMonthlyChartIntervalMonth(Map<String, Object> param);
 
+    List<PowerAnalysisElectricityMonthlyRateSeqChartAllF33> getElectricityMonthlyRateSeqChartAll(Map<String, Object> param);
 
 
 }
