@@ -99,17 +99,11 @@ $(document).ready(function () {
 
                                         chartCnt = chartCnt - 1;
 
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("尖", paramNode, param.time, param.interval, r.data, "1");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("峰", paramNode, param.time, param.interval, r.data, "2");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("平", paramNode, param.time, param.interval, r.data, "3");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqSeries("谷", paramNode, param.time, param.interval, r.data, "4");
-                                        series.push(item);
+                                        var category = ChartUtils.getElectricityRateSeqCategories();
+                                        for (var i = 0; i < category.length; i++) {
+                                            var item = ChartUtils.getElectricityMonthlyRateSeqSeries(category[i], paramNode, param.time, param.interval, r.data, (i + 1));
+                                            series.push(item);
+                                        }
 
                                         if (chartCnt <= 0) {
                                             var config = $.parseJSON($.ajax({
@@ -335,64 +329,83 @@ $(document).ready(function () {
     }
 
     function getElectricityComparisonPieChart(param) {
-        var series = [];
-
-        var sNode = parent.parent.getSelectedNodeInfo();
-
-        var chartCnt = 1;
-
-        var paramChart = [];
-        if (sNode.hasOwnProperty("children")) {
-            for (var ch = 0; ch < sNode.children.length; ch++) {
-                var sChildren = sNode.children[ch];
-
-                var sInfo = parent.parent.findNode(sChildren.id);
-
-                var pnInfos = getPnList(sInfo);
-
-                var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                endTime.setDate(endTime.getDate() + (param.interval + 1));
-                paramChart.push({
-                    node: pnInfos,
-                    id: sChildren.id,
-                    name: sChildren.text,
-                    start: startTime.format("yyyyMMdd") + "000000",
-                    end: endTime.format("yyyyMMdd") + "000000"
-                });
-            }
-        }
-
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
+            url: _ctx + "system/pn/info/list.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: {
+                node: param.node
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        chartCnt = chartCnt - 1;
+                        var series = [];
 
-                        var item = ChartUtils.getElectricityComparisonPieSeries("本期", paramChart, r.data);
-                        series.push(item);
+                        var chartCnt = 1;
 
-                        if (chartCnt <= 0) {
-                            var config = $.parseJSON($.ajax({
-                                url: "data/electricityCompositionChart.json?bust=" + new Date().getTime(),
-                                type: "GET",
-                                async: false
-                            }).responseText);
+                        var startTime = TimeUtils.dataBoxDateToDate(param.time);
+                        var endTime = TimeUtils.dataBoxDateToDate(param.time);
+                        endTime.setDate(endTime.getDate() + (param.interval + 1));
 
-                            config.series = series
-                            $("#chart-electricity-composition").highcharts(config);
-                        }
+                        var paramNode = r.data;
+                        var paramChart = {
+                            node: paramNode,
+                            start: startTime.format("yyyyMMdd") + "000000",
+                            end: endTime.format("yyyyMMdd") + "000000"
+                        };
+
+
+                        $.ajax({
+                            url: _ctx + "poweranalysis/comparison/electricity/monthly/rateseq/all/chart.do",
+                            type: "POST",
+                            cache: false,
+                            contentType: "text/plain;charset=UTF-8",
+                            data: JSON.stringify(paramChart),
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                                        chartCnt = chartCnt - 1;
+
+                                        var item = ChartUtils.getElectricityMonthlyRateSeqPieSeries("本期", paramNode, param.time, param.interval, r.data);
+                                        series.push(item);
+
+                                        if (chartCnt <= 0) {
+                                            var config = $.parseJSON($.ajax({
+                                                url: "data/electricityCompositionChart.json?bust=" + new Date().getTime(),
+                                                type: "GET",
+                                                async: false
+                                            }).responseText);
+
+                                            config.series = series;
+
+                                            $("#chart-electricity-composition").highcharts(config);
+                                        }
+                                    } else {
+                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    }
+                                } else {
+                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                }
+                            }
+                        });
+
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
                 } else {
                     $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                MaskUtil.mask();
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                MaskUtil.unmask();
             }
         });
     }

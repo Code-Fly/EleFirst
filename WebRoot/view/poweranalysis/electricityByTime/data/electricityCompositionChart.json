@@ -18,7 +18,7 @@
     "shadow": false
   },
   "tooltip": {
-    "pointFormat": "{series.name}: <b>{point.percentage:.1f}%</b>"
+    "pointFormat": "<b>{point.y}</b> ({point.percentage:.1f}%)<br/>"
   },
   "legend": {
     "borderWidth": 1,
