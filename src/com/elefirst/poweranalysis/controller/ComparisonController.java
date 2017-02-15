@@ -683,7 +683,7 @@ public class ComparisonController extends BaseController {
                 Double pt = jNode.getJSONObject(j).getDouble("pt");
 
                 Double minVal = 1000000000.0;
-                Double maxVal = -1.0;
+                Double maxVal = -1000000000.0;
                 int count = 0;
 
                 for (int k = 0; k < list.size(); k++) {

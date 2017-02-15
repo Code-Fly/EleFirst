@@ -160,7 +160,7 @@ public class IndexController extends BaseController {
             Double pt = pns.get(j).getPt();
 
             Double minVal = 1000000000.0;
-            Double maxVal = -1.0;
+            Double maxVal = -1000000000.0;
             int count = 0;
 
             for (int k = 0; k < data.size(); k++) {

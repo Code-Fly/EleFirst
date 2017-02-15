@@ -230,9 +230,9 @@ $(document).ready(function () {
 
     function getTbData(data) {
         var tmp = {
-            maxTotalActivePower: -10000000,
+            maxTotalActivePower: -1000000000.0,
             maxTotalActivePowerTime: "",
-            minTotalActivePower: 10000000,
+            minTotalActivePower: 1000000000.0,
             minTotalActivePowerTime: "",
             avgTotalActivePower: 0,
         };

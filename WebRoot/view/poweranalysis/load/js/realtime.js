@@ -98,10 +98,10 @@ $(document).ready(function () {
 
     function getTbData(data) {
         var tmp = {
-            maxTotalActivePower: -10000000.0,
+            maxTotalActivePower: -1000000000.0,
             maxTotalActivePowerTime: "",
             maxTotalActivePowerHour: "",
-            minTotalActivePower: 10000000.0,
+            minTotalActivePower: 1000000000.0,
             minTotalActivePowerTime: "",
             minTotalActivePowerHour: "",
             avgTotalActivePower: 0.0,
