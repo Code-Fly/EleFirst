@@ -63,4 +63,6 @@ public interface IPowerAnalysisDAO {
 
     List<PowerAnalysisElectricityMonthlyRateSeqChartAllF33> getElectricityMonthlyRateSeqChartAll(Map<String, Object> param);
 
+    List<PowerAnalysisElectricityYearlyRateSeqChartAllF33> getElectricityYearlyRateSeqChartAll(Map<String, Object> param);
+
 }

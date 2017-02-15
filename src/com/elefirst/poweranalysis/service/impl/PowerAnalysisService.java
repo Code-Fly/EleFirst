@@ -133,5 +133,10 @@ public class PowerAnalysisService extends BaseService implements IPowerAnalysisS
         return powerAnalysisDAO.getElectricityMonthlyRateSeqChartAll(param);
     }
 
+    @Override
+    public List<PowerAnalysisElectricityYearlyRateSeqChartAllF33> getElectricityYearlyRateSeqChartAll(Map<String, Object> param) {
+        return powerAnalysisDAO.getElectricityYearlyRateSeqChartAll(param);
+    }
+
 
 }

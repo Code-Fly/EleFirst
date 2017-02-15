@@ -185,7 +185,7 @@ $(document).ready(function () {
 
                                         chartCnt = chartCnt - 1;
 
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqBarSeries("本期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getElectricityRateSeqBarSeries("本期", paramNode, param.time, param.interval, r.data);
                                         series.push(item);
 
                                         if (chartCnt <= 0) {
@@ -235,7 +235,7 @@ $(document).ready(function () {
 
                                         chartCnt = chartCnt - 1;
 
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqBarSeries("上月同期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getElectricityRateSeqBarSeries("上月同期", paramNode, param.time, param.interval, r.data);
                                         series.push(item);
 
                                         if (chartCnt <= 0) {
@@ -285,7 +285,7 @@ $(document).ready(function () {
 
                                         chartCnt = chartCnt - 1;
 
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqBarSeries("去年同期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getElectricityRateSeqBarSeries("去年同期", paramNode, param.time, param.interval, r.data);
                                         series.push(item);
 
                                         if (chartCnt <= 0) {
@@ -368,7 +368,7 @@ $(document).ready(function () {
 
                                         chartCnt = chartCnt - 1;
 
-                                        var item = ChartUtils.getElectricityMonthlyRateSeqPieSeries("本期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getElectricityRateSeqPieSeries("本期", paramNode, param.time, param.interval, r.data);
                                         series.push(item);
 
                                         if (chartCnt <= 0) {
