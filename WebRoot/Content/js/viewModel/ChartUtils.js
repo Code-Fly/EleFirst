@@ -993,6 +993,88 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityMonthlyRateSeqBarSeries: function (name, nodes, time, interval, data, type) {
+        var series = {
+            name: name,
+            data: []
+        };
+
+        var nData = [];
+
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < nodes.length; j++) {
+                if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                    var item = $.extend(data[i], nodes[j]);
+                    nData.push(item);
+                }
+            }
+        }
+
+        var cData = {};
+
+        for (var i = 0; i < nData.length; i++) {
+            var key = nData[i].areaId + " " + nData[i].concentratorId + " " + nData[i].pn;
+            if (!cData.hasOwnProperty(key)) {
+                cData[key] = [];
+            }
+            cData[key].push(
+                nData[i]
+            );
+        }
+
+        var sData = {};
+        $.each(cData, function (k, n) {
+            var key = k;
+
+            if (!sData.hasOwnProperty(key)) {
+                sData[key] = {
+                    maxSeq1: 0,
+                    maxSeq2: 0,
+                    maxSeq3: 0,
+                    maxSeq4: 0,
+                    minSeq1: 1000000.0,
+                    minSeq2: 1000000.0,
+                    minSeq3: 1000000.0,
+                    minSeq4: 1000000.0
+                };
+            }
+            for (i = 0; i < n.length; i++) {
+                for (var j = 1; j <= 4; j++) {
+                    if ((parseFloat(n[i]["maxrateseq" + j]) * n[i].ct * n[i].pt) > sData[key]["maxSeq" + j]) {
+                        sData[key]["maxSeq" + j] = parseFloat(n[i]["maxrateseq" + j] * n[i].ct * n[i].pt);
+                    }
+
+                    if ((parseFloat(nData[i]["minrateseq" + j]) * n[i].ct * n[i].pt) < sData[key]["minSeq" + j]) {
+                        sData[key]["minSeq" + j] = parseFloat(n[i]["minrateseq" + j] * n[i].ct * n[i].pt);
+                    }
+                }
+            }
+        });
+
+        var seq = {
+            seq1: 0,
+            seq2: 0,
+            seq3: 0,
+            seq4: 0
+        };
+
+        $.each(sData, function (k, n) {
+            for (var j = 1; j <= 4; j++) {
+                seq["seq" + j] = seq["seq" + j] + DataGridUtils.floatFormatter((n["maxSeq" + j] - n["minSeq" + j]), 4, true);
+            }
+        });
+
+        for (var j = 1; j <= 4; j++) {
+            series.data.push(seq["seq" + j]);
+        }
+
+        // $.messager.alert("操作提示", JSON.stringify(cData));
+        // $.messager.alert("操作提示", JSON.stringify(category));
+        // $.messager.alert("操作提示", JSON.stringify(seq));
+        // $.messager.alert("操作提示", JSON.stringify(series));
+
+        return series;
+    },
     getElectricityComparisonSeries: function (name, nodes, data) {
         var category = this.getElectricityComparisonCategories(nodes);
 
@@ -1082,6 +1164,11 @@ var ChartUtils = {
             dt.setMonth(dt.getMonth() + i);
             categories.push(dt.getMonth() + 1 + "月");
         }
+
+        return categories;
+    },
+    getElectricityRateSeqCategories: function (time, interval) {
+        var categories = ["尖", "峰", "平", "谷"];
 
         return categories;
     },
