@@ -109,7 +109,7 @@ $(document).ready(function () {
                 formatter: function (value, row, index) {
                     var t = parseFloat(row.avgTotalActivePower) / parseFloat(row.maxTotalActivePower);
                     t = t * 100;
-                    t = DataGridUtils.floatFormatter(t, 3);
+                    t = DataGridUtils.floatFormatter(t, 1);
                     if (parseFloat(row.maxTotalActivePower) == 0) {
                         t = "";
                     }
@@ -230,9 +230,9 @@ $(document).ready(function () {
 
     function getTbData(data) {
         var tmp = {
-            maxTotalActivePower: -1000000000.0,
+            maxTotalActivePower: ChartUtils.MIN_CHART_NUMBER,
             maxTotalActivePowerTime: "",
-            minTotalActivePower: 1000000000.0,
+            minTotalActivePower: ChartUtils.MAX_CHART_NUMBER,
             minTotalActivePowerTime: "",
             avgTotalActivePower: 0,
         };

@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/29.
  */
 var ChartUtils = {
+    MAX_CHART_NUMBER: 1000000000.0,
+    MIN_CHART_NUMBER: -1000000000.0,
     getLoadDailySeries: function (node, time, data) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
@@ -1028,14 +1030,14 @@ var ChartUtils = {
 
             if (!sData.hasOwnProperty(key)) {
                 sData[key] = {
-                    maxSeq1: 0,
-                    maxSeq2: 0,
-                    maxSeq3: 0,
-                    maxSeq4: 0,
-                    minSeq1: 1000000.0,
-                    minSeq2: 1000000.0,
-                    minSeq3: 1000000.0,
-                    minSeq4: 1000000.0
+                    maxSeq1: ChartUtils.MIN_CHART_NUMBER,
+                    maxSeq2: ChartUtils.MIN_CHART_NUMBER,
+                    maxSeq3: ChartUtils.MIN_CHART_NUMBER,
+                    maxSeq4: ChartUtils.MIN_CHART_NUMBER,
+                    minSeq1: ChartUtils.MAX_CHART_NUMBER,
+                    minSeq2: ChartUtils.MAX_CHART_NUMBER,
+                    minSeq3: ChartUtils.MAX_CHART_NUMBER,
+                    minSeq4: ChartUtils.MAX_CHART_NUMBER
                 };
             }
             for (i = 0; i < n.length; i++) {
@@ -1120,14 +1122,14 @@ var ChartUtils = {
 
             if (!sData.hasOwnProperty(key)) {
                 sData[key] = {
-                    maxSeq1: 0,
-                    maxSeq2: 0,
-                    maxSeq3: 0,
-                    maxSeq4: 0,
-                    minSeq1: 1000000.0,
-                    minSeq2: 1000000.0,
-                    minSeq3: 1000000.0,
-                    minSeq4: 1000000.0
+                    maxSeq1: ChartUtils.MIN_CHART_NUMBER,
+                    maxSeq2: ChartUtils.MIN_CHART_NUMBER,
+                    maxSeq3: ChartUtils.MIN_CHART_NUMBER,
+                    maxSeq4: ChartUtils.MIN_CHART_NUMBER,
+                    minSeq1: ChartUtils.MAX_CHART_NUMBER,
+                    minSeq2: ChartUtils.MAX_CHART_NUMBER,
+                    minSeq3: ChartUtils.MAX_CHART_NUMBER,
+                    minSeq4: ChartUtils.MAX_CHART_NUMBER
                 };
             }
             for (i = 0; i < n.length; i++) {

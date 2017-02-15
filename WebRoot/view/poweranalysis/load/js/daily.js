@@ -226,9 +226,9 @@ $(document).ready(function () {
 
     function getTbData(data) {
         var tmp = {
-            maxTotalActivePower: -1000000000.0,
+            maxTotalActivePower: ChartUtils.MIN_CHART_NUMBER,
             maxTotalActivePowerTime: "",
-            minTotalActivePower: 1000000000.0,
+            minTotalActivePower: ChartUtils.MAX_CHART_NUMBER,
             minTotalActivePowerTime: "",
             avgTotalActivePower: 0,
         };
