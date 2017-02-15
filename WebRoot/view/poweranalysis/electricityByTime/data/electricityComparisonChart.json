@@ -24,11 +24,11 @@
   },
   "yAxis": {
     "title": {
-      "text": "单位（kWh）"
+      "text": "单位（%）"
     }
   },
   "tooltip": {
-    "valueSuffix": "kWh",
+    "valueSuffix": "%",
     "shared": true
   },
   "plotOptions": {

@@ -993,7 +993,7 @@ var ChartUtils = {
 
         return series;
     },
-    getElectricityMonthlyRateSeqBarSeries: function (name, nodes, time, interval, data, type) {
+    getElectricityMonthlyRateSeqBarSeries: function (name, nodes, time, interval, data) {
         var series = {
             name: name,
             data: []
@@ -1060,16 +1060,25 @@ var ChartUtils = {
 
         $.each(sData, function (k, n) {
             for (var j = 1; j <= 4; j++) {
-                seq["seq" + j] = seq["seq" + j] + DataGridUtils.floatFormatter((n["maxSeq" + j] - n["minSeq" + j]), 4, true);
+                seq["seq" + j] = seq["seq" + j] + (n["maxSeq" + j] - n["minSeq" + j]);
             }
         });
 
+        // for (var j = 1; j <= 4; j++) {
+        //     series.data.push(seq["seq" + j]);
+        // }
+
+        var seqTotal = 0.0;
         for (var j = 1; j <= 4; j++) {
-            series.data.push(seq["seq" + j]);
+            seqTotal = seqTotal + seq["seq" + j];
+        }
+
+        for (var j = 1; j <= 4; j++) {
+            series.data.push(seqTotal == 0 ? 0 : DataGridUtils.floatFormatter((seq["seq" + j] * 100) / seqTotal, 1, true));
         }
 
         // $.messager.alert("操作提示", JSON.stringify(cData));
-        // $.messager.alert("操作提示", JSON.stringify(category));
+        // $.messager.alert("操作提示", seqTotal);
         // $.messager.alert("操作提示", JSON.stringify(seq));
         // $.messager.alert("操作提示", JSON.stringify(series));
 
@@ -1169,6 +1178,11 @@ var ChartUtils = {
     },
     getElectricityRateSeqCategories: function (time, interval) {
         var categories = ["尖", "峰", "平", "谷"];
+
+        return categories;
+    },
+    getElectricityRateSeqBarCategories: function (time, interval) {
+        var categories = ["尖占比", "峰占比", "平占比", "谷占比"];
 
         return categories;
     },
