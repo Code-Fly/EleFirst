@@ -755,7 +755,7 @@ var ChartUtils = {
 
 
         for (var t = 0; t < category.length; t++) {
-            series.data.push([category[t].format("dd") + "日", 0]);
+            series.data.push([category[t].format("d") + "日", 0]);
         }
 
         $.each(sData, function (k, n) {
