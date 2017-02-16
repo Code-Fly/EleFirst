@@ -6,6 +6,8 @@ $(document).ready(function () {
 
     var _nodes = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
+    var _pnInfo = getPnListAll(_nodes);
+
     $("#datebox-time-start").datebox("calendar").calendar({
         firstDay: 1
     });
@@ -464,11 +466,27 @@ $(document).ready(function () {
             cache: false,
             contentType: "text/plain;charset=UTF-8",
             data: JSON.stringify(paramChart),
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                         currentData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
+                        currentData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
+
+                        if (currentData.length > 0 && lastMonthData.length > 0 && lastYearData.length > 0) {
+                            var category = ChartUtils.getElectricityComparisonCategories(paramChart);
+                            var dgData = [];
+                            for (var i = 0; i < category.length; i++) {
+                                var item = {
+                                    name: category[i],
+                                    electricity: currentData[i],
+                                    composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
+                                    rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
+                                    rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
+                                };
+                                dgData.push(item);
+                            }
+
+                            $("#dg-table").datagrid("loadData", dgData);
+                        }
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
@@ -519,11 +537,27 @@ $(document).ready(function () {
             cache: false,
             contentType: "text/plain;charset=UTF-8",
             data: JSON.stringify(paramChart),
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
                         lastMonthData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
+
+                        if (currentData.length > 0 && lastMonthData.length > 0 && lastYearData.length > 0) {
+                            var category = ChartUtils.getElectricityComparisonCategories(paramChart);
+                            var dgData = [];
+                            for (var i = 0; i < category.length; i++) {
+                                var item = {
+                                    name: category[i],
+                                    electricity: currentData[i],
+                                    composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
+                                    rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
+                                    rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
+                                };
+                                dgData.push(item);
+                            }
+
+                            $("#dg-table").datagrid("loadData", dgData);
+                        }
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
@@ -574,29 +608,28 @@ $(document).ready(function () {
             cache: false,
             contentType: "text/plain;charset=UTF-8",
             data: JSON.stringify(paramChart),
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
 
                         lastYearData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
 
-                        // if (chartCnt <= 0) {
-                        //     var category = ChartUtils.getElectricityComparisonCategories(paramChart);
-                        //     var tableData = [];
-                        //     for (var i = 0; i < category.length; i++) {
-                        //         var item = {
-                        //             name: category[i],
-                        //             electricity: series["1"][i],
-                        //             composition: DataGridUtils.floatFormatter((series["1"][i] * 100 / series["1"][category.length]), 1),
-                        //             rate1: series["2"][i] == 0 ? "-" : DataGridUtils.floatFormatter((((series["1"][i] - series["2"][i]) * 100) / series["2"][i]), 1),
-                        //             rate2: series["3"][i] == 0 ? "-" : DataGridUtils.floatFormatter((((series["1"][i] - series["3"][i]) * 100 ) / series["3"][i]), 1)
-                        //         };
-                        //         tableData.push(item);
-                        //     }
-                        //
-                        //     $.messager.alert("操作提示", JSON.stringify(tableData));
-                        // }
+                        if (currentData.length > 0 && lastMonthData.length > 0 && lastYearData.length > 0) {
+                            var category = ChartUtils.getElectricityComparisonCategories(paramChart);
+                            var dgData = [];
+                            for (var i = 0; i < category.length; i++) {
+                                var item = {
+                                    name: category[i],
+                                    electricity: currentData[i],
+                                    composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
+                                    rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
+                                    rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
+                                };
+                                dgData.push(item);
+                            }
+
+                            $("#dg-table").datagrid("loadData", dgData);
+                        }
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
@@ -614,22 +647,6 @@ $(document).ready(function () {
 
             }
         });
-
-
-        var category = ChartUtils.getElectricityComparisonCategories(paramChart);
-        var dgData = [];
-        for (var i = 0; i < category.length; i++) {
-            var item = {
-                name: category[i],
-                electricity: currentData[i],
-                composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
-                rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
-                rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
-            };
-            dgData.push(item);
-        }
-
-        $("#dg-table").datagrid("loadData", dgData);
     }
 
 
@@ -663,11 +680,25 @@ $(document).ready(function () {
     }
 
     function getPnList(nodes) {
+        var infoList = [];
+        for (var i = 0; i < _pnInfo.length; i++) {
+            if (_pnInfo[i].areaId == nodes.areaId) {
+                for (var j = 0; j < nodes.concentrators.length; j++) {
+                    if (_pnInfo[i].concentratorId == nodes.concentrators[j].concentratorId) {
+                        infoList.push(_pnInfo[i]);
+                    }
+                }
+            }
+        }
+        return infoList;
+    }
+
+    function getPnListAll(nodes) {
         var pnInfo = $.parseJSON($.ajax({
             url: _ctx + "system/pn/info/list.do",
             type: "POST",
             data: {
-                node: JSON.stringify(nodes)
+                node: _nodes
             },
             async: false
         }).responseText);

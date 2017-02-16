@@ -6,6 +6,8 @@ $(document).ready(function () {
 
     var _nodes = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
+    var _pnInfo = getPnListAll(_nodes);
+
     DateBoxUtils.initMonthBox($("#datebox-time-start"));
 
     DateBoxUtils.initMonthBox($("#datebox-time-end"));
@@ -353,11 +355,25 @@ $(document).ready(function () {
     }
 
     function getPnList(nodes) {
+        var infoList = [];
+        for (var i = 0; i < _pnInfo.length; i++) {
+            if (_pnInfo[i].areaId == nodes.areaId) {
+                for (var j = 0; j < nodes.concentrators.length; j++) {
+                    if (_pnInfo[i].concentratorId == nodes.concentrators[j].concentratorId) {
+                        infoList.push(_pnInfo[i]);
+                    }
+                }
+            }
+        }
+        return infoList;
+    }
+
+    function getPnListAll(nodes) {
         var pnInfo = $.parseJSON($.ajax({
             url: _ctx + "system/pn/info/list.do",
             type: "POST",
             data: {
-                node: JSON.stringify(nodes)
+                node: _nodes
             },
             async: false
         }).responseText);
