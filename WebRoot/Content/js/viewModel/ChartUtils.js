@@ -632,7 +632,7 @@ var ChartUtils = {
     getElectricityDailyIntervalDayTable: function (nodes, time, interval, data) {
         var tbData = [];
 
-        var category = this.getDailyIntervalDayStrCategories(time, interval);
+        var category = this.getDateTimeByDateCategories(time, interval);
 
         var nData = [];
 
@@ -689,7 +689,7 @@ var ChartUtils = {
         $.each(sData, function (k, n) {
             for (var t = 0; t < category.length; t++) {
                 for (i = 0; i < n.length; i++) {
-                    if (category[t] == n[i].key) {
+                    if (category[t].format("yyyyMMdd") == n[i].key) {
                         tbData[t] = DataGridUtils.floatFormatter((tbData[t] + n[i].value), 4, true);
                     }
                 }
