@@ -232,8 +232,8 @@
                     同时段累计对比
                 </p>
                 <p>
-                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow_up'"></a><span
-                        style="color: red;font-size: medium;" id="electricity-rate"></span>
+                    <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_line'"></a><span
+                        style="font-size: medium;" id="electricity-rate"></span>
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span
