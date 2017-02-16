@@ -119,14 +119,22 @@ $(document).ready(function () {
                                 } else {
                                     $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                                 }
+                            },
+                            error: function (request) {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                MaskUtil.unmask();
                             }
                         });
 
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        MaskUtil.unmask();
                     }
                 } else {
                     $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    MaskUtil.unmask();
                 }
             },
             beforeSend: function (XMLHttpRequest) {
@@ -134,9 +142,10 @@ $(document).ready(function () {
             },
             error: function (request) {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+
             }
         });
     }
