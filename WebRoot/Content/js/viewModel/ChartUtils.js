@@ -1293,6 +1293,30 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityComparisonTable: function (nodes, data) {
+        var category = this.getElectricityComparisonCategories(nodes);
+
+        var series = [];
+
+        for (var t = 0; t < category.length; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+
+                if (category[t] == data[i].name) {
+                    tmp = data[i].electricity;
+                    tmp = DataGridUtils.floatFormatter(tmp, 4, true);
+                }
+            }
+            series.push(tmp);
+
+        }
+        var total = 0;
+        for (var i = 0; i < series.length; i++) {
+            total = total + series[i];
+        }
+        series.push(total);
+        return series;
+    },
     getDailyCategories: function () {
         var categories = [];
         for (var i = 0; i < 24; i++) {

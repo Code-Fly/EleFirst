@@ -55,6 +55,12 @@ $(document).ready(function () {
                 time: $("#datebox-time-start").datebox("getValue"),
                 interval: interval
             });
+
+            getElectricityComparisonTable({
+                node: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
         }
     });
 
@@ -423,6 +429,209 @@ $(document).ready(function () {
         });
     }
 
+    function getElectricityComparisonTable(param) {
+        var series = {};
+
+        var sNode = parent.parent.getSelectedNodeInfo();
+
+        var paramChart = [];
+        if (sNode.hasOwnProperty("children")) {
+            for (var ch = 0; ch < sNode.children.length; ch++) {
+                var sChildren = sNode.children[ch];
+
+                var sInfo = parent.parent.findNode(sChildren.id);
+
+                var pnInfos = getPnList(sInfo);
+
+                var startTime = TimeUtils.dataBoxDateToDate(param.time);
+                var endTime = TimeUtils.dataBoxDateToDate(param.time);
+                endTime.setDate(endTime.getDate() + (param.interval + 1));
+                paramChart.push({
+                    node: pnInfos,
+                    id: sChildren.id,
+                    name: sChildren.text,
+                    start: startTime.format("yyyyMMdd") + "000000",
+                    end: endTime.format("yyyyMMdd") + "000000"
+                });
+            }
+        }
+
+        var currentData = [];
+
+        $.ajax({
+            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: JSON.stringify(paramChart),
+            async: false,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                         currentData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
+            }
+        });
+
+        var paramChart = [];
+        if (sNode.hasOwnProperty("children")) {
+            for (var ch = 0; ch < sNode.children.length; ch++) {
+                var sChildren = sNode.children[ch];
+
+                var sInfo = parent.parent.findNode(sChildren.id);
+
+                var pnInfos = getPnList(sInfo);
+
+                var startTime = TimeUtils.dataBoxDateToDate(param.time);
+                startTime.setMonth(startTime.getMonth() - 1);
+                var endTime = TimeUtils.dataBoxDateToDate(param.time);
+                endTime.setMonth(endTime.getMonth() - 1);
+                endTime.setDate(endTime.getDate() + (param.interval + 1));
+                paramChart.push({
+                    node: pnInfos,
+                    id: sChildren.id,
+                    name: sChildren.text,
+                    start: startTime.format("yyyyMMdd") + "000000",
+                    end: endTime.format("yyyyMMdd") + "000000"
+                });
+            }
+        }
+
+        var lastMonthData = [];
+
+        $.ajax({
+            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: JSON.stringify(paramChart),
+            async: false,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        lastMonthData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
+            }
+        });
+
+        var paramChart = [];
+        if (sNode.hasOwnProperty("children")) {
+            for (var ch = 0; ch < sNode.children.length; ch++) {
+                var sChildren = sNode.children[ch];
+
+                var sInfo = parent.parent.findNode(sChildren.id);
+
+                var pnInfos = getPnList(sInfo);
+
+                var startTime = TimeUtils.dataBoxDateToDate(param.time);
+                startTime.setFullYear(startTime.getFullYear() - 1);
+                var endTime = TimeUtils.dataBoxDateToDate(param.time);
+                endTime.setFullYear(endTime.getFullYear() - 1);
+                endTime.setDate(endTime.getDate() + (param.interval + 1));
+                paramChart.push({
+                    node: pnInfos,
+                    id: sChildren.id,
+                    name: sChildren.text,
+                    start: startTime.format("yyyyMMdd") + "000000",
+                    end: endTime.format("yyyyMMdd") + "000000"
+                });
+            }
+        }
+
+        var lastYearData = [];
+
+        $.ajax({
+            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: JSON.stringify(paramChart),
+            async: false,
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+
+                        lastYearData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
+
+                        // if (chartCnt <= 0) {
+                        //     var category = ChartUtils.getElectricityComparisonCategories(paramChart);
+                        //     var tableData = [];
+                        //     for (var i = 0; i < category.length; i++) {
+                        //         var item = {
+                        //             name: category[i],
+                        //             electricity: series["1"][i],
+                        //             composition: DataGridUtils.floatFormatter((series["1"][i] * 100 / series["1"][category.length]), 1),
+                        //             rate1: series["2"][i] == 0 ? "-" : DataGridUtils.floatFormatter((((series["1"][i] - series["2"][i]) * 100) / series["2"][i]), 1),
+                        //             rate2: series["3"][i] == 0 ? "-" : DataGridUtils.floatFormatter((((series["1"][i] - series["3"][i]) * 100 ) / series["3"][i]), 1)
+                        //         };
+                        //         tableData.push(item);
+                        //     }
+                        //
+                        //     $.messager.alert("操作提示", JSON.stringify(tableData));
+                        // }
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
+            }
+        });
+
+
+        var category = ChartUtils.getElectricityComparisonCategories(paramChart);
+        var dgData = [];
+        for (var i = 0; i < category.length; i++) {
+            var item = {
+                name: category[i],
+                electricity: currentData[i],
+                composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
+                rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
+                rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
+            };
+            dgData.push(item);
+        }
+
+        $("#dg-table").datagrid("loadData", dgData);
+    }
+
 
     function getPnInfo(areaId, concentratorId, pn, data) {
         for (var i = 0; i < data.length; i++) {
@@ -496,6 +705,12 @@ $(document).ready(function () {
         });
 
         getElectricityComparisonPieChart({
+            node: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: interval
+        });
+
+        getElectricityComparisonTable({
             node: _nodes,
             time: $("#datebox-time-start").datebox("getValue"),
             interval: interval

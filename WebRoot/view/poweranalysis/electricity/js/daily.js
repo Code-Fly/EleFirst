@@ -334,7 +334,7 @@ $(document).ready(function () {
                                 currentData: currentData[i],
                                 lastMonthData: lastMonthData[i],
                                 lastYearData: lastYearData[i],
-                                rate1: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastYearData[i]), 1),
+                                rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
                                 rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1),
                             });
                         }
