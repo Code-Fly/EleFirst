@@ -84,7 +84,7 @@ var ChartUtils = {
                 }
             }
 
-            series.data.push([category[t].format("d") + "日", tmp]);
+            series.data.push([category[t].format("MM-dd") , tmp]);
         }
 
         return series;
@@ -115,11 +115,11 @@ var ChartUtils = {
                 }
             }
 
-            series.data.push([category[t].format("M") + "月", tmp]);
+            series.data.push([category[t].format("yyyy-MM"), tmp]);
         }
 
 
-        return series;M
+        return series;
     },
     getLoadDailyDetailSeries: function (node, time, data) {
         var series = {
@@ -609,7 +609,7 @@ var ChartUtils = {
 
 
         for (var t = 0; t < category.length; t++) {
-            series.data.push([category[t].format("d") + "日", 0]);
+            series.data.push([category[t].format("MM-dd"), 0]);
         }
 
         $.each(sData, function (k, n) {
@@ -828,7 +828,7 @@ var ChartUtils = {
 
 
         for (var t = 0; t < category.length; t++) {
-            series.data.push([category[t].format("M") + "月", 0]);
+            series.data.push([category[t].format("yyyy-MM"), 0]);
         }
 
         $.each(sData, function (k, n) {
