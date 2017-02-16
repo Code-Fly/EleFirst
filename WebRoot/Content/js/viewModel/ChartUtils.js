@@ -60,6 +60,75 @@ var ChartUtils = {
 
         return series;
     },
+    getLoadDailySumIndexSeries: function (name, nodes, time, data) {
+        var series = {
+            name: name,
+            data: []
+        };
+
+        for (var t = 0; t < 24; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < nodes.length; j++) {
+
+                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                        if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
+                            if (parseInt(data[i].hourClientOperationTime) == t) {
+                                if (tmp == null) {
+                                    tmp = parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
+                                } else {
+                                    tmp += parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
+                                }
+                                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+                            }
+                        }
+                    }
+                }
+
+            }
+            series.data.push(tmp);
+
+        }
+
+        return series;
+    },
+    getLoadDailySumIndexMax: function (nodes, time, data) {
+        var series = [];
+
+        for (var t = 0; t < 24; t++) {
+            var tmp = null;
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < nodes.length; j++) {
+
+                    if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                        if (time.substr(0, 8) == data[i].clientoperationtime.substr(0, 8)) {
+                            if (parseInt(data[i].hourClientOperationTime) == t) {
+                                if (tmp == null) {
+                                    tmp = parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
+                                } else {
+                                    tmp += parseFloat(data[i].maxTotalActivePower) * nodes[j].pt * nodes[j].ct;
+                                }
+                                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+                            }
+                        }
+                    }
+                }
+
+            }
+            series.push([tmp, t]);
+
+        }
+
+        var maxLoad = [ChartUtils.MIN_CHART_NUMBER, ""];
+        for (var i = 0; i < series.length; i++) {
+            if (series[i][0] > maxLoad[0]) {
+                maxLoad[0] = series[i][0];
+                maxLoad[1] = series[i][1];
+            }
+        }
+
+        return maxLoad;
+    },
     getLoadDailyIntervalDaySeries: function (name, nodes, time, interval, data, type) {
         var series = {
             name: name,

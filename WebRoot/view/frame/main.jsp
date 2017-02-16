@@ -193,11 +193,11 @@
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_line'"></a><span
-                        style="color: green;font-size: medium;">484.14 kW</span>
+                        style="color: green;font-size: medium;" id="yesterday-max-load"></span>
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span
-                        style="color: black;font-size: medium;">01-24 09:45</span>
+                        style="color: black;font-size: medium;" id="yesterday-max-load-time"></span>
                 </p>
                 <%----%>
                 <p style="color: #0073b7;font-size: medium;">
@@ -205,11 +205,11 @@
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_line'"></a><span
-                        style="color: green;font-size: medium;">484.14 kW</span>
+                        style="color: green;font-size: medium;" id="today-max-load"></span>
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span
-                        style="color: black;font-size: medium;">01-24 09:45</span>
+                        style="color: black;font-size: medium;" id="today-max-load-time"></span>
                 </p>
             </div>
         </div>

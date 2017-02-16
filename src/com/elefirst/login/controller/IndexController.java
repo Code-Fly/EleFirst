@@ -60,6 +60,7 @@ public class IndexController extends BaseController {
             String sTransformers = areas.get(0).getTransformers();
             if (sTransformers != null && !sTransformers.isEmpty()) {
                 JSONArray transformers = JSONArray.fromObject(sTransformers);
+                result.put("transformersInfo", sTransformers);
                 result.put("transformers", transformers.size());
                 double ratedCapacity = 0;
                 for (int i = 0; i < transformers.size(); i++) {

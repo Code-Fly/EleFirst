@@ -25,6 +25,26 @@ $(document).ready(function () {
                         $("#maxLoadThisMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadThisMonth, 3));
                         $("#maxLoadThisYear").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadThisYear, 3));
                         $("#maxLoadTotal").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadTotal, 3));
+
+                        var transformers = r.data.transformersInfo;
+                        var nodes = [];
+
+                        for (var i = 0; i < transformers.length; i++) {
+                            var pnInfo = $.parseJSON($.ajax({
+                                url: _ctx + "system/pn/info/detailById.do",
+                                type: "POST",
+                                data: {
+                                    id: transformers[i].pnId
+                                },
+                                async: false
+                            }).responseText).data[0];
+                            nodes.push(pnInfo);
+                        }
+
+                        getLoadDetailChart({
+                            nodes: nodes,
+                            time: new Date().format("yyyy-MM-dd")
+                        });
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
@@ -44,225 +64,142 @@ $(document).ready(function () {
         });
     }
 
-    $('#chart-day-load').highcharts({
-            "credits": {
-                "enabled": false
-            },
-            "exporting": {
-                "enabled": false
-            },
-            "chart": {
-                "type": "spline"
-            },
-            "title": {
-                "text": null
-            },
-            "legend": {
-                "borderWidth": 1,
-                "shadow": false
-            },
-            "xAxis": {
-                "tickmarkPlacement": "on",
-                "categories": [
-                    "00",
-                    "01",
-                    "02",
-                    "03",
-                    "04",
-                    "05",
-                    "06",
-                    "07",
-                    "08",
-                    "09",
-                    "10",
-                    "11",
-                    "12",
-                    "13",
-                    "14",
-                    "15",
-                    "16",
-                    "17",
-                    "18",
-                    "19",
-                    "20",
-                    "21",
-                    "22",
-                    "23"
-                ],
-                "title": {
-                    "text": null
+
+    function getLoadDetailChart(row) {
+        var series = [];
+
+        var pnList = row.nodes;
+
+        var time = row.time;
+
+        var paramChart = {
+            node: pnList,
+            time: []
+        };
+
+        var today = TimeUtils.dataBoxDateToDate(time);
+
+        paramChart.time.push(
+            today.format("yyyyMMdd") + "000000"
+        );
+
+        $.ajax({
+            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: JSON.stringify(paramChart),
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var maxLoad = ChartUtils.getLoadDailySumIndexMax(pnList, today.format('yyyyMMdd') + "000000", r.data);
+                        $("#today-max-load").text(DataGridUtils.floatFormatter(maxLoad[0], 3) + "(kW)");
+                        $("#today-max-load-time").text(today.format('yyyy-MM-dd') + " " + fixNum(maxLoad[1], 2) + ":00");
+
+                        var item = ChartUtils.getLoadDailySumIndexSeries("今日", pnList, today.format('yyyyMMdd') + "000000", r.data);
+                        series.push(item);
+
+                        if (series.length == 2) {
+                            var config = $.parseJSON($.ajax({
+                                url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.xAxis.categories = ChartUtils.getDailyCategories();
+                            config.series = series;
+
+                            $("#chart-day-load").highcharts(config);
+                        }
+
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
-            "yAxis": {
-                "title": {
-                    "text": "单位（kW）"
+            beforeSend: function (XMLHttpRequest) {
+
+            },
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+
+            }
+        });
+
+        paramChart.time = [];
+        var yesterday = TimeUtils.dataBoxDateToDate(time);
+        yesterday.setDate(yesterday.getDate() - 1);
+        paramChart.time.push(
+            yesterday.format("yyyyMMdd") + "000000"
+        );
+
+        $.ajax({
+            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+            type: "POST",
+            cache: false,
+            contentType: "text/plain;charset=UTF-8",
+            data: JSON.stringify(paramChart),
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var maxLoad = ChartUtils.getLoadDailySumIndexMax(pnList, yesterday.format('yyyyMMdd') + "000000", r.data);
+                        $("#yesterday-max-load").text(DataGridUtils.floatFormatter(maxLoad[0], 3) + "(kW)");
+                        $("#yesterday-max-load-time").text(yesterday.format('yyyy-MM-dd') + " " + fixNum(maxLoad[1], 2) + ":00");
+
+                        var item = ChartUtils.getLoadDailySumIndexSeries("昨日", pnList, yesterday.format('yyyyMMdd') + "000000", r.data);
+                        series.push(item);
+
+                        if (series.length == 2) {
+                            var config = $.parseJSON($.ajax({
+                                url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.xAxis.categories = ChartUtils.getDailyCategories();
+                            config.series = series;
+
+                            $("#chart-day-load").highcharts(config);
+                        }
+
+                    } else {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                    }
+                } else {
+                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                 }
             },
-            "tooltip": {
-                "valueSuffix": "kW",
-                "shared": true
+            beforeSend: function (XMLHttpRequest) {
+
             },
-            "plotOptions": {
-                "line": {
-                    "dataLabels": {
-                        "enabled": false
-                    },
-                    "enableMouseTracking": true
-                }
+            error: function (request) {
+                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
             },
-            "series": [
-                {
-                    "name": "昨日",
-                    "data": [
-                        1,
-                        2,
-                        5,
-                        4,
-                        6,
-                        5,
-                        8,
-                        7,
-                        9,
-                        3,
-                        3,
-                        2,
-                        5,
-                        6,
-                        2,
-                        3,
-                        4,
-                        3,
-                        6,
-                        3,
-                        3,
-                        7,
-                        3,
-                        3
-                    ]
-                },
-                {
-                    "name": "今日",
-                    "data": [
-                        3,
-                        2,
-                        2,
-                        5,
-                        3,
-                        7,
-                        2,
-                        3,
-                        6,
-                        5,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                    ]
-                }
-            ]
+            complete: function (XMLHttpRequest, textStatus) {
+
+            }
+        });
+    }
+
+    function getPnDetail(nodes) {
+        var pnInfo = $.parseJSON($.ajax({
+            url: _ctx + "system/pn/info/list.do",
+            type: "POST",
+            data: {
+                node: JSON.stringify(nodes)
+            },
+            async: false
+        }).responseText);
+
+        if ("0" == pnInfo.errcode) {
+            return pnInfo.data;
+        } else {
+            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(pnInfo.errcode), "info");
+            return null;
         }
-    );
-
-    $('#chart-month-load').highcharts({
-        "credits": {
-            "enabled": false
-        },
-        "exporting": {
-            "enabled": false
-        },
-        "chart": {
-            "type": "column"
-        },
-        "title": {
-            "text": null
-        },
-        "legend": {
-            "borderWidth": 1,
-            "shadow": false
-        },
-        "xAxis": {
-            "tickmarkPlacement": "on",
-            "categories": [
-                "01",
-                "02",
-                "03",
-                "04",
-                "05",
-                "06",
-                "07",
-                "08",
-                "09",
-                "10",
-                "11",
-                "12"
-            ],
-            "title": {
-                "text": null
-            }
-        },
-        "yAxis": {
-            "title": {
-                "text": "单位（kW）"
-            }
-        },
-        "tooltip": {
-            "valueSuffix": "kW",
-            "shared": true
-        },
-        "plotOptions": {
-            "line": {
-                "dataLabels": {
-                    "enabled": false
-                },
-                "enableMouseTracking": true
-            }
-        },
-        "series": [
-            {
-                "name": "上月",
-                "data": [
-                    1,
-                    3,
-                    2,
-                    3,
-                    5,
-                    3,
-                    4,
-                    6,
-                    7,
-                    8,
-                    5,
-                    6
-                ]
-            },
-            {
-                "name": "本月",
-                "data": [
-                    3,
-                    1,
-                    4,
-                    5,
-                    2,
-                    3,
-                    4,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ]
-            }
-        ]
-    });
-
+    }
 });
