@@ -84,7 +84,7 @@ var ChartUtils = {
                 }
             }
 
-            series.data.push([category[t].format("MM-dd") , tmp]);
+            series.data.push([category[t].format("MM-dd"), tmp]);
         }
 
         return series;
@@ -924,7 +924,7 @@ var ChartUtils = {
         return tbData;
     },
     getElectricityMonthlyRateSeqSeries: function (name, nodes, time, interval, data, type) {
-        var category = this.getDailyIntervalDayCategories(time, interval);
+        var category = this.getDateTimeByDateCategories(time, interval);
 
         var series = {
             name: name,
@@ -965,12 +965,12 @@ var ChartUtils = {
                 if (i == 0) {
                     sData[key].push({
                         value: (parseFloat(n[i]["maxrateseq" + type]) - parseFloat(n[i]["minrateseq" + type]) ) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
                     });
                 } else {
                     sData[key].push({
                         value: (parseFloat(n[i]["maxrateseq" + type]) - parseFloat(n[i - 1]["maxrateseq" + type])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
                     });
                 }
             }
@@ -978,14 +978,14 @@ var ChartUtils = {
 
 
         for (var t = 0; t < category.length; t++) {
-            series.data.push(0);
+            series.data.push([category[t].format("MM-dd"), 0]);
         }
 
         $.each(sData, function (k, n) {
             for (var t = 0; t < category.length; t++) {
                 for (i = 0; i < n.length; i++) {
-                    if (parseInt(category[t]) == parseInt(n[i].key)) {
-                        series.data[t] = DataGridUtils.floatFormatter((series.data[t] + n[i].value), 4, true);
+                    if (category[t].format("yyyyMMdd") == n[i].key) {
+                        series.data[t][1] = DataGridUtils.floatFormatter((series.data[t][1] + n[i].value), 4, true);
                     }
                 }
             }
@@ -1177,7 +1177,7 @@ var ChartUtils = {
         return series;
     },
     getElectricityYearlyRateSeqSeries: function (name, nodes, time, interval, data, type) {
-        var category = this.getMonthlyIntervalMonthCategories(time, interval);
+        var category = this.getDateTimeByMonthCategories(time, interval);
 
         var series = {
             name: name,
@@ -1218,12 +1218,12 @@ var ChartUtils = {
                 if (i == 0) {
                     sData[key].push({
                         value: (parseFloat(n[i]["maxrateseq" + type]) - parseFloat(n[i]["minrateseq" + type]) ) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 6)
                     });
                 } else {
                     sData[key].push({
                         value: (parseFloat(n[i]["maxrateseq" + type]) - parseFloat(n[i - 1]["maxrateseq" + type])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 6)
                     });
                 }
             }
@@ -1231,14 +1231,14 @@ var ChartUtils = {
 
 
         for (var t = 0; t < category.length; t++) {
-            series.data.push(0);
+            series.data.push([category[t].format("yyyy-MM"), 0]);
         }
 
         $.each(sData, function (k, n) {
             for (var t = 0; t < category.length; t++) {
                 for (i = 0; i < n.length; i++) {
-                    if (parseInt(category[t]) == parseInt(n[i].key)) {
-                        series.data[t] = DataGridUtils.floatFormatter((series.data[t] + n[i].value), 4, true);
+                    if (category[t].format("yyyyMM") == parseInt(n[i].key)) {
+                        series.data[t][1] = DataGridUtils.floatFormatter((series.data[t][1] + n[i].value), 4, true);
                     }
                 }
             }

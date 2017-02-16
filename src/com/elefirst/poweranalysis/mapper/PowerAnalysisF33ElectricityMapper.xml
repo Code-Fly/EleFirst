@@ -1194,7 +1194,7 @@
         concentrator_id ,
         pn ,
         clientOperationTime ,
-        DAYOFMONTH(clientOperationTime) AS dayClientOperationTime,
+        LEFT (`clientOperationTime`, 8) AS dayClientOperationTime,
         MAX(
         CASE rate_seq
         WHEN '1' THEN
