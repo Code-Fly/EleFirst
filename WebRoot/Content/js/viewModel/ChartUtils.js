@@ -852,7 +852,7 @@ var ChartUtils = {
     getElectricityMonthlyIntervalMonthTable: function (nodes, time, interval, data) {
         var tbData = [];
 
-        var category = this.getMonthlyIntervalMonthCategories(time, interval);
+        var category = this.getDateTimeByMonthCategories(time, interval);
 
         var nData = [];
 
@@ -890,12 +890,12 @@ var ChartUtils = {
                 if (i == 0) {
                     sData[key].push({
                         value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 6)
                     });
                 } else {
                     sData[key].push({
                         value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
-                        key: n[i].dayClientOperationTime
+                        key: (n[i].clientoperationtime + "").substring(0, 6)
                     });
                 }
             }
@@ -909,7 +909,7 @@ var ChartUtils = {
         $.each(sData, function (k, n) {
             for (var t = 0; t < category.length; t++) {
                 for (i = 0; i < n.length; i++) {
-                    if (parseInt(category[t]) == parseInt(n[i].key)) {
+                    if (category[t].format("yyyyMM") == parseInt(n[i].key)) {
                         tbData[t] = DataGridUtils.floatFormatter((tbData[t] + n[i].value), 4, true);
                     }
                 }
