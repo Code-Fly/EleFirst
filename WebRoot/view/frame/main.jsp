@@ -217,7 +217,7 @@
     <div class="easyui-panel" data-options="iconCls:'icon-chart_bar'" title="月电量柱图(kWh)"
          style="margin-bottom: 10px;height: 400px;width: 95%;">
         <div class="easyui-layout" data-options="fit:true">
-            <div id="chart-month-load" data-options="region:'center',border:false"
+            <div id="chart-month-electricity" data-options="region:'center',border:false"
                  style="padding:10px;overflow: hidden">
             </div>
             <div data-options="region:'east',border:false" style="width:200px;padding:10px">
@@ -226,18 +226,19 @@
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-chart_bar'"></a><span
-                        style="color: green;font-size: medium;">484.14 kW</span>
+                        style="color: green;font-size: medium;" id="this-month-total-electricity"></span>
                 </p>
                 <p style="color: #0073b7;font-size: medium;">
                     同时段累计对比
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-arrow_up'"></a><span
-                        style="color: red;font-size: medium;">10%</span>
+                        style="color: red;font-size: medium;" id="electricity-rate"></span>
                 </p>
                 <p>
                     <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clock'"></a><span
-                        style="color: black;font-size: medium;">截止2017-01-24</span>
+                        style="color: black;font-size: medium;"
+                        id="this-month-total-electricity-time"></span>
                 </p>
             </div>
         </div>

@@ -698,6 +698,157 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityDailyIntervalDayIndexSeries: function (name, nodes, time, interval, data) {
+        var series = {
+            name: name,
+            data: []
+        };
+
+        var category = this.getDateTimeByDateCategories(time, interval);
+
+        var nData = [];
+
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < nodes.length; j++) {
+                if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                    var item = $.extend(data[i], nodes[j]);
+                    nData.push(item);
+                }
+            }
+        }
+
+
+        var cData = {};
+
+        for (var i = 0; i < nData.length; i++) {
+            var key = nData[i].areaId + " " + nData[i].concentratorId + " " + nData[i].pn;
+            if (!cData.hasOwnProperty(key)) {
+                cData[key] = [];
+            }
+            cData[key].push(
+                nData[i]
+            );
+        }
+
+
+        var sData = {};
+        $.each(cData, function (k, n) {
+            var key = k;
+
+            if (!sData.hasOwnProperty(key)) {
+                sData[key] = [];
+            }
+            for (i = 0; i < n.length; i++) {
+                if (i == 0) {
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
+                    });
+                } else {
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
+                    });
+                }
+            }
+        });
+
+
+        for (var t = 0; t < category.length; t++) {
+            series.data.push([category[t].format("dd") + "日", 0]);
+        }
+
+        $.each(sData, function (k, n) {
+            for (var t = 0; t < category.length; t++) {
+                for (i = 0; i < n.length; i++) {
+                    if (category[t].format("yyyyMMdd") == n[i].key) {
+                        series.data[t][1] = DataGridUtils.floatFormatter((series.data[t][1] + n[i].value), 4, true);
+                    }
+                }
+            }
+        });
+
+        // $.messager.alert("操作提示", JSON.stringify(cData));
+        // $.messager.alert("操作提示", JSON.stringify(category));
+        // $.messager.alert("操作提示", JSON.stringify(sData));
+        // $.messager.alert("操作提示", JSON.stringify(series));
+
+        return series;
+    },
+    getElectricityDailyIntervalDayIndexSum: function (nodes, time, interval, data) {
+        var category = this.getDateTimeByDateCategories(time, interval);
+
+        var nData = [];
+
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < nodes.length; j++) {
+                if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
+                    var item = $.extend(data[i], nodes[j]);
+                    nData.push(item);
+                }
+            }
+        }
+
+
+        var cData = {};
+
+        for (var i = 0; i < nData.length; i++) {
+            var key = nData[i].areaId + " " + nData[i].concentratorId + " " + nData[i].pn;
+            if (!cData.hasOwnProperty(key)) {
+                cData[key] = [];
+            }
+            cData[key].push(
+                nData[i]
+            );
+        }
+
+
+        var sData = {};
+        $.each(cData, function (k, n) {
+            var key = k;
+
+            if (!sData.hasOwnProperty(key)) {
+                sData[key] = [];
+            }
+            for (i = 0; i < n.length; i++) {
+                if (i == 0) {
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i]["firstTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
+                    });
+                } else {
+                    sData[key].push({
+                        value: (parseFloat(n[i]["lastTotalPositiveActivePower"]) - parseFloat(n[i - 1]["lastTotalPositiveActivePower"])) * n[i].ct * n[i].pt,
+                        key: (n[i].clientoperationtime + "").substring(0, 8)
+                    });
+                }
+            }
+        });
+
+
+        var total = [];
+
+        for (var t = 0; t < category.length; t++) {
+            total.push(0);
+        }
+
+        $.each(sData, function (k, n) {
+            for (var t = 0; t < category.length; t++) {
+                for (i = 0; i < n.length; i++) {
+                    if (category[t].format("yyyyMMdd") == n[i].key) {
+                        total[t] = +DataGridUtils.floatFormatter((total[t] + n[i].value), 4, true);
+                    }
+                }
+            }
+        });
+
+        var sumTotal = 0
+        for (var t = 0; t < total.length; t++) {
+            sumTotal = sumTotal + total[t];
+        }
+
+        return sumTotal;
+    },
     getElectricityDailyIntervalDayTable: function (nodes, time, interval, data) {
         var tbData = [];
 
