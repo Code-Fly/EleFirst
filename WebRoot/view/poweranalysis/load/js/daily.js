@@ -126,10 +126,10 @@ $(document).ready(function () {
                 return;
             }
 
-            if (interval > DEFAULT_INTERVAL) {
-                $.messager.alert("操作提示", "最大间隔为 " + (DEFAULT_INTERVAL + 1) + " 天！", "info");
-                return;
-            }
+            // if (interval > DEFAULT_INTERVAL) {
+            //     $.messager.alert("操作提示", "最大间隔为 " + (DEFAULT_INTERVAL + 1) + " 天！", "info");
+            //     return;
+            // }
 
             getLoadDetailChart({
                 nodes: _nodes,
@@ -195,12 +195,12 @@ $(document).ready(function () {
                         series.push(item);
 
                         var config = $.parseJSON($.ajax({
-                            url: "data/loadDetailChart.json",
+                            url: "data/loadDetailByDateChart.json?bust=" + new Date().getTime(),
                             type: "GET",
                             async: false
                         }).responseText);
 
-                        config.xAxis.categories = ChartUtils.getDailyIntervalDayCategories(time, interval);
+                        // config.xAxis.categories = ChartUtils.getDateTimeByDateCategories(time, interval);
                         config.series = series;
 
                         $("#chart-load").highcharts(config);

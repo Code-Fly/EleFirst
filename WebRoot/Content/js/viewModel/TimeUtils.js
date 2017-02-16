@@ -3,7 +3,7 @@
  */
 /**
  * 时间工具类
- * @type {{toDateString, toGMTString, toISOString, toJSON, toLocaleDateString, toLocaleString, toLocaleTimeString, toString, toTimeString, toUTCString}}
+ * @type {{weekFromODBC: TimeUtils.weekFromODBC, toDate: TimeUtils.toDate, dbTimeToUTC: TimeUtils.dbTimeToUTC, dbTimeToDate: TimeUtils.dbTimeToDate, dateToDbTime: TimeUtils.dateToDbTime, dataBoxDateToDate: TimeUtils.dataBoxDateToDate, dataBoxMonthToDate: TimeUtils.dataBoxMonthToDate, toDateString: TimeUtils.toDateString, toGMTString: TimeUtils.toGMTString, toISOString: TimeUtils.toISOString, toJSON: TimeUtils.toJSON, toLocaleDateString: TimeUtils.toLocaleDateString, toLocaleString: TimeUtils.toLocaleString, toLocaleTimeString: TimeUtils.toLocaleTimeString, toString: TimeUtils.toString, toTimeString: TimeUtils.toTimeString, toUTCString: TimeUtils.toUTCString, getMonthDays: TimeUtils.getMonthDays}}
  */
 var TimeUtils = {
     weekFromODBC: function (i) {
@@ -44,6 +44,9 @@ var TimeUtils = {
 
         var d = new Date(year, month, day, hour, minute, second);
         return d;
+    },
+    dateToDbTime: function (time) {
+        return time.format("yyyyMMddhhmmss");
     },
     dataBoxDateToDate: function (time) {
         var ss = time.split('-');

@@ -66,13 +66,13 @@ var ChartUtils = {
             data: []
         };
 
-        var category = this.getDailyIntervalDayCategories(time, interval);
+        var category = this.getDateTimeByDateCategories(time, interval);
         for (var t = 0; t < category.length; t++) {
             var tmp = null;
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < nodes.length; j++) {
                     if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
-                        if (parseInt(data[i].dayClientOperationTime) == parseInt(category[t])) {
+                        if (data[i].dayClientOperationTime == (TimeUtils.dateToDbTime(category[t]) + "").substring(0, 8)) {
                             if (tmp == null) {
                                 tmp = parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
                             } else {
@@ -84,7 +84,7 @@ var ChartUtils = {
                 }
             }
 
-            series.data.push(tmp);
+            series.data.push([category[t].format("MM-dd"), tmp]);
         }
 
         return series;
@@ -95,13 +95,15 @@ var ChartUtils = {
             data: []
         };
 
-        var category = this.getMonthlyIntervalMonthCategories(time, interval);
+
+        var category = this.getDateTimeByMonthCategories(time, interval);
+
         for (var t = 0; t < category.length; t++) {
             var tmp = null;
             for (var i = 0; i < data.length; i++) {
                 for (var j = 0; j < nodes.length; j++) {
                     if (data[i].areaId == nodes[j].areaId && data[i].concentratorId == nodes[j].concentratorId && data[i].pn == nodes[j].pn) {
-                        if (parseInt(data[i].monthClientOperationTime) == parseInt(category[t])) {
+                        if (data[i].monthClientOperationTime == (TimeUtils.dateToDbTime(category[t]) + "").substring(0, 6)) {
                             if (tmp == null) {
                                 tmp = parseFloat(data[i][type]) * nodes[j].pt * nodes[j].ct;
                             } else {
@@ -113,8 +115,9 @@ var ChartUtils = {
                 }
             }
 
-            series.data.push(tmp);
+            series.data.push([category[t].format("yyyy-MM"), tmp]);
         }
+
 
         return series;
     },
@@ -1366,6 +1369,36 @@ var ChartUtils = {
         var categories = [];
         for (var i = 0; i < TimeUtils.getMonthDays(new Date(y, m)); i++) {
             categories.push(((i + 1) + "日"));
+        }
+
+        return categories;
+    },
+    getDateTimeByDateCategories: function (time, interval) {
+        var categories = [];
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        for (var i = 0; i < (interval + 1); i++) {
+            var dt = new Date(y, m, d);
+            dt.setDate(dt.getDate() + i);
+
+            categories.push(dt);
+        }
+
+        return categories;
+    },
+    getDateTimeByMonthCategories: function (time, interval) {
+        var categories = [];
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+
+        for (var i = 0; i < (interval + 1); i++) {
+            var dt = new Date(y, m);
+            dt.setMonth(dt.getMonth() + i);
+            categories.push(dt);
         }
 
         return categories;
