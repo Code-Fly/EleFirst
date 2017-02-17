@@ -1,0 +1,19 @@
+{
+  "name": "elefirst",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Code-Fly/EleFirst.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Code-Fly/EleFirst/issues"
+  },
+  "homepage": "https://github.com/Code-Fly/EleFirst#readme"
+}
