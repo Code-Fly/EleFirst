@@ -130,15 +130,27 @@
                             <input id="combo-tree-node-iconCls" class="easyui-combobox" style="width: 100%;">
                         </p>
                     </div>
+                    <%--<div class="clear"></div>--%>
+                    <%--<div class="grid_4 cell title cell-concentratorId">--%>
+                    <%--<p>--%>
+                    <%--集中器--%>
+                    <%--</p>--%>
+                    <%--</div>--%>
+                    <%--<div class="grid_8 cell cell-concentratorId">--%>
+                    <%--<p>--%>
+                    <%--<input id="combo-tree-node-concentratorId" class="easyui-combobox" style="width: 100%;">--%>
+                    <%--</p>--%>
+                    <%--</div>--%>
                     <div class="clear"></div>
                     <div class="grid_4 cell title cell-concentratorId">
                         <p>
-                            集中器
+                            监测点
                         </p>
                     </div>
-                    <div class="grid_8 cell cell-concentratorId">
+                    <div class="grid_8 cell cell-pn">
                         <p>
-                            <input id="combo-tree-node-concentratorId" class="easyui-combobox" style="width: 100%;">
+                            <input id="tagbox-tree-node-pn" class="easyui-tagbox" style="width: 100%;">
+                            <input id="hid-tree-node-pn" type="hidden" value="[]">
                         </p>
                     </div>
                     <div class="clear"></div>

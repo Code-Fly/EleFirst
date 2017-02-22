@@ -202,7 +202,7 @@ public class TreeInfoController extends BaseController {
             treeArr.add(JSONObject.fromObject(root.toString()));
         }
         // 输出有序的树形菜单的JSON字符串
-//        System.out.println(root.toString());
+        System.out.println(root.toString());
 
 
         return new ErrorMsg(Error.SUCCESS, "success", treeArr);

@@ -121,6 +121,50 @@ $.fn.combobox.defaults.loader = function (param, success, error) {
     });
 };
 
+$.fn.tagbox.defaults.loader = function (param, success, error) {
+    var opts = $(this).tagbox("options");
+    if (!opts.url)
+        return false;
+    $.ajax({
+        type: opts.method,
+        url: opts.url,
+        data: param,
+        dataType: "json",
+        success: function (data) {
+            // load from local data
+            if (isArray(data)) {
+                success(data);
+                return;
+            }
+            // load from remote data
+            if (data.hasOwnProperty("errcode")) {
+                if ("0" == data.errcode) {
+                    success(data.data);
+                } else if ("1" == data.errcode) {
+                    var p = window;
+                    while (p != p.parent) {
+                        p = p.parent;
+                    }
+                    p.location.href = _ctx + "login.jsp?sessionstatus=timeout";
+                } else {
+                    error.apply(this, arguments);
+                }
+            } else {
+                error({
+                    errcode: "2",
+                    errmsg: "failed"
+                });
+            }
+        },
+        error: function () {
+            error({
+                errcode: "3",
+                errmsg: "failed"
+            });
+        }
+    });
+};
+
 $.fn.tree.defaults.loader = function (param, success, error) {
     var opts = $(this).tree("options");
     if (!opts.url)

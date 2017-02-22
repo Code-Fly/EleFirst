@@ -67,6 +67,7 @@ $(document).ready(function () {
         },
         onSelect: function (node) {
             traverse(node);
+            // console.log(JSON.stringify(info))
             $("#dg-pn-detail").datagrid("load", {
                 node: JSON.stringify(info)
             });
@@ -99,6 +100,9 @@ $(document).ready(function () {
                 pns: []
             });
         }
+        else if ("leaf" == tree.attributes.type) {
+            $.merge(info.concentrators, tree.attributes.concentrators);
+        }
         if (nodes != null) {
             for (var i = 0; i < nodes.length; i++) {
                 if ("concentrator" == nodes[i].attributes.type) {
@@ -106,6 +110,9 @@ $(document).ready(function () {
                         concentratorId: nodes[i].attributes.concentratorId,
                         pns: []
                     });
+                }
+                else if ("leaf" == nodes[i].attributes.type) {
+                    $.merge(info.concentrators, nodes[i].attributes.concentrators);
                 }
                 if (nodes[i].children) { //递归调用自己，以实现遍历
                     traverse(nodes[i]);
@@ -766,10 +773,19 @@ $(document).ready(function () {
                 var iconCls = node.iconCls;
                 var type = node.attributes.type;
                 var concentratorId = node.attributes.concentratorId;
+                var pns = node.attributes.pns == undefined ? [] : node.attributes.pns;
+
+                var pnIds = [];
+                for (var i = 0; i < pns.length; i++) {
+                    pnIds.push(pns[i].id);
+                }
 
                 $("#text-tree-node-name").textbox("setValue", name);
                 $("#combo-tree-node-type").combobox("select", type);
                 $("#combo-tree-node-iconCls").combobox("select", iconCls);
+                $("#tagbox-tree-node-pn").tagbox("reload");
+                $("#hid-tree-node-pn").val(JSON.stringify(pns));
+                $("#tagbox-tree-node-pn").tagbox("setValues", pnIds);
                 $("#combo-tree-node-concentratorId").combobox("reload");
                 $("#combo-tree-node-concentratorId").combobox("select", concentratorId);
 
@@ -777,6 +793,9 @@ $(document).ready(function () {
                 $("#text-tree-node-name").textbox("clear");
                 $("#combo-tree-node-type").combobox("clear");
                 $("#combo-tree-node-iconCls").combobox("clear");
+                $("#tagbox-tree-node-pn").tagbox("clear");
+                $("#hid-tree-node-pn").val("[]");
+                $("#tagbox-tree-node-pn").tagbox("reload");
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("reload");
                 $("#combo-tree-node-concentratorId").combobox("disable");
@@ -800,6 +819,47 @@ $(document).ready(function () {
         editable: false,
     });
 
+    $("#tagbox-tree-node-pn").tagbox({
+        // required: true,
+        textField: "name",
+        valueField: "id",
+        limitToList: true,
+        hasDownArrow: true,
+        url: _ctx + "system/pn/info/list.do",
+        queryParams: {
+            areaId: _areaId
+        },
+        editable: false,
+        onSelect: function (record) {
+            var nd = [];
+            var d = $.parseJSON($("#hid-tree-node-pn").val());
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].id != record.id) {
+                    nd.push(d[i]);
+                }
+            }
+            nd.push(record);
+
+            $("#hid-tree-node-pn").val(JSON.stringify(nd));
+        },
+        // tagStyler: function (value) {
+        //     var d = $(this).tagbox("getData");
+        //     if (d.length >= 1 && d[0].value == value) {
+        //         return "background:#b8eecf;color:#45872c";
+        //     }
+        // },
+        onRemoveTag: function (value) {
+            var d = $.parseJSON($("#hid-tree-node-pn").val());
+            var nd = [];
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].id != value) {
+                    nd.push(d[i])
+                }
+            }
+            $("#hid-tree-node-pn").val(JSON.stringify(nd));
+        }
+    });
+
     $("#text-tree-node-name").textbox({
         required: true
     });
@@ -818,10 +878,16 @@ $(document).ready(function () {
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("disable");
                 $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeCategoryIcons.json?bust=" + new Date().getTime());
-            } else if (record.value == "concentrator") {
+            }
+            else if (record.value == "concentrator") {
                 $("#combo-tree-node-concentratorId").combobox("clear");
                 $("#combo-tree-node-concentratorId").combobox("enable");
                 $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeConcentratorIcons.json?bust=" + new Date().getTime());
+            }
+            else if (record.value == "leaf") {
+                $("#combo-tree-node-concentratorId").combobox("clear");
+                $("#combo-tree-node-concentratorId").combobox("enable");
+                $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeLeafIcons.json?bust=" + new Date().getTime());
             }
         }
 
@@ -852,8 +918,13 @@ $(document).ready(function () {
                 return;
             }
 
-            if (!$("#combo-tree-node-concentratorId").combobox("isValid")) {
-                $.messager.alert("操作提示", "请选择正确集中器！", "info");
+            // if (!$("#combo-tree-node-concentratorId").combobox("isValid")) {
+            //     $.messager.alert("操作提示", "请选择正确集中器！", "info");
+            //     return;
+            // }
+
+            if ($.parseJSON($("#hid-tree-node-pn").val()).length == 0) {
+                $.messager.alert("操作提示", "请选择正确监测点！", "info");
                 return;
             }
 
@@ -862,14 +933,36 @@ $(document).ready(function () {
             var name = $("#text-tree-node-name").textbox("getValue");
             var iconCls = $("#combo-tree-node-iconCls").combobox("getValue");
             var type = $("#combo-tree-node-type").combobox("getValue");
-            var concentratorId = $("#combo-tree-node-concentratorId").combobox("getValue");
+            var pns = $.parseJSON($("#hid-tree-node-pn").val());
+            // var concentratorId = $("#combo-tree-node-concentratorId").combobox("getValue");
+
+            var pnIds = [];
+            for (var i = 0; i < pns.length; i++) {
+                pnIds.push({
+                    id: pns[i].id,
+                    areaId: pns[i].areaId,
+                    concentratorId: pns[i].concentratorId,
+                    pn: pns[i].pn
+                });
+            }
+
             var attributes = {
-                type: type
+                type: type,
+                pns: pnIds
             };
 
-            if (attributes.type == "concentrator") {
-                attributes.concentratorId = concentratorId;
+            // if (attributes.type == "concentrator") {
+            //     attributes.concentratorId = concentratorId;
+            // }
+
+            if (attributes.type == "leaf") {
+                attributes.concentrators = [];
+
+                for (var n = 0; n < pns.length; n++) {
+                    attributes.concentrators = addPn(attributes.concentrators, pns[n]);
+                }
             }
+
 
             if (flag_tree_node_edit) {
                 $.ajax({
@@ -1102,5 +1195,49 @@ $(document).ready(function () {
                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
             }
         });
+    }
+
+    function addPn(data, pn) {
+        var newData = clone(data);
+
+        if (!isConcentratorExist(data, pn.concentratorId)) {
+            newData.push({
+                concentratorId: pn.concentratorId,
+                pns: [
+                    pn.pn
+                ]
+            });
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].concentratorId == pn.concentratorId) {
+                    if (!isPnExist(data[i].pns, pn.pn)) {
+                        console.log("pn:" + pn.pn + " not exist")
+
+                        newData[i].pns.push(pn.pn);
+                    }
+                }
+            }
+        }
+
+        return newData;
+    }
+
+
+    function isConcentratorExist(data, id) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].concentratorId == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function isPnExist(data, id) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].pn == id) {
+                return true;
+            }
+        }
+        return false;
     }
 });

@@ -1,10 +1,10 @@
 [
   {
-    "name": "分类",
+    "name": "类节点",
     "value": "category"
   },
   {
-    "name": "集中器",
-    "value": "concentrator"
+    "name": "子节点",
+    "value": "leaf"
   }
 ]

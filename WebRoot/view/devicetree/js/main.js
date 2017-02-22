@@ -23,6 +23,9 @@ function traverse(tree) {
             });
         }
     }
+    else if ("leaf" == tree.attributes.type) {
+        $.merge(info.concentrators, tree.attributes.concentrators);
+    }
     if (nodes != null) {
         for (var i = 0; i < nodes.length; i++) {
             if ("concentrator" == nodes[i].attributes.type) {
@@ -32,6 +35,9 @@ function traverse(tree) {
                         pns: []
                     });
                 }
+            }
+            else if ("leaf" == nodes[i].attributes.type) {
+                $.merge(info.concentrators, nodes[i].attributes.concentrators);
             }
             if (nodes[i].children) { //递归调用自己，以实现遍历
                 traverse(nodes[i]);

@@ -65,20 +65,37 @@ public class PnInfoController extends BaseController {
             result = pnInfoService.getPnInfoList(template);
         } else {
             JSONObject jNode = JSONObject.fromObject(node);
-            JSONArray jIds = jNode.getJSONArray("concentrators");
+            JSONArray jCIds = jNode.getJSONArray("concentrators");
 
             List<PnInfo> templates = new ArrayList<>();
-            for (int i = 0; i < jIds.size(); i++) {
-                String jId = jIds.getJSONObject(i).getString("concentratorId");
-                PnInfo template = new PnInfo();
-                if (null != areaId) {
-                    template.setAreaId(areaId);
+            for (int i = 0; i < jCIds.size(); i++) {
+                String jCId = jCIds.getJSONObject(i).getString("concentratorId");
+                JSONArray jPIds = jCIds.getJSONObject(i).getJSONArray("pns");
+                if (jPIds.size() == 0) {
+                    PnInfo template = new PnInfo();
+                    if (null != areaId) {
+                        template.setAreaId(areaId);
+                    }
+                    if (null != name) {
+                        template.setName(areaId);
+                    }
+                    template.setConcentratorId(jCId);
+                    templates.add(template);
+                } else {
+                    for (int j = 0; j < jPIds.size(); j++) {
+                        String jPid = jPIds.getString(j);
+                        PnInfo template = new PnInfo();
+                        if (null != areaId) {
+                            template.setAreaId(areaId);
+                        }
+                        if (null != name) {
+                            template.setName(areaId);
+                        }
+                        template.setConcentratorId(jCId);
+                        template.setPn(jPid);
+                        templates.add(template);
+                    }
                 }
-                if (null != name) {
-                    template.setName(areaId);
-                }
-                template.setConcentratorId(jId);
-                templates.add(template);
 
             }
             result = pnInfoService.getPnInfoListByInfos(templates);

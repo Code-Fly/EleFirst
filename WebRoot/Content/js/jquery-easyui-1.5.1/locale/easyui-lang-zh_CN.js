@@ -14,7 +14,7 @@ if ($.messager){
     $.messager.defaults.cancel = '取消';
 }
 $.map(['validatebox','textbox','passwordbox','filebox','searchbox',
-    'combo','combobox','combogrid','combotree',
+    'combo', 'combobox', 'tagbox', 'combogrid', 'combotree',
     'datebox','datetimebox','numberbox',
     'spinner','numberspinner','timespinner','datetimespinner'], function(plugin){
     if ($.fn[plugin]){
