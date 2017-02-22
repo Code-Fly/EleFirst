@@ -72,6 +72,27 @@
                 <div class="clear"></div>
                 <div class="grid_2 cell title">
                     <p>
+                        登陆LOGO
+                    </p>
+                </div>
+                <div class="grid_4 cell">
+                    <p>
+                        <input name="loginLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
+                    </p>
+                </div>
+                <div class="grid_2 cell title">
+                    <p>
+                        首页LOGO
+                    </p>
+                </div>
+                <div class="grid_4 cell">
+                    <p>
+                        <input name="indexLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
+                    </p>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_2 cell title">
+                    <p>
                         企业性质
                     </p>
                 </div>
@@ -229,6 +250,19 @@
                     </p>
                 </div>
                 <div class="clear"></div>
+                <div class="grid_2 cell title">
+                    <p>
+                        企业总表
+                    </p>
+                </div>
+                <div class="grid_4 cell">
+                    <p>
+                        <input id="combo-pn-list" name="masterPnId" required="true" editable="false" textField="name"
+                               valueField="id" class="easyui-combobox"
+                               style="width: 100%;">
+                    </p>
+                </div>
+                <div class="clear"></div>
             </div>
         </div>
     </form>
@@ -244,8 +278,8 @@
                     </div>
                     <div class="grid_4 cell">
                         <p>
-                            <input id="combo-pn-list" required="true" editable="false" textField="name"
-                                   valueField="id" validateOnCreate="false" class="easyui-combobox"
+                            <input id="text-transformer-name" required="true" validateOnCreate="false"
+                                   class="easyui-textbox"
                                    style="width: 100%;">
                         </p>
                     </div>
@@ -256,7 +290,7 @@
                     </div>
                     <div class="grid_4 cell">
                         <p>
-                            <input id="text-rated-capacity" validateOnCreate="false" class="easyui-textbox"
+                            <input id="text-transformer-rated-capacity" validateOnCreate="false" class="easyui-textbox"
                                    required="true"
                                    style="width: 100%;">
                         </p>
@@ -275,8 +309,8 @@
                        data-options="singleSelect:true,fit:true,border:false,fitColumns:true,rownumbers:true,toolbar:'#tool-dg-transformer'">
                     <thead>
                     <tr>
-                        <th data-options="field:'pnName',width:100" align="center">变压器名称</th>
-                        <th data-options="field:'ratedCapacity',width:100" align="center">额定容量</th>
+                        <th data-options="field:'transformerName',width:100" align="center">变压器名称</th>
+                        <th data-options="field:'transformerRatedCapacity',width:100" align="center">额定容量</th>
                     </tr>
                     </thead>
                 </table>

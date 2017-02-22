@@ -65,6 +65,8 @@ public class LoginController extends BaseController {
         } else {
             template.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
             template.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
+            template.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
+            template.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
             session.setAttribute("areaInfo", template);
         }
         session.setAttribute("treeId", template.getAreaId());

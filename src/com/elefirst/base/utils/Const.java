@@ -22,6 +22,9 @@ public class Const {
 
     public static final String CONFIG_KEY_ICP = "system.icp";
 
+    public static final String CONFIG_KEY_INDEX_LOGO_PATH = "system.indexLogoPath";
+
+    public static final String CONFIG_KEY_LOGIN_LOGO_PATH = "system.loginLogoPath";
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 

@@ -21,17 +21,15 @@ $(document).ready(function () {
 
     $("#btn-dg-add").linkbutton({
         onClick: function () {
-            if ($("#combo-pn-list").combobox("isValid") && $("#text-rated-capacity").textbox("isValid")) {
+            if ($("#text-transformer-name").textbox("isValid") && $("#text-transformer-rated-capacity").textbox("isValid")) {
                 var rows = $("#dg-column").datagrid("getRows");
-                var pnName = $("#combo-pn-list").combobox("getText");
-                var pnId = $("#combo-pn-list").combobox("getValue");
-                var ratedCapacity = $("#text-rated-capacity").textbox("getValue");
+                var name = $("#text-transformer-name").textbox("getValue");
+                var ratedCapacity = $("#text-transformer-rated-capacity").textbox("getValue");
 
-                if (!isInDg(rows, pnId)) {
+                if (!isInDg(rows, name)) {
                     $("#dg-column").datagrid("appendRow", {
-                        pnName: pnName,
-                        pnId: pnId,
-                        ratedCapacity: ratedCapacity
+                        transformerName: name,
+                        transformerRatedCapacity: ratedCapacity
                     });
                 } else {
                     $.messager.alert("操作提示", "不能重复添加！", "info");
@@ -181,9 +179,9 @@ $(document).ready(function () {
         return typeof obj === 'number' && obj % 1 === 0
     }
 
-    function isInDg(data, pnId) {
+    function isInDg(data, name) {
         for (var i = 0; i < data.length; i++) {
-            if (data[i].pnId == pnId) {
+            if (data[i].transformerName == name) {
                 return true;
             }
         }

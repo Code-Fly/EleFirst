@@ -101,6 +101,9 @@ public class AreaInfoController extends BaseController {
             info.setAreaId("-1");
             info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
             info.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
+            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
+            info.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
+
             return new ErrorMsg(Error.SUCCESS, "success", info);
         }
     }
