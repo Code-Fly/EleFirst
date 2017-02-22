@@ -13,7 +13,9 @@
     <%@ include file="view/common/meta.jsp" %>
     <!--本页面样式-->
     <link href="${ctx}Content/css/page/index.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="view/frame/js/index.js"></script>
+    <script type="text/javascript">
+        require(["view/frame/js/index.js"]);
+    </script>
     <style>
         .tab-body {
             overflow: hidden;
