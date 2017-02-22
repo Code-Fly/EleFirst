@@ -121,6 +121,8 @@ public class AreaInfoController extends BaseController {
         int result = areaInfoService.updateAreaInfo(template);
         ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME, template.getName());
         ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP, template.getIcp());
+        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH, template.getIndexLogoPath());
+        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH, template.getLoginLogoPath());
         return new ErrorMsg(Error.SUCCESS, "success", result);
 
     }

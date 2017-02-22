@@ -18,6 +18,10 @@
         .tab-body {
             overflow: hidden;
         }
+
+        .head-left {
+            background: url(${sessionScope.areaInfo.indexLogoPath}) no-repeat left !important;
+        }
     </style>
 </head>
 <body id="indexLayout" class="easyui-layout">

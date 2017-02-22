@@ -64,7 +64,7 @@ public class IndexController extends BaseController {
                 result.put("transformers", transformers.size());
                 double ratedCapacity = 0;
                 for (int i = 0; i < transformers.size(); i++) {
-                    ratedCapacity += transformers.getJSONObject(i).getDouble("ratedCapacity");
+                    ratedCapacity += transformers.getJSONObject(i).getDouble("transformerRatedCapacity");
                 }
                 result.put("ratedCapacity", ratedCapacity);
 
@@ -76,15 +76,15 @@ public class IndexController extends BaseController {
 
 
                 List<DataF33> nodes = new ArrayList<>();
-                for (int j = 0; j < transformers.size(); j++) {
-                    DataF33 item = new DataF33();
-                    List<PnInfo> pn = pnInfoService.getPnInfoDetail(transformers.getJSONObject(j).getString("pnId"));
-                    if (pn.size() > 0) {
-                        item.setAreaId(pn.get(0).getAreaId());
-                        item.setConcentratorId(pn.get(0).getConcentratorId());
-                        item.setPn(pn.get(0).getPn());
-                        nodes.add(item);
-                    }
+                String masterPnId = areas.get(0).getMasterPnId();
+                result.put("masterPnId", masterPnId);
+                DataF33 item = new DataF33();
+                List<PnInfo> pn = pnInfoService.getPnInfoDetail(masterPnId);
+                if (pn.size() > 0) {
+                    item.setAreaId(pn.get(0).getAreaId());
+                    item.setConcentratorId(pn.get(0).getConcentratorId());
+                    item.setPn(pn.get(0).getPn());
+                    nodes.add(item);
                 }
 
                 // 本月

@@ -34,7 +34,7 @@ $(document).ready(function () {
                                 url: _ctx + "system/pn/info/detailById.do",
                                 type: "POST",
                                 data: {
-                                    id: transformers[i].pnId
+                                    id: r.data.masterPnId
                                 },
                                 async: false
                             }).responseText).data[0];

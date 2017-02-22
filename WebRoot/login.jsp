@@ -21,6 +21,11 @@
         window.location.href = "index.do";
         </c:if>
     </script>
+    <style>
+        .systemlogo {
+            background: url(${sessionScope.areaInfo.loginLogoPath}) no-repeat center !important;
+        }
+    </style>
 </head>
 <body>
 <div id="mainBody">

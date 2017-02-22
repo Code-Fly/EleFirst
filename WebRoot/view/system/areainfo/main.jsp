@@ -202,6 +202,19 @@
                     </p>
                 </div>
                 <div class="clear"></div>
+                <div class="grid_2 cell title">
+                    <p>
+                        企业总表
+                    </p>
+                </div>
+                <div class="grid_4 cell">
+                    <p>
+                        <input id="combo-pn-list" name="masterPnId" required="true" editable="false" textField="name"
+                               valueField="id" class="easyui-combobox"
+                               style="width: 100%;">
+                    </p>
+                </div>
+                <div class="clear"></div>
             </div>
         </div>
 
@@ -247,19 +260,6 @@
                 <div class="grid_4 cell">
                     <p>
                         <input name="personInChargeTel" required="true" class="easyui-textbox" style="width: 100%;">
-                    </p>
-                </div>
-                <div class="clear"></div>
-                <div class="grid_2 cell title">
-                    <p>
-                        企业总表
-                    </p>
-                </div>
-                <div class="grid_4 cell">
-                    <p>
-                        <input id="combo-pn-list" name="masterPnId" required="true" editable="false" textField="name"
-                               valueField="id" class="easyui-combobox"
-                               style="width: 100%;">
                     </p>
                 </div>
                 <div class="clear"></div>
