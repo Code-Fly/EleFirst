@@ -66,22 +66,25 @@
         <error-code>503</error-code>
         <location>/exception/503</location>
     </error-page>
-    <!-- 设置Spring容器加载配置文件路径，创建spring applicationContext-->
     <!-- load Spring ApplicationContexts -->
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/conf/beans.xml</param-value>
-    </context-param>
+    <!--<listener>-->
+        <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+    <!--</listener>-->
+    <!--<context-param>-->
+        <!--<param-name>contextConfigLocation</param-name>-->
+        <!--<param-value>/WEB-INF/conf/mybatis.xml</param-value>-->
+    <!--</context-param>-->
     <!-- Declare a Spring MVC DispatcherServlet as usual -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/conf/dispatcher-servlet.xml</param-value>
+            <param-value>
+                /WEB-INF/conf/dispatcher-servlet.xml,
+                /WEB-INF/conf/mybatis.xml,
+                /WEB-INF/conf/spring-security.xml
+            </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

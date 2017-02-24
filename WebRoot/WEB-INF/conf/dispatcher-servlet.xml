@@ -51,6 +51,6 @@
     <mvc:resources mapping="index.jsp" location="/"/>
     <mvc:resources mapping="login.jsp" location="/"/>
 
-    <!-- <import resource="classpath:beans.xml"/> -->
+    <!-- <import resource="classpath:mybatis.xml"/> -->
 
 </beans>		
