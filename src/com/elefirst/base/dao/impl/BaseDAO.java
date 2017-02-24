@@ -339,14 +339,14 @@ public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
      *
      * @param hql      HQL语句
      * @param countHql 查询记录条数的HQL语句
-     * @param pageNo   下一页
-     * @param pageSize 一页总条数
+     * @param page   下一页
+     * @param rows 一页总条数
      * @param values   不定Object数组参数
      * @return PageResults的封装类，里面包含了页码的信息以及查询的数据List集合
      */
     @Override
     public PageResults<T> findPageByFetchedHql(String hql, String countHql,
-                                               int pageNo, int pageSize, Object... values) {
+                                               int page, int rows, Object... values) {
         PageResults<T> retValue = new PageResults<T>();
         Query query = this.getSession().createQuery(hql);
         if (values != null) {
@@ -354,9 +354,9 @@ public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
                 query.setParameter(i, values[i]);
             }
         }
-        int currentPage = pageNo > 1 ? pageNo : 1;
+        int currentPage = page > 1 ? page : 1;
         retValue.setCurrentPage(currentPage);
-        retValue.setPageSize(pageSize);
+        retValue.setRows(rows);
         if (countHql == null) {
             ScrollableResults results = query.scroll();
             results.last();
@@ -365,8 +365,8 @@ public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
             Long count = countByHql(countHql, values);
             retValue.setTotalCount(count.intValue());
         }
-        retValue.resetPageNo();
-        List<T> itemList = query.setFirstResult((currentPage - 1) * pageSize).setMaxResults(pageSize).list();
+        retValue.resetPage();
+        List<T> itemList = query.setFirstResult((currentPage - 1) * rows).setMaxResults(rows).list();
         if (itemList == null) {
             itemList = new ArrayList<T>();
         }
@@ -430,6 +430,5 @@ public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
             // 未知类型
             ps.setObject(pos + 1, data);
         }
-
     }
 }

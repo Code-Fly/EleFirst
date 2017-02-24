@@ -15,13 +15,13 @@ import java.util.List;
 public class PageResults<T> {
 
     // 下一页
-    private int pageNo;
+    private int page;
 
     // 当前页
     private int currentPage;
 
     // 每页个个数
-    private int pageSize;
+    private int rows;
 
     // 总条数
     private int totalCount;
@@ -40,16 +40,16 @@ public class PageResults<T> {
         this.pageCount = pageCount;
     }
 
-    public int getPageNo() {
-        if (pageNo <= 0) {
+    public int getPage() {
+        if (page <= 0) {
             return 1;
         } else{
-            return pageNo > pageCount ? pageCount : pageNo;
+            return page > pageCount ? pageCount : page;
         }
     }
 
-    public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public List<T> getResults() {
@@ -68,12 +68,12 @@ public class PageResults<T> {
         this.currentPage = currentPage;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public int getRows() {
+        return rows;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize <= 0 ? 10 : pageSize;
+    public void setRows(int rows) {
+        this.rows = rows <= 0 ? 10 : rows;
     }
 
     public int getTotalCount() {
@@ -84,10 +84,10 @@ public class PageResults<T> {
         this.totalCount = totalCount;
     }
 
-    public void resetPageNo() {
-        pageNo = currentPage + 1;
-        pageCount = totalCount % pageSize == 0 ? totalCount / pageSize
-                : totalCount / pageSize + 1;
+    public void resetPage() {
+        page = currentPage + 1;
+        pageCount = totalCount % rows == 0 ? totalCount / rows
+                : totalCount / rows + 1;
     }
 
 }
