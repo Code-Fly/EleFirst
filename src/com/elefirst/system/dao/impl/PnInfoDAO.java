@@ -1,6 +1,6 @@
 package com.elefirst.system.dao.impl;
 
-import com.elefirst.base.dao.BaseDAO;
+import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.system.dao.iface.IPnInfoDAO;
 import com.elefirst.system.mapper.PnInfoMapper;
 import com.elefirst.system.po.PnInfo;

@@ -1,6 +1,6 @@
 package com.elefirst.graph.dao.impl;
 
-import com.elefirst.base.dao.BaseDAO;
+import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.graph.dao.iface.IGraphToolbarDAO;
 import com.elefirst.graph.mapper.GraphToolbarMapper;
 import com.elefirst.graph.po.GraphToolbarExample;

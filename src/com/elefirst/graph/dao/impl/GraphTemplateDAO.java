@@ -1,6 +1,6 @@
 package com.elefirst.graph.dao.impl;
 
-import com.elefirst.base.dao.BaseDAO;
+import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.graph.dao.iface.IGraphTemplateDAO;
 import com.elefirst.graph.mapper.GraphTemplateMapper;
 import com.elefirst.graph.po.GraphTemplateExample;

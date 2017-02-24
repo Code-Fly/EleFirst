@@ -1,6 +1,6 @@
 package com.elefirst.poweranalysis.dao.impl;
 
-import com.elefirst.base.dao.BaseDAO;
+import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.poweranalysis.dao.iface.IPowerAnalysisDAO;
 import com.elefirst.poweranalysis.mapper.*;
 import com.elefirst.poweranalysis.po.*;

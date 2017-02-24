@@ -1,6 +1,6 @@
 package com.elefirst.power.dao.impl;
 
-import com.elefirst.base.dao.BaseDAO;
+import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.power.dao.iface.IPnStatDAO;
 import com.elefirst.power.mapper.PnStatMapper;
 import com.elefirst.power.po.PnStat;
