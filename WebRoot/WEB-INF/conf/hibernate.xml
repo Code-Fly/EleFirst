@@ -65,8 +65,8 @@
     <aop:config proxy-target-class="true">
         <!-- 通过aop定义事务增强切面 -->
         <aop:pointcut expression="execution(* com..service..*.*(..))"
-                      id="serviceMethod"/>
+                      id="hibernateTxServiceMethod"/>
         <!-- 引用事务增强 -->
-        <aop:advisor advice-ref="hibernateTxAdvice" pointcut-ref="serviceMethod"/>
+        <aop:advisor advice-ref="hibernateTxAdvice" pointcut-ref="hibernateTxServiceMethod"/>
     </aop:config>
 </beans>
