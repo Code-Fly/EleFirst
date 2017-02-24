@@ -83,6 +83,7 @@
             <param-value>
                 /WEB-INF/conf/dispatcher-servlet.xml,
                 /WEB-INF/conf/mybatis.xml,
+                /WEB-INF/conf/hibernate.xml,
                 /WEB-INF/conf/spring-security.xml
             </param-value>
         </init-param>
