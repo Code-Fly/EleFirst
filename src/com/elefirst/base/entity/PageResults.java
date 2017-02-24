@@ -27,24 +27,24 @@ public class PageResults<T> {
     private int totalCount;
 
     // 总页数
-    private int pageCount;
+    private int totalPage;
 
     // 记录
     private List<T> results;
 
-    public int getPageCount() {
-        return pageCount;
+    public int getTotalPage() {
+        return totalPage;
     }
 
-    public void setPageCount(int pageCount) {
-        this.pageCount = pageCount;
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
     }
 
     public int getNextPage() {
         if (nextPage <= 0) {
             return 1;
         } else{
-            return nextPage > pageCount ? pageCount : nextPage;
+            return nextPage > totalPage ? totalPage : nextPage;
         }
     }
 
@@ -86,7 +86,7 @@ public class PageResults<T> {
 
     public void resetPage() {
         nextPage = page + 1;
-        pageCount = totalCount % rows == 0 ? totalCount / rows
+        totalPage = totalCount % rows == 0 ? totalCount / rows
                 : totalCount / rows + 1;
     }
 
