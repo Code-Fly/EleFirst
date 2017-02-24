@@ -15,10 +15,10 @@ import java.util.List;
 public class PageResults<T> {
 
     // 下一页
-    private int page;
+    private int nextPage;
 
     // 当前页
-    private int currentPage;
+    private int page;
 
     // 每页个个数
     private int rows;
@@ -40,16 +40,16 @@ public class PageResults<T> {
         this.pageCount = pageCount;
     }
 
-    public int getPage() {
-        if (page <= 0) {
+    public int getNextPage() {
+        if (nextPage <= 0) {
             return 1;
         } else{
-            return page > pageCount ? pageCount : page;
+            return nextPage > pageCount ? pageCount : nextPage;
         }
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
     }
 
     public List<T> getResults() {
@@ -60,12 +60,12 @@ public class PageResults<T> {
         this.results = results;
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public int getPage() {
+        return page;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public int getRows() {
@@ -85,7 +85,7 @@ public class PageResults<T> {
     }
 
     public void resetPage() {
-        page = currentPage + 1;
+        nextPage = page + 1;
         pageCount = totalCount % rows == 0 ? totalCount / rows
                 : totalCount / rows + 1;
     }

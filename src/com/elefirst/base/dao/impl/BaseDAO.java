@@ -355,7 +355,7 @@ public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
             }
         }
         int currentPage = page > 1 ? page : 1;
-        retValue.setCurrentPage(currentPage);
+        retValue.setPage(currentPage);
         retValue.setRows(rows);
         if (countHql == null) {
             ScrollableResults results = query.scroll();
