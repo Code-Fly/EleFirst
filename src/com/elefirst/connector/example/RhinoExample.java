@@ -28,7 +28,6 @@ public class RhinoExample extends Example {
 
         String tmpTbName = "t_" + new Date().getTime();
         String newSql = "SELECT * FROM ( " + querySql(sql,false) + " ) " + tmpTbName + " ORDER BY " + getOrderByClause() + " LIMIT " + rows + " OFFSET " + ((page - 1) * rows);
-        System.out.println(newSql);
 
         return newSql;
     }

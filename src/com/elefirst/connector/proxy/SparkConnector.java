@@ -8,6 +8,7 @@ import com.elefirst.connector.example.Example;
 import com.elefirst.connector.example.SparkExample;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -302,6 +303,8 @@ public class SparkConnector extends DbConnector {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        PropertyConfigurator.configure("/Users/barrie/Documents/Workspaces/MyEclipse/EleFirst/WebRoot/WEB-INF/conf/log4j.properties");
+
         SparkConnector connector = new SparkConnector("192.168.10.215", 10000, true, null, null);
 //        System.out.println(connector.getDatabaseList());
 //        System.out.println(connector.getTableList("test"));

@@ -25,7 +25,6 @@ public class MysqlExample extends Example {
 
         String tmpTbName = "t_" + new Date().getTime();
         String newSql = "SELECT * FROM ( " + querySql(sql) + " ) " + tmpTbName + " LIMIT " + ((page - 1) * rows) + "," + rows;
-        System.out.println(newSql);
 
         return newSql;
     }

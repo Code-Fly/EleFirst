@@ -366,19 +366,28 @@ public class HibernateExample {
         StringBuilder newSql = new StringBuilder();
         List<Criteria> criterias = getOredCriteria();
         boolean whereClause = false;
+        for (int i = 0; i < criterias.size(); i++) {
+            if (criterias.get(i).isValid()) {
+                for (int j = 0; j < criterias.get(i).getAllCriteria().size(); j++) {
+                    if (!whereClause) {
+                        whereClause = true;
+                    }
+                }
+            }
+        }
 
+        if (whereClause) {
+            newSql.append("WHERE ");
+        }
         for (int i = 0; i < criterias.size(); i++) {
             if (i > 0) {
                 newSql.append("OR ");
             }
+            newSql.append("( ");
             if (criterias.get(i).isValid()) {
                 List<Criterion> criterions = criterias.get(i).getAllCriteria();
 
                 for (int j = 0; j < criterions.size(); j++) {
-                    if (!whereClause) {
-                        newSql.append("WHERE ");
-                        whereClause = true;
-                    }
                     if (j > 0) {
                         newSql.append("AND ");
                     }
@@ -416,6 +425,7 @@ public class HibernateExample {
                     newSql.append(") ");
                 }
             }
+            newSql.append(") ");
         }
         return newSql.toString();
     }
@@ -468,6 +478,19 @@ public class HibernateExample {
         criteria.andIsNotNull("id");
         criteria.andBetween("pn", "1", "3");
         criteria.andEqualTo("areaId", "1");
+        System.out.println(condition.querySql());
+        System.out.println(condition.countSql());
+
+        condition = new HibernateExample(DataF57.class);
+        condition.or()
+                .andIsNotNull("id")
+                .andBetween("pn", "2", "3")
+                .andEqualTo("areaId", "1");
+        condition.or()
+                .andIsNotNull("id")
+                .andBetween("pn", "4", "5")
+                .andEqualTo("areaId", "2");
+
         System.out.println(condition.querySql());
         System.out.println(condition.countSql());
     }

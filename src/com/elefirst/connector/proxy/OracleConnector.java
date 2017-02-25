@@ -4,8 +4,8 @@ import com.elefirst.base.utils.DBUtils;
 import com.elefirst.connector.entity.DbColumnInfo;
 import com.elefirst.connector.example.Example;
 import com.elefirst.connector.example.OracleExample;
-import net.sf.json.JSONArray;
 import oracle.sql.TIMESTAMP;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -176,6 +176,8 @@ public class OracleConnector extends DbConnector {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        PropertyConfigurator.configure("/Users/barrie/Documents/Workspaces/MyEclipse/EleFirst/WebRoot/WEB-INF/conf/log4j.properties");
+
         OracleConnector connector = new OracleConnector("192.168.10.43", 1521, false, "system", "1", "XE");
 //        System.out.println(connector.getDatabaseList());
 //        System.out.println(connector.getTableList("SYSTEM"));

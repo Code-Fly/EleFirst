@@ -4,6 +4,7 @@ import com.elefirst.base.utils.DBUtils;
 import com.elefirst.connector.entity.DbColumnInfo;
 import com.elefirst.connector.example.Example;
 import com.elefirst.connector.example.MssqlExample;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -195,6 +196,8 @@ public class MssqlConnector extends DbConnector {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        PropertyConfigurator.configure("/Users/barrie/Documents/Workspaces/MyEclipse/EleFirst/WebRoot/WEB-INF/conf/log4j.properties");
+
         MssqlConnector connector = new MssqlConnector("192.168.10.43", 1433, false, "sa", "1");
 //        System.out.println(connector.getDatabaseList());
 //        System.out.println(connector.getTableList("中文数据库"));
