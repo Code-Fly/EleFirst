@@ -148,7 +148,7 @@ public class MysqlConnector extends DbConnector {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        MysqlConnector connector = new MysqlConnector("127.0.0.1", 3306, false, "rhino", "rhino");
+        MysqlConnector connector = new MysqlConnector("116.62.102.138", 3306, false, "root", "c45d36576b");
 //        System.out.println(connector.getDatabaseList());
 //        System.out.println(connector.getTableList("power"));
 //        System.out.println(connector.getColumnInfo("power", "t_012_type_one_data_fn57"));
@@ -157,7 +157,7 @@ public class MysqlConnector extends DbConnector {
         MysqlExample.Criteria criteria = condition.createCriteria();
         criteria.andIsNotNull("id");
         criteria.andGreaterThan("pn", "1");
-        criteria.andBetween("sendTime", "20170217000000", "20170222000000");
+        criteria.andBetween("sendTime", "20170217000000", "20170225000000");
         criteria.andEqualTo("area_id", "1");
         List<Object> list = new ArrayList<>();
         list.add("417");
