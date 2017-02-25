@@ -1,4 +1,4 @@
-package com.elefirst.base.entity;
+package com.elefirst.connector.entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

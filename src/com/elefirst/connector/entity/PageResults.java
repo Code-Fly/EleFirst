@@ -1,4 +1,4 @@
-package com.elefirst.base.entity;
+package com.elefirst.connector.entity;
 
 /**
  * Created by VM on 2/24/2017.

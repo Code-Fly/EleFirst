@@ -1,7 +1,8 @@
 package com.elefirst.base.dao.iface;
 
-import com.elefirst.base.entity.PageResults;
-import com.elefirst.base.entity.RowMapper;
+
+import com.elefirst.connector.entity.PageResults;
+import com.elefirst.connector.entity.RowMapper;
 
 import java.io.Serializable;
 import java.util.Collection;

@@ -1,7 +1,7 @@
 package com.elefirst.power.service.impl;
 
-import com.elefirst.base.entity.PageResults;
 import com.elefirst.base.service.BaseService;
+import com.elefirst.connector.entity.PageResults;
 import com.elefirst.power.dao.iface.IDataF57DAO;
 import com.elefirst.power.service.iface.IDataF57Service;
 import org.springframework.beans.factory.annotation.Autowired;

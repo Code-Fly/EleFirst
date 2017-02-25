@@ -1,7 +1,7 @@
 package com.elefirst.power.dao.impl;
 
 import com.elefirst.base.dao.impl.BaseDAO;
-import com.elefirst.base.entity.PageResults;
+import com.elefirst.connector.entity.PageResults;
 import com.elefirst.power.dao.iface.IDataF57DAO;
 import org.springframework.stereotype.Repository;
 

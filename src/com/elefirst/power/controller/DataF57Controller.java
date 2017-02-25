@@ -3,7 +3,7 @@ package com.elefirst.power.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
-import com.elefirst.base.entity.PageResults;
+import com.elefirst.connector.entity.PageResults;
 import com.elefirst.power.service.iface.IDataF57Service;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

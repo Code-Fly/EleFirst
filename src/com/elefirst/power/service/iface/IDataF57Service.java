@@ -1,6 +1,7 @@
 package com.elefirst.power.service.iface;
 
-import com.elefirst.base.entity.PageResults;
+
+import com.elefirst.connector.entity.PageResults;
 
 /**
  * Created by barrie on 17/2/24.
