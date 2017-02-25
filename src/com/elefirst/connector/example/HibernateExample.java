@@ -461,16 +461,9 @@ public class HibernateExample {
         return build(true);
     }
 
-
-    private String formatColumn(Object value) {
-//        return DELIMITER_BEGINNING + value + DELIMITER_ENDDING;
-        return classAlias + "." + value;
-    }
-
     private String formatValue(Object value) {
         return "'" + value + "'";
     }
-
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         HibernateExample condition = new HibernateExample(DataF57.class);

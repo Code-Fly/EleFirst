@@ -214,6 +214,10 @@ public abstract class Example {
             addCriterion(formatColumn(name) + " not between", value1, value2, name);
             return (Criteria) this;
         }
+
+        private String formatColumn(Object value) {
+            return DELIMITER_BEGINNING + value + DELIMITER_ENDDING;
+        }
     }
 
     public static class Criterion {
@@ -403,10 +407,6 @@ public abstract class Example {
     }
 
     abstract public String pageSql(String sql) throws SQLException;
-
-    protected static String formatColumn(Object value) {
-        return DELIMITER_BEGINNING + value + DELIMITER_ENDDING;
-    }
 
     protected static String formatValue(Object value) {
         return "'" + value + "'";
