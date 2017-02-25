@@ -465,9 +465,9 @@ public class HibernateExample {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         HibernateExample condition = new HibernateExample(DataF57.class);
         Criteria criteria = condition.createCriteria();
-        criteria.andIsNotNull("uuid");
-        criteria.andBetween("order", 1, 3);
-        criteria.andEqualTo("createPerson", "admin");
+        criteria.andIsNotNull("id");
+        criteria.andBetween("pn", "1", "3");
+        criteria.andEqualTo("areaId", "1");
         System.out.println(condition.querySql());
         System.out.println(condition.countSql());
     }
