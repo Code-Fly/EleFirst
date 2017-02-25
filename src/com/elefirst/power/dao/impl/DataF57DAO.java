@@ -5,8 +5,10 @@ import com.elefirst.connector.entity.PageResults;
 import com.elefirst.connector.example.HibernateExample;
 import com.elefirst.power.dao.iface.IDataF57DAO;
 import com.elefirst.power.po.DataF57;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by barrie on 17/2/24.
  */
 @Repository
-public class DataF57DAO extends BaseDAO implements IDataF57DAO {
+public class DataF57DAO extends BaseDAO<DataF57, Serializable> implements IDataF57DAO {
 
     @Override
     public PageResults getDataF57List() {
@@ -30,6 +32,8 @@ public class DataF57DAO extends BaseDAO implements IDataF57DAO {
         condition.setPage(2);
         condition.setRows(10);
         condition.setOrderByClause("sendTime ASC");
+
+        System.out.println(JSONObject.fromObject(get("8a9df2e85a6af901015a6b0ed3d10086")).toString());
 
         return findPageByExample(condition);
     }
