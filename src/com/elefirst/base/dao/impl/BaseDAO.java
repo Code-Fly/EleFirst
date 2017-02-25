@@ -21,12 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author yz
- * @ClassName: BaseDao
- * @Description: baseDao实现
- * @date 2014年6月16日17:09:52
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
     // logger
