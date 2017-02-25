@@ -3,6 +3,7 @@ package com.elefirst.base.dao.impl;
 import com.elefirst.base.dao.iface.IBaseDAO;
 import com.elefirst.connector.entity.PageResults;
 import com.elefirst.connector.entity.RowMapper;
+import com.elefirst.connector.example.HibernateExample;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -339,8 +340,8 @@ public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
      *
      * @param hql      HQL语句
      * @param countHql 查询记录条数的HQL语句
-     * @param page   下一页
-     * @param rows 一页总条数
+     * @param page     下一页
+     * @param rows     一页总条数
      * @param values   不定Object数组参数
      * @return PageResults的封装类，里面包含了页码的信息以及查询的数据List集合
      */
@@ -373,6 +374,22 @@ public class BaseDAO<T, ID extends Serializable> implements IBaseDAO<T, ID> {
         retValue.setResults(itemList);
 
         return retValue;
+    }
+
+    /**
+     * <HQL分页查询>
+     *
+     * @param example HibernateExample
+     * @return PageResults的封装类，里面包含了页码的信息以及查询的数据List集合
+     */
+    @Override
+    public PageResults<T> findPageByExample(HibernateExample example) {
+        String querySql = example.querySql();
+        String countSql = example.countSql();
+        int page = example.getPage();
+        int rows = example.getRows();
+
+        return findPageByFetchedHql(querySql, countSql, page, rows);
     }
 
     /**

@@ -31,6 +31,6 @@ public class DataF57DAO extends BaseDAO implements IDataF57DAO {
         condition.setRows(10);
         condition.setOrderByClause("sendTime ASC");
 
-        return findPageByFetchedHql(condition.querySql(), condition.countSql(), condition.getPage(), condition.getRows());
+        return findPageByExample(condition);
     }
 }

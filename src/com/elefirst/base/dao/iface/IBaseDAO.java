@@ -3,6 +3,7 @@ package com.elefirst.base.dao.iface;
 
 import com.elefirst.connector.entity.PageResults;
 import com.elefirst.connector.entity.RowMapper;
+import com.elefirst.connector.example.HibernateExample;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -173,5 +174,13 @@ public interface IBaseDAO<T, ID extends Serializable> {
      * @return PageResults的封装类，里面包含了页码的信息以及查询的数据List集合
      */
     PageResults<T> findPageByFetchedHql(String hql, String countHql, int pageNo, int pageSize, Object... values);
+
+    /**
+     * <HQL分页查询>
+     *
+     * @param example HibernateExample
+     * @return PageResults的封装类，里面包含了页码的信息以及查询的数据List集合
+     */
+    PageResults<T> findPageByExample(HibernateExample example);
 
 }
