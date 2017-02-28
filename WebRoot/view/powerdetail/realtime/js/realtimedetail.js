@@ -444,7 +444,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "A相"
+                                            name: "A相",
+                                            color: "orange"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "aVoltage");
                                         series.push(item);
 
@@ -454,7 +455,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "B相"
+                                            name: "B相",
+                                            color: "green"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "bVoltage");
                                         series.push(item);
 
@@ -464,7 +466,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "C相"
+                                            name: "C相",
+                                            color: "red"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "cVoltage");
                                         series.push(item);
 
@@ -570,7 +573,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "A相"
+                                            name: "A相",
+                                            color: "orange"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "aCurrent");
                                         series.push(item);
 
@@ -580,7 +584,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "B相"
+                                            name: "B相",
+                                            color: "green"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "bCurrent");
                                         series.push(item);
 
@@ -590,7 +595,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "C相"
+                                            name: "C相",
+                                            color: "red"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "cCurrent");
                                         series.push(item);
 
@@ -696,7 +702,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "A相"
+                                            name: "A相",
+                                            color: "orange"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "aPowerfactor");
                                         series.push(item);
 
@@ -706,7 +713,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "B相"
+                                            name: "B相",
+                                            color: "green"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "bPowerfactor");
                                         series.push(item);
 
@@ -716,7 +724,8 @@ $(document).ready(function () {
                                             pn: row.pn,
                                             pt: pnInfo.pt,
                                             ct: pnInfo.ct,
-                                            name: "C相"
+                                            name: "C相",
+                                            color: "red"
                                         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "cPowerfactor");
                                         series.push(item);
 

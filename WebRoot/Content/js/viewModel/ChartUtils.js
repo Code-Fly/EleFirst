@@ -296,6 +296,7 @@ var ChartUtils = {
     getVoltageAllSeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            color: node.color,
             data: []
         };
 
@@ -311,6 +312,7 @@ var ChartUtils = {
     getVoltageDailySeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            color: node.color,
             data: []
         };
 
@@ -396,6 +398,7 @@ var ChartUtils = {
     getCurrentAllSeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            color: node.color,
             data: []
         };
 
@@ -411,6 +414,7 @@ var ChartUtils = {
     getCurrentDailySeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            color: node.color,
             data: []
         };
 
@@ -496,6 +500,7 @@ var ChartUtils = {
     getPowerFactorAllSeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            color: node.color,
             data: []
         };
 
@@ -511,6 +516,7 @@ var ChartUtils = {
     getPowerFactorDailySeries: function (node, time, data, phase) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            color: node.color,
             data: []
         };
 
