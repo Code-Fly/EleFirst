@@ -172,14 +172,14 @@
     <%--plain="true" href="javascript:void(0)">电压日监测报表</a></li>--%>
     <%--</ul>--%>
     <%--</div>--%>
-    <%--<div title="配用接线图" data-options="ionCls:'icon-save'">--%>
-    <%--<ul id="nav-graph">--%>
-    <%--<li><a class="easyui-linkbutton"--%>
-    <%--data-options="iconCls:'icon-chart_organisation'"--%>
-    <%--onclick="addTab('配用接线图','view/diagram/main.jsp','icon-chart_organisation')"--%>
-    <%--plain="true" href="javascript:void(0)">配用接线图</a></li>--%>
-    <%--</ul>--%>
-    <%--</div>--%>
+    <div title="配用接线图" data-options="ionCls:'icon-save'">
+        <ul id="nav-graph">
+            <li><a class="easyui-linkbutton"
+                   data-options="iconCls:'icon-chart_organisation'"
+                   onclick="addTab('配用接线图','view/diagram/main.jsp','icon-chart_organisation')"
+                   plain="true" href="javascript:void(0)">配用接线图</a></li>
+        </ul>
+    </div>
     <div title="系统管理" data-options="ionCls:'icon-save'">
         <ul id="nav-sys">
             <%--<li><a class="easyui-linkbutton"--%>
