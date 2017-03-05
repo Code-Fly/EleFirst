@@ -381,6 +381,9 @@ $(document).ready(function () {
     function loadConcentratorList() {
         $.ajax({
             url: _ctx + "system/pn/info/list.do",
+            data: {
+                areaId: _areaId
+            },
             type: "POST",
             cache: false,
             success: function (r) {

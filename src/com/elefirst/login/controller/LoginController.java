@@ -43,10 +43,9 @@ public class LoginController extends BaseController {
             template.setAreaId(areaId);
             List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
             if (result.size() > 0) {
-                session.removeAttribute("areaInfo");
                 session.setAttribute("areaInfo", result.get(0));
+                session.setAttribute("treeId", areaId);
             }
-            session.setAttribute("treeId", areaId);
         }
         return "index";
     }

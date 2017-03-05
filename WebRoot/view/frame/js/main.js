@@ -40,15 +40,16 @@ $(document).ready(function () {
                             }).responseText).data[0];
                             nodes.push(pnInfo);
                         }
+                        if (nodes.length > 0) {
+                            getLoadDetailChart({
+                                nodes: nodes
+                            });
 
-                        getLoadDetailChart({
-                            nodes: nodes
-                        });
 
-
-                        getElectricityDetailChart({
-                            node: nodes
-                        });
+                            getElectricityDetailChart({
+                                node: nodes
+                            });
+                        }
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                     }
