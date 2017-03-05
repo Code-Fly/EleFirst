@@ -59,19 +59,19 @@ public class ConcentratorInfoController extends BaseController {
             result = concentratorInfoService.getConcentratorInfoList(template);
         } else {
             JSONObject jNode = JSONObject.fromObject(node);
-            JSONArray jIds = jNode.getJSONArray("concentrators");
+            String jAreaId = jNode.getString("areaId");
+            JSONArray jCIds = jNode.getJSONArray("concentrators");
 
             List<ConcentratorInfo> templates = new ArrayList<>();
-            for (int i = 0; i < jIds.size(); i++) {
-                String jId = jIds.getJSONObject(i).getString("concentratorId");
+            if (jCIds.size() == 0) {
                 ConcentratorInfo template = new ConcentratorInfo();
-                if (null != areaId) {
-                    template.setAreaId(areaId);
-                }
-
-                if (null != name) {
-                    template.setName(areaId);
-                }
+                template.setAreaId(jAreaId);
+                templates.add(template);
+            }
+            for (int i = 0; i < jCIds.size(); i++) {
+                String jId = jCIds.getJSONObject(i).getString("concentratorId");
+                ConcentratorInfo template = new ConcentratorInfo();
+                template.setAreaId(jAreaId);
                 template.setConcentratorId(jId);
                 templates.add(template);
             }

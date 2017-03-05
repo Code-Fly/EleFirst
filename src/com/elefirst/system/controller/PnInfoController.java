@@ -65,32 +65,28 @@ public class PnInfoController extends BaseController {
             result = pnInfoService.getPnInfoList(template);
         } else {
             JSONObject jNode = JSONObject.fromObject(node);
+            String jAreaId = jNode.getString("areaId");
             JSONArray jCIds = jNode.getJSONArray("concentrators");
 
             List<PnInfo> templates = new ArrayList<>();
+            if (jCIds.size() == 0) {
+                PnInfo template = new PnInfo();
+                template.setAreaId(jAreaId);
+                templates.add(template);
+            }
             for (int i = 0; i < jCIds.size(); i++) {
                 String jCId = jCIds.getJSONObject(i).getString("concentratorId");
                 JSONArray jPIds = jCIds.getJSONObject(i).getJSONArray("pns");
                 if (jPIds.size() == 0) {
                     PnInfo template = new PnInfo();
-                    if (null != areaId) {
-                        template.setAreaId(areaId);
-                    }
-                    if (null != name) {
-                        template.setName(areaId);
-                    }
+                    template.setAreaId(jAreaId);
                     template.setConcentratorId(jCId);
                     templates.add(template);
                 } else {
                     for (int j = 0; j < jPIds.size(); j++) {
                         String jPid = jPIds.getString(j);
                         PnInfo template = new PnInfo();
-                        if (null != areaId) {
-                            template.setAreaId(areaId);
-                        }
-                        if (null != name) {
-                            template.setName(areaId);
-                        }
+                        template.setAreaId(jAreaId);
                         template.setConcentratorId(jCId);
                         template.setPn(jPid);
                         templates.add(template);
@@ -98,6 +94,7 @@ public class PnInfoController extends BaseController {
                 }
 
             }
+            System.err.println(JSONArray.fromObject(templates).toString());
             result = pnInfoService.getPnInfoListByInfos(templates);
         }
 

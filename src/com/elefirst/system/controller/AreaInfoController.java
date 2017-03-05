@@ -108,6 +108,30 @@ public class AreaInfoController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/info/local/detail.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getAreaInfoDetailLocal(HttpServletRequest request,
+                                           HttpServletResponse response
+    ) {
+        String areaId = ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID);
+        AreaInfoWithBLOBs template = new AreaInfoWithBLOBs();
+        template.setAreaId(areaId);
+        List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
+        if (result.size() > 0) {
+            return new ErrorMsg(Error.SUCCESS, "success", result.get(0));
+        } else {
+            AreaInfoWithBLOBs info = new AreaInfoWithBLOBs();
+            info.setAreaId(areaId);
+            info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
+            info.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
+            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
+            info.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
+
+            return new ErrorMsg(Error.SUCCESS, "success", info);
+        }
+    }
+
     @RequestMapping(value = "/info/update.do")
     @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
     @ResponseBody

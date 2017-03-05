@@ -37,6 +37,17 @@ public class LoginController extends BaseController {
     public String index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         loadUserInfo(session);
         loadMenu(session);
+        String areaId = request.getParameter("id");
+        if (null != areaId && !areaId.isEmpty()) {
+            AreaInfoWithBLOBs template = new AreaInfoWithBLOBs();
+            template.setAreaId(areaId);
+            List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
+            if (result.size() > 0) {
+                session.removeAttribute("areaInfo");
+                session.setAttribute("areaInfo", result.get(0));
+            }
+            session.setAttribute("treeId", areaId);
+        }
         return "index";
     }
 
@@ -62,12 +73,15 @@ public class LoginController extends BaseController {
         List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
         if (result.size() > 0) {
             session.setAttribute("areaInfo", result.get(0));
+            session.setAttribute("areaLocal", result.get(0));
+
         } else {
             template.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
             template.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
             template.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
             template.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
             session.setAttribute("areaInfo", template);
+            session.setAttribute("areaLocal", template);
         }
         session.setAttribute("treeId", template.getAreaId());
     }

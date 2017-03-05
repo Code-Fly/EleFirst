@@ -22,7 +22,7 @@
         }
 
         .head-left {
-            background: url(${sessionScope.areaInfo.indexLogoPath}) no-repeat left !important;
+            background: url(${sessionScope.areaLocal.indexLogoPath}) no-repeat left !important;
         }
     </style>
 </head>
@@ -31,8 +31,8 @@
 <%--<div data-options="region:'west',href:'${ctx}view/frame/west.jsp'" style="width: 150px;overflow: hidden;"></div>--%>
 <div data-options="region:'center',href:'${ctx}view/frame/center.jsp'" style="overflow: hidden;"></div>
 <div data-options="region:'south'" class="head-south">
-    ${sessionScope.areaInfo.name} <a href="http://www.miitbeian.gov.cn/"
-                                     style="color: black;text-decoration: none">${sessionScope.areaInfo.icp}</a>
+    ${sessionScope.areaLocal.name} <a href="http://www.miitbeian.gov.cn/"
+                                      style="color: black;text-decoration: none">${sessionScope.areaLocal.icp}</a>
 </div>
 </body>
 </html>

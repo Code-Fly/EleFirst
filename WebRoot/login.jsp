@@ -71,7 +71,7 @@
     </div>
 </div>
 <div class="loginbm">
-    ${sessionScope.areaInfo.name} <a href="http://www.miitbeian.gov.cn/">${sessionScope.areaInfo.icp}</a>
+    ${sessionScope.areaLocal.name} <a href="http://www.miitbeian.gov.cn/">${sessionScope.areaLocal.icp}</a>
 </div>
 </body>
 </html>

@@ -2,9 +2,12 @@
  * Created by VM on 2/9/2017.
  */
 $(document).ready(function () {
+    var localInfo = $.parseJSON($.ajax({
+        url: _ctx + "system/area/info/local/detail.do",
+        type: "POST",
+        async: false
+    }).responseText).data;
 
-
-    var areaDbId = null;
 
     $(".easyui-datebox").datebox("calendar").calendar({
         firstDay: 1
@@ -58,14 +61,14 @@ $(document).ready(function () {
 
     $("#btn-submit").linkbutton({
         onClick: function () {
-            if (areaDbId != null) {
+            if (localInfo.id != null) {
                 var param = formToJson($("#ff"));
-                param.id = areaDbId;
-                param.areaId = _areaId;
+                param.id = localInfo.id;
+                param.areaId = localInfo.areaId;
                 param.transformers = JSON.stringify($("#dg-column").datagrid("getRows"));
                 if ($("#ff").form("enableValidation").form("validate")) {
                     $.ajax({
-                        url: _ctx + "/system/area/info/update.do",
+                        url: _ctx + "system/area/info/update.do",
                         type: "POST",
                         cache: false,
                         contentType: "text/plain;charset=UTF-8",
@@ -95,11 +98,11 @@ $(document).ready(function () {
                 }
             } else {
                 var param = formToJson($("#ff"));
-                param.areaId = _areaId;
+                param.areaId = localInfo.areaId;
                 param.transformers = JSON.stringify($("#dg-column").datagrid("getRows"));
                 if ($("#ff").form("enableValidation").form("validate")) {
                     $.ajax({
-                        url: _ctx + "/system/area/info/add.do",
+                        url: _ctx + "system/area/info/add.do",
                         type: "POST",
                         cache: false,
                         contentType: "text/plain;charset=UTF-8",
@@ -132,47 +135,19 @@ $(document).ready(function () {
     });
 
     function loadForm() {
-        $.ajax({
-            url: _ctx + "/system/area/info/detailByAreaId.do",
-            type: "POST",
-            cache: false,
-            data: {
-                areaId: _areaId
-            },
-            success: function (r) {
-                if (r.hasOwnProperty("errcode")) {
-                    if ("0" == r.errcode) {
-                        if (r.data.areaId != "-1") {
-                            areaDbId = r.data.id;
-                        }
-                        var info = clone(r.data);
-                        if (info.establishmentDate != null && info.establishmentDate != "") {
-                            var date = new Date();
-                            date.setTime(info.establishmentDate);
-                            info.establishmentDate = date.format("yyyy-MM-dd");
-                        }
-                        if (info.transformers != null && info.transformers != "") {
-                            $("#dg-column").datagrid("loadData", $.parseJSON(info.transformers));
-                        }
-                        $("#ff").form("load", info);
-                    } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
-                    }
-                } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
-                }
-            },
-            beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
-            },
-            error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-            },
-            complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
-            }
-
-        });
+        // if (localInfo.id != null) {
+        //     areaDbId = localInfo.id;
+        // }
+        var info = clone(localInfo);
+        if (info.establishmentDate != null && info.establishmentDate != "") {
+            var date = new Date();
+            date.setTime(info.establishmentDate);
+            info.establishmentDate = date.format("yyyy-MM-dd");
+        }
+        if (info.transformers != null && info.transformers != "") {
+            $("#dg-column").datagrid("loadData", $.parseJSON(info.transformers));
+        }
+        $("#ff").form("load", info);
     }
 
     function isInteger(obj) {
