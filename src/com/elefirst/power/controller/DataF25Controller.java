@@ -40,14 +40,8 @@ public class DataF25Controller extends BaseController {
                                    @RequestParam(value = "rows", required = false) Integer rows
     ) {
         DataF25 template = new DataF25();
-
-        if (null != areaId) {
-            template.setAreaId(areaId);
-        }
-
-        if (null != concentratorId) {
-            template.setConcentratorId(concentratorId);
-        }
+        template.setAreaId(areaId);
+        template.setConcentratorId(concentratorId);
 
         if (null != page && null != rows) {
             template.setPage(page);

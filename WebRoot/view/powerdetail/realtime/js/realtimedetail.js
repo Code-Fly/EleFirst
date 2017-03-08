@@ -300,12 +300,9 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: {}
-                        };
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
@@ -320,15 +317,18 @@ $(document).ready(function () {
                         var endDate = new Date(y, m, d);
                         endDate.setDate(endDate.getDate() + 1);
 
-                        paramChart.time.start = startDate.format('yyyyMMdd') + "000000";
-                        paramChart.time.end = endDate.format('yyyyMMdd') + "000000";
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/load/all/chart.do",
+                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
@@ -405,12 +405,9 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: {}
-                        };
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
@@ -425,15 +422,18 @@ $(document).ready(function () {
                         var endDate = new Date(y, m, d);
                         endDate.setDate(endDate.getDate() + 1);
 
-                        paramChart.time.start = startDate.format('yyyyMMdd') + "000000";
-                        paramChart.time.end = endDate.format('yyyyMMdd') + "000000";
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/load/all/chart.do",
+                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
@@ -534,12 +534,9 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: {}
-                        };
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
@@ -554,15 +551,18 @@ $(document).ready(function () {
                         var endDate = new Date(y, m, d);
                         endDate.setDate(endDate.getDate() + 1);
 
-                        paramChart.time.start = startDate.format('yyyyMMdd') + "000000";
-                        paramChart.time.end = endDate.format('yyyyMMdd') + "000000";
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/load/all/chart.do",
+                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
@@ -663,12 +663,9 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: {}
-                        };
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
@@ -683,15 +680,18 @@ $(document).ready(function () {
                         var endDate = new Date(y, m, d);
                         endDate.setDate(endDate.getDate() + 1);
 
-                        paramChart.time.start = startDate.format('yyyyMMdd') + "000000";
-                        paramChart.time.end = endDate.format('yyyyMMdd') + "000000";
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/load/all/chart.do",
+                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
