@@ -46,6 +46,13 @@
     "valueSuffix": "V",
     "shared": true
   },
+  "plotOptions": {
+    "spline": {
+      "marker": {
+        "enabled": false
+      }
+    }
+  },
   "yAxis": {
     "title": {
       "text": "单位（V）"
