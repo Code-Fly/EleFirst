@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,14 +72,36 @@ public class DataF25FrozenDayController extends BaseController {
                                                    @RequestParam(value = "startTime", required = false) String startTime,
                                                    @RequestParam(value = "endTime", required = false) String endTime
     ) {
-        System.err.println(node);
-        System.err.println(startTime);
-        System.err.println(endTime);
-
         List<DataF25FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenDay>>() {
         }.getType());
 
         List<DataF25FrozenDay> result = dataF25FrozenDayService.getDataF25FrozenDayList(nodes, startTime, endTime);
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f25/frozen/day/node/time/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenDayListByNodesAndTime(HttpServletRequest request,
+                                                          HttpServletResponse response,
+                                                          @RequestParam(value = "node", required = false) String node,
+                                                          @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<DataF25FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenDay>>() {
+        }.getType());
+
+        List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
+        }.getType());
+
+        List<List<DataF25FrozenDay>> result = new ArrayList<>();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            for (int j = 0; j < times.size(); j++) {
+                List<DataF25FrozenDay> item = dataF25FrozenDayService.getDataF25FrozenDayList(nodes.get(i), times.get(j));
+                result.add(item);
+            }
+        }
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }

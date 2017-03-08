@@ -8,6 +8,10 @@ import com.elefirst.power.service.iface.IDataF25FrozenDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,6 +57,59 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
                     .andClientoperationtimeLessThan(endTime)
             ;
         }
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
+    }
+
+    @Override
+    public List<DataF25FrozenDay> getDataF25FrozenDayList(DataF25FrozenDay node, String time) throws ParseException {
+        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = formatter.parse(time);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        String endTime = formatter.format(cal.getTime());
+
+        condition.or()
+                .andAreaIdEqualTo(node.getAreaId())
+                .andConcentratorIdEqualTo(node.getConcentratorId())
+                .andPnEqualTo(node.getPn())
+                .andClientoperationtimeGreaterThanOrEqualTo(time)
+                .andClientoperationtimeLessThan(endTime)
+        ;
+
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
+    }
+
+    @Override
+    public List<DataF25FrozenDay> getDataF25FrozenDayList(List<DataF25FrozenDay> nodes, List<String> times) throws ParseException {
+        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenDay node = nodes.get(i);
+            for (int j = 0; j < times.size(); j++) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date time = formatter.parse(times.get(j));
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(time);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                String endTime = formatter.format(cal.getTime());
+
+                condition.or()
+                        .andAreaIdEqualTo(node.getAreaId())
+                        .andConcentratorIdEqualTo(node.getConcentratorId())
+                        .andPnEqualTo(node.getPn())
+                        .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
+                        .andClientoperationtimeLessThan(endTime)
+                ;
+            }
+        }
+
         condition.setOrderByClause("`clientOperationTime` ASC");
         return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
     }

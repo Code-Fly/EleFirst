@@ -149,8 +149,8 @@ $(document).ready(function () {
 
     $("#btn-search").linkbutton({
         onClick: function () {
-            var node = $("#input-pn").tagbox("getData");
-            if (node.length == 0) {
+            var nodeStr = $("#input-pn").tagbox("getData");
+            if (nodeStr.length == 0) {
                 $.messager.alert("信息提示", "请选择监测点！", "info");
                 return;
             }
@@ -159,41 +159,43 @@ $(document).ready(function () {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
-            var paramChart = {
-                node: [],
-                time: []
-            }
+            var nodes = [];
 
-            for (var i = 0; i < node.length; i++) {
-                var areaId = (node[i].value + "").split(":")[0];
-                var concentratorId = (node[i].value + "").split(":")[1];
-                var pn = (node[i].value + "").split(":")[2];
-                var pt = parseFloat((node[0].value + "").split(":")[3]);
-                var ct = parseFloat((node[0].value + "").split(":")[4]);
-                var name = node[i].name;
-                paramChart.node.push({
+            for (var i = 0; i < nodeStr.length; i++) {
+                var areaId = (nodeStr[i].value + "").split(":")[0];
+                var concentratorId = (nodeStr[i].value + "").split(":")[1];
+                var pn = (nodeStr[i].value + "").split(":")[2];
+                var pt = parseFloat((nodeStr[0].value + "").split(":")[3]);
+                var ct = parseFloat((nodeStr[0].value + "").split(":")[4]);
+                var name = nodeStr[i].name;
+                nodes.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
                     pn: pn
                 })
             }
+
+            var times = [];
+
             for (var i = 0; i < time.length; i++) {
                 var ss = time[i].value.split('-');
                 var y = parseInt(ss[0], 10);
                 var m = parseInt(ss[1], 10) - 1;
                 var d = parseInt(ss[2], 10);
 
-                paramChart.time.push(
+                times.push(
                     new Date(y, m, d).format('yyyyMMdd') + "000000"
                 )
             }
 
             $.ajax({
-                url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+                url: _ctx + "power/data/f25/frozen/day/node/time/list.do",
                 type: "POST",
                 cache: false,
-                contentType: "text/plain;charset=UTF-8",
-                data: JSON.stringify(paramChart),
+                data: {
+                    node: JSON.stringify(nodes),
+                    time: JSON.stringify(times)
+                },
                 success: function (r) {
                     if (r.hasOwnProperty("errcode")) {
                         if ("0" == r.errcode) {
@@ -300,8 +302,8 @@ $(document).ready(function () {
 
 
     function getLoadChart(data) {
-        var node = $("#input-pn").tagbox("getData");
-        var time = $("#input-time").tagbox("getData");
+        var nodeStr = $("#input-pn").tagbox("getData");
+        var timeStr = $("#input-time").tagbox("getData");
 
         var series = []
 
@@ -336,40 +338,79 @@ $(document).ready(function () {
 
 
         } else {
-            for (var i = 0; i < node.length; i++) {
-                var areaId = (node[i].value + "").split(":")[0];
-                var concentratorId = (node[i].value + "").split(":")[1];
-                var pn = (node[i].value + "").split(":")[2];
-                var pt = parseFloat((node[0].value + "").split(":")[3]);
-                var ct = parseFloat((node[0].value + "").split(":")[4]);
-                var name = node[i].name;
+            var nodes = [];
+            for (var i = 0; i < nodeStr.length; i++) {
+                var areaId = (nodeStr[i].value + "").split(":")[0];
+                var concentratorId = (nodeStr[i].value + "").split(":")[1];
+                var pn = (nodeStr[i].value + "").split(":")[2];
+                var pt = parseFloat((nodeStr[0].value + "").split(":")[3]);
+                var ct = parseFloat((nodeStr[0].value + "").split(":")[4]);
+                var name = nodeStr[i].name;
 
-                for (var j = 0; j < time.length; j++) {
-                    var ss = time[j].value.split('-');
-                    var y = parseInt(ss[0], 10);
-                    var m = parseInt(ss[1], 10) - 1;
-                    var d = parseInt(ss[2], 10);
+                nodes.push({
+                    areaId: areaId,
+                    concentratorId: concentratorId,
+                    pn: pn,
+                    pt: pt,
+                    ct: ct,
+                    name: name
+                });
+            }
 
-                    var item = ChartUtils.getLoadDailySeries({
-                        areaId: areaId,
-                        concentratorId: concentratorId,
-                        pn: pn,
-                        pt: pt,
-                        ct: ct,
-                        name: name
-                    }, new Date(y, m, d).format('yyyyMMdd') + "000000", data);
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].length > 0) {
+                    var ss = data[i][0].clientoperationtime;
+                    var date = TimeUtils.dbTimeToDate(ss);
+
+                    var areaId = data[i][0].areaId;
+                    var concentratorId = data[i][0].concentratorId;
+                    var pn = data[i][0].pn;
+
+                    var item = ChartUtils.getLoadAllByHourSeries(getNode(areaId, concentratorId, pn, nodes), date.format('yyyyMMdd') + "000000", data[i]);
                     series.push(item);
                 }
             }
+            // for (var i = 0; i < node.length; i++) {
+            //     var areaId = (node[i].value + "").split(":")[0];
+            //     var concentratorId = (node[i].value + "").split(":")[1];
+            //     var pn = (node[i].value + "").split(":")[2];
+            //     var pt = parseFloat((node[0].value + "").split(":")[3]);
+            //     var ct = parseFloat((node[0].value + "").split(":")[4]);
+            //     var name = node[i].name;
+            //
+            //     for (var j = 0; j < time.length; j++) {
+            //         var ss = time[j].value.split('-');
+            //         var y = parseInt(ss[0], 10);
+            //         var m = parseInt(ss[1], 10) - 1;
+            //         var d = parseInt(ss[2], 10);
+            //
+            //         // var item = ChartUtils.getLoadDailySeries({
+            //         //     areaId: areaId,
+            //         //     concentratorId: concentratorId,
+            //         //     pn: pn,
+            //         //     pt: pt,
+            //         //     ct: ct,
+            //         //     name: name
+            //         // }, new Date(y, m, d).format('yyyyMMdd') + "000000", data);
+            //
+            //         var item = ChartUtils.getLoadAllSeries({
+            //             areaId: areaId,
+            //             concentratorId: concentratorId,
+            //             pn: pn,
+            //             pt: pt,
+            //             ct: ct,
+            //         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
+            //         series.push(item);
+            //     }
+            // }
         }
 
         var config = $.parseJSON($.ajax({
-            url: "data/loadComparison.json",
+            url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
             type: "GET",
             async: false
         }).responseText);
 
-        config.xAxis.categories = ChartUtils.getDailyCategories();
         config.series = series;
 
         $("#chart-load").highcharts(config);
@@ -417,5 +458,13 @@ $(document).ready(function () {
                 MaskUtil.unmask();
             }
         });
+    }
+
+    function getNode(areaId, concentratorId, pn, data) {
+        for (var n = 0; n < data.length; n++) {
+            if (data[n].areaId == areaId && data[n].concentratorId == concentratorId && data[n].pn == pn) {
+                return data[n];
+            }
+        }
     }
 });
