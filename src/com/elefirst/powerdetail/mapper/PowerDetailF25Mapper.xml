@@ -107,7 +107,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_003_type_one_data_fn25
+    from t_003_type_one_data_fn25_frozen_day
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -121,21 +121,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_003_type_one_data_fn25
+    from t_003_type_one_data_fn25_frozen_day
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_003_type_one_data_fn25
+    delete from t_003_type_one_data_fn25_frozen_day
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.elefirst.powerdetail.po.PowerDetailF25Example" >
-    delete from t_003_type_one_data_fn25
+    delete from t_003_type_one_data_fn25_frozen_day
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.elefirst.powerdetail.po.PowerDetailF25" >
-    insert into t_003_type_one_data_fn25 (id, area_id, concentrator_id, 
+    insert into t_003_type_one_data_fn25_frozen_day (id, area_id, concentrator_id, 
       pn, clientOperationTime, totalActivePower, 
       A_ActivePower, B_ActivePower, C_ActivePower, 
       totalReactivePower, A_ReactivePower, B_ReactivePower, 
@@ -157,7 +157,7 @@
       #{cApparentpower,jdbcType=VARCHAR}, #{sendtime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elefirst.powerdetail.po.PowerDetailF25" >
-    insert into t_003_type_one_data_fn25
+    insert into t_003_type_one_data_fn25_frozen_day
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -338,13 +338,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.elefirst.powerdetail.po.PowerDetailF25Example" resultType="java.lang.Integer" >
-    select count(*) from t_003_type_one_data_fn25
+    select count(*) from t_003_type_one_data_fn25_frozen_day
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_003_type_one_data_fn25
+    update t_003_type_one_data_fn25_frozen_day
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
@@ -439,7 +439,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_003_type_one_data_fn25
+    update t_003_type_one_data_fn25_frozen_day
     set id = #{record.id,jdbcType=VARCHAR},
       area_id = #{record.areaId,jdbcType=VARCHAR},
       concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
@@ -474,7 +474,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.elefirst.powerdetail.po.PowerDetailF25" >
-    update t_003_type_one_data_fn25
+    update t_003_type_one_data_fn25_frozen_day
     <set >
       <if test="areaId != null" >
         area_id = #{areaId,jdbcType=VARCHAR},
@@ -564,7 +564,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.elefirst.powerdetail.po.PowerDetailF25" >
-    update t_003_type_one_data_fn25
+    update t_003_type_one_data_fn25_frozen_day
     set area_id = #{areaId,jdbcType=VARCHAR},
       concentrator_id = #{concentratorId,jdbcType=VARCHAR},
       pn = #{pn,jdbcType=VARCHAR},
@@ -598,7 +598,7 @@
   
   <!-- 自定义获取每个区域下相关集线器对应的监测点最新一条电力记录数(根据发送时间) -->
   <select id="myselectByExample" resultMap="BaseResultMap">
-	select a.*,c.`name`,c.ct,c.pt,d.stat from t_003_type_one_data_fn25 a,(select area_id,concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by area_id ,concentrator_id,pn) b ,t_202_pn_info c ,t_020_pn_stat d where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn and c.area_id = d.area_id and c.concentrator_id = d.concentrator_id and c.pn = d.pn
+	select a.*,c.`name`,c.ct,c.pt,d.stat from t_003_type_one_data_fn25_frozen_day a,(select area_id,concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25_frozen_day group by area_id ,concentrator_id,pn) b ,t_202_pn_info c ,t_020_pn_stat d where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn and c.area_id = d.area_id and c.concentrator_id = d.concentrator_id and c.pn = d.pn
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -616,7 +616,7 @@
   
   <!-- 获取每个区域下相关集线器对应的监测点总数 -->
   <select id="myselectByExampleCount" resultType="int">
-	select count(1) as num from t_003_type_one_data_fn25 a,(select area_id,concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25 group by area_id ,concentrator_id,pn) b ,t_202_pn_info c ,t_020_pn_stat d where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn and c.area_id = d.area_id and c.concentrator_id = d.concentrator_id and c.pn = d.pn
+	select count(1) as num from t_003_type_one_data_fn25_frozen_day a,(select area_id,concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25_frozen_day group by area_id ,concentrator_id,pn) b ,t_202_pn_info c ,t_020_pn_stat d where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn and c.area_id = d.area_id and c.concentrator_id = d.concentrator_id and c.pn = d.pn
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -629,7 +629,7 @@
   </select>
   <!-- 获取每个监测点下最大和最小电压 -->
   <select id="queryVoltageDetail" resultType="com.elefirst.powerdetail.po.VoltageDetail">
-    select max(a.A_Voltage + 0)*b.pt as maxAVoltage,max(a.B_Voltage + 0)*b.pt as maxBVoltage,max(a.C_Voltage + 0)*b.pt as maxCVoltage,min(a.A_Voltage + 0)*b.pt as minAVoltage,min(a.B_Voltage + 0)*b.pt as minBVoltage,min(a.C_Voltage + 0)*b.pt as minCVoltage ,ROUND(max(a.A_Voltage + 0),1) as orgMaxAVoltage,ROUND(max(a.B_Voltage + 0),1) as orgMaxBVoltage,ROUND(max(a.C_Voltage + 0),1) as orgMaxCVoltage,ROUND(min(a.A_Voltage + 0),1) as orgMinAVoltage,ROUND(min(a.B_Voltage + 0),1) as orgMinBVoltage,ROUND(min(a.C_Voltage + 0),1) as orgMinCVoltage from t_003_type_one_data_fn25 a,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn
+    select max(a.A_Voltage + 0)*b.pt as maxAVoltage,max(a.B_Voltage + 0)*b.pt as maxBVoltage,max(a.C_Voltage + 0)*b.pt as maxCVoltage,min(a.A_Voltage + 0)*b.pt as minAVoltage,min(a.B_Voltage + 0)*b.pt as minBVoltage,min(a.C_Voltage + 0)*b.pt as minCVoltage ,ROUND(max(a.A_Voltage + 0),1) as orgMaxAVoltage,ROUND(max(a.B_Voltage + 0),1) as orgMaxBVoltage,ROUND(max(a.C_Voltage + 0),1) as orgMaxCVoltage,ROUND(min(a.A_Voltage + 0),1) as orgMinAVoltage,ROUND(min(a.B_Voltage + 0),1) as orgMinBVoltage,ROUND(min(a.C_Voltage + 0),1) as orgMinCVoltage from t_003_type_one_data_fn25_frozen_day a,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -646,7 +646,7 @@
   
   <!-- 获取每个监测点下最大和最小电流-->
   <select id="queryCurrentDetail" resultType="com.elefirst.powerdetail.po.CurrentDetail">
-	select max(a.A_Current + 0)*b.ct as maxACurrent,max(a.B_Current + 0)*b.ct as maxBCurrent,max(a.C_Current + 0)*b.ct as maxCCurrent,min(a.A_Current + 0)*b.ct as minACurrent,min(a.B_Current + 0)*b.ct as minBCurrent,min(a.C_Current + 0)*b.ct as minCCurrent  ,ROUND(max(a.A_Current + 0),3) as orgMaxACurrent,ROUND(max(a.B_Current + 0),3) as orgMaxBCurrent,ROUND(max(a.C_Current + 0),3) as orgMaxCCurrent,ROUND(min(a.A_Current + 0),3) as orgMinACurrent,ROUND(min(a.B_Current + 0),3) as orgMinBCurrent,ROUND(min(a.C_Current + 0),3) as orgMinCCurrent from t_003_type_one_data_fn25 a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn	
+	select max(a.A_Current + 0)*b.ct as maxACurrent,max(a.B_Current + 0)*b.ct as maxBCurrent,max(a.C_Current + 0)*b.ct as maxCCurrent,min(a.A_Current + 0)*b.ct as minACurrent,min(a.B_Current + 0)*b.ct as minBCurrent,min(a.C_Current + 0)*b.ct as minCCurrent  ,ROUND(max(a.A_Current + 0),3) as orgMaxACurrent,ROUND(max(a.B_Current + 0),3) as orgMaxBCurrent,ROUND(max(a.C_Current + 0),3) as orgMaxCCurrent,ROUND(min(a.A_Current + 0),3) as orgMinACurrent,ROUND(min(a.B_Current + 0),3) as orgMinBCurrent,ROUND(min(a.C_Current + 0),3) as orgMinCCurrent from t_003_type_one_data_fn25_frozen_day a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -663,7 +663,7 @@
   
   <!-- 获取每个监测点下最大和最小功率因素-->
   <select id="queryPowerFactorDetail" resultType="com.elefirst.powerdetail.po.PowerFactorDetail">
-	select max(a.A_PowerFactor + 0) as maxAPowerFactor,max(a.B_PowerFactor + 0) as maxBPowerFactor,max(a.C_PowerFactor + 0) as maxCPowerFactor,max(a.totalPowerFactor + 0)  as maxTotalPowerFactor,min(a.A_PowerFactor + 0) as minAPowerFactor,min(a.B_PowerFactor + 0) as minBPowerFactor,min(a.C_PowerFactor + 0) as minCPowerFactor,min(a.totalPowerFactor + 0) as minTotalPowerFactor, ROUND(max(a.A_PowerFactor + 0),1) as orgMaxAPowerFactor,ROUND(max(a.B_PowerFactor + 0),1) as orgMaxBPowerFactor,ROUND(max(a.C_PowerFactor + 0),1) as orgMaxCPowerFactor,ROUND(max(a.totalPowerFactor + 0),1)  as orgMaxTotalPowerFactor,ROUND(min(a.A_PowerFactor + 0),1) as orgMinAPowerFactor,ROUND(min(a.B_PowerFactor + 0),1) as orgMinBPowerFactor,ROUND(min(a.C_PowerFactor + 0),1) as orgMinCPowerFactor,ROUND(min(a.totalPowerFactor + 0),1) as orgMinTotalPowerFactor from t_003_type_one_data_fn25 a where 1=1	
+	select max(a.A_PowerFactor + 0) as maxAPowerFactor,max(a.B_PowerFactor + 0) as maxBPowerFactor,max(a.C_PowerFactor + 0) as maxCPowerFactor,max(a.totalPowerFactor + 0)  as maxTotalPowerFactor,min(a.A_PowerFactor + 0) as minAPowerFactor,min(a.B_PowerFactor + 0) as minBPowerFactor,min(a.C_PowerFactor + 0) as minCPowerFactor,min(a.totalPowerFactor + 0) as minTotalPowerFactor, ROUND(max(a.A_PowerFactor + 0),1) as orgMaxAPowerFactor,ROUND(max(a.B_PowerFactor + 0),1) as orgMaxBPowerFactor,ROUND(max(a.C_PowerFactor + 0),1) as orgMaxCPowerFactor,ROUND(max(a.totalPowerFactor + 0),1)  as orgMaxTotalPowerFactor,ROUND(min(a.A_PowerFactor + 0),1) as orgMinAPowerFactor,ROUND(min(a.B_PowerFactor + 0),1) as orgMinBPowerFactor,ROUND(min(a.C_PowerFactor + 0),1) as orgMinCPowerFactor,ROUND(min(a.totalPowerFactor + 0),1) as orgMinTotalPowerFactor from t_003_type_one_data_fn25_frozen_day a where 1=1	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -679,7 +679,7 @@
   </select>
   <!-- 获取每个监测点下最大,最小以及平均负荷-->
   <select id="queryTotalActivePowerDetail" resultType="com.elefirst.powerdetail.po.TotalActivePowerDetail">
-	select max((a.totalActivePower + 0)*b.pt*b.ct) as maxTotalActivePower, min((a.totalActivePower + 0)*b.pt*b.ct) as minTotalActivePower,ROUND(avg((a.totalActivePower + 0)*b.pt*b.ct),2) as avgTotalActivePower,ROUND(max(a.totalActivePower + 0),4) as orgMaxTotalActivePower, ROUND(min(a.totalActivePower + 0),4) as orgMinTotalActivePower from t_003_type_one_data_fn25 a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.totalActivePower is not NULL	
+	select max((a.totalActivePower + 0)*b.pt*b.ct) as maxTotalActivePower, min((a.totalActivePower + 0)*b.pt*b.ct) as minTotalActivePower,ROUND(avg((a.totalActivePower + 0)*b.pt*b.ct),2) as avgTotalActivePower,ROUND(max(a.totalActivePower + 0),4) as orgMaxTotalActivePower, ROUND(min(a.totalActivePower + 0),4) as orgMinTotalActivePower from t_003_type_one_data_fn25_frozen_day a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.totalActivePower is not NULL	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
