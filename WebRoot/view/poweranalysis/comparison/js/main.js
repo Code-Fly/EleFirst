@@ -219,18 +219,18 @@ $(document).ready(function () {
                 }
             });
 
-            for (var i = 0; i < node.length; i++) {
+            for (var i = 0; i < nodeStr.length; i++) {
                 var paramTable = {
                     node: [],
                     time: []
                 }
 
-                var areaId = (node[i].value + "").split(":")[0];
-                var concentratorId = (node[i].value + "").split(":")[1];
-                var pn = (node[i].value + "").split(":")[2];
-                var pt = parseFloat((node[i].value + "").split(":")[3]);
-                var ct = parseFloat((node[i].value + "").split(":")[4]);
-                var name = node[i].name;
+                var areaId = (nodeStr[i].value + "").split(":")[0];
+                var concentratorId = (nodeStr[i].value + "").split(":")[1];
+                var pn = (nodeStr[i].value + "").split(":")[2];
+                var pt = parseFloat((nodeStr[i].value + "").split(":")[3]);
+                var ct = parseFloat((nodeStr[i].value + "").split(":")[4]);
+                var name = nodeStr[i].name;
                 paramTable.node.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
