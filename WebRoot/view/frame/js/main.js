@@ -75,43 +75,39 @@ $(document).ready(function () {
 
         var pnList = param.nodes;
 
-        var paramChart = {
-            node: pnList,
-            time: []
-        };
+        var startDate = new Date();
+        var endDate = new Date();
+        endDate.setDate(endDate.getDate() + 1);
 
-        var today = new Date();
-
-        paramChart.time.push(
-            today.format("yyyyMMdd") + "000000"
-        );
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+            url: _ctx + "power/data/f25/frozen/day/node/list.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: {
+                node: JSON.stringify(pnList),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var maxLoad = ChartUtils.getLoadDailySumIndexMax(pnList, today.format('yyyyMMdd') + "000000", r.data);
-                        $("#today-max-load").text(DataGridUtils.floatFormatter(maxLoad[0], 3) + "(kW)");
-                        $("#today-max-load-time").text(today.format('yyyy-MM-dd') + " " + fixNum(maxLoad[1], 2) + ":00");
 
-                        var item = ChartUtils.getLoadDailySumIndexSeries("今日", pnList, today.format('yyyyMMdd') + "000000", r.data);
+                        var item = ChartUtils.getLoadAllSeries({
+                            name: "今日"
+                        }, r.data);
                         series.push(item);
 
                         if (series.length == 2) {
                             var config = $.parseJSON($.ajax({
-                                url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
+                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                 type: "GET",
                                 async: false
                             }).responseText);
 
-                            config.xAxis.categories = ChartUtils.getDailyCategories();
                             config.series = series;
-
                             $("#chart-day-load").highcharts(config);
                         }
 
@@ -133,39 +129,38 @@ $(document).ready(function () {
             }
         });
 
-        paramChart.time = [];
-        var yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        paramChart.time.push(
-            yesterday.format("yyyyMMdd") + "000000"
-        );
+        var startDate = new Date();
+        var endDate = new Date();
+        startDate.setDate(startDate.getDate() - 1);
+
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+            url: _ctx + "power/data/f25/frozen/day/node/list.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: {
+                node: JSON.stringify(pnList),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var maxLoad = ChartUtils.getLoadDailySumIndexMax(pnList, yesterday.format('yyyyMMdd') + "000000", r.data);
-                        $("#yesterday-max-load").text(DataGridUtils.floatFormatter(maxLoad[0], 3) + "(kW)");
-                        $("#yesterday-max-load-time").text(yesterday.format('yyyy-MM-dd') + " " + fixNum(maxLoad[1], 2) + ":00");
-
-                        var item = ChartUtils.getLoadDailySumIndexSeries("昨日", pnList, yesterday.format('yyyyMMdd') + "000000", r.data);
+                        var item = ChartUtils.getLoadAllSeries({
+                            name: "昨日"
+                        }, r.data);
                         series.push(item);
 
                         if (series.length == 2) {
                             var config = $.parseJSON($.ajax({
-                                url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
+                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                 type: "GET",
                                 async: false
                             }).responseText);
 
-                            config.xAxis.categories = ChartUtils.getDailyCategories();
                             config.series = series;
-
                             $("#chart-day-load").highcharts(config);
                         }
 
