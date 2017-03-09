@@ -1,7 +1,6 @@
 package com.elefirst.power.service.iface;
 
 import com.elefirst.power.po.DataF25FrozenDay;
-import com.elefirst.power.po.DataF25FrozenDayExample;
 
 import java.text.ParseException;
 import java.util.List;

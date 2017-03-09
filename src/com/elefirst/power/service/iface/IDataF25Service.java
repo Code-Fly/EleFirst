@@ -21,4 +21,6 @@ public interface IDataF25Service {
     int updateDataF25(DataF25 template);
 
     int delDataF25(String id);
+
+    List<DataF25> format(List<DataF25> data);
 }

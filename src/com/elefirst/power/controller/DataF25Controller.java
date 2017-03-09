@@ -6,6 +6,8 @@ import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF25;
 import com.elefirst.power.service.iface.IDataF25Service;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,6 @@ public class DataF25Controller extends BaseController {
                                    HttpServletResponse response,
                                    @RequestParam(value = "areaId", required = false) String areaId,
                                    @RequestParam(value = "concentratorId", required = false) String concentratorId,
-                                   @RequestParam(value = "node", required = false) String node,
                                    @RequestParam(value = "page", required = false) Integer page,
                                    @RequestParam(value = "rows", required = false) Integer rows
     ) {
@@ -59,5 +60,22 @@ public class DataF25Controller extends BaseController {
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
 
+    }
+
+    @RequestMapping(value = "/f25/node/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25ListByNodes(HttpServletRequest request,
+                                          HttpServletResponse response,
+                                          @RequestParam(value = "node", required = false) String node,
+                                          @RequestParam(value = "startTime", required = false) String startTime,
+                                          @RequestParam(value = "endTime", required = false) String endTime
+    ) {
+        List<DataF25> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25>>() {
+        }.getType());
+
+        List<DataF25> result = dataF25Service.getDataF25List(nodes, startTime, endTime);
+
+        return new ErrorMsg(Error.SUCCESS, "success", dataF25Service.format(result));
     }
 }

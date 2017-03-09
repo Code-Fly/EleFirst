@@ -83,7 +83,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/day/node/list.do",
+            url: _ctx + "power/data/f25/node/list.do",
             type: "POST",
             cache: false,
             data: {
@@ -95,14 +95,14 @@ $(document).ready(function () {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
 
-                        var item = ChartUtils.getLoadAllSeries({
+                        var item = ChartUtils.getLoadAllByHourSeries({
                             name: "今日"
                         }, r.data);
                         series.push(item);
 
                         if (series.length == 2) {
                             var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
+                                url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
                                 type: "GET",
                                 async: false
                             }).responseText);
@@ -137,7 +137,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/day/node/list.do",
+            url: _ctx + "power/data/f25/node/list.do",
             type: "POST",
             cache: false,
             data: {
@@ -148,14 +148,14 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var item = ChartUtils.getLoadAllSeries({
+                        var item = ChartUtils.getLoadAllByHourSeries({
                             name: "昨日"
                         }, r.data);
                         series.push(item);
 
                         if (series.length == 2) {
                             var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
+                                url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
                                 type: "GET",
                                 async: false
                             }).responseText);
