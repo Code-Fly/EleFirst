@@ -407,83 +407,89 @@ $(document).ready(function () {
                         }
 
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
+
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
                         var d = parseInt(ss[2], 10);
 
-                        var s = new Date(y, m, d);
-                        var w = TimeUtils.weekFromODBC(s.getDay());
+                        var startDate = new Date(y, m, d);
+                        var w = TimeUtils.weekFromODBC(startDate.getDay());
 
-                        s.setDate(s.getDate() - w);
+                        startDate.setDate(startDate.getDate() - w);
 
-                        paramChart.time.push(
-                            s.format("yyyyMMdd") + "000000"
-                        );
+
+                        var endDate = new Date(startDate.getTime());
+                        endDate.setDate(endDate.getDate() + 6);
+
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/load/weekly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
 
-                                        var item = ChartUtils.getLoadWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "最高"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxTotalActivePower");
+                                        var item = ChartUtils.getLoadAllSeries({
+                                            name: "最大"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getLoadWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "最低"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minTotalActivePower");
+                                        var item = ChartUtils.getLoadAllSeries({
+                                            name: "最小"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getLoadWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getLoadAllSeries({
                                             name: "平均"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "avgTotalActivePower");
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "average",
+                                            forced: true
+                                        };
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-week-all-load.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
 
+                                        config.plotOptions.series.dataGrouping = {
+                                            forced: true,
+                                            units: [
+                                                ["day", [1]]
+                                            ]
+                                        };
 
-                                        config.xAxis.categories = ChartUtils.getWeeklyCategories();
                                         config.series = series;
 
-                                        $("#chart-load-detail").highcharts(config);
+                                        $("#chart-load-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");

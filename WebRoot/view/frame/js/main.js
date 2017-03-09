@@ -108,7 +108,7 @@ $(document).ready(function () {
                             }).responseText);
 
                             config.series = series;
-                            $("#chart-day-load").highcharts(config);
+                            $("#chart-day-load").highcharts("StockChart", config);
                         }
 
                     } else {
@@ -161,7 +161,7 @@ $(document).ready(function () {
                             }).responseText);
 
                             config.series = series;
-                            $("#chart-day-load").highcharts(config);
+                            $("#chart-day-load").highcharts("StockChart", config);
                         }
 
                     } else {

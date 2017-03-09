@@ -346,7 +346,7 @@ $(document).ready(function () {
                                         }).responseText);
 
                                         config.series = series;
-                                        $("#chart-load-detail").highcharts(config);
+                                        $("#chart-load-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -461,7 +461,7 @@ $(document).ready(function () {
                                         // config.xAxis.categories = ChartUtils.getDailyCategories();
                                         config.series = series;
 
-                                        $("#chart-voltage-detail").highcharts(config);
+                                        $("#chart-voltage-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -574,7 +574,7 @@ $(document).ready(function () {
 
                                         config.series = series;
 
-                                        $("#chart-current-detail").highcharts(config);
+                                        $("#chart-current-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -688,7 +688,7 @@ $(document).ready(function () {
 
                                         config.series = series;
 
-                                        $("#chart-power-factor-detail").highcharts(config);
+                                        $("#chart-power-factor-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");

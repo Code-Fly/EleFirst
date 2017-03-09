@@ -242,7 +242,7 @@ $(document).ready(function () {
 
                                 config.series = series;
 
-                                $("#chart-load").highcharts(config);
+                                $("#chart-load").highcharts("StockChart", config);
                             } else {
                                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                             }
@@ -320,7 +320,7 @@ $(document).ready(function () {
 
                                 config.series = series;
 
-                                $("#chart-load").highcharts(config);
+                                $("#chart-load").highcharts("StockChart", config);
                             } else {
                                 $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
                             }

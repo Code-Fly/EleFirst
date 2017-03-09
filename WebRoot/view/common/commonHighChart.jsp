@@ -37,9 +37,9 @@
             printChart: "打印图表",
             resetZoom: "恢复缩放",
             resetZoomTitle: "恢复图表",
-            shortMonths: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            shortMonths: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
             thousandsSep: ",",
-            weekdays: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"],
+            weekdays: ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
             rangeSelectorZoom: '缩放',
             rangeSelectorFrom: '起始',
             rangeSelectorTo: '结束'
