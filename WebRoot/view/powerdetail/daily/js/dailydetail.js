@@ -506,7 +506,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
@@ -619,7 +619,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/voltageDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-voltage.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
@@ -733,7 +733,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/currentDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-current.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
@@ -847,7 +847,7 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/powerFactorDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-power-factor.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);

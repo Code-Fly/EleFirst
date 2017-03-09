@@ -1,0 +1,135 @@
+{
+  "credits": {
+    "enabled": false
+  },
+  "exporting": {
+    "enabled": false
+  },
+  "chart": {
+    "type": "spline",
+    "zoomType": "x"
+  },
+  "rangeSelector": {
+    "enabled": false
+  },
+  "navigator": {
+    "enabled": true,
+    "xAxis": {
+      "type": "datetime",
+      "dateTimeLabelFormats": {
+        "millisecond": "%H:%M:%S.%L",
+        "second": "%H:%M:%S",
+        "minute": "%H:%M",
+        "hour": "%H:%M",
+        "day": "%m-%d",
+        "week": "%m-%d",
+        "month": "%Y-%m",
+        "year": "%Y"
+      }
+    }
+  },
+  "title": {
+    "text": null
+  },
+  "legend": {
+    "borderWidth": 1,
+    "shadow": false
+  },
+  "subtitle": {
+    "text": "鼠标拖动可以进行缩放"
+  },
+  "tooltip": {
+    "dateTimeLabelFormats": {
+      "millisecond": "%H:%M:%S.%L",
+      "second": "%H:%M:%S",
+      "minute": "%H:%M",
+      "hour": "%H:%M",
+      "day": "%Y-%m-%d",
+      "week": "%m-%d",
+      "month": "%Y-%m",
+      "year": "%Y"
+    },
+    "valueSuffix": "kW",
+    "shared": true
+  },
+  "plotOptions": {
+    "series": {
+      "showInNavigator": true
+    },
+    "spline": {
+      "marker": {
+        "enabled": false
+      }
+    }
+  },
+  "xAxis": [
+    {
+      "crosshair": {
+        "width": 1,
+        "dashStyle": "dash",
+        "color": "#898989",
+        "snap": false
+      },
+      "type": "datetime",
+      "dateTimeLabelFormats": {
+        "millisecond": "%H:%M:%S.%L",
+        "second": "%H:%M:%S",
+        "minute": "%H:%M",
+        "hour": "%H:%M",
+        "day": "%m-%d",
+        "week": "%m-%d",
+        "month": "%Y-%m",
+        "year": "%Y"
+      }
+    }
+  ],
+  "yAxis": [
+    {
+      "crosshair": {
+        "width": 1,
+        "dashStyle": "dash",
+        "color": "#898989",
+        "snap": false
+      },
+      "title": {
+        "text": "单位（kW）"
+      }
+    }
+  ],
+  "series": [
+    {
+      "name": "Tokyo",
+      "data": [
+        7.0,
+        6.9,
+        9.5,
+        14.5,
+        18.4,
+        21.5,
+        25.2,
+        26.5,
+        23.3,
+        18.3,
+        13.9,
+        9.6
+      ]
+    },
+    {
+      "name": "London",
+      "data": [
+        3.9,
+        4.2,
+        5.7,
+        8.5,
+        11.9,
+        15.2,
+        17.0,
+        16.6,
+        14.2,
+        10.3,
+        6.6,
+        4.8
+      ]
+    }
+  ]
+}

@@ -7,11 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- highcharts 5. 库 -->
-<script src="${ctx}Content/js/Highcharts-5.0.7/code/highcharts.js"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.7/code/highcharts-3d.js"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.7/code/highcharts-more.js"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.7/code/modules/exporting.js"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.7/code/modules/drilldown.js"></script>
+<%--<script src="${ctx}Content/js/Highcharts-5.0.9/code/highcharts.js"></script>--%>
+<script src="${ctx}Content/js/Highstock-5.0.9/code/highstock.js"></script>
+<script src="${ctx}Content/js/Highcharts-5.0.9/code/highcharts-3d.js"></script>
+<script src="${ctx}Content/js/Highcharts-5.0.9/code/highcharts-more.js"></script>
+<script src="${ctx}Content/js/Highcharts-5.0.9/code/modules/exporting.js"></script>
+<script src="${ctx}Content/js/Highcharts-5.0.9/code/modules/drilldown.js"></script>
+
 <!-- highcharts 4. 库 -->
 <%--<script src="${ctx}Content/js/Highcharts-4.2.7/js/highcharts.js"></script>--%>
 <%--<script src="${ctx}Content/js/Highcharts-4.2.7/js/highcharts-3d.js"></script>--%>
