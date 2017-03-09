@@ -58,6 +58,7 @@
       "year": "%Y"
     },
     "valueSuffix": "kW",
+    "valueDecimals": 3,
     "shared": true
   },
   "plotOptions": {

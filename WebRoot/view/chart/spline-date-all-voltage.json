@@ -58,6 +58,7 @@
       "year": "%Y"
     },
     "valueSuffix": "V",
+    "valueDecimals": 1,
     "shared": true
   },
   "plotOptions": {
