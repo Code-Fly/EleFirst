@@ -321,7 +321,7 @@ $(document).ready(function () {
         if ("0" == customToolbarInfo.errcode) {
             return customToolbarInfo.data;
         } else {
-            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(customToolbarInfo.errcode), "info");
+            $.messager.alert("操作提示", "请求失败！" + ErrUtils.getMsg(customToolbarInfo.errcode), "info");
             return [];
         }
     }

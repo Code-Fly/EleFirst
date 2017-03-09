@@ -109,10 +109,10 @@ var DashboardUtils = {
                                     $(target).find("input[type=hidden]").val(JSON.stringify(option));
                                 }
                             } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
                         } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            jError("请求失败！" + ErrUtils.getMsg("2"));
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
@@ -133,7 +133,7 @@ var DashboardUtils = {
                         // });
                     },
                     error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
                         var option = $.parseJSON($(target).find("input[type=hidden]").val());

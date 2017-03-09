@@ -1,7 +1,7 @@
 /**
  * Created by 123 on 2016/6/27.
  */
-var DSM_ERROR_MAP = {
+var ERROR_MAP = {
     "-1": null,
     "0": "正常结束",
     "1": "Session异常",
@@ -22,12 +22,12 @@ var DSM_ERROR_MAP = {
     "17": "任务执行失败",
 
 }
-var DsmErrUtils = {
+var ErrUtils = {
     getMsg: function (value, param) {
-        if (!DSM_ERROR_MAP.hasOwnProperty(value)) {
+        if (!ERROR_MAP.hasOwnProperty(value)) {
             return "";
         }
-        if (null == DSM_ERROR_MAP[value]) {
+        if (null == ERROR_MAP[value]) {
             return "(" + value + ")";
         }
     }

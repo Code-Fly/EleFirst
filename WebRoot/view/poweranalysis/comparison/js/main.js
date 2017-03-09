@@ -244,17 +244,17 @@ $(document).ready(function () {
 
                                 $("#chart-load").highcharts("StockChart", config);
                             } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
                         } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            jError("请求失败！" + ErrUtils.getMsg("2"));
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
                         MaskUtil.mask();
                     },
                     error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
                         MaskUtil.unmask();
@@ -322,17 +322,17 @@ $(document).ready(function () {
 
                                 $("#chart-load").highcharts("StockChart", config);
                             } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
                         } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            jError("请求失败！" + ErrUtils.getMsg("2"));
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
                         MaskUtil.mask();
                     },
                     error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
                         MaskUtil.unmask();
@@ -398,10 +398,10 @@ $(document).ready(function () {
                                     $(".table-" + r.data[0].areaId + "-" + r.data[0].concentratorId + "-" + r.data[0].pn).datagrid("loadData", d);
                                 }
                             } else {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
                         } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                            jError("请求失败！" + ErrUtils.getMsg("2"));
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
@@ -414,7 +414,7 @@ $(document).ready(function () {
                         // MaskUtil.mask();
                     },
                     error: function (request) {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                        jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
                         // MaskUtil.unmask();
@@ -570,17 +570,17 @@ $(document).ready(function () {
                         $("#combo-pn").combobox("loadData", d);
                         // $.messager.alert("操作提示", JSON.stringify(r.data));
                     } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
                 } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
             },
             beforeSend: function (XMLHttpRequest) {
                 MaskUtil.mask();
             },
             error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
                 MaskUtil.unmask();

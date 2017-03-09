@@ -119,25 +119,25 @@ $(document).ready(function () {
                                             $("#chart-electricity-detail").highcharts(config);
                                         }
                                     } else {
-                                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
                                 } else {
-                                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                                    jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
                             },
                             error: function (request) {
-                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
                             },
                             complete: function (XMLHttpRequest, textStatus) {
                                 MaskUtil.unmask();
                             }
                         });
                     } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                         MaskUtil.unmask();
                     }
                 } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                     MaskUtil.unmask();
                 }
             },
@@ -145,7 +145,7 @@ $(document).ready(function () {
                 MaskUtil.mask();
             },
             error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                jError("请求失败！" + ErrUtils.getMsg("3"));
                 MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
@@ -210,17 +210,17 @@ $(document).ready(function () {
                         }
 
                     } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
                 } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
             },
             beforeSend: function (XMLHttpRequest) {
 
             },
             error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
 
@@ -279,17 +279,17 @@ $(document).ready(function () {
                             $("#chart-electricity-comparison").highcharts(config);
                         }
                     } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
                 } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
             },
             beforeSend: function (XMLHttpRequest) {
 
             },
             error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
 
@@ -351,10 +351,10 @@ $(document).ready(function () {
                             $("#chart-electricity-composition").highcharts(config);
                         }
                     } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
                 } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
             }
         });
@@ -417,17 +417,17 @@ $(document).ready(function () {
                         }
 
                     } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
                 } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
             },
             beforeSend: function (XMLHttpRequest) {
 
             },
             error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
 
@@ -488,17 +488,17 @@ $(document).ready(function () {
                             $("#dg-table").datagrid("loadData", dgData);
                         }
                     } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
                 } else {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
             },
             beforeSend: function (XMLHttpRequest) {
 
             },
             error: function (request) {
-                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
 
@@ -533,7 +533,7 @@ $(document).ready(function () {
         if ("0" == pnInfo.errcode) {
             return pnInfo.data;
         } else {
-            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(pnInfo.errcode), "info");
+            jError("请求失败！" + ErrUtils.getMsg(pnInfo.errcode));
             return [];
         }
     }

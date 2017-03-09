@@ -130,17 +130,17 @@ $(document).ready(function () {
                             }
                             update(graph, r.data);
                         } else {
-                            $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg(r.errcode, param), "info");
+                            $.messager.alert("操作提示", "提交失败！" + ErrUtils.getMsg(r.errcode, param), "info");
                         }
                     } else {
-                        $.messager.alert("操作提示", "提交失败！" + DsmErrUtils.getMsg("2"), "info");
+                        $.messager.alert("操作提示", "提交失败！" + ErrUtils.getMsg("2"), "info");
                     }
                 },
                 beforeSend: function (XMLHttpRequest) {
                     MaskUtil.mask();
                 },
                 error: function (request) {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    jError("请求失败！" + ErrUtils.getMsg("3"));
                 },
                 complete: function (XMLHttpRequest, textStatus) {
                     MaskUtil.unmask();
@@ -234,17 +234,17 @@ $(document).ready(function () {
                                 if ("0" == r.errcode) {
                                     $.messager.alert("操作提示", "模板已保存！", "info");
                                 } else {
-                                    $.messager.alert("操作提示", "模板保存失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    $.messager.alert("操作提示", "模板保存失败！" + ErrUtils.getMsg(r.errcode), "info");
                                 }
                             } else {
-                                $.messager.alert("操作提示", "模板保存失败！" + DsmErrUtils.getMsg("2"), "info");
+                                $.messager.alert("操作提示", "模板保存失败！" + ErrUtils.getMsg("2"), "info");
                             }
                         },
                         beforeSend: function (XMLHttpRequest) {
                             MaskUtil.mask();
                         },
                         error: function (request) {
-                            $.messager.alert("操作提示", "模板保存失败！" + DsmErrUtils.getMsg("3"), "info");
+                            $.messager.alert("操作提示", "模板保存失败！" + ErrUtils.getMsg("3"), "info");
                         },
                         complete: function (XMLHttpRequest, textStatus) {
                             MaskUtil.unmask();
@@ -291,17 +291,17 @@ $(document).ready(function () {
                                         $("#combo-template").combobox("reload");
                                     });
                                 } else {
-                                    $.messager.alert("操作提示", "模板保存失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    $.messager.alert("操作提示", "模板保存失败！" + ErrUtils.getMsg(r.errcode), "info");
                                 }
                             } else {
-                                $.messager.alert("操作提示", "模板保存失败！" + DsmErrUtils.getMsg("2"), "info");
+                                $.messager.alert("操作提示", "模板保存失败！" + ErrUtils.getMsg("2"), "info");
                             }
                         },
                         beforeSend: function (XMLHttpRequest) {
                             MaskUtil.mask();
                         },
                         error: function (request) {
-                            $.messager.alert("操作提示", "模板保存失败！" + DsmErrUtils.getMsg("3"), "info");
+                            $.messager.alert("操作提示", "模板保存失败！" + ErrUtils.getMsg("3"), "info");
                         },
                         complete: function (XMLHttpRequest, textStatus) {
                             MaskUtil.unmask();
@@ -336,17 +336,17 @@ $(document).ready(function () {
                                         $("#combo-template").combobox("reload");
                                     });
                                 } else {
-                                    $.messager.alert("操作提示", "删除失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                                    $.messager.alert("操作提示", "删除失败！" + ErrUtils.getMsg(r.errcode), "info");
                                 }
                             } else {
-                                $.messager.alert("操作提示", "删除失败！" + DsmErrUtils.getMsg("2"), "info");
+                                $.messager.alert("操作提示", "删除失败！" + ErrUtils.getMsg("2"), "info");
                             }
                         },
                         beforeSend: function (XMLHttpRequest) {
                             $("#btn-del-template").linkbutton("disable");
                         },
                         error: function (request) {
-                            $.messager.alert("操作提示", "删除失败！" + DsmErrUtils.getMsg("3"), "info");
+                            $.messager.alert("操作提示", "删除失败！" + ErrUtils.getMsg("3"), "info");
                         },
                         complete: function (XMLHttpRequest, textStatus) {
                             $("#btn-del-template").linkbutton("enable");
@@ -373,7 +373,7 @@ $(document).ready(function () {
             $(this).combobox("clear");
         },
         onLoadError: function (r) {
-            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+            jError("请求失败！" + ErrUtils.getMsg(r.errcode));
         }
     });
 

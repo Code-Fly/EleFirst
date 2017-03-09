@@ -21,11 +21,11 @@
 			ShowTimeEffect : 200, 			// duration of the Show Effect
 			HideTimeEffect : 200, 			// duration of the Hide effect
 			LongTrip : 15,					// in pixel, length of the move effect when show and hide
-			HorizontalPosition : 'right', 	// left, center, right
-			VerticalPosition : 'bottom',	 // top, center, bottom
-			ShowOverlay : true,				// show overlay behind the notice ?
+            HorizontalPosition: 'center', 	// left, center, right
+            VerticalPosition: 'center',	// top, center, bottom
+            ShowOverlay: false,			// show overlay behind the notice ?
 			ColorOverlay : '#000',			// color of the overlay
-			OpacityOverlay : 0.3,			// opacity of the overlay
+            OpacityOverlay: 0.1,			// opacity of the overlay
 			
 			/** METHODS - OPTIONS **/
 			onClosed : null,
