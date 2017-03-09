@@ -423,7 +423,7 @@ $(document).ready(function () {
                         var w = TimeUtils.weekFromODBC(startDate.getDay());
                         startDate.setDate(startDate.getDate() - w);
                         var endDate = new Date(startDate.getTime());
-                        endDate.setDate(endDate.getDate() + 6);
+                        endDate.setDate(endDate.getDate() + 7);
 
                         var startTime = startDate.format('yyyyMMdd') + "000000";
                         var endTime = endDate.format('yyyyMMdd') + "000000";
@@ -549,7 +549,7 @@ $(document).ready(function () {
                         var w = TimeUtils.weekFromODBC(startDate.getDay());
                         startDate.setDate(startDate.getDate() - w);
                         var endDate = new Date(startDate.getTime());
-                        endDate.setDate(endDate.getDate() + 6);
+                        endDate.setDate(endDate.getDate() + 7);
 
                         var startTime = startDate.format('yyyyMMdd') + "000000";
                         var endTime = endDate.format('yyyyMMdd') + "000000";
@@ -704,7 +704,7 @@ $(document).ready(function () {
                         var w = TimeUtils.weekFromODBC(startDate.getDay());
                         startDate.setDate(startDate.getDate() - w);
                         var endDate = new Date(startDate.getTime());
-                        endDate.setDate(endDate.getDate() + 6);
+                        endDate.setDate(endDate.getDate() + 7);
 
                         var startTime = startDate.format('yyyyMMdd') + "000000";
                         var endTime = endDate.format('yyyyMMdd') + "000000";
@@ -860,7 +860,7 @@ $(document).ready(function () {
                         var w = TimeUtils.weekFromODBC(startDate.getDay());
                         startDate.setDate(startDate.getDate() - w);
                         var endDate = new Date(startDate.getTime());
-                        endDate.setDate(endDate.getDate() + 6);
+                        endDate.setDate(endDate.getDate() + 7);
 
                         var startTime = startDate.format('yyyyMMdd') + "000000";
                         var endTime = endDate.format('yyyyMMdd') + "000000";
