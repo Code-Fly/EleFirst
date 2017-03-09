@@ -42,6 +42,7 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
+        criteria.andClientoperationtimeIsNotNull();
         if (template.getRows() > 0 && template.getPage() > 0) {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
@@ -61,6 +62,7 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
                     .andPnEqualTo(node.getPn())
                     .andClientoperationtimeGreaterThanOrEqualTo(startTime)
                     .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
             ;
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
@@ -85,6 +87,7 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
                 .andPnEqualTo(node.getPn())
                 .andClientoperationtimeGreaterThanOrEqualTo(time)
                 .andClientoperationtimeLessThan(endTime)
+                .andClientoperationtimeIsNotNull()
         ;
 
         condition.setOrderByClause("`clientOperationTime` ASC");
@@ -112,6 +115,7 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
                         .andPnEqualTo(node.getPn())
                         .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
                         .andClientoperationtimeLessThan(endTime)
+                        .andClientoperationtimeIsNotNull()
                 ;
             }
         }

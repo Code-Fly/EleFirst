@@ -500,7 +500,9 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var series = [];
 
-                                        var item = ChartUtils.getLoadAllSeries({}, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
+                                        var item = ChartUtils.getLoadAllSeries({
+                                            name: new Date(y, m, d).format("yyyy-MM-dd")
+                                        }, r.data);
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
@@ -599,36 +601,21 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var series = [];
                                         var item = ChartUtils.getVoltageAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "A相",
+                                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "orange"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "aVoltage");
+                                        }, r.data, "aVoltage");
                                         series.push(item);
 
                                         var item = ChartUtils.getVoltageAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "B相",
+                                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "green"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "bVoltage");
+                                        }, r.data, "bVoltage");
                                         series.push(item);
 
                                         var item = ChartUtils.getVoltageAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "C相",
+                                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "red"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "cVoltage");
+                                        }, r.data, "cVoltage");
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
@@ -728,36 +715,21 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var series = [];
                                         var item = ChartUtils.getCurrentAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "A相",
+                                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "orange"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "aCurrent");
+                                        }, r.data, "aCurrent");
                                         series.push(item);
 
                                         var item = ChartUtils.getCurrentAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "B相",
+                                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "green"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "bCurrent");
+                                        }, r.data, "bCurrent");
                                         series.push(item);
 
                                         var item = ChartUtils.getCurrentAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "C相",
+                                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "red"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "cCurrent");
+                                        }, r.data, "cCurrent");
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
@@ -857,36 +829,21 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var series = [];
                                         var item = ChartUtils.getPowerFactorAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "A相",
+                                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "orange"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "aPowerfactor");
+                                        }, r.data, "aPowerfactor");
                                         series.push(item);
 
                                         var item = ChartUtils.getPowerFactorAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "B相",
+                                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "green"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "bPowerfactor");
+                                        }, r.data, "bPowerfactor");
                                         series.push(item);
 
                                         var item = ChartUtils.getPowerFactorAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "C相",
+                                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
                                             color: "red"
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data, "cPowerfactor");
+                                        }, r.data, "cPowerfactor");
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({

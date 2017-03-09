@@ -214,9 +214,9 @@ var ChartUtils = {
 
         return series;
     },
-    getLoadAllSeries: function (node, time, data) {
+    getLoadAllSeries: function (node, data) {
         var series = {
-            name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),
+            name: node.name,
             data: []
         };
 
@@ -306,9 +306,9 @@ var ChartUtils = {
 
         return series;
     },
-    getVoltageAllSeries: function (node, time, data, phase) {
+    getVoltageAllSeries: function (node, data, phase) {
         var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            name: node.name,
             color: node.color,
             data: []
         };
@@ -406,16 +406,19 @@ var ChartUtils = {
 
         return series;
     },
-    getCurrentAllSeries: function (node, time, data, phase) {
+    getCurrentAllSeries: function (node, data, phase) {
         var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            name: node.name,
             color: node.color,
             data: []
         };
 
+        console.log(data)
+
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i][phase]);
             tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+
             series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
         }
         return series;
@@ -506,9 +509,9 @@ var ChartUtils = {
 
         return series;
     },
-    getPowerFactorAllSeries: function (node, time, data, phase) {
+    getPowerFactorAllSeries: function (node, data, phase) {
         var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            name: node.name,
             color: node.color,
             data: []
         };
