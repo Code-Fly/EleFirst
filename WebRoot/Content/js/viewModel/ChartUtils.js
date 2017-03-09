@@ -221,11 +221,9 @@ var ChartUtils = {
         };
 
         for (var i = 0; i < data.length; i++) {
-            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
-                var tmp = parseFloat(data[i].totalactivepower) * node.pt * node.ct;
-                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
-                series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
-            }
+            var tmp = parseFloat(data[i].totalactivepower);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
         }
 
         return series;
@@ -318,11 +316,9 @@ var ChartUtils = {
         };
 
         for (var i = 0; i < data.length; i++) {
-            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
-                var tmp = parseFloat(data[i][phase]) * node.pt;
-                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
-                series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
-            }
+            var tmp = parseFloat(data[i][phase]);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
         }
         return series;
     },
@@ -420,11 +416,9 @@ var ChartUtils = {
         };
 
         for (var i = 0; i < data.length; i++) {
-            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
-                var tmp = parseFloat(data[i][phase]) * node.ct;
-                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
-                series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
-            }
+            var tmp = parseFloat(data[i][phase]);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
         }
         return series;
     },
@@ -522,11 +516,9 @@ var ChartUtils = {
         };
 
         for (var i = 0; i < data.length; i++) {
-            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
-                var tmp = parseFloat(data[i][phase]);
-                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
-                series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
-            }
+            var tmp = parseFloat(data[i][phase]);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
         }
         return series;
     },

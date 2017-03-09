@@ -26,4 +26,6 @@ public interface IDataF25FrozenDayService {
     int updateDataF25FrozenDay(DataF25FrozenDay template);
 
     int delDataF25FrozenDay(String id);
+
+    List<DataF25FrozenDay> format(List<DataF25FrozenDay> data);
 }

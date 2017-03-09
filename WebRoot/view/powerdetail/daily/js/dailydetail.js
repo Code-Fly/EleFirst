@@ -11,7 +11,7 @@ $(document).ready(function () {
     $("#input-detail-datebox").datebox("calendar").calendar({
         firstDay: 1
     });
-    
+
     var harmonicComboxVal = 0;
 
     //初始化center中tabs
@@ -30,22 +30,22 @@ $(document).ready(function () {
                 dg('tt5', 'dailypower/listDailyPowerFactor.do');
             } else if ("电量" == title) {
                 dg('tt7', 'dailypower/listDailyElectricity.do');
-            } else if("谐波" == title){
-            	  $('#cc1').combobox({
-						        url: 'data/combobox_data.json',
-						        valueField: 'id',
-						        textField: 'text',
-						        method: 'get',
-						        editable: false,
-						        onClick: function (rec) {
-						        	  harmonicComboxVal = rec.id
-						            dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
-						        },
-						        onLoadSuccess: function(){
-						        	harmonicComboxVal = $('#cc1').combobox('getValue');
-                      dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
-						        }
-						    });
+            } else if ("谐波" == title) {
+                $('#cc1').combobox({
+                    url: 'data/combobox_data.json',
+                    valueField: 'id',
+                    textField: 'text',
+                    method: 'get',
+                    editable: false,
+                    onClick: function (rec) {
+                        harmonicComboxVal = rec.id
+                        dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
+                    },
+                    onLoadSuccess: function () {
+                        harmonicComboxVal = $('#cc1').combobox('getValue');
+                        dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
+                    }
+                });
             }
         }
     });
@@ -135,7 +135,7 @@ $(document).ready(function () {
                 pn: pn,
                 time: $("#input-detail-datebox").datebox("getValue")
             });
-        }else if ("谐波" == title) {
+        } else if ("谐波" == title) {
             //刷新当前监测点所有示数信息
             $("#dtt3").datagrid({
                 url: _ctx + 'dailypower/listDailyAllHarmonicBypn.do',
@@ -381,7 +381,7 @@ $(document).ready(function () {
                         $('#tab2').tabs('select', '电量');
                         //初始化负荷详情
                         handerBySouthTabType('电量');
-                    }else if ('tt6' == dgId) {
+                    } else if ('tt6' == dgId) {
                         singlerow = $('#tt6').datagrid('getSelected');
                         areaId = singlerow.areaId;
                         concentratorId = singlerow.concentratorId;
@@ -444,7 +444,7 @@ $(document).ready(function () {
                 dg('tt5', 'dailypower/listDailyPowerFactor.do');
             } else if ("电量" == title) {
                 dg('tt7', 'dailypower/listDailyElectricity.do');
-            } else if("谐波" == title){
+            } else if ("谐波" == title) {
                 dg('tt6', 'dailypower/listDailyPartionHarmonic.do');
             }
         }
@@ -500,13 +500,7 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var series = [];
 
-                                        var item = ChartUtils.getLoadAllSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
+                                        var item = ChartUtils.getLoadAllSeries({}, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({

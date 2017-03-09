@@ -77,7 +77,7 @@ public class DataF25FrozenDayController extends BaseController {
 
         List<DataF25FrozenDay> result = dataF25FrozenDayService.getDataF25FrozenDayList(nodes, startTime, endTime);
 
-        return new ErrorMsg(Error.SUCCESS, "success", result);
+        return new ErrorMsg(Error.SUCCESS, "success", dataF25FrozenDayService.format(result));
     }
 
     @RequestMapping(value = "/f25/frozen/day/node/time/list.do")
@@ -99,7 +99,7 @@ public class DataF25FrozenDayController extends BaseController {
         for (int i = 0; i < nodes.size(); i++) {
             for (int j = 0; j < times.size(); j++) {
                 List<DataF25FrozenDay> item = dataF25FrozenDayService.getDataF25FrozenDayList(nodes.get(i), times.get(j));
-                result.add(item);
+                result.add(dataF25FrozenDayService.format(item));
             }
         }
 
