@@ -39,7 +39,10 @@
             resetZoomTitle: "恢复图表",
             shortMonths: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
             thousandsSep: ",",
-            weekdays: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"]
+            weekdays: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"],
+            rangeSelectorZoom: '缩放',
+            rangeSelectorFrom: '起始',
+            rangeSelectorTo: '结束'
         }
     });
 </script>

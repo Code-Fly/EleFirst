@@ -410,7 +410,7 @@ $(document).ready(function () {
         }
 
         var config = $.parseJSON($.ajax({
-            url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
+            url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
             type: "GET",
             async: false
         }).responseText);

@@ -13,7 +13,14 @@
     "text": null
   },
   "rangeSelector": {
-    "enabled": false
+    "enabled": true,
+    "buttons": [
+      {
+        "type": "all",
+        "text": "全部"
+      }
+    ],
+    "inputEnabled": false
   },
   "navigator": {
     "enabled": true,
