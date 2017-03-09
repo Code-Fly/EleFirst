@@ -235,12 +235,10 @@ var ChartUtils = {
         };
 
         for (var i = 0; i < data.length; i++) {
-            if (data[i].areaId == node.areaId && data[i].concentratorId == node.concentratorId && data[i].pn == node.pn) {
-                var tmp = parseFloat(data[i].totalactivepower) * node.pt * node.ct;
-                tmp = DataGridUtils.floatFormatter(tmp, 3, true);
-                var date = "20000101" + (data[i].clientoperationtime + "").substr(8);
-                series.data.push([TimeUtils.dbTimeToUTC(date), tmp]);
-            }
+            var tmp = parseFloat(data[i].totalactivepower);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            var date = "20000101" + (data[i].clientoperationtime + "").substr(8);
+            series.data.push([TimeUtils.dbTimeToUTC(date), tmp]);
         }
 
         return series;
