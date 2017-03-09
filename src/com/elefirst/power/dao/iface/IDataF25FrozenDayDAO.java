@@ -12,6 +12,8 @@ import java.util.List;
 public interface IDataF25FrozenDayDAO {
     List<DataF25FrozenDay> getDataF25FrozenDayList(DataF25FrozenDayExample example);
 
+    List<DataF25FrozenDay> getDataF25FrozenDaySumList(DataF25FrozenDayExample example);
+
     int getDataF25FrozenDayListCount(DataF25FrozenDayExample example);
 
     int addDataF25FrozenDay(DataF25FrozenDay template);

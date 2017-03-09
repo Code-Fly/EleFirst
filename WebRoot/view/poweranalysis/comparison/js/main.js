@@ -154,8 +154,8 @@ $(document).ready(function () {
                 $.messager.alert("信息提示", "请选择监测点！", "info");
                 return;
             }
-            var time = $("#input-time").tagbox("getData");
-            if (time.length == 0) {
+            var timeStr = $("#input-time").tagbox("getData");
+            if (timeStr.length == 0) {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
@@ -177,8 +177,8 @@ $(document).ready(function () {
 
             var times = [];
 
-            for (var i = 0; i < time.length; i++) {
-                var ss = time[i].value.split('-');
+            for (var i = 0; i < timeStr.length; i++) {
+                var ss = timeStr[i].value.split('-');
                 var y = parseInt(ss[0], 10);
                 var m = parseInt(ss[1], 10) - 1;
                 var d = parseInt(ss[2], 10);
@@ -188,36 +188,160 @@ $(document).ready(function () {
                 )
             }
 
-            $.ajax({
-                url: _ctx + "power/data/f25/frozen/day/node/time/list.do",
-                type: "POST",
-                cache: false,
-                data: {
-                    node: JSON.stringify(nodes),
-                    time: JSON.stringify(times)
-                },
-                success: function (r) {
-                    if (r.hasOwnProperty("errcode")) {
-                        if ("0" == r.errcode) {
-                            // $.messager.alert("操作提示", JSON.stringify(r.data));
-                            getLoadChart(r.data);
+            if ($("#switch-total").switchbutton("options").checked) {
+                $.ajax({
+                    url: _ctx + "power/data/f25/frozen/day/node/time/sum.do",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        node: JSON.stringify(nodes),
+                        time: JSON.stringify(times)
+                    },
+                    success: function (r) {
+                        if (r.hasOwnProperty("errcode")) {
+                            if ("0" == r.errcode) {
+                                var series = [];
+
+                                // $.messager.alert("操作提示", JSON.stringify(r.data));
+                                var nodes = [];
+                                for (var i = 0; i < nodeStr.length; i++) {
+                                    var areaId = (nodeStr[i].value + "").split(":")[0];
+                                    var concentratorId = (nodeStr[i].value + "").split(":")[1];
+                                    var pn = (nodeStr[i].value + "").split(":")[2];
+                                    var pt = parseFloat((nodeStr[0].value + "").split(":")[3]);
+                                    var ct = parseFloat((nodeStr[0].value + "").split(":")[4]);
+                                    var name = nodeStr[i].name;
+
+                                    nodes.push({
+                                        areaId: areaId,
+                                        concentratorId: concentratorId,
+                                        pn: pn,
+                                        pt: pt,
+                                        ct: ct,
+                                        name: name
+                                    });
+                                }
+
+                                for (var i = 0; i < r.data.length; i++) {
+                                    if (r.data[i].length > 0) {
+                                        var ss = r.data[i][0].clientoperationtime;
+                                        var date = TimeUtils.dbTimeToDate(ss);
+
+                                        var item = ChartUtils.getLoadAllByHourSeries({
+                                            name:  date.format("yyyy-MM-dd")
+                                        }, r.data[i]);
+                                        series.push(item);
+                                    }
+                                }
+
+                                var config = $.parseJSON($.ajax({
+                                    url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
+                                    type: "GET",
+                                    async: false
+                                }).responseText);
+
+                                config.series = series;
+
+                                $("#chart-load").highcharts(config);
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            }
                         } else {
-                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
                         }
-                    } else {
-                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                    },
+                    beforeSend: function (XMLHttpRequest) {
+                        MaskUtil.mask();
+                    },
+                    error: function (request) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        MaskUtil.unmask();
                     }
-                },
-                beforeSend: function (XMLHttpRequest) {
-                    MaskUtil.mask();
-                },
-                error: function (request) {
-                    $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
-                },
-                complete: function (XMLHttpRequest, textStatus) {
-                    MaskUtil.unmask();
-                }
-            });
+                });
+            }else{
+                $.ajax({
+                    url: _ctx + "power/data/f25/frozen/day/node/time/list.do",
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        node: JSON.stringify(nodes),
+                        time: JSON.stringify(times)
+                    },
+                    success: function (r) {
+                        if (r.hasOwnProperty("errcode")) {
+                            if ("0" == r.errcode) {
+                                var series = [];
+
+                                // $.messager.alert("操作提示", JSON.stringify(r.data));
+                                var nodes = [];
+                                for (var i = 0; i < nodeStr.length; i++) {
+                                    var areaId = (nodeStr[i].value + "").split(":")[0];
+                                    var concentratorId = (nodeStr[i].value + "").split(":")[1];
+                                    var pn = (nodeStr[i].value + "").split(":")[2];
+                                    var pt = parseFloat((nodeStr[0].value + "").split(":")[3]);
+                                    var ct = parseFloat((nodeStr[0].value + "").split(":")[4]);
+                                    var name = nodeStr[i].name;
+
+                                    nodes.push({
+                                        areaId: areaId,
+                                        concentratorId: concentratorId,
+                                        pn: pn,
+                                        pt: pt,
+                                        ct: ct,
+                                        name: name
+                                    });
+                                }
+
+                                for (var i = 0; i < r.data.length; i++) {
+                                    if (r.data[i].length > 0) {
+                                        var ss = r.data[i][0].clientoperationtime;
+                                        var date = TimeUtils.dbTimeToDate(ss);
+
+                                        var areaId = r.data[i][0].areaId;
+                                        var concentratorId = r.data[i][0].concentratorId;
+                                        var pn = r.data[i][0].pn;
+
+                                        var node = getNode(areaId, concentratorId, pn, nodes);
+
+                                        var item = ChartUtils.getLoadAllByHourSeries({
+                                            name: node.name + "(" + date.format("yyyy-MM-dd") + ")"
+                                        }, r.data[i]);
+                                        series.push(item);
+                                    }
+                                }
+
+                                var config = $.parseJSON($.ajax({
+                                    url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
+                                    type: "GET",
+                                    async: false
+                                }).responseText);
+
+                                config.series = series;
+
+                                $("#chart-load").highcharts(config);
+                            } else {
+                                $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
+                            }
+                        } else {
+                            $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("2"), "info");
+                        }
+                    },
+                    beforeSend: function (XMLHttpRequest) {
+                        MaskUtil.mask();
+                    },
+                    error: function (request) {
+                        $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg("3"), "info");
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                        MaskUtil.unmask();
+                    }
+                });
+            }
+
+            return
+
 
             for (var i = 0; i < nodeStr.length; i++) {
                 var paramTable = {
@@ -410,7 +534,7 @@ $(document).ready(function () {
         }
 
         var config = $.parseJSON($.ajax({
-            url: _ctx + "view/chart/spline-date-singlel-load.json?bust=" + new Date().getTime(),
+            url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
             type: "GET",
             async: false
         }).responseText);

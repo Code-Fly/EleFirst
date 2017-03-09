@@ -125,6 +125,130 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
     }
 
     @Override
+    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(DataF25FrozenDay template) {
+        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+        DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        criteria.andClientoperationtimeIsNotNull();
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`sendTime` ASC");
+        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+    }
+
+    @Override
+    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, String startTime, String endTime) {
+        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenDay node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+    }
+
+    @Override
+    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(DataF25FrozenDay node, String time) throws ParseException {
+        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = formatter.parse(time);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        String endTime = formatter.format(cal.getTime());
+
+        condition.or()
+                .andAreaIdEqualTo(node.getAreaId())
+                .andConcentratorIdEqualTo(node.getConcentratorId())
+                .andPnEqualTo(node.getPn())
+                .andClientoperationtimeGreaterThanOrEqualTo(time)
+                .andClientoperationtimeLessThan(endTime)
+                .andClientoperationtimeIsNotNull()
+        ;
+
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+    }
+
+    @Override
+    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, List<String> times) throws ParseException {
+        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenDay node = nodes.get(i);
+            for (int j = 0; j < times.size(); j++) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date time = formatter.parse(times.get(j));
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(time);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                String endTime = formatter.format(cal.getTime());
+
+                condition.or()
+                        .andAreaIdEqualTo(node.getAreaId())
+                        .andConcentratorIdEqualTo(node.getConcentratorId())
+                        .andPnEqualTo(node.getPn())
+                        .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
+                        .andClientoperationtimeLessThan(endTime)
+                        .andClientoperationtimeIsNotNull()
+                ;
+            }
+        }
+
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+    }
+
+    @Override
+    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, String time) throws ParseException {
+        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenDay node = nodes.get(i);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = formatter.parse(time);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            String endTime = formatter.format(cal.getTime());
+
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(time)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+            ;
+        }
+
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+    }
+
+    @Override
     public int getDataF25FrozenDayListCount(DataF25FrozenDay template) {
         DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
         DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();

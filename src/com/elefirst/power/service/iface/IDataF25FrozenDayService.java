@@ -1,6 +1,7 @@
 package com.elefirst.power.service.iface;
 
 import com.elefirst.power.po.DataF25FrozenDay;
+import com.elefirst.power.po.DataF25FrozenDayExample;
 
 import java.text.ParseException;
 import java.util.List;
@@ -16,6 +17,19 @@ public interface IDataF25FrozenDayService {
     List<DataF25FrozenDay> getDataF25FrozenDayList(DataF25FrozenDay node, String time) throws ParseException;
 
     List<DataF25FrozenDay> getDataF25FrozenDayList(List<DataF25FrozenDay> nodes, List<String> times) throws ParseException;
+
+    //
+
+    List<DataF25FrozenDay> getDataF25FrozenDaySumList(DataF25FrozenDay template);
+
+    List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, String startTime, String endTime);
+
+    List<DataF25FrozenDay> getDataF25FrozenDaySumList(DataF25FrozenDay node, String time) throws ParseException;
+
+    List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, List<String> times) throws ParseException;
+
+    List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, String time) throws ParseException;
+    //
 
     int getDataF25FrozenDayListCount(DataF25FrozenDay template);
 

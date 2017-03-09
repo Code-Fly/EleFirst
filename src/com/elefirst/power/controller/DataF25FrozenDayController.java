@@ -105,4 +105,28 @@ public class DataF25FrozenDayController extends BaseController {
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
+
+    @RequestMapping(value = "/f25/frozen/day/node/time/sum.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenDaySumByNodesAndTime(HttpServletRequest request,
+                                                         HttpServletResponse response,
+                                                         @RequestParam(value = "node", required = false) String node,
+                                                         @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<DataF25FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenDay>>() {
+        }.getType());
+
+        List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
+        }.getType());
+
+        List<List<DataF25FrozenDay>> result = new ArrayList<>();
+
+        for (int j = 0; j < times.size(); j++) {
+            List<DataF25FrozenDay> item = dataF25FrozenDayService.getDataF25FrozenDaySumList(nodes, times.get(j));
+            result.add(dataF25FrozenDayService.format(item));
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
 }
