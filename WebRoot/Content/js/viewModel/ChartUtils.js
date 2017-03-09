@@ -228,9 +228,9 @@ var ChartUtils = {
 
         return series;
     },
-    getLoadAllByHourSeries: function (node, time, data) {
+    getLoadAllByHourSeries: function (node, data) {
         var series = {
-            name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
+            name: node.name,
             data: []
         };
 

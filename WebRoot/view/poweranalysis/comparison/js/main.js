@@ -366,7 +366,11 @@ $(document).ready(function () {
                     var concentratorId = data[i][0].concentratorId;
                     var pn = data[i][0].pn;
 
-                    var item = ChartUtils.getLoadAllByHourSeries(getNode(areaId, concentratorId, pn, nodes), date.format('yyyyMMdd') + "000000", data[i]);
+                    var node = getNode(areaId, concentratorId, pn, nodes);
+
+                    var item = ChartUtils.getLoadAllByHourSeries({
+                        name: node.name + "(" + date.format("yyyy-MM-dd") + ")"
+                    }, data[i]);
                     series.push(item);
                 }
             }
