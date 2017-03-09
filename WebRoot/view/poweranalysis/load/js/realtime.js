@@ -13,7 +13,10 @@ $(document).ready(function () {
         editable: false
     });
 
-    $("#datebox-time").datebox("setValue", new Date().getFullYear() + "-", (new Date().getMonth() + 1) + "-" + new Date().getDate());
+    var initDate = new Date();
+    initDate.setDate(initDate.getDate() - 1);
+
+    $("#datebox-time").datebox("setValue", initDate.getFullYear() + "-" + (initDate.getMonth() + 1) + "-" + initDate.getDate());
 
     $("#btn-search").linkbutton({
         onClick: function () {
@@ -35,46 +38,53 @@ $(document).ready(function () {
             time = row.time;
         }
 
-        var paramChart = {
-            node: pnList,
-            time: []
-        }
-
         var ss = time.split('-');
         var y = parseInt(ss[0], 10);
         var m = parseInt(ss[1], 10) - 1;
         var d = parseInt(ss[2], 10);
 
-        paramChart.time.push(
-            new Date(y, m, d).format("yyyyMMdd") + "000000"
+        var times = [];
+        times.push(
+            new Date(y, m, d).format('yyyyMMdd') + "000000"
         );
 
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/load/daily/chart.do",
+            url: _ctx + "power/data/f25/frozen/day/node/time/sum.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: {
+                node: JSON.stringify(pnList),
+                time: JSON.stringify(times)
+
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        getTbData(getDgData(r.data, pnList));
 
                         var series = [];
 
-                        var item = ChartUtils.getLoadDailySumSeries(pnList, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
-                        series.push(item);
+                        for (var i = 0; i < r.data.length; i++) {
+                            if (r.data[i].length > 0) {
+                                var ss = r.data[i][0].clientoperationtime;
+                                var date = TimeUtils.dbTimeToDate(ss);
+
+                                var item = ChartUtils.getLoadAllSeries({
+                                    name: date.format("yyyy-MM-dd")
+                                }, r.data[i]);
+                                series.push(item);
+                            }
+                        }
 
                         var config = $.parseJSON($.ajax({
-                            url: "data/loadDetailChart.json",
+                            url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                             type: "GET",
                             async: false
                         }).responseText);
 
-                        config.xAxis.categories = ChartUtils.getDailyCategories();
                         config.series = series;
+                        $("#chart-load-sum").highcharts("StockChart", config);
 
-                        $("#chart-load-sum").highcharts(config);
+                        // getTbData(getDgData(r.data, pnList));
 
                     } else {
                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
