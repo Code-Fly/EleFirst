@@ -39,6 +39,7 @@
     "text": null
   },
   "legend": {
+    "enabled": true,
     "borderWidth": 1,
     "shadow": false
   },

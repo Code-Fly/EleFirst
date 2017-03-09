@@ -309,9 +309,12 @@ var ChartUtils = {
     getVoltageAllSeries: function (node, data, phase) {
         var series = {
             name: node.name,
-            color: node.color,
             data: []
         };
+
+        if (node.hasOwnProperty("color")) {
+            series.color = node.color;
+        }
 
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i][phase]);
@@ -409,9 +412,12 @@ var ChartUtils = {
     getCurrentAllSeries: function (node, data, phase) {
         var series = {
             name: node.name,
-            color: node.color,
             data: []
         };
+
+        if (node.hasOwnProperty("color")) {
+            series.color = node.color;
+        }
 
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i][phase]);
@@ -510,9 +516,12 @@ var ChartUtils = {
     getPowerFactorAllSeries: function (node, data, phase) {
         var series = {
             name: node.name,
-            color: node.color,
             data: []
         };
+
+        if (node.hasOwnProperty("color")) {
+            series.color = node.color;
+        }
 
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i][phase]);

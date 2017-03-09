@@ -31,10 +31,10 @@
         "second": "%H:%M:%S",
         "minute": "%H:%M",
         "hour": "%H:%M",
-        "day": "%m-%d",
-        "week": "%m-%d",
-        "month": "%Y-%m",
-        "year": "%Y"
+        "day": "%A",
+        "week": "%A",
+        "month": "%A",
+        "year": "%A"
       }
     }
   },
@@ -52,17 +52,28 @@
       "second": "%H:%M:%S",
       "minute": "%H:%M",
       "hour": "%H:%M",
-      "day": "%Y-%m-%d",
-      "week": "%m-%d",
-      "month": "%Y-%m",
-      "year": "%Y"
+      "day": "%A",
+      "week": "%A",
+      "month": "%A",
+      "year": "%A"
     },
     "valueSuffix": "A",
     "shared": true
   },
   "plotOptions": {
     "series": {
-      "showInNavigator": true
+      "showInNavigator": true,
+      "dataGrouping": {
+        "forced": true,
+        "units": [
+          [
+            "day",
+            [
+              1
+            ]
+          ]
+        ]
+      }
     },
     "spline": {
       "marker": {
@@ -84,10 +95,10 @@
         "second": "%H:%M:%S",
         "minute": "%H:%M",
         "hour": "%H:%M",
-        "day": "%m-%d",
-        "week": "%m-%d",
-        "month": "%Y-%m",
-        "year": "%Y"
+        "day": "%A",
+        "week": "%A",
+        "month": "%A",
+        "year": "%A"
       }
     }
   ],

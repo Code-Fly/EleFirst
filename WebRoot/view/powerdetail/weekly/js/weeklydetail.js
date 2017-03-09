@@ -406,7 +406,6 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-
                         var node = [];
 
                         node.push({
@@ -415,7 +414,6 @@ $(document).ready(function () {
                             pn: row.pn
                         });
 
-
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
@@ -423,10 +421,7 @@ $(document).ready(function () {
 
                         var startDate = new Date(y, m, d);
                         var w = TimeUtils.weekFromODBC(startDate.getDay());
-
                         startDate.setDate(startDate.getDate() - w);
-
-
                         var endDate = new Date(startDate.getTime());
                         endDate.setDate(endDate.getDate() + 6);
 
@@ -479,13 +474,6 @@ $(document).ready(function () {
                                             type: "GET",
                                             async: false
                                         }).responseText);
-
-                                        config.plotOptions.series.dataGrouping = {
-                                            forced: true,
-                                            units: [
-                                                ["day", [1]]
-                                            ]
-                                        };
 
                                         config.series = series;
 
@@ -544,115 +532,108 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
+                        var node = [];
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
-
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
                         var d = parseInt(ss[2], 10);
 
-                        var s = new Date(y, m, d);
-                        var w = TimeUtils.weekFromODBC(s.getDay());
+                        var startDate = new Date(y, m, d);
+                        var w = TimeUtils.weekFromODBC(startDate.getDay());
+                        startDate.setDate(startDate.getDate() - w);
+                        var endDate = new Date(startDate.getTime());
+                        endDate.setDate(endDate.getDate() + 6);
 
-                        s.setDate(s.getDate() - w);
-
-                        paramChart.time.push(
-                            s.format("yyyyMMdd") + "000000"
-                        );
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/voltage/weekly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getVoltageWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "A相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxA_Voltage");
+                                        }, r.data, "aVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "B相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxB_Voltage");
+                                        }, r.data, "bVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "C相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxC_Voltage");
+                                        }, r.data, "cVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "A相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minA_Voltage");
+                                        }, r.data, "aVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "B相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minB_Voltage");
+                                        }, r.data, "bVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "C相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minC_Voltage");
+                                        }, r.data, "cVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
+
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/voltageDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-week-all-voltage.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
 
-                                        config.xAxis.categories = ChartUtils.getWeeklyCategories();
                                         config.series = series;
 
-                                        // $.messager.alert("操作提示", JSON.stringify(config));
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        $("#chart-voltage-detail").highcharts(config);
+                                        $("#chart-voltage-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -706,112 +687,108 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
+                        var node = [];
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
-
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
                         var d = parseInt(ss[2], 10);
 
-                        var s = new Date(y, m, d);
-                        var w = TimeUtils.weekFromODBC(s.getDay());
+                        var startDate = new Date(y, m, d);
+                        var w = TimeUtils.weekFromODBC(startDate.getDay());
+                        startDate.setDate(startDate.getDate() - w);
+                        var endDate = new Date(startDate.getTime());
+                        endDate.setDate(endDate.getDate() + 6);
 
-                        s.setDate(s.getDate() - w);
-
-                        paramChart.time.push(
-                            s.format("yyyyMMdd") + "000000"
-                        );
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/current/weekly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getCurrentWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "A相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxA_Current");
+                                        }, r.data, "aCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "B相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxB_Current");
+                                        }, r.data, "bCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "C相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxC_Current");
+                                        }, r.data, "cCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "A相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minA_Current");
+                                        }, r.data, "aCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "B相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minB_Current");
+                                        }, r.data, "bCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "C相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minC_Current");
+                                        }, r.data, "cCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
+
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/currentDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-week-all-current.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
 
-                                        config.xAxis.categories = ChartUtils.getWeeklyCategories();
                                         config.series = series;
 
-                                        $("#chart-current-detail").highcharts(config);
+                                        $("#chart-current-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
@@ -866,132 +843,127 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
+                        var node = [];
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
-
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
                         var d = parseInt(ss[2], 10);
 
-                        var s = new Date(y, m, d);
-                        var w = TimeUtils.weekFromODBC(s.getDay());
+                        var startDate = new Date(y, m, d);
+                        var w = TimeUtils.weekFromODBC(startDate.getDay());
+                        startDate.setDate(startDate.getDate() - w);
+                        var endDate = new Date(startDate.getTime());
+                        endDate.setDate(endDate.getDate() + 6);
 
-                        s.setDate(s.getDate() - w);
-
-                        paramChart.time.push(
-                            s.format("yyyyMMdd") + "000000"
-                        );
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/powerFactor/weekly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "A相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxA_PowerFactor");
+                                        }, r.data, "aPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "B相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxB_PowerFactor");
+                                        }, r.data, "bPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "C相最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxC_PowerFactor");
+                                        }, r.data, "cPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "A相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minA_PowerFactor");
+                                        }, r.data, "aPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "B相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minB_PowerFactor");
+                                        }, r.data, "bPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "C相最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minC_PowerFactor");
+                                        }, r.data, "cPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "总最大"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "maxTotalPowerFactor");
+                                        }, r.data, "totalpowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorWeeklyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "总最小"
-                                        }, s.format('yyyyMMdd') + "000000", r.data, "minTotalPowerFactor");
+                                        }, r.data, "totalpowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/powerFactorDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-week-all-power-factor.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
 
-                                        config.xAxis.categories = ChartUtils.getWeeklyCategories();
                                         config.series = series;
 
-                                        $("#chart-power-factor-detail").highcharts(config);
+                                        $("#chart-power-factor-detail").highcharts("StockChart", config);
 
                                     } else {
                                         $.messager.alert("操作提示", "请求失败！" + DsmErrUtils.getMsg(r.errcode), "info");
