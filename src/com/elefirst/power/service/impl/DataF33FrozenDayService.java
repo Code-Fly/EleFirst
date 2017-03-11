@@ -210,6 +210,24 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
             data.set(i + 1, second);
         }
 
+        for (int i = data.size() - 1; i > 0; i--) {
+            DataF33FrozenDay first = data.get(i - 1);
+            DataF33FrozenDay second = data.get(i);
+            if (null == first.getTotalpositiveactivepower()) {
+                first.setTotalpositiveactivepower(second.getTotalpositiveactivepower());
+            }
+            if (null == second.getTotalpositivereactivepower()) {
+                first.setTotalpositivereactivepower(second.getTotalpositivereactivepower());
+            }
+            if (null == second.getQuadrant1Totalreactivepower()) {
+                first.setQuadrant1Totalreactivepower(second.getQuadrant1Totalreactivepower());
+            }
+            if (null == second.getQuadrant4Totalreactivepower()) {
+                first.setQuadrant4Totalreactivepower(second.getQuadrant4Totalreactivepower());
+            }
+            data.set(i, second);
+        }
+
         List<DataF33FrozenDay> result = new ArrayList<>();
         for (int i = 0; i < data.size() - 1; i++) {
             DataF33FrozenDay first = data.get(i);
