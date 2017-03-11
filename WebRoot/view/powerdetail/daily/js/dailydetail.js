@@ -908,56 +908,68 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
                         var d = parseInt(ss[2], 10);
 
-                        paramChart.time.push(
-                            new Date(y, m, d).format('yyyyMMdd') + "000000"
-                        )
+                        var startDate = new Date(y, m, d);
+                        var endDate = new Date(y, m, d);
+                        endDate.setDate(endDate.getDate() + 1);
+
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/chart.do",
+                            url: _ctx + "power/data/f33/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getElectricityDailySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct
-                                        }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
+
+                                        var item = ChartUtils.getElectricityAllSeries({
+                                            name: "电量"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "sum",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/electricityDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/column-date-all-electricity.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
 
-                                        config.xAxis.categories = ChartUtils.getDailyCategories();
+                                        config.plotOptions.series.dataGrouping = {
+                                            forced: true,
+                                            units: [
+                                                [
+                                                    "hour", [1]
+                                                ]
+                                            ]
+                                        };
+
                                         config.series = series;
 
-                                        $("#chart-electricity-detail").highcharts(config);
+                                        $("#chart-electricity-detail").highcharts("StockChart", config);
+
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));

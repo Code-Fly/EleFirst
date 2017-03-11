@@ -616,6 +616,20 @@ var ChartUtils = {
 
         return series;
     },
+    getElectricityAllSeries: function (node, data) {
+        var series = {
+            name: node.name,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].totalpositiveactivepower);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
+        }
+
+        return series;
+    },
     getElectricityDailySeries: function (node, time, data) {
         var series = {
             name: time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2),

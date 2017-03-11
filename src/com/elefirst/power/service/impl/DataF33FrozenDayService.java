@@ -61,7 +61,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
                     .andClientoperationtimeGreaterThanOrEqualTo(startTime)
-                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeLessThanOrEqualTo(endTime)
                     .andClientoperationtimeIsNotNull()
             ;
         }
@@ -86,7 +86,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
                 .andConcentratorIdEqualTo(node.getConcentratorId())
                 .andPnEqualTo(node.getPn())
                 .andClientoperationtimeGreaterThanOrEqualTo(time)
-                .andClientoperationtimeLessThan(endTime)
+                .andClientoperationtimeLessThanOrEqualTo(endTime)
                 .andClientoperationtimeIsNotNull()
         ;
 
@@ -114,7 +114,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
                         .andConcentratorIdEqualTo(node.getConcentratorId())
                         .andPnEqualTo(node.getPn())
                         .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
-                        .andClientoperationtimeLessThan(endTime)
+                        .andClientoperationtimeLessThanOrEqualTo(endTime)
                         .andClientoperationtimeIsNotNull()
                 ;
             }
@@ -192,6 +192,24 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
 
     @Override
     public List<DataF33FrozenDay> getInterval(List<DataF33FrozenDay> data) {
+        for (int i = 0; i < data.size() - 1; i++) {
+            DataF33FrozenDay first = data.get(i);
+            DataF33FrozenDay second = data.get(i + 1);
+            if (null == second.getTotalpositiveactivepower()) {
+                second.setTotalpositiveactivepower(first.getTotalpositiveactivepower());
+            }
+            if (null == second.getTotalpositivereactivepower()) {
+                second.setTotalpositivereactivepower(first.getTotalpositivereactivepower());
+            }
+            if (null == second.getQuadrant1Totalreactivepower()) {
+                second.setQuadrant1Totalreactivepower(first.getQuadrant1Totalreactivepower());
+            }
+            if (null == second.getQuadrant4Totalreactivepower()) {
+                second.setQuadrant4Totalreactivepower(first.getQuadrant4Totalreactivepower());
+            }
+            data.set(i + 1, second);
+        }
+
         List<DataF33FrozenDay> result = new ArrayList<>();
         for (int i = 0; i < data.size() - 1; i++) {
             DataF33FrozenDay first = data.get(i);

@@ -21,4 +21,8 @@ public interface IDataF33Service {
     int updateDataF33(DataF33 template);
 
     int delDataF33(String id);
+
+    List<DataF33> format(List<DataF33> data);
+
+    List<DataF33> getInterval(List<DataF33> data);
 }
