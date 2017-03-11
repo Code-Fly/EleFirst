@@ -1056,7 +1056,7 @@ $(document).ready(function () {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getElectricityAllByDaySeries({
+                                        var item = ChartUtils.getElectricityAllSeries({
                                             name: new Date(y, m).format("yyyy-MM")
                                         }, r.data);
                                         item.dataGrouping = {
@@ -1077,8 +1077,17 @@ $(document).ready(function () {
                                                 [
                                                     "day", [1]
                                                 ]
-                                            ]
+                                            ],
+                                            dateTimeLabelFormats: {
+                                                day: ['%e日, %A']
+                                            }
                                         };
+
+                                        // config.tooltip.formatter = function () {
+                                        //     var s = '<span style="font-size: 10px">' + new Date(this.point.x).format("d") + '日' + '</span><br/>'
+                                        //         + '<span style="color:' + this.series.color + '">\u25CF</span>' + this.series.name + ': <b>' + this.point.y + 'kWh</b><br/>';
+                                        //     return s;
+                                        // };
 
                                         config.series = series;
 

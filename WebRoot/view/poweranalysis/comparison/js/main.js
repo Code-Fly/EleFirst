@@ -228,14 +228,14 @@ $(document).ready(function () {
                                         var date = TimeUtils.dbTimeToDate(ss);
 
                                         var item = ChartUtils.getLoadAllByHourSeries({
-                                            name:  date.format("yyyy-MM-dd")
+                                            name: date.format("yyyy-MM-dd")
                                         }, r.data[i]);
                                         series.push(item);
                                     }
                                 }
 
                                 var config = $.parseJSON($.ajax({
-                                    url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
+                                    url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                     type: "GET",
                                     async: false
                                 }).responseText);
@@ -260,7 +260,7 @@ $(document).ready(function () {
                         MaskUtil.unmask();
                     }
                 });
-            }else{
+            } else {
                 $.ajax({
                     url: _ctx + "power/data/f25/frozen/day/node/time/list.do",
                     type: "POST",
@@ -313,10 +313,12 @@ $(document).ready(function () {
                                 }
 
                                 var config = $.parseJSON($.ajax({
-                                    url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
+                                    url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                     type: "GET",
                                     async: false
                                 }).responseText);
+
+                                // config.tooltip.shared = false;
 
                                 config.series = series;
 

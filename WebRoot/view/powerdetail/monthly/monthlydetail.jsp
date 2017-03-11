@@ -282,13 +282,16 @@
             <div id="tab2" class="easyui-tabs" data-options="border:false" fit="true">
                 <div title="负荷" id="table1" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div id="chart-load-detail" data-options="region:'north',split:true,border:false"
-                             style="height:70%;text-align: center;">
-                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
-                        </div>
+                        <%--<div id="chart-load-detail" data-options="region:'north',split:true,border:false"--%>
+                        <%--style="height:70%;text-align: center;">--%>
+                        <%--<span style="font-size: medium;line-height: 300px;">请载入数据</span>--%>
+                        <%--</div>--%>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
+                            <div id="chart-load-detail" style="height:400px;text-align: center;">
+                                <span style="font-size: medium;line-height: 300px;">请载入数据</span>
+                            </div>
                             <table id="dtt1" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
-                                   style="height: 100%;width: 100%">
+                                   style="height: 150px;width: 100%">
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">最大负荷</td>
@@ -321,13 +324,16 @@
                 </div>
                 <div title="电量" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div id="chart-electricity-detail" data-options="region:'north',split:true,border:false"
-                             style="height:70%;text-align: center;">
-                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
-                        </div>
+                        <%--<div id="chart-electricity-detail" data-options="region:'north',split:true,border:false"--%>
+                        <%--style="height:70%;text-align: center;">--%>
+                        <%--<span style="font-size: medium;line-height: 300px;">请载入数据</span>--%>
+                        <%--</div>--%>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
+                            <div id="chart-electricity-detail" style="height:400px;text-align: center;">
+                                <span style="font-size: medium;line-height: 300px;">请载入数据</span>
+                            </div>
                             <table id="dtt4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
-                                   style="height: 100%;width: 100%">
+                                   style="height: 150px;width: 100%">
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">总电量</td>
@@ -392,13 +398,16 @@
                 </div>
                 <div title="电压" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div id="chart-voltage-detail" data-options="region:'north',split:true,border:false"
-                             style="height:70%;text-align: center;">
-                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
-                        </div>
+                        <%--<div id="chart-voltage-detail" data-options="region:'north',split:true,border:false"--%>
+                        <%--style="height:70%;text-align: center;">--%>
+                        <%--<span style="font-size: medium;line-height: 300px;">请载入数据</span>--%>
+                        <%--</div>--%>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
+                            <div id="chart-voltage-detail" style="height:400px;text-align: center;">
+                                <span style="font-size: medium;line-height: 300px;">请载入数据</span>
+                            </div>
                             <table id="table2" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
-                                   style="height: 100%;width: 100%">
+                                   style="height: 150px;width: 100%">
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">U相最高电压</td>
@@ -425,13 +434,16 @@
                 </div>
                 <div title="电流" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div id="chart-current-detail" data-options="region:'north',split:true,border:false"
-                             style="height:70%;text-align: center;">
-                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
-                        </div>
+                        <%--<div id="chart-current-detail" data-options="region:'north',split:true,border:false"--%>
+                        <%--style="height:70%;text-align: center;">--%>
+                        <%--<span style="font-size: medium;line-height: 300px;">请载入数据</span>--%>
+                        <%--</div>--%>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
+                            <div id="chart-current-detail" style="height:400px;text-align: center;">
+                                <span style="font-size: medium;line-height: 300px;">请载入数据</span>
+                            </div>
                             <table id="table3" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
-                                   style="height: 100%;width: 100%">
+                                   style="height: 150px;width: 100%">
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">U相最高电流</td>
@@ -458,13 +470,16 @@
                 </div>
                 <div title="功率因数" style="display:none;overflow: hidden">
                     <div class="easyui-layout" data-options="fit:true">
-                        <div id="chart-power-factor-detail" data-options="region:'north',split:true,border:false"
-                             style="height:70%;text-align: center;">
-                            <span style="font-size: medium;line-height: 300px;">请载入数据</span>
-                        </div>
+                        <%--<div id="chart-power-factor-detail" data-options="region:'north',split:true,border:false"--%>
+                        <%--style="height:70%;text-align: center;">--%>
+                        <%--<span style="font-size: medium;line-height: 300px;">请载入数据</span>--%>
+                        <%--</div>--%>
                         <div data-options="region:'center',border:false" style="height:30%;padding:10px;">
+                            <div id="chart-power-factor-detail" style="height:400px;text-align: center;">
+                                <span style="font-size: medium;line-height: 300px;">请载入数据</span>
+                            </div>
                             <table id="table4" border="1" cellpadding="0" cellspacing="0" bordercolor="#ccc"
-                                   style="height: 100%;width: 100%">
+                                   style="height: 150px;width: 100%">
                                 <tbody>
                                 <tr>
                                     <td width="25%" valign="center" align="center">U相最高功率因数</td>

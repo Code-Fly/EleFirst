@@ -101,7 +101,7 @@ $(document).ready(function () {
 
                         if (series.length == 2) {
                             var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
+                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                 type: "GET",
                                 async: false
                             }).responseText);
@@ -154,10 +154,12 @@ $(document).ready(function () {
 
                         if (series.length == 2) {
                             var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
+                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                 type: "GET",
                                 async: false
                             }).responseText);
+
+                            // config.tooltip.shared = false;
 
                             config.series = series;
                             $("#chart-day-load").highcharts("StockChart", config);
@@ -193,8 +195,6 @@ $(document).ready(function () {
         var startTime = startDate.format('yyyyMMdd') + "000000";
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
-
-        var thisMonthTotal = 0;
         $.ajax({
             url: _ctx + "power/data/f33/node/list.do",
             type: "POST",
@@ -204,7 +204,6 @@ $(document).ready(function () {
                 startTime: startTime,
                 endTime: endTime
             },
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
@@ -218,6 +217,31 @@ $(document).ready(function () {
                         };
                         series.push(item);
 
+                        if (series.length == 2) {
+                            var config = $.parseJSON($.ajax({
+                                url: _ctx + "view/chart/column-date-all-electricity.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.plotOptions.series.dataGrouping = {
+                                forced: true,
+                                units: [
+                                    [
+                                        "day", [1]
+                                    ]
+                                ],
+                                dateTimeLabelFormats: {
+                                    day: ['%e日']
+                                }
+                            };
+
+                            // config.tooltip.shared = false;
+
+                            config.series = series;
+
+                            $("#chart-month-electricity").highcharts("StockChart", config);
+                        }
 
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -244,7 +268,6 @@ $(document).ready(function () {
                 startTime: startTime,
                 endTime: endTime
             },
-            async: false,
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
@@ -257,6 +280,30 @@ $(document).ready(function () {
                             forced: true
                         };
                         series.push(item);
+
+                        if (series.length == 2) {
+                            var config = $.parseJSON($.ajax({
+                                url: _ctx + "view/chart/column-date-all-electricity.json?bust=" + new Date().getTime(),
+                                type: "GET",
+                                async: false
+                            }).responseText);
+
+                            config.plotOptions.series.dataGrouping = {
+                                forced: true,
+                                units: [
+                                    [
+                                        "day", [1]
+                                    ]
+                                ],
+                                dateTimeLabelFormats: {
+                                    day: ['%e日']
+                                }
+                            };
+
+                            config.series = series;
+
+                            $("#chart-month-electricity").highcharts("StockChart", config);
+                        }
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -302,38 +349,6 @@ $(document).ready(function () {
         // });
 
 
-        var config = $.parseJSON($.ajax({
-            url: _ctx + "view/chart/column-date-single-electricity.json?bust=" + new Date().getTime(),
-            type: "GET",
-            async: false
-        }).responseText);
-
-        config.plotOptions.series.dataGrouping = {
-            forced: true,
-            units: [
-                [
-                    "day", [1]
-                ]
-            ]
-        };
-        config.tooltip.formatter = function () {
-            var s = '<span style="font-size: 10px">' + new Date(this.point.x).format("d") + '日' + '</span><br/>'
-                + '<span style="color:"' + this.point.color + '>\u25CF</span> ' + this.series.name + ': <b>' + this.point.y + 'kWh</b><br/>';
-            return s;
-        };
-
-        // config.tooltip.formatter = function () {
-        //     var s = '<span style="font-size: 10px">' + new Date(this.x).format("d") + '日' + '</span>'
-        //     $.each(this.points, function (i, point) {
-        //         s += '<br/><span style="color:"' + point.color + '>\u25CF</span> ' + point.series.name + ': <b>' + point.y + 'kWh</b><br/>';
-        //     });
-        //     return s;
-        // };
-
-
-        config.series = series;
-
-        $("#chart-month-electricity").highcharts("StockChart", config);
     }
 
     function getDateInterval(start, end) {
@@ -341,9 +356,6 @@ $(document).ready(function () {
         var time = parseInt(days / (1000 * 60 * 60 * 24));
         return time
     }
-
-
-
 
 
     function getPnDetail(nodes) {

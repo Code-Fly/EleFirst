@@ -470,10 +470,30 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-week-all-load.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
+
+                                        config.plotOptions.series.dataGrouping = {
+                                            forced: true,
+                                            units: [
+                                                [
+                                                    "day", [1]
+                                                ]
+                                            ],
+                                            dateTimeLabelFormats: {
+                                                day: ["%A"]
+                                            }
+                                        };
+
+                                        config.xAxis[0].dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
+
+                                        config.navigator.xAxis.dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
 
                                         config.series = series;
 
@@ -626,10 +646,30 @@ $(document).ready(function () {
 
 
                                         var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-week-all-voltage.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-voltage.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
+
+                                        config.plotOptions.series.dataGrouping = {
+                                            forced: true,
+                                            units: [
+                                                [
+                                                    "day", [1]
+                                                ]
+                                            ],
+                                            dateTimeLabelFormats: {
+                                                day: ["%A"]
+                                            }
+                                        };
+
+                                        config.xAxis[0].dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
+
+                                        config.navigator.xAxis.dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
 
                                         config.series = series;
 
@@ -781,10 +821,30 @@ $(document).ready(function () {
 
 
                                         var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-week-all-current.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-current.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
+
+                                        config.plotOptions.series.dataGrouping = {
+                                            forced: true,
+                                            units: [
+                                                [
+                                                    "day", [1]
+                                                ]
+                                            ],
+                                            dateTimeLabelFormats: {
+                                                day: ["%A"]
+                                            }
+                                        };
+
+                                        config.xAxis[0].dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
+
+                                        config.navigator.xAxis.dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
 
                                         config.series = series;
 
@@ -956,10 +1016,30 @@ $(document).ready(function () {
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-week-all-power-factor.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/spline-date-all-power-factor.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
+
+                                        config.plotOptions.series.dataGrouping = {
+                                            forced: true,
+                                            units: [
+                                                [
+                                                    "day", [1]
+                                                ]
+                                            ],
+                                            dateTimeLabelFormats: {
+                                                day: ["%A"]
+                                            }
+                                        };
+
+                                        config.xAxis[0].dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
+
+                                        config.navigator.xAxis.dateTimeLabelFormats = {
+                                            day: "%A"
+                                        };
 
                                         config.series = series;
 

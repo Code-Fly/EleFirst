@@ -58,7 +58,7 @@
       "year": "%Y"
     },
     "valueSuffix": "kWh",
-    "shared": true
+    "shared": false
   },
   "plotOptions": {
     "series": {
@@ -76,7 +76,7 @@
         "width": 1,
         "dashStyle": "dash",
         "color": "#898989",
-        "snap": false
+        "snap": true
       },
       "type": "datetime",
       "dateTimeLabelFormats": {
@@ -97,7 +97,7 @@
         "width": 1,
         "dashStyle": "dash",
         "color": "#898989",
-        "snap": false
+        "snap": true
       },
       "title": {
         "text": "单位（kWh）"
