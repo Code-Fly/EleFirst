@@ -124,5 +124,44 @@ var TimeUtils = {
         curDate.setDate(0);
         /* 返回当月的天数 */
         return curDate.getDate();
+    },
+    getCurrentMonthFirst: function () {
+        var date = new Date();
+        date.setDate(1);
+        return date;
+    },
+
+    getLastMonthFirst: function () {
+        var date = new Date();
+        date.setMonth(date.getMonth() - 1);
+        date.setDate(1);
+        return date;
+    },
+    getNextMonthFirst: function () {
+        var date = new Date();
+        date.setMonth(date.getMonth() + 1);
+        date.setDate(1);
+        return date;
+    },
+    getCurrentMonthLast: function () {
+        var date = new Date();
+        date.setDate(1);
+        date.setMonth(date.getMonth() + 1);
+        date.setDate(date.getDate() - 1);
+        return date;
+    },
+
+    getLastMonthLast: function () {
+        var date = new Date();
+        date.setDate(1);
+        date.setDate(date.getDate() - 1);
+        return date;
+    },
+    getNextMonthLast: function () {
+        var date = new Date();
+        date.setMonth(date.getMonth() + 2);
+        date.setDate(1);
+        date.setDate(date.getDate() - 1);
+        return date;
     }
 };

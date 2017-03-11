@@ -187,11 +187,11 @@ $(document).ready(function () {
 
         var pnList = param.nodes;
 
-        var startDate = getCurrentMonthFirst();
-        var endDate = getCurrentMonthLast();
+        var startDate = TimeUtils.getCurrentMonthFirst();
+        var endDate = TimeUtils.getNextMonthFirst();
 
         var startTime = startDate.format('yyyyMMdd') + "000000";
-        var endTime = endDate.format('yyyyMMdd') + "235959";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
 
 
         var thisMonthTotal = 0;
@@ -229,11 +229,11 @@ $(document).ready(function () {
         });
 
 
-        var startDate = getLastMonthFirst();
-        var endDate = getLastMonthLast();
+        var startDate = TimeUtils.getLastMonthFirst();
+        var endDate = TimeUtils.getCurrentMonthFirst();
 
         var startTime = startDate.format('yyyyMMdd') + "000000";
-        var endTime = endDate.format('yyyyMMdd') + "235959";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
             url: _ctx + "power/data/f33/node/list.do",
@@ -343,33 +343,7 @@ $(document).ready(function () {
     }
 
 
-    function getCurrentMonthFirst() {
-        var date = new Date();
-        date.setDate(1);
-        return date;
-    }
 
-    function getLastMonthFirst() {
-        var date = new Date();
-        date.setMonth(date.getMonth() - 1);
-        date.setDate(1);
-        return date;
-    }
-
-    function getCurrentMonthLast() {
-        var date = new Date();
-        date.setDate(1);
-        date.setMonth(date.getMonth() + 1);
-        date.setDate(date.getDate() - 1);
-        return date;
-    }
-
-    function getLastMonthLast() {
-        var date = new Date();
-        date.setDate(1);
-        date.setDate(date.getDate() - 1);
-        return date;
-    }
 
 
     function getPnDetail(nodes) {

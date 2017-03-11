@@ -1023,12 +1023,10 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
 
-                        paramChart.node.push({
+                        var node = [];
+
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
@@ -1038,39 +1036,53 @@ $(document).ready(function () {
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
 
-                        paramChart.time.push(
-                            new Date(y, m).format('yyyyMM') + "01000000"
-                        )
+                        var startDate = new Date(y, m);
+                        var endDate = new Date(y, m);
+                        endDate.setMonth(endDate.getMonth() + 1);
+
+                        var startTime = startDate.format('yyyyMM') + "01000000";
+                        var endTime = endDate.format('yyyyMM') + "01000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/monthly/chart.do",
+                            url: _ctx + "power/data/f33/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getElectricityMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data);
+                                        var item = ChartUtils.getElectricityAllByDaySeries({
+                                            name: new Date(y, m).format("yyyy-MM")
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "sum",
+                                            forced: true
+                                        };
                                         series.push(item);
 
                                         var config = $.parseJSON($.ajax({
-                                            url: "data/electricityDetailChart.json?bust=" + new Date().getTime(),
+                                            url: _ctx + "view/chart/column-date-all-electricity.json?bust=" + new Date().getTime(),
                                             type: "GET",
                                             async: false
                                         }).responseText);
 
-                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
+                                        config.plotOptions.series.dataGrouping = {
+                                            forced: true,
+                                            units: [
+                                                [
+                                                    "day", [1]
+                                                ]
+                                            ]
+                                        };
+
                                         config.series = series;
 
-                                        $("#chart-electricity-detail").highcharts(config);
+                                        $("#chart-electricity-detail").highcharts("StockChart", config);
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
