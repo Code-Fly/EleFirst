@@ -1079,7 +1079,7 @@ $(document).ready(function () {
                                                 ]
                                             ],
                                             dateTimeLabelFormats: {
-                                                day: ['%e日, %A']
+                                                day: ['%e日']
                                             }
                                         };
 

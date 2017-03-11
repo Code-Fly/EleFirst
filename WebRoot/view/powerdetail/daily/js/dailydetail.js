@@ -963,7 +963,10 @@ $(document).ready(function () {
                                                 [
                                                     "hour", [1]
                                                 ]
-                                            ]
+                                            ],
+                                            dateTimeLabelFormats: {
+                                                hour: ['%H:%M']
+                                            }
                                         };
 
                                         config.series = series;
