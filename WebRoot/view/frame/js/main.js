@@ -317,7 +317,7 @@ $(document).ready(function () {
             ]
         };
         config.tooltip.formatter = function () {
-            var s = '<span style="font-size: 10px">' + new Date(this.point.x).format("dd") + '日' + '</span><br/>'
+            var s = '<span style="font-size: 10px">' + new Date(this.point.x).format("d") + '日' + '</span><br/>'
                 + '<span style="color:"' + this.point.color + '>\u25CF</span> ' + this.series.name + ': <b>' + this.point.y + 'kWh</b><br/>';
             return s;
         }
