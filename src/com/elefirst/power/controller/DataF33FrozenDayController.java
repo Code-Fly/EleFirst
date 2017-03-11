@@ -4,8 +4,8 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
-import com.elefirst.power.po.DataF25FrozenDay;
-import com.elefirst.power.service.iface.IDataF25FrozenDayService;
+import com.elefirst.power.po.DataF33FrozenDay;
+import com.elefirst.power.service.iface.IDataF33FrozenDayService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.swagger.annotations.Api;
@@ -28,103 +28,79 @@ import java.util.List;
 @Controller
 @RequestMapping("/power/data")
 @Api(value = "data", description = "区域操作")
-public class DataF25FrozenDayController extends BaseController {
+public class DataF33FrozenDayController extends BaseController {
     @Autowired
-    private IDataF25FrozenDayService dataF25FrozenDayService;
+    private IDataF33FrozenDayService dataF33FrozenDayService;
 
-    @RequestMapping(value = "/f25/frozen/day/list.do")
+    @RequestMapping(value = "/f33/frozen/day/list.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getDataF25FrozenDayList(HttpServletRequest request,
+    public ErrorMsg getDataF33FrozenDayList(HttpServletRequest request,
                                             HttpServletResponse response,
                                             @RequestParam(value = "areaId", required = false) String areaId,
                                             @RequestParam(value = "concentratorId", required = false) String concentratorId,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "rows", required = false) Integer rows
     ) {
-        DataF25FrozenDay template = new DataF25FrozenDay();
+        DataF33FrozenDay template = new DataF33FrozenDay();
         template.setAreaId(areaId);
         template.setConcentratorId(concentratorId);
 
         if (null != page && null != rows) {
             template.setPage(page);
             template.setRows(rows);
-            List<DataF25FrozenDay> result = dataF25FrozenDayService.getDataF25FrozenDayList(template);
+            List<DataF33FrozenDay> result = dataF33FrozenDayService.getDataF33FrozenDayList(template);
 
             DataGrid dg = new DataGrid();
-            int count = dataF25FrozenDayService.getDataF25FrozenDayListCount(template);
+            int count = dataF33FrozenDayService.getDataF33FrozenDayListCount(template);
             dg.setTotal(count);
-            dg.setRows(dataF25FrozenDayService.format(result));
+            dg.setRows(dataF33FrozenDayService.format(result));
 
             return new ErrorMsg(Error.SUCCESS, "success", dg);
         } else {
-            List<DataF25FrozenDay> result = dataF25FrozenDayService.getDataF25FrozenDayList(template);
-            return new ErrorMsg(Error.SUCCESS, "success", dataF25FrozenDayService.format(result));
+            List<DataF33FrozenDay> result = dataF33FrozenDayService.getDataF33FrozenDayList(template);
+            return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(result));
         }
     }
 
-    @RequestMapping(value = "/f25/frozen/day/node/list.do")
+    @RequestMapping(value = "/f33/frozen/day/node/list.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getDataF25FrozenDayListByNodes(HttpServletRequest request,
+    public ErrorMsg getDataF33FrozenDayListByNodes(HttpServletRequest request,
                                                    HttpServletResponse response,
                                                    @RequestParam(value = "node", required = false) String node,
                                                    @RequestParam(value = "startTime", required = false) String startTime,
                                                    @RequestParam(value = "endTime", required = false) String endTime
     ) {
-        List<DataF25FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenDay>>() {
+        List<DataF33FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF33FrozenDay>>() {
         }.getType());
 
-        List<DataF25FrozenDay> result = dataF25FrozenDayService.getDataF25FrozenDayList(nodes, startTime, endTime);
+        List<DataF33FrozenDay> result = dataF33FrozenDayService.getDataF33FrozenDayList(nodes, startTime, endTime);
 
-        return new ErrorMsg(Error.SUCCESS, "success", dataF25FrozenDayService.format(result));
+        return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(result));
     }
 
-    @RequestMapping(value = "/f25/frozen/day/node/time/list.do")
+    @RequestMapping(value = "/f33/frozen/day/node/time/list.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getDataF25FrozenDayListByNodesAndTime(HttpServletRequest request,
+    public ErrorMsg getDataF33FrozenDayListByNodesAndTime(HttpServletRequest request,
                                                           HttpServletResponse response,
                                                           @RequestParam(value = "node", required = false) String node,
                                                           @RequestParam(value = "time", required = false) String time
     ) throws ParseException {
-        List<DataF25FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenDay>>() {
+        List<DataF33FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF33FrozenDay>>() {
         }.getType());
 
         List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
         }.getType());
 
-        List<List<DataF25FrozenDay>> result = new ArrayList<>();
+        List<List<DataF33FrozenDay>> result = new ArrayList<>();
 
         for (int i = 0; i < nodes.size(); i++) {
             for (int j = 0; j < times.size(); j++) {
-                List<DataF25FrozenDay> item = dataF25FrozenDayService.getDataF25FrozenDayList(nodes.get(i), times.get(j));
-                result.add(dataF25FrozenDayService.format(item));
+                List<DataF33FrozenDay> item = dataF33FrozenDayService.getDataF33FrozenDayList(nodes.get(i), times.get(j));
+                result.add(dataF33FrozenDayService.format(item));
             }
-        }
-
-        return new ErrorMsg(Error.SUCCESS, "success", result);
-    }
-
-    @RequestMapping(value = "/f25/frozen/day/node/time/sum.do")
-    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
-    @ResponseBody
-    public ErrorMsg getDataF25FrozenDaySumByNodesAndTime(HttpServletRequest request,
-                                                         HttpServletResponse response,
-                                                         @RequestParam(value = "node", required = false) String node,
-                                                         @RequestParam(value = "time", required = false) String time
-    ) throws ParseException {
-        List<DataF25FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenDay>>() {
-        }.getType());
-
-        List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
-        }.getType());
-
-        List<List<DataF25FrozenDay>> result = new ArrayList<>();
-
-        for (int j = 0; j < times.size(); j++) {
-            List<DataF25FrozenDay> item = dataF25FrozenDayService.getDataF25FrozenDaySumList(nodes, times.get(j));
-            result.add(dataF25FrozenDayService.format(item));
         }
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
