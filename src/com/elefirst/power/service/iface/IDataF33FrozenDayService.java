@@ -28,4 +28,6 @@ public interface IDataF33FrozenDayService {
     int delDataF33FrozenDay(String id);
 
     List<DataF33FrozenDay> format(List<DataF33FrozenDay> data);
+
+    List<DataF33FrozenDay> getInterval(List<DataF33FrozenDay> data);
 }

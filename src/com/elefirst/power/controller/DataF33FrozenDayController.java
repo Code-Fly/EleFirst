@@ -39,12 +39,14 @@ public class DataF33FrozenDayController extends BaseController {
                                             HttpServletResponse response,
                                             @RequestParam(value = "areaId", required = false) String areaId,
                                             @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                            @RequestParam(value = "pn", required = false) String pn,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "rows", required = false) Integer rows
     ) {
         DataF33FrozenDay template = new DataF33FrozenDay();
         template.setAreaId(areaId);
         template.setConcentratorId(concentratorId);
+        template.setPn(pn);
 
         if (null != page && null != rows) {
             template.setPage(page);
@@ -54,12 +56,12 @@ public class DataF33FrozenDayController extends BaseController {
             DataGrid dg = new DataGrid();
             int count = dataF33FrozenDayService.getDataF33FrozenDayListCount(template);
             dg.setTotal(count);
-            dg.setRows(dataF33FrozenDayService.format(result));
+            dg.setRows(dataF33FrozenDayService.format(dataF33FrozenDayService.getInterval(result)));
 
             return new ErrorMsg(Error.SUCCESS, "success", dg);
         } else {
             List<DataF33FrozenDay> result = dataF33FrozenDayService.getDataF33FrozenDayList(template);
-            return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(result));
+            return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(dataF33FrozenDayService.getInterval(result)));
         }
     }
 
@@ -77,7 +79,7 @@ public class DataF33FrozenDayController extends BaseController {
 
         List<DataF33FrozenDay> result = dataF33FrozenDayService.getDataF33FrozenDayList(nodes, startTime, endTime);
 
-        return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(result));
+        return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(dataF33FrozenDayService.getInterval(result)));
     }
 
     @RequestMapping(value = "/f33/frozen/day/node/time/list.do")
@@ -99,7 +101,7 @@ public class DataF33FrozenDayController extends BaseController {
         for (int i = 0; i < nodes.size(); i++) {
             for (int j = 0; j < times.size(); j++) {
                 List<DataF33FrozenDay> item = dataF33FrozenDayService.getDataF33FrozenDayList(nodes.get(i), times.get(j));
-                result.add(dataF33FrozenDayService.format(item));
+                result.add(dataF33FrozenDayService.format(dataF33FrozenDayService.getInterval(item)));
             }
         }
 

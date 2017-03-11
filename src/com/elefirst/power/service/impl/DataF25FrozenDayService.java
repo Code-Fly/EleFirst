@@ -47,7 +47,7 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`sendTime` ASC");
+        condition.setOrderByClause("`clientOperationTime` ASC");
         return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
     }
 

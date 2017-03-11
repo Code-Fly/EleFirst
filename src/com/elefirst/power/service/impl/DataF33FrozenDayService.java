@@ -47,7 +47,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`sendTime` ASC");
+        condition.setOrderByClause("`clientOperationTime` ASC");
         return dataF33FrozenDayDAO.getDataF33FrozenDayList(condition);
     }
 
@@ -190,6 +190,23 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
         return result;
     }
 
+    @Override
+    public List<DataF33FrozenDay> getInterval(List<DataF33FrozenDay> data) {
+        List<DataF33FrozenDay> result = new ArrayList<>();
+        for (int i = 0; i < data.size() - 1; i++) {
+            DataF33FrozenDay first = data.get(i);
+            DataF33FrozenDay second = data.get(i + 1);
+
+            first.setTotalpositiveactivepower(interval(first.getTotalpositiveactivepower(), second.getTotalpositiveactivepower()));
+            first.setTotalpositivereactivepower(interval(first.getTotalpositivereactivepower(), second.getTotalpositivereactivepower()));
+            first.setQuadrant1Totalreactivepower(interval(first.getQuadrant1Totalreactivepower(), second.getQuadrant1Totalreactivepower()));
+            first.setQuadrant4Totalreactivepower(interval(first.getQuadrant4Totalreactivepower(), second.getQuadrant4Totalreactivepower()));
+
+            result.add(first);
+        }
+        return result;
+    }
+
     private PnInfo getPnInfo(List<PnInfo> pnInfos, DataF33FrozenDay item) {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
@@ -203,6 +220,13 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
     private String calc(String org, Double num) {
         if (null != org) {
             return String.valueOf(Double.valueOf(org) * num);
+        }
+        return null;
+    }
+
+    private String interval(String first, String second) {
+        if (null != first && null != second) {
+            return String.valueOf(Double.valueOf(second) - Double.valueOf(first));
         }
         return null;
     }
