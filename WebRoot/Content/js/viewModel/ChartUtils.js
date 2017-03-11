@@ -616,6 +616,8 @@ var ChartUtils = {
 
         return series;
     },
+
+
     getElectricityAllSeries: function (node, data) {
         var series = {
             name: node.name,
@@ -626,6 +628,21 @@ var ChartUtils = {
             var tmp = parseFloat(data[i].totalpositiveactivepower);
             tmp = DataGridUtils.floatFormatter(tmp, 3, true);
             series.data.push([TimeUtils.dbTimeToUTC(data[i].clientoperationtime), tmp]);
+        }
+
+        return series;
+    },
+    getElectricityAllByDaySeries: function (node, data) {
+        var series = {
+            name: node.name,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].totalpositiveactivepower);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            var date = "200001" + (data[i].clientoperationtime + "").substr(6);
+            series.data.push([TimeUtils.dbTimeToUTC(date), tmp]);
         }
 
         return series;

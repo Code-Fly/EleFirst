@@ -6,7 +6,7 @@
     "enabled": false
   },
   "chart": {
-    "type": "spline",
+    "type": "column",
     "zoomType": "x"
   },
   "rangeSelector": {
@@ -28,10 +28,10 @@
         "second": "%H:%M:%S",
         "minute": "%H:%M",
         "hour": "%H:%M",
-        "day": "%H:%M",
-        "week": "%H:%M",
-        "month": "%H:%M",
-        "year": "%H:%M"
+        "day": "%e日",
+        "week": "%e日",
+        "month": "%e日",
+        "year": "%e日"
       }
     }
   },
@@ -47,24 +47,14 @@
     "text": "鼠标拖动可以进行缩放"
   },
   "tooltip": {
-    "dateTimeLabelFormats": {
-      "millisecond": "%H:%M:%S.%L",
-      "second": "%H:%M:%S",
-      "minute": "%H:%M",
-      "hour": "%H:%M",
-      "day": "%H:%M",
-      "week": "%H:%M",
-      "month": "%H:%M",
-      "year": "%H:%M"
-    },
-    "valueSuffix": "kW",
+    "valueSuffix": "kWh",
     "shared": false
   },
   "plotOptions": {
     "series": {
       "showInNavigator": true
     },
-    "spline": {
+    "column": {
       "marker": {
         "enabled": false
       }
@@ -84,10 +74,10 @@
         "second": "%H:%M:%S",
         "minute": "%H:%M",
         "hour": "%H:%M",
-        "day": "%H:%M",
-        "week": "%H:%M",
-        "month": "%H:%M",
-        "year": "%H:%M"
+        "day": "%e日",
+        "week": "%e日",
+        "month": "%e日",
+        "year": "%e日"
       }
     }
   ],
@@ -100,7 +90,7 @@
         "snap": false
       },
       "title": {
-        "text": "单位（kW）"
+        "text": "单位（kWh）"
       },
       "opposite": false,
       "labels": {
