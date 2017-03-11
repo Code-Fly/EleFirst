@@ -320,7 +320,15 @@ $(document).ready(function () {
             var s = '<span style="font-size: 10px">' + new Date(this.point.x).format("d") + '日' + '</span><br/>'
                 + '<span style="color:"' + this.point.color + '>\u25CF</span> ' + this.series.name + ': <b>' + this.point.y + 'kWh</b><br/>';
             return s;
-        }
+        };
+
+        // config.tooltip.formatter = function () {
+        //     var s = '<span style="font-size: 10px">' + new Date(this.x).format("d") + '日' + '</span>'
+        //     $.each(this.points, function (i, point) {
+        //         s += '<br/><span style="color:"' + point.color + '>\u25CF</span> ' + point.series.name + ': <b>' + point.y + 'kWh</b><br/>';
+        //     });
+        //     return s;
+        // };
 
 
         config.series = series;
