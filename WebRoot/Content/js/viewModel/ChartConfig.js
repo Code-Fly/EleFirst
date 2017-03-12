@@ -68,6 +68,21 @@ ChartConfig.prototype.getSeries = function (series) {
     return this.config.series;
 };
 
+ChartConfig.prototype.setDataGroupingByHour = function () {
+    this.config.plotOptions.series.dataGrouping = {
+        forced: true,
+        units: [
+            [
+                "hour", [1]
+            ]
+        ],
+        dateTimeLabelFormats: {
+            hour: ['%H:%M']
+        }
+    };
+    return this;
+};
+
 ChartConfig.prototype.setDataGroupingByDay = function () {
     this.config.plotOptions.series.dataGrouping = {
         forced: true,
