@@ -6,26 +6,29 @@ var Spinner = function () {
     this.defMsg = "正在处理，请稍待。。。";
     this.mask = $('<div class="datagrid-mask" style="display: block; z-index: 10000"></div>');
     this.maskMsg = $('<div class="datagrid-mask-msg"  style="display: block; z-index: 10000">' + this.defMsg + '</div>');
-
+    this.initialized = false;
 };
 
 Spinner.prototype.init = function () {
-    $(this.mask).appendTo("body");
-    $(this.maskMsg).appendTo("body");
+    if (!this.initialized) {
+        $(this.mask).appendTo("body");
+        $(this.maskMsg).appendTo("body");
 
-    var scrollTop = $(document.body).scrollTop();
+        var scrollTop = $(document.body).scrollTop();
 
-    $(this.mask).css({
-        "width": "100%",
-        "height": $(document).height()
-    });
+        $(this.mask).css({
+            "width": "100%",
+            "height": $(document).height()
+        });
 
-    $(this.maskMsg).css({
-        // "height": "40px",
-        "font-size": "12px",
-        "left": ( $(document.body).outerWidth(true) - $(this.maskMsg).outerWidth(true) ) / 2,
-        "top": ( ($(window).height() - $(this.maskMsg).outerHeight(true)) / 2 ) + scrollTop
-    });
+        $(this.maskMsg).css({
+            "font-size": "12px",
+            "left": ( $(document.body).outerWidth(true) - $(this.maskMsg).outerWidth(true) ) / 2,
+            "top": ( ($(window).height() - $(this.maskMsg).outerHeight(true)) / 2 ) + scrollTop
+        });
+
+        this.initialized = true;
+    }
 };
 
 Spinner.prototype.load = function (msg) {
