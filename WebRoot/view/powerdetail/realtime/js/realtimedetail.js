@@ -339,14 +339,14 @@ $(document).ready(function () {
                                         }, r.data);
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                                        config.series = series;
-                                        $("#chart-load-detail").highcharts("StockChart", config);
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series);
+
+                                        $("#chart-load-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -452,16 +452,14 @@ $(document).ready(function () {
                                         }, r.data, "cVoltage");
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-voltage.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-voltage.json");
 
-                                        // config.xAxis.categories = ChartUtils.getDailyCategories();
-                                        config.series = series;
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series);
 
-                                        $("#chart-voltage-detail").highcharts("StockChart", config);
+                                        $("#chart-voltage-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -566,15 +564,14 @@ $(document).ready(function () {
                                         }, r.data, "cCurrent");
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-current.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-current.json");
 
-                                        config.series = series;
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series);
 
-                                        $("#chart-current-detail").highcharts("StockChart", config);
+                                        $("#chart-current-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -680,15 +677,14 @@ $(document).ready(function () {
                                         }, r.data, "cPowerfactor");
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-power-factor.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-power-factor.json");
 
-                                        config.series = series;
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series);
 
-                                        $("#chart-power-factor-detail").highcharts("StockChart", config);
+                                        $("#chart-power-factor-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
