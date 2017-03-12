@@ -943,7 +943,7 @@ $(document).ready(function () {
                                         var series = [];
 
                                         var item = ChartUtils.getElectricityAllSeries({
-                                            name: "电量"
+                                            name: new Date(y, m, d).format("yyyy-MM-dd")
                                         }, r.data);
                                         item.dataGrouping = {
                                             approximation: "sum",
