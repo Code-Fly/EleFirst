@@ -42,28 +42,28 @@
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon2.css"/>
 
 <!--加载组件CSS-->
-<script type="text/javascript" src="${ctx}Content/js/viewModel/Showloading.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/Showloading.js"></script>
 
 <%----%>
 <script type="text/javascript" src="${ctx}Content/js/jquery-plugin/base64/jquery.base64.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/requirejs-2.3.2/require.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/jquery-i18n-properties-1.2.2/jquery.i18n.properties.js"></script>
 
-<script type="text/javascript" src="${ctx}Content/js/viewModel/global.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/SQLUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/TimeUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/HTMLUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/CacheUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/DashboardUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/ChartUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/ChartConfig.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/DateBoxUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/DataGridUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/Spinner.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/global.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/SQLUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/TimeUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/HTMLUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/CacheUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/DashboardUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/ChartUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/ChartConfig.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/DateBoxUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/DataGridUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/Spinner.js"></script>
 
-<script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.validate.define.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/easyui.default.loader.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/error.map.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/easyui.validate.define.js"></script>
 
 <%-- color picker--%>
 <link rel="stylesheet" href="${ctx}Content/js/jquery-plugin/color-picker/css/colorpicker.css" type="text/css"/>
