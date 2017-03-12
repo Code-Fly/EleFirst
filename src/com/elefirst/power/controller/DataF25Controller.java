@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,5 +79,46 @@ public class DataF25Controller extends BaseController {
         List<DataF25> result = dataF25Service.getDataF25List(nodes, startTime, endTime);
 
         return new ErrorMsg(Error.SUCCESS, "success", dataF25Service.format(result));
+    }
+
+    @RequestMapping(value = "/f25/node/sum.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25SumByNodes(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         @RequestParam(value = "node", required = false) String node,
+                                         @RequestParam(value = "startTime", required = false) String startTime,
+                                         @RequestParam(value = "endTime", required = false) String endTime
+    ) throws ParseException {
+        List<DataF25> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25>>() {
+        }.getType());
+
+        List<DataF25> item = dataF25Service.getDataF25SumList(nodes, startTime, endTime);
+
+        return new ErrorMsg(Error.SUCCESS, "success", dataF25Service.format(item));
+    }
+
+    @RequestMapping(value = "/f25/node/time/sum.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25SumByNodesAndTime(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                @RequestParam(value = "node", required = false) String node,
+                                                @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<DataF25> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25>>() {
+        }.getType());
+
+        List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
+        }.getType());
+
+        List<List<DataF25>> result = new ArrayList<>();
+
+        for (int j = 0; j < times.size(); j++) {
+            List<DataF25> item = dataF25Service.getDataF25SumList(nodes, times.get(j));
+            result.add(dataF25Service.format(item));
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 }

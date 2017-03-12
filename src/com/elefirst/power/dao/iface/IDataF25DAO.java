@@ -12,6 +12,8 @@ import java.util.List;
 public interface IDataF25DAO {
     List<DataF25> getDataF25List(DataF25Example example);
 
+    List<DataF25> getDataF25SumList(DataF25Example example);
+
     int getDataF25ListCount(DataF25Example example);
 
     int addDataF25(DataF25 template);

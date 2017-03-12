@@ -2,6 +2,7 @@ package com.elefirst.power.dao.impl;
 
 import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.power.dao.iface.IDataF25DAO;
+import com.elefirst.power.mapper.DataF25CustomMapper;
 import com.elefirst.power.mapper.DataF25Mapper;
 import com.elefirst.power.po.DataF25;
 import com.elefirst.power.po.DataF25Example;
@@ -18,11 +19,19 @@ public class DataF25DAO extends BaseDAO implements IDataF25DAO {
     @Autowired
     private DataF25Mapper dataF25Mapper;
 
+    @Autowired
+    private DataF25CustomMapper dataF25CustomMapper;
+
     @Override
     public List<DataF25> getDataF25List(DataF25Example example) {
         return dataF25Mapper.selectByExample(example);
     }
 
+    @Override
+    public List<DataF25> getDataF25SumList(DataF25Example example) {
+        return dataF25CustomMapper.selectSumByExample(example);
+    }
+    
     @Override
     public int getDataF25ListCount(DataF25Example example) {
         return dataF25Mapper.countByExample(example);

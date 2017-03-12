@@ -10,7 +10,11 @@ import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,6 +65,130 @@ public class DataF25Service extends BaseService implements IDataF25Service {
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
         return dataF25DAO.getDataF25List(condition);
+    }
+
+    @Override
+    public List<DataF25> getDataF25SumList(DataF25 template) {
+        DataF25Example condition = new DataF25Example();
+        DataF25Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        criteria.andClientoperationtimeIsNotNull();
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`sendTime` ASC");
+        return dataF25DAO.getDataF25SumList(condition);
+    }
+
+    @Override
+    public List<DataF25> getDataF25SumList(List<DataF25> nodes, String startTime, String endTime) {
+        DataF25Example condition = new DataF25Example();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25 node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25DAO.getDataF25SumList(condition);
+    }
+
+    @Override
+    public List<DataF25> getDataF25SumList(DataF25 node, String time) throws ParseException {
+        DataF25Example condition = new DataF25Example();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = formatter.parse(time);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        String endTime = formatter.format(cal.getTime());
+
+        condition.or()
+                .andAreaIdEqualTo(node.getAreaId())
+                .andConcentratorIdEqualTo(node.getConcentratorId())
+                .andPnEqualTo(node.getPn())
+                .andClientoperationtimeGreaterThanOrEqualTo(time)
+                .andClientoperationtimeLessThan(endTime)
+                .andClientoperationtimeIsNotNull()
+        ;
+
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25DAO.getDataF25SumList(condition);
+    }
+
+    @Override
+    public List<DataF25> getDataF25SumList(List<DataF25> nodes, List<String> times) throws ParseException {
+        DataF25Example condition = new DataF25Example();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25 node = nodes.get(i);
+            for (int j = 0; j < times.size(); j++) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date time = formatter.parse(times.get(j));
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(time);
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                String endTime = formatter.format(cal.getTime());
+
+                condition.or()
+                        .andAreaIdEqualTo(node.getAreaId())
+                        .andConcentratorIdEqualTo(node.getConcentratorId())
+                        .andPnEqualTo(node.getPn())
+                        .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
+                        .andClientoperationtimeLessThan(endTime)
+                        .andClientoperationtimeIsNotNull()
+                ;
+            }
+        }
+
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25DAO.getDataF25SumList(condition);
+    }
+
+    @Override
+    public List<DataF25> getDataF25SumList(List<DataF25> nodes, String time) throws ParseException {
+        DataF25Example condition = new DataF25Example();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25 node = nodes.get(i);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = formatter.parse(time);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.DAY_OF_MONTH, 1);
+            String endTime = formatter.format(cal.getTime());
+
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(time)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+            ;
+        }
+
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25DAO.getDataF25SumList(condition);
     }
 
     @Override

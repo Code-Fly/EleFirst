@@ -152,59 +152,72 @@ $(document).ready(function () {
             interval = row.interval;
         }
 
-        var paramChart = {
-            node: pnList,
-            time: []
-        }
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
 
-        for (var i = 0; i < (interval + 1); i++) {
-            var ss = time.split('-');
-            var y = parseInt(ss[0], 10);
-            var m = parseInt(ss[1], 10) - 1;
-            var d = parseInt(ss[2], 10);
+        var startDate = new Date(y, m, d);
+        var endDate = new Date(y, m, d);
+        endDate.setDate(endDate.getDate() + interval + 1);
 
-            var dt = new Date(y, m, d);
-            dt.setDate(dt.getDate() + i);
-            paramChart.time.push(
-                dt.format("yyyyMMdd") + "000000"
-            );
-        }
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/load/daily/interval/day/chart.do",
+            url: _ctx + "power/data/f25/node/sum.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: {
+                node: JSON.stringify(pnList),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        $("#dg-table").datagrid("loadData", getDgData(r.data, pnList));
+                        // $("#dg-table").datagrid("loadData", getDgData(r.data, pnList));
 
-                        getTbData(getDgData(r.data, pnList));
+                        // getTbData(getDgData(r.data, pnList));
 
                         var series = [];
 
-                        var item = ChartUtils.getLoadDailyIntervalDaySeries("最大", pnList, time, interval, r.data, "maxTotalActivePower");
+                        var item = ChartUtils.getLoadAllSeries({
+                            name: "最大"
+                        }, r.data);
+                        item.dataGrouping = {
+                            approximation: "high",
+                            forced: true
+                        };
                         series.push(item);
 
-                        var item = ChartUtils.getLoadDailyIntervalDaySeries("最小", pnList, time, interval, r.data, "minTotalActivePower");
+                        var item = ChartUtils.getLoadAllSeries({
+                            name: "最小"
+                        }, r.data);
+                        item.dataGrouping = {
+                            approximation: "low",
+                            forced: true
+                        };
                         series.push(item);
 
-                        var item = ChartUtils.getLoadDailyIntervalDaySeries("平均", pnList, time, interval, r.data, "avgTotalActivePower");
+                        var item = ChartUtils.getLoadAllSeries({
+                            name: "平均"
+                        }, r.data);
+                        item.dataGrouping = {
+                            approximation: "average",
+                            forced: true
+                        };
                         series.push(item);
 
-                        var config = $.parseJSON($.ajax({
-                            url: "data/loadDetailByDateChart.json?bust=" + new Date().getTime(),
-                            type: "GET",
-                            async: false
-                        }).responseText);
+                        var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                        // config.xAxis.categories = ChartUtils.getDateTimeByDateCategories(time, interval);
-                        config.series = series;
+                        config
+                            .setShared(true)
+                            .setZoom(true)
+                            .setSeries(series)
+                            .setDataGroupingByDay();
 
-                        $("#chart-load").highcharts(config);
-
+                        $("#chart-load").highcharts("StockChart", config.getConfig());
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }

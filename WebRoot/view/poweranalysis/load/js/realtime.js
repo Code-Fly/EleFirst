@@ -75,16 +75,16 @@ $(document).ready(function () {
                             }
                         }
 
-                        var config = $.parseJSON($.ajax({
-                            url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                            type: "GET",
-                            async: false
-                        }).responseText);
+                        var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                        config.series = series;
-                        $("#chart-load-sum").highcharts("StockChart", config);
+                        config
+                            .setShared(true)
+                            .setZoom(true)
+                            .setSeries(series);
 
-                        getTbData(getDgData(r.data, pnList));
+                        $("#chart-load-sum").highcharts("StockChart", config.getConfig());
+
+                        // getTbData(getDgData(r.data, pnList));
 
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
