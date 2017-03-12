@@ -100,14 +100,14 @@ $(document).ready(function () {
                         series.push(item);
 
                         if (series.length == 2) {
-                            var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                type: "GET",
-                                async: false
-                            }).responseText);
+                            var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                            config.series = series;
-                            $("#chart-day-load").highcharts("StockChart", config);
+                            config
+                                .setShared(true)
+                                .setZoom(true)
+                                .setSeries(series);
+
+                            $("#chart-day-load").highcharts("StockChart", config.getConfig());
                         }
 
                     } else {
@@ -153,16 +153,14 @@ $(document).ready(function () {
                         series.push(item);
 
                         if (series.length == 2) {
-                            var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                type: "GET",
-                                async: false
-                            }).responseText);
+                            var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                            // config.tooltip.shared = false;
+                            config
+                                .setShared(true)
+                                .setZoom(true)
+                                .setSeries(series);
 
-                            config.series = series;
-                            $("#chart-day-load").highcharts("StockChart", config);
+                            $("#chart-day-load").highcharts("StockChart", config.getConfig());
                         }
 
                     } else {
@@ -218,29 +216,16 @@ $(document).ready(function () {
                         series.push(item);
 
                         if (series.length == 2) {
-                            var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/column-date-all-electricity.json?bust=" + new Date().getTime(),
-                                type: "GET",
-                                async: false
-                            }).responseText);
+                            var config = new ChartConfig("view/chart/column-date-all-electricity.json");
 
-                            config.plotOptions.series.dataGrouping = {
-                                forced: true,
-                                units: [
-                                    [
-                                        "day", [1]
-                                    ]
-                                ],
-                                dateTimeLabelFormats: {
-                                    day: ['%e日']
-                                }
-                            };
+                            config
+                                .setShared(false)
+                                .setZoom(false)
+                                .setCrossHairSnap(false)
+                                .setSeries(series)
+                                .setDataGroupingByDay();
 
-                            // config.tooltip.shared = false;
-
-                            config.series = series;
-
-                            $("#chart-month-electricity").highcharts("StockChart", config);
+                            $("#chart-month-electricity").highcharts("StockChart", config.getConfig());
                         }
 
                     } else {
@@ -282,27 +267,16 @@ $(document).ready(function () {
                         series.push(item);
 
                         if (series.length == 2) {
-                            var config = $.parseJSON($.ajax({
-                                url: _ctx + "view/chart/column-date-all-electricity.json?bust=" + new Date().getTime(),
-                                type: "GET",
-                                async: false
-                            }).responseText);
+                            var config = new ChartConfig("view/chart/column-date-all-electricity.json");
 
-                            config.plotOptions.series.dataGrouping = {
-                                forced: true,
-                                units: [
-                                    [
-                                        "day", [1]
-                                    ]
-                                ],
-                                dateTimeLabelFormats: {
-                                    day: ['%e日']
-                                }
-                            };
+                            config
+                                .setShared(false)
+                                .setZoom(false)
+                                .setCrossHairSnap(false)
+                                .setSeries(series)
+                                .setDataGroupingByDay();
 
-                            config.series = series;
-
-                            $("#chart-month-electricity").highcharts("StockChart", config);
+                            $("#chart-month-electricity").highcharts("StockChart", config.getConfig());
                         }
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));

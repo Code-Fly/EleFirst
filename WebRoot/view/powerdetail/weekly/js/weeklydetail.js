@@ -469,35 +469,15 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                                        config.plotOptions.series.dataGrouping = {
-                                            forced: true,
-                                            units: [
-                                                [
-                                                    "day", [1]
-                                                ]
-                                            ],
-                                            dateTimeLabelFormats: {
-                                                day: ["%A"]
-                                            }
-                                        };
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByWeek();
 
-                                        config.xAxis[0].dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.navigator.xAxis.dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.series = series;
-
-                                        $("#chart-load-detail").highcharts("StockChart", config);
+                                        $("#chart-load-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -644,37 +624,15 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
+                                        var config = new ChartConfig("view/chart/spline-date-all-voltage.json");
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-voltage.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByWeek();
 
-                                        config.plotOptions.series.dataGrouping = {
-                                            forced: true,
-                                            units: [
-                                                [
-                                                    "day", [1]
-                                                ]
-                                            ],
-                                            dateTimeLabelFormats: {
-                                                day: ["%A"]
-                                            }
-                                        };
-
-                                        config.xAxis[0].dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.navigator.xAxis.dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.series = series;
-
-                                        $("#chart-voltage-detail").highcharts("StockChart", config);
-
+                                        $("#chart-voltage-detail").highcharts("StockChart", config.getConfig());
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
@@ -819,36 +777,15 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
+                                        var config = new ChartConfig("view/chart/spline-date-all-current.json");
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-current.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByWeek();
 
-                                        config.plotOptions.series.dataGrouping = {
-                                            forced: true,
-                                            units: [
-                                                [
-                                                    "day", [1]
-                                                ]
-                                            ],
-                                            dateTimeLabelFormats: {
-                                                day: ["%A"]
-                                            }
-                                        };
-
-                                        config.xAxis[0].dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.navigator.xAxis.dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.series = series;
-
-                                        $("#chart-current-detail").highcharts("StockChart", config);
+                                        $("#chart-current-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -1015,35 +952,15 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/spline-date-all-power-factor.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-power-factor.json");
 
-                                        config.plotOptions.series.dataGrouping = {
-                                            forced: true,
-                                            units: [
-                                                [
-                                                    "day", [1]
-                                                ]
-                                            ],
-                                            dateTimeLabelFormats: {
-                                                day: ["%A"]
-                                            }
-                                        };
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByWeek();
 
-                                        config.xAxis[0].dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.navigator.xAxis.dateTimeLabelFormats = {
-                                            day: "%A"
-                                        };
-
-                                        config.series = series;
-
-                                        $("#chart-power-factor-detail").highcharts("StockChart", config);
+                                        $("#chart-power-factor-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));

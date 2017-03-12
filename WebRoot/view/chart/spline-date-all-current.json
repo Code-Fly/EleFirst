@@ -38,6 +38,9 @@
       }
     }
   },
+  "scrollbar": {
+    "enabled": true
+  },
   "legend": {
     "enabled": true,
     "borderWidth": 1,

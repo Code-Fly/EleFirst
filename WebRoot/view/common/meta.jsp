@@ -56,6 +56,7 @@
 <script type="text/javascript" src="${ctx}Content/js/viewModel/CacheUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DashboardUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/ChartUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/viewModel/ChartConfig.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DateBoxUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DataGridUtils.js"></script>
 
