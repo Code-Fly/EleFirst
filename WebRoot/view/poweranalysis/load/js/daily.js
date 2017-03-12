@@ -165,7 +165,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/sum.do",
+            url: _ctx + "power/data/f25/frozen/day/node/sum.do",
             type: "POST",
             cache: false,
             data: {

@@ -121,3 +121,18 @@ ChartConfig.prototype.setDataGroupingByWeek = function () {
 
     return this;
 };
+
+ChartConfig.prototype.setDataGroupingByMonth = function () {
+    this.config.plotOptions.series.dataGrouping = {
+        forced: true,
+        units: [
+            [
+                "month", [1]
+            ]
+        ],
+        dateTimeLabelFormats: {
+            month: ['%Y-%m']
+        }
+    };
+    return this;
+};
