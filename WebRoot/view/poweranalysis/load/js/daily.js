@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/30.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     var DEFAULT_INTERVAL = 6;
 
     var _nodes = $.parseJSON($.base64.atob(decodeURIComponent(GetQueryString("data")), true));
@@ -226,13 +228,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+                _spinner.unload();
             }
         });
     }

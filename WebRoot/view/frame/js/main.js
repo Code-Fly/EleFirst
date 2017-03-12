@@ -2,6 +2,8 @@
  * Created by VM on 1/25/2017.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     loadSummaryInfo();
 
     function loadSummaryInfo() {
@@ -57,13 +59,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-
+                _spinner.unload();
             }
         });
     }
@@ -118,13 +120,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-
+                _spinner.unload();
             }
         });
 
@@ -171,13 +173,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-
+                _spinner.unload();
             }
         });
     }
@@ -234,6 +236,15 @@ $(document).ready(function () {
                 } else {
                     jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
 
@@ -284,6 +295,15 @@ $(document).ready(function () {
                 } else {
                     jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload()
             }
         });
 

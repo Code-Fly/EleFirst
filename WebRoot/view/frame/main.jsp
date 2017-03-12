@@ -19,7 +19,7 @@
         }
 
         .grid_box_3 {
-            width: 25%;
+            width: 22%;
             float: left;
             padding: 10px;
         }
@@ -39,145 +39,147 @@
     <!-- Small boxes (Stat box) -->
     <div class="easyui-panel" data-options="border:false,"
          style="margin-bottom: 10px; width:95%;height: 180px;overflow: hidden">
-        <div class="grid_box_3">
-            <!-- small box -->
-            <div class="small-box bg-aqua" style="background-color: rgb(53, 156, 182) !important">
-                <div class="small-box-footer">
-                    <h4><b>基本概况</b></h4>
-                </div>
-                <div style="padding-left: 5px; padding-right: 5px; height: 95px">
-                    <table class="table-condensed" style="width: 100%">
-                        <tr style="border-bottom: 1px solid">
-                            <td style="width: 50%">主变台数</td>
-                            <td style="width: 50%">
-                                <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="transformers">&nbsp;</span>
-                                    <span class="unitStyle">台</span>
-                                </h4>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid">
-                            <td style="vertical-align: middle;">主变容量</td>
-                            <td>
-                                <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="ratedCapacity">&nbsp;</span>
-                                    <span class="unitStyle">kVA</span>
-                                </h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align: middle;">监测分路个数</td>
-                            <td>
-                                <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="pns">&nbsp;</span>
-                                    <span class="unitStyle">个</span>
-                                </h4>
-                            </td>
-                        </tr>
-                    </table>
+        <div class="container_12" style="padding-top: 20px;">
+            <div class="grid_3">
+                <!-- small box -->
+                <div class="small-box bg-aqua" style="background-color: rgb(53, 156, 182) !important">
+                    <div class="small-box-footer">
+                        <h4><b>基本概况</b></h4>
+                    </div>
+                    <div style="padding-left: 5px; padding-right: 5px; height: 95px">
+                        <table class="table-condensed" style="width: 100%">
+                            <tr style="border-bottom: 1px solid">
+                                <td style="width: 50%">主变台数</td>
+                                <td style="width: 50%">
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="transformers">&nbsp;</span>
+                                        <span class="unitStyle">台</span>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid">
+                                <td style="vertical-align: middle;">主变容量</td>
+                                <td>
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="ratedCapacity">&nbsp;</span>
+                                        <span class="unitStyle">kVA</span>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: middle;">监测分路个数</td>
+                                <td>
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="pns">&nbsp;</span>
+                                        <span class="unitStyle">个</span>
+                                    </h4>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="grid_box_3">
-            <!-- small box -->
-            <div class="small-box bg-green">
-                <div class="small-box-footer">
-                    <h4><b>电量概况</b></h4>
-                </div>
-                <div style="padding-left: 5px; padding-right: 5px; height: 95px">
-                    <table class="table-condensed" style="width: 100%">
-                        <tr style="border-bottom: 1px solid">
-                            <td>本月累计电量</td>
-                            <td>
-                                <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="electricityThisMonth">&nbsp;</span>
-                                    <span class="unitStyle">kWh</span>
-                                </h4>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid">
-                            <td style="width: 45%">上月总电量</td>
-                            <td style="width: 55%">
-                                <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="electricityLastMonth">&nbsp;</span>
-                                    <span class="unitStyle">kWh</span>
-                                </h4>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 0px solid">
-                            <td style="width: 45%">上上月总电量</td>
-                            <td style="width: 55%">
-                                <h4 style="font-size: 18px; margin: 0px">
-                                    <span id="electricityLastLastMonth">&nbsp;</span>
-                                    <span class="unitStyle">kWh</span>
-                                </h4>
-                            </td>
-                        </tr>
+            <div class="grid_3">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="small-box-footer">
+                        <h4><b>电量概况</b></h4>
+                    </div>
+                    <div style="padding-left: 5px; padding-right: 5px; height: 95px">
+                        <table class="table-condensed" style="width: 100%">
+                            <tr style="border-bottom: 1px solid">
+                                <td>本月累计电量</td>
+                                <td>
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="electricityThisMonth">&nbsp;</span>
+                                        <span class="unitStyle">kWh</span>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid">
+                                <td style="width: 45%">上月总电量</td>
+                                <td style="width: 55%">
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="electricityLastMonth">&nbsp;</span>
+                                        <span class="unitStyle">kWh</span>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 0px solid">
+                                <td style="width: 45%">上上月总电量</td>
+                                <td style="width: 55%">
+                                    <h4 style="font-size: 18px; margin: 0px">
+                                        <span id="electricityLastLastMonth">&nbsp;</span>
+                                        <span class="unitStyle">kWh</span>
+                                    </h4>
+                                </td>
+                            </tr>
 
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="grid_box_3">
-            <!-- small box -->
-            <div class="small-box bg-yellow">
-                <div class="small-box-footer">
-                    <h4><b>负荷概况</b></h4>
-                </div>
-                <div style="padding-left: 5px; padding-right: 5px; height: 95px">
-                    <table class="table-condensed" style="width: 100%">
-                        <tr style="border-bottom: 1px solid">
-                            <td>本月最大负荷</td>
-                            <td>
-                                <div class="tooltipMaxMonth" data-toggle="tooltip" data-placement="top" title="">
-                                    <h4 style="font-size: 18px; margin: 0px">
-                                        <span id="maxLoadThisMonth">&nbsp;</span>
-                                        <span class="unitStyle">kW</span>
-                                    </h4>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid">
-                            <td>本年最大负荷</td>
-                            <td>
-                                <div class="tooltipMaxYear" data-toggle="tooltip" data-placement="top" title="">
-                                    <h4 style="font-size: 18px; margin: 0px">
-                                        <span id="maxLoadThisYear">&nbsp;</span>
-                                        <span class="unitStyle">kW</span>
-                                    </h4>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 50%" class="tooltipMaxHistoryName">历史最大负荷</td>
-                            <td style="width: 60%">
-                                <div class="tooltipMaxHistory" data-toggle="tooltip" data-placement="top" title="">
-                                    <h4 style="font-size: 18px; margin: 0px">
-                                        <span id="maxLoadTotal">&nbsp;</span>
-                                        <span class="unitStyle">kW</span>
-                                    </h4>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+            <div class="grid_3">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="small-box-footer">
+                        <h4><b>负荷概况</b></h4>
+                    </div>
+                    <div style="padding-left: 5px; padding-right: 5px; height: 95px">
+                        <table class="table-condensed" style="width: 100%">
+                            <tr style="border-bottom: 1px solid">
+                                <td>本月最大负荷</td>
+                                <td>
+                                    <div class="tooltipMaxMonth" data-toggle="tooltip" data-placement="top" title="">
+                                        <h4 style="font-size: 18px; margin: 0px">
+                                            <span id="maxLoadThisMonth">&nbsp;</span>
+                                            <span class="unitStyle">kW</span>
+                                        </h4>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid">
+                                <td>本年最大负荷</td>
+                                <td>
+                                    <div class="tooltipMaxYear" data-toggle="tooltip" data-placement="top" title="">
+                                        <h4 style="font-size: 18px; margin: 0px">
+                                            <span id="maxLoadThisYear">&nbsp;</span>
+                                            <span class="unitStyle">kW</span>
+                                        </h4>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%" class="tooltipMaxHistoryName">历史最大负荷</td>
+                                <td style="width: 60%">
+                                    <div class="tooltipMaxHistory" data-toggle="tooltip" data-placement="top" title="">
+                                        <h4 style="font-size: 18px; margin: 0px">
+                                            <span id="maxLoadTotal">&nbsp;</span>
+                                            <span class="unitStyle">kW</span>
+                                        </h4>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="grid_box_3">
-            <!-- small box -->
-            <div class="small-box bg-red">
-                <div class="small-box-footer">
-                    <h4><b>电量预警</b></h4>
-                </div>
-                <div style="padding-left: 5px; padding-right: 5px; height: 95px">
-                    <table class="table-condensed" style="width: 100%">
-                        <tr style="border-bottom: 1px solid">
-                            <td>预警次数</td>
-                            <td>
-                                <h4 id="d10" style="font-size: 18px; margin: 0px"></h4>
-                            </td>
-                        </tr>
-                    </table>
+            <div class="grid_3">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="small-box-footer">
+                        <h4><b>电量预警</b></h4>
+                    </div>
+                    <div style="padding-left: 5px; padding-right: 5px; height: 95px">
+                        <table class="table-condensed" style="width: 100%">
+                            <tr style="border-bottom: 1px solid">
+                                <td>预警次数</td>
+                                <td>
+                                    <h4 id="d10" style="font-size: 18px; margin: 0px"></h4>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

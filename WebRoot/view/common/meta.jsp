@@ -59,6 +59,7 @@
 <script type="text/javascript" src="${ctx}Content/js/viewModel/ChartConfig.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DateBoxUtils.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/DataGridUtils.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/viewModel/Spinner.js"></script>
 
 <script type="text/javascript" src="${ctx}Content/js/viewModel/easyui.default.loader.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/viewModel/error.map.js"></script>
