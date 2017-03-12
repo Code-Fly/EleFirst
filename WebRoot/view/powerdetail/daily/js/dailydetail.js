@@ -53,6 +53,7 @@ $(document).ready(function () {
 
     //初始化databox为当前日期
     var d = new Date();
+    d.setDate(d.getDate() - 1);
     var dateboxDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
     $("#main-input-detail-datebox").datebox("clear");
     $("#main-input-detail-datebox").datebox("setValue", dateboxDate);
