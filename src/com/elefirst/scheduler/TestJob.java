@@ -1,7 +1,7 @@
 package com.elefirst.scheduler;
 
-import com.elefirst.power.po.DataF25;
-import com.elefirst.power.service.iface.IDataF25Service;
+import com.elefirst.power.po.DataF25FrozenDay;
+import com.elefirst.power.service.iface.IDataF25FrozenDayService;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,18 +15,18 @@ import java.util.List;
 @Component
 public class TestJob {
     @Autowired
-    private IDataF25Service dataF25Service;
+    private IDataF25FrozenDayService dataF25FrozenDayService;
 
     @Scheduled(cron = "0/5 * * * * ?")
     public void job1() {
-        DataF25 template = new DataF25();
+        DataF25FrozenDay template = new DataF25FrozenDay();
         template.setAreaId("1");
         template.setConcentratorId("417");
         template.setPn("1");
         template.setPage(1);
         template.setRows(10);
 
-        List<DataF25> result = dataF25Service.getDataF25List(template);
+        List<DataF25FrozenDay> result = dataF25FrozenDayService.getDataF25FrozenDayList(template);
 
         System.err.println(JSONArray.fromObject(result).toString());
     }
