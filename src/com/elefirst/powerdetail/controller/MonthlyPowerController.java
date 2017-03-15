@@ -8,6 +8,7 @@ import com.elefirst.base.entity.GeneralMessage;
 import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.*;
 import com.elefirst.powerdetail.service.IMonthlyPowerService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -322,12 +324,21 @@ public class MonthlyPowerController {
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
             int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+            List<Concentrator>  concentrators = new ArrayList<Concentrator>();
+            Concentrator singleConcentrator = new Concentrator();
+            singleConcentrator.setConcentratorId(concentratorId);
+            
+            List<String> pns = new ArrayList<String>();
+            pns.add(pn);
+            singleConcentrator.setPns(pns);
+            concentrators.add(singleConcentrator);
+            
             List<String> ctrIds = new ArrayList<String>();
             ctrIds.add(concentratorId);
             String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
 
-            List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl.fetchAllMonthlyDetailDemand(vdate, areaId, ctrIds, rowsNum, pageNum, pn);
-            int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(vdate, areaId, ctrIds, pn);
+            List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl.fetchAllMonthlyDetailDemand(vdate, areaId, concentrators, rowsNum, pageNum, pn);
+            int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(vdate, areaId, concentrators, pn);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按日需量统计数据成功！");
             dg.setRows(monthlyDemandDetails);

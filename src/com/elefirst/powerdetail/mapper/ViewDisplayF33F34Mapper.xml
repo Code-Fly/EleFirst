@@ -340,12 +340,19 @@
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
 	</if>
-	<if test="concentratorIds!= null and concentratorIds!= ''">
-		  and a.concentrator_id33 in
-		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
-	      		#{item}  
-	      </foreach>
-	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             a.concentrator_id33 = #{item.concentratorId,jdbcType=VARCHAR}
+             and a.pn33 in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
 	order by a.concentrator_id33
 	<if test="limitStart != null and limitStart >=0" >
       limit ${limitStart} , ${limitEnd}
@@ -358,12 +365,19 @@
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
 	</if>
-	<if test="concentratorIds!= null and concentratorIds!= ''">
-		  and a.concentrator_id33 in
-		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
-	      		#{item}  
-	      </foreach>
-	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             a.concentrator_id33 = #{item.concentratorId,jdbcType=VARCHAR}
+             and a.pn33 in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
   </select>
   
   <!-- 获取每个监测点下所有示数详情 -->

@@ -2,6 +2,7 @@ package com.elefirst.powerdetail.service;
 
 import java.util.List;
 
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.DailyCurrent;
 import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.DailyLoad;
@@ -16,7 +17,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyLoad> fetchAllDailyLoad(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<DailyLoad> fetchAllDailyLoad(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按日统计负荷相关数据
@@ -32,7 +33,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyVoltage> fetchAllDailyVoltage(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<DailyVoltage> fetchAllDailyVoltage(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按日统计电压相关数据
@@ -48,7 +49,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyCurrent> fetchAllDailyCurrent(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<DailyCurrent> fetchAllDailyCurrent(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按日统计功率因素相关数据
@@ -64,7 +65,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyPowerFactor> fetchAllDailyPowerFactor(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<DailyPowerFactor> fetchAllDailyPowerFactor(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按日统计功率因素相关数据
@@ -80,7 +81,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyElectricity> fetchAllDailyElectricity(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	public List<DailyElectricity> fetchAllDailyElectricity(String date,String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
 	
 	/**
 	 *  查询按日统计电量相关数据条数
@@ -93,7 +94,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllDailyElectricityCount(String date,String areaId,List<String> ctrIds) throws Exception;
+	public int fetchAllDailyElectricityCount(String date,String areaId,List<Concentrator> concentrators) throws Exception;
 	
 	/**
 	 * 查询单条按日统计电量相关数据
@@ -101,7 +102,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public DailyElectricity fetchSingleDailyElectricity(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
+	public DailyElectricity fetchSingleDailyElectricity(String date,String areaId,List<Concentrator> concentrators,String pn) throws Exception;
 	
 	/**
 	 * 查询按日统计分谐波相关数据
@@ -109,7 +110,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyHarmonic> fetchAllPartionHarmonic(String date,String areaId,List<String> ctrIds,String harmonicseq,int rows,int page) throws Exception;
+	public List<DailyHarmonic> fetchAllPartionHarmonic(String date,String areaId,List<Concentrator> concentrators,String harmonicseq,int rows,int page) throws Exception;
 	
 	/**
 	 *  查询按日统计分谐波相关数据条数
@@ -122,7 +123,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllPartionHarmonicCount(String date,String areaId,List<String> ctrIds,String harmonicseq) throws Exception;
+	public int fetchAllPartionHarmonicCount(String date,String areaId,List<Concentrator> concentrators,String harmonicseq) throws Exception;
 	
 	
 	/**
@@ -131,7 +132,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyHarmonic> fetchAllHarmonicBypn(String date,String areaId,List<String> ctrIds,String pn,int rows,int page) throws Exception;
+	public List<DailyHarmonic> fetchAllHarmonicBypn(String date,String areaId,List<Concentrator> concentrators,String pn,int rows,int page) throws Exception;
 	
 	/**
 	 *  查询按日统计分谐波相关数据条数
@@ -144,7 +145,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllPartionHarmonicByPnCount(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
+	public int fetchAllPartionHarmonicByPnCount(String date,String areaId,List<Concentrator> concentrators,String pn) throws Exception;
 	
 	
 	/**
@@ -153,7 +154,7 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DailyHarmonic> fetchAllTotalHarmonic(String date,String areaId,List<String> ctrIds,String harmonicseq,int rows,int page) throws Exception;
+	public List<DailyHarmonic> fetchAllTotalHarmonic(String date,String areaId,List<Concentrator> concentrators,String harmonicseq,int rows,int page) throws Exception;
 	
 	/**
 	 *  查询按日统计总谐波相关数据条数
@@ -166,5 +167,5 @@ public interface IDailyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllTotalHarmonicCount(String date,String areaId,List<String> ctrIds,String harmonicseq) throws Exception;
+	public int fetchAllTotalHarmonicCount(String date,String areaId,List<Concentrator> concentrators,String harmonicseq) throws Exception;
 }

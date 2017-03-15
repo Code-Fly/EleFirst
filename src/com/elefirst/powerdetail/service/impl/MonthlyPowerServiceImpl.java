@@ -15,6 +15,7 @@ import com.elefirst.powerdetail.mapper.MonthlyElectricityMapper;
 import com.elefirst.powerdetail.mapper.MonthlyLoadMapper;
 import com.elefirst.powerdetail.mapper.MonthlyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.MonthlyVoltageMapper;
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyCurrentExample;
@@ -238,12 +239,11 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,
-			String areaId, List<String> ctrIds, int rows, int page,String pn)
+			String areaId, List<Concentrator> concentrators, int rows, int page,String pn)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
- 		params.put("concentratorIds", ctrIds);
+ 		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
-		params.put("pn", pn);
 		if(date != null && date.length() > 0){
 			params.put("date", date);
 		} 
@@ -257,11 +257,10 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public int fetchAllDailyDetailDemandCount(String date, String areaId,
-			List<String> ctrIds,String pn) throws Exception {
+			List<Concentrator> concentrators,String pn) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
-		params.put("pn", pn);
 		if(date != null && date.length() > 0){
 			params.put("date", date);
 		}

@@ -52,7 +52,6 @@ public class DailyPowerController {
 			String rows, String jasonStr) throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		List<String> ctrIds = new ArrayList<String>();
 
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -64,17 +63,13 @@ public class DailyPowerController {
 			if (concentrators == null || concentrators.size() == 0) {
 				return null;
 			}
-			for (Concentrator concentrator : concentrators) {
-				String tmpCId = concentrator.getConcentratorId();
-				ctrIds.add(tmpCId);
-			}
 			String areaId = area.getAreaId();
 
 			List<DailyLoad> dailyLoads = dailyPowerServiceImpl
-					.fetchAllDailyLoad(date, areaId, ctrIds, rowsNum, pageNum,
+					.fetchAllDailyLoad(date, areaId, concentrators, rowsNum, pageNum,
 							true);
 			int total = dailyPowerServiceImpl.fetchAllDailyLoad(date, areaId,
-					ctrIds, rowsNum, pageNum, false).size();
+					concentrators, rowsNum, pageNum, false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日负荷统计数据成功！");
 			dg.setRows(dailyLoads);
@@ -102,7 +97,6 @@ public class DailyPowerController {
 			String rows, String jasonStr) throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		List<String> ctrIds = new ArrayList<String>();
 
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -114,17 +108,13 @@ public class DailyPowerController {
 			if (concentrators == null || concentrators.size() == 0) {
 				return null;
 			}
-			for (Concentrator concentrator : concentrators) {
-				String tmpCId = concentrator.getConcentratorId();
-				ctrIds.add(tmpCId);
-			}
 			String areaId = area.getAreaId();
 
 			List<DailyVoltage> dailyVoltages = dailyPowerServiceImpl
-					.fetchAllDailyVoltage(date, areaId, ctrIds, rowsNum,
+					.fetchAllDailyVoltage(date, areaId, concentrators, rowsNum,
 							pageNum, true);
 			int total = dailyPowerServiceImpl.fetchAllDailyVoltage(date,
-					areaId, ctrIds, rowsNum, pageNum, false).size();
+					areaId, concentrators, rowsNum, pageNum, false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日电压统计数据成功！");
 			dg.setRows(dailyVoltages);
@@ -152,7 +142,6 @@ public class DailyPowerController {
 			String rows, String jasonStr) throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		List<String> ctrIds = new ArrayList<String>();
 
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -164,17 +153,13 @@ public class DailyPowerController {
 			if (concentrators == null || concentrators.size() == 0) {
 				return null;
 			}
-			for (Concentrator concentrator : concentrators) {
-				String tmpCId = concentrator.getConcentratorId();
-				ctrIds.add(tmpCId);
-			}
 			String areaId = area.getAreaId();
 
 			List<DailyCurrent> dailyCurrents = dailyPowerServiceImpl
-					.fetchAllDailyCurrent(date, areaId, ctrIds, rowsNum,
+					.fetchAllDailyCurrent(date, areaId, concentrators, rowsNum,
 							pageNum, true);
 			int total = dailyPowerServiceImpl.fetchAllDailyCurrent(date,
-					areaId, ctrIds, rowsNum, pageNum, false).size();
+					areaId, concentrators, rowsNum, pageNum, false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日电流统计数据成功！");
 			dg.setRows(dailyCurrents);
@@ -202,7 +187,6 @@ public class DailyPowerController {
 			String page, String rows, String jasonStr) throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		List<String> ctrIds = new ArrayList<String>();
 
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -214,17 +198,13 @@ public class DailyPowerController {
 			if (concentrators == null || concentrators.size() == 0) {
 				return null;
 			}
-			for (Concentrator concentrator : concentrators) {
-				String tmpCId = concentrator.getConcentratorId();
-				ctrIds.add(tmpCId);
-			}
 			String areaId = area.getAreaId();
 
 			List<DailyPowerFactor> dailyPowerFactors = dailyPowerServiceImpl
-					.fetchAllDailyPowerFactor(date, areaId, ctrIds, rowsNum,
+					.fetchAllDailyPowerFactor(date, areaId, concentrators, rowsNum,
 							pageNum, true);
 			int total = dailyPowerServiceImpl.fetchAllDailyPowerFactor(date,
-					areaId, ctrIds, rowsNum, pageNum, false).size();
+					areaId, concentrators, rowsNum, pageNum, false).size();
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日功率因数统计数据成功！");
 			dg.setRows(dailyPowerFactors);
@@ -264,17 +244,13 @@ public class DailyPowerController {
 			if (concentrators == null || concentrators.size() == 0) {
 				return null;
 			}
-			for (Concentrator concentrator : concentrators) {
-				String tmpCId = concentrator.getConcentratorId();
-				ctrIds.add(tmpCId);
-			}
 			String areaId = area.getAreaId();
 
 			List<DailyElectricity> dailyElectricity = dailyPowerServiceImpl
-					.fetchAllDailyElectricity(date, areaId, ctrIds, rowsNum,
+					.fetchAllDailyElectricity(date, areaId, concentrators, rowsNum,
 							pageNum);
 			int total = dailyPowerServiceImpl.fetchAllDailyElectricityCount(
-					date, areaId, ctrIds);
+					date, areaId, concentrators);
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日的电量统计数据成功！");
 			dg.setRows(dailyElectricity);
@@ -303,7 +279,6 @@ public class DailyPowerController {
 			throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		List<String> ctrIds = new ArrayList<String>();
 
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -315,25 +290,21 @@ public class DailyPowerController {
 			if (concentrators == null || concentrators.size() == 0) {
 				return null;
 			}
-			for (Concentrator concentrator : concentrators) {
-				String tmpCId = concentrator.getConcentratorId();
-				ctrIds.add(tmpCId);
-			}
 			String areaId = area.getAreaId();
 			List<DailyHarmonic> dailyPartionHarmonic = null;
 			int total = 0;
 			if ("0".endsWith(harmonicseq)) {
 				dailyPartionHarmonic = dailyPowerServiceImpl
-						.fetchAllTotalHarmonic(date, areaId, ctrIds,
+						.fetchAllTotalHarmonic(date, areaId, concentrators,
 								harmonicseq, rowsNum, pageNum);
 				total = dailyPowerServiceImpl.fetchAllTotalHarmonicCount(date,
-						areaId, ctrIds, harmonicseq);
+						areaId, concentrators, harmonicseq);
 			} else {
 				dailyPartionHarmonic = dailyPowerServiceImpl
-						.fetchAllPartionHarmonic(date, areaId, ctrIds,
+						.fetchAllPartionHarmonic(date, areaId, concentrators,
 								harmonicseq, rowsNum, pageNum);
 				total = dailyPowerServiceImpl.fetchAllPartionHarmonicCount(
-						date, areaId, ctrIds, harmonicseq);
+						date, areaId, concentrators, harmonicseq);
 			}
 
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
@@ -366,15 +337,23 @@ public class DailyPowerController {
 		GeneralMessage gm = new GeneralMessage();
 		List<String> ctrIds = new ArrayList<String>();
 		ctrIds.add(concentratorId);
+		
+		List<Concentrator> concentrators = new ArrayList<Concentrator>();
+		Concentrator singleConcentrator = new Concentrator();
+		singleConcentrator.setConcentratorId(concentratorId);
+		List<String> pns = new ArrayList<String>();
+		pns.add(pn);
+		singleConcentrator.setPns(pns);
+		concentrators.add(singleConcentrator);
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
 			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
 
 			List<DailyHarmonic> dailyPartionHarmonic = dailyPowerServiceImpl
-					.fetchAllHarmonicBypn(date, areaId, ctrIds, pn, rowsNum,
+					.fetchAllHarmonicBypn(date, areaId, concentrators, pn, rowsNum,
 							pageNum);
 			int total = dailyPowerServiceImpl.fetchAllPartionHarmonicByPnCount(
-					date, areaId, ctrIds, pn);
+					date, areaId, concentrators, pn);
 
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日的分谐波统计数据成功！");
@@ -404,7 +383,6 @@ public class DailyPowerController {
 			String rows, String jasonStr) throws Exception {
 		DataGrid dg = new DataGrid();
 		GeneralMessage gm = new GeneralMessage();
-		List<String> ctrIds = new ArrayList<String>();
 
 		try {
 			int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -416,20 +394,16 @@ public class DailyPowerController {
 			if (concentrators == null || concentrators.size() == 0) {
 				return null;
 			}
-			for (Concentrator concentrator : concentrators) {
-				String tmpCId = concentrator.getConcentratorId();
-				ctrIds.add(tmpCId);
-			}
 			String areaId = area.getAreaId();
 
 			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date,
 					"yyyy-MM-dd", "yyyyMMdd");
 
 			List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl
-					.fetchAllMonthlyDetailDemand(vdate, areaId, ctrIds,
+					.fetchAllMonthlyDetailDemand(vdate, areaId, concentrators,
 							rowsNum, pageNum, null);
 			int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(
-					vdate, areaId, ctrIds, null);
+					vdate, areaId, concentrators, null);
 
 			gm.setFlag(GeneralMessage.Result.SUCCESS);
 			gm.setMsg("查询相关的按日示数统计数据成功！");
@@ -477,10 +451,17 @@ public class DailyPowerController {
 	private void setElectricityDetail(String areaId, String concentratorId,
 			String pn, Map<String, String> paramMap, String date)
 			throws Exception {
-		List<String> ctrIds = new ArrayList<String>();
-		ctrIds.add(concentratorId);
+		List<Concentrator>  concentrators = new ArrayList<Concentrator>();
+        Concentrator singleConcentrator = new Concentrator();
+        singleConcentrator.setConcentratorId(concentratorId);
+        
+        List<String> pns = new ArrayList<String>();
+        pns.add(pn);
+        singleConcentrator.setPns(pns);
+        concentrators.add(singleConcentrator);
+		
 		DailyElectricity dailyElectricity = dailyPowerServiceImpl
-				.fetchSingleDailyElectricity(date, areaId, ctrIds, pn);
+				.fetchSingleDailyElectricity(date, areaId, concentrators, pn);
 		paramMap.put("totalpositiveactivePower",
 				dailyElectricity.getTotalpositiveactivePower() + "");
 		paramMap.put("rateseq1", dailyElectricity.getRateseq1() + "");
