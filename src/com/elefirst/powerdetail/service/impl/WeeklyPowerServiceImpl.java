@@ -15,9 +15,7 @@ import com.elefirst.powerdetail.mapper.WeeklyElectricityMapper;
 import com.elefirst.powerdetail.mapper.WeeklyLoadMapper;
 import com.elefirst.powerdetail.mapper.WeeklyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.WeeklyVoltageMapper;
-import com.elefirst.powerdetail.po.MonthlyDemand;
-import com.elefirst.powerdetail.po.MonthlyDemandDetail;
-import com.elefirst.powerdetail.po.MonthlyElectricity;
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.WeeklyCurrent;
 import com.elefirst.powerdetail.po.WeeklyCurrentExample;
 import com.elefirst.powerdetail.po.WeeklyDemand;
@@ -56,13 +54,19 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 	
 	@Override
 	public List<WeeklyLoad> fetchAllWeeklyLoad(String date, String areaId,
-			List<String> ctrIds, int rows, int page,boolean isPagination) throws Exception {
+			List<Concentrator> concentrators, int rows, int page,boolean isPagination) throws Exception {
 		WeeklyLoadExample condition = new WeeklyLoadExample();
-		WeeklyLoadExample.Criteria criteria = condition.createCriteria();
-		criteria.andWeekstartLessThanOrEqualTo(date);
-		criteria.andWeekendGreaterThanOrEqualTo(date);
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		
+		for (Concentrator concentrator : concentrators) {
+			WeeklyLoadExample.Criteria criteria = condition.createCriteria();
+			criteria.andWeekstartLessThanOrEqualTo(date);
+			criteria.andWeekendGreaterThanOrEqualTo(date);
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
+		}
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("weekstart DESC");
 		//是否分页
@@ -93,14 +97,19 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public List<WeeklyVoltage> fetchAllWeeklyVoltage(String date, String areaId,
-			List<String> ctrIds, int rows, int page, boolean isPagination)
+			List<Concentrator> concentrators, int rows, int page, boolean isPagination)
 			throws Exception {
 		WeeklyVoltageExample condition = new WeeklyVoltageExample();
-		WeeklyVoltageExample.Criteria criteria = condition.createCriteria();
-		criteria.andWeekstartLessThanOrEqualTo(date);
-		criteria.andWeekendGreaterThanOrEqualTo(date);
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		for (Concentrator concentrator : concentrators) {
+			WeeklyVoltageExample.Criteria criteria = condition.createCriteria();
+			criteria.andWeekstartLessThanOrEqualTo(date);
+			criteria.andWeekendGreaterThanOrEqualTo(date);
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
+		}
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("weekstart DESC");
 		//是否分页
@@ -130,14 +139,19 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 	
 	@Override
 	public List<WeeklyCurrent> fetchAllWeeklyCurrent(String date, String areaId,
-			List<String> ctrIds, int rows, int page, boolean isPagination)
+			List<Concentrator> concentrators, int rows, int page, boolean isPagination)
 			throws Exception {
 		WeeklyCurrentExample condition = new WeeklyCurrentExample();
-		WeeklyCurrentExample.Criteria criteria = condition.createCriteria();
-		criteria.andWeekstartLessThanOrEqualTo(date);
-		criteria.andWeekendGreaterThanOrEqualTo(date);
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		for (Concentrator concentrator : concentrators) {
+			WeeklyCurrentExample.Criteria criteria = condition.createCriteria();
+			criteria.andWeekstartLessThanOrEqualTo(date);
+			criteria.andWeekendGreaterThanOrEqualTo(date);
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
+		}
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("weekstart DESC");
 		//是否分页
@@ -167,14 +181,20 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public List<WeeklyPowerFactor> fetchAllWeeklyPowerFactor(String date,
-			String areaId, List<String> ctrIds, int rows, int page,
+			String areaId, List<Concentrator> concentrators, int rows, int page,
 			boolean isPagination) throws Exception {
 		WeeklyPowerFactorExample condition = new WeeklyPowerFactorExample();
-		WeeklyPowerFactorExample.Criteria criteria = condition.createCriteria();
-		criteria.andWeekstartLessThanOrEqualTo(date);
-		criteria.andWeekendGreaterThanOrEqualTo(date);
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		
+		for (Concentrator concentrator : concentrators) {
+			WeeklyPowerFactorExample.Criteria criteria = condition.createCriteria();
+			criteria.andWeekstartLessThanOrEqualTo(date);
+			criteria.andWeekendGreaterThanOrEqualTo(date);
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
+		}
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("weekstart DESC");
 		//是否分页
@@ -204,9 +224,9 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public List<WeeklyDemand> fetchAllWeeklyDemand(String date, String areaId,
-			List<String> ctrIds, int rows, int page) throws Exception {
+			List<Concentrator> concentrators, int rows, int page) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		
 		if(date != null && date.length() > 0){
@@ -222,9 +242,9 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public int fetchAllWeeklyDemandCount(String date, String areaId,
-			List<String> ctrIds) {
+			List<Concentrator> concentrators) {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		
 		if(date != null && date.length() > 0){
@@ -236,10 +256,10 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public List<WeeklyDemandDetail> fetchAllWeeklyDetailDemand(String date,
-			String areaId, List<String> ctrIds, int rows, int page, String pn)
+			String areaId, List<Concentrator> concentrators, int rows, int page, String pn)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
- 		params.put("concentratorIds", ctrIds);
+ 		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		params.put("pn", pn);
 		if(date != null && date.length() > 0){
@@ -255,9 +275,9 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public int fetchAllWeeklyDetailDemandCount(String date, String areaId,
-			List<String> ctrIds, String pn) throws Exception {
+			List<Concentrator> concentrators, String pn) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		params.put("pn", pn);
 		if(date != null && date.length() > 0){
@@ -269,10 +289,10 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 	
 	@Override
 	public List<WeeklyElectricity> fetchAllWeeklyElectricity(String date,
-			String areaId, List<String> ctrIds, int rows, int page)
+			String areaId, List<Concentrator> concentrators, int rows, int page)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		
 		if(date != null && date.length() > 0){
@@ -288,9 +308,9 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public int fetchAllWeeklyElectricityCount(String date, String areaId,
-			List<String> ctrIds) throws Exception {
+			List<Concentrator> concentrators) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 			
 		if(date != null && date.length() > 0){
@@ -302,9 +322,9 @@ public class WeeklyPowerServiceImpl implements IWeeklyPowerService{
 
 	@Override
 	public WeeklyElectricity fetchSingleWeeklyElectricity(String date,
-			String areaId, List<String> ctrIds, String pn) throws Exception {
+			String areaId, List<Concentrator> concentrators, String pn) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		params.put("pn", pn);
 		if(date != null && date.length() > 0){

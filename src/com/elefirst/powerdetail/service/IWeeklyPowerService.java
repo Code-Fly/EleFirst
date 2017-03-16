@@ -2,6 +2,7 @@ package com.elefirst.powerdetail.service;
 
 import java.util.List;
 
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.po.MonthlyElectricity;
 import com.elefirst.powerdetail.po.WeeklyCurrent;
@@ -19,7 +20,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WeeklyLoad> fetchAllWeeklyLoad(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<WeeklyLoad> fetchAllWeeklyLoad(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按周统计负荷相关数据
@@ -35,7 +36,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WeeklyVoltage> fetchAllWeeklyVoltage(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<WeeklyVoltage> fetchAllWeeklyVoltage(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按周统计电压相关数据
@@ -51,7 +52,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WeeklyCurrent> fetchAllWeeklyCurrent(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<WeeklyCurrent> fetchAllWeeklyCurrent(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按周统计功率因素相关数据
@@ -67,7 +68,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WeeklyPowerFactor> fetchAllWeeklyPowerFactor(String date,String areaId,List<String> ctrIds,int rows,int page,boolean isPagination) throws Exception;
+	public List<WeeklyPowerFactor> fetchAllWeeklyPowerFactor(String date,String areaId,List<Concentrator> concentrators,int rows,int page,boolean isPagination) throws Exception;
 	
 	/**
 	 * 查询单条按周统计功率因素相关数据
@@ -83,7 +84,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WeeklyDemand> fetchAllWeeklyDemand(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	public List<WeeklyDemand> fetchAllWeeklyDemand(String date,String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
 	
 	/**
 	 * 查询按周统计需量相关数据记录数
@@ -91,7 +92,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllWeeklyDemandCount(String date, String areaId, List<String> ctrIds);
+	public int fetchAllWeeklyDemandCount(String date, String areaId, List<Concentrator> concentrators);
 	
 	/**
 	 * 查询按周统计需量详情示数相关数据
@@ -99,7 +100,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WeeklyDemandDetail> fetchAllWeeklyDetailDemand(String date,String areaId,List<String> ctrIds,int rows,int page,String pn) throws Exception;
+	public List<WeeklyDemandDetail> fetchAllWeeklyDetailDemand(String date,String areaId,List<Concentrator> concentrators,int rows,int page,String pn) throws Exception;
 	
 	/**
 	 *  查询按周统计需量详情示数相关数据条数
@@ -112,7 +113,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllWeeklyDetailDemandCount(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
+	public int fetchAllWeeklyDetailDemandCount(String date,String areaId,List<Concentrator> concentrators,String pn) throws Exception;
 	
 	/**
 	 * 查询按周统计电量相关数据
@@ -120,7 +121,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<WeeklyElectricity> fetchAllWeeklyElectricity(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	public List<WeeklyElectricity> fetchAllWeeklyElectricity(String date,String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
 	
 	/**
 	 *  查询按周统计电量相关数据条数
@@ -133,7 +134,7 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchAllWeeklyElectricityCount(String date,String areaId,List<String> ctrIds) throws Exception;
+	public int fetchAllWeeklyElectricityCount(String date,String areaId,List<Concentrator> concentrators) throws Exception;
 	
 	/**
 	 * 查询单条按周统计电量相关数据
@@ -141,5 +142,5 @@ public interface IWeeklyPowerService {
 	 * @return
 	 * @throws Exception
 	 */
-	public WeeklyElectricity fetchSingleWeeklyElectricity(String date,String areaId,List<String> ctrIds,String pn) throws Exception;
+	public WeeklyElectricity fetchSingleWeeklyElectricity(String date,String areaId,List<Concentrator> concentrators,String pn) throws Exception;
 }

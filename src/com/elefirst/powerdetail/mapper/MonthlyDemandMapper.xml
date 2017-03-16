@@ -17,15 +17,22 @@
     <if test="areaId!= null and areaId!= ''">
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
-	<if test="concentratorIds!= null and concentratorIds!= ''">
-		  and ct.concentrator_id in
-		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
-	      		#{item}  
-	      </foreach>
-	</if>
 	<if test="date!= null and date!= ''">
 		  and ct.days = #{date ,jdbcType=VARCHAR} 
 	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             ct.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and ct.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
 	order by ct.days desc
 	<if test="limitStart != null and limitStart >=0" >
       limit ${limitStart} , ${limitEnd}
@@ -38,14 +45,21 @@
     <if test="areaId!= null and areaId!= ''">
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
-	<if test="concentratorIds!= null and concentratorIds!= ''">
-		  and ct.concentrator_id in
-		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
-	      		#{item}  
-	      </foreach>
-	</if>
 	<if test="date!= null and date!= ''">
 		  and ct.days = #{date ,jdbcType=VARCHAR} 
 	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             ct.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and ct.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
   </select>
 </mapper>
