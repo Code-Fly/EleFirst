@@ -92,9 +92,33 @@ ChartConfig.prototype.setDataGroupingByDay = function () {
             ]
         ],
         dateTimeLabelFormats: {
+            day: ["%m-%d"]
+        }
+    };
+    return this;
+};
+
+ChartConfig.prototype.setDataGroupingByDayOfMonth = function () {
+    this.config.plotOptions.series.dataGrouping = {
+        forced: true,
+        units: [
+            [
+                "day", [1]
+            ]
+        ],
+        dateTimeLabelFormats: {
             day: ['%e日']
         }
     };
+
+    this.config.navigator.xAxis.dateTimeLabelFormats = {
+        day: "%e日"
+    };
+    for (var i = 0; i < this.config.xAxis.length; i++) {
+        this.config.xAxis[i].dateTimeLabelFormats = {
+            day: "%e日"
+        };
+    }
     return this;
 };
 

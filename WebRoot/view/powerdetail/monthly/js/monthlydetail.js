@@ -1049,7 +1049,7 @@ $(document).ready(function () {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getElectricityAllSeries({
+                                        var item = ChartUtils.getElectricityAllByDaySeries({
                                             name: new Date(y, m).format("yyyy-MM")
                                         }, r.data);
                                         item.dataGrouping = {
