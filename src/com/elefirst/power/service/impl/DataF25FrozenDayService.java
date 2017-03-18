@@ -346,7 +346,11 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
 
     private String calc(String org, Double num, Integer precision) {
         if (null != org) {
-            return String.valueOf(String.format("%." + precision + "f", Double.valueOf(org) * num));
+            if (null == precision) {
+                return String.valueOf(Double.valueOf(org) * num);
+            } else {
+                return String.valueOf(String.format("%." + precision + "f", Double.valueOf(org) * num));
+            }
         }
         return null;
     }
