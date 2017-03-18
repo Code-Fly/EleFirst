@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/27.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
     $("#main-input-detail-datebox").datebox("calendar").calendar({
@@ -487,13 +489,13 @@ $(document).ready(function () {
                                 }
                             },
                             beforeSend: function (XMLHttpRequest) {
-
+                                _spinner.load();
                             },
                             error: function (request) {
                                 jError("请求失败！" + ErrUtils.getMsg("3"));
                             },
                             complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
+                                _spinner.unload();
                             }
                         });
 
@@ -505,13 +507,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
@@ -641,13 +643,13 @@ $(document).ready(function () {
                                 }
                             },
                             beforeSend: function (XMLHttpRequest) {
-
+                                _spinner.load();
                             },
                             error: function (request) {
                                 jError("请求失败！" + ErrUtils.getMsg("3"));
                             },
                             complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
+                                _spinner.unload();
                             }
                         });
                     } else {
@@ -658,13 +660,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
@@ -795,13 +797,13 @@ $(document).ready(function () {
                                 }
                             },
                             beforeSend: function (XMLHttpRequest) {
-
+                                _spinner.load();
                             },
                             error: function (request) {
                                 jError("请求失败！" + ErrUtils.getMsg("3"));
                             },
                             complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
+                                _spinner.unload();
                             }
                         });
 
@@ -813,13 +815,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
@@ -970,13 +972,13 @@ $(document).ready(function () {
                                 }
                             },
                             beforeSend: function (XMLHttpRequest) {
-
+                                _spinner.load();
                             },
                             error: function (request) {
                                 jError("请求失败！" + ErrUtils.getMsg("3"));
                             },
                             complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
+                                _spinner.unload();
                             }
                         });
                     } else {
@@ -987,13 +989,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
@@ -1079,13 +1081,13 @@ $(document).ready(function () {
                                 }
                             },
                             beforeSend: function (XMLHttpRequest) {
-
+                                _spinner.load();
                             },
                             error: function (request) {
                                 jError("请求失败！" + ErrUtils.getMsg("3"));
                             },
                             complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
+                                _spinner.unload();
                             }
                         });
                     } else {
@@ -1096,13 +1098,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
