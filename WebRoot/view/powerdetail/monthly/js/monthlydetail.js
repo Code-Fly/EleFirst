@@ -417,79 +417,75 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
+                        var node = [];
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
-
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
 
-                        paramChart.time.push(
-                            new Date(y, m).format('yyyyMM') + "01000000"
-                        )
+                        var startDate = new Date(y, m);
+                        var endDate = new Date(y, m);
+                        endDate.setMonth(endDate.getMonth() + 1);
 
+                        var startTime = startDate.format('yyyyMM') + "01000000";
+                        var endTime = endDate.format('yyyyMM') + "01000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/load/monthly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
 
-                                        var item = ChartUtils.getLoadMonthlyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "最高"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxTotalActivePower");
+                                        var item = ChartUtils.getLoadAllSeries({
+                                            name: "最大"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getLoadMonthlyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
-                                            name: "最低"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minTotalActivePower");
+                                        var item = ChartUtils.getLoadAllSeries({
+                                            name: "最小"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getLoadMonthlyDetailSeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getLoadAllSeries({
                                             name: "平均"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "avgTotalActivePower");
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "average",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: "data/loadDetailChart.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByDay();
 
-                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
-                                        config.series = series;
-
-                                        $("#chart-load-detail").highcharts(config);
+                                        $("#chart-load-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -544,108 +540,105 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
 
-                        paramChart.time.push(
-                            new Date(y, m).format('yyyyMM') + "01000000"
-                        )
+                        var startDate = new Date(y, m);
+                        var endDate = new Date(y, m);
+                        endDate.setMonth(endDate.getMonth() + 1);
+
+                        var startTime = startDate.format('yyyyMM') + "01000000";
+                        var endTime = endDate.format('yyyyMM') + "01000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/voltage/monthly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getVoltageMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "A相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxA_Voltage");
+                                        }, r.data, "aVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "B相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxB_Voltage");
+                                        }, r.data, "bVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "C相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxC_Voltage");
+                                        }, r.data, "cVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "A相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minA_Voltage");
+                                        }, r.data, "aVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "B相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minB_Voltage");
+                                        }, r.data, "bVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getVoltageMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getVoltageAllSeries({
                                             name: "C相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minC_Voltage");
+                                        }, r.data, "cVoltage");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: "data/voltageDetailChart.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-voltage.json");
 
-                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
-                                        config.series = series;
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByDay();
 
-                                        // $.messager.alert("操作提示", JSON.stringify(config));
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+                                        $("#chart-voltage-detail").highcharts("StockChart", config.getConfig());
 
-                                        $("#chart-voltage-detail").highcharts(config);
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -698,105 +691,105 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
 
-                        paramChart.time.push(
-                            new Date(y, m).format('yyyyMM') + "01000000"
-                        )
+                        var startDate = new Date(y, m);
+                        var endDate = new Date(y, m);
+                        endDate.setMonth(endDate.getMonth() + 1);
+
+                        var startTime = startDate.format('yyyyMM') + "01000000";
+                        var endTime = endDate.format('yyyyMM') + "01000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/current/monthly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getCurrentMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "A相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxA_Current");
+                                        }, r.data, "aCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "B相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxB_Current");
+                                        }, r.data, "bCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "C相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxC_Current");
+                                        }, r.data, "cCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "A相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minA_Current");
+                                        }, r.data, "aCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "B相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minB_Current");
+                                        }, r.data, "bCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getCurrentMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getCurrentAllSeries({
                                             name: "C相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minC_Current");
+                                        }, r.data, "cCurrent");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: "data/currentDetailChart.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-current.json");
 
-                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
-                                        config.series = series;
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByDay();
 
-                                        $("#chart-current-detail").highcharts(config);
+                                        $("#chart-current-detail").highcharts("StockChart", config.getConfig());
+
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -851,125 +844,125 @@ $(document).ready(function () {
                             time = row.time;
                         }
 
-                        var paramChart = {
-                            node: [],
-                            time: []
-                        }
+                        var node = [];
 
-                        paramChart.node.push({
+                        node.push({
                             areaId: row.areaId,
                             concentratorId: row.concentratorId,
                             pn: row.pn
-                        })
+                        });
 
                         var ss = time.split('-');
                         var y = parseInt(ss[0], 10);
                         var m = parseInt(ss[1], 10) - 1;
 
-                        paramChart.time.push(
-                            new Date(y, m).format('yyyyMM') + "01000000"
-                        )
+                        var startDate = new Date(y, m);
+                        var endDate = new Date(y, m);
+                        endDate.setMonth(endDate.getMonth() + 1);
+
+                        var startTime = startDate.format('yyyyMM') + "01000000";
+                        var endTime = endDate.format('yyyyMM') + "01000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/powerFactor/monthly/chart.do",
+                            url: _ctx + "power/data/f25/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(node),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         var series = [];
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "A相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxA_PowerFactor");
+                                        }, r.data, "aPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "B相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxB_PowerFactor");
+                                        }, r.data, "bPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "C相最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxC_PowerFactor");
+                                        }, r.data, "cPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "A相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minA_PowerFactor");
+                                        }, r.data, "aPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "B相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minB_PowerFactor");
+                                        }, r.data, "bPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "C相最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minC_PowerFactor");
+                                        }, r.data, "cPowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        //
+
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "总最大"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "maxTotalPowerFactor");
+                                        }, r.data, "totalpowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "high",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var item = ChartUtils.getPowerFactorMonthlySeries({
-                                            areaId: row.areaId,
-                                            concentratorId: row.concentratorId,
-                                            pn: row.pn,
-                                            pt: pnInfo.pt,
-                                            ct: pnInfo.ct,
+                                        var item = ChartUtils.getPowerFactorAllSeries({
                                             name: "总最小"
-                                        }, new Date(y, m).format('yyyyMM') + "01000000", r.data, "minTotalPowerFactor");
+                                        }, r.data, "totalpowerfactor");
+                                        item.dataGrouping = {
+                                            approximation: "low",
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: "data/powerFactorDetailChart.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/spline-date-all-power-factor.json");
 
-                                        config.xAxis.categories = ChartUtils.getMonthCategories(new Date(y, m));
-                                        config.series = series;
+                                        config
+                                            .setShared(true)
+                                            .setZoom(true)
+                                            .setSeries(series)
+                                            .setDataGroupingByDay();
 
-                                        $("#chart-power-factor-detail").highcharts(config);
+                                        $("#chart-power-factor-detail").highcharts("StockChart", config.getConfig());
+
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -1065,33 +1058,17 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
-                                        var config = $.parseJSON($.ajax({
-                                            url: _ctx + "view/chart/column-date-all-electricity.json?bust=" + new Date().getTime(),
-                                            type: "GET",
-                                            async: false
-                                        }).responseText);
+                                        var config = new ChartConfig("view/chart/column-date-all-electricity.json");
 
-                                        config.plotOptions.series.dataGrouping = {
-                                            forced: true,
-                                            units: [
-                                                [
-                                                    "day", [1]
-                                                ]
-                                            ],
-                                            dateTimeLabelFormats: {
-                                                day: ['%e日']
-                                            }
-                                        };
+                                        config
+                                            .setShared(false)
+                                            .setZoom(false)
+                                            .setCrossHairSnap(false)
+                                            .setSeries(series)
+                                            .setDataGroupingByDay();
 
-                                        // config.tooltip.formatter = function () {
-                                        //     var s = '<span style="font-size: 10px">' + new Date(this.point.x).format("d") + '日' + '</span><br/>'
-                                        //         + '<span style="color:' + this.series.color + '">\u25CF</span>' + this.series.name + ': <b>' + this.point.y + 'kWh</b><br/>';
-                                        //     return s;
-                                        // };
 
-                                        config.series = series;
-
-                                        $("#chart-electricity-detail").highcharts("StockChart", config);
+                                        $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
