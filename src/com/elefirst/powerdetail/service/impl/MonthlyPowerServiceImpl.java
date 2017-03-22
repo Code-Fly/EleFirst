@@ -15,7 +15,9 @@ import com.elefirst.powerdetail.mapper.MonthlyElectricityMapper;
 import com.elefirst.powerdetail.mapper.MonthlyLoadMapper;
 import com.elefirst.powerdetail.mapper.MonthlyPowerFactorMapper;
 import com.elefirst.powerdetail.mapper.MonthlyVoltageMapper;
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.DailyElectricity;
+import com.elefirst.powerdetail.po.DailyLoadExample;
 import com.elefirst.powerdetail.po.MonthlyCurrent;
 import com.elefirst.powerdetail.po.MonthlyCurrentExample;
 import com.elefirst.powerdetail.po.MonthlyDemand;
@@ -54,15 +56,21 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	
 	@Override
 	public List<MonthlyLoad> fetchAllMonthlyLoad(String date, String areaId,
-			List<String> ctrIds, int rows, int page,boolean isPagination) throws Exception {
+			List<Concentrator> concentrators, int rows, int page,boolean isPagination) throws Exception {
 		MonthlyLoadExample condition = new MonthlyLoadExample();
-		MonthlyLoadExample.Criteria criteria = condition.createCriteria();
-		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
-			criteria.andDaysEqualTo(vdate);
+		for (Concentrator concentrator : concentrators) {
+			MonthlyLoadExample.Criteria criteria = condition.createCriteria();
+			if(date != null && date.length() > 0){
+				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+				criteria.andDaysEqualTo(vdate);
+			}
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
 		}
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("days DESC");
 		//是否分页
@@ -91,16 +99,21 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public List<MonthlyVoltage> fetchAllMonthlyVoltage(String date, String areaId,
-			List<String> ctrIds, int rows, int page, boolean isPagination)
+			List<Concentrator> concentrators, int rows, int page, boolean isPagination)
 			throws Exception {
 		MonthlyVoltageExample condition = new MonthlyVoltageExample();
-		MonthlyVoltageExample.Criteria criteria = condition.createCriteria();
-		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
-			criteria.andDaysEqualTo(vdate);
+		for (Concentrator concentrator : concentrators) {
+			MonthlyVoltageExample.Criteria criteria = condition.createCriteria();
+			if(date != null && date.length() > 0){
+				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+				criteria.andDaysEqualTo(vdate);
+			}
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
 		}
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("days DESC");
 		//是否分页
@@ -129,16 +142,21 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	
 	@Override
 	public List<MonthlyCurrent> fetchAllMonthlyCurrent(String date, String areaId,
-			List<String> ctrIds, int rows, int page, boolean isPagination)
+			List<Concentrator> concentrators, int rows, int page, boolean isPagination)
 			throws Exception {
 		MonthlyCurrentExample condition = new MonthlyCurrentExample();
-		MonthlyCurrentExample.Criteria criteria = condition.createCriteria();
-		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
-			criteria.andDaysEqualTo(vdate);
+		for (Concentrator concentrator : concentrators) {
+			MonthlyCurrentExample.Criteria criteria = condition.createCriteria();
+			if(date != null && date.length() > 0){
+				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+				criteria.andDaysEqualTo(vdate);
+			}
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
 		}
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("days DESC");
 		//是否分页
@@ -167,16 +185,21 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public List<MonthlyPowerFactor> fetchAllMonthlyPowerFactor(String date,
-			String areaId, List<String> ctrIds, int rows, int page,
+			String areaId, List<Concentrator> concentrators, int rows, int page,
 			boolean isPagination) throws Exception {
 		MonthlyPowerFactorExample condition = new MonthlyPowerFactorExample();
-		MonthlyPowerFactorExample.Criteria criteria = condition.createCriteria();
-		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
-			criteria.andDaysEqualTo(vdate);
+		for (Concentrator concentrator : concentrators) {
+			MonthlyPowerFactorExample.Criteria criteria = condition.createCriteria();
+			if(date != null && date.length() > 0){
+				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+				criteria.andDaysEqualTo(vdate);
+			}
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
 		}
-		criteria.andAreaIdEqualTo(areaId);
-		criteria.andConcentratorIdIn(ctrIds);
+		
 		//排序后只取第一条记录返回
 		condition.setOrderByClause("days DESC");
 		//是否分页
@@ -204,9 +227,9 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	}
 	
 	@Override
-	public List<MonthlyDemand> fetchAllDailyDemand(String date,String areaId,List<String> ctrIds,int rows,int page) throws Exception {
+	public List<MonthlyDemand> fetchAllDailyDemand(String date,String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		
 		if(date != null && date.length() > 0){
@@ -222,10 +245,10 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	}
 
 	@Override
-	public int fetchAllMonthlyDemandCount(String date, String areaId, List<String> ctrIds)
+	public int fetchAllMonthlyDemandCount(String date, String areaId, List<Concentrator> concentrators)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		
 		if(date != null && date.length() > 0){
@@ -238,12 +261,11 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,
-			String areaId, List<String> ctrIds, int rows, int page,String pn)
+			String areaId, List<Concentrator> concentrators, int rows, int page,String pn)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
- 		params.put("concentratorIds", ctrIds);
+ 		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
-		params.put("pn", pn);
 		if(date != null && date.length() > 0){
 			params.put("date", date);
 		} 
@@ -257,11 +279,10 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public int fetchAllDailyDetailDemandCount(String date, String areaId,
-			List<String> ctrIds,String pn) throws Exception {
+			List<Concentrator> concentrators,String pn) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
-		params.put("pn", pn);
 		if(date != null && date.length() > 0){
 			params.put("date", date);
 		}
@@ -271,10 +292,10 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 	
 	@Override
 	public List<MonthlyElectricity> fetchAllMonthlyElectricity(String date,
-			String areaId, List<String> ctrIds, int rows, int page)
+			String areaId, List<Concentrator> concentrators, int rows, int page)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		
 		if(date != null && date.length() > 0){
@@ -291,9 +312,9 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public int fetchAllMonthlyElectricityCount(String date, String areaId,
-			List<String> ctrIds) throws Exception {
+			List<Concentrator> concentrators) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 			
 		if(date != null && date.length() > 0){
@@ -306,9 +327,9 @@ public class MonthlyPowerServiceImpl implements IMonthlyPowerService{
 
 	@Override
 	public MonthlyElectricity fetchSingleMonthlyElectricity(String date,
-			String areaId, List<String> ctrIds, String pn) throws Exception {
+			String areaId, List<Concentrator> concentrators, String pn) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		params.put("pn", pn);
 		if(date != null && date.length() > 0){

@@ -246,30 +246,30 @@ public class DataF25Service extends BaseService implements IDataF25Service {
             DataF25 item = data.get(i);
             PnInfo pnInfo = getPnInfo(pnInfos, item);
             if (null != pnInfo) {
-                item.setTotalactivepower(calc(item.getTotalactivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setaActivepower(calc(item.getaActivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setbActivepower(calc(item.getbActivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setcActivepower(calc(item.getcActivepower(), pnInfo.getCt() * pnInfo.getPt()));
+                item.setTotalactivepower(calc(item.getTotalactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaActivepower(calc(item.getaActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbActivepower(calc(item.getbActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcActivepower(calc(item.getcActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
 
-                item.setTotalreactivepower(calc(item.getTotalreactivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setaReactivepower(calc(item.getaReactivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setbReactivepower(calc(item.getbReactivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setcReactivepower(calc(item.getcReactivepower(), pnInfo.getCt() * pnInfo.getPt()));
+                item.setTotalreactivepower(calc(item.getTotalreactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaReactivepower(calc(item.getaReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbReactivepower(calc(item.getbReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcReactivepower(calc(item.getcReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
 
-                item.setaVoltage(calc(item.getaVoltage(), pnInfo.getPt()));
-                item.setbVoltage(calc(item.getbVoltage(), pnInfo.getPt()));
-                item.setcVoltage(calc(item.getcVoltage(), pnInfo.getPt()));
+                item.setaVoltage(calc(item.getaVoltage(), pnInfo.getPt(), 1));
+                item.setbVoltage(calc(item.getbVoltage(), pnInfo.getPt(), 1));
+                item.setcVoltage(calc(item.getcVoltage(), pnInfo.getPt(), 1));
 
-                item.setaCurrent(calc(item.getaCurrent(), pnInfo.getCt()));
-                item.setbCurrent(calc(item.getbCurrent(), pnInfo.getCt()));
-                item.setcCurrent(calc(item.getcCurrent(), pnInfo.getCt()));
+                item.setaCurrent(calc(item.getaCurrent(), pnInfo.getCt(), 3));
+                item.setbCurrent(calc(item.getbCurrent(), pnInfo.getCt(), 3));
+                item.setcCurrent(calc(item.getcCurrent(), pnInfo.getCt(), 3));
 
-                item.setZeroSequenceCurrent(calc(item.getZeroSequenceCurrent(), pnInfo.getCt()));
+                item.setZeroSequenceCurrent(calc(item.getZeroSequenceCurrent(), pnInfo.getCt(), 3));
 
-                item.setTotalapparentpower(calc(item.getTotalapparentpower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setaApparentpower(calc(item.getaApparentpower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setbApparentpower(calc(item.getbApparentpower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setcApparentpower(calc(item.getcApparentpower(), pnInfo.getCt() * pnInfo.getPt()));
+                item.setTotalapparentpower(calc(item.getTotalapparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaApparentpower(calc(item.getaApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbApparentpower(calc(item.getbApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcApparentpower(calc(item.getcApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
 
             }
             result.add(item);
@@ -287,9 +287,13 @@ public class DataF25Service extends BaseService implements IDataF25Service {
         return null;
     }
 
-    private String calc(String org, Double num) {
+    private String calc(String org, Double num, Integer precision) {
         if (null != org) {
-            return String.valueOf(Double.valueOf(org) * num);
+            if (null == precision) {
+                return String.valueOf(Double.valueOf(org) * num);
+            } else {
+                return String.valueOf(String.format("%." + precision + "f", Double.valueOf(org) * num));
+            }
         }
         return null;
     }

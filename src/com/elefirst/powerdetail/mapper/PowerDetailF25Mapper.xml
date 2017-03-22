@@ -600,14 +600,21 @@
   <select id="myselectByExample" resultMap="BaseResultMap">
 	select a.*,c.`name`,c.ct,c.pt,d.stat from t_003_type_one_data_fn25_frozen_day a,(select area_id,concentrator_id,pn,max(clientOperationTime + 0) clientOperationTime from t_003_type_one_data_fn25_frozen_day group by area_id ,concentrator_id,pn) b ,t_202_pn_info c ,t_020_pn_stat d where a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.clientOperationTime = b.clientOperationTime and b.area_id = c.area_id and b.concentrator_id = c.concentrator_id and b.pn = c.pn and c.area_id = d.area_id and c.concentrator_id = d.concentrator_id and c.pn = d.pn
 	<if test="areaId!= null and areaId!= ''">
-		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
+		  and a.area_id = #{areaId ,jdbcType=VARCHAR}
 	</if>
-	<if test="concentratorIds!= null and concentratorIds!= ''">
-		  and a.concentrator_id in
-		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
-	      		#{item}  
-	      </foreach>
-	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             a.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and a.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
 	order by a.concentrator_id
 	<if test="limitStart != null and limitStart >=0" >
       limit ${limitStart} , ${limitEnd}
@@ -620,12 +627,19 @@
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
-	<if test="concentratorIds!= null and concentratorIds!= ''">
-		  and a.concentrator_id in
-		  <foreach item="item" index="index" collection="concentratorIds" open="(" separator="," close=")">  
-	      		#{item}  
-	      </foreach>
-	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="OR">
+            (
+             a.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and a.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
   </select>
   <!-- 获取每个监测点下最大和最小电压 -->
   <select id="queryVoltageDetail" resultType="com.elefirst.powerdetail.po.VoltageDetail">

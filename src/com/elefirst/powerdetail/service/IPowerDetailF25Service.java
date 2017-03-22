@@ -2,6 +2,7 @@ package com.elefirst.powerdetail.service;
 
 import java.util.List;
 
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerFactorDetail;
@@ -32,7 +33,7 @@ public interface IPowerDetailF25Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PowerDetailF25> fetchLastPowerDetailF25ByCtrId(String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	public List<PowerDetailF25> fetchLastPowerDetailF25ByCtrId(String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
 	
 	/**
 	 * 根据区域ID,查询多个集线器ID对应的监测点,每个监测点取最新电力示数记录
@@ -41,7 +42,7 @@ public interface IPowerDetailF25Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ViewDisplayF33F34> fetchLastDisplayDetailByCtrId(String areaId,List<String> ctrIds,int rows,int page) throws Exception;
+	public List<ViewDisplayF33F34> fetchLastDisplayDetailByCtrId(String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
 	
 	/**
 	 * 获取每个区域下相关集线器对应的最新监测点总数
@@ -52,7 +53,7 @@ public interface IPowerDetailF25Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchLastPowerDetailF25CountByCtrId(String areaId,List<String> ctrIds) throws Exception;
+	public int fetchLastPowerDetailF25CountByCtrId(String areaId,List<Concentrator> concentrators) throws Exception;
 	
 	/**
 	 * 获取每个区域下相关集线器对应的最新监测点示数记录总数
@@ -63,7 +64,7 @@ public interface IPowerDetailF25Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public int fetchLastDisplayDetailCountByCtrId(String areaId,List<String> ctrIds) throws Exception;
+	public int fetchLastDisplayDetailCountByCtrId(String areaId,List<Concentrator> concentrators) throws Exception;
 	
 	
 	/**

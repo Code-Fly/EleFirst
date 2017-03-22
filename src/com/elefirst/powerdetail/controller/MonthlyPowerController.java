@@ -8,6 +8,7 @@ import com.elefirst.base.entity.GeneralMessage;
 import com.elefirst.base.utils.Arith;
 import com.elefirst.powerdetail.po.*;
 import com.elefirst.powerdetail.service.IMonthlyPowerService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,14 +59,10 @@ public class MonthlyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<MonthlyLoad> monthlyLoads = monthlyPowerServiceImpl.fetchAllMonthlyLoad(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = monthlyPowerServiceImpl.fetchAllMonthlyLoad(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<MonthlyLoad> monthlyLoads = monthlyPowerServiceImpl.fetchAllMonthlyLoad(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = monthlyPowerServiceImpl.fetchAllMonthlyLoad(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按月负荷统计数据成功！");
             dg.setRows(monthlyLoads);
@@ -94,7 +92,6 @@ public class MonthlyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -106,14 +103,10 @@ public class MonthlyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<MonthlyVoltage> monthlyVoltages = monthlyPowerServiceImpl.fetchAllMonthlyVoltage(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = monthlyPowerServiceImpl.fetchAllMonthlyVoltage(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<MonthlyVoltage> monthlyVoltages = monthlyPowerServiceImpl.fetchAllMonthlyVoltage(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = monthlyPowerServiceImpl.fetchAllMonthlyVoltage(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按月电压统计数据成功！");
             dg.setRows(monthlyVoltages);
@@ -143,7 +136,6 @@ public class MonthlyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -155,14 +147,10 @@ public class MonthlyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<MonthlyCurrent> monthlyCurrents = monthlyPowerServiceImpl.fetchAllMonthlyCurrent(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = monthlyPowerServiceImpl.fetchAllMonthlyCurrent(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<MonthlyCurrent> monthlyCurrents = monthlyPowerServiceImpl.fetchAllMonthlyCurrent(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = monthlyPowerServiceImpl.fetchAllMonthlyCurrent(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按月电流统计数据成功！");
             dg.setRows(monthlyCurrents);
@@ -192,7 +180,6 @@ public class MonthlyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -204,14 +191,10 @@ public class MonthlyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<MonthlyPowerFactor> monthlyPowerFactors = monthlyPowerServiceImpl.fetchAllMonthlyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = monthlyPowerServiceImpl.fetchAllMonthlyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<MonthlyPowerFactor> monthlyPowerFactors = monthlyPowerServiceImpl.fetchAllMonthlyPowerFactor(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = monthlyPowerServiceImpl.fetchAllMonthlyPowerFactor(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按月功率因数统计数据成功！");
             dg.setRows(monthlyPowerFactors);
@@ -270,7 +253,6 @@ public class MonthlyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -282,14 +264,10 @@ public class MonthlyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<MonthlyDemand> monthlyDemands = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, ctrIds, rowsNum, pageNum);
-            int total = monthlyPowerServiceImpl.fetchAllMonthlyDemandCount(date, areaId, ctrIds);
+            List<MonthlyDemand> monthlyDemands = monthlyPowerServiceImpl.fetchAllDailyDemand(date, areaId, concentrators, rowsNum, pageNum);
+            int total = monthlyPowerServiceImpl.fetchAllMonthlyDemandCount(date, areaId, concentrators);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按月需量统计数据成功！");
             dg.setRows(monthlyDemands);
@@ -322,12 +300,21 @@ public class MonthlyPowerController {
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
             int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+            List<Concentrator>  concentrators = new ArrayList<Concentrator>();
+            Concentrator singleConcentrator = new Concentrator();
+            singleConcentrator.setConcentratorId(concentratorId);
+            
+            List<String> pns = new ArrayList<String>();
+            pns.add(pn);
+            singleConcentrator.setPns(pns);
+            concentrators.add(singleConcentrator);
+            
             List<String> ctrIds = new ArrayList<String>();
             ctrIds.add(concentratorId);
             String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
 
-            List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl.fetchAllMonthlyDetailDemand(vdate, areaId, ctrIds, rowsNum, pageNum, pn);
-            int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(vdate, areaId, ctrIds, pn);
+            List<MonthlyDemandDetail> monthlyDemandDetails = monthlyPowerServiceImpl.fetchAllMonthlyDetailDemand(vdate, areaId, concentrators, rowsNum, pageNum, pn);
+            int total = monthlyPowerServiceImpl.fetchAllDailyDetailDemandCount(vdate, areaId, concentrators, pn);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按日需量统计数据成功！");
             dg.setRows(monthlyDemandDetails);
@@ -357,7 +344,6 @@ public class MonthlyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -369,14 +355,10 @@ public class MonthlyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<MonthlyElectricity> monthlyElectricity = monthlyPowerServiceImpl.fetchAllMonthlyElectricity(date, areaId, ctrIds, rowsNum, pageNum);
-            int total = monthlyPowerServiceImpl.fetchAllMonthlyElectricityCount(date, areaId, ctrIds);
+            List<MonthlyElectricity> monthlyElectricity = monthlyPowerServiceImpl.fetchAllMonthlyElectricity(date, areaId, concentrators, rowsNum, pageNum);
+            int total = monthlyPowerServiceImpl.fetchAllMonthlyElectricityCount(date, areaId, concentrators);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按月的电量统计数据成功！");
             dg.setRows(monthlyElectricity);
@@ -435,9 +417,14 @@ public class MonthlyPowerController {
 
     private void setElectricityDetail(String areaId, String concentratorId,
                                       String pn, Map<String, String> paramMap, String date) throws Exception {
-        List<String> ctrIds = new ArrayList<String>();
-        ctrIds.add(concentratorId);
-        MonthlyElectricity monthlyElectricity = monthlyPowerServiceImpl.fetchSingleMonthlyElectricity(date, areaId, ctrIds, pn);
+    	List<Concentrator> concentrators = new ArrayList<Concentrator>();
+        Concentrator singleConcentrator = new Concentrator();
+        singleConcentrator.setConcentratorId(concentratorId);
+        List<String>  pns = new ArrayList<String>();
+        pns.add(pn);
+        singleConcentrator.setPns(pns);
+        concentrators.add(singleConcentrator);
+        MonthlyElectricity monthlyElectricity = monthlyPowerServiceImpl.fetchSingleMonthlyElectricity(date, areaId, concentrators, pn);
         paramMap.put("totalpositiveactivePower", monthlyElectricity.getTotalpositiveactivePower() + "");
         paramMap.put("rateseq1", monthlyElectricity.getRateseq1() + "");
         paramMap.put("rateseq2", monthlyElectricity.getRateseq2() + "");

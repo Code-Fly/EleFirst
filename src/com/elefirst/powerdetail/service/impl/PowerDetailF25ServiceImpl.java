@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.elefirst.powerdetail.mapper.PowerDetailF25Mapper;
 import com.elefirst.powerdetail.mapper.ViewDisplayF33F34Mapper;
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
@@ -43,9 +44,9 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 
 	@Override
 	public List<PowerDetailF25> fetchLastPowerDetailF25ByCtrId(String areaId,
-			List<String> ctrIds,int rows,int page) throws Exception {
+			List<Concentrator> concentrators,int rows,int page) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		if (rows > 0 && page > 0) {
 			params.put("limitStart", (page - 1) * rows);
@@ -57,9 +58,9 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 
 	@Override
 	public int fetchLastPowerDetailF25CountByCtrId(String areaId,
-			List<String> ctrIds) throws Exception {
+			List<Concentrator> concentrators) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		int num = powerDetailF25Mapper.myselectByExampleCount(params);
 		return num;
@@ -67,10 +68,10 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 
 	@Override
 	public List<ViewDisplayF33F34> fetchLastDisplayDetailByCtrId(
-			String areaId, List<String> ctrIds, int rows, int page)
+			String areaId, List<Concentrator> concentrators, int rows, int page)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		if (rows > 0 && page > 0) {
 			params.put("limitStart", (page - 1) * rows);
@@ -82,9 +83,9 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 
 	@Override
 	public int fetchLastDisplayDetailCountByCtrId(String areaId,
-			List<String> ctrIds) throws Exception {
+			List<Concentrator> concentrators) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("concentratorIds", ctrIds);
+		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
 		int num = viewDisplayF33F34Mapper.myselectByExampleCount(params);
 		return num;

@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/27.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
     $("#main-input-detail-datebox").datebox("calendar").calendar({
@@ -452,86 +454,59 @@ $(document).ready(function () {
     });
 
     function getLoadDetailChart(row) {
+
+        var time = new Date().format("yyyy-MM-dd");
+        if (row.time != null && row.time != "") {
+            time = row.time;
+        }
+
+        var node = [];
+
+        node.push({
+            areaId: row.areaId,
+            concentratorId: row.concentratorId,
+            pn: row.pn
+        });
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        var startDate = new Date(y, m, d);
+        var endDate = new Date(y, m, d);
+        endDate.setDate(endDate.getDate() + 1);
+
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
+
         $.ajax({
-            url: _ctx + "system/pn/info/detail.do",
+            url: _ctx + "power/data/f25/frozen/day/node/list.do",
             type: "POST",
             cache: false,
-            data: row,
+            data: {
+                node: JSON.stringify(node),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var pnInfo = r.data[0];
+                        var series = [];
 
-                        var time = new Date().format("yyyy-MM-dd");
-                        if (row.time != null && row.time != "") {
-                            time = row.time;
-                        }
+                        var item = ChartUtils.getLoadAllSeries({
+                            name: new Date(y, m, d).format("yyyy-MM-dd")
+                        }, r.data);
+                        series.push(item);
 
-                        var node = [];
+                        var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                        node.push({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn
-                        });
+                        config
+                            .setShared(true)
+                            .setZoom(true)
+                            .setSeries(series);
 
-                        var ss = time.split('-');
-                        var y = parseInt(ss[0], 10);
-                        var m = parseInt(ss[1], 10) - 1;
-                        var d = parseInt(ss[2], 10);
-
-                        var startDate = new Date(y, m, d);
-                        var endDate = new Date(y, m, d);
-                        endDate.setDate(endDate.getDate() + 1);
-
-                        var startTime = startDate.format('yyyyMMdd') + "000000";
-                        var endTime = endDate.format('yyyyMMdd') + "000000";
-
-                        $.ajax({
-                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
-                            type: "POST",
-                            cache: false,
-                            data: {
-                                node: JSON.stringify(node),
-                                startTime: startTime,
-                                endTime: endTime
-                            },
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        var series = [];
-
-                                        var item = ChartUtils.getLoadAllSeries({
-                                            name: new Date(y, m, d).format("yyyy-MM-dd")
-                                        }, r.data);
-                                        series.push(item);
-
-                                        var config = new ChartConfig("view/chart/spline-date-all-load.json");
-
-                                        config
-                                            .setShared(true)
-                                            .setZoom(true)
-                                            .setSeries(series);
-
-                                        $("#chart-load-detail").highcharts("StockChart", config.getConfig());
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            },
-                            beforeSend: function (XMLHttpRequest) {
-
-                            },
-                            error: function (request) {
-                                jError("请求失败！" + ErrUtils.getMsg("3"));
-                            },
-                            complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
-                            }
-                        });
+                        $("#chart-load-detail").highcharts("StockChart", config.getConfig());
 
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -541,110 +516,85 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
+
     }
 
     function getVoltageDetailChart(row) {
+
+        var time = new Date().format("yyyy-MM-dd");
+        if (row.time != null && row.time != "") {
+            time = row.time;
+        }
+
+        var node = [];
+
+        node.push({
+            areaId: row.areaId,
+            concentratorId: row.concentratorId,
+            pn: row.pn
+        });
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        var startDate = new Date(y, m, d);
+        var endDate = new Date(y, m, d);
+        endDate.setDate(endDate.getDate() + 1);
+
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
+
         $.ajax({
-            url: _ctx + "system/pn/info/detail.do",
+            url: _ctx + "power/data/f25/frozen/day/node/list.do",
             type: "POST",
             cache: false,
-            data: row,
+            data: {
+                node: JSON.stringify(node),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var pnInfo = r.data[0];
+                        var series = [];
+                        var item = ChartUtils.getVoltageAllSeries({
+                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "orange"
+                        }, r.data, "aVoltage");
+                        series.push(item);
 
-                        var time = new Date().format("yyyy-MM-dd");
-                        if (row.time != null && row.time != "") {
-                            time = row.time;
-                        }
+                        var item = ChartUtils.getVoltageAllSeries({
+                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "green"
+                        }, r.data, "bVoltage");
+                        series.push(item);
 
-                        var node = [];
+                        var item = ChartUtils.getVoltageAllSeries({
+                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "red"
+                        }, r.data, "cVoltage");
+                        series.push(item);
 
-                        node.push({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn
-                        });
+                        var config = new ChartConfig("view/chart/spline-date-all-voltage.json");
 
-                        var ss = time.split('-');
-                        var y = parseInt(ss[0], 10);
-                        var m = parseInt(ss[1], 10) - 1;
-                        var d = parseInt(ss[2], 10);
+                        config
+                            .setShared(true)
+                            .setZoom(true)
+                            .setSeries(series);
 
-                        var startDate = new Date(y, m, d);
-                        var endDate = new Date(y, m, d);
-                        endDate.setDate(endDate.getDate() + 1);
+                        $("#chart-voltage-detail").highcharts("StockChart", config.getConfig());
 
-                        var startTime = startDate.format('yyyyMMdd') + "000000";
-                        var endTime = endDate.format('yyyyMMdd') + "000000";
-
-                        $.ajax({
-                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
-                            type: "POST",
-                            cache: false,
-                            data: {
-                                node: JSON.stringify(node),
-                                startTime: startTime,
-                                endTime: endTime
-                            },
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        var series = [];
-                                        var item = ChartUtils.getVoltageAllSeries({
-                                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "orange"
-                                        }, r.data, "aVoltage");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getVoltageAllSeries({
-                                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "green"
-                                        }, r.data, "bVoltage");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getVoltageAllSeries({
-                                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "red"
-                                        }, r.data, "cVoltage");
-                                        series.push(item);
-
-                                        var config = new ChartConfig("view/chart/spline-date-all-voltage.json");
-
-                                        config
-                                            .setShared(true)
-                                            .setZoom(true)
-                                            .setSeries(series);
-
-                                        $("#chart-voltage-detail").highcharts("StockChart", config.getConfig());
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            },
-                            beforeSend: function (XMLHttpRequest) {
-
-                            },
-                            error: function (request) {
-                                jError("请求失败！" + ErrUtils.getMsg("3"));
-                            },
-                            complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
-                            }
-                        });
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -653,110 +603,83 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
 
     function getCurrentDetailChart(row) {
+
+        var time = new Date().format("yyyy-MM-dd");
+        if (row.time != null && row.time != "") {
+            time = row.time;
+        }
+
+        var node = [];
+
+        node.push({
+            areaId: row.areaId,
+            concentratorId: row.concentratorId,
+            pn: row.pn
+        });
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        var startDate = new Date(y, m, d);
+        var endDate = new Date(y, m, d);
+        endDate.setDate(endDate.getDate() + 1);
+
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
+
         $.ajax({
-            url: _ctx + "system/pn/info/detail.do",
+            url: _ctx + "power/data/f25/frozen/day/node/list.do",
             type: "POST",
             cache: false,
-            data: row,
+            data: {
+                node: JSON.stringify(node),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var pnInfo = r.data[0];
+                        var series = [];
+                        var item = ChartUtils.getCurrentAllSeries({
+                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "orange"
+                        }, r.data, "aCurrent");
+                        series.push(item);
 
-                        var time = new Date().format("yyyy-MM-dd");
-                        if (row.time != null && row.time != "") {
-                            time = row.time;
-                        }
+                        var item = ChartUtils.getCurrentAllSeries({
+                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "green"
+                        }, r.data, "bCurrent");
+                        series.push(item);
 
-                        var node = [];
+                        var item = ChartUtils.getCurrentAllSeries({
+                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "red"
+                        }, r.data, "cCurrent");
+                        series.push(item);
 
-                        node.push({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn
-                        });
+                        var config = new ChartConfig("view/chart/spline-date-all-current.json");
 
-                        var ss = time.split('-');
-                        var y = parseInt(ss[0], 10);
-                        var m = parseInt(ss[1], 10) - 1;
-                        var d = parseInt(ss[2], 10);
+                        config
+                            .setShared(true)
+                            .setZoom(true)
+                            .setSeries(series);
 
-                        var startDate = new Date(y, m, d);
-                        var endDate = new Date(y, m, d);
-                        endDate.setDate(endDate.getDate() + 1);
-
-                        var startTime = startDate.format('yyyyMMdd') + "000000";
-                        var endTime = endDate.format('yyyyMMdd') + "000000";
-
-                        $.ajax({
-                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
-                            type: "POST",
-                            cache: false,
-                            data: {
-                                node: JSON.stringify(node),
-                                startTime: startTime,
-                                endTime: endTime
-                            },
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        var series = [];
-                                        var item = ChartUtils.getCurrentAllSeries({
-                                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "orange"
-                                        }, r.data, "aCurrent");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getCurrentAllSeries({
-                                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "green"
-                                        }, r.data, "bCurrent");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getCurrentAllSeries({
-                                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "red"
-                                        }, r.data, "cCurrent");
-                                        series.push(item);
-
-                                        var config = new ChartConfig("view/chart/spline-date-all-current.json");
-
-                                        config
-                                            .setShared(true)
-                                            .setZoom(true)
-                                            .setSeries(series);
-
-                                        $("#chart-current-detail").highcharts("StockChart", config.getConfig());
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            },
-                            beforeSend: function (XMLHttpRequest) {
-
-                            },
-                            error: function (request) {
-                                jError("请求失败！" + ErrUtils.getMsg("3"));
-                            },
-                            complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
-                            }
-                        });
+                        $("#chart-current-detail").highcharts("StockChart", config.getConfig());
 
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -766,110 +689,84 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
 
     function getPowerFactorDetailChart(row) {
+
+        var time = new Date().format("yyyy-MM-dd");
+        if (row.time != null && row.time != "") {
+            time = row.time;
+        }
+
+        var node = [];
+
+        node.push({
+            areaId: row.areaId,
+            concentratorId: row.concentratorId,
+            pn: row.pn
+        });
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        var startDate = new Date(y, m, d);
+        var endDate = new Date(y, m, d);
+        endDate.setDate(endDate.getDate() + 1);
+
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
+
         $.ajax({
-            url: _ctx + "system/pn/info/detail.do",
+            url: _ctx + "power/data/f25/frozen/day/node/list.do",
             type: "POST",
             cache: false,
-            data: row,
+            data: {
+                node: JSON.stringify(node),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var pnInfo = r.data[0];
+                        var series = [];
+                        var item = ChartUtils.getPowerFactorAllSeries({
+                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "orange"
+                        }, r.data, "aPowerfactor");
+                        series.push(item);
 
-                        var time = new Date().format("yyyy-MM-dd");
-                        if (row.time != null && row.time != "") {
-                            time = row.time;
-                        }
+                        var item = ChartUtils.getPowerFactorAllSeries({
+                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "green"
+                        }, r.data, "bPowerfactor");
+                        series.push(item);
 
-                        var node = [];
+                        var item = ChartUtils.getPowerFactorAllSeries({
+                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
+                            color: "red"
+                        }, r.data, "cPowerfactor");
+                        series.push(item);
 
-                        node.push({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn
-                        });
+                        var config = new ChartConfig("view/chart/spline-date-all-power-factor.json");
 
-                        var ss = time.split('-');
-                        var y = parseInt(ss[0], 10);
-                        var m = parseInt(ss[1], 10) - 1;
-                        var d = parseInt(ss[2], 10);
+                        config
+                            .setShared(true)
+                            .setZoom(true)
+                            .setSeries(series);
 
-                        var startDate = new Date(y, m, d);
-                        var endDate = new Date(y, m, d);
-                        endDate.setDate(endDate.getDate() + 1);
+                        $("#chart-power-factor-detail").highcharts("StockChart", config.getConfig());
 
-                        var startTime = startDate.format('yyyyMMdd') + "000000";
-                        var endTime = endDate.format('yyyyMMdd') + "000000";
-
-                        $.ajax({
-                            url: _ctx + "power/data/f25/frozen/day/node/list.do",
-                            type: "POST",
-                            cache: false,
-                            data: {
-                                node: JSON.stringify(node),
-                                startTime: startTime,
-                                endTime: endTime
-                            },
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        var series = [];
-                                        var item = ChartUtils.getPowerFactorAllSeries({
-                                            name: "A相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "orange"
-                                        }, r.data, "aPowerfactor");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getPowerFactorAllSeries({
-                                            name: "B相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "green"
-                                        }, r.data, "bPowerfactor");
-                                        series.push(item);
-
-                                        var item = ChartUtils.getPowerFactorAllSeries({
-                                            name: "C相(" + new Date(y, m, d).format("yyyy-MM-dd") + ")",
-                                            color: "red"
-                                        }, r.data, "cPowerfactor");
-                                        series.push(item);
-
-                                        var config = new ChartConfig("view/chart/spline-date-all-power-factor.json");
-
-                                        config
-                                            .setShared(true)
-                                            .setZoom(true)
-                                            .setSeries(series);
-
-                                        $("#chart-power-factor-detail").highcharts("StockChart", config.getConfig());
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            },
-                            beforeSend: function (XMLHttpRequest) {
-
-                            },
-                            error: function (request) {
-                                jError("请求失败！" + ErrUtils.getMsg("3"));
-                            },
-                            complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
-                            }
-                        });
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -878,104 +775,78 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }
 
     function getElectricityDetailChart(row) {
+
+        var time = new Date().format("yyyy-MM-dd");
+        if (row.time != null && row.time != "") {
+            time = row.time;
+        }
+
+        var node = [];
+
+        node.push({
+            areaId: row.areaId,
+            concentratorId: row.concentratorId,
+            pn: row.pn
+        });
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        var startDate = new Date(y, m, d);
+        var endDate = new Date(y, m, d);
+        endDate.setDate(endDate.getDate() + 1);
+
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
+
         $.ajax({
-            url: _ctx + "system/pn/info/detail.do",
+            url: _ctx + "power/data/f33/node/list.do",
             type: "POST",
             cache: false,
-            data: row,
+            data: {
+                node: JSON.stringify(node),
+                startTime: startTime,
+                endTime: endTime
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var pnInfo = r.data[0];
+                        var series = [];
 
-                        var time = new Date().format("yyyy-MM-dd");
-                        if (row.time != null && row.time != "") {
-                            time = row.time;
-                        }
+                        var item = ChartUtils.getElectricityAllSeries({
+                            name: new Date(y, m, d).format("yyyy-MM-dd")
+                        }, r.data);
+                        item.dataGrouping = {
+                            approximation: "sum",
+                            forced: true
+                        };
+                        series.push(item);
 
-                        var node = [];
+                        var config = new ChartConfig("view/chart/column-date-all-electricity.json");
 
-                        node.push({
-                            areaId: row.areaId,
-                            concentratorId: row.concentratorId,
-                            pn: row.pn
-                        });
+                        config
+                            .setShared(false)
+                            .setZoom(false)
+                            .setCrossHairSnap(false)
+                            .setSeries(series)
+                            .setDataGroupingByHour();
 
-                        var ss = time.split('-');
-                        var y = parseInt(ss[0], 10);
-                        var m = parseInt(ss[1], 10) - 1;
-                        var d = parseInt(ss[2], 10);
+                        $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
 
-                        var startDate = new Date(y, m, d);
-                        var endDate = new Date(y, m, d);
-                        endDate.setDate(endDate.getDate() + 1);
-
-                        var startTime = startDate.format('yyyyMMdd') + "000000";
-                        var endTime = endDate.format('yyyyMMdd') + "000000";
-
-                        $.ajax({
-                            url: _ctx + "power/data/f33/node/list.do",
-                            type: "POST",
-                            cache: false,
-                            data: {
-                                node: JSON.stringify(node),
-                                startTime: startTime,
-                                endTime: endTime
-                            },
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        var series = [];
-
-                                        var item = ChartUtils.getElectricityAllSeries({
-                                            name: new Date(y, m, d).format("yyyy-MM-dd")
-                                        }, r.data);
-                                        item.dataGrouping = {
-                                            approximation: "sum",
-                                            forced: true
-                                        };
-                                        series.push(item);
-
-                                        var config = new ChartConfig("view/chart/column-date-all-electricity.json");
-
-                                        config
-                                            .setShared(false)
-                                            .setZoom(false)
-                                            .setCrossHairSnap(false)
-                                            .setSeries(series)
-                                            .setDataGroupingByHour();
-
-                                        $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            },
-                            beforeSend: function (XMLHttpRequest) {
-
-                            },
-                            error: function (request) {
-                                jError("请求失败！" + ErrUtils.getMsg("3"));
-                            },
-                            complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
-                            }
-                        });
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -984,13 +855,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
     }

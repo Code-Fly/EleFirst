@@ -786,8 +786,6 @@ $(document).ready(function () {
                 $("#tagbox-tree-node-pn").tagbox("reload");
                 $("#hid-tree-node-pn").val(JSON.stringify(pns));
                 $("#tagbox-tree-node-pn").tagbox("setValues", pnIds);
-                $("#combo-tree-node-concentratorId").combobox("reload");
-                $("#combo-tree-node-concentratorId").combobox("select", concentratorId);
 
             } else {
                 $("#text-tree-node-name").textbox("clear");
@@ -796,9 +794,7 @@ $(document).ready(function () {
                 $("#tagbox-tree-node-pn").tagbox("clear");
                 $("#hid-tree-node-pn").val("[]");
                 $("#tagbox-tree-node-pn").tagbox("reload");
-                $("#combo-tree-node-concentratorId").combobox("clear");
-                $("#combo-tree-node-concentratorId").combobox("reload");
-                $("#combo-tree-node-concentratorId").combobox("disable");
+                $("#tagbox-tree-node-pn").combobox("disable");
             }
         },
         onOpen: function () {
@@ -875,18 +871,21 @@ $(document).ready(function () {
             $("#combo-tree-node-iconCls").combobox("clear");
             $("#combo-tree-node-iconCls").combobox("loadData", []);
             if (record.value == "category") {
-                $("#combo-tree-node-concentratorId").combobox("clear");
-                $("#combo-tree-node-concentratorId").combobox("disable");
+                $("#tagbox-tree-node-pn").combobox("clear");
+                $("#hid-tree-node-pn").val("[]");
+                $("#tagbox-tree-node-pn").combobox("disable");
                 $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeCategoryIcons.json?bust=" + new Date().getTime());
             }
             else if (record.value == "concentrator") {
-                $("#combo-tree-node-concentratorId").combobox("clear");
-                $("#combo-tree-node-concentratorId").combobox("enable");
+                $("#tagbox-tree-node-pn").combobox("clear");
+                $("#hid-tree-node-pn").val("[]");
+                $("#tagbox-tree-node-pn").combobox("enable");
                 $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeConcentratorIcons.json?bust=" + new Date().getTime());
             }
             else if (record.value == "leaf") {
-                $("#combo-tree-node-concentratorId").combobox("clear");
-                $("#combo-tree-node-concentratorId").combobox("enable");
+                $("#tagbox-tree-node-pn").combobox("clear");
+                $("#hid-tree-node-pn").val("[]");
+                $("#tagbox-tree-node-pn").combobox("enable");
                 $("#combo-tree-node-iconCls").combobox("reload", "data/comboTreeNodeLeafIcons.json?bust=" + new Date().getTime());
             }
         }
@@ -923,7 +922,7 @@ $(document).ready(function () {
             //     return;
             // }
 
-            if ($.parseJSON($("#hid-tree-node-pn").val()).length == 0) {
+            if (!$("#tagbox-tree-node-pn").tagbox("options").disabled && $.parseJSON($("#hid-tree-node-pn").val()).length == 0) {
                 $.messager.alert("操作提示", "请选择正确监测点！", "info");
                 return;
             }

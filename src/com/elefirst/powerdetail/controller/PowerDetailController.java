@@ -48,7 +48,6 @@ public class PowerDetailController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
             int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
@@ -56,16 +55,9 @@ public class PowerDetailController {
             Area area = JSON.parseObject(jasonStr, Area.class);
 
             List<Concentrator> concentrators = area.getConcentrators();
-            if (concentrators == null || concentrators.size() == 0) {
-                return null;
-            }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<PowerDetailF25> powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25ByCtrId(areaId, ctrIds, rowsNum, pageNum);
+            List<PowerDetailF25> powerDetailF25 = powerDetailF25ServiceImpl.fetchLastPowerDetailF25ByCtrId(areaId, concentrators, rowsNum, pageNum);
             for (PowerDetailF25 powerDetailF252 : powerDetailF25) {
                 //获取电压、功率、电量 系数
                 double pt = powerDetailF252.getPt();
@@ -96,7 +88,7 @@ public class PowerDetailController {
                 dateStr = com.elefirst.base.utils.DateUtil.StringPattern(dateStr, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm");
                 powerDetailF252.setClientoperationtime(dateStr);
             }
-            int total = powerDetailF25ServiceImpl.fetchLastPowerDetailF25CountByCtrId(areaId, ctrIds);
+            int total = powerDetailF25ServiceImpl.fetchLastPowerDetailF25CountByCtrId(areaId, concentrators);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询实时监测点用电数据成功！");
             dg.setRows(powerDetailF25);
@@ -126,7 +118,6 @@ public class PowerDetailController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
             int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
@@ -134,16 +125,9 @@ public class PowerDetailController {
             Area area = JSON.parseObject(jasonStr, Area.class);
 
             List<Concentrator> concentrators = area.getConcentrators();
-            if (concentrators == null || concentrators.size() == 0) {
-                return null;
-            }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<ViewDisplayF33F34> viewDisplayF33F34s = powerDetailF25ServiceImpl.fetchLastDisplayDetailByCtrId(areaId, ctrIds, rowsNum, pageNum);
+            List<ViewDisplayF33F34> viewDisplayF33F34s = powerDetailF25ServiceImpl.fetchLastDisplayDetailByCtrId(areaId, concentrators, rowsNum, pageNum);
 
             for (ViewDisplayF33F34 viewDisplayF33F34 : viewDisplayF33F34s) {
                 //获取电压、功率、电量 系数
@@ -168,7 +152,7 @@ public class PowerDetailController {
                 }
             }
 
-            int total = powerDetailF25ServiceImpl.fetchLastDisplayDetailCountByCtrId(areaId, ctrIds);
+            int total = powerDetailF25ServiceImpl.fetchLastDisplayDetailCountByCtrId(areaId, concentrators);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询实时监测点用电示数成功！");
             dg.setRows(viewDisplayF33F34s);

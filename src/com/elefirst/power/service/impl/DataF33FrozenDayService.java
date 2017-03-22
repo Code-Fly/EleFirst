@@ -180,10 +180,10 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
             DataF33FrozenDay item = data.get(i);
             PnInfo pnInfo = getPnInfo(pnInfos, item);
             if (null != pnInfo) {
-                item.setTotalpositiveactivepower(calc(item.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setTotalpositivereactivepower(calc(item.getTotalpositivereactivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setQuadrant1Totalreactivepower(calc(item.getQuadrant1Totalreactivepower(), pnInfo.getCt() * pnInfo.getPt()));
-                item.setQuadrant4Totalreactivepower(calc(item.getQuadrant4Totalreactivepower(), pnInfo.getCt() * pnInfo.getPt()));
+                item.setTotalpositiveactivepower(calc(item.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setTotalpositivereactivepower(calc(item.getTotalpositivereactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setQuadrant1Totalreactivepower(calc(item.getQuadrant1Totalreactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setQuadrant4Totalreactivepower(calc(item.getQuadrant4Totalreactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
             }
             result.add(item);
         }
@@ -253,9 +253,13 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
         return null;
     }
 
-    private String calc(String org, Double num) {
+    private String calc(String org, Double num, Integer precision) {
         if (null != org) {
-            return String.valueOf(Double.valueOf(org) * num);
+            if (null == precision) {
+                return String.valueOf(Double.valueOf(org) * num);
+            } else {
+                return String.valueOf(String.format("%." + precision + "f", Double.valueOf(org) * num));
+            }
         }
         return null;
     }

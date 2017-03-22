@@ -45,7 +45,6 @@ public class WeeklyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -57,14 +56,10 @@ public class WeeklyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<WeeklyLoad> weeklyLoads = weeklyPowerServiceImpl.fetchAllWeeklyLoad(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = weeklyPowerServiceImpl.fetchAllWeeklyLoad(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<WeeklyLoad> weeklyLoads = weeklyPowerServiceImpl.fetchAllWeeklyLoad(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = weeklyPowerServiceImpl.fetchAllWeeklyLoad(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按周负荷统计数据成功！");
             dg.setRows(weeklyLoads);
@@ -94,7 +89,6 @@ public class WeeklyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -106,14 +100,10 @@ public class WeeklyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<WeeklyVoltage> weeklyVoltages = weeklyPowerServiceImpl.fetchAllWeeklyVoltage(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = weeklyPowerServiceImpl.fetchAllWeeklyVoltage(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<WeeklyVoltage> weeklyVoltages = weeklyPowerServiceImpl.fetchAllWeeklyVoltage(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = weeklyPowerServiceImpl.fetchAllWeeklyVoltage(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按周电压统计数据成功！");
             dg.setRows(weeklyVoltages);
@@ -143,7 +133,6 @@ public class WeeklyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -155,14 +144,10 @@ public class WeeklyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<WeeklyCurrent> weeklyCurrents = weeklyPowerServiceImpl.fetchAllWeeklyCurrent(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = weeklyPowerServiceImpl.fetchAllWeeklyCurrent(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<WeeklyCurrent> weeklyCurrents = weeklyPowerServiceImpl.fetchAllWeeklyCurrent(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = weeklyPowerServiceImpl.fetchAllWeeklyCurrent(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按周电流统计数据成功！");
             dg.setRows(weeklyCurrents);
@@ -192,7 +177,6 @@ public class WeeklyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -204,14 +188,10 @@ public class WeeklyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<WeeklyPowerFactor> weeklyPowerFactors = weeklyPowerServiceImpl.fetchAllWeeklyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum, true);
-            int total = weeklyPowerServiceImpl.fetchAllWeeklyPowerFactor(date, areaId, ctrIds, rowsNum, pageNum, false).size();
+            List<WeeklyPowerFactor> weeklyPowerFactors = weeklyPowerServiceImpl.fetchAllWeeklyPowerFactor(date, areaId, concentrators, rowsNum, pageNum, true);
+            int total = weeklyPowerServiceImpl.fetchAllWeeklyPowerFactor(date, areaId, concentrators, rowsNum, pageNum, false).size();
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按周功率因数统计数据成功！");
             dg.setRows(weeklyPowerFactors);
@@ -242,7 +222,6 @@ public class WeeklyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -254,14 +233,10 @@ public class WeeklyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<WeeklyDemand> weeklyDemands = weeklyPowerServiceImpl.fetchAllWeeklyDemand(date, areaId, ctrIds, rowsNum, pageNum);
-            int total = weeklyPowerServiceImpl.fetchAllWeeklyDemandCount(date, areaId, ctrIds);
+            List<WeeklyDemand> weeklyDemands = weeklyPowerServiceImpl.fetchAllWeeklyDemand(date, areaId, concentrators, rowsNum, pageNum);
+            int total = weeklyPowerServiceImpl.fetchAllWeeklyDemandCount(date, areaId, concentrators);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按周需量统计数据成功！");
             dg.setRows(weeklyDemands);
@@ -295,11 +270,17 @@ public class WeeklyPowerController {
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
             int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
-            List<String> ctrIds = new ArrayList<String>();
-            ctrIds.add(concentratorId);
+            
+            List<Concentrator> concentrators = new ArrayList<Concentrator>();
+            Concentrator singleConcentrator = new Concentrator();
+            singleConcentrator.setConcentratorId(concentratorId);
+            List<String>  pns = new ArrayList<String>();
+            pns.add(pn);
+            singleConcentrator.setPns(pns);
+            concentrators.add(singleConcentrator);
 
-            List<WeeklyDemandDetail> weeklyDemandDetails = weeklyPowerServiceImpl.fetchAllWeeklyDetailDemand(date, areaId, ctrIds, rowsNum, pageNum, pn);
-            int total = weeklyPowerServiceImpl.fetchAllWeeklyDetailDemandCount(date, areaId, ctrIds, pn);
+            List<WeeklyDemandDetail> weeklyDemandDetails = weeklyPowerServiceImpl.fetchAllWeeklyDetailDemand(date, areaId, concentrators, rowsNum, pageNum, pn);
+            int total = weeklyPowerServiceImpl.fetchAllWeeklyDetailDemandCount(date, areaId, concentrators, pn);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按周需量详情统计数据成功！");
             dg.setRows(weeklyDemandDetails);
@@ -329,7 +310,6 @@ public class WeeklyPowerController {
             throws Exception {
         DataGrid dg = new DataGrid();
         GeneralMessage gm = new GeneralMessage();
-        List<String> ctrIds = new ArrayList<String>();
 
         try {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
@@ -341,14 +321,10 @@ public class WeeklyPowerController {
             if (concentrators == null || concentrators.size() == 0) {
                 return null;
             }
-            for (Concentrator concentrator : concentrators) {
-                String tmpCId = concentrator.getConcentratorId();
-                ctrIds.add(tmpCId);
-            }
             String areaId = area.getAreaId();
 
-            List<WeeklyElectricity> weeklyElectricity = weeklyPowerServiceImpl.fetchAllWeeklyElectricity(date, areaId, ctrIds, rowsNum, pageNum);
-            int total = weeklyPowerServiceImpl.fetchAllWeeklyElectricityCount(date, areaId, ctrIds);
+            List<WeeklyElectricity> weeklyElectricity = weeklyPowerServiceImpl.fetchAllWeeklyElectricity(date, areaId, concentrators, rowsNum, pageNum);
+            int total = weeklyPowerServiceImpl.fetchAllWeeklyElectricityCount(date, areaId, concentrators);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询相关的按周的电量统计数据成功！");
             dg.setRows(weeklyElectricity);
@@ -460,9 +436,14 @@ public class WeeklyPowerController {
 
     private void setElectricityDetail(String areaId, String concentratorId,
                                       String pn, Map<String, String> paramMap, String date) throws Exception {
-        List<String> ctrIds = new ArrayList<String>();
-        ctrIds.add(concentratorId);
-        WeeklyElectricity weeklyElectricity = weeklyPowerServiceImpl.fetchSingleWeeklyElectricity(date, areaId, ctrIds, pn);
+        List<Concentrator> concentrators = new ArrayList<Concentrator>();
+        Concentrator singleConcentrator = new Concentrator();
+        singleConcentrator.setConcentratorId(concentratorId);
+        List<String>  pns = new ArrayList<String>();
+        pns.add(pn);
+        singleConcentrator.setPns(pns);
+        concentrators.add(singleConcentrator);
+        WeeklyElectricity weeklyElectricity = weeklyPowerServiceImpl.fetchSingleWeeklyElectricity(date, areaId, concentrators, pn);
         paramMap.put("totalpositiveactivePower", weeklyElectricity.getTotalpositiveactivePower() + "");
         paramMap.put("rateseq1", weeklyElectricity.getRateseq1() + "");
         paramMap.put("rateseq2", weeklyElectricity.getRateseq2() + "");
