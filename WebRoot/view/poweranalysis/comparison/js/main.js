@@ -190,7 +190,7 @@ $(document).ready(function () {
 
             if ($("#switch-total").switchbutton("options").checked) {
                 $.ajax({
-                    url: _ctx + "power/data/f25/frozen/day/node/time/sum.do",
+                    url: _ctx + "power/data/f25/frozen/minute/node/time/sum.do",
                     type: "POST",
                     cache: false,
                     data: {
@@ -262,7 +262,7 @@ $(document).ready(function () {
                 });
             } else {
                 $.ajax({
-                    url: _ctx + "power/data/f25/frozen/day/node/time/list.do",
+                    url: _ctx + "power/data/f25/frozen/minute/node/time/list.do",
                     type: "POST",
                     cache: false,
                     data: {
