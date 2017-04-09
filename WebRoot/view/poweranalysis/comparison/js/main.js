@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/27.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     $("#datebox-time").datebox("calendar").calendar({
         firstDay: 1
     });
@@ -209,30 +211,11 @@ $(document).ready(function () {
                                 var series = [];
 
                                 // $.messager.alert("操作提示", JSON.stringify(r.data));
-                                var nodes = [];
-                                for (var i = 0; i < nodeStr.length; i++) {
-                                    var areaId = (nodeStr[i].value + "").split(":")[0];
-                                    var concentratorId = (nodeStr[i].value + "").split(":")[1];
-                                    var pn = (nodeStr[i].value + "").split(":")[2];
-                                    var pt = parseFloat((nodeStr[0].value + "").split(":")[3]);
-                                    var ct = parseFloat((nodeStr[0].value + "").split(":")[4]);
-                                    var name = nodeStr[i].name;
-
-                                    nodes.push({
-                                        areaId: areaId,
-                                        concentratorId: concentratorId,
-                                        pn: pn,
-                                        pt: pt,
-                                        ct: ct,
-                                        name: name
-                                    });
-                                }
-
                                 for (var i = 0; i < r.data.length; i++) {
-                                    if (r.data[i].length > 0) {
-                                        var ss = r.data[i][0].clientoperationtime;
-                                        var date = TimeUtils.dbTimeToDate(ss);
+                                    var ss = r.data[i][0].clientoperationtime;
+                                    var date = TimeUtils.dbTimeToDate(ss);
 
+                                    if (r.data[i].length > 0) {
                                         var item = ChartUtils.getLoadAllByHourSeries({
                                             name: date.format("yyyy-MM-dd")
                                         }, r.data[i]);
@@ -240,15 +223,14 @@ $(document).ready(function () {
                                     }
                                 }
 
-                                var config = $.parseJSON($.ajax({
-                                    url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                    type: "GET",
-                                    async: false
-                                }).responseText);
+                                var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                                config.series = series;
+                                config
+                                    .setShared(true)
+                                    .setZoom(true)
+                                    .setSeries(series);
 
-                                $("#chart-load").highcharts("StockChart", config);
+                                $("#chart-load").highcharts("StockChart", config.getConfig());
                             } else {
                                 jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
@@ -257,13 +239,13 @@ $(document).ready(function () {
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
+                        _spinner.load();
                     },
                     error: function (request) {
                         jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
+                        _spinner.unload();
                     }
                 });
             } else {
@@ -334,13 +316,13 @@ $(document).ready(function () {
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
+                        _spinner.load();
                     },
                     error: function (request) {
                         jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
+                        _spinner.unload();
                     }
                 });
             }
