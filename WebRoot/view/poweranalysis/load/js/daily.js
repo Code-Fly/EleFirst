@@ -41,7 +41,7 @@ $(document).ready(function () {
                     var m = value.substr(4, 2);
                     var d = value.substr(6, 2);
 
-                    return y + "-" + m + "-" + d;
+                    return m + "-" + d;
                 }
             },
             {
