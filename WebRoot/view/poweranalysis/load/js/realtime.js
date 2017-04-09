@@ -56,7 +56,7 @@ $(document).ready(function () {
         );
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/time/sum.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/time/sum.do",
             type: "POST",
             cache: false,
             data: {
