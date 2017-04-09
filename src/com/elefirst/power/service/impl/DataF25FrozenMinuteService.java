@@ -1,10 +1,10 @@
 package com.elefirst.power.service.impl;
 
 import com.elefirst.base.service.BaseService;
-import com.elefirst.power.dao.iface.IDataF25FrozenDayDAO;
-import com.elefirst.power.po.DataF25FrozenDay;
-import com.elefirst.power.po.DataF25FrozenDayExample;
-import com.elefirst.power.service.iface.IDataF25FrozenDayService;
+import com.elefirst.power.dao.iface.IDataF25FrozenMinuteDAO;
+import com.elefirst.power.po.DataF25FrozenMinute;
+import com.elefirst.power.po.DataF25FrozenMinuteExample;
+import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,17 @@ import java.util.List;
  * Created by barrie on 17/2/2.
  */
 @Service
-public class DataF25FrozenDayService extends BaseService implements IDataF25FrozenDayService {
+public class DataF25FrozenMinuteService extends BaseService implements IDataF25FrozenMinuteService {
     @Autowired
-    private IDataF25FrozenDayDAO dataF25FrozenDayDAO;
+    private IDataF25FrozenMinuteDAO dataF25FrozenMinuteDAO;
 
     @Autowired
     private IPnInfoService pnInfoService;
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDayList(DataF25FrozenDay template) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
-        DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteList(DataF25FrozenMinute template) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -48,14 +48,14 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
             condition.setLimitEnd(template.getRows());
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDayList(List<DataF25FrozenDay> nodes, String startTime, String endTime) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteList(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenDay node = nodes.get(i);
+            DataF25FrozenMinute node = nodes.get(i);
             condition.or()
                     .andAreaIdEqualTo(node.getAreaId())
                     .andConcentratorIdEqualTo(node.getConcentratorId())
@@ -66,12 +66,12 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
             ;
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDayList(DataF25FrozenDay node, String time) throws ParseException {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteList(DataF25FrozenMinute node, String time) throws ParseException {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = formatter.parse(time);
@@ -91,15 +91,15 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         ;
 
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDayList(List<DataF25FrozenDay> nodes, List<String> times) throws ParseException {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteList(List<DataF25FrozenMinute> nodes, List<String> times) throws ParseException {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
 
         for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenDay node = nodes.get(i);
+            DataF25FrozenMinute node = nodes.get(i);
             for (int j = 0; j < times.size(); j++) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
                 Date time = formatter.parse(times.get(j));
@@ -121,13 +121,13 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         }
 
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(DataF25FrozenDay template) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
-        DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(DataF25FrozenMinute template) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -144,14 +144,14 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
             condition.setLimitEnd(template.getRows());
         }
         condition.setOrderByClause("`sendTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, String startTime, String endTime) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenDay node = nodes.get(i);
+            DataF25FrozenMinute node = nodes.get(i);
             condition.or()
                     .andAreaIdEqualTo(node.getAreaId())
                     .andConcentratorIdEqualTo(node.getConcentratorId())
@@ -162,12 +162,12 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
             ;
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(DataF25FrozenDay node, String time) throws ParseException {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(DataF25FrozenMinute node, String time) throws ParseException {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = formatter.parse(time);
@@ -187,15 +187,15 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         ;
 
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, List<String> times) throws ParseException {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, List<String> times) throws ParseException {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
 
         for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenDay node = nodes.get(i);
+            DataF25FrozenMinute node = nodes.get(i);
             for (int j = 0; j < times.size(); j++) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
                 Date time = formatter.parse(times.get(j));
@@ -217,15 +217,15 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         }
 
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDaySumList(List<DataF25FrozenDay> nodes, String time) throws ParseException {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String time) throws ParseException {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
 
         for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenDay node = nodes.get(i);
+            DataF25FrozenMinute node = nodes.get(i);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
             Date date = formatter.parse(time);
 
@@ -245,13 +245,13 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         }
 
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenDayDAO.getDataF25FrozenDaySumList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
     @Override
-    public int getDataF25FrozenDayListCount(DataF25FrozenDay template) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
-        DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();
+    public int getDataF25FrozenMinuteListCount(DataF25FrozenMinute template) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -262,45 +262,45 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
-        return dataF25FrozenDayDAO.getDataF25FrozenDayListCount(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteListCount(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> getDataF25FrozenDayDetail(String id) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
-        DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteDetail(String id) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
-        return dataF25FrozenDayDAO.getDataF25FrozenDayList(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
 
     @Override
-    public int addDataF25FrozenDay(DataF25FrozenDay template) {
-        return dataF25FrozenDayDAO.addDataF25FrozenDay(template);
+    public int addDataF25FrozenMinute(DataF25FrozenMinute template) {
+        return dataF25FrozenMinuteDAO.addDataF25FrozenMinute(template);
     }
 
     @Override
-    public int updateDataF25FrozenDay(DataF25FrozenDay template) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
-        DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();
+    public int updateDataF25FrozenMinute(DataF25FrozenMinute template) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(template.getId());
-        return dataF25FrozenDayDAO.updateDataF25FrozenDay(condition, template);
+        return dataF25FrozenMinuteDAO.updateDataF25FrozenMinute(condition, template);
     }
 
     @Override
-    public int delDataF25FrozenDay(String id) {
-        DataF25FrozenDayExample condition = new DataF25FrozenDayExample();
-        DataF25FrozenDayExample.Criteria criteria = condition.createCriteria();
+    public int delDataF25FrozenMinute(String id) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
-        return dataF25FrozenDayDAO.delDataF25FrozenDay(condition);
+        return dataF25FrozenMinuteDAO.delDataF25FrozenMinute(condition);
     }
 
     @Override
-    public List<DataF25FrozenDay> format(List<DataF25FrozenDay> data) {
+    public List<DataF25FrozenMinute> format(List<DataF25FrozenMinute> data) {
         PnInfo template = new PnInfo();
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(template);
-        List<DataF25FrozenDay> result = new ArrayList<>();
+        List<DataF25FrozenMinute> result = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            DataF25FrozenDay item = data.get(i);
+            DataF25FrozenMinute item = data.get(i);
             PnInfo pnInfo = getPnInfo(pnInfos, item);
             if (null != pnInfo) {
                 item.setTotalactivepower(calc(item.getTotalactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
@@ -334,7 +334,7 @@ public class DataF25FrozenDayService extends BaseService implements IDataF25Froz
         return result;
     }
 
-    private PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25FrozenDay item) {
+    private PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25FrozenMinute item) {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
             if (pnInfo.getAreaId().equals(item.getAreaId()) && pnInfo.getConcentratorId().equals(item.getConcentratorId()) && pnInfo.getPn().equals(item.getPn())) {
