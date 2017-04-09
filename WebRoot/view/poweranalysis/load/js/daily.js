@@ -297,12 +297,12 @@ $(document).ready(function () {
                             $("#avgTotalActivePower").text("--");
                         }
                         if (null != item.maxTotalActivePowerTime) {
-                            $("#maxTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.maxTotalActivePowerTime).format("yyyy-MM-dd"));
+                            $("#maxTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.maxTotalActivePowerTime).format("MM-dd"));
                         } else {
                             $("#maxTotalActivePowerTime").text("--");
                         }
                         if (null != item.minTotalActivePowerTime) {
-                            $("#minTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.minTotalActivePowerTime).format("yyyy-MM-dd"));
+                            $("#minTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.minTotalActivePowerTime).format("MM-dd"));
                         } else {
                             $("#minTotalActivePowerTime").text("--");
                         }
