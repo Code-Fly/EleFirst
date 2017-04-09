@@ -5,6 +5,7 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF25FrozenMinute;
+import com.elefirst.power.po.StatisticTotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -149,15 +150,46 @@ public class DataF25FrozenMinuteController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
-    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/aggregation.do")
+    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/statistic.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getDataF25FrozenMinuteLoadAggregationByNodes(HttpServletRequest request,
-                                                                 HttpServletResponse response,
-                                                                 @RequestParam(value = "node", required = false) String node,
-                                                                 @RequestParam(value = "startTime", required = false) String startTime,
-                                                                 @RequestParam(value = "endTime", required = false) String endTime
+    public ErrorMsg getDataF25FrozenMinuteLoadStatisticByNodes(HttpServletRequest request,
+                                                               HttpServletResponse response,
+                                                               @RequestParam(value = "node", required = false) String node,
+                                                               @RequestParam(value = "startTime", required = false) String startTime,
+                                                               @RequestParam(value = "endTime", required = false) String endTime
     ) throws ParseException {
+        StatisticTotalActivePower result = getStatisticTotalActivePower(node, startTime, endTime);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/statistic/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteLoadStatisticListByTime(HttpServletRequest request,
+                                                                  HttpServletResponse response,
+                                                                  @RequestParam(value = "node", required = false) String node,
+                                                                  @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
+        }.getType());
+
+        List<StatisticTotalActivePower> result = new ArrayList<>();
+
+        for (int i = 0; i < times.size(); i++) {
+            StatisticTotalActivePower item = getStatisticTotalActivePower(node, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
+            if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
+                result.add(item);
+            }
+        }
+
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+
+    private StatisticTotalActivePower getStatisticTotalActivePower(String node, String startTime, String endTime) {
+
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
@@ -182,29 +214,26 @@ public class DataF25FrozenMinuteController extends BaseController {
         }
 
 
-        JSONObject result = new JSONObject();
-
-        result.put("maxTotalActivePower", maxTotalActivePower.getTotalactivepower());
-        result.put("maxTotalActivePowerTime", maxTotalActivePower.getClientoperationtime());
-
-        result.put("minTotalActivePower", minTotalActivePower.getTotalactivepower());
-        result.put("minTotalActivePowerTime", minTotalActivePower.getClientoperationtime());
-
-        result.put("avgTotalActivePower", avgTotalActivePower.getTotalactivepower());
+        StatisticTotalActivePower result = new StatisticTotalActivePower();
+        result.setMaxTotalActivePower(maxTotalActivePower.getTotalactivepower());
+        result.setMaxTotalActivePowerTime(maxTotalActivePower.getClientoperationtime());
+        result.setMinTotalActivePower(minTotalActivePower.getTotalactivepower());
+        result.setMinTotalActivePowerTime(minTotalActivePower.getClientoperationtime());
+        result.setAvgTotalActivePower(avgTotalActivePower.getTotalactivepower());
 
         Double differ = null;
         if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
             differ = Double.valueOf(maxTotalActivePower.getTotalactivepower()) - Double.valueOf(minTotalActivePower.getTotalactivepower());
         }
 
-        result.put("differ", dataF25FrozenMinuteService.calc(null == differ ? null : String.valueOf(differ), 1D, 3));
+        result.setDiffer(dataF25FrozenMinuteService.calc(null == differ ? null : String.valueOf(differ), 1D, 3));
 
         Double differRate = null;
         if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
             differRate = (differ / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
         }
 
-        result.put("differRate", dataF25FrozenMinuteService.calc(null == differRate ? null : String.valueOf(differRate), 1D, 1));
+        result.setDifferRate(dataF25FrozenMinuteService.calc(null == differRate ? null : String.valueOf(differRate), 1D, 1));
 
 
         Double loadRate = null;
@@ -212,8 +241,8 @@ public class DataF25FrozenMinuteController extends BaseController {
             loadRate = (Double.valueOf(avgTotalActivePower.getTotalactivepower()) / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
         }
 
-        result.put("loadRate", dataF25FrozenMinuteService.calc(null == loadRate ? null : String.valueOf(loadRate), 1D, 1));
+        result.setLoadRate(dataF25FrozenMinuteService.calc(null == loadRate ? null : String.valueOf(loadRate), 1D, 1));
 
-        return new ErrorMsg(Error.SUCCESS, "success", result);
+        return result;
     }
 }

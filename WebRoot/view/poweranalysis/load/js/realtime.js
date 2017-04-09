@@ -135,7 +135,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/aggregation.do",
+            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic.do",
             type: "POST",
             cache: false,
             data: {

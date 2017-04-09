@@ -36,7 +36,7 @@ $(document).ready(function () {
         fitColumns: true,
         columns: [[
             {
-                field: "clientoperationtime",
+                field: "maxTotalActivePowerTime",
                 title: "日期",
                 align: "center",
                 width: 100,
@@ -52,71 +52,30 @@ $(document).ready(function () {
                 title: "最大负荷(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(value);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
             },
             {
                 field: "minTotalActivePower",
                 title: "最小负荷(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(value);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
             },
             {
                 field: "avgTotalActivePower",
                 title: "平均负荷(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(value);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
             },
             {
                 field: "differ",
                 title: "峰谷差(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(row.maxTotalActivePower) - parseFloat(row.minTotalActivePower);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
             },
             {
-                field: "rate",
+                field: "loadRate",
                 title: "负荷率(%)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(row.avgTotalActivePower) / parseFloat(row.maxTotalActivePower);
-                    t = t * 100;
-                    t = DataGridUtils.floatFormatter(t, 1);
-                    if (parseFloat(row.maxTotalActivePower) == 0) {
-                        t = "";
-                    }
-                    return t;
-                }
             }
         ]]
     });
@@ -146,6 +105,12 @@ $(document).ready(function () {
                 time: $("#datebox-time-start").datebox("getValue"),
                 interval: interval
             });
+
+            getLoadDetailList({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
         }
     });
 
@@ -160,23 +125,6 @@ $(document).ready(function () {
         if (row.time != null && row.time != "") {
             time = row.time;
             interval = row.interval;
-        }
-
-        var paramChart = {
-            node: pnList,
-            time: []
-        }
-
-        for (var i = 0; i < (interval + 1); i++) {
-            var ss = time.split('-');
-            var y = parseInt(ss[0], 10);
-            var m = parseInt(ss[1], 10) - 1;
-
-            var dt = new Date(y, m);
-            dt.setMonth(dt.getMonth() + i);
-            paramChart.time.push(
-                dt.format("yyyyMM") + "01000000"
-            );
         }
 
         var ss = time.split('-');
@@ -273,22 +221,6 @@ $(document).ready(function () {
             interval = row.interval;
         }
 
-        var paramChart = {
-            node: pnList,
-            time: []
-        }
-
-        for (var i = 0; i < (interval + 1); i++) {
-            var ss = time.split('-');
-            var y = parseInt(ss[0], 10);
-            var m = parseInt(ss[1], 10) - 1;
-
-            var dt = new Date(y, m);
-            dt.setMonth(dt.getMonth() + i);
-            paramChart.time.push(
-                dt.format("yyyyMM") + "01000000"
-            );
-        }
 
         var ss = time.split('-');
         var y = parseInt(ss[0], 10);
@@ -302,7 +234,7 @@ $(document).ready(function () {
         var endTime = endDate.format("yyyyMM") + "01000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/aggregation.do",
+            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic.do",
             type: "POST",
             cache: false,
             data: {
@@ -376,6 +308,69 @@ $(document).ready(function () {
         });
     }
 
+    function getLoadDetailList(row) {
+        var pnList = getPnDetail(row.nodes);
+
+        var time = new Date().format("yyyy-MM");
+        var interval = 11;
+        if (row.time != null && row.time != "") {
+            time = row.time;
+            interval = row.interval;
+        }
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+
+        var times = [];
+        for (var i = 0; i < interval + 1; i++) {
+
+            var cur = new Date(y, m);
+            cur.setMonth(cur.getMonth() + i);
+
+            var next = new Date(y, m);
+            next.setMonth(next.getMonth() + i + 1);
+
+            times.push({
+                startTime: cur.format("yyyyMM") + "01000000",
+                endTime: next.format("yyyyMM") + "01000000"
+            });
+        }
+
+        $.ajax({
+            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/list.do",
+            type: "POST",
+            cache: false,
+            data: {
+                node: JSON.stringify(pnList),
+                time: JSON.stringify(times)
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+
+                        $("#dg-table").datagrid("loadData", r.data);
+                        console.log(JSON.stringify(r.data))
+
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                    }
+                } else {
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
+            }
+        });
+    }
+
     function getPnDetail(nodes) {
         var pnInfo = $.parseJSON($.ajax({
             url: _ctx + "system/pn/info/list.do",
@@ -416,6 +411,12 @@ $(document).ready(function () {
             nodes: _nodes,
             time: $("#datebox-time-start").datebox("getValue"),
             interval: interval
+        });
+
+        getLoadDetailList({
+            nodes: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: DEFAULT_INTERVAL
         });
     }
 

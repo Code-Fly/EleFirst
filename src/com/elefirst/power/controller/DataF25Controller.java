@@ -123,7 +123,7 @@ public class DataF25Controller extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
-    @RequestMapping(value = "/f25/load/activepower/total/aggregation.do")
+    @RequestMapping(value = "/f25/load/activepower/total/statistic.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getDataF25LoadAggregationByNodes(HttpServletRequest request,
