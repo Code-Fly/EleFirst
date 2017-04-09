@@ -50,10 +50,17 @@ $(document).ready(function () {
         var m = parseInt(ss[1], 10) - 1;
         var d = parseInt(ss[2], 10);
 
+        var cur = new Date(y, m, d);
+        cur.setDate(cur.getDate());
+
+        var next = new Date(y, m, d);
+        next.setDate(next.getDate() + 1);
+
         var times = [];
-        times.push(
-            new Date(y, m, d).format('yyyyMMdd') + "000000"
-        );
+        times.push({
+            startTime: cur.format('yyyyMMdd') + "000000",
+            endTime: next.format('yyyyMMdd') + "000000"
+        });
 
         $.ajax({
             url: _ctx + "power/data/f25/frozen/minute/node/time/sum.do",
