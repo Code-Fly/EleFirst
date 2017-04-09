@@ -474,7 +474,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByDay();
 
@@ -599,7 +599,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByDay();
 
@@ -724,7 +724,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByDay();
 
@@ -870,7 +870,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByDay();
 

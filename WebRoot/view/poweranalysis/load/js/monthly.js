@@ -183,7 +183,7 @@ $(document).ready(function () {
         var endTime = endDate.format("yyyyMM") + "01000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/day/node/sum.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/sum.do",
             type: "POST",
             cache: false,
             data: {
@@ -231,7 +231,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByMonth();
 

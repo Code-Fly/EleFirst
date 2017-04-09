@@ -466,7 +466,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByWeek();
 
@@ -594,7 +594,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByWeek();
 
@@ -721,7 +721,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByWeek();
 
@@ -869,7 +869,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByWeek();
 
