@@ -6,6 +6,8 @@ $(document).ready(function () {
 
     var _nodes = $.parseJSON($.base64.atob(decodeURIComponent(GetQueryString("data")), true));
 
+    var _spinner = new Spinner();
+
     DateBoxUtils.initMonthBox($("#datebox-time-start"));
 
     DateBoxUtils.initMonthBox($("#datebox-time-end"));
@@ -138,6 +140,12 @@ $(document).ready(function () {
                 time: $("#datebox-time-start").datebox("getValue"),
                 interval: interval
             });
+
+            getLoadDetailTable({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
         }
     });
 
@@ -244,104 +252,128 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+                _spinner.unload();
             }
         });
     }
 
-    function getTbData(data) {
-        var tmp = {
-            maxTotalActivePower: ChartUtils.MIN_CHART_NUMBER,
-            maxTotalActivePowerTime: "",
-            minTotalActivePower: ChartUtils.MAX_CHART_NUMBER,
-            minTotalActivePowerTime: "",
-            avgTotalActivePower: 0,
-        };
-        for (var i = 0; i < data.length; i++) {
-            var max = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
-            max = DataGridUtils.floatFormatter(max, 3);
-            if (max > tmp.maxTotalActivePower) {
-                tmp.maxTotalActivePower = max;
-                tmp.maxTotalActivePowerTime = data[i].clientoperationtime;
-            }
+    function getLoadDetailTable(row) {
+        var pnList = getPnDetail(row.nodes);
 
-            var min = parseFloat(data[i].minTotalActivePower) * data[i].pt * data[i].ct;
-            min = DataGridUtils.floatFormatter(min, 3);
-            if (min < tmp.minTotalActivePower) {
-                tmp.minTotalActivePower = min;
-                tmp.minTotalActivePowerTime = data[i].clientoperationtime;
-            }
-            if (data[i].avgTotalActivePower != null) {
-                var avg = parseFloat(data[i].avgTotalActivePower) * data[i].pt * data[i].ct;
-                tmp.avgTotalActivePower += avg;
-            }
+        var time = new Date().format("yyyy-MM");
+        var interval = 11;
+        if (row.time != null && row.time != "") {
+            time = row.time;
+            interval = row.interval;
         }
-        tmp.avgTotalActivePower = tmp.avgTotalActivePower / parseFloat(data.length);
-        tmp.avgTotalActivePower = DataGridUtils.floatFormatter(tmp.avgTotalActivePower, 3);
 
-
-        $("#maxTotalActivePower").text(tmp.maxTotalActivePower + "(kW)");
-        $("#minTotalActivePower").text(tmp.minTotalActivePower + "(kW)");
-        $("#avgTotalActivePower").text(tmp.avgTotalActivePower + "(kW)");
-
-        var maxTime = tmp.maxTotalActivePowerTime.substr(0, 4) + "-" + tmp.maxTotalActivePowerTime.substr(4, 2) + "-" + tmp.maxTotalActivePowerTime.substr(6, 2);
-        $("#maxTotalActivePowerTime").text(maxTime);
-
-        var minTime = tmp.minTotalActivePowerTime.substr(0, 4) + "-" + tmp.minTotalActivePowerTime.substr(4, 2) + "-" + tmp.minTotalActivePowerTime.substr(6, 2);
-        $("#minTotalActivePowerTime").text(minTime);
-
-        var differ = tmp.maxTotalActivePower - tmp.minTotalActivePower;
-        differ = DataGridUtils.floatFormatter(differ, 3) + "(kW)";
-        $("#differ").text(differ);
-
-        var differRate = ((tmp.maxTotalActivePower - tmp.minTotalActivePower) / tmp.maxTotalActivePower) * 100
-        differRate = DataGridUtils.floatFormatter(differRate, 1) + "(%)";
-        if (tmp.maxTotalActivePower == 0) {
-            differRate = "-";
+        var paramChart = {
+            node: pnList,
+            time: []
         }
-        $("#differRate").text(differRate);
 
-        var loadRate = (tmp.avgTotalActivePower / tmp.maxTotalActivePower) * 100
-        loadRate = DataGridUtils.floatFormatter(loadRate, 1) + "(%)";
-        if (tmp.maxTotalActivePower == 0) {
-            loadRate = "-";
+        for (var i = 0; i < (interval + 1); i++) {
+            var ss = time.split('-');
+            var y = parseInt(ss[0], 10);
+            var m = parseInt(ss[1], 10) - 1;
+
+            var dt = new Date(y, m);
+            dt.setMonth(dt.getMonth() + i);
+            paramChart.time.push(
+                dt.format("yyyyMM") + "01000000"
+            );
         }
-        $("#loadRate").text(loadRate);
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+
+        var startDate = new Date(y, m);
+        var endDate = new Date(y, m);
+        endDate.setMonth(endDate.getMonth() + interval + 1);
+
+        var startTime = startDate.format("yyyyMM") + "01000000";
+        var endTime = endDate.format("yyyyMM") + "01000000";
+
+        $.ajax({
+            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/aggregation.do",
+            type: "POST",
+            cache: false,
+            data: {
+                node: JSON.stringify(pnList),
+                startTime: startTime,
+                endTime: endTime
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var item = r.data;
+
+                        if (null != item.maxTotalActivePower) {
+                            $("#maxTotalActivePower").text(item.maxTotalActivePower + "(kW)");
+                        } else {
+                            $("#maxTotalActivePower").text("--");
+                        }
+                        if (null != item.minTotalActivePower) {
+                            $("#minTotalActivePower").text(item.minTotalActivePower + "(kW)");
+                        } else {
+                            $("#minTotalActivePower").text("--");
+                        }
+                        if (null != item.avgTotalActivePower) {
+                            $("#avgTotalActivePower").text(item.avgTotalActivePower + "(kW)");
+                        } else {
+                            $("#avgTotalActivePower").text("--");
+                        }
+                        if (null != item.maxTotalActivePowerTime) {
+                            $("#maxTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.maxTotalActivePowerTime).format("yyyy-MM"));
+                        } else {
+                            $("#maxTotalActivePowerTime").text("--");
+                        }
+                        if (null != item.minTotalActivePowerTime) {
+                            $("#minTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.minTotalActivePowerTime).format("yyyy-MM"));
+                        } else {
+                            $("#minTotalActivePowerTime").text("--");
+                        }
+                        if (null != item.differ) {
+                            $("#differ").text(item.differ + "(kW)");
+                        } else {
+                            $("#differ").text("--");
+                        }
+                        if (null != item.differRate) {
+                            $("#differRate").text(item.differRate + "(%)");
+                        } else {
+                            $("#differRate").text("--");
+                        }
+                        if (null != item.loadRate) {
+                            $("#loadRate").text(item.loadRate + "(%)");
+                        } else {
+                            $("#loadRate").text("--");
+                        }
 
 
-        return tmp;
-    }
-
-    function getDgData(data, pnList) {
-        var tmp = {};
-        for (var i = 0; i < data.length; i++) {
-            var day = data[i].clientoperationtime.substr(0, 6);
-            if (!tmp.hasOwnProperty(day)) {
-                tmp[day] = data[i];
-            } else {
-                var item = clone(tmp[day]);
-                item.maxTotalActivePower = parseFloat(item.maxTotalActivePower) + parseFloat(data[i].maxTotalActivePower);
-                item.minTotalActivePower = parseFloat(item.minTotalActivePower) + parseFloat(data[i].minTotalActivePower);
-                item.avgTotalActivePower = parseFloat(item.avgTotalActivePower) + parseFloat(data[i].avgTotalActivePower);
-                tmp[day] = item;
-            }
-        }
-        var nData = [];
-        $.each(tmp, function (i, n) {
-            for (var j = 0; j < pnList.length; j++) {
-                var target = clone(n);
-                if (pnList[j].areaId == n.areaId && pnList[j].concentratorId == n.concentratorId && pnList[j].pn == n.pn) {
-                    nData.push($.extend(target, pnList[j]));
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                    }
+                } else {
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
-        return nData;
     }
 
     function getPnDetail(nodes) {
@@ -375,6 +407,12 @@ $(document).ready(function () {
         var interval = getDateInterval($("#datebox-time-start").datebox("getValue"), $("#datebox-time-end").datebox("getValue"));
 
         getLoadDetailChart({
+            nodes: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: interval
+        });
+
+        getLoadDetailTable({
             nodes: _nodes,
             time: $("#datebox-time-start").datebox("getValue"),
             interval: interval

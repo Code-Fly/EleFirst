@@ -159,6 +159,20 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                     .andClientoperationtimeGreaterThanOrEqualTo(startTime)
                     .andClientoperationtimeLessThan(endTime)
                     .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
             ;
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
@@ -184,6 +198,20 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                 .andClientoperationtimeGreaterThanOrEqualTo(time)
                 .andClientoperationtimeLessThan(endTime)
                 .andClientoperationtimeIsNotNull()
+                //
+                .andTotalactivepowerIsNotNull()
+                .andAActivepowerIsNotNull()
+                .andBActivepowerIsNotNull()
+                .andCActivepowerIsNotNull()
+                .andAVoltageIsNotNull()
+                .andBVoltageIsNotNull()
+                .andCVoltageIsNotNull()
+                .andACurrentIsNotNull()
+                .andBCurrentIsNotNull()
+                .andCCurrentIsNotNull()
+                .andAPowerfactorIsNotNull()
+                .andBPowerfactorIsNotNull()
+                .andBPowerfactorIsNotNull()
         ;
 
         condition.setOrderByClause("`clientOperationTime` ASC");
@@ -212,6 +240,20 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                         .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
                         .andClientoperationtimeLessThan(endTime)
                         .andClientoperationtimeIsNotNull()
+                        //
+                        .andTotalactivepowerIsNotNull()
+                        .andAActivepowerIsNotNull()
+                        .andBActivepowerIsNotNull()
+                        .andCActivepowerIsNotNull()
+                        .andAVoltageIsNotNull()
+                        .andBVoltageIsNotNull()
+                        .andCVoltageIsNotNull()
+                        .andACurrentIsNotNull()
+                        .andBCurrentIsNotNull()
+                        .andCCurrentIsNotNull()
+                        .andAPowerfactorIsNotNull()
+                        .andBPowerfactorIsNotNull()
+                        .andBPowerfactorIsNotNull()
                 ;
             }
         }
@@ -241,6 +283,20 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                     .andClientoperationtimeGreaterThanOrEqualTo(time)
                     .andClientoperationtimeLessThan(endTime)
                     .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
             ;
         }
 
@@ -334,7 +390,76 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         return result;
     }
 
-    private PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25FrozenMinute item) {
+    @Override
+    public List<DataF25FrozenMinute> getMaxValue(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String key) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenMinute node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`" + key + "` DESC");
+        condition.setLimitStart(0);
+        condition.setLimitEnd(1);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
+    }
+
+    @Override
+    public List<DataF25FrozenMinute> getMinValue(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String key) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenMinute node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`" + key + "` ASC");
+        condition.setLimitStart(0);
+        condition.setLimitEnd(1);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
+    }
+
+    @Override
+    public PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25FrozenMinute item) {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
             if (pnInfo.getAreaId().equals(item.getAreaId()) && pnInfo.getConcentratorId().equals(item.getConcentratorId()) && pnInfo.getPn().equals(item.getPn())) {
@@ -344,7 +469,8 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         return null;
     }
 
-    private String calc(String org, Double num, Integer precision) {
+    @Override
+    public String calc(String org, Double num, Integer precision) {
         if (null != org) {
             if (null == precision) {
                 return String.valueOf(Double.valueOf(org) * num);

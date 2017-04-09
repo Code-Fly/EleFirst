@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -118,6 +119,7 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
+
         List<DataF25FrozenMinute> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteSumList(nodes, startTime, endTime);
 
         return new ErrorMsg(Error.SUCCESS, "success", dataF25FrozenMinuteService.format(item));
@@ -143,6 +145,74 @@ public class DataF25FrozenMinuteController extends BaseController {
             List<DataF25FrozenMinute> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteSumList(nodes, times.get(j));
             result.add(dataF25FrozenMinuteService.format(item));
         }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/aggregation.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteLoadAggregationByNodes(HttpServletRequest request,
+                                                                 HttpServletResponse response,
+                                                                 @RequestParam(value = "node", required = false) String node,
+                                                                 @RequestParam(value = "startTime", required = false) String startTime,
+                                                                 @RequestParam(value = "endTime", required = false) String endTime
+    ) throws ParseException {
+        List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
+        }.getType());
+
+        List<DataF25FrozenMinute> maxTotalActivePowerList = dataF25FrozenMinuteService.getMaxValue(nodes, startTime, endTime, "totalActivePower");
+
+        DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
+        if (maxTotalActivePowerList.size() > 0) {
+            maxTotalActivePower = dataF25FrozenMinuteService.format(maxTotalActivePowerList).get(0);
+        }
+
+        List<DataF25FrozenMinute> minTotalActivePowerList = dataF25FrozenMinuteService.getMinValue(nodes, startTime, endTime, "totalActivePower");
+
+        DataF25FrozenMinute minTotalActivePower = new DataF25FrozenMinute();
+        if (minTotalActivePowerList.size() > 0) {
+            minTotalActivePower = dataF25FrozenMinuteService.format(minTotalActivePowerList).get(0);
+        }
+
+        DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
+        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
+            String avg = String.valueOf(((Double.valueOf(maxTotalActivePower.getTotalactivepower()) + Double.valueOf(minTotalActivePower.getTotalactivepower())) / 2));
+            avgTotalActivePower.setTotalactivepower(dataF25FrozenMinuteService.calc(avg, 1D, 3));
+        }
+
+
+        JSONObject result = new JSONObject();
+
+        result.put("maxTotalActivePower", maxTotalActivePower.getTotalactivepower());
+        result.put("maxTotalActivePowerTime", maxTotalActivePower.getClientoperationtime());
+
+        result.put("minTotalActivePower", minTotalActivePower.getTotalactivepower());
+        result.put("minTotalActivePowerTime", minTotalActivePower.getClientoperationtime());
+
+        result.put("avgTotalActivePower", avgTotalActivePower.getTotalactivepower());
+
+        Double differ = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
+            differ = Double.valueOf(maxTotalActivePower.getTotalactivepower()) - Double.valueOf(minTotalActivePower.getTotalactivepower());
+        }
+
+        result.put("differ", dataF25FrozenMinuteService.calc(null == differ ? null : String.valueOf(differ), 1D, 3));
+
+        Double differRate = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
+            differRate = (differ / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
+        }
+
+        result.put("differRate", dataF25FrozenMinuteService.calc(null == differRate ? null : String.valueOf(differRate), 1D, 1));
+
+
+        Double loadRate = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != avgTotalActivePower.getTotalactivepower()) {
+            loadRate = (Double.valueOf(avgTotalActivePower.getTotalactivepower()) / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
+        }
+
+        result.put("loadRate", dataF25FrozenMinuteService.calc(null == loadRate ? null : String.valueOf(loadRate), 1D, 1));
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }

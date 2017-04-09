@@ -94,7 +94,6 @@ public class PnInfoController extends BaseController {
                 }
 
             }
-            System.err.println(JSONArray.fromObject(templates).toString());
             result = pnInfoService.getPnInfoListByInfos(templates);
         }
 
