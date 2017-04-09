@@ -90,17 +90,21 @@ public class DataF25FrozenMinuteController extends BaseController {
                                                              @RequestParam(value = "node", required = false) String node,
                                                              @RequestParam(value = "time", required = false) String time
     ) throws ParseException {
+
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
-        List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
+
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
         }.getType());
 
         List<List<DataF25FrozenMinute>> result = new ArrayList<>();
 
         for (int i = 0; i < nodes.size(); i++) {
             for (int j = 0; j < times.size(); j++) {
-                List<DataF25FrozenMinute> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteList(nodes.get(i), times.get(j));
+                List<DataF25FrozenMinute> singleList = new ArrayList<>();
+                singleList.add(nodes.get(i));
+                List<DataF25FrozenMinute> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteList(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
                 result.add(dataF25FrozenMinuteService.format(item));
             }
         }
@@ -137,13 +141,13 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
-        List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
         }.getType());
 
         List<List<DataF25FrozenMinute>> result = new ArrayList<>();
 
         for (int j = 0; j < times.size(); j++) {
-            List<DataF25FrozenMinute> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteSumList(nodes, times.get(j));
+            List<DataF25FrozenMinute> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteSumList(nodes, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
             result.add(dataF25FrozenMinuteService.format(item));
         }
 

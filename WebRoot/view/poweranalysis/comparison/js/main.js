@@ -183,9 +183,15 @@ $(document).ready(function () {
                 var m = parseInt(ss[1], 10) - 1;
                 var d = parseInt(ss[2], 10);
 
-                times.push(
-                    new Date(y, m, d).format('yyyyMMdd') + "000000"
-                )
+                var cur = new Date(y, m, d);
+
+                var next = new Date(y, m, d);
+                next.setDate(next.getDate() + 1);
+
+                times.push({
+                    startTime: cur.format('yyyyMMdd') + "000000",
+                    endTime: next.format('yyyyMMdd') + "000000"
+                });
             }
 
             if ($("#switch-total").switchbutton("options").checked) {
@@ -294,6 +300,7 @@ $(document).ready(function () {
                                     });
                                 }
 
+
                                 for (var i = 0; i < r.data.length; i++) {
                                     if (r.data[i].length > 0) {
                                         var ss = r.data[i][0].clientoperationtime;
@@ -304,7 +311,6 @@ $(document).ready(function () {
                                         var pn = r.data[i][0].pn;
 
                                         var node = getNode(areaId, concentratorId, pn, nodes);
-
                                         var item = ChartUtils.getLoadAllByHourSeries({
                                             name: node.name + "(" + date.format("yyyy-MM-dd") + ")"
                                         }, r.data[i]);
@@ -312,17 +318,14 @@ $(document).ready(function () {
                                     }
                                 }
 
-                                var config = $.parseJSON($.ajax({
-                                    url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                    type: "GET",
-                                    async: false
-                                }).responseText);
+                                var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                                // config.tooltip.shared = false;
+                                config
+                                    .setShared(true)
+                                    .setZoom(true)
+                                    .setSeries(series);
 
-                                config.series = series;
-
-                                $("#chart-load").highcharts("StockChart", config);
+                                $("#chart-load").highcharts("StockChart", config.getConfig());
                             } else {
                                 jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
