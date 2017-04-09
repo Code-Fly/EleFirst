@@ -350,7 +350,6 @@ $(document).ready(function () {
                     if ("0" == r.errcode) {
 
                         $("#dg-table").datagrid("loadData", r.data);
-                        console.log(JSON.stringify(r.data))
 
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));

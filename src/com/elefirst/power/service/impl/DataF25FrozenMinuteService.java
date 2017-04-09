@@ -10,11 +10,7 @@ import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,61 +61,6 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                     .andClientoperationtimeIsNotNull()
             ;
         }
-        condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
-    }
-
-    @Override
-    public List<DataF25FrozenMinute> getDataF25FrozenMinuteList(DataF25FrozenMinute node, String time) throws ParseException {
-        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = formatter.parse(time);
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        String endTime = formatter.format(cal.getTime());
-
-        condition.or()
-                .andAreaIdEqualTo(node.getAreaId())
-                .andConcentratorIdEqualTo(node.getConcentratorId())
-                .andPnEqualTo(node.getPn())
-                .andClientoperationtimeGreaterThanOrEqualTo(time)
-                .andClientoperationtimeLessThan(endTime)
-                .andClientoperationtimeIsNotNull()
-        ;
-
-        condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
-    }
-
-    @Override
-    public List<DataF25FrozenMinute> getDataF25FrozenMinuteList(List<DataF25FrozenMinute> nodes, List<String> times) throws ParseException {
-        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
-
-        for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenMinute node = nodes.get(i);
-            for (int j = 0; j < times.size(); j++) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-                Date time = formatter.parse(times.get(j));
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(time);
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                String endTime = formatter.format(cal.getTime());
-
-                condition.or()
-                        .andAreaIdEqualTo(node.getAreaId())
-                        .andConcentratorIdEqualTo(node.getConcentratorId())
-                        .andPnEqualTo(node.getPn())
-                        .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
-                        .andClientoperationtimeLessThan(endTime)
-                        .andClientoperationtimeIsNotNull()
-                ;
-            }
-        }
-
         condition.setOrderByClause("`clientOperationTime` ASC");
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
@@ -179,130 +120,6 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
-    @Override
-    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(DataF25FrozenMinute node, String time) throws ParseException {
-        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = formatter.parse(time);
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        String endTime = formatter.format(cal.getTime());
-
-        condition.or()
-                .andAreaIdEqualTo(node.getAreaId())
-                .andConcentratorIdEqualTo(node.getConcentratorId())
-                .andPnEqualTo(node.getPn())
-                .andClientoperationtimeGreaterThanOrEqualTo(time)
-                .andClientoperationtimeLessThan(endTime)
-                .andClientoperationtimeIsNotNull()
-                //
-                .andTotalactivepowerIsNotNull()
-                .andAActivepowerIsNotNull()
-                .andBActivepowerIsNotNull()
-                .andCActivepowerIsNotNull()
-                .andAVoltageIsNotNull()
-                .andBVoltageIsNotNull()
-                .andCVoltageIsNotNull()
-                .andACurrentIsNotNull()
-                .andBCurrentIsNotNull()
-                .andCCurrentIsNotNull()
-                .andAPowerfactorIsNotNull()
-                .andBPowerfactorIsNotNull()
-                .andBPowerfactorIsNotNull()
-        ;
-
-        condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
-    }
-
-    @Override
-    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, List<String> times) throws ParseException {
-        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
-
-        for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenMinute node = nodes.get(i);
-            for (int j = 0; j < times.size(); j++) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-                Date time = formatter.parse(times.get(j));
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(time);
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                String endTime = formatter.format(cal.getTime());
-
-                condition.or()
-                        .andAreaIdEqualTo(node.getAreaId())
-                        .andConcentratorIdEqualTo(node.getConcentratorId())
-                        .andPnEqualTo(node.getPn())
-                        .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
-                        .andClientoperationtimeLessThan(endTime)
-                        .andClientoperationtimeIsNotNull()
-                        //
-                        .andTotalactivepowerIsNotNull()
-                        .andAActivepowerIsNotNull()
-                        .andBActivepowerIsNotNull()
-                        .andCActivepowerIsNotNull()
-                        .andAVoltageIsNotNull()
-                        .andBVoltageIsNotNull()
-                        .andCVoltageIsNotNull()
-                        .andACurrentIsNotNull()
-                        .andBCurrentIsNotNull()
-                        .andCCurrentIsNotNull()
-                        .andAPowerfactorIsNotNull()
-                        .andBPowerfactorIsNotNull()
-                        .andBPowerfactorIsNotNull()
-                ;
-            }
-        }
-
-        condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
-    }
-
-    @Override
-    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String time) throws ParseException {
-        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
-
-        for (int i = 0; i < nodes.size(); i++) {
-            DataF25FrozenMinute node = nodes.get(i);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-            Date date = formatter.parse(time);
-
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            String endTime = formatter.format(cal.getTime());
-
-            condition.or()
-                    .andAreaIdEqualTo(node.getAreaId())
-                    .andConcentratorIdEqualTo(node.getConcentratorId())
-                    .andPnEqualTo(node.getPn())
-                    .andClientoperationtimeGreaterThanOrEqualTo(time)
-                    .andClientoperationtimeLessThan(endTime)
-                    .andClientoperationtimeIsNotNull()
-                    //
-                    .andTotalactivepowerIsNotNull()
-                    .andAActivepowerIsNotNull()
-                    .andBActivepowerIsNotNull()
-                    .andCActivepowerIsNotNull()
-                    .andAVoltageIsNotNull()
-                    .andBVoltageIsNotNull()
-                    .andCVoltageIsNotNull()
-                    .andACurrentIsNotNull()
-                    .andBCurrentIsNotNull()
-                    .andCCurrentIsNotNull()
-                    .andAPowerfactorIsNotNull()
-                    .andBPowerfactorIsNotNull()
-                    .andBPowerfactorIsNotNull()
-            ;
-        }
-
-        condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
-    }
 
     @Override
     public int getDataF25FrozenMinuteListCount(DataF25FrozenMinute template) {
