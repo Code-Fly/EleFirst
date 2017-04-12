@@ -2,6 +2,7 @@ package com.elefirst.connector.proxy;
 
 import com.elefirst.base.utils.DBUtils;
 import com.elefirst.connector.entity.DbColumnInfo;
+import com.elefirst.connector.entity.DbTableInfo;
 import com.elefirst.connector.example.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

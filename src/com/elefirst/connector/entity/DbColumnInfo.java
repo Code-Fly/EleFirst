@@ -1,6 +1,5 @@
 package com.elefirst.connector.entity;
 
-
 import com.elefirst.base.entity.BaseEntity;
 
 /**

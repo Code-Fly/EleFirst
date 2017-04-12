@@ -29,6 +29,7 @@ public class MssqlExample extends Example {
         String tmpTbName = "t_" + new Date().getTime();
         String newSql = "SELECT * FROM ( SELECT *, ROW_NUMBER() OVER(ORDER BY " + getOrderByClause() + " ) AS RN FROM (" + querySql(sql,false) + ") " + tmpTbName + ") " + tmpTbName + " WHERE RN BETWEEN " + ((page - 1) * rows + 1) + " AND " + (page * rows);
 
+        System.out.println(newSql);
         return newSql;
     }
 }

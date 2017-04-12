@@ -7,7 +7,6 @@ import com.elefirst.connector.example.Example;
 import com.elefirst.connector.example.RhinoExample;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -346,8 +345,6 @@ public class RhinoConnector extends DbConnector {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        PropertyConfigurator.configure("/Users/barrie/Documents/Workspaces/MyEclipse/EleFirst/WebRoot/WEB-INF/conf/log4j.properties");
-
         RhinoConnector connector = new RhinoConnector("192.168.10.215", 21050, true, null, null);
 //        System.out.println(connector.getDatabaseList());
 //        System.out.println(connector.getTableList("default"));
