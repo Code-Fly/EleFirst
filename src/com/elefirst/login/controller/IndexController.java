@@ -163,6 +163,61 @@ public class IndexController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
+    @RequestMapping(value = "/load/activepower/total/statistic.do")
+    @ApiOperation(value = "统计信息", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getLoadActivepowerStatistic(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                @RequestParam(value = "areaId") String areaId
+    ) {
+        AreaInfoWithBLOBs areaTemplate = new AreaInfoWithBLOBs();
+        areaTemplate.setAreaId(areaId);
+        List<AreaInfoWithBLOBs> areas = areaInfoService.getAreaInfoList(areaTemplate);
+
+        List<StatisticTotalActivePower> result = new ArrayList<>();
+
+        if (areas.size() > 0) {
+            String sTransformers = areas.get(0).getTransformers();
+            if (sTransformers != null && !sTransformers.isEmpty()) {
+                List<DataF25FrozenMinute> nodes = new ArrayList<>();
+                String masterPnId = areas.get(0).getMasterPnId();
+
+                DataF25FrozenMinute item = new DataF25FrozenMinute();
+                List<PnInfo> pn = pnInfoService.getPnInfoDetail(masterPnId);
+                if (pn.size() > 0) {
+                    item.setAreaId(pn.get(0).getAreaId());
+                    item.setConcentratorId(pn.get(0).getConcentratorId());
+                    item.setPn(pn.get(0).getPn());
+                    nodes.add(item);
+                }
+
+                // 今日
+                Calendar today = Calendar.getInstance();
+                Calendar tomorrow = Calendar.getInstance();
+                tomorrow.add(Calendar.DATE, 1);
+
+                String todayStr = new SimpleDateFormat("yyyyMMdd").format(today.getTime()) + "000000";
+                String tomorrowStr = new SimpleDateFormat("yyyyMMdd").format(tomorrow.getTime()) + "000000";
+
+                StatisticTotalActivePower s = new StatisticTotalActivePower();
+                s = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, todayStr, tomorrowStr);
+                result.add(s);
+
+                // 昨日
+                Calendar yesterday = Calendar.getInstance();
+                yesterday.add(Calendar.DATE, -1);
+                String yesterdayStr = new SimpleDateFormat("yyyyMMdd").format(yesterday.getTime()) + "000000";
+
+                s = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, yesterdayStr, todayStr);
+                result.add(s);
+
+            }
+
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
     public double getElectricity(List<PnInfo> pns, List<DataF33FrozenDay> data) {
         double electricity = 0.0;
         for (int j = 0; j < pns.size(); j++) {
