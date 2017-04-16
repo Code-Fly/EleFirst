@@ -3,7 +3,7 @@ package com.elefirst.power.po;
 /**
  * Created by barrie on 2017/4/9.
  */
-public class StatisticTotalActivePower {
+public class StatisticF25TotalActivePower {
     private String areaId;
     private String concentratorId;
     private String pn;

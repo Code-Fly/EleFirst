@@ -206,6 +206,74 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
         return result;
     }
 
+    @Override
+    public List<DataF33FrozenDay> getMaxValue(List<DataF33FrozenDay> nodes, String startTime, String endTime, String key) {
+        DataF33FrozenDayExample condition = new DataF33FrozenDayExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF33FrozenDay node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalpositiveactivepowerIsNotNull()
+                    .andTotalpositivereactivepowerIsNotNull()
+                    .andQuadrant1TotalreactivepowerIsNotNull()
+                    .andQuadrant4TotalreactivepowerIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`" + key + "` DESC");
+        condition.setLimitStart(0);
+        condition.setLimitEnd(1);
+        return dataF33FrozenDayDAO.getDataF33FrozenDaySumList(condition);
+    }
+
+    @Override
+    public List<DataF33FrozenDay> getMinValue(List<DataF33FrozenDay> nodes, String startTime, String endTime, String key) {
+        DataF33FrozenDayExample condition = new DataF33FrozenDayExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF33FrozenDay node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalpositiveactivepowerIsNotNull()
+                    .andTotalpositivereactivepowerIsNotNull()
+                    .andQuadrant1TotalreactivepowerIsNotNull()
+                    .andQuadrant4TotalreactivepowerIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`" + key + "` ASC");
+        condition.setLimitStart(0);
+        condition.setLimitEnd(1);
+        return dataF33FrozenDayDAO.getDataF33FrozenDaySumList(condition);
+    }
+
+    @Override
+    public String getDifferTotalPositiveActivePower(List<DataF33FrozenDay> nodes, String startTime, String endTime) {
+        String differ = null;
+
+        List<DataF33FrozenDay> totalActivePowerList = getDataF33FrozenDaySumList(nodes, startTime, endTime);
+
+        if (totalActivePowerList.size() >= 2) {
+            String maxTotalActivePower = totalActivePowerList.get(totalActivePowerList.size() - 1).getTotalpositiveactivepower();
+            String minTotalActivePower = totalActivePowerList.get(0).getTotalpositiveactivepower();
+
+            if (null != maxTotalActivePower && null != minTotalActivePower) {
+                differ = String.valueOf(Double.valueOf(maxTotalActivePower) - Double.valueOf(minTotalActivePower));
+            }
+        }
+
+        return differ;
+    }
+
     private PnInfo getPnInfo(List<PnInfo> pnInfos, DataF33FrozenDay item) {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
@@ -216,7 +284,8 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
         return null;
     }
 
-    private String calc(String org, Double num, Integer precision) {
+    @Override
+    public String calc(String org, Double num, Integer precision) {
         if (null != org) {
             if (null == precision) {
                 return String.valueOf(Double.valueOf(org) * num);

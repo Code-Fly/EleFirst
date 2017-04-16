@@ -290,140 +290,43 @@ $(document).ready(function () {
                     if ("0" == r.errcode) {
 
                         var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            time: []
-                        };
 
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
-
-                        var currentData = [];
+                        var item = TimeUtils.dataBoxDateToDate(param.time);
+                        var startTime = item.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            url: _ctx + "/power/data/f33/frozen/day/electricity/positiveactivepower/total/interval/day/statistic.do",
                             type: "POST",
                             cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(paramNode),
+                                time: startTime,
+                                interval: param.interval
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        currentData = ChartUtils.getElectricityDailyIntervalDayTable(paramNode, param.time, param.interval, r.data);
-
+                                        $("#dg-table").datagrid("loadData", r.data);
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
                                 } else {
                                     jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
+                            error: function (request) {
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                _spinner.unload();
                             }
                         });
 
+                        return;
 
-                        paramChart.time = [];
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            item.setMonth(item.getMonth() - 1);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
-
-                        var lastMonthData = [];
-
-                        $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
-                            type: "POST",
-                            cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        lastMonthData = ChartUtils.getElectricityDailyIntervalDayTable(paramNode, param.time, param.interval, r.data);
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            }
-                        });
-
-                        paramChart.time = [];
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            item.setFullYear(item.getFullYear() - 1);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
-
-                        var lastYearData = [];
-
-                        $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
-                            type: "POST",
-                            cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        lastYearData = ChartUtils.getElectricityDailyIntervalDayTable(paramNode, param.time, param.interval, r.data);
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            }
-                        });
-
-                        var dgData = [];
-
-                        var currentDataTotal = 0;
-                        var lastMonthDataTotal = 0;
-                        var lastYearDataTotal = 0;
-
-                        for (var i = 0; i < (param.interval + 1); i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-
-                            currentDataTotal = currentDataTotal + currentData[i];
-                            lastMonthDataTotal = lastMonthDataTotal + lastMonthData[i];
-                            lastYearDataTotal = lastYearDataTotal + lastYearData[i];
-
-                            dgData.push({
-                                time: item.format("yyyy-MM-dd"),
-                                currentData: currentData[i],
-                                lastMonthData: lastMonthData[i],
-                                lastYearData: lastYearData[i],
-                                rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
-                                rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1),
-                            });
-                        }
-                        dgData.push({
-                            time: "总计",
-                            currentData: currentDataTotal,
-                            lastMonthData: lastMonthDataTotal,
-                            lastYearData: lastYearDataTotal,
-                            rate1: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastMonthDataTotal) * 100) / lastYearDataTotal), 1),
-                            rate2: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastYearDataTotal) * 100 ) / lastYearDataTotal), 1),
-                        });
 
                         $("#dg-table").datagrid("loadData", dgData);
 

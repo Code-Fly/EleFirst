@@ -5,7 +5,7 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF25FrozenMinute;
-import com.elefirst.power.po.StatisticTotalActivePower;
+import com.elefirst.power.po.StatisticF25TotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -166,7 +166,7 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
-        StatisticTotalActivePower result = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
+        StatisticF25TotalActivePower result = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
@@ -184,10 +184,10 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
-        List<StatisticTotalActivePower> result = new ArrayList<>();
+        List<StatisticF25TotalActivePower> result = new ArrayList<>();
 
         for (int i = 0; i < times.size(); i++) {
-            StatisticTotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
+            StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
             if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
                 result.add(item);
             }
@@ -211,13 +211,13 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
         }.getType());
 
-        List<StatisticTotalActivePower> result = new ArrayList<>();
+        List<StatisticF25TotalActivePower> result = new ArrayList<>();
 
         for (int i = 0; i < nodes.size(); i++) {
             for (int j = 0; j < times.size(); j++) {
                 List<DataF25FrozenMinute> singleList = new ArrayList<>();
                 singleList.add(nodes.get(i));
-                StatisticTotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+                StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
                 if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
                     item.setAreaId(nodes.get(i).getAreaId());
                     item.setConcentratorId(nodes.get(i).getConcentratorId());

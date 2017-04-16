@@ -76,10 +76,10 @@
         </if>
         <include refid="Base_Column_List"/>
         ,
-        SUM(totalPositiveActivePower) AS totalPositiveActivePower,
-        SUM(totalPositiveReactivePower) AS totalPositiveReactivePower,
-        SUM(quadrant_1_totalReactivePower) AS quadrant_1_totalReactivePower,
-        SUM(quadrant_4_totalReactivePower) AS quadrant_4_totalReactivePower
+        SUM(totalPositiveActivePower+0) AS totalPositiveActivePower,
+        SUM(totalPositiveReactivePower+0) AS totalPositiveReactivePower,
+        SUM(quadrant_1_totalReactivePower+0) AS quadrant_1_totalReactivePower,
+        SUM(quadrant_4_totalReactivePower+0) AS quadrant_4_totalReactivePower
         from t_004_fn33_frozen_per_day
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>

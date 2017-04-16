@@ -94,19 +94,19 @@
         </if>
         <include refid="Base_Column_List"/>
         ,
-        SUM(totalActivePower) AS totalActivePower,
-        SUM(A_ActivePower) AS A_ActivePower,
-        SUM(B_ActivePower) AS B_ActivePower,
-        SUM(C_ActivePower) AS C_ActivePower,
-        SUM(totalReactivePower) AS totalReactivePower,
-        SUM(A_ReactivePower) AS A_ReactivePower,
-        SUM(B_ReactivePower) AS B_ReactivePower,
-        SUM(C_ReactivePower) AS C_ReactivePower,
-        SUM(totalPowerFactor) AS totalPowerFactor,
-        SUM(totalApparentPower) AS totalApparentPower,
-        SUM(A_ApparentPower) AS A_ApparentPower,
-        SUM(B_ApparentPower) AS B_ApparentPower,
-        SUM(C_ApparentPower) AS C_ApparentPower
+        SUM(totalActivePower+0) AS totalActivePower,
+        SUM(A_ActivePower+0) AS A_ActivePower,
+        SUM(B_ActivePower+0) AS B_ActivePower,
+        SUM(C_ActivePower+0) AS C_ActivePower,
+        SUM(totalReactivePower+0) AS totalReactivePower,
+        SUM(A_ReactivePower+0) AS A_ReactivePower,
+        SUM(B_ReactivePower+0) AS B_ReactivePower,
+        SUM(C_ReactivePower+0) AS C_ReactivePower,
+        SUM(totalPowerFactor+0) AS totalPowerFactor,
+        SUM(totalApparentPower+0) AS totalApparentPower,
+        SUM(A_ApparentPower+0) AS A_ApparentPower,
+        SUM(B_ApparentPower+0) AS B_ApparentPower,
+        SUM(C_ApparentPower+0) AS C_ApparentPower
         from t_003_fn25_frozen_per_15m
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>

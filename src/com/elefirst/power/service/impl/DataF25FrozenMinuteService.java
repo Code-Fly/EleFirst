@@ -4,7 +4,7 @@ import com.elefirst.base.service.BaseService;
 import com.elefirst.power.dao.iface.IDataF25FrozenMinuteDAO;
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF25FrozenMinuteExample;
-import com.elefirst.power.po.StatisticTotalActivePower;
+import com.elefirst.power.po.StatisticF25TotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
@@ -300,7 +300,7 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
     }
 
     @Override
-    public StatisticTotalActivePower getStatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+    public StatisticF25TotalActivePower getStatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
         List<DataF25FrozenMinute> maxTotalActivePowerList = getMaxValue(nodes, startTime, endTime, "totalActivePower");
 
         DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
@@ -332,7 +332,7 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
 
         avgTotalActivePower.setTotalactivepower(calc(avg, 1D, 3));
 
-        StatisticTotalActivePower result = new StatisticTotalActivePower();
+        StatisticF25TotalActivePower result = new StatisticF25TotalActivePower();
         result.setMaxTotalActivePower(maxTotalActivePower.getTotalactivepower());
         result.setMaxTotalActivePowerTime(maxTotalActivePower.getClientoperationtime());
         result.setMinTotalActivePower(minTotalActivePower.getTotalactivepower());

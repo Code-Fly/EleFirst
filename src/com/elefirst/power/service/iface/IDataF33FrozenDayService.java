@@ -30,4 +30,16 @@ public interface IDataF33FrozenDayService {
     List<DataF33FrozenDay> format(List<DataF33FrozenDay> data);
 
     List<DataF33FrozenDay> getInterval(List<DataF33FrozenDay> data);
+
+    String calc(String org, Double num, Integer precision);
+    //
+
+    List<DataF33FrozenDay> getMaxValue(List<DataF33FrozenDay> nodes, String startTime, String endTime, String key);
+
+    List<DataF33FrozenDay> getMinValue(List<DataF33FrozenDay> nodes, String startTime, String endTime, String key);
+
+    //
+
+    String getDifferTotalPositiveActivePower(List<DataF33FrozenDay> nodes, String startTime, String endTime);
+
 }

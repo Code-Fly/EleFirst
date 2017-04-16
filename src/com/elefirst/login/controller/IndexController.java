@@ -6,7 +6,7 @@ import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF33;
 import com.elefirst.power.po.DataF33FrozenDay;
-import com.elefirst.power.po.StatisticTotalActivePower;
+import com.elefirst.power.po.StatisticF25TotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.power.service.iface.IDataF33FrozenDayService;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
@@ -174,7 +174,7 @@ public class IndexController extends BaseController {
         areaTemplate.setAreaId(areaId);
         List<AreaInfoWithBLOBs> areas = areaInfoService.getAreaInfoList(areaTemplate);
 
-        List<StatisticTotalActivePower> result = new ArrayList<>();
+        List<StatisticF25TotalActivePower> result = new ArrayList<>();
 
         if (areas.size() > 0) {
             String sTransformers = areas.get(0).getTransformers();
@@ -199,7 +199,7 @@ public class IndexController extends BaseController {
                 String todayStr = new SimpleDateFormat("yyyyMMdd").format(today.getTime()) + "000000";
                 String tomorrowStr = new SimpleDateFormat("yyyyMMdd").format(tomorrow.getTime()) + "000000";
 
-                StatisticTotalActivePower s = new StatisticTotalActivePower();
+                StatisticF25TotalActivePower s = new StatisticF25TotalActivePower();
                 s = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, todayStr, tomorrowStr);
                 result.add(s);
 
@@ -255,7 +255,7 @@ public class IndexController extends BaseController {
     }
 
     public String getTotalMaxLoad(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
-        StatisticTotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
+        StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
 
         return item.getMaxTotalActivePower();
     }

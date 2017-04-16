@@ -61,12 +61,24 @@
                data-options="border:true,fit:true,rownumbers:true,singleSelect:true,fitColumns:true">
             <thead>
             <tr>
-                <th data-options="field:'time'" width="100" align="center">日期</th>
-                <th data-options="field:'currentData'" width="100" align="center">本期电量(kWh)</th>
-                <th data-options="field:'lastMonthData'" width="100" align="center">上月同期电量(kWh)</th>
-                <th data-options="field:'lastYearData'" width="100" align="center">去年同期电量(kWh)</th>
-                <th data-options="field:'rate1'" width="100" align="center">环比(%)</th>
-                <th data-options="field:'rate2'" width="100" align="center">同比(%)</th>
+                <th data-options="field:'clientOperationTime'" width="100" align="center"
+                    formatter="DataGridUtils.dateToDayFormatter">日期
+                </th>
+                <th data-options="field:'thisMonthTotalPositiveActivePower'" width="100" align="center"
+                    formatter="DataGridUtils.strFormatter">本期电量(kWh)
+                </th>
+                <th data-options="field:'lastMonthTotalPositiveActivePower'" width="100" align="center"
+                    formatter="DataGridUtils.strFormatter">上月同期电量(kWh)
+                </th>
+                <th data-options="field:'lastYearTotalPositiveActivePower'" width="100" align="center"
+                    formatter="DataGridUtils.strFormatter">去年同期电量(kWh)
+                </th>
+                <th data-options="field:'rate1'" width="100" align="center" formatter="DataGridUtils.strFormatter">
+                    环比(%)
+                </th>
+                <th data-options="field:'rate2'" width="100" align="center" formatter="DataGridUtils.strFormatter">
+                    同比(%)
+                </th>
             </tr>
             </thead>
         </table>
