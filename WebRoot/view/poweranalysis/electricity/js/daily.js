@@ -308,21 +308,30 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var dgData = [];
 
-                                        var currentDataTotal = 0;
-                                        var lastMonthDataTotal = 0;
-                                        var lastYearDataTotal = 0;
+                                        var currentDataTotal = null;
+                                        var lastMonthDataTotal = null;
+                                        var lastYearDataTotal = null;
 
                                         for (var i = 0; i < r.data.length; i++) {
                                             var clientOperationTime = TimeUtils.dbTimeToDate(r.data[i].clientOperationTime);
 
 
                                             if (null != r.data[i].thisMonthTotalPositiveActivePower) {
+                                                if (null == currentDataTotal) {
+                                                    currentDataTotal = 0;
+                                                }
                                                 currentDataTotal = currentDataTotal + parseFloat(r.data[i].thisMonthTotalPositiveActivePower);
                                             }
                                             if (null != r.data[i].lastMonthTotalPositiveActivePower) {
+                                                if (null == lastMonthDataTotal) {
+                                                    lastMonthDataTotal = 0;
+                                                }
                                                 lastMonthDataTotal = lastMonthDataTotal + parseFloat(r.data[i].lastMonthTotalPositiveActivePower);
                                             }
                                             if (null != r.data[i].lastMonthTotalPositiveActivePower) {
+                                                if (null == lastYearDataTotal) {
+                                                    lastYearDataTotal = 0;
+                                                }
                                                 lastYearDataTotal = lastYearDataTotal + parseFloat(r.data[i].lastYearTotalPositiveActivePower);
                                             }
 
@@ -336,13 +345,25 @@ $(document).ready(function () {
                                             });
                                         }
 
+                                        if (null != currentDataTotal) {
+                                            currentDataTotal = currentDataTotal.toFixed(3);
+                                        }
+
+                                        if (null != lastMonthDataTotal) {
+                                            lastMonthDataTotal = lastMonthDataTotal.toFixed(3);
+                                        }
+
+                                        if (null != lastYearDataTotal) {
+                                            lastYearDataTotal = lastYearDataTotal.toFixed(3);
+                                        }
+
                                         dgData.push({
                                             clientOperationTime: "总计",
-                                            thisMonthTotalPositiveActivePower: currentDataTotal.toFixed(3),
-                                            lastMonthTotalPositiveActivePower: lastMonthDataTotal.toFixed(3),
-                                            lastYearTotalPositiveActivePower: lastYearDataTotal.toFixed(3),
-                                            rate1: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastMonthDataTotal) * 100) / lastYearDataTotal), 1),
-                                            rate2: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastYearDataTotal) * 100 ) / lastYearDataTotal), 1),
+                                            thisMonthTotalPositiveActivePower: currentDataTotal,
+                                            lastMonthTotalPositiveActivePower: lastMonthDataTotal,
+                                            lastYearTotalPositiveActivePower: lastYearDataTotal,
+                                            rate1: (lastYearDataTotal == 0 || null == lastYearDataTotal) ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastMonthDataTotal) * 100) / lastYearDataTotal), 1),
+                                            rate2: (lastYearDataTotal == 0 || null == lastYearDataTotal) ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastYearDataTotal) * 100 ) / lastYearDataTotal), 1),
                                         });
 
 
