@@ -166,7 +166,7 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
-        StatisticTotalActivePower result = getStatisticTotalActivePower(nodes, startTime, endTime);
+        StatisticTotalActivePower result = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
@@ -187,7 +187,7 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<StatisticTotalActivePower> result = new ArrayList<>();
 
         for (int i = 0; i < times.size(); i++) {
-            StatisticTotalActivePower item = getStatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
+            StatisticTotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
             if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
                 result.add(item);
             }
@@ -217,7 +217,7 @@ public class DataF25FrozenMinuteController extends BaseController {
             for (int j = 0; j < times.size(); j++) {
                 List<DataF25FrozenMinute> singleList = new ArrayList<>();
                 singleList.add(nodes.get(i));
-                StatisticTotalActivePower item = getStatisticTotalActivePower(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+                StatisticTotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
                 if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
                     item.setAreaId(nodes.get(i).getAreaId());
                     item.setConcentratorId(nodes.get(i).getConcentratorId());
@@ -231,67 +231,5 @@ public class DataF25FrozenMinuteController extends BaseController {
     }
 
 
-    private StatisticTotalActivePower getStatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
-        List<DataF25FrozenMinute> maxTotalActivePowerList = dataF25FrozenMinuteService.getMaxValue(nodes, startTime, endTime, "totalActivePower");
 
-        DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
-        if (maxTotalActivePowerList.size() > 0) {
-            maxTotalActivePower = dataF25FrozenMinuteService.format(maxTotalActivePowerList).get(0);
-        }
-
-        List<DataF25FrozenMinute> minTotalActivePowerList = dataF25FrozenMinuteService.getMinValue(nodes, startTime, endTime, "totalActivePower");
-
-        DataF25FrozenMinute minTotalActivePower = new DataF25FrozenMinute();
-        if (minTotalActivePowerList.size() > 0) {
-            minTotalActivePower = dataF25FrozenMinuteService.format(minTotalActivePowerList).get(0);
-        }
-
-        DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
-        List<DataF25FrozenMinute> avgTotalActivePowerList = dataF25FrozenMinuteService.format(dataF25FrozenMinuteService.getDataF25FrozenMinuteSumList(nodes, startTime, endTime));
-
-        Double sum = 0D;
-        for (int i = 0; i < avgTotalActivePowerList.size(); i++) {
-            if (null != avgTotalActivePowerList.get(i).getTotalactivepower()) {
-                sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalactivepower());
-            }
-        }
-
-        String avg = String.valueOf(sum / avgTotalActivePowerList.size());
-        if (avgTotalActivePowerList.size() == 0) {
-            avg = null;
-        }
-
-        avgTotalActivePower.setTotalactivepower(dataF25FrozenMinuteService.calc(avg, 1D, 3));
-
-        StatisticTotalActivePower result = new StatisticTotalActivePower();
-        result.setMaxTotalActivePower(maxTotalActivePower.getTotalactivepower());
-        result.setMaxTotalActivePowerTime(maxTotalActivePower.getClientoperationtime());
-        result.setMinTotalActivePower(minTotalActivePower.getTotalactivepower());
-        result.setMinTotalActivePowerTime(minTotalActivePower.getClientoperationtime());
-        result.setAvgTotalActivePower(avgTotalActivePower.getTotalactivepower());
-
-        Double differ = null;
-        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
-            differ = Double.valueOf(maxTotalActivePower.getTotalactivepower()) - Double.valueOf(minTotalActivePower.getTotalactivepower());
-        }
-
-        result.setDiffer(dataF25FrozenMinuteService.calc(null == differ ? null : String.valueOf(differ), 1D, 3));
-
-        Double differRate = null;
-        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
-            differRate = (differ / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
-        }
-
-        result.setDifferRate(dataF25FrozenMinuteService.calc(null == differRate ? null : String.valueOf(differRate), 1D, 1));
-
-
-        Double loadRate = null;
-        if (null != maxTotalActivePower.getTotalactivepower() && null != avgTotalActivePower.getTotalactivepower()) {
-            loadRate = (Double.valueOf(avgTotalActivePower.getTotalactivepower()) / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
-        }
-
-        result.setLoadRate(dataF25FrozenMinuteService.calc(null == loadRate ? null : String.valueOf(loadRate), 1D, 1));
-
-        return result;
-    }
 }

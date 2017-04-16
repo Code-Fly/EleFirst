@@ -4,6 +4,7 @@ import com.elefirst.base.service.BaseService;
 import com.elefirst.power.dao.iface.IDataF25FrozenMinuteDAO;
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF25FrozenMinuteExample;
+import com.elefirst.power.po.StatisticTotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
@@ -296,5 +297,70 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
             }
         }
         return null;
+    }
+
+    @Override
+    public StatisticTotalActivePower getStatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        List<DataF25FrozenMinute> maxTotalActivePowerList = getMaxValue(nodes, startTime, endTime, "totalActivePower");
+
+        DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
+        if (maxTotalActivePowerList.size() > 0) {
+            maxTotalActivePower = format(maxTotalActivePowerList).get(0);
+        }
+
+        List<DataF25FrozenMinute> minTotalActivePowerList = getMinValue(nodes, startTime, endTime, "totalActivePower");
+
+        DataF25FrozenMinute minTotalActivePower = new DataF25FrozenMinute();
+        if (minTotalActivePowerList.size() > 0) {
+            minTotalActivePower = format(minTotalActivePowerList).get(0);
+        }
+
+        DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
+        List<DataF25FrozenMinute> avgTotalActivePowerList = format(getDataF25FrozenMinuteSumList(nodes, startTime, endTime));
+
+        Double sum = 0D;
+        for (int i = 0; i < avgTotalActivePowerList.size(); i++) {
+            if (null != avgTotalActivePowerList.get(i).getTotalactivepower()) {
+                sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalactivepower());
+            }
+        }
+
+        String avg = String.valueOf(sum / avgTotalActivePowerList.size());
+        if (avgTotalActivePowerList.size() == 0) {
+            avg = null;
+        }
+
+        avgTotalActivePower.setTotalactivepower(calc(avg, 1D, 3));
+
+        StatisticTotalActivePower result = new StatisticTotalActivePower();
+        result.setMaxTotalActivePower(maxTotalActivePower.getTotalactivepower());
+        result.setMaxTotalActivePowerTime(maxTotalActivePower.getClientoperationtime());
+        result.setMinTotalActivePower(minTotalActivePower.getTotalactivepower());
+        result.setMinTotalActivePowerTime(minTotalActivePower.getClientoperationtime());
+        result.setAvgTotalActivePower(avgTotalActivePower.getTotalactivepower());
+
+        Double differ = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
+            differ = Double.valueOf(maxTotalActivePower.getTotalactivepower()) - Double.valueOf(minTotalActivePower.getTotalactivepower());
+        }
+
+        result.setDiffer(calc(null == differ ? null : String.valueOf(differ), 1D, 3));
+
+        Double differRate = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
+            differRate = (differ / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
+        }
+
+        result.setDifferRate(calc(null == differRate ? null : String.valueOf(differRate), 1D, 1));
+
+
+        Double loadRate = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != avgTotalActivePower.getTotalactivepower()) {
+            loadRate = (Double.valueOf(avgTotalActivePower.getTotalactivepower()) / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
+        }
+
+        result.setLoadRate(calc(null == loadRate ? null : String.valueOf(loadRate), 1D, 1));
+
+        return result;
     }
 }

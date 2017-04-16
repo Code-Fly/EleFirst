@@ -1,6 +1,7 @@
 package com.elefirst.power.service.iface;
 
 import com.elefirst.power.po.DataF25FrozenMinute;
+import com.elefirst.power.po.StatisticTotalActivePower;
 import com.elefirst.system.po.PnInfo;
 
 import java.util.List;
@@ -43,4 +44,7 @@ public interface IDataF25FrozenMinuteService {
 
     List<DataF25FrozenMinute> getMinValue(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String key);
 
+    //
+
+    StatisticTotalActivePower getStatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime);
 }
