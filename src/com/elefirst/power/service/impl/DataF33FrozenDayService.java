@@ -10,11 +10,7 @@ import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -70,60 +66,27 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
     }
 
     @Override
-    public List<DataF33FrozenDay> getDataF33FrozenDayList(DataF33FrozenDay node, String time) throws ParseException {
+    public List<DataF33FrozenDay> getDataF33FrozenDaySumList(List<DataF33FrozenDay> nodes, String startTime, String endTime) {
         DataF33FrozenDayExample condition = new DataF33FrozenDayExample();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = formatter.parse(time);
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        String endTime = formatter.format(cal.getTime());
-
-        condition.or()
-                .andAreaIdEqualTo(node.getAreaId())
-                .andConcentratorIdEqualTo(node.getConcentratorId())
-                .andPnEqualTo(node.getPn())
-                .andClientoperationtimeGreaterThanOrEqualTo(time)
-                .andClientoperationtimeLessThanOrEqualTo(endTime)
-                .andClientoperationtimeIsNotNull()
-        ;
-
-        condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF33FrozenDayDAO.getDataF33FrozenDayList(condition);
-    }
-
-    @Override
-    public List<DataF33FrozenDay> getDataF33FrozenDayList(List<DataF33FrozenDay> nodes, List<String> times) throws ParseException {
-        DataF33FrozenDayExample condition = new DataF33FrozenDayExample();
-
         for (int i = 0; i < nodes.size(); i++) {
             DataF33FrozenDay node = nodes.get(i);
-            for (int j = 0; j < times.size(); j++) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-                Date time = formatter.parse(times.get(j));
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(time);
-                cal.add(Calendar.DAY_OF_MONTH, 1);
-                String endTime = formatter.format(cal.getTime());
-
-                condition.or()
-                        .andAreaIdEqualTo(node.getAreaId())
-                        .andConcentratorIdEqualTo(node.getConcentratorId())
-                        .andPnEqualTo(node.getPn())
-                        .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
-                        .andClientoperationtimeLessThanOrEqualTo(endTime)
-                        .andClientoperationtimeIsNotNull()
-                ;
-            }
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalpositiveactivepowerIsNotNull()
+                    .andTotalpositivereactivepowerIsNotNull()
+                    .andQuadrant1TotalreactivepowerIsNotNull()
+                    .andQuadrant4TotalreactivepowerIsNotNull()
+            ;
         }
-
         condition.setOrderByClause("`clientOperationTime` ASC");
-        return dataF33FrozenDayDAO.getDataF33FrozenDayList(condition);
+        return dataF33FrozenDayDAO.getDataF33FrozenDaySumList(condition);
     }
-
 
     @Override
     public int getDataF33FrozenDayListCount(DataF33FrozenDay template) {

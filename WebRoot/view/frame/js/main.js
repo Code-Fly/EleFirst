@@ -249,7 +249,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f33/frozen/day/node/list.do",
+            url: _ctx + "power/data/f33/frozen/day/node/sum.do",
             type: "POST",
             cache: false,
             data: {

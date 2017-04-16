@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,29 +81,22 @@ public class DataF33FrozenDayController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(dataF33FrozenDayService.getInterval(result)));
     }
 
-    @RequestMapping(value = "/f33/frozen/day/node/time/list.do")
+    @RequestMapping(value = "/f33/frozen/day/node/sum.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getDataF33FrozenDayListByNodesAndTime(HttpServletRequest request,
-                                                          HttpServletResponse response,
-                                                          @RequestParam(value = "node", required = false) String node,
-                                                          @RequestParam(value = "time", required = false) String time
+    public ErrorMsg getDataF33FrozenDaySumByNodes(HttpServletRequest request,
+                                                  HttpServletResponse response,
+                                                  @RequestParam(value = "node", required = false) String node,
+                                                  @RequestParam(value = "startTime", required = false) String startTime,
+                                                  @RequestParam(value = "endTime", required = false) String endTime
     ) throws ParseException {
         List<DataF33FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF33FrozenDay>>() {
         }.getType());
 
-        List<String> times = new Gson().fromJson(time, new TypeToken<List<String>>() {
-        }.getType());
 
-        List<List<DataF33FrozenDay>> result = new ArrayList<>();
+        List<DataF33FrozenDay> result = dataF33FrozenDayService.getDataF33FrozenDaySumList(nodes, startTime, endTime);
 
-        for (int i = 0; i < nodes.size(); i++) {
-            for (int j = 0; j < times.size(); j++) {
-                List<DataF33FrozenDay> item = dataF33FrozenDayService.getDataF33FrozenDayList(nodes.get(i), times.get(j));
-                result.add(dataF33FrozenDayService.format(dataF33FrozenDayService.getInterval(item)));
-            }
-        }
+        return new ErrorMsg(Error.SUCCESS, "success", dataF33FrozenDayService.format(dataF33FrozenDayService.getInterval(result)));
 
-        return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 }
