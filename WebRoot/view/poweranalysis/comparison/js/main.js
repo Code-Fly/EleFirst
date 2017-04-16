@@ -173,7 +173,10 @@ $(document).ready(function () {
                 nodes.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
-                    pn: pn
+                    pn: pn,
+                    ct: ct,
+                    pt: pt,
+                    name: name
                 })
             }
 
@@ -326,6 +329,62 @@ $(document).ready(function () {
                     }
                 });
             }
+
+            $.ajax({
+                url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/node/list.do",
+                type: "POST",
+                cache: false,
+                data: {
+                    node: JSON.stringify(nodes),
+                    time: JSON.stringify(times)
+                },
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            for (var i = 0; i < nodes.length; i++) {
+                                var d = [];
+
+                                for (var j = 0; j < r.data.length; j++) {
+                                    if (nodes[i].areaId == r.data[j].areaId && nodes[i].concentratorId == r.data[j].concentratorId && nodes[i].pn == r.data[j].pn) {
+                                        d.push({
+                                            clientOperationTime: (formatDbTimestamp(r.data[j].maxTotalActivePowerTime) + "").substr(0, 10),
+                                            totalactivepower: r.data[j].maxTotalActivePower,
+                                            currentClientOperationTime: (formatDbTimestamp(r.data[j].maxTotalActivePowerTime) + "").substr(11, 5)
+                                        })
+                                    }
+                                }
+
+                                if (d.length > 0) {
+                                    $(".table-" + nodes[i].areaId + "-" + nodes[i].concentratorId + "-" + nodes[i].pn).datagrid("loadData", d);
+                                }
+                            }
+                        } else {
+                            jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                        }
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg("2"));
+                    }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    for (var i = 0; i < nodes.length; i++) {
+                        if (!$("#tab-table").tabs("getTab", nodes[i].name)) {
+                            $("#tab-table").tabs("add", {
+                                title: nodes[i].name,
+                                content: "<div class='dg-table table-" + nodes[i].areaId + "-" + nodes[i].concentratorId + "-" + nodes[i].pn + "'></div>"
+                            })
+                        }
+                    }
+
+
+                    _spinner.load();
+                },
+                error: function (request) {
+                    jError("请求失败！" + ErrUtils.getMsg("3"));
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    _spinner.unload();
+                }
+            });
 
             return
 

@@ -163,7 +163,10 @@ public class DataF25FrozenMinuteController extends BaseController {
                                                                @RequestParam(value = "startTime", required = false) String startTime,
                                                                @RequestParam(value = "endTime", required = false) String endTime
     ) throws ParseException {
-        StatisticTotalActivePower result = getStatisticTotalActivePower(node, startTime, endTime);
+        List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
+        }.getType());
+
+        StatisticTotalActivePower result = getStatisticTotalActivePower(nodes, startTime, endTime);
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
@@ -178,10 +181,13 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
         }.getType());
 
+        List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
+        }.getType());
+
         List<StatisticTotalActivePower> result = new ArrayList<>();
 
         for (int i = 0; i < times.size(); i++) {
-            StatisticTotalActivePower item = getStatisticTotalActivePower(node, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
+            StatisticTotalActivePower item = getStatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
             if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
                 result.add(item);
             }
@@ -191,12 +197,41 @@ public class DataF25FrozenMinuteController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
-
-    private StatisticTotalActivePower getStatisticTotalActivePower(String node, String startTime, String endTime) {
-
+    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/statistic/node/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteLoadStatisticListByNodes(HttpServletRequest request,
+                                                                   HttpServletResponse response,
+                                                                   @RequestParam(value = "node", required = false) String node,
+                                                                   @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
+        }.getType());
+
+        List<StatisticTotalActivePower> result = new ArrayList<>();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            for (int j = 0; j < times.size(); j++) {
+                List<DataF25FrozenMinute> singleList = new ArrayList<>();
+                singleList.add(nodes.get(i));
+                StatisticTotalActivePower item = getStatisticTotalActivePower(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+                if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
+                    item.setAreaId(nodes.get(i).getAreaId());
+                    item.setConcentratorId(nodes.get(i).getConcentratorId());
+                    item.setPn(nodes.get(i).getPn());
+                    result.add(item);
+                }
+            }
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+
+    private StatisticTotalActivePower getStatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
         List<DataF25FrozenMinute> maxTotalActivePowerList = dataF25FrozenMinuteService.getMaxValue(nodes, startTime, endTime, "totalActivePower");
 
         DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();

@@ -4,6 +4,9 @@ package com.elefirst.power.po;
  * Created by barrie on 2017/4/9.
  */
 public class StatisticTotalActivePower {
+    private String areaId;
+    private String concentratorId;
+    private String pn;
     private String maxTotalActivePower;
     private String maxTotalActivePowerTime;
     private String minTotalActivePower;
@@ -12,6 +15,30 @@ public class StatisticTotalActivePower {
     private String differ;
     private String differRate;
     private String loadRate;
+
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+
+    public String getConcentratorId() {
+        return concentratorId;
+    }
+
+    public void setConcentratorId(String concentratorId) {
+        this.concentratorId = concentratorId;
+    }
+
+    public String getPn() {
+        return pn;
+    }
+
+    public void setPn(String pn) {
+        this.pn = pn;
+    }
 
     public String getMaxTotalActivePower() {
         return maxTotalActivePower;
