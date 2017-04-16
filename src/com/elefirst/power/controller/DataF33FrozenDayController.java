@@ -93,6 +93,8 @@ public class DataF33FrozenDayController extends BaseController {
         List<DataF33FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF33FrozenDay>>() {
         }.getType());
 
+        System.err.println(startTime);
+        System.err.println(endTime);
 
         List<DataF33FrozenDay> result = dataF33FrozenDayService.getDataF33FrozenDaySumList(nodes, startTime, endTime);
 

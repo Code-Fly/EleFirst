@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/30.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     var DEFAULT_INTERVAL = 30;
 
     var _nodes = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
@@ -69,31 +71,48 @@ $(document).ready(function () {
                         var series = [];
 
                         var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            time: []
-                        };
 
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
+
+                        var startDate = TimeUtils.dataBoxDateToDate(param.time);
+                        var endDate = TimeUtils.dataBoxDateToDate(param.time)
+                        endDate.setDate(endDate.getDate() + param.interval + 1);
+
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            url: _ctx + "power/data/f33/frozen/day/node/sum.do",
                             type: "POST",
                             cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(paramNode),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        var item = ChartUtils.getElectricityDailyIntervalDaySeries("本期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getElectricityAllSeries({
+                                            name: "本期"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "sum",
+                                            forced: true
+                                        };
                                         series.push(item);
+
+                                        if (series.length == 3) {
+                                            var config = new ChartConfig("view/chart/column-date-all-electricity.json");
+                                            config
+                                                .setShared(false)
+                                                .setZoom(false)
+                                                .setCrossHairSnap(false)
+                                                .setSeries(series)
+                                                .setDataGroupingByDay();
+
+
+                                            $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
+                                        }
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -101,32 +120,126 @@ $(document).ready(function () {
                                 } else {
                                     jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
+                            error: function (request) {
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                _spinner.unload();
                             }
                         });
 
 
-                        paramChart.time = [];
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            item.setMonth(item.getMonth() - 1);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
+                        var startDate = TimeUtils.dataBoxDateToDate(param.time);
+                        startDate.setMonth(startDate.getMonth() - 1);
+                        var endDate = TimeUtils.dataBoxDateToDate(param.time);
+                        endDate.setMonth(endDate.getMonth() - 1);
+                        endDate.setDate(endDate.getDate() + param.interval + 1);
+
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            url: _ctx + "power/data/f33/frozen/day/node/sum.do",
                             type: "POST",
                             cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(paramNode),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         // $.messager.alert("操作提示", JSON.stringify(r.data));
 
-                                        var item = ChartUtils.getElectricityDailyIntervalDaySeries("上月同期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getElectricityAllSeries({
+                                            name: "上月同期"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "sum",
+                                            forced: true
+                                        };
                                         series.push(item);
+
+                                        if (series.length == 3) {
+                                            var config = new ChartConfig("view/chart/column-date-all-electricity.json");
+                                            config
+                                                .setShared(false)
+                                                .setZoom(false)
+                                                .setCrossHairSnap(false)
+                                                .setSeries(series)
+                                                .setDataGroupingByDay();
+
+
+                                            $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
+                                        }
+                                    } else {
+                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                                    }
+                                } else {
+                                    jError("请求失败！" + ErrUtils.getMsg("2"));
+                                }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
+                            error: function (request) {
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                _spinner.unload();
+                            }
+                        });
+
+
+                        var startDate = TimeUtils.dataBoxDateToDate(param.time);
+                        startDate.setFullYear(startDate.getFullYear() - 1);
+                        var endDate = TimeUtils.dataBoxDateToDate(param.time);
+                        endDate.setFullYear(endDate.getFullYear() - 1);
+                        endDate.setDate(endDate.getDate() + param.interval + 1);
+
+                        var startTime = startDate.format('yyyyMMdd') + "000000";
+                        var endTime = endDate.format('yyyyMMdd') + "000000";
+
+                        $.ajax({
+                            url: _ctx + "power/data/f33/frozen/day/node/sum.do",
+                            type: "POST",
+                            cache: false,
+                            data: {
+                                node: JSON.stringify(paramNode),
+                                startTime: startTime,
+                                endTime: endTime
+                            },
+                            success: function (r) {
+                                if (r.hasOwnProperty("errcode")) {
+                                    if ("0" == r.errcode) {
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+
+                                        var item = ChartUtils.getElectricityAllSeries({
+                                            name: "去年同期"
+                                        }, r.data);
+                                        item.dataGrouping = {
+                                            approximation: "sum",
+                                            forced: true
+                                        };
+                                        series.push(item);
+
+                                        if (series.length == 3) {
+                                            var config = new ChartConfig("view/chart/column-date-all-electricity.json");
+                                            config
+                                                .setShared(false)
+                                                .setZoom(false)
+                                                .setCrossHairSnap(false)
+                                                .setSeries(series)
+                                                .setDataGroupingByDay();
+
+
+                                            $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
+                                        }
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
@@ -134,52 +247,17 @@ $(document).ready(function () {
                                 } else {
                                     jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
+                            error: function (request) {
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                _spinner.unload();
                             }
                         });
-
-                        paramChart.time = [];
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            item.setFullYear(item.getFullYear() - 1);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
-
-                        $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
-                            type: "POST",
-                            cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        var item = ChartUtils.getElectricityDailyIntervalDaySeries("去年同期", paramNode, param.time, param.interval, r.data);
-                                        series.push(item);
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            }
-                        });
-
-                        var config = $.parseJSON($.ajax({
-                            url: "data/electricityDetailByDateChart.json?bust=" + new Date().getTime(),
-                            type: "GET",
-                            async: false
-                        }).responseText);
-
-                        // config.xAxis.categories = ChartUtils.getDailyIntervalDayCategories(param.time, param.interval);
-                        config.series = series;
-
-                        $("#chart-electricity-detail").highcharts(config);
-
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -188,13 +266,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+                _spinner.unload();
             }
         });
     }
@@ -357,13 +435,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+                _spinner.unload();
             }
         });
     }
