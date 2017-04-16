@@ -247,11 +247,18 @@ public class DataF25FrozenMinuteController extends BaseController {
         }
 
         DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
-        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
-            String avg = String.valueOf(((Double.valueOf(maxTotalActivePower.getTotalactivepower()) + Double.valueOf(minTotalActivePower.getTotalactivepower())) / 2));
-            avgTotalActivePower.setTotalactivepower(dataF25FrozenMinuteService.calc(avg, 1D, 3));
+        List<DataF25FrozenMinute> avgTotalActivePowerList = dataF25FrozenMinuteService.format(dataF25FrozenMinuteService.getDataF25FrozenMinuteSumList(nodes, startTime, endTime));
+
+        Double sum = 0D;
+        for (int i = 0; i < avgTotalActivePowerList.size(); i++) {
+            if (null != avgTotalActivePowerList.get(i).getTotalactivepower()) {
+                sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalactivepower());
+            }
         }
 
+        String avg = String.valueOf(sum / avgTotalActivePowerList.size());
+
+        avgTotalActivePower.setTotalactivepower(dataF25FrozenMinuteService.calc(avg, 1D, 3));
 
         StatisticTotalActivePower result = new StatisticTotalActivePower();
         result.setMaxTotalActivePower(maxTotalActivePower.getTotalactivepower());
