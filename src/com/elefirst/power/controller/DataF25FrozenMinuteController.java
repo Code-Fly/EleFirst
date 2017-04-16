@@ -257,6 +257,9 @@ public class DataF25FrozenMinuteController extends BaseController {
         }
 
         String avg = String.valueOf(sum / avgTotalActivePowerList.size());
+        if (avgTotalActivePowerList.size() == 0) {
+            avg = null;
+        }
 
         avgTotalActivePower.setTotalactivepower(dataF25FrozenMinuteService.calc(avg, 1D, 3));
 
