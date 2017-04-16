@@ -306,7 +306,47 @@ $(document).ready(function () {
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
-                                        $("#dg-table").datagrid("loadData", r.data);
+                                        var dgData = [];
+
+                                        var currentDataTotal = 0;
+                                        var lastMonthDataTotal = 0;
+                                        var lastYearDataTotal = 0;
+
+                                        for (var i = 0; i < r.data.length; i++) {
+                                            var clientOperationTime = TimeUtils.dbTimeToDate(r.data[i].clientOperationTime);
+
+
+                                            if (null != r.data[i].thisMonthTotalPositiveActivePower) {
+                                                currentDataTotal = currentDataTotal + parseFloat(r.data[i].thisMonthTotalPositiveActivePower);
+                                            }
+                                            if (null != r.data[i].lastMonthTotalPositiveActivePower) {
+                                                lastMonthDataTotal = lastMonthDataTotal + parseFloat(r.data[i].lastMonthTotalPositiveActivePower);
+                                            }
+                                            if (null != r.data[i].lastMonthTotalPositiveActivePower) {
+                                                lastYearDataTotal = lastYearDataTotal + parseFloat(r.data[i].lastYearTotalPositiveActivePower);
+                                            }
+
+                                            dgData.push({
+                                                clientOperationTime: clientOperationTime.format("yyyy-MM-dd"),
+                                                thisMonthTotalPositiveActivePower: r.data[i].thisMonthTotalPositiveActivePower,
+                                                lastMonthTotalPositiveActivePower: r.data[i].lastMonthTotalPositiveActivePower,
+                                                lastYearTotalPositiveActivePower: r.data[i].lastYearTotalPositiveActivePower,
+                                                rate1: r.data[i].rate1,
+                                                rate2: r.data[i].rate2,
+                                            });
+                                        }
+
+                                        dgData.push({
+                                            clientOperationTime: "总计",
+                                            thisMonthTotalPositiveActivePower: currentDataTotal.toFixed(3),
+                                            lastMonthTotalPositiveActivePower: lastMonthDataTotal.toFixed(3),
+                                            lastYearTotalPositiveActivePower: lastYearDataTotal.toFixed(3),
+                                            rate1: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastMonthDataTotal) * 100) / lastYearDataTotal), 1),
+                                            rate2: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastYearDataTotal) * 100 ) / lastYearDataTotal), 1),
+                                        });
+
+
+                                        $("#dg-table").datagrid("loadData", dgData);
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }

@@ -61,8 +61,7 @@
                data-options="border:true,fit:true,rownumbers:true,singleSelect:true,fitColumns:true">
             <thead>
             <tr>
-                <th data-options="field:'clientOperationTime'" width="100" align="center"
-                    formatter="DataGridUtils.dateToDayFormatter">日期
+                <th data-options="field:'clientOperationTime'" width="100" align="center">日期
                 </th>
                 <th data-options="field:'thisMonthTotalPositiveActivePower'" width="100" align="center"
                     formatter="DataGridUtils.strFormatter">本期电量(kWh)
