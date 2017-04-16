@@ -260,7 +260,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
     public String getDifferTotalPositiveActivePower(List<DataF33FrozenDay> nodes, String startTime, String endTime) {
         String differ = null;
 
-        List<DataF33FrozenDay> totalActivePowerList = getDataF33FrozenDaySumList(nodes, startTime, endTime);
+        List<DataF33FrozenDay> totalActivePowerList = format(getDataF33FrozenDaySumList(nodes, startTime, endTime));
 
         if (totalActivePowerList.size() >= 2) {
             String maxTotalActivePower = totalActivePowerList.get(totalActivePowerList.size() - 1).getTotalpositiveactivepower();

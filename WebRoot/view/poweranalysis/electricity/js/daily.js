@@ -345,17 +345,17 @@ $(document).ready(function () {
                                             });
                                         }
 
-                                        if (null != currentDataTotal) {
-                                            currentDataTotal = currentDataTotal.toFixed(3);
-                                        }
-
-                                        if (null != lastMonthDataTotal) {
-                                            lastMonthDataTotal = lastMonthDataTotal.toFixed(3);
-                                        }
-
-                                        if (null != lastYearDataTotal) {
-                                            lastYearDataTotal = lastYearDataTotal.toFixed(3);
-                                        }
+                                        // if (null != currentDataTotal) {
+                                        //     currentDataTotal = currentDataTotal.toFixed(3);
+                                        // }
+                                        //
+                                        // if (null != lastMonthDataTotal) {
+                                        //     lastMonthDataTotal = lastMonthDataTotal.toFixed(3);
+                                        // }
+                                        //
+                                        // if (null != lastYearDataTotal) {
+                                        //     lastYearDataTotal = lastYearDataTotal.toFixed(3);
+                                        // }
 
                                         dgData.push({
                                             clientOperationTime: "总计",

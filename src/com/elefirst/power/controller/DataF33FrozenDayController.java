@@ -135,7 +135,7 @@ public class DataF33FrozenDayController extends BaseController {
             item.setClientOperationTime(thisMonthStartTime);
 
             String differThisMonth = dataF33FrozenDayService.getDifferTotalPositiveActivePower(nodes, thisMonthStartTime, thisMonthEndTime);
-            item.setThisMonthTotalPositiveActivePower(dataF33FrozenDayService.calc(differThisMonth, 1D, 3));
+            item.setThisMonthTotalPositiveActivePower(dataF33FrozenDayService.calc(differThisMonth, 1D, 0));
 
             //
             Date lastMonthStartTimeDate = new Date(date.getTime());
@@ -149,7 +149,7 @@ public class DataF33FrozenDayController extends BaseController {
             String lastMonthEndTime = sdf.format(lastMonthEndTimeDate);
 
             String differLastMonth = dataF33FrozenDayService.getDifferTotalPositiveActivePower(nodes, lastMonthStartTime, lastMonthEndTime);
-            item.setLastMonthTotalPositiveActivePower(dataF33FrozenDayService.calc(differLastMonth, 1D, 3));
+            item.setLastMonthTotalPositiveActivePower(dataF33FrozenDayService.calc(differLastMonth, 1D, 0));
 
             //
             Date lastYearStartTimeDate = new Date(date.getTime());
@@ -163,7 +163,7 @@ public class DataF33FrozenDayController extends BaseController {
             String lastYearEndTime = sdf.format(lastYearEndTimeDate);
 
             String differLastYear = dataF33FrozenDayService.getDifferTotalPositiveActivePower(nodes, lastYearStartTime, lastYearEndTime);
-            item.setLastYearTotalPositiveActivePower(dataF33FrozenDayService.calc(differLastYear, 1D, 3));
+            item.setLastYearTotalPositiveActivePower(dataF33FrozenDayService.calc(differLastYear, 1D, 0));
 
 
             String rate1 = null;
