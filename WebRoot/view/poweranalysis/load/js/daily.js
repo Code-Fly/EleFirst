@@ -27,6 +27,8 @@ $(document).ready(function () {
     });
 
     $("#dg-table").datagrid({
+        url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/list.do",
+        method: "POST",
         singleSelect: true,
         rownumbers: true,
         fitColumns: true,
@@ -36,43 +38,42 @@ $(document).ready(function () {
                 title: "日期",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var y = value.substr(0, 4);
-                    var m = value.substr(4, 2);
-                    var d = value.substr(6, 2);
-
-                    return m + "-" + d;
-                }
+                formatter: DataGridUtils.dateToDayFormatter
             },
             {
                 field: "maxTotalActivePower",
                 title: "最大负荷(kW)",
                 align: "center",
                 width: 100,
+                formatter: DataGridUtils.strFormatter
             },
             {
                 field: "minTotalActivePower",
                 title: "最小负荷(kW)",
                 align: "center",
                 width: 100,
+                formatter: DataGridUtils.strFormatter
             },
             {
                 field: "avgTotalActivePower",
                 title: "平均负荷(kW)",
                 align: "center",
                 width: 100,
+                formatter: DataGridUtils.strFormatter
             },
             {
                 field: "differ",
                 title: "峰谷差(kW)",
                 align: "center",
                 width: 100,
+                formatter: DataGridUtils.strFormatter
             },
             {
                 field: "loadRate",
                 title: "负荷率(%)",
                 align: "center",
                 width: 100,
+                formatter: DataGridUtils.strFormatter
             }
         ]]
     });
@@ -337,6 +338,13 @@ $(document).ready(function () {
             });
         }
 
+        $("#dg-table").datagrid("reload", {
+            node: JSON.stringify(pnList),
+            time: JSON.stringify(times)
+        });
+
+        return;
+
         $.ajax({
             url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/list.do",
             type: "POST",
@@ -399,23 +407,25 @@ $(document).ready(function () {
 
         $("#datebox-time-end").datebox("setValue", endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate());
 
-        getLoadDetailChart({
-            nodes: _nodes,
-            time: $("#datebox-time-start").datebox("getValue"),
-            interval: DEFAULT_INTERVAL
-        });
+        setTimeout(function () {
+            getLoadDetailChart({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: DEFAULT_INTERVAL
+            });
 
-        getLoadDetailTable({
-            nodes: _nodes,
-            time: $("#datebox-time-start").datebox("getValue"),
-            interval: DEFAULT_INTERVAL
-        });
+            getLoadDetailTable({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: DEFAULT_INTERVAL
+            });
 
-        getLoadDetailList({
-            nodes: _nodes,
-            time: $("#datebox-time-start").datebox("getValue"),
-            interval: DEFAULT_INTERVAL
-        });
+            getLoadDetailList({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: DEFAULT_INTERVAL
+            });
+        }, 500);
     }
 
     function getDateInterval(s1, s2) {
