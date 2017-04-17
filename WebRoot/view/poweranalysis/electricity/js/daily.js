@@ -26,6 +26,57 @@ $(document).ready(function () {
         editable: false
     });
 
+    $("#dg-table").datagrid({
+        url: _ctx + "/power/data/f33/frozen/day/electricity/positiveactivepower/total/interval/day/statistic.do",
+        method: "POST",
+        border: true,
+        fit: true,
+        rownumbers: true,
+        singleSelect: true,
+        fitColumns: true,
+        columns: [[
+            {
+                field: "clientOperationTime",
+                title: "日期",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.dateToDayFormatter
+            },
+            {
+                field: "thisMonthTotalPositiveActivePower",
+                title: "本期电量(kWh)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+            }, {
+                field: "lastMonthTotalPositiveActivePower",
+                title: "上月同期电量(kWh)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+            }, {
+                field: "lastYearTotalPositiveActivePower",
+                title: "去年同期电量(kWh)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+            }, {
+                field: "rate1",
+                title: "环比(%)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+
+            }, {
+                field: "rate2",
+                title: "同比(%)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+            }
+        ]],
+    });
+
     $("#btn-search").linkbutton({
         onClick: function () {
             var interval = getDateInterval($("#datebox-time-start").datebox("getValue"), $("#datebox-time-end").datebox("getValue"));
@@ -293,6 +344,14 @@ $(document).ready(function () {
 
                         var item = TimeUtils.dataBoxDateToDate(param.time);
                         var startTime = item.format('yyyyMMdd') + "000000";
+
+                        $("#dg-table").datagrid("reload", {
+                            node: JSON.stringify(paramNode),
+                            time: startTime,
+                            interval: param.interval
+                        });
+
+                        return;
 
                         $.ajax({
                             url: _ctx + "/power/data/f33/frozen/day/electricity/positiveactivepower/total/interval/day/statistic.do",
