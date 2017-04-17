@@ -391,17 +391,19 @@ $(document).ready(function () {
 
         var interval = getDateInterval($("#datebox-time-start").datebox("getValue"), $("#datebox-time-end").datebox("getValue"));
 
-        getElectricityDetailChart({
-            node: _nodes,
-            time: $("#datebox-time-start").datebox("getValue"),
-            interval: interval
-        });
+        setTimeout(function () {
+            getElectricityDetailChart({
+                node: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
 
-        getElectricityDetailTable({
-            node: _nodes,
-            time: $("#datebox-time-start").datebox("getValue"),
-            interval: interval
-        });
+            getElectricityDetailTable({
+                node: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
+        }, 500);
     }
 
 
