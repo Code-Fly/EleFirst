@@ -12,6 +12,47 @@ $(document).ready(function () {
 
     DateBoxUtils.initMonthBox($("#datebox-time-end"));
 
+    $("#dg-table").datagrid({
+        url: _ctx + "/power/data/f33/frozen/day/electricity/positiveactivepower/total/interval/month/statistic.do",
+        method: "POST",
+        border: true,
+        fit: true,
+        rownumbers: true,
+        singleSelect: true,
+        fitColumns: true,
+        columns: [[
+            {
+                field: "clientOperationTime",
+                title: "日期",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.dateToMonthFormatter
+            },
+            {
+                field: "thisMonthTotalPositiveActivePower",
+                title: "本期电量(kWh)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+            }, {
+                field: "lastYearTotalPositiveActivePower",
+                title: "去年同期电量(kWh)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+            }, {
+                field: "rate2",
+                title: "同比(%)",
+                align: "center",
+                width: 120,
+                formatter: DataGridUtils.strFormatter
+            }
+        ]],
+        // onLoadError:function () {
+        //     jError("请求失败！");
+        // }
+    });
+
     $("#datebox-time-start").datebox({
         required: true,
         editable: false
@@ -222,18 +263,17 @@ $(document).ready(function () {
                     if ("0" == r.errcode) {
 
                         var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            time: []
-                        };
 
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxMonthToDate(param.time);
-                            item.setMonth(item.getMonth() + i);
-                            paramChart.time.push(item.format('yyyyMM') + "01000000");
-                        }
+                        var item = TimeUtils.dataBoxMonthToDate(param.time);
+                        var startTime = item.format('yyyyMM') + "01000000";
 
-                        var currentData = [];
+                        $("#dg-table").datagrid("reload", {
+                            node: JSON.stringify(paramNode),
+                            time: startTime,
+                            interval: param.interval
+                        });
+
+                        return;
 
                         $.ajax({
                             url: _ctx + "poweranalysis/comparison/electricity/monthly/interval/month/chart.do",

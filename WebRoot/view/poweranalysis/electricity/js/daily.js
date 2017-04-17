@@ -75,6 +75,9 @@ $(document).ready(function () {
                 formatter: DataGridUtils.strFormatter
             }
         ]],
+        // onLoadError:function () {
+        //     jError("请求失败！");
+        // }
     });
 
     $("#btn-search").linkbutton({

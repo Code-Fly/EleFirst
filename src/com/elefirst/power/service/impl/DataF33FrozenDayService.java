@@ -75,7 +75,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
                     .andClientoperationtimeGreaterThanOrEqualTo(startTime)
-                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeLessThanOrEqualTo(endTime)
                     .andClientoperationtimeIsNotNull()
                     //
                     .andTotalpositiveactivepowerIsNotNull()
@@ -216,7 +216,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
                     .andClientoperationtimeGreaterThanOrEqualTo(startTime)
-                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeLessThanOrEqualTo(endTime)
                     .andClientoperationtimeIsNotNull()
                     //
                     .andTotalpositiveactivepowerIsNotNull()
@@ -241,7 +241,7 @@ public class DataF33FrozenDayService extends BaseService implements IDataF33Froz
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
                     .andClientoperationtimeGreaterThanOrEqualTo(startTime)
-                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeLessThanOrEqualTo(endTime)
                     .andClientoperationtimeIsNotNull()
                     //
                     .andTotalpositiveactivepowerIsNotNull()

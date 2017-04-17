@@ -125,7 +125,7 @@ public class DataF33FrozenDayController extends BaseController {
             Date thisMonthStartTimeDate = new Date(date.getTime());
             thisMonthStartTimeDate.setDate(date.getDate() + i);
             Date thisMonthEndTimeDate = new Date(date.getTime());
-            thisMonthEndTimeDate.setDate(date.getDate() + i + 2);
+            thisMonthEndTimeDate.setDate(date.getDate() + i + 1);
 
             String thisMonthStartTime = sdf.format(thisMonthStartTimeDate);
             String thisMonthEndTime = sdf.format(thisMonthEndTimeDate);
@@ -142,7 +142,7 @@ public class DataF33FrozenDayController extends BaseController {
             lastMonthStartTimeDate.setDate(date.getDate() + i);
             lastMonthStartTimeDate.setMonth(date.getMonth() - 1);
             Date lastMonthEndTimeDate = new Date(date.getTime());
-            lastMonthEndTimeDate.setDate(date.getDate() + i + 2);
+            lastMonthEndTimeDate.setDate(date.getDate() + i + 1);
             lastMonthEndTimeDate.setMonth(date.getMonth() - 1);
 
             String lastMonthStartTime = sdf.format(lastMonthStartTimeDate);
@@ -156,7 +156,7 @@ public class DataF33FrozenDayController extends BaseController {
             lastYearStartTimeDate.setDate(date.getDate() + i);
             lastYearStartTimeDate.setYear(date.getYear() - 1);
             Date lastYearEndTimeDate = new Date(date.getTime());
-            lastYearEndTimeDate.setDate(date.getDate() + i + 2);
+            lastYearEndTimeDate.setDate(date.getDate() + i + 1);
             lastYearEndTimeDate.setYear(date.getYear() - 1);
 
             String lastYearStartTime = sdf.format(lastYearStartTimeDate);
@@ -172,6 +172,70 @@ public class DataF33FrozenDayController extends BaseController {
                 rate1 = dataF33FrozenDayService.calc(rate1, 1D, 1);
             }
             item.setRate1(rate1);
+
+            String rate2 = null;
+            if (null != differThisMonth && null != differLastYear && 0 != Double.valueOf(differLastYear)) {
+                rate2 = String.valueOf(((Double.valueOf(differThisMonth) - Double.valueOf(differLastYear)) * 100D) / Double.valueOf(differLastYear));
+                rate2 = dataF33FrozenDayService.calc(rate2, 1D, 1);
+            }
+            item.setRate1(rate2);
+
+            if (null != differThisMonth) {
+                result.add(item);
+            }
+        }
+
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f33/frozen/day/electricity/positiveactivepower/total/interval/month/statistic.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteLoadStatisticByNodesIntervalMonth(HttpServletRequest request,
+                                                                            HttpServletResponse response,
+                                                                            @RequestParam(value = "node", required = false) String node,
+                                                                            @RequestParam(value = "time", required = false) String time,
+                                                                            @RequestParam(value = "interval", required = false) Integer interval
+    ) throws ParseException {
+        List<DataF33FrozenDay> nodes = new Gson().fromJson(node, new TypeToken<List<DataF33FrozenDay>>() {
+        }.getType());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        Date date = sdf.parse(time);
+
+        List<StatisticF33TotalPositiveActivePower> result = new ArrayList<>();
+
+        for (int i = 0; i < interval + 1; i++) {
+            Date thisMonthStartTimeDate = new Date(date.getTime());
+            thisMonthStartTimeDate.setMonth(date.getMonth() + i);
+            Date thisMonthEndTimeDate = new Date(date.getTime());
+            thisMonthEndTimeDate.setMonth(date.getMonth() + i + 1);
+
+            String thisMonthStartTime = sdf.format(thisMonthStartTimeDate);
+            String thisMonthEndTime = sdf.format(thisMonthEndTimeDate);
+
+            StatisticF33TotalPositiveActivePower item = new StatisticF33TotalPositiveActivePower();
+
+            item.setClientOperationTime(thisMonthStartTime);
+
+            String differThisMonth = dataF33FrozenDayService.getDifferTotalPositiveActivePower(nodes, thisMonthStartTime, thisMonthEndTime);
+            item.setThisMonthTotalPositiveActivePower(dataF33FrozenDayService.calc(differThisMonth, 1D, 0));
+
+            //
+            Date lastYearStartTimeDate = new Date(date.getTime());
+            lastYearStartTimeDate.setMonth(date.getMonth() + i);
+            lastYearStartTimeDate.setYear(date.getYear() - 1);
+            Date lastYearEndTimeDate = new Date(date.getTime());
+            lastYearEndTimeDate.setMonth(date.getMonth() + i + 1);
+            lastYearEndTimeDate.setYear(date.getYear() - 1);
+
+            String lastYearStartTime = sdf.format(lastYearStartTimeDate);
+            String lastYearEndTime = sdf.format(lastYearEndTimeDate);
+
+            String differLastYear = dataF33FrozenDayService.getDifferTotalPositiveActivePower(nodes, lastYearStartTime, lastYearEndTime);
+            item.setLastYearTotalPositiveActivePower(dataF33FrozenDayService.calc(differLastYear, 1D, 0));
 
             String rate2 = null;
             if (null != differThisMonth && null != differLastYear && 0 != Double.valueOf(differLastYear)) {

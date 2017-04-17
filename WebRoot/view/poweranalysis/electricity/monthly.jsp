@@ -58,17 +58,18 @@
 
     <div class="easyui-panel" data-options="border:false"
          style="margin-bottom: 10px;height: 200px;width: 95%;">
-        <table id="dg-table" class="easyui-datagrid"
-               data-options="border:true,fit:true,rownumbers:true,singleSelect:true,fitColumns:true">
-            <thead>
-            <tr>
-                <th data-options="field:'time'" width="100" align="center">日期</th>
-                <th data-options="field:'currentData'" width="100" align="center">本期电量(kWh)</th>
-                <th data-options="field:'lastYearData'" width="100" align="center">去年同期电量(kWh)</th>
-                <th data-options="field:'rate2'" width="100" align="center">同比(%)</th>
-            </tr>
-            </thead>
-        </table>
+        <table id="dg-table"></table>
+        <%--<table id="dg-table" class="easyui-datagrid"--%>
+        <%--data-options="border:true,fit:true,rownumbers:true,singleSelect:true,fitColumns:true">--%>
+        <%--<thead>--%>
+        <%--<tr>--%>
+        <%--<th data-options="field:'time'" width="100" align="center">日期</th>--%>
+        <%--<th data-options="field:'currentData'" width="100" align="center">本期电量(kWh)</th>--%>
+        <%--<th data-options="field:'lastYearData'" width="100" align="center">去年同期电量(kWh)</th>--%>
+        <%--<th data-options="field:'rate2'" width="100" align="center">同比(%)</th>--%>
+        <%--</tr>--%>
+        <%--</thead>--%>
+        <%--</table>--%>
     </div>
 </div>
 </body>
