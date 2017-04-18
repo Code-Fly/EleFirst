@@ -3,10 +3,12 @@ package com.elefirst.login.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF33;
-import com.elefirst.power.service.iface.IDataF33Service;
-import com.elefirst.poweranalysis.po.PowerAnalysisLoadMaxF25;
-import com.elefirst.poweranalysis.service.iface.IPowerAnalysisService;
+import com.elefirst.power.po.DataF33FrozenDay;
+import com.elefirst.power.po.StatisticF25TotalActivePower;
+import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
+import com.elefirst.power.service.iface.IDataF33FrozenDayService;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IAreaInfoService;
@@ -24,7 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by barrie on 17/2/14.
@@ -40,10 +44,10 @@ public class IndexController extends BaseController {
     private IAreaInfoService areaInfoService;
 
     @Autowired
-    private IDataF33Service dataF33Service;
+    private IDataF33FrozenDayService dataF33FrozenDayService;
 
     @Autowired
-    private IPowerAnalysisService powerAnalysisService;
+    private IDataF25FrozenMinuteService dataF25FrozenMinuteService;
 
     @RequestMapping(value = "/summary/info.do")
     @ApiOperation(value = "统计信息", notes = "", httpMethod = "POST")
@@ -87,6 +91,16 @@ public class IndexController extends BaseController {
                     nodes.add(item);
                 }
 
+                List<DataF33FrozenDay> nodeF33FrozenDayList = new ArrayList<>();
+                for (int i = 0; i < nodes.size(); i++) {
+                    DataF33FrozenDay n = new DataF33FrozenDay();
+                    n.setAreaId(nodes.get(i).getAreaId());
+                    n.setConcentratorId(nodes.get(i).getConcentratorId());
+                    n.setPn(nodes.get(i).getPn());
+                    nodeF33FrozenDayList.add(n);
+                }
+
+
                 // 本月
                 Calendar thisMonth = Calendar.getInstance();
                 Calendar nextMonth = Calendar.getInstance();
@@ -95,7 +109,7 @@ public class IndexController extends BaseController {
                 String thisMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
                 String nextMonthStr = new SimpleDateFormat("yyyyMM").format(nextMonth.getTime()) + "01000000";
 
-                result.put("electricityThisMonth", getElectricity(pns, dataF33Service.getDataF33List(nodes, thisMonthStr, nextMonthStr)));
+                result.put("electricityThisMonth", getElectricity(pns, dataF33FrozenDayService.getDataF33FrozenDayList(nodeF33FrozenDayList, thisMonthStr, nextMonthStr)));
 
                 //上月
                 Calendar lastMonth = Calendar.getInstance();
@@ -103,7 +117,7 @@ public class IndexController extends BaseController {
 
                 String lastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
 
-                result.put("electricityLastMonth", getElectricity(pns, dataF33Service.getDataF33List(nodes, lastMonthStr, thisMonthStr)));
+                result.put("electricityLastMonth", getElectricity(pns, dataF33FrozenDayService.getDataF33FrozenDayList(nodeF33FrozenDayList, lastMonthStr, thisMonthStr)));
 
                 //上上月
                 Calendar lastLastMonth = Calendar.getInstance();
@@ -111,16 +125,20 @@ public class IndexController extends BaseController {
 
                 String lastLastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
 
-                result.put("electricityLastLastMonth", getElectricity(pns, dataF33Service.getDataF33List(nodes, lastLastMonthStr, lastMonthStr)));
+                result.put("electricityLastLastMonth", getElectricity(pns, dataF33FrozenDayService.getDataF33FrozenDayList(nodeF33FrozenDayList, lastLastMonthStr, lastMonthStr)));
 
 
                 //本月
-                Map<String, Object> param = new HashMap();
-                param.put("node", nodes);
-                param.put("start", thisMonthStr);
-                param.put("end", nextMonthStr);
+                List<DataF25FrozenMinute> nodeF25FrozenMinuteList = new ArrayList<>();
+                for (int i = 0; i < nodes.size(); i++) {
+                    DataF25FrozenMinute n = new DataF25FrozenMinute();
+                    n.setAreaId(nodes.get(i).getAreaId());
+                    n.setConcentratorId(nodes.get(i).getConcentratorId());
+                    n.setPn(nodes.get(i).getPn());
+                    nodeF25FrozenMinuteList.add(n);
+                }
 
-                result.put("maxLoadThisMonth", getTotalMaxLoad(pns, param));
+                result.put("maxLoadThisMonth", getTotalMaxLoad(nodeF25FrozenMinuteList, thisMonthStr, nextMonthStr));
 
                 //今年
                 Calendar thisYear = Calendar.getInstance();
@@ -129,20 +147,14 @@ public class IndexController extends BaseController {
                 nextYear.add(Calendar.YEAR, 1);
                 String nextYearStr = new SimpleDateFormat("yyyy").format(nextYear.getTime()) + "0101000000";
 
-                param = new HashMap();
-                param.put("node", nodes);
-                param.put("start", thisYearStr);
-                param.put("end", nextYearStr);
-
-                result.put("maxLoadThisYear", getTotalMaxLoad(pns, param));
+                result.put("maxLoadThisYear", getTotalMaxLoad(nodeF25FrozenMinuteList, thisYearStr, nextYearStr));
 
                 //历史
-                param = new HashMap();
-                param.put("node", nodes);
-                param.put("start", null);
-                param.put("end", null);
+                Calendar firstYear = Calendar.getInstance();
+                firstYear.add(Calendar.YEAR, -100);
+                String firstYearStr = new SimpleDateFormat("yyyy").format(firstYear.getTime()) + "0101000000";
 
-                result.put("maxLoadTotal", getTotalMaxLoad(pns, param));
+                result.put("maxLoadTotal", getTotalMaxLoad(nodeF25FrozenMinuteList, firstYearStr, nextMonthStr));
 
             }
         }
@@ -151,7 +163,62 @@ public class IndexController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
-    public double getElectricity(List<PnInfo> pns, List<DataF33> data) {
+    @RequestMapping(value = "/load/activepower/total/statistic.do")
+    @ApiOperation(value = "统计信息", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getLoadActivepowerStatistic(HttpServletRequest request,
+                                                HttpServletResponse response,
+                                                @RequestParam(value = "areaId") String areaId
+    ) {
+        AreaInfoWithBLOBs areaTemplate = new AreaInfoWithBLOBs();
+        areaTemplate.setAreaId(areaId);
+        List<AreaInfoWithBLOBs> areas = areaInfoService.getAreaInfoList(areaTemplate);
+
+        List<StatisticF25TotalActivePower> result = new ArrayList<>();
+
+        if (areas.size() > 0) {
+            String sTransformers = areas.get(0).getTransformers();
+            if (sTransformers != null && !sTransformers.isEmpty()) {
+                List<DataF25FrozenMinute> nodes = new ArrayList<>();
+                String masterPnId = areas.get(0).getMasterPnId();
+
+                DataF25FrozenMinute item = new DataF25FrozenMinute();
+                List<PnInfo> pn = pnInfoService.getPnInfoDetail(masterPnId);
+                if (pn.size() > 0) {
+                    item.setAreaId(pn.get(0).getAreaId());
+                    item.setConcentratorId(pn.get(0).getConcentratorId());
+                    item.setPn(pn.get(0).getPn());
+                    nodes.add(item);
+                }
+
+                // 今日
+                Calendar today = Calendar.getInstance();
+                Calendar tomorrow = Calendar.getInstance();
+                tomorrow.add(Calendar.DATE, 1);
+
+                String todayStr = new SimpleDateFormat("yyyyMMdd").format(today.getTime()) + "000000";
+                String tomorrowStr = new SimpleDateFormat("yyyyMMdd").format(tomorrow.getTime()) + "000000";
+
+                StatisticF25TotalActivePower s = new StatisticF25TotalActivePower();
+                s = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, todayStr, tomorrowStr);
+                result.add(s);
+
+                // 昨日
+                Calendar yesterday = Calendar.getInstance();
+                yesterday.add(Calendar.DATE, -1);
+                String yesterdayStr = new SimpleDateFormat("yyyyMMdd").format(yesterday.getTime()) + "000000";
+
+                s = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, yesterdayStr, todayStr);
+                result.add(s);
+
+            }
+
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    public double getElectricity(List<PnInfo> pns, List<DataF33FrozenDay> data) {
         double electricity = 0.0;
         for (int j = 0; j < pns.size(); j++) {
             String areaId = pns.get(j).getAreaId();
@@ -165,7 +232,7 @@ public class IndexController extends BaseController {
             int count = 0;
 
             for (int k = 0; k < data.size(); k++) {
-                DataF33 item = data.get(k);
+                DataF33FrozenDay item = data.get(k);
                 if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
                     count++;
                     if (item.getTotalpositiveactivepower() != null && Double.valueOf(item.getTotalpositiveactivepower()) < minVal) {
@@ -187,24 +254,9 @@ public class IndexController extends BaseController {
         return electricity;
     }
 
-    public double getTotalMaxLoad(List<PnInfo> pns, Map<String, Object> param) {
-        double totalLoad = 0;
+    public String getTotalMaxLoad(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
 
-        List<PowerAnalysisLoadMaxF25> list = powerAnalysisService.getLoadMax(param);
-
-        for (int j = 0; j < pns.size(); j++) {
-            String areaId = pns.get(j).getAreaId();
-            String concentratorId = pns.get(j).getConcentratorId();
-            String pn = pns.get(j).getPn();
-            Double ct = pns.get(j).getCt();
-            Double pt = pns.get(j).getPt();
-            for (int i = 0; i < list.size(); i++) {
-                PowerAnalysisLoadMaxF25 item = list.get(i);
-                if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
-                    totalLoad += (Double.valueOf(list.get(i).getMaxTotalActivePower()) * ct * pt);
-                }
-            }
-        }
-        return totalLoad;
+        return item.getMaxTotalActivePower();
     }
 }

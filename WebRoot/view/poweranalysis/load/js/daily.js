@@ -27,93 +27,53 @@ $(document).ready(function () {
     });
 
     $("#dg-table").datagrid({
+        url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/list.do",
+        method: "POST",
         singleSelect: true,
         rownumbers: true,
         fitColumns: true,
         columns: [[
             {
-                field: "clientoperationtime",
+                field: "maxTotalActivePowerTime",
                 title: "日期",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var y = value.substr(0, 4);
-                    var m = value.substr(4, 2);
-                    var d = value.substr(6, 2);
-
-                    return y + "-" + m + "-" + d;
-                }
+                formatter: DataGridUtils.dateToDayFormatter
             },
             {
                 field: "maxTotalActivePower",
                 title: "最大负荷(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(value);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
+                formatter: DataGridUtils.strFormatter
             },
             {
                 field: "minTotalActivePower",
                 title: "最小负荷(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(value);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
+                formatter: DataGridUtils.strFormatter
             },
             {
                 field: "avgTotalActivePower",
                 title: "平均负荷(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(value);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
+                formatter: DataGridUtils.strFormatter
             },
             {
                 field: "differ",
                 title: "峰谷差(kW)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(row.maxTotalActivePower) - parseFloat(row.minTotalActivePower);
-                    var pt = row.pt;
-                    var ct = row.ct;
-                    t = t * pt * ct;
-                    t = DataGridUtils.floatFormatter(t, 3);
-                    return t;
-                }
+                formatter: DataGridUtils.strFormatter
             },
             {
-                field: "rate",
+                field: "loadRate",
                 title: "负荷率(%)",
                 align: "center",
                 width: 100,
-                formatter: function (value, row, index) {
-                    var t = parseFloat(row.avgTotalActivePower) / parseFloat(row.maxTotalActivePower);
-                    t = t * 100;
-                    t = DataGridUtils.floatFormatter(t, 1);
-                    if (parseFloat(row.maxTotalActivePower) == 0) {
-                        t = "-";
-                    }
-                    return t;
-                }
+                formatter: DataGridUtils.strFormatter
             }
         ]]
     });
@@ -134,6 +94,18 @@ $(document).ready(function () {
             // }
 
             getLoadDetailChart({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
+
+            getLoadDetailTable({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
+
+            getLoadDetailList({
                 nodes: _nodes,
                 time: $("#datebox-time-start").datebox("getValue"),
                 interval: interval
@@ -167,7 +139,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/day/node/sum.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/sum.do",
             type: "POST",
             cache: false,
             data: {
@@ -215,7 +187,7 @@ $(document).ready(function () {
 
                         config
                             .setShared(true)
-                            .setZoom(true)
+                            .setZoom(false)
                             .setSeries(series)
                             .setDataGroupingByDay();
 
@@ -239,94 +211,172 @@ $(document).ready(function () {
         });
     }
 
-    function getTbData(data) {
-        var tmp = {
-            maxTotalActivePower: ChartUtils.MIN_CHART_NUMBER,
-            maxTotalActivePowerTime: "",
-            minTotalActivePower: ChartUtils.MAX_CHART_NUMBER,
-            minTotalActivePowerTime: "",
-            avgTotalActivePower: 0,
-        };
-        for (var i = 0; i < data.length; i++) {
-            var max = parseFloat(data[i].maxTotalActivePower) * data[i].pt * data[i].ct;
-            max = DataGridUtils.floatFormatter(max, 3);
-            if (max > tmp.maxTotalActivePower) {
-                tmp.maxTotalActivePower = max;
-                tmp.maxTotalActivePowerTime = data[i].clientoperationtime;
-            }
+    function getLoadDetailTable(row) {
+        var pnList = getPnDetail(row.nodes);
 
-            var min = parseFloat(data[i].minTotalActivePower) * data[i].pt * data[i].ct;
-            min = DataGridUtils.floatFormatter(min, 3);
-            if (min < tmp.minTotalActivePower) {
-                tmp.minTotalActivePower = min;
-                tmp.minTotalActivePowerTime = data[i].clientoperationtime;
-            }
-            if (data[i].avgTotalActivePower != null) {
-                var avg = parseFloat(data[i].avgTotalActivePower) * data[i].pt * data[i].ct;
-
-                tmp.avgTotalActivePower += avg;
-            }
+        var time = new Date().format("yyyy-MM-dd");
+        var interval = 6;
+        if (row.time != null && row.time != "") {
+            time = row.time;
+            interval = row.interval;
         }
-        tmp.avgTotalActivePower = tmp.avgTotalActivePower / parseFloat(data.length);
-        tmp.avgTotalActivePower = DataGridUtils.floatFormatter(tmp.avgTotalActivePower, 3);
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        var startDate = new Date(y, m, d);
+        var endDate = new Date(y, m, d);
+        endDate.setDate(endDate.getDate() + interval + 1);
+
+        var startTime = startDate.format('yyyyMMdd') + "000000";
+        var endTime = endDate.format('yyyyMMdd') + "000000";
+
+        $.ajax({
+            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic.do",
+            type: "POST",
+            cache: false,
+            data: {
+                node: JSON.stringify(pnList),
+                startTime: startTime,
+                endTime: endTime
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var item = r.data;
+
+                        if (null != item.maxTotalActivePower) {
+                            $("#maxTotalActivePower").text(item.maxTotalActivePower + "(kW)");
+                        } else {
+                            $("#maxTotalActivePower").text("--");
+                        }
+                        if (null != item.minTotalActivePower) {
+                            $("#minTotalActivePower").text(item.minTotalActivePower + "(kW)");
+                        } else {
+                            $("#minTotalActivePower").text("--");
+                        }
+                        if (null != item.avgTotalActivePower) {
+                            $("#avgTotalActivePower").text(item.avgTotalActivePower + "(kW)");
+                        } else {
+                            $("#avgTotalActivePower").text("--");
+                        }
+                        if (null != item.maxTotalActivePowerTime) {
+                            $("#maxTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.maxTotalActivePowerTime).format("MM-dd"));
+                        } else {
+                            $("#maxTotalActivePowerTime").text("--");
+                        }
+                        if (null != item.minTotalActivePowerTime) {
+                            $("#minTotalActivePowerTime").text(TimeUtils.dbTimeToDate(item.minTotalActivePowerTime).format("MM-dd"));
+                        } else {
+                            $("#minTotalActivePowerTime").text("--");
+                        }
+                        if (null != item.differ) {
+                            $("#differ").text(item.differ + "(kW)");
+                        } else {
+                            $("#differ").text("--");
+                        }
+                        if (null != item.differRate) {
+                            $("#differRate").text(item.differRate + "(%)");
+                        } else {
+                            $("#differRate").text("--");
+                        }
+                        if (null != item.loadRate) {
+                            $("#loadRate").text(item.loadRate + "(%)");
+                        } else {
+                            $("#loadRate").text("--");
+                        }
 
 
-        $("#maxTotalActivePower").text(tmp.maxTotalActivePower + "(kW)");
-        $("#minTotalActivePower").text(tmp.minTotalActivePower + "(kW)");
-        $("#avgTotalActivePower").text(tmp.avgTotalActivePower + "(kW)");
-
-        var maxTime = tmp.maxTotalActivePowerTime.substr(0, 4) + "-" + tmp.maxTotalActivePowerTime.substr(4, 2) + "-" + tmp.maxTotalActivePowerTime.substr(6, 2);
-        $("#maxTotalActivePowerTime").text(maxTime);
-
-        var minTime = tmp.minTotalActivePowerTime.substr(0, 4) + "-" + tmp.minTotalActivePowerTime.substr(4, 2) + "-" + tmp.minTotalActivePowerTime.substr(6, 2);
-        $("#minTotalActivePowerTime").text(minTime);
-
-        var differ = tmp.maxTotalActivePower - tmp.minTotalActivePower;
-        differ = DataGridUtils.floatFormatter(differ, 3) + "(kW)";
-        $("#differ").text(differ);
-
-        var differRate = ((tmp.maxTotalActivePower - tmp.minTotalActivePower) / tmp.maxTotalActivePower) * 100
-        differRate = DataGridUtils.floatFormatter(differRate, 1) + "(%)";
-        if (tmp.maxTotalActivePower == 0) {
-            differRate = "-";
-        }
-        $("#differRate").text(differRate);
-
-        var loadRate = (tmp.avgTotalActivePower / tmp.maxTotalActivePower) * 100
-        loadRate = DataGridUtils.floatFormatter(loadRate, 1) + "(%)";
-        if (tmp.maxTotalActivePower == 0) {
-            loadRate = "-";
-        }
-        $("#loadRate").text(loadRate);
-
-
-        return tmp;
-    }
-
-    function getDgData(data, pnList) {
-        var tmp = {};
-        for (var i = 0; i < data.length; i++) {
-            var day = data[i].clientoperationtime.substr(0, 8);
-            if (!tmp.hasOwnProperty(day)) {
-                tmp[day] = data[i];
-            } else {
-                var item = clone(tmp[day]);
-                item.maxTotalActivePower = parseFloat(item.maxTotalActivePower) + parseFloat(data[i].maxTotalActivePower);
-                item.minTotalActivePower = parseFloat(item.minTotalActivePower) + parseFloat(data[i].minTotalActivePower);
-                item.avgTotalActivePower = parseFloat(item.avgTotalActivePower) + parseFloat(data[i].avgTotalActivePower);
-                tmp[day] = item;
-            }
-        }
-        var nData = [];
-        $.each(tmp, function (i, n) {
-            for (var j = 0; j < pnList.length; j++) {
-                var target = clone(n);
-                if (pnList[j].areaId == n.areaId && pnList[j].concentratorId == n.concentratorId && pnList[j].pn == n.pn) {
-                    nData.push($.extend(target, pnList[j]));
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                    }
+                } else {
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
                 }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
             }
         });
-        return nData;
+    }
+
+    function getLoadDetailList(row) {
+        var pnList = getPnDetail(row.nodes);
+
+        var time = new Date().format("yyyy-MM-dd");
+        var interval = 6;
+        if (row.time != null && row.time != "") {
+            time = row.time;
+            interval = row.interval;
+        }
+
+        var ss = time.split('-');
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10) - 1;
+        var d = parseInt(ss[2], 10);
+
+        var times = [];
+        for (var i = 0; i < interval + 1; i++) {
+
+            var cur = new Date(y, m, d);
+            cur.setDate(cur.getDate() + i);
+
+            var next = new Date(y, m, d);
+            next.setDate(next.getDate() + i + 1);
+
+            times.push({
+                startTime: cur.format('yyyyMMdd') + "000000",
+                endTime: next.format('yyyyMMdd') + "000000"
+            });
+        }
+
+        $("#dg-table").datagrid("reload", {
+            node: JSON.stringify(pnList),
+            time: JSON.stringify(times)
+        });
+
+        return;
+
+        $.ajax({
+            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/list.do",
+            type: "POST",
+            cache: false,
+            data: {
+                node: JSON.stringify(pnList),
+                time: JSON.stringify(times)
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+
+                        $("#dg-table").datagrid("loadData", r.data);
+                        console.log(JSON.stringify(r.data))
+
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                    }
+                } else {
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
+            }
+        });
     }
 
     function getPnDetail(nodes) {
@@ -357,11 +407,25 @@ $(document).ready(function () {
 
         $("#datebox-time-end").datebox("setValue", endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate());
 
-        getLoadDetailChart({
-            nodes: _nodes,
-            time: $("#datebox-time-start").datebox("getValue"),
-            interval: DEFAULT_INTERVAL
-        });
+        setTimeout(function () {
+            getLoadDetailChart({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: DEFAULT_INTERVAL
+            });
+
+            getLoadDetailTable({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: DEFAULT_INTERVAL
+            });
+
+            getLoadDetailList({
+                nodes: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: DEFAULT_INTERVAL
+            });
+        }, 500);
     }
 
     function getDateInterval(s1, s2) {

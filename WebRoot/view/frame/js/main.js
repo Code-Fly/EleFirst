@@ -84,7 +84,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/list.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/list.do",
             type: "POST",
             cache: false,
             data: {
@@ -138,7 +138,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/list.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/list.do",
             type: "POST",
             cache: false,
             data: {
@@ -182,6 +182,59 @@ $(document).ready(function () {
                 _spinner.unload();
             }
         });
+
+        $.ajax({
+            url: _ctx + "index/load/activepower/total/statistic.do",
+            type: "POST",
+            cache: false,
+            data: {
+                areaId: _areaId
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var item = r.data;
+
+                        if (null != item[0].maxTotalActivePower) {
+                            $("#today-max-load").text(item[0].maxTotalActivePower + "(kW)");
+                        } else {
+                            $("#today-max-load").text("--");
+                        }
+                        if (null != item[0].maxTotalActivePowerTime) {
+                            $("#today-max-load-time").text(TimeUtils.dbTimeToDate(item[0].maxTotalActivePowerTime).format("hh:mm"));
+                        } else {
+                            $("#today-max-load-time").text("--");
+                        }
+
+                        if (null != item[1].maxTotalActivePower) {
+                            $("#yesterday-max-load").text(item[1].maxTotalActivePower + "(kW)");
+                        } else {
+                            $("#yesterday-max-load").text("--");
+                        }
+                        if (null != item[1].maxTotalActivePowerTime) {
+                            $("#yesterday-max-load-time").text(TimeUtils.dbTimeToDate(item[1].maxTotalActivePowerTime).format("hh:mm"));
+                        } else {
+                            $("#yesterday-max-load-time").text("--");
+                        }
+
+
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                    }
+                } else {
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
+            }
+        });
     }
 
     function getElectricityDetailChart(param) {
@@ -196,7 +249,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMMdd') + "000000";
 
         $.ajax({
-            url: _ctx + "power/data/f33/node/list.do",
+            url: _ctx + "power/data/f33/frozen/day/node/sum.do",
             type: "POST",
             cache: false,
             data: {

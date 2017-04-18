@@ -102,6 +102,20 @@ public class DataF25Service extends BaseService implements IDataF25Service {
                     .andClientoperationtimeGreaterThanOrEqualTo(startTime)
                     .andClientoperationtimeLessThan(endTime)
                     .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
             ;
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
@@ -127,6 +141,20 @@ public class DataF25Service extends BaseService implements IDataF25Service {
                 .andClientoperationtimeGreaterThanOrEqualTo(time)
                 .andClientoperationtimeLessThan(endTime)
                 .andClientoperationtimeIsNotNull()
+                //
+                .andTotalactivepowerIsNotNull()
+                .andAActivepowerIsNotNull()
+                .andBActivepowerIsNotNull()
+                .andCActivepowerIsNotNull()
+                .andAVoltageIsNotNull()
+                .andBVoltageIsNotNull()
+                .andCVoltageIsNotNull()
+                .andACurrentIsNotNull()
+                .andBCurrentIsNotNull()
+                .andCCurrentIsNotNull()
+                .andAPowerfactorIsNotNull()
+                .andBPowerfactorIsNotNull()
+                .andBPowerfactorIsNotNull()
         ;
 
         condition.setOrderByClause("`clientOperationTime` ASC");
@@ -155,6 +183,20 @@ public class DataF25Service extends BaseService implements IDataF25Service {
                         .andClientoperationtimeGreaterThanOrEqualTo(times.get(j))
                         .andClientoperationtimeLessThan(endTime)
                         .andClientoperationtimeIsNotNull()
+                        //
+                        .andTotalactivepowerIsNotNull()
+                        .andAActivepowerIsNotNull()
+                        .andBActivepowerIsNotNull()
+                        .andCActivepowerIsNotNull()
+                        .andAVoltageIsNotNull()
+                        .andBVoltageIsNotNull()
+                        .andCVoltageIsNotNull()
+                        .andACurrentIsNotNull()
+                        .andBCurrentIsNotNull()
+                        .andCCurrentIsNotNull()
+                        .andAPowerfactorIsNotNull()
+                        .andBPowerfactorIsNotNull()
+                        .andBPowerfactorIsNotNull()
                 ;
             }
         }
@@ -184,6 +226,20 @@ public class DataF25Service extends BaseService implements IDataF25Service {
                     .andClientoperationtimeGreaterThanOrEqualTo(time)
                     .andClientoperationtimeLessThan(endTime)
                     .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
             ;
         }
 
@@ -277,7 +333,76 @@ public class DataF25Service extends BaseService implements IDataF25Service {
         return result;
     }
 
-    private PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25 item) {
+    @Override
+    public List<DataF25> getMaxValue(List<DataF25> nodes, String startTime, String endTime, String key) {
+        DataF25Example condition = new DataF25Example();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25 node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`" + key + "` DESC");
+        condition.setLimitStart(0);
+        condition.setLimitEnd(1);
+        return dataF25DAO.getDataF25SumList(condition);
+    }
+
+    @Override
+    public List<DataF25> getMinValue(List<DataF25> nodes, String startTime, String endTime, String key) {
+        DataF25Example condition = new DataF25Example();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25 node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`" + key + "` ASC");
+        condition.setLimitStart(0);
+        condition.setLimitEnd(1);
+        return dataF25DAO.getDataF25SumList(condition);
+    }
+
+    @Override
+    public PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25 item) {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
             if (pnInfo.getAreaId().equals(item.getAreaId()) && pnInfo.getConcentratorId().equals(item.getConcentratorId()) && pnInfo.getPn().equals(item.getPn())) {
@@ -287,7 +412,8 @@ public class DataF25Service extends BaseService implements IDataF25Service {
         return null;
     }
 
-    private String calc(String org, Double num, Integer precision) {
+    @Override
+    public String calc(String org, Double num, Integer precision) {
         if (null != org) {
             if (null == precision) {
                 return String.valueOf(Double.valueOf(org) * num);

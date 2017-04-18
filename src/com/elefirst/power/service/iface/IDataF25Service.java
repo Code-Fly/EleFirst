@@ -1,6 +1,7 @@
 package com.elefirst.power.service.iface;
 
 import com.elefirst.power.po.DataF25;
+import com.elefirst.system.po.PnInfo;
 
 import java.text.ParseException;
 import java.util.List;
@@ -35,4 +36,15 @@ public interface IDataF25Service {
     int delDataF25(String id);
 
     List<DataF25> format(List<DataF25> data);
+
+    PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25 item);
+
+    String calc(String org, Double num, Integer precision);
+
+    //
+
+    List<DataF25> getMaxValue(List<DataF25> nodes, String startTime, String endTime, String key);
+
+    List<DataF25> getMinValue(List<DataF25> nodes, String startTime, String endTime, String key);
+
 }

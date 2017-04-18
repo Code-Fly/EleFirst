@@ -25,6 +25,7 @@ public class SparkExample extends Example {
 
         String tmpTbName = "t_" + new Date().getTime();
         String newSql = "SELECT * FROM ( " + querySql(sql) + " ) " + tmpTbName + " LIMIT " + (page * rows);
+        System.out.println(newSql);
 
         return newSql;
     }

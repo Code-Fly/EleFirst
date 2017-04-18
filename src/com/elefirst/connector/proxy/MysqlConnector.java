@@ -4,7 +4,6 @@ import com.elefirst.base.utils.DBUtils;
 import com.elefirst.connector.entity.DbColumnInfo;
 import com.elefirst.connector.example.Example;
 import com.elefirst.connector.example.MysqlExample;
-import org.apache.log4j.PropertyConfigurator;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -149,9 +148,7 @@ public class MysqlConnector extends DbConnector {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        PropertyConfigurator.configure("/Users/barrie/Documents/Workspaces/MyEclipse/EleFirst/WebRoot/WEB-INF/conf/log4j.properties");
-
-        MysqlConnector connector = new MysqlConnector("116.62.102.138", 3306, false, "root", "c45d36576b");
+        MysqlConnector connector = new MysqlConnector("127.0.0.1", 3306, false, "rhino", "rhino");
 //        System.out.println(connector.getDatabaseList());
 //        System.out.println(connector.getTableList("power"));
 //        System.out.println(connector.getColumnInfo("power", "t_012_type_one_data_fn57"));
@@ -160,7 +157,7 @@ public class MysqlConnector extends DbConnector {
         MysqlExample.Criteria criteria = condition.createCriteria();
         criteria.andIsNotNull("id");
         criteria.andGreaterThan("pn", "1");
-        criteria.andBetween("sendTime", "20170217000000", "20170225000000");
+        criteria.andBetween("sendTime", "20170217000000", "20170222000000");
         criteria.andEqualTo("area_id", "1");
         List<Object> list = new ArrayList<>();
         list.add("417");
@@ -170,23 +167,8 @@ public class MysqlConnector extends DbConnector {
         condition.setRows(2);
         condition.setOrderByClause("`sendTime` ASC");
 
-        System.out.println(condition.pageSql("SELECT a.*,b.A_harmonicCurrent,b.A_harmonicVoltage,b.B_harmonicCurrent,b.B_harmonicVoltage,b.C_harmonicCurrent,b.C_harmonicVoltage as b_C_harmonicVoltage FROM power.t_012_type_one_data_fn57 a JOIN power.t_013_type_one_data_fn57_harmonic b ON a.id = b.id"));
         System.out.println(connector.getResult("SELECT a.*,b.A_harmonicCurrent,b.A_harmonicVoltage,b.B_harmonicCurrent,b.B_harmonicVoltage,b.C_harmonicCurrent,b.C_harmonicVoltage as b_C_harmonicVoltage FROM power.t_012_type_one_data_fn57 a JOIN power.t_013_type_one_data_fn57_harmonic b ON a.id = b.id", condition));
         System.out.println(connector.getResultCount("SELECT a.*,b.A_harmonicCurrent,b.A_harmonicVoltage,b.B_harmonicCurrent,b.B_harmonicVoltage,b.C_harmonicCurrent,b.C_harmonicVoltage as b_C_harmonicVoltage FROM power.t_012_type_one_data_fn57 a JOIN power.t_013_type_one_data_fn57_harmonic b ON a.id = b.id", condition));
         System.out.println(connector.getResultColumnInfo("SELECT a.*,b.A_harmonicCurrent,b.A_harmonicVoltage,b.B_harmonicCurrent,b.B_harmonicVoltage,b.C_harmonicCurrent,b.C_harmonicVoltage as b_C_harmonicVoltage FROM power.t_012_type_one_data_fn57 a JOIN power.t_013_type_one_data_fn57_harmonic b ON a.id = b.id"));
-
-        condition = new MysqlExample();
-        condition.or()
-                .andIsNotNull("id")
-                .andEqualTo("pn", "1")
-                .andGreaterThanOrEqualTo("area_id", "1");
-        condition.or()
-                .andIsNotNull("id")
-                .andEqualTo("pn", "5")
-                .andGreaterThanOrEqualTo("area_id", "1");
-        condition.setPage(1);
-        condition.setRows(2);
-        System.out.println(connector.getResult("SELECT a.*,b.A_harmonicCurrent,b.A_harmonicVoltage,b.B_harmonicCurrent,b.B_harmonicVoltage,b.C_harmonicCurrent,b.C_harmonicVoltage as b_C_harmonicVoltage FROM power.t_012_type_one_data_fn57 a JOIN power.t_013_type_one_data_fn57_harmonic b ON a.id = b.id", condition));
-
     }
 }

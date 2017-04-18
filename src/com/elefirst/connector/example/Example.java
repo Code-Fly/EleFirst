@@ -1,5 +1,6 @@
 package com.elefirst.connector.example;
 
+import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -214,10 +215,6 @@ public abstract class Example {
             addCriterion(formatColumn(name) + " not between", value1, value2, name);
             return (Criteria) this;
         }
-
-        private String formatColumn(Object value) {
-            return DELIMITER_BEGINNING + value + DELIMITER_ENDDING;
-        }
     }
 
     public static class Criterion {
@@ -310,29 +307,19 @@ public abstract class Example {
         StringBuilder newSql = new StringBuilder();
         List<Criteria> criterias = getOredCriteria();
         boolean whereClause = false;
-        for (int i = 0; i < criterias.size(); i++) {
-            if (criterias.get(i).isValid()) {
-                for (int j = 0; j < criterias.get(i).getAllCriteria().size(); j++) {
-                    if (!whereClause) {
-                        whereClause = true;
-                    }
-                }
-            }
-        }
-
-        if (whereClause) {
-            newSql.append("WHERE ");
-        }
 
         for (int i = 0; i < criterias.size(); i++) {
             if (i > 0) {
                 newSql.append("OR ");
             }
-            newSql.append("( ");
             if (criterias.get(i).isValid()) {
-                List<Criterion> criterions = criterias.get(i).getAllCriteria();
+                List<Example.Criterion> criterions = criterias.get(i).getAllCriteria();
 
                 for (int j = 0; j < criterions.size(); j++) {
+                    if (!whereClause) {
+                        newSql.append("WHERE ");
+                        whereClause = true;
+                    }
                     if (j > 0) {
                         newSql.append("AND ");
                     }
@@ -370,7 +357,6 @@ public abstract class Example {
                     newSql.append(") ");
                 }
             }
-            newSql.append(") ");
         }
         return newSql.toString();
     }
@@ -407,6 +393,10 @@ public abstract class Example {
     }
 
     abstract public String pageSql(String sql) throws SQLException;
+
+    protected static String formatColumn(Object value) {
+        return DELIMITER_BEGINNING + value + DELIMITER_ENDDING;
+    }
 
     protected static String formatValue(Object value) {
         return "'" + value + "'";

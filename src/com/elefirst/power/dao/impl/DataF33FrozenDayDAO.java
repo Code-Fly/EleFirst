@@ -2,6 +2,7 @@ package com.elefirst.power.dao.impl;
 
 import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.power.dao.iface.IDataF33FrozenDayDAO;
+import com.elefirst.power.mapper.DataF33FrozenDayCustomMapper;
 import com.elefirst.power.mapper.DataF33FrozenDayMapper;
 import com.elefirst.power.po.DataF33FrozenDay;
 import com.elefirst.power.po.DataF33FrozenDayExample;
@@ -18,9 +19,17 @@ public class DataF33FrozenDayDAO extends BaseDAO implements IDataF33FrozenDayDAO
     @Autowired
     private DataF33FrozenDayMapper dataF33FrozenDayMapper;
 
+    @Autowired
+    private DataF33FrozenDayCustomMapper dataF33FrozenDayCustomMapper;
+
     @Override
     public List<DataF33FrozenDay> getDataF33FrozenDayList(DataF33FrozenDayExample example) {
         return dataF33FrozenDayMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<DataF33FrozenDay> getDataF33FrozenDaySumList(DataF33FrozenDayExample example) {
+        return dataF33FrozenDayCustomMapper.selectSumByExample(example);
     }
 
     @Override

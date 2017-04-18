@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/27.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     $("#datebox-time").datebox("calendar").calendar({
         firstDay: 1
     });
@@ -171,7 +173,10 @@ $(document).ready(function () {
                 nodes.push({
                     areaId: areaId,
                     concentratorId: concentratorId,
-                    pn: pn
+                    pn: pn,
+                    ct: ct,
+                    pt: pt,
+                    name: name
                 })
             }
 
@@ -183,14 +188,20 @@ $(document).ready(function () {
                 var m = parseInt(ss[1], 10) - 1;
                 var d = parseInt(ss[2], 10);
 
-                times.push(
-                    new Date(y, m, d).format('yyyyMMdd') + "000000"
-                )
+                var cur = new Date(y, m, d);
+
+                var next = new Date(y, m, d);
+                next.setDate(next.getDate() + 1);
+
+                times.push({
+                    startTime: cur.format('yyyyMMdd') + "000000",
+                    endTime: next.format('yyyyMMdd') + "000000"
+                });
             }
 
             if ($("#switch-total").switchbutton("options").checked) {
                 $.ajax({
-                    url: _ctx + "power/data/f25/frozen/day/node/time/sum.do",
+                    url: _ctx + "power/data/f25/frozen/minute/node/time/sum.do",
                     type: "POST",
                     cache: false,
                     data: {
@@ -203,30 +214,11 @@ $(document).ready(function () {
                                 var series = [];
 
                                 // $.messager.alert("操作提示", JSON.stringify(r.data));
-                                var nodes = [];
-                                for (var i = 0; i < nodeStr.length; i++) {
-                                    var areaId = (nodeStr[i].value + "").split(":")[0];
-                                    var concentratorId = (nodeStr[i].value + "").split(":")[1];
-                                    var pn = (nodeStr[i].value + "").split(":")[2];
-                                    var pt = parseFloat((nodeStr[0].value + "").split(":")[3]);
-                                    var ct = parseFloat((nodeStr[0].value + "").split(":")[4]);
-                                    var name = nodeStr[i].name;
-
-                                    nodes.push({
-                                        areaId: areaId,
-                                        concentratorId: concentratorId,
-                                        pn: pn,
-                                        pt: pt,
-                                        ct: ct,
-                                        name: name
-                                    });
-                                }
-
                                 for (var i = 0; i < r.data.length; i++) {
-                                    if (r.data[i].length > 0) {
-                                        var ss = r.data[i][0].clientoperationtime;
-                                        var date = TimeUtils.dbTimeToDate(ss);
+                                    var ss = r.data[i][0].clientoperationtime;
+                                    var date = TimeUtils.dbTimeToDate(ss);
 
+                                    if (r.data[i].length > 0) {
                                         var item = ChartUtils.getLoadAllByHourSeries({
                                             name: date.format("yyyy-MM-dd")
                                         }, r.data[i]);
@@ -234,15 +226,14 @@ $(document).ready(function () {
                                     }
                                 }
 
-                                var config = $.parseJSON($.ajax({
-                                    url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                    type: "GET",
-                                    async: false
-                                }).responseText);
+                                var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                                config.series = series;
+                                config
+                                    .setShared(true)
+                                    .setZoom(true)
+                                    .setSeries(series);
 
-                                $("#chart-load").highcharts("StockChart", config);
+                                $("#chart-load").highcharts("StockChart", config.getConfig());
                             } else {
                                 jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
@@ -251,18 +242,18 @@ $(document).ready(function () {
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
+                        _spinner.load();
                     },
                     error: function (request) {
                         jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
+                        _spinner.unload();
                     }
                 });
             } else {
                 $.ajax({
-                    url: _ctx + "power/data/f25/frozen/day/node/time/list.do",
+                    url: _ctx + "power/data/f25/frozen/minute/node/time/list.do",
                     type: "POST",
                     cache: false,
                     data: {
@@ -293,6 +284,7 @@ $(document).ready(function () {
                                         name: name
                                     });
                                 }
+
 
                                 for (var i = 0; i < r.data.length; i++) {
                                     if (r.data[i].length > 0) {
@@ -304,7 +296,6 @@ $(document).ready(function () {
                                         var pn = r.data[i][0].pn;
 
                                         var node = getNode(areaId, concentratorId, pn, nodes);
-
                                         var item = ChartUtils.getLoadAllByHourSeries({
                                             name: node.name + "(" + date.format("yyyy-MM-dd") + ")"
                                         }, r.data[i]);
@@ -312,17 +303,14 @@ $(document).ready(function () {
                                     }
                                 }
 
-                                var config = $.parseJSON($.ajax({
-                                    url: _ctx + "view/chart/spline-date-all-load.json?bust=" + new Date().getTime(),
-                                    type: "GET",
-                                    async: false
-                                }).responseText);
+                                var config = new ChartConfig("view/chart/spline-date-all-load.json");
 
-                                // config.tooltip.shared = false;
+                                config
+                                    .setShared(true)
+                                    .setZoom(true)
+                                    .setSeries(series);
 
-                                config.series = series;
-
-                                $("#chart-load").highcharts("StockChart", config);
+                                $("#chart-load").highcharts("StockChart", config.getConfig());
                             } else {
                                 jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
@@ -331,221 +319,74 @@ $(document).ready(function () {
                         }
                     },
                     beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
+                        _spinner.load();
                     },
                     error: function (request) {
                         jError("请求失败！" + ErrUtils.getMsg("3"));
                     },
                     complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
+                        _spinner.unload();
                     }
                 });
             }
 
-            return
-
-
-            for (var i = 0; i < nodeStr.length; i++) {
-                var paramTable = {
-                    node: [],
-                    time: []
-                }
-
-                var areaId = (nodeStr[i].value + "").split(":")[0];
-                var concentratorId = (nodeStr[i].value + "").split(":")[1];
-                var pn = (nodeStr[i].value + "").split(":")[2];
-                var pt = parseFloat((nodeStr[i].value + "").split(":")[3]);
-                var ct = parseFloat((nodeStr[i].value + "").split(":")[4]);
-                var name = nodeStr[i].name;
-                paramTable.node.push({
-                    areaId: areaId,
-                    concentratorId: concentratorId,
-                    pn: pn
-                });
-
-                for (var j = 0; j < time.length; j++) {
-                    var ss = time[j].value.split('-');
-                    var y = parseInt(ss[0], 10);
-                    var m = parseInt(ss[1], 10) - 1;
-                    var d = parseInt(ss[2], 10);
-
-                    paramTable.time.push(
-                        new Date(y, m, d).format('yyyyMMdd') + "000000"
-                    )
-                }
-
-                $.ajax({
-                    url: _ctx + "poweranalysis/comparison/load/daily/table.do",
-                    type: "POST",
-                    cache: false,
-                    contentType: "text/plain;charset=UTF-8",
-                    data: JSON.stringify(paramTable),
-                    success: function (r, textStatus, jqXHR) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                // $.messager.alert("操作提示", JSON.stringify(r.data));
+            $.ajax({
+                url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/node/list.do",
+                type: "POST",
+                cache: false,
+                data: {
+                    node: JSON.stringify(nodes),
+                    time: JSON.stringify(times)
+                },
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            for (var i = 0; i < nodes.length; i++) {
                                 var d = [];
+
                                 for (var j = 0; j < r.data.length; j++) {
-                                    var time = r.data[j].clientoperationtime + "";
-                                    var totalactivepower = parseFloat(r.data[j].maxTotalActivePower) * pt * ct;
-                                    totalactivepower = DataGridUtils.floatFormatter(totalactivepower);
-                                    d.push({
-                                        clientOperationTime: (formatDbTimestamp(time) + "").substr(0, 10),
-                                        totalactivepower: totalactivepower,
-                                        currentClientOperationTime: (formatDbTimestamp(time) + "").substr(11, 5)
-                                    })
+                                    if (nodes[i].areaId == r.data[j].areaId && nodes[i].concentratorId == r.data[j].concentratorId && nodes[i].pn == r.data[j].pn) {
+                                        d.push({
+                                            clientOperationTime: (formatDbTimestamp(r.data[j].maxTotalActivePowerTime) + "").substr(0, 10),
+                                            totalactivepower: r.data[j].maxTotalActivePower,
+                                            currentClientOperationTime: (formatDbTimestamp(r.data[j].maxTotalActivePowerTime) + "").substr(11, 5)
+                                        })
+                                    }
                                 }
 
-                                if (r.data.length > 0) {
-                                    $(".table-" + r.data[0].areaId + "-" + r.data[0].concentratorId + "-" + r.data[0].pn).datagrid("loadData", d);
+                                if (d.length > 0) {
+                                    $(".table-" + nodes[i].areaId + "-" + nodes[i].concentratorId + "-" + nodes[i].pn).datagrid("loadData", d);
                                 }
-                            } else {
-                                jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                             }
                         } else {
-                            jError("请求失败！" + ErrUtils.getMsg("2"));
+                            jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                         }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        if (!$("#tab-table").tabs("getTab", name)) {
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg("2"));
+                    }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    for (var i = 0; i < nodes.length; i++) {
+                        if (!$("#tab-table").tabs("getTab", nodes[i].name)) {
                             $("#tab-table").tabs("add", {
-                                title: name,
-                                content: "<div class='dg-table table-" + areaId + "-" + concentratorId + "-" + pn + "'></div>"
+                                title: nodes[i].name,
+                                content: "<div class='dg-table table-" + nodes[i].areaId + "-" + nodes[i].concentratorId + "-" + nodes[i].pn + "'></div>"
                             })
                         }
-                        // MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        jError("请求失败！" + ErrUtils.getMsg("3"));
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-                        // MaskUtil.unmask();
                     }
-                });
-            }
+
+
+                    _spinner.load();
+                },
+                error: function (request) {
+                    jError("请求失败！" + ErrUtils.getMsg("3"));
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    _spinner.unload();
+                }
+            });
         }
     });
-
-
-    function getLoadChart(data) {
-        var nodeStr = $("#input-pn").tagbox("getData");
-        var timeStr = $("#input-time").tagbox("getData");
-
-        var series = []
-
-        if ($("#switch-total").switchbutton("options").checked) {
-            var nodes = [];
-            for (var i = 0; i < node.length; i++) {
-                var areaId = (node[i].value + "").split(":")[0];
-                var concentratorId = (node[i].value + "").split(":")[1];
-                var pn = (node[i].value + "").split(":")[2];
-                var pt = parseFloat((node[0].value + "").split(":")[3]);
-                var ct = parseFloat((node[0].value + "").split(":")[4]);
-                var name = node[i].name;
-                nodes.push({
-                    areaId: areaId,
-                    concentratorId: concentratorId,
-                    pn: pn,
-                    pt: pt,
-                    ct: ct,
-                    name: name
-                });
-            }
-
-            for (var j = 0; j < time.length; j++) {
-                var ss = time[j].value.split('-');
-                var y = parseInt(ss[0], 10);
-                var m = parseInt(ss[1], 10) - 1;
-                var d = parseInt(ss[2], 10);
-
-                var item = ChartUtils.getLoadDailySumSeries(nodes, new Date(y, m, d).format('yyyyMMdd') + "000000", data);
-                series.push(item);
-            }
-
-
-        } else {
-            var nodes = [];
-            for (var i = 0; i < nodeStr.length; i++) {
-                var areaId = (nodeStr[i].value + "").split(":")[0];
-                var concentratorId = (nodeStr[i].value + "").split(":")[1];
-                var pn = (nodeStr[i].value + "").split(":")[2];
-                var pt = parseFloat((nodeStr[0].value + "").split(":")[3]);
-                var ct = parseFloat((nodeStr[0].value + "").split(":")[4]);
-                var name = nodeStr[i].name;
-
-                nodes.push({
-                    areaId: areaId,
-                    concentratorId: concentratorId,
-                    pn: pn,
-                    pt: pt,
-                    ct: ct,
-                    name: name
-                });
-            }
-
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].length > 0) {
-                    var ss = data[i][0].clientoperationtime;
-                    var date = TimeUtils.dbTimeToDate(ss);
-
-                    var areaId = data[i][0].areaId;
-                    var concentratorId = data[i][0].concentratorId;
-                    var pn = data[i][0].pn;
-
-                    var node = getNode(areaId, concentratorId, pn, nodes);
-
-                    var item = ChartUtils.getLoadAllByHourSeries({
-                        name: node.name + "(" + date.format("yyyy-MM-dd") + ")"
-                    }, data[i]);
-                    series.push(item);
-                }
-            }
-            // for (var i = 0; i < node.length; i++) {
-            //     var areaId = (node[i].value + "").split(":")[0];
-            //     var concentratorId = (node[i].value + "").split(":")[1];
-            //     var pn = (node[i].value + "").split(":")[2];
-            //     var pt = parseFloat((node[0].value + "").split(":")[3]);
-            //     var ct = parseFloat((node[0].value + "").split(":")[4]);
-            //     var name = node[i].name;
-            //
-            //     for (var j = 0; j < time.length; j++) {
-            //         var ss = time[j].value.split('-');
-            //         var y = parseInt(ss[0], 10);
-            //         var m = parseInt(ss[1], 10) - 1;
-            //         var d = parseInt(ss[2], 10);
-            //
-            //         // var item = ChartUtils.getLoadDailySeries({
-            //         //     areaId: areaId,
-            //         //     concentratorId: concentratorId,
-            //         //     pn: pn,
-            //         //     pt: pt,
-            //         //     ct: ct,
-            //         //     name: name
-            //         // }, new Date(y, m, d).format('yyyyMMdd') + "000000", data);
-            //
-            //         var item = ChartUtils.getLoadAllSeries({
-            //             areaId: areaId,
-            //             concentratorId: concentratorId,
-            //             pn: pn,
-            //             pt: pt,
-            //             ct: ct,
-            //         }, new Date(y, m, d).format('yyyyMMdd') + "000000", r.data);
-            //         series.push(item);
-            //     }
-            // }
-        }
-
-        var config = $.parseJSON($.ajax({
-            url: _ctx + "view/chart/spline-date-single-load.json?bust=" + new Date().getTime(),
-            type: "GET",
-            async: false
-        }).responseText);
-
-        config.series = series;
-
-        $("#chart-load").highcharts(config);
-    }
-
 
     loadConcentratorList();
 

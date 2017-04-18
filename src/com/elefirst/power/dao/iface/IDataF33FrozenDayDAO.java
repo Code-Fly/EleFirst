@@ -12,6 +12,8 @@ import java.util.List;
 public interface IDataF33FrozenDayDAO {
     List<DataF33FrozenDay> getDataF33FrozenDayList(DataF33FrozenDayExample example);
 
+    List<DataF33FrozenDay> getDataF33FrozenDaySumList(DataF33FrozenDayExample example);
+
     int getDataF33FrozenDayListCount(DataF33FrozenDayExample example);
 
     int addDataF33FrozenDay(DataF33FrozenDay template);
