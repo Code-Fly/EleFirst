@@ -910,7 +910,7 @@ $(document).ready(function () {
             areaId: row.areaId,
             concentratorId: row.concentratorId,
             pn: row.pn
-        })
+        });
 
         var ss = time.split('-');
         var y = parseInt(ss[0], 10);
