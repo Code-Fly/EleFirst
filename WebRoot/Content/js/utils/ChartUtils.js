@@ -1709,9 +1709,26 @@ var ChartUtils = {
         return categories;
     },
 
+    getF5AllSeries: function (node, data) {
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].totalpositiveactivepower);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenDay + "000000"), tmp]);
+        }
+
+        return series;
+    },
+
     getF5AllByDaySeries: function (node, data) {
         var series = {
             name: node.name,
+            color: node.color,
             data: []
         };
 

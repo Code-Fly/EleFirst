@@ -37,11 +37,11 @@ public class DataF5Controller extends BaseController {
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getDataF5List(HttpServletRequest request,
-                                   HttpServletResponse response,
-                                   @RequestParam(value = "areaId", required = false) String areaId,
-                                   @RequestParam(value = "concentratorId", required = false) String concentratorId,
-                                   @RequestParam(value = "page", required = false) Integer page,
-                                   @RequestParam(value = "rows", required = false) Integer rows
+                                  HttpServletResponse response,
+                                  @RequestParam(value = "areaId", required = false) String areaId,
+                                  @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                  @RequestParam(value = "page", required = false) Integer page,
+                                  @RequestParam(value = "rows", required = false) Integer rows
     ) {
         DataF5 template = new DataF5();
         template.setAreaId(areaId);
@@ -69,10 +69,10 @@ public class DataF5Controller extends BaseController {
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getDataF5ListByNodes(HttpServletRequest request,
-                                          HttpServletResponse response,
-                                          @RequestParam(value = "node", required = false) String node,
-                                          @RequestParam(value = "startTime", required = false) String startTime,
-                                          @RequestParam(value = "endTime", required = false) String endTime
+                                         HttpServletResponse response,
+                                         @RequestParam(value = "node", required = false) String node,
+                                         @RequestParam(value = "startTime", required = false) String startTime,
+                                         @RequestParam(value = "endTime", required = false) String endTime
     ) {
         List<DataF5> nodes = new Gson().fromJson(node, new TypeToken<List<DataF5>>() {
         }.getType());
@@ -99,7 +99,7 @@ public class DataF5Controller extends BaseController {
         List<List<DataF5>> result = new ArrayList<>();
 
         for (int j = 0; j < times.size(); j++) {
-            List<DataF5> item = dataF5Service.getDataF5SumList(nodes, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+            List<DataF5> item = dataF5Service.getDataF5SumList(nodes, times.get(j).getString("startTime").substring(0, 8), times.get(j).getString("endTime").substring(0, 8));
             result.add(dataF5Service.format(item));
         }
 
