@@ -1,1 +1,1 @@
-java -cp C:/mybatis-generator-core-1.3.2.jar;C:/mybatis-page-plugin-1.0-SNAPSHOT.jar org.mybatis.generator.api.ShellRunner -configfile C:/dsm_sensitive_words.xml -overwrite
+java -cp C:/mybatis-generator-core-1.3.5.jar;C:/mybatis-page-plugin-1.0-SNAPSHOT.jar org.mybatis.generator.api.ShellRunner -configfile C:/t_030_type_two_data_fn5.xml -overwrite
