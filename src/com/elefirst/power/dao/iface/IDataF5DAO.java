@@ -11,6 +11,8 @@ import java.util.List;
 public interface IDataF5DAO {
     List<DataF5> getDataF5List(DataF5Example example);
 
+    List<DataF5> getDataF5SumList(DataF5Example example);
+
     long getDataF5ListCount(DataF5Example example);
 
     int addDataF5(DataF5 template);

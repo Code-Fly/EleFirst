@@ -10,11 +10,7 @@ import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,6 +61,49 @@ public class DataF5Service extends BaseService implements IDataF5Service {
         }
         condition.setOrderByClause("`clientOperationTime` ASC");
         return dataF5DAO.getDataF5List(condition);
+    }
+
+    @Override
+    public List<DataF5> getDataF5SumList(DataF5 template) {
+        DataF5Example condition = new DataF5Example();
+        DataF5Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        criteria.andFrozenDayIsNotNull();
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`sendTime` ASC");
+        return dataF5DAO.getDataF5SumList(condition);
+    }
+
+    @Override
+    public List<DataF5> getDataF5SumList(List<DataF5> nodes, String startTime, String endTime) {
+        DataF5Example condition = new DataF5Example();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF5 node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andFrozenDayGreaterThanOrEqualTo(startTime)
+                    .andFrozenDayLessThan(endTime)
+                    .andFrozenDayIsNotNull()
+                    //
+                    .andTotalpositiveactivepowerIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`frozen_day` ASC");
+        return dataF5DAO.getDataF5SumList(condition);
     }
 
     @Override

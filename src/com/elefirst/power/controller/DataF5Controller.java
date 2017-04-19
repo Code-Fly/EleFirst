@@ -81,4 +81,28 @@ public class DataF5Controller extends BaseController {
 
         return new ErrorMsg(Error.SUCCESS, "success", dataF5Service.format(result));
     }
+
+    @RequestMapping(value = "/f5/node/time/sum.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF5Sum(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @RequestParam(value = "node", required = false) String node,
+                                 @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<DataF5> nodes = new Gson().fromJson(node, new TypeToken<List<DataF5>>() {
+        }.getType());
+
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
+        }.getType());
+
+        List<List<DataF5>> result = new ArrayList<>();
+
+        for (int j = 0; j < times.size(); j++) {
+            List<DataF5> item = dataF5Service.getDataF5SumList(nodes, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+            result.add(dataF5Service.format(item));
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
 }
