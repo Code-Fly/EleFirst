@@ -4,7 +4,7 @@
 var ChartUtils = {
     MAX_CHART_NUMBER: 1000000000.0,
     MIN_CHART_NUMBER: -1000000000.0,
-    NUM_FIX: 1000000,
+    NUM_FIX: 1000000000000,
     getLoadDailySeries: function (node, time, data) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
@@ -1757,7 +1757,12 @@ var ChartUtils = {
 
         return series;
     },
-
+    /**
+     * Define the available approximation types. The data grouping approximations takes an array
+     * or numbers as the first parameter. In case of ohlc, four arrays are sent in as four parameters.
+     * Each array consists only of numbers. In case null values belong to the group, the property
+     * .hasNulls will be set to true on the array.
+     */
     approximations: {
         sum: function (arr) {
 
@@ -1789,6 +1794,10 @@ var ChartUtils = {
             // null or undefined based on what the sum method finds.
             if ($.isNumeric(ret) && len) {
                 ret = ret / len;
+            }
+
+            if (!this.options.dataGrouping.valueDecimals) {
+                ret.toFixed(this.options.dataGrouping.valueDecimal);
             }
 
             return ret;

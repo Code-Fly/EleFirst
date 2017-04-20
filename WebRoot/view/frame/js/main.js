@@ -271,7 +271,7 @@ $(document).ready(function () {
                             name: "本期"
                         }, r.data[0]);
                         item.dataGrouping = {
-                            approximation: "sum",
+                            approximation: ChartUtils.approximations.sum,
                             forced: true
                         };
                         series.push(item);
@@ -280,7 +280,7 @@ $(document).ready(function () {
                             name: "上月同期"
                         }, r.data[1]);
                         item.dataGrouping = {
-                            approximation: "sum",
+                            approximation: ChartUtils.approximations.sum,
                             forced: true
                         };
                         series.push(item);

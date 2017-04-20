@@ -943,7 +943,7 @@ $(document).ready(function () {
                             name: startDate.format("yyyy-MM-dd") + "~" + endDate.format("yyyy-MM-dd")
                         }, r.data[0]);
                         item.dataGrouping = {
-                            approximation: "sum",
+                            approximation: ChartUtils.approximations.sum,
                             forced: true
                         };
                         series.push(item);

@@ -833,7 +833,7 @@ $(document).ready(function () {
                             name: new Date(y, m, d).format("yyyy-MM-dd")
                         }, r.data[0]);
                         item.dataGrouping = {
-                            approximation: "sum",
+                            approximation: ChartUtils.approximations.sum,
                             forced: true
                         };
                         series.push(item);
