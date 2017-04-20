@@ -231,51 +231,51 @@
                 </thead>
             </table>
         </div>
-        <div title="谐波" style="display:none;overflow: hidden">
-            <div id="tool-harmonicTimes" style="">
-                <input id="cc1" class="easyui-combobox" label="谐波次数:" style="width: 150px;">
-            </div>
-            <table id="tt6" fit="true"
-                   data-options="border:false,toolbar:'#tool-harmonicTimes'">
-                <thead>
-                <tr>
-                    <%--<th rowspan="2" field="areaId" width="80" align="center">区域</th>--%>
-                    <%--<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>--%>
-                    <%--<th rowspan="2" field="pn" width="80" align="center">监测点</th>--%>
-                    <th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点
-                    </th>
-                    <th rowspan="2" field="days" width="120" align="center"
-                        formatter="DataGridUtils.dateToDayFormatter">日期
-                    </th>
-                    <th rowspan="2" field="harmonicseq" data-options="formatter:function(value){return DataGridUtils.totalHarmonicFormatter(value)}"  width="120" align="center"> 
-                        谐波次数
-                    </th>
-                    <th colspan="3">电压含有率(%）</th>
-                    <th colspan="3">电流最大值(A)</th>
-                </tr>
-                <tr>
-                    <th field="aharmonicvoltagerate" width="100" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
-                    </th>
-                    <th field="bharmonicvoltagerate" width="100" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相
-                    </th>
-                    <th field="charmonicvoltagerate" width="100" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">W相
-                    </th>
-                    <th field="aharmoniccurrent" width="100" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
-                    </th>
-                    <th field="bharmoniccurrent" width="100" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相
-                    </th>
-                    <th field="charmoniccurrent" width="100" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相
-                    </th>
-                </tr>
-                </thead>
-            </table>
-        </div>
+        <%--<div title="谐波" style="display:none;overflow: hidden">--%>
+        <%--<div id="tool-harmonicTimes" style="">--%>
+        <%--<input id="cc1" class="easyui-combobox" label="谐波次数:" style="width: 150px;">--%>
+        <%--</div>--%>
+        <%--<table id="tt6" fit="true"--%>
+        <%--data-options="border:false,toolbar:'#tool-harmonicTimes'">--%>
+        <%--<thead>--%>
+        <%--<tr>--%>
+        <%--&lt;%&ndash;<th rowspan="2" field="areaId" width="80" align="center">区域</th>&ndash;%&gt;--%>
+        <%--&lt;%&ndash;<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>&ndash;%&gt;--%>
+        <%--&lt;%&ndash;<th rowspan="2" field="pn" width="80" align="center">监测点</th>&ndash;%&gt;--%>
+        <%--<th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点--%>
+        <%--</th>--%>
+        <%--<th rowspan="2" field="days" width="120" align="center"--%>
+        <%--formatter="DataGridUtils.dateToDayFormatter">日期--%>
+        <%--</th>--%>
+        <%--<th rowspan="2" field="harmonicseq" data-options="formatter:function(value){return DataGridUtils.totalHarmonicFormatter(value)}"  width="120" align="center"> --%>
+        <%--谐波次数--%>
+        <%--</th>--%>
+        <%--<th colspan="3">电压含有率(%）</th>--%>
+        <%--<th colspan="3">电流最大值(A)</th>--%>
+        <%--</tr>--%>
+        <%--<tr>--%>
+        <%--<th field="aharmonicvoltagerate" width="100" align="center"--%>
+        <%--data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相--%>
+        <%--</th>--%>
+        <%--<th field="bharmonicvoltagerate" width="100" align="center"--%>
+        <%--data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相--%>
+        <%--</th>--%>
+        <%--<th field="charmonicvoltagerate" width="100" align="center"--%>
+        <%--data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">W相--%>
+        <%--</th>--%>
+        <%--<th field="aharmoniccurrent" width="100" align="center"--%>
+        <%--data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相--%>
+        <%--</th>--%>
+        <%--<th field="bharmoniccurrent" width="100" align="center"--%>
+        <%--data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">V相--%>
+        <%--</th>--%>
+        <%--<th field="charmoniccurrent" width="100" align="center"--%>
+        <%--data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">U相--%>
+        <%--</th>--%>
+        <%--</tr>--%>
+        <%--</thead>--%>
+        <%--</table>--%>
+        <%--</div>--%>
         <!--  <div title="温度" style="display:none;overflow: hidden">
              <table id="tt6" class="easyui-datagrid" fit="true" data-options="border:false"
                     singleSelect="true" iconCls="icon-save" rownumbers="true">
@@ -536,54 +536,54 @@
                     </div>
                 </div>
 
-                <div title="谐波" style="display:none;overflow: hidden">
-                    <div class="easyui-layout" data-options="fit:true">
-                        <!--
-                        <div data-options="region:'north',split:true,border:false"
-                           style="height:5%;text-align: left;padding:5px;">
-                          <span>谐波次数: </span>&nbsp;&nbsp;<input id="cc2">&nbsp;&nbsp;<span>类别: </span>&nbsp;&nbsp;<input id="cc3">
-                      </div>
-                      -->
-                        <div id="chart-harmonic-detail" data-options="region:'north',border:false"
-                             style="height:50%;text-align: center;">
-                            <span style="font-size: medium;line-height: 200px;">请载入数据</span>
-                        </div>
-                        <div data-options="region:'south',border:false" style="height:50%;">
-                            <div id="dtt3-tools" style="border-left: none;border-top: none;border-right: none;">
-                                <input class="easyui-combobox" label="谐波次数:" style="width: 150px;">
-                                <input class="easyui-combobox" label="数据类别:" style="width: 150px;">
-                            </div>
-                            <table id="dtt3" class="easyui-datagrid" data-options="border:false,toolbar:'#dtt3-tools'"
-                                   fit="true">
-                                <thead>
-                                <tr>
-                                    <th rowspan="2" field="harmonicseq" width="120" align="center">谐波次数</th>
-                                    <th colspan="3">谐波电压含有率最大值(%)</th>
-                                    <th colspan="3">谐波电流有效值最大值(A)</th>
-                           
-                                </tr>
-                                <tr>
-                                    <th field="aharmonicvoltagerate" width="80" align="center">U相</th>
-                                    <!--
-                                    <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
-                                    -->
-                                    <th field="bharmonicvoltagerate" width="80" align="center">V相</th>
-                                    <!--
-                                    <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
-                                    -->
-                                    <th field="charmonicvoltagerate" width="80" align="center">W相</th>
-                                    <!--
-                                    <th field="totalreverseactivepower" width="80" align="center">发生时间</th>
-                                    -->
-                                    <th field="aharmoniccurrent" width="80" align="center">U相</th>
-                                    <th field="bharmoniccurrent" width="80" align="center">V相</th>
-                                    <th field="charmoniccurrent" width="80" align="center">W相</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                <%--<div title="谐波" style="display:none;overflow: hidden">--%>
+                <%--<div class="easyui-layout" data-options="fit:true">--%>
+                <%--<!----%>
+                <%--<div data-options="region:'north',split:true,border:false"--%>
+                <%--style="height:5%;text-align: left;padding:5px;">--%>
+                <%--<span>谐波次数: </span>&nbsp;&nbsp;<input id="cc2">&nbsp;&nbsp;<span>类别: </span>&nbsp;&nbsp;<input id="cc3">--%>
+                <%--</div>--%>
+                <%---->--%>
+                <%--<div id="chart-harmonic-detail" data-options="region:'north',border:false"--%>
+                <%--style="height:50%;text-align: center;">--%>
+                <%--<span style="font-size: medium;line-height: 200px;">请载入数据</span>--%>
+                <%--</div>--%>
+                <%--<div data-options="region:'south',border:false" style="height:50%;">--%>
+                <%--<div id="dtt3-tools" style="border-left: none;border-top: none;border-right: none;">--%>
+                <%--<input class="easyui-combobox" label="谐波次数:" style="width: 150px;">--%>
+                <%--<input class="easyui-combobox" label="数据类别:" style="width: 150px;">--%>
+                <%--</div>--%>
+                <%--<table id="dtt3" class="easyui-datagrid" data-options="border:false,toolbar:'#dtt3-tools'"--%>
+                <%--fit="true">--%>
+                <%--<thead>--%>
+                <%--<tr>--%>
+                <%--<th rowspan="2" field="harmonicseq" width="120" align="center">谐波次数</th>--%>
+                <%--<th colspan="3">谐波电压含有率最大值(%)</th>--%>
+                <%--<th colspan="3">谐波电流有效值最大值(A)</th>--%>
+                <%----%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                <%--<th field="aharmonicvoltagerate" width="80" align="center">U相</th>--%>
+                <%--<!----%>
+                <%--<th field="totalreverseactivepower" width="80" align="center">发生时间</th>--%>
+                <%---->--%>
+                <%--<th field="bharmonicvoltagerate" width="80" align="center">V相</th>--%>
+                <%--<!----%>
+                <%--<th field="totalreverseactivepower" width="80" align="center">发生时间</th>--%>
+                <%---->--%>
+                <%--<th field="charmonicvoltagerate" width="80" align="center">W相</th>--%>
+                <%--<!----%>
+                <%--<th field="totalreverseactivepower" width="80" align="center">发生时间</th>--%>
+                <%---->--%>
+                <%--<th field="aharmoniccurrent" width="80" align="center">U相</th>--%>
+                <%--<th field="bharmoniccurrent" width="80" align="center">V相</th>--%>
+                <%--<th field="charmoniccurrent" width="80" align="center">W相</th>--%>
+                <%--</tr>--%>
+                <%--</thead>--%>
+                <%--</table>--%>
+                <%--</div>--%>
+                <%--</div>--%>
+                <%--</div>--%>
 
                 <!-- <div title="谐波">
 
