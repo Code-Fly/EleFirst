@@ -37,4 +37,8 @@ public interface IDataF5Service {
     PnInfo getPnInfo(List<PnInfo> pnInfos, DataF5 item);
 
     String calc(String org, Double num, Integer precision);
+
+    //
+
+    String getDifferTotalPositiveActivePower(List<DataF5> nodes, String startTime, String endTime);
 }

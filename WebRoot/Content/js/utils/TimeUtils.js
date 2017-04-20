@@ -163,5 +163,13 @@ var TimeUtils = {
         date.setDate(1);
         date.setDate(date.getDate() - 1);
         return date;
+    },
+    getDataBoxDateToDateInterval: function (time, yearInterval, monthInterval, dayInterval) {
+        var newDate = this.dataBoxDateToDate(time);
+        newDate.setDate(newDate.getDate() + dayInterval);
+        newDate.setMonth(newDate.getMonth() + monthInterval);
+        newDate.setFullYear(newDate.getFullYear() + yearInterval);
+
+        return newDate;
     }
 };

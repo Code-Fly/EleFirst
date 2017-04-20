@@ -153,6 +153,22 @@ public class DataF5Service extends BaseService implements IDataF5Service {
     }
 
     @Override
+    public String getDifferTotalPositiveActivePower(List<DataF5> nodes, String startTime, String endTime) {
+        Double total = null;
+
+        List<DataF5> totalActivePowerList = format(getDataF5SumList(nodes, startTime, endTime));
+
+        for (int i = 0; i < totalActivePowerList.size(); i++) {
+            if (null == total) {
+                total = 0D;
+            }
+            total += Double.valueOf(totalActivePowerList.get(i).getTotalpositiveactivepower());
+        }
+
+        return null == total ? null : String.valueOf(total);
+    }
+
+    @Override
     public List<DataF5> format(List<DataF5> data) {
         PnInfo template = new PnInfo();
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(template);
