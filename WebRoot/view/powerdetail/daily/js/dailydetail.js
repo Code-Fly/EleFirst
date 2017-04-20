@@ -810,26 +810,28 @@ $(document).ready(function () {
         var endDate = new Date(y, m, d);
         endDate.setDate(endDate.getDate() + 1);
 
-        var startTime = startDate.format('yyyyMMdd') + "000000";
-        var endTime = endDate.format('yyyyMMdd') + "000000";
+        var timeList = [];
+        timeList.push({
+            startTime: startDate.format('yyyyMMdd') + "000000",
+            endTime: endDate.format('yyyyMMdd') + "000000"
+        });
 
         $.ajax({
-            url: _ctx + "power/data/f33/node/list.do",
+            url: _ctx + "power/data/f105/node/time/sum.do",
             type: "POST",
             cache: false,
             data: {
                 node: JSON.stringify(node),
-                startTime: startTime,
-                endTime: endTime
+                time: JSON.stringify(timeList)
             },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
                         var series = [];
 
-                        var item = ChartUtils.getElectricityAllSeries({
+                        var item = ChartUtils.getF105AllSeries({
                             name: new Date(y, m, d).format("yyyy-MM-dd")
-                        }, r.data);
+                        }, r.data[0]);
                         item.dataGrouping = {
                             approximation: "sum",
                             forced: true

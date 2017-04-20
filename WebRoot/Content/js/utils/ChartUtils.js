@@ -1741,5 +1741,19 @@ var ChartUtils = {
 
         return series;
     },
+    getF105AllSeries: function (node, data) {
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
 
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].activepower);
+            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([TimeUtils.dbTimeToUTC(data[i].frozentime), tmp]);
+        }
+
+        return series;
+    },
 };
