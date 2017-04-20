@@ -166,6 +166,118 @@ $(document).ready(function () {
 
         var sNode = parent.parent.getSelectedNodeInfo();
 
+
+        var paramNode = [];
+
+        var categories = [];
+        if (sNode.hasOwnProperty("children")) {
+            for (var ch = 0; ch < sNode.children.length; ch++) {
+                var sChildren = sNode.children[ch];
+
+                var sInfo = parent.parent.findNode(sChildren.id);
+
+                var pnInfos = getPnList(sInfo);
+
+                paramNode.push(pnInfos);
+                categories.push(sChildren.text);
+            }
+        }
+
+        var timeList = [];
+        timeList.push({
+            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, 0).format('yyyyMMdd') + "000000",
+            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, param.interval + 1).format('yyyyMMdd') + "000000"
+        });
+
+        timeList.push({
+            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, -1, 0).format('yyyyMMdd') + "000000",
+            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, -1, param.interval + 1).format('yyyyMMdd') + "000000"
+        });
+
+        timeList.push({
+            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, -1, 0, 0).format('yyyyMMdd') + "000000",
+            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, -1, 0, param.interval + 1).format('yyyyMMdd') + "000000"
+        });
+
+        $.ajax({
+            url: _ctx + "power/data/f5/node/time/sum.do",
+            type: "POST",
+            cache: false,
+            data: {
+                node: JSON.stringify(paramNode),
+                time: JSON.stringify(timeList)
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+
+                        var d = [];
+                        for (var i = 0; i < categories.length; i++) {
+                            d.push(r.data[i][0]);
+                        }
+
+                        var item = ChartUtils.getF5AllCategorySeries({
+                            name: "本期",
+                            categories: categories
+                        }, d);
+                        series.push(item);
+
+                        var d = [];
+                        for (var i = 0; i < categories.length; i++) {
+                            d.push(r.data[i][1]);
+                        }
+
+                        var item = ChartUtils.getF5AllCategorySeries({
+                            name: "上月同期",
+                            categories: categories
+                        }, d);
+                        series.push(item);
+
+                        var d = [];
+                        for (var i = 0; i < categories.length; i++) {
+                            d.push(r.data[i][2]);
+                        }
+
+                        var item = ChartUtils.getF5AllCategorySeries({
+                            name: "去年同期",
+                            categories: categories
+                        }, d);
+                        series.push(item);
+
+                        // $.messager.alert("信息提示", JSON.stringify(series));
+
+                        var config = new ChartConfig("view/poweranalysis/electricitycomposition/data/electricityComparisonChart.json");
+                        config
+                            .setShared(false)
+                            // .setZoom(false)
+                            .setCrossHairSnap(false)
+                            .setSeries(series)
+                        // .setDataGroupingByDay();
+
+
+                        $("#chart-electricity-comparison").highcharts(config.getConfig());
+
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                    }
+                } else {
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
+                }
+            },
+            beforeSend: function (XMLHttpRequest) {
+                _spinner.load();
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
+            }
+        });
+
+
+        return;
+
         var paramChart = [];
         if (sNode.hasOwnProperty("children")) {
             for (var ch = 0; ch < sNode.children.length; ch++) {

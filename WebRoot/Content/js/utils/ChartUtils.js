@@ -1725,7 +1725,6 @@ var ChartUtils = {
 
         return series;
     },
-
     getF5AllByDaySeries: function (node, data) {
         var series = {
             name: node.name,
@@ -1738,6 +1737,27 @@ var ChartUtils = {
             // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
             var date = "200001" + (data[i].frozenDay + "000000").substr(6);
             series.data.push([TimeUtils.dbTimeToUTC(date), tmp]);
+        }
+
+        return series;
+    },
+    getF5AllCategorySeries: function (node, data) {
+        var categories = node.categories;
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var total = 0;
+            for (var j = 0; j < data[i].length; j++) {
+                total += parseFloat(data[i][j].totalpositiveactivepower);
+                // series.data.push([categories[i], data[i][j].totalpositiveactivepower]);
+            }
+            // var tmp = parseFloat(data[i].totalpositiveactivepower);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            series.data.push([categories[i], total]);
         }
 
         return series;
