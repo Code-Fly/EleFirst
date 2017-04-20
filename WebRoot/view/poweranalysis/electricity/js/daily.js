@@ -127,7 +127,9 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var paramNode = r.data;
+                        var paramNode = [
+                            r.data
+                        ];
 
                         var timeList = [];
                         timeList.push({
@@ -160,7 +162,7 @@ $(document).ready(function () {
 
                                         var item = ChartUtils.getF5AllSeries({
                                             name: "本期"
-                                        }, r.data[0]);
+                                        }, r.data[0][0]);
                                         item.dataGrouping = {
                                             approximation: ChartUtils.approximations.sum,
                                             forced: true
@@ -169,7 +171,7 @@ $(document).ready(function () {
 
                                         var item = ChartUtils.getF5AllSeries({
                                             name: "上月同期"
-                                        }, r.data[1]);
+                                        }, r.data[0][1]);
                                         item.dataGrouping = {
                                             approximation: ChartUtils.approximations.sum,
                                             forced: true
@@ -178,7 +180,7 @@ $(document).ready(function () {
 
                                         var item = ChartUtils.getF5AllSeries({
                                             name: "去年同期"
-                                        }, r.data[2]);
+                                        }, r.data[0][2]);
                                         item.dataGrouping = {
                                             approximation: ChartUtils.approximations.sum,
                                             forced: true

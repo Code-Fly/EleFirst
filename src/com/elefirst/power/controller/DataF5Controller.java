@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,18 +94,32 @@ public class DataF5Controller extends BaseController {
                                  @RequestParam(value = "node", required = false) String node,
                                  @RequestParam(value = "time", required = false) String time
     ) throws ParseException {
-        List<DataF5> nodes = new Gson().fromJson(node, new TypeToken<List<DataF5>>() {
-        }.getType());
+        JSONArray nodes = JSONArray.fromObject(node);
+
+//        List<List<DataF5>> nodes = new Gson().fromJson(time, new TypeToken<List<List<DataF5>>>() {
+//        }.getType());
 
         List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
         }.getType());
 
-        List<List<DataF5>> result = new ArrayList<>();
+        List<List<List<DataF5>>> result = new ArrayList<>();
 
-        for (int j = 0; j < times.size(); j++) {
-            List<DataF5> item = dataF5Service.getDataF5SumList(nodes, times.get(j).getString("startTime").substring(0, 8), times.get(j).getString("endTime").substring(0, 8));
-            result.add(dataF5Service.format(item));
+        for (int i = 0; i < nodes.size(); i++) {
+            List<List<DataF5>> rs = new ArrayList<>();
+
+            List<DataF5> ns = new Gson().fromJson(nodes.getString(i), new TypeToken<List<DataF5>>() {
+            }.getType());
+
+//            List<DataF5> ns = nodes.get(i);
+
+            for (int j = 0; j < times.size(); j++) {
+                List<DataF5> item = dataF5Service.getDataF5SumList(ns, times.get(j).getString("startTime").substring(0, 8), times.get(j).getString("endTime").substring(0, 8));
+                rs.add(dataF5Service.format(item));
+            }
+
+            result.add(rs);
         }
+
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
@@ -118,14 +133,18 @@ public class DataF5Controller extends BaseController {
                                                   @RequestParam(value = "time", required = false) String time,
                                                   @RequestParam(value = "interval", required = false) Integer interval
     ) throws ParseException {
+        List<StatisticF5TotalPositiveActivePower> result = new ArrayList<>();
+
+        if (null == node || null == time || null == interval) {
+            return new ErrorMsg(Error.SUCCESS, "success", result);
+        }
+
         List<DataF5> nodes = new Gson().fromJson(node, new TypeToken<List<DataF5>>() {
         }.getType());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
         Date date = sdf.parse(time);
-
-        List<StatisticF5TotalPositiveActivePower> result = new ArrayList<>();
 
         for (int i = 0; i < interval + 1; i++) {
             Date thisMonthStartTimeDate = new Date(date.getTime());
@@ -204,6 +223,12 @@ public class DataF5Controller extends BaseController {
                                                     @RequestParam(value = "time", required = false) String time,
                                                     @RequestParam(value = "interval", required = false) Integer interval
     ) throws ParseException {
+        List<StatisticF5TotalPositiveActivePower> result = new ArrayList<>();
+
+        if (null == node || null == time || null == interval) {
+            return new ErrorMsg(Error.SUCCESS, "success", result);
+        }
+
         List<DataF5> nodes = new Gson().fromJson(node, new TypeToken<List<DataF5>>() {
         }.getType());
 
@@ -211,7 +236,6 @@ public class DataF5Controller extends BaseController {
 
         Date date = sdf.parse(time);
 
-        List<StatisticF5TotalPositiveActivePower> result = new ArrayList<>();
 
         for (int i = 0; i < interval + 1; i++) {
             Date thisMonthStartTimeDate = new Date(date.getTime());

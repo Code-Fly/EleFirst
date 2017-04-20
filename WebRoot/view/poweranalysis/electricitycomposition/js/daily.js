@@ -2,6 +2,8 @@
  * Created by barrie on 17/1/30.
  */
 $(document).ready(function () {
+    var _spinner = new Spinner();
+
     var DEFAULT_INTERVAL = 30;
 
     var _nodes = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
@@ -79,48 +81,49 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
+                        var paramNode = [
+                            r.data
+                        ];
 
-                        var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            time: []
-                        };
-
-                        var chartCnt = 1;
-
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxDateToDate(param.time);
-                            item.setDate(item.getDate() + i);
-                            paramChart.time.push(item.format('yyyyMMdd') + "000000");
-                        }
+                        var timeList = [];
+                        timeList.push({
+                            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, 0).format('yyyyMMdd') + "000000",
+                            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, param.interval + 1).format('yyyyMMdd') + "000000"
+                        });
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/daily/interval/day/chart.do",
+                            url: _ctx + "power/data/f5/node/time/sum.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(paramNode),
+                                time: JSON.stringify(timeList)
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
-                                        chartCnt = chartCnt - 1;
+                                        var series = [];
 
-                                        var item = ChartUtils.getElectricityDailyIntervalDaySeries("本期", paramNode, param.time, param.interval, r.data);
+                                        var item = ChartUtils.getF5AllSeries({
+                                            name: "本期"
+                                        }, r.data[0][0]);
+                                        item.dataGrouping = {
+                                            approximation: ChartUtils.approximations.sum,
+                                            forced: true
+                                        };
                                         series.push(item);
 
-                                        if (chartCnt <= 0) {
-                                            var config = $.parseJSON($.ajax({
-                                                url: "data/electricityDetailByDateChart.json?bust=" + new Date().getTime(),
-                                                type: "GET",
-                                                async: false
-                                            }).responseText);
+                                        var config = new ChartConfig("view/chart/column-date-all-electricity.json");
+                                        config
+                                            .setShared(false)
+                                            .setZoom(false)
+                                            .setCrossHairSnap(false)
+                                            .setSeries(series)
+                                            .setDataGroupingByDay();
 
-                                            // config.xAxis.categories = ChartUtils.getDailyIntervalDayCategories(param.time, param.interval);
-                                            config.series = series;
 
-                                            $("#chart-electricity-detail").highcharts(config);
-                                        }
+                                        $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
+
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
@@ -128,32 +131,32 @@ $(document).ready(function () {
                                     jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
                             },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
                             error: function (request) {
                                 jError("请求失败！" + ErrUtils.getMsg("3"));
                             },
                             complete: function (XMLHttpRequest, textStatus) {
-                                MaskUtil.unmask();
+                                _spinner.unload();
                             }
                         });
 
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                        MaskUtil.unmask();
                     }
                 } else {
                     jError("请求失败！" + ErrUtils.getMsg("2"));
-                    MaskUtil.unmask();
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
-                MaskUtil.unmask();
             },
             complete: function (XMLHttpRequest, textStatus) {
-
+                _spinner.unload();
             }
         });
     }

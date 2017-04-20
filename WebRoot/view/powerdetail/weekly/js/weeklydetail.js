@@ -909,6 +909,10 @@ $(document).ready(function () {
             pn: row.pn
         });
 
+        var paramNode = [
+            node
+        ];
+
         var ss = time.split('-');
         var y = parseInt(ss[0], 10);
         var m = parseInt(ss[1], 10) - 1;
@@ -931,7 +935,7 @@ $(document).ready(function () {
             type: "POST",
             cache: false,
             data: {
-                node: JSON.stringify(node),
+                node: JSON.stringify(paramNode),
                 time: JSON.stringify(timeList)
             },
             success: function (r) {
@@ -941,7 +945,7 @@ $(document).ready(function () {
 
                         var item = ChartUtils.getF5AllSeries({
                             name: startDate.format("yyyy-MM-dd") + "~" + endDate.format("yyyy-MM-dd")
-                        }, r.data[0]);
+                        }, r.data[0][0]);
                         item.dataGrouping = {
                             approximation: ChartUtils.approximations.sum,
                             forced: true

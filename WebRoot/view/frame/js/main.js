@@ -240,7 +240,9 @@ $(document).ready(function () {
     function getElectricityDetailChart(param) {
         var series = [];
 
-        var pnList = param.nodes;
+        var pnList = [
+            param.nodes
+        ];
 
         var timeList = [];
         timeList.push({
@@ -269,7 +271,7 @@ $(document).ready(function () {
 
                         var item = ChartUtils.getF5AllByDaySeries({
                             name: "本期"
-                        }, r.data[0]);
+                        }, r.data[0][0]);
                         item.dataGrouping = {
                             approximation: ChartUtils.approximations.sum,
                             forced: true
@@ -278,7 +280,7 @@ $(document).ready(function () {
 
                         var item = ChartUtils.getF5AllByDaySeries({
                             name: "上月同期"
-                        }, r.data[1]);
+                        }, r.data[0][1]);
                         item.dataGrouping = {
                             approximation: ChartUtils.approximations.sum,
                             forced: true
