@@ -194,4 +194,68 @@ public class DataF5Controller extends BaseController {
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
+
+    @RequestMapping(value = "/f5/interval/month/statistic.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF5StatisticIntervalMonth(HttpServletRequest request,
+                                                    HttpServletResponse response,
+                                                    @RequestParam(value = "node", required = false) String node,
+                                                    @RequestParam(value = "time", required = false) String time,
+                                                    @RequestParam(value = "interval", required = false) Integer interval
+    ) throws ParseException {
+        List<DataF5> nodes = new Gson().fromJson(node, new TypeToken<List<DataF5>>() {
+        }.getType());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        Date date = sdf.parse(time);
+
+        List<StatisticF5TotalPositiveActivePower> result = new ArrayList<>();
+
+        for (int i = 0; i < interval + 1; i++) {
+            Date thisMonthStartTimeDate = new Date(date.getTime());
+            thisMonthStartTimeDate.setMonth(date.getMonth() + i);
+            Date thisMonthEndTimeDate = new Date(date.getTime());
+            thisMonthEndTimeDate.setMonth(date.getMonth() + i + 1);
+
+            String thisMonthStartTime = sdf.format(thisMonthStartTimeDate).substring(0, 8);
+            String thisMonthEndTime = sdf.format(thisMonthEndTimeDate).substring(0, 8);
+
+            StatisticF5TotalPositiveActivePower item = new StatisticF5TotalPositiveActivePower();
+
+            item.setFrozenDay(thisMonthStartTime);
+
+            String differThisMonth = dataF5Service.getDifferTotalPositiveActivePower(nodes, thisMonthStartTime, thisMonthEndTime);
+            item.setThisMonthTotalPositiveActivePower(dataF5Service.calc(differThisMonth, 1D, 1));
+
+            //
+            Date lastYearStartTimeDate = new Date(date.getTime());
+            lastYearStartTimeDate.setMonth(date.getMonth() + i);
+            lastYearStartTimeDate.setYear(date.getYear() - 1);
+            Date lastYearEndTimeDate = new Date(date.getTime());
+            lastYearEndTimeDate.setMonth(date.getMonth() + i + 1);
+            lastYearEndTimeDate.setYear(date.getYear() - 1);
+
+            String lastYearStartTime = sdf.format(lastYearStartTimeDate).substring(0, 8);
+            String lastYearEndTime = sdf.format(lastYearEndTimeDate).substring(0, 8);
+
+            String differLastYear = dataF5Service.getDifferTotalPositiveActivePower(nodes, lastYearStartTime, lastYearEndTime);
+            item.setLastYearTotalPositiveActivePower(dataF5Service.calc(differLastYear, 1D, 1));
+
+            String rate2 = null;
+            if (null != differThisMonth && null != differLastYear && 0 != Double.valueOf(differLastYear)) {
+                rate2 = String.valueOf(((Double.valueOf(differThisMonth) - Double.valueOf(differLastYear)) * 100D) / Double.valueOf(differLastYear));
+                rate2 = dataF5Service.calc(rate2, 1D, 1);
+            }
+            item.setRate1(rate2);
+
+            if (null != differThisMonth) {
+                result.add(item);
+            }
+        }
+
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
 }

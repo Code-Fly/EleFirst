@@ -4,6 +4,7 @@
 var ChartUtils = {
     MAX_CHART_NUMBER: 1000000000.0,
     MIN_CHART_NUMBER: -1000000000.0,
+    NUM_FIX: 1000000,
     getLoadDailySeries: function (node, time, data) {
         var series = {
             name: node.name + "(" + time.substr(0, 4) + "-" + time.substr(4, 2) + "-" + time.substr(6, 2) + ")",
@@ -1718,7 +1719,7 @@ var ChartUtils = {
 
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i].totalpositiveactivepower);
-            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
             series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenDay + "000000"), tmp]);
         }
 
@@ -1734,7 +1735,7 @@ var ChartUtils = {
 
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i].totalpositiveactivepower);
-            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
             var date = "200001" + (data[i].frozenDay + "000000").substr(6);
             series.data.push([TimeUtils.dbTimeToUTC(date), tmp]);
         }
@@ -1750,10 +1751,123 @@ var ChartUtils = {
 
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i].activepower);
-            tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
             series.data.push([TimeUtils.dbTimeToUTC(data[i].frozentime), tmp]);
         }
 
         return series;
     },
+
+    approximations: {
+        sum: function (arr) {
+
+            var len = arr.length,
+                ret;
+
+            // 1. it consists of nulls exclusively
+            if (!len && arr.hasNulls) {
+                ret = null;
+                // 2. it has a length and real values
+            } else if (len) {
+                ret = 0;
+                while (len--) {
+                    ret += arr[len] * ChartUtils.NUM_FIX;
+                }
+            }
+            // 3. it has zero length, so just return undefined
+            // => doNothing()
+
+            return ret / ChartUtils.NUM_FIX;
+        },
+        average: function (arr) {
+            console.log(this.options.dataGrouping.valueDecimals)
+
+            var len = arr.length,
+                ret = this.sum(arr);
+
+            // If we have a number, return it divided by the length. If not, return
+            // null or undefined based on what the sum method finds.
+            if ($.isNumeric(ret) && len) {
+                ret = ret / len;
+            }
+
+            return ret;
+        },
+        open: function (arr) {
+            return arr.length ? arr[0] : (arr.hasNulls ? null : undefined);
+        },
+        high: function (arr) {
+            return arr.length ? this.arrayMax(arr) : (arr.hasNulls ? null : undefined);
+        },
+        low: function (arr) {
+            return arr.length ? this.arrayMin(arr) : (arr.hasNulls ? null : undefined);
+        },
+        close: function (arr) {
+            return arr.length ? arr[arr.length - 1] : (arr.hasNulls ? null : undefined);
+        },
+        // ohlc and range are special cases where a multidimensional array is input and an array is output
+        ohlc: function (open, high, low, close) {
+            open = this.open(open);
+            high = this.high(high);
+            low = this.low(low);
+            close = this.close(close);
+
+            if ($.isNumeric(open) || $.isNumeric(high) || $.isNumeric(low) || $.isNumeric(close)) {
+                return [open, high, low, close];
+            }
+            // else, return is undefined
+        },
+        range: function (low, high) {
+            low = this.low(low);
+            high = this.high(high);
+
+            if ($.isNumeric(low) || $.isNumeric(high)) {
+                return [low, high];
+            }
+            // else, return is undefined
+        }
+    },
+    /**
+     * Non-recursive method to find the lowest member of an array. `Math.min` raises
+     * a maximum call stack size exceeded error in Chrome when trying to apply more
+     * than 150.000 points. This method is slightly slower, but safe.
+     *
+     * @function #arrayMin
+     * @memberOf  Highcharts
+     * @param {Array} data An array of numbers.
+     * @returns {Number} The lowest number.
+     */
+    arrayMin: function (data) {
+        var i = data.length,
+            min = data[0];
+
+        while (i--) {
+            if (data[i] < min) {
+                min = data[i];
+            }
+        }
+        return min;
+    },
+
+    /**
+     * Non-recursive method to find the lowest member of an array. `Math.max` raises
+     * a maximum call stack size exceeded error in Chrome when trying to apply more
+     * than 150.000 points. This method is slightly slower, but safe.
+     *
+     * @function #arrayMax
+     * @memberOf  Highcharts
+     * @param {Array} data - An array of numbers.
+     * @returns {Number} The highest number.
+     */
+    arrayMax: function (data) {
+        var i = data.length,
+            max = data[0];
+
+        while (i--) {
+            if (data[i] > max) {
+                max = data[i];
+            }
+        }
+        return max;
+    }
 };

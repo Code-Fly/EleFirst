@@ -13,7 +13,7 @@ $(document).ready(function () {
     DateBoxUtils.initMonthBox($("#datebox-time-end"));
 
     $("#dg-table").datagrid({
-        url: _ctx + "/power/data/f33/frozen/day/electricity/positiveactivepower/total/interval/month/statistic.do",
+        url: _ctx + "/power/data/f5/interval/month/statistic.do",
         method: "POST",
         border: true,
         fit: true,
@@ -22,7 +22,7 @@ $(document).ready(function () {
         fitColumns: true,
         columns: [[
             {
-                field: "clientOperationTime",
+                field: "frozenDay",
                 title: "日期",
                 align: "center",
                 width: 120,
@@ -105,114 +105,61 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
 
                         var paramNode = r.data;
 
-                        var startDate = TimeUtils.dataBoxMonthToDate(param.time);
-                        var endDate = TimeUtils.dataBoxMonthToDate(param.time)
-                        endDate.setMonth(endDate.getMonth() + param.interval + 1);
-
-                        var startTime = startDate.format('yyyyMM') + "01000000";
-                        var endTime = endDate.format('yyyyMM') + "01000000";
-
-                        $.ajax({
-                            url: _ctx + "power/data/f33/frozen/day/node/sum.do",
-                            type: "POST",
-                            cache: false,
-                            data: {
-                                node: JSON.stringify(paramNode),
-                                startTime: startTime,
-                                endTime: endTime
-                            },
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-                                        var item = ChartUtils.getElectricityAllSeries({
-                                            name: "本期"
-                                        }, r.data);
-                                        item.dataGrouping = {
-                                            approximation: "sum",
-                                            forced: true
-                                        };
-                                        series.push(item);
-
-                                        if (series.length == 2) {
-                                            var config = new ChartConfig("view/chart/column-date-all-electricity.json");
-                                            config
-                                                .setShared(false)
-                                                .setZoom(false)
-                                                .setCrossHairSnap(false)
-                                                .setSeries(series)
-                                                .setDataGroupingByMonth();
-
-
-                                            $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
-                                        }
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            },
-                            beforeSend: function (XMLHttpRequest) {
-                                _spinner.load();
-                            },
-                            error: function (request) {
-                                jError("请求失败！" + ErrUtils.getMsg("3"));
-                            },
-                            complete: function (XMLHttpRequest, textStatus) {
-                                _spinner.unload();
-                            }
+                        var timeList = [];
+                        timeList.push({
+                            startTime: TimeUtils.getDataBoxMonthToDateToDateInterval(param.time, 0, 0).format('yyyyMM') + "01000000",
+                            endTime: TimeUtils.getDataBoxMonthToDateToDateInterval(param.time, 0, param.interval + 1).format('yyyyMM') + "01000000"
                         });
 
-                        var startDate = TimeUtils.dataBoxMonthToDate(param.time);
-                        startDate.setFullYear(startDate.getFullYear() - 1);
-                        var endDate = TimeUtils.dataBoxMonthToDate(param.time);
-                        endDate.setFullYear(endDate.getFullYear() - 1);
-                        endDate.setMonth(endDate.getMonth() + param.interval + 1);
-
-                        var startTime = startDate.format('yyyyMM') + "01000000";
-                        var endTime = endDate.format('yyyyMM') + "01000000";
+                        timeList.push({
+                            startTime: TimeUtils.getDataBoxMonthToDateToDateInterval(param.time, -1, 0).format('yyyyMM') + "01000000",
+                            endTime: TimeUtils.getDataBoxMonthToDateToDateInterval(param.time, -1, param.interval + 1).format('yyyyMM') + "01000000"
+                        });
 
                         $.ajax({
-                            url: _ctx + "power/data/f33/frozen/day/node/sum.do",
+                            url: _ctx + "power/data/f5/node/time/sum.do",
                             type: "POST",
                             cache: false,
                             data: {
                                 node: JSON.stringify(paramNode),
-                                startTime: startTime,
-                                endTime: endTime
+                                time: JSON.stringify(timeList)
                             },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+                                        var series = [];
 
-                                        var item = ChartUtils.getElectricityAllSeries({
-                                            name: "去年同期"
-                                        }, r.data);
+                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
+                                        var item = ChartUtils.getF5AllSeries({
+                                            name: "本期"
+                                        }, r.data[0]);
                                         item.dataGrouping = {
-                                            approximation: "sum",
+                                            approximation: ChartUtils.approximations.sum,
                                             forced: true
                                         };
                                         series.push(item);
 
-                                        if (series.length == 2) {
-                                            var config = new ChartConfig("view/chart/column-date-all-electricity.json");
-                                            config
-                                                .setShared(false)
-                                                .setZoom(false)
-                                                .setCrossHairSnap(false)
-                                                .setSeries(series)
-                                                .setDataGroupingByMonth();
+                                        var item = ChartUtils.getF5AllSeries({
+                                            name: "去年同期"
+                                        }, r.data[1]);
+                                        item.dataGrouping = {
+                                            approximation: ChartUtils.approximations.sum,
+                                            forced: true
+                                        };
+                                        series.push(item);
 
+                                        var config = new ChartConfig("view/chart/column-date-all-electricity.json");
+                                        config
+                                            .setShared(false)
+                                            .setZoom(false)
+                                            .setCrossHairSnap(false)
+                                            .setSeries(series)
+                                            .setDataGroupingByMonth();
 
-                                            $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
-                                        }
+                                        $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
 
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));

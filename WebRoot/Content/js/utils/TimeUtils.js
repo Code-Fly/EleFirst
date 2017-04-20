@@ -171,5 +171,12 @@ var TimeUtils = {
         newDate.setFullYear(newDate.getFullYear() + yearInterval);
 
         return newDate;
+    },
+    getDataBoxMonthToDateToDateInterval: function (time, yearInterval, monthInterval) {
+        var newDate = this.dataBoxMonthToDate(time);
+        newDate.setMonth(newDate.getMonth() + monthInterval);
+        newDate.setFullYear(newDate.getFullYear() + yearInterval);
+
+        return newDate;
     }
 };
