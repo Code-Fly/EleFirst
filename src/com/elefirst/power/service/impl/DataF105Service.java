@@ -1,10 +1,10 @@
 package com.elefirst.power.service.impl;
 
 import com.elefirst.base.service.BaseService;
-import com.elefirst.power.dao.iface.IDataF5DAO;
-import com.elefirst.power.po.DataF5;
-import com.elefirst.power.po.DataF5Example;
-import com.elefirst.power.service.iface.IDataF5Service;
+import com.elefirst.power.dao.iface.IDataF105DAO;
+import com.elefirst.power.po.DataF105;
+import com.elefirst.power.po.DataF105Example;
+import com.elefirst.power.service.iface.IDataF105Service;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,17 @@ import java.util.List;
  * Created by barrie on 17/2/2.
  */
 @Service
-public class DataF5Service extends BaseService implements IDataF5Service {
+public class DataF105Service extends BaseService implements IDataF105Service {
     @Autowired
-    private IDataF5DAO dataF5DAO;
+    private IDataF105DAO dataF105DAO;
 
     @Autowired
     private IPnInfoService pnInfoService;
 
     @Override
-    public List<DataF5> getDataF5List(DataF5 template) {
-        DataF5Example condition = new DataF5Example();
-        DataF5Example.Criteria criteria = condition.createCriteria();
+    public List<DataF105> getDataF105List(DataF105 template) {
+        DataF105Example condition = new DataF105Example();
+        DataF105Example.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -42,31 +42,31 @@ public class DataF5Service extends BaseService implements IDataF5Service {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`sendTime` ASC");
-        return dataF5DAO.getDataF5List(condition);
+        condition.setOrderByClause("`frozenTime` ASC");
+        return dataF105DAO.getDataF105List(condition);
     }
 
     @Override
-    public List<DataF5> getDataF5List(List<DataF5> nodes, String startDate, String endDate) {
-        DataF5Example condition = new DataF5Example();
+    public List<DataF105> getDataF105List(List<DataF105> nodes, String startDate, String endDate) {
+        DataF105Example condition = new DataF105Example();
         for (int i = 0; i < nodes.size(); i++) {
-            DataF5 node = nodes.get(i);
+            DataF105 node = nodes.get(i);
             condition.or()
                     .andAreaIdEqualTo(node.getAreaId())
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
-                    .andFrozenDayGreaterThanOrEqualTo(startDate)
-                    .andFrozenDayLessThan(endDate)
+                    .andFrozentimeGreaterThanOrEqualTo(startDate)
+                    .andFrozentimeLessThan(endDate)
             ;
         }
-        condition.setOrderByClause("`frozen_day` ASC");
-        return dataF5DAO.getDataF5List(condition);
+        condition.setOrderByClause("`frozenTime` ASC");
+        return dataF105DAO.getDataF105List(condition);
     }
 
     @Override
-    public List<DataF5> getDataF5SumList(DataF5 template) {
-        DataF5Example condition = new DataF5Example();
-        DataF5Example.Criteria criteria = condition.createCriteria();
+    public List<DataF105> getDataF105SumList(DataF105 template) {
+        DataF105Example condition = new DataF105Example();
+        DataF105Example.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -77,39 +77,39 @@ public class DataF5Service extends BaseService implements IDataF5Service {
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
-        criteria.andFrozenDayIsNotNull();
+        criteria.andFrozentimeIsNotNull();
         if (template.getRows() > 0 && template.getPage() > 0) {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`frozen_day` ASC");
-        return dataF5DAO.getDataF5SumList(condition);
+        condition.setOrderByClause("`frozenTime` ASC");
+        return dataF105DAO.getDataF105SumList(condition);
     }
 
     @Override
-    public List<DataF5> getDataF5SumList(List<DataF5> nodes, String startTime, String endTime) {
-        DataF5Example condition = new DataF5Example();
+    public List<DataF105> getDataF105SumList(List<DataF105> nodes, String startTime, String endTime) {
+        DataF105Example condition = new DataF105Example();
         for (int i = 0; i < nodes.size(); i++) {
-            DataF5 node = nodes.get(i);
+            DataF105 node = nodes.get(i);
             condition.or()
                     .andAreaIdEqualTo(node.getAreaId())
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
-                    .andFrozenDayGreaterThanOrEqualTo(startTime)
-                    .andFrozenDayLessThan(endTime)
-                    .andFrozenDayIsNotNull()
+                    .andFrozentimeGreaterThanOrEqualTo(startTime)
+                    .andFrozentimeLessThan(endTime)
+                    .andFrozentimeIsNotNull()
                     //
-                    .andTotalpositiveactivepowerIsNotNull()
+                    .andActivepowerIsNotNull()
             ;
         }
-        condition.setOrderByClause("`frozen_day` ASC");
-        return dataF5DAO.getDataF5SumList(condition);
+        condition.setOrderByClause("`frozenTime` ASC");
+        return dataF105DAO.getDataF105SumList(condition);
     }
 
     @Override
-    public long getDataF5ListCount(DataF5 template) {
-        DataF5Example condition = new DataF5Example();
-        DataF5Example.Criteria criteria = condition.createCriteria();
+    public long getDataF105ListCount(DataF105 template) {
+        DataF105Example condition = new DataF105Example();
+        DataF105Example.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -120,48 +120,48 @@ public class DataF5Service extends BaseService implements IDataF5Service {
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
-        return dataF5DAO.getDataF5ListCount(condition);
+        return dataF105DAO.getDataF105ListCount(condition);
     }
 
     @Override
-    public List<DataF5> getDataF5Detail(String id) {
-        DataF5Example condition = new DataF5Example();
-        DataF5Example.Criteria criteria = condition.createCriteria();
+    public List<DataF105> getDataF105Detail(String id) {
+        DataF105Example condition = new DataF105Example();
+        DataF105Example.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
-        return dataF5DAO.getDataF5List(condition);
+        return dataF105DAO.getDataF105List(condition);
     }
 
     @Override
-    public int addDataF5(DataF5 template) {
-        return dataF5DAO.addDataF5(template);
+    public int addDataF105(DataF105 template) {
+        return dataF105DAO.addDataF105(template);
     }
 
     @Override
-    public int updateDataF5(DataF5 template) {
-        DataF5Example condition = new DataF5Example();
-        DataF5Example.Criteria criteria = condition.createCriteria();
+    public int updateDataF105(DataF105 template) {
+        DataF105Example condition = new DataF105Example();
+        DataF105Example.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(template.getId());
-        return dataF5DAO.updateDataF5(condition, template);
+        return dataF105DAO.updateDataF105(condition, template);
     }
 
     @Override
-    public int delDataF5(String id) {
-        DataF5Example condition = new DataF5Example();
-        DataF5Example.Criteria criteria = condition.createCriteria();
+    public int delDataF105(String id) {
+        DataF105Example condition = new DataF105Example();
+        DataF105Example.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
-        return dataF5DAO.delDataF5(condition);
+        return dataF105DAO.delDataF105(condition);
     }
 
     @Override
-    public List<DataF5> format(List<DataF5> data) {
+    public List<DataF105> format(List<DataF105> data) {
         PnInfo template = new PnInfo();
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(template);
-        List<DataF5> result = new ArrayList<>();
+        List<DataF105> result = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            DataF5 item = data.get(i);
+            DataF105 item = data.get(i);
             PnInfo pnInfo = getPnInfo(pnInfos, item);
             if (null != pnInfo) {
-                item.setTotalpositiveactivepower(calc(item.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setActivepower(calc(item.getActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
             }
             result.add(item);
         }
@@ -169,7 +169,7 @@ public class DataF5Service extends BaseService implements IDataF5Service {
     }
 
     @Override
-    public PnInfo getPnInfo(List<PnInfo> pnInfos, DataF5 item) {
+    public PnInfo getPnInfo(List<PnInfo> pnInfos, DataF105 item) {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
             if (pnInfo.getAreaId().equals(item.getAreaId()) && pnInfo.getConcentratorId().equals(item.getConcentratorId()) && pnInfo.getPn().equals(item.getPn())) {

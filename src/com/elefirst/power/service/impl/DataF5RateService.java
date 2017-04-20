@@ -42,7 +42,7 @@ public class DataF5RateService extends BaseService implements IDataF5RateService
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`sendTime` ASC");
+        condition.setOrderByClause("`frozen_day` ASC");
         return dataF5RateDAO.getDataF5RateList(condition);
     }
 
@@ -59,7 +59,7 @@ public class DataF5RateService extends BaseService implements IDataF5RateService
                     .andFrozenDayLessThan(endDate)
             ;
         }
-        condition.setOrderByClause("`clientOperationTime` ASC");
+        condition.setOrderByClause("`frozen_day` ASC");
         return dataF5RateDAO.getDataF5RateList(condition);
     }
 

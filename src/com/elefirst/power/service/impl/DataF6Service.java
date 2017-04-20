@@ -42,7 +42,7 @@ public class DataF6Service extends BaseService implements IDataF6Service {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`sendTime` ASC");
+        condition.setOrderByClause("`frozen_day` ASC");
         return dataF6DAO.getDataF6List(condition);
     }
 
@@ -59,7 +59,7 @@ public class DataF6Service extends BaseService implements IDataF6Service {
                     .andFrozenDayLessThan(endDate)
             ;
         }
-        condition.setOrderByClause("`clientOperationTime` ASC");
+        condition.setOrderByClause("`frozen_day` ASC");
         return dataF6DAO.getDataF6List(condition);
     }
 
