@@ -22,6 +22,8 @@ public class WeeklyElectricity {
 	    private Double rateseq4;
 	    
 	    private String name;
+	    
+	    private Double totalPositiveReactivePower;
 
 
 		public String getWeekstart() {
@@ -111,6 +113,14 @@ public class WeeklyElectricity {
 
 		public void setTotalpositiveactivePower(Double totalpositiveactivePower) {
 			this.totalpositiveactivePower = totalpositiveactivePower;
+		}
+
+		public Double getTotalPositiveReactivePower() {
+			return totalPositiveReactivePower;
+		}
+
+		public void setTotalPositiveReactivePower(Double totalPositiveReactivePower) {
+			this.totalPositiveReactivePower = totalPositiveReactivePower;
 		}
 		
 		

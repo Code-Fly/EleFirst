@@ -11,6 +11,8 @@ public class DailyElectricity {
 	    
 	    private Double totalpositiveactivePower;
 	    
+	    private Double totalPositiveReactivePower;
+	    
 	    private Double rateseq1;
 	    
 	    private Double rateseq2;
@@ -99,5 +101,13 @@ public class DailyElectricity {
 
 		public void setName(String name) {
 			this.name = name;
+		}
+
+		public Double getTotalPositiveReactivePower() {
+			return totalPositiveReactivePower;
+		}
+
+		public void setTotalPositiveReactivePower(Double totalPositiveReactivePower) {
+			this.totalPositiveReactivePower = totalPositiveReactivePower;
 		}
 }

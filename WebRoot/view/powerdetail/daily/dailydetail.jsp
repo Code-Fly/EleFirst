@@ -66,7 +66,7 @@
                         formatter="DataGridUtils.dateToDayFormatter">日期
                     </th>
                     <th colspan="5">有功电量(kWh)</th>
-                    <th rowspan="2" field="totalpositiveactivePower" width="120" align="center"
+                    <th rowspan="2" field="totalPositiveReactivePower" width="120" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">无功电量
                     </th>
                 </tr>

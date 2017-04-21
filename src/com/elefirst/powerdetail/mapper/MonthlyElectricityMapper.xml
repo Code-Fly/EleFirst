@@ -7,6 +7,7 @@
     <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
     <result column="pn" property="pn" jdbcType="VARCHAR" />
     <result column="totalPositiveActivePower" property="totalpositiveactivePower" jdbcType="DOUBLE" />
+    <result column="totalPositiveReactivePower" property="totalPositiveReactivePower" jdbcType="DOUBLE" />
     <result column="rateseq1" property="rateseq1" jdbcType="DOUBLE" />
     <result column="rateseq2" property="rateseq2" jdbcType="DOUBLE" />
     <result column="rateseq3" property="rateseq3" jdbcType="DOUBLE" />
@@ -15,55 +16,81 @@
   </resultMap>
   <select id="selectByExample" resultMap="BaseResultMap">
     select * from (
-	    select tt3.`name`,tt3.area_id,tt3.concentrator_id,tt3.pn,tt1.days,round((tt1.totalPositiveActivePower -tt2.totalPositiveActivePower2)*tt3.pt*tt3.ct,0) totalPositiveActivePower,ROUND((tt1.rateseq1 - tt2.rateseq12),0) rateseq1, ROUND((tt1.rateseq2 - tt2.rateseq22),0) rateseq2,ROUND((tt1.rateseq3 - tt2.rateseq32),0) rateseq3,ROUND((tt1.rateseq4 - tt2.rateseq42),0) rateseq4  from (
-			select  bb.days,aa.clientOperationTime,aa.area_id,aa.concentrator_id,aa.pn,(aa.totalPositiveActivePower+ 0) as totalPositiveActivePower,(aa.rateseq1+0) as rateseq1,(aa.rateseq2+0) as rateseq2,(aa.rateseq3+0) as rateseq3,(aa.rateseq4+0) as rateseq4 from (
-			select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-			(select id,
-			max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-			max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-			max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-			max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-			from t_005_fn33_rate_frozen_per_day a
-			group by id) c where b.id = c.id
-			) aa,
+		    SELECT
+		b.frozen_month AS days,
+		tt3.`name`,
+		b.area_id,
+		b.concentrator_id,
+		b.pn,
+		ROUND(c.rateseq1 * tt3.pt * tt3.ct, 0) rateseq1,
+		ROUND(c.rateseq2 * tt3.pt * tt3.ct, 0) rateseq2,
+		ROUND(c.rateseq3 * tt3.pt * tt3.ct, 0) rateseq3,
+		ROUND(c.rateseq4 * tt3.pt * tt3.ct, 0) rateseq4,
+		round(
+			(b.totalPositiveActivePower) * tt3.pt * tt3.ct,
+			0
+		) totalPositiveActivePower,
+		round(
 			(
-			select  DATE_FORMAT(clientOperationTime,'%Y%m') days, area_id,concentrator_id,pn,max(clientOperationTime +0) clientOperationTime from (
-			 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-			(select id,
-			max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-			max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-			max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-			max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-			from t_005_fn33_rate_frozen_per_day a
-			group by id) c where b.id = c.id
-			) tb GROUP BY days,area_id,concentrator_id,pn
-			)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
-			) tt1,(
-			select bb.days,aa.clientOperationTime as clientOperationTime2,aa.area_id as area_id2,aa.concentrator_id as concentrator_id2,aa.pn as pn2, (aa.totalPositiveActivePower+0) as totalPositiveActivePower2,(aa.rateseq1+0) as rateseq12,(aa.rateseq2+0) as rateseq22,(aa.rateseq3+0) as rateseq32,(aa.rateseq4+0)  as rateseq42 from (
-				select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-				(select id,
-				max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-				max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-				max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-				max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-				from t_005_fn33_rate_frozen_per_day a
-				group by id) c where b.id = c.id
-		
-			) aa,
-			(
-				select  DATE_FORMAT(clientOperationTime,'%Y%m') days, area_id,concentrator_id,pn,min(clientOperationTime +0) clientOperationTime from (
-				 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-				(select id,
-				max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-				max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-				max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-				max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-				from t_005_fn33_rate_frozen_per_day a
-				group by id) c where b.id = c.id
-				) tb GROUP BY days, area_id,concentrator_id,pn
-			)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
-		) tt2,t_202_pn_info tt3 where  tt1.days = tt2.days and tt1.area_id = tt2.area_id2 and tt1.concentrator_id = tt2.concentrator_id2 and tt1.pn = tt2.pn2 and tt1.area_id = tt3.area_id and tt1.concentrator_id = tt3.concentrator_id and tt1.pn = tt3.pn
-    ) ct where 1=1
+				d.totalPositiveReactivePower
+			) * tt3.pt * tt3.ct,
+			0
+		) totalPositiveReactivePower
+	FROM
+		t_035_type_two_data_fn21 b,
+		(
+			SELECT
+				id,
+				max(
+					CASE rate_seq
+					WHEN '1' THEN
+						a.positiveActivePower
+					ELSE
+						''
+					END
+				) AS rateseq1,
+				max(
+					CASE rate_seq
+					WHEN '2' THEN
+						a.positiveActivePower
+					ELSE
+						''
+					END
+				) AS rateseq2,
+				max(
+					CASE rate_seq
+					WHEN '3' THEN
+						a.positiveActivePower
+					ELSE
+						''
+					END
+				) AS rateseq3,
+				max(
+					CASE rate_seq
+					WHEN '4' THEN
+						a.positiveActivePower
+					ELSE
+						''
+					END
+				) AS rateseq4
+			FROM
+				t_035_type_two_data_fn21_rate a
+			GROUP BY
+				id
+		) c,
+		t_038_type_two_data_fn22 d,
+		t_202_pn_info tt3
+	WHERE
+		b.id = c.id
+	AND b.frozen_month IS NOT NULL
+	AND b.frozen_month = d.frozen_month
+	AND b.area_id = d.area_id
+	AND b.concentrator_id = d.concentrator_id
+	AND b.pn = d.pn
+	AND b.area_id = tt3.area_id
+	AND b.concentrator_id = tt3.concentrator_id
+	AND b.pn = tt3.pn
+) ct where 1=1
     <if test="areaId!= null and areaId!= ''">
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -90,56 +117,81 @@
   </select>
   <select id="countByExample" resultType="java.lang.Integer" >
     select count(1) from (
-	    	select tt3.`name`,tt3.area_id,tt3.concentrator_id,tt3.pn,tt1.days,round((tt1.totalPositiveActivePower -tt2.totalPositiveActivePower2)*tt3.pt*tt3.ct,0) totalPositiveActivePower,ROUND((tt1.rateseq1 - tt2.rateseq12),0) rateseq1, ROUND((tt1.rateseq2 - tt2.rateseq22),0) rateseq2,ROUND((tt1.rateseq3 - tt2.rateseq32),0) rateseq3,ROUND((tt1.rateseq4 - tt2.rateseq42),0) rateseq4  from (
-				select  bb.days,aa.clientOperationTime,aa.area_id,aa.concentrator_id,aa.pn,(aa.totalPositiveActivePower+ 0) as totalPositiveActivePower,(aa.rateseq1+0) as rateseq1,(aa.rateseq2+0) as rateseq2,(aa.rateseq3+0) as rateseq3,(aa.rateseq4+0) as rateseq4 from (
-				select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-				(select id,
-				max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-				max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-				max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-				max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-				from t_005_fn33_rate_frozen_per_day a
-				group by id) c where b.id = c.id
-	
-			) aa,
+			    	SELECT
+			b.frozen_month AS days,
+			tt3.`name`,
+			b.area_id,
+			b.concentrator_id,
+			b.pn,
+			ROUND(c.rateseq1 * tt3.pt * tt3.ct, 0) rateseq1,
+			ROUND(c.rateseq2 * tt3.pt * tt3.ct, 0) rateseq2,
+			ROUND(c.rateseq3 * tt3.pt * tt3.ct, 0) rateseq3,
+			ROUND(c.rateseq4 * tt3.pt * tt3.ct, 0) rateseq4,
+			round(
+				(b.totalPositiveActivePower) * tt3.pt * tt3.ct,
+				0
+			) totalPositiveActivePower,
+			round(
+				(
+					d.totalPositiveReactivePower
+				) * tt3.pt * tt3.ct,
+				0
+			) totalPositiveReactivePower
+		FROM
+			t_035_type_two_data_fn21 b,
 			(
-				select  DATE_FORMAT(clientOperationTime,'%Y%m') days, area_id,concentrator_id,pn,max(clientOperationTime +0) clientOperationTime from (
-				 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-				(select id,
-				max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-				max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-				max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-				max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-				from t_005_fn33_rate_frozen_per_day a
-				group by id) c where b.id = c.id
-				) tb GROUP BY days,area_id,concentrator_id,pn
-			)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
-	    ) tt1,(
-		select bb.days,aa.clientOperationTime as clientOperationTime2,aa.area_id as area_id2,aa.concentrator_id as concentrator_id2,aa.pn as pn2, (aa.totalPositiveActivePower+0) as totalPositiveActivePower2,(aa.rateseq1+0) as rateseq12,(aa.rateseq2+0) as rateseq22,(aa.rateseq3+0) as rateseq32,(aa.rateseq4+0)  as rateseq42 from (
-			select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-			(select id,
-			max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-			max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-			max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-			max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-			from t_005_fn33_rate_frozen_per_day a
-			group by id) c where b.id = c.id
-	
-		) aa,
-		(
-			select  DATE_FORMAT(clientOperationTime,'%Y%m') days, area_id,concentrator_id,pn,min(clientOperationTime +0) clientOperationTime from (
-			 select DISTINCT b.clientOperationTime,b.area_id,b.concentrator_id,b.pn,b.totalPositiveActivePower,c.rateseq1,c.rateseq2,c.rateseq3,c.rateseq4  from t_004_fn33_frozen_per_day b ,
-			(select id,
-			max(case rate_seq when '1' then a.positiveActivePower else '' end) as rateseq1,
-			max(case rate_seq when '2' then a.positiveActivePower else '' end) as rateseq2,
-			max(case rate_seq when '3' then a.positiveActivePower else '' end) as rateseq3,
-			max(case rate_seq when '4' then a.positiveActivePower else '' end) as rateseq4
-			from t_005_fn33_rate_frozen_per_day a
-			group by id) c where b.id = c.id
-			) tb GROUP BY days, area_id,concentrator_id,pn
-		)bb where aa.clientOperationTime = bb.clientOperationTime and aa.area_id = bb.area_id and aa.concentrator_id = bb.concentrator_id and aa.pn = bb.pn
-	    ) tt2,t_202_pn_info tt3 where  tt1.days = tt2.days and tt1.area_id = tt2.area_id2 and tt1.concentrator_id = tt2.concentrator_id2 and tt1.pn = tt2.pn2 and tt1.area_id = tt3.area_id and tt1.concentrator_id = tt3.concentrator_id and tt1.pn = tt3.pn
-    ) ct where 1=1
+				SELECT
+					id,
+					max(
+						CASE rate_seq
+						WHEN '1' THEN
+							a.positiveActivePower
+						ELSE
+							''
+						END
+					) AS rateseq1,
+					max(
+						CASE rate_seq
+						WHEN '2' THEN
+							a.positiveActivePower
+						ELSE
+							''
+						END
+					) AS rateseq2,
+					max(
+						CASE rate_seq
+						WHEN '3' THEN
+							a.positiveActivePower
+						ELSE
+							''
+						END
+					) AS rateseq3,
+					max(
+						CASE rate_seq
+						WHEN '4' THEN
+							a.positiveActivePower
+						ELSE
+							''
+						END
+					) AS rateseq4
+				FROM
+					t_035_type_two_data_fn21_rate a
+				GROUP BY
+					id
+			) c,
+			t_038_type_two_data_fn22 d,
+			t_202_pn_info tt3
+		WHERE
+			b.id = c.id
+		AND b.frozen_month IS NOT NULL
+		AND b.frozen_month = d.frozen_month
+		AND b.area_id = d.area_id
+		AND b.concentrator_id = d.concentrator_id
+		AND b.pn = d.pn
+		AND b.area_id = tt3.area_id
+		AND b.concentrator_id = tt3.concentrator_id
+		AND b.pn = tt3.pn
+) ct where 1=1
     <if test="areaId!= null and areaId!= ''">
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>

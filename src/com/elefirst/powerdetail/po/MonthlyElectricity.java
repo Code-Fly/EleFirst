@@ -20,6 +20,8 @@ public class MonthlyElectricity {
 	    private Double rateseq4;
 	    
 	    private String name;
+	    
+	    private Double totalPositiveReactivePower;
 
 		public String getDays() {
 			return days;
@@ -100,4 +102,13 @@ public class MonthlyElectricity {
 		public void setName(String name) {
 			this.name = name;
 		}
+
+		public Double getTotalPositiveReactivePower() {
+			return totalPositiveReactivePower;
+		}
+
+		public void setTotalPositiveReactivePower(Double totalPositiveReactivePower) {
+			this.totalPositiveReactivePower = totalPositiveReactivePower;
+		}
+		
 }
