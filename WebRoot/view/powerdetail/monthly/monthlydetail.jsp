@@ -91,9 +91,9 @@
         <%--<table id="tt2" style="display:none">--%>
         <%--<thead>--%>
         <%--<tr>--%>
-        <%--&lt;%&ndash;<th rowspan="2" field="areaId33" width="80" align="center">区域</th>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<th rowspan="2" field="concentratorId33" width="80" align="center">集中器</th>&ndash;%&gt;--%>
-        <%--&lt;%&ndash;<th rowspan="2" field="pn33" width="80" align="center">监测点</th>&ndash;%&gt;--%>
+        <%--&lt;%&ndash;<th rowspan="2" field="areaId" width="80" align="center">区域</th>&ndash;%&gt;--%>
+        <%--&lt;%&ndash;<th rowspan="2" field="concentratorId" width="80" align="center">集中器</th>&ndash;%&gt;--%>
+        <%--&lt;%&ndash;<th rowspan="2" field="pn" width="80" align="center">监测点</th>&ndash;%&gt;--%>
         <%--<th rowspan="2" field="name" width="200" align="center" formatter="DataGridUtils.strFormatter">监测点--%>
         <%--</th>--%>
         <%--<th rowspan="2" field="days" width="120" align="center"--%>

@@ -918,6 +918,3 @@ function backlist() {
     $("#input-detail-datebox").datebox("clear");
     $('#cc').layout('collapse', 'south');
 }
-
-
-

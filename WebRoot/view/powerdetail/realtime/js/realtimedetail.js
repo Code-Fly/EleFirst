@@ -234,11 +234,11 @@ $(document).ready(function () {
                         handerBySouthTabType('负荷');
                     } else if ('tt2' == dgId) {
                         singlerow = $('#tt2').datagrid('getSelected');
-                        areaId = singlerow.areaId33;
-                        concentratorId = singlerow.concentratorId33;
-                        pn = singlerow.pn33;
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
 
-                        var dateStr = singlerow.clientoperationtime33.split(" ");
+                        var dateStr = singlerow.clientoperationtime.split(" ");
                         date = dateStr[0];
                         $("#input-detail-datebox").datebox("setValue", date)
                         $('#tab2').tabs('select', '示数');

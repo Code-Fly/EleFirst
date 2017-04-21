@@ -7,6 +7,7 @@ import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerFactorDetail;
 import com.elefirst.powerdetail.po.TotalActivePowerDetail;
+import com.elefirst.powerdetail.po.TwoRealtimeDisplay;
 import com.elefirst.powerdetail.po.ViewDisplayF33F34;
 import com.elefirst.powerdetail.po.VoltageDetail;
 import com.elefirst.system.po.PnInfo;
@@ -42,7 +43,7 @@ public interface IPowerDetailF25Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ViewDisplayF33F34> fetchLastDisplayDetailByCtrId(String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
+	public List<TwoRealtimeDisplay> fetchLastDisplayDetailByCtrId(String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
 	
 	/**
 	 * 获取每个区域下相关集线器对应的最新监测点总数
@@ -74,7 +75,7 @@ public interface IPowerDetailF25Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ViewDisplayF33F34> fetchAllDisplayDetailByPn(String date,String areaId,String ctrId,String pn,int rows,int page) throws Exception;
+	public List<TwoRealtimeDisplay> fetchAllDisplayDetailByPn(String date,String areaId,String ctrId,String pn,int rows,int page) throws Exception;
 	
 	/**
 	 * 根据区域ID,集线器ID,监测点ID 查询指定监测点的所有示数记录总数

@@ -5,22 +5,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.elefirst.powerdetail.mapper.PowerDetailF25Mapper;
-import com.elefirst.powerdetail.mapper.ViewDisplayF33F34Mapper;
+import com.elefirst.powerdetail.mapper.TwoRealtimeDisplayMapper;
 import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.CurrentDetail;
 import com.elefirst.powerdetail.po.PowerDetailF25;
 import com.elefirst.powerdetail.po.PowerDetailF25Example;
 import com.elefirst.powerdetail.po.PowerFactorDetail;
 import com.elefirst.powerdetail.po.TotalActivePowerDetail;
-import com.elefirst.powerdetail.po.ViewDisplayF33F34;
-import com.elefirst.powerdetail.po.ViewDisplayF33F34Example;
+import com.elefirst.powerdetail.po.TwoRealtimeDisplay;
+import com.elefirst.powerdetail.po.TwoRealtimeDisplayExample;
 import com.elefirst.powerdetail.po.VoltageDetail;
 import com.elefirst.powerdetail.service.IPowerDetailF25Service;
 
@@ -32,8 +30,8 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 	@Resource(name = "powerDetailF25Mapper")
 	private PowerDetailF25Mapper powerDetailF25Mapper;
 	
-	@Resource(name = "viewDisplayF33F34Mapper")
-	private ViewDisplayF33F34Mapper viewDisplayF33F34Mapper;
+	@Resource(name = "twoRealtimeDisplayMapper")
+	private TwoRealtimeDisplayMapper twoRealtimeDisplayMapper;
 	
 	@Override
 	public List<PowerDetailF25> fetchLastPowerDetailF25ByAreaId(String areaId,int rows,int page)
@@ -67,7 +65,7 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 	}
 
 	@Override
-	public List<ViewDisplayF33F34> fetchLastDisplayDetailByCtrId(
+	public List<TwoRealtimeDisplay> fetchLastDisplayDetailByCtrId(
 			String areaId, List<Concentrator> concentrators, int rows, int page)
 			throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
@@ -77,8 +75,8 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 			params.put("limitStart", (page - 1) * rows);
 			params.put("limitEnd", rows);
 		}
-		List<ViewDisplayF33F34> viewDisplayF33F34s = viewDisplayF33F34Mapper.myselectByExample(params);
-		return viewDisplayF33F34s;
+		List<TwoRealtimeDisplay> twoRealtimeDisplays = twoRealtimeDisplayMapper.myselectByExample(params);
+		return twoRealtimeDisplays;
 	}
 
 	@Override
@@ -87,7 +85,7 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("concentratorIds", concentrators);
 		params.put("areaId", areaId);
-		int num = viewDisplayF33F34Mapper.myselectByExampleCount(params);
+		int num = twoRealtimeDisplayMapper.myselectByExampleCount(params);
 		return num;
 	}
 
@@ -196,25 +194,25 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 	}
 
 	@Override
-	public List<ViewDisplayF33F34> fetchAllDisplayDetailByPn(String date,String areaId,
+	public List<TwoRealtimeDisplay> fetchAllDisplayDetailByPn(String date,String areaId,
 			String ctrId, String pn, int rows, int page)
 			throws Exception {
-		ViewDisplayF33F34Example condition = new ViewDisplayF33F34Example();
-		ViewDisplayF33F34Example.Criteria criteria = condition.createCriteria();
+		TwoRealtimeDisplayExample condition = new TwoRealtimeDisplayExample();
+		TwoRealtimeDisplayExample.Criteria criteria = condition.createCriteria();
 		if(date != null && date.length() > 0){
 			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
-			criteria.andClientoperationtime33Like(vdate+"%");
+			criteria.andClientoperationtimeLike(vdate+"%");
 		}
-		criteria.andConcentratorId33EqualTo(ctrId);
-		criteria.andAreaId33EqualTo(areaId);
-		criteria.andPn33EqualTo(pn);
-		condition.setOrderByClause("clientOperationTime33 DESC");
+		criteria.andConcentratorIdEqualTo(ctrId);
+		criteria.andAreaIdEqualTo(areaId);
+		criteria.andPnEqualTo(pn);
+		condition.setOrderByClause("clientOperationTime DESC");
 		if(rows > 0 && page > 0){
 			condition.setLimitStart((page - 1) * rows);
             condition.setLimitEnd(rows);
 		}
-		List<ViewDisplayF33F34>  viewDisplayF33F34s = viewDisplayF33F34Mapper.selectByExample(condition);
-		return viewDisplayF33F34s;
+		List<TwoRealtimeDisplay>  twoRealtimeDisplays = twoRealtimeDisplayMapper.selectByExample(condition);
+		return twoRealtimeDisplays;
 	}
 
 	@Override
@@ -226,7 +224,7 @@ public class PowerDetailF25ServiceImpl implements IPowerDetailF25Service {
 		params.put("pn", pn);
 		String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
 		params.put("date", vdate);
-		int num = viewDisplayF33F34Mapper.displayDetailCount(params);
+		int num = twoRealtimeDisplayMapper.displayDetailCount(params);
 		return num;
 	}
 }

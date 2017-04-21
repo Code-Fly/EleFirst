@@ -395,7 +395,7 @@
                     <table id="dtt2" style="display: none">
                         <thead>
                         <tr>
-                            <th rowspan="2" field="clientoperationtime33" width="120" align="center"
+                            <th rowspan="2" field="clientoperationtime" width="120" align="center"
                                 formatter="DataGridUtils.dateToMinuteFormatter">日期
                             </th>
                             <th colspan="4">示数</th>

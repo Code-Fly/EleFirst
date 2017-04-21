@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -127,35 +126,35 @@ public class PowerDetailController {
             List<Concentrator> concentrators = area.getConcentrators();
             String areaId = area.getAreaId();
 
-            List<ViewDisplayF33F34> viewDisplayF33F34s = powerDetailF25ServiceImpl.fetchLastDisplayDetailByCtrId(areaId, concentrators, rowsNum, pageNum);
+            List<TwoRealtimeDisplay> twoRealtimeDisplays = powerDetailF25ServiceImpl.fetchLastDisplayDetailByCtrId(areaId, concentrators, rowsNum, pageNum);
 
-            for (ViewDisplayF33F34 viewDisplayF33F34 : viewDisplayF33F34s) {
+            for (TwoRealtimeDisplay twoRealtimeDisplay : twoRealtimeDisplays) {
                 //获取电压、功率、电量 系数
-                double pt = viewDisplayF33F34.getPt();
+                double pt = twoRealtimeDisplay.getPt();
                 //电流、功率、电量 系数
-                double ct = viewDisplayF33F34.getCt();
+                double ct = twoRealtimeDisplay.getCt();
                 double pct = Arith.mul(pt, ct);
 
                 //示数计算
-                handerDisplay(viewDisplayF33F34, pct);
+                handerDisplay(twoRealtimeDisplay, pct);
 
                 //处理日期
-                String dateStr = viewDisplayF33F34.getClientoperationtime33();
+                String dateStr = twoRealtimeDisplay.getClientoperationtime();
                 dateStr = com.elefirst.base.utils.DateUtil.StringPattern(dateStr, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm");
-                viewDisplayF33F34.setClientoperationtime33(dateStr);
+                twoRealtimeDisplay.setClientoperationtime(dateStr);
 
                 //查看状态
-                if ("0".equals(viewDisplayF33F34.getStat().trim())) {
-                    viewDisplayF33F34.setStat("正常");
-                } else {
-                    viewDisplayF33F34.setStat("异常");
+                if ("1".equals(twoRealtimeDisplay.getState().trim())) {
+                	twoRealtimeDisplay.setState("运行");
+                } else if("2".equals(twoRealtimeDisplay.getState().trim())){
+                	twoRealtimeDisplay.setState("调试");
                 }
             }
 
             int total = powerDetailF25ServiceImpl.fetchLastDisplayDetailCountByCtrId(areaId, concentrators);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询实时监测点用电示数成功！");
-            dg.setRows(viewDisplayF33F34s);
+            dg.setRows(twoRealtimeDisplays);
             dg.setTotal(total);
             dg.setGm(gm);
             return new ErrorMsg(Error.SUCCESS, "success", dg);
@@ -186,27 +185,27 @@ public class PowerDetailController {
             int pageNum = Integer.valueOf(page == null ? "1" : page);
             int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
 
-            List<ViewDisplayF33F34> viewDisplayF33F34s = powerDetailF25ServiceImpl.fetchAllDisplayDetailByPn(date, areaId, concentratorId, pn, rowsNum, pageNum);
+            List<TwoRealtimeDisplay> twoRealtimeDisplays = powerDetailF25ServiceImpl.fetchAllDisplayDetailByPn(date, areaId, concentratorId, pn, rowsNum, pageNum);
 
-            for (ViewDisplayF33F34 viewDisplayF33F34 : viewDisplayF33F34s) {
+            for (TwoRealtimeDisplay twoRealtimeDisplay : twoRealtimeDisplays) {
                 //获取电压、功率、电量 系数
-                double pt = viewDisplayF33F34.getPt();
+                double pt = twoRealtimeDisplay.getPt();
                 //电流、功率、电量 系数
-                double ct = viewDisplayF33F34.getCt();
+                double ct = twoRealtimeDisplay.getCt();
                 double pct = Arith.mul(pt, ct);
 
                 //示数计算
-                handerDisplay(viewDisplayF33F34, pct);
+                handerDisplay(twoRealtimeDisplay, pct);
                 //处理日期
-                String dateStr = viewDisplayF33F34.getClientoperationtime33();
+                String dateStr = twoRealtimeDisplay.getClientoperationtime();
                 dateStr = com.elefirst.base.utils.DateUtil.StringPattern(dateStr, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm");
-                viewDisplayF33F34.setClientoperationtime33(dateStr);
+                twoRealtimeDisplay.setClientoperationtime(dateStr);
             }
 
             int total = powerDetailF25ServiceImpl.fetchAllDisplayDetailCountByPn(date, areaId, concentratorId, pn);
             gm.setFlag(GeneralMessage.Result.SUCCESS);
             gm.setMsg("查询实时监测点用电示数成功！");
-            dg.setRows(viewDisplayF33F34s);
+            dg.setRows(twoRealtimeDisplays);
             dg.setTotal(total);
             dg.setGm(gm);
             return new ErrorMsg(Error.SUCCESS, "success", dg);
@@ -614,20 +613,20 @@ public class PowerDetailController {
         powerDetailF252.setcReactivepower("" + cReactivePower);
     }
 
-    private void handerDisplay(ViewDisplayF33F34 viewDisplayF33F34, double pct) {
-        String totalpositiveactivepowerStr = viewDisplayF33F34.getTotalpositiveactivepower();
+    private void handerDisplay(TwoRealtimeDisplay twoRealtimeDisplay, double pct) {
+        String totalpositiveactivepowerStr = twoRealtimeDisplay.getTotalpositiveactivepower();
         if (totalpositiveactivepowerStr == null || totalpositiveactivepowerStr.length() == 0) {
             totalpositiveactivepowerStr = "0";
         }
-        String totalpositivereactivepowerStr = viewDisplayF33F34.getTotalpositivereactivepower();
+        String totalpositivereactivepowerStr = twoRealtimeDisplay.getTotalpositivereactivepower();
         if (totalpositivereactivepowerStr == null || totalpositivereactivepowerStr.length() == 0) {
             totalpositivereactivepowerStr = "0";
         }
-        String totalreverseactivepowerStr = viewDisplayF33F34.getTotalreverseactivepower();
+        String totalreverseactivepowerStr = twoRealtimeDisplay.getTotalreverseactivepower();
         if (totalreverseactivepowerStr == null || totalreverseactivepowerStr.length() == 0) {
             totalreverseactivepowerStr = "0";
         }
-        String totalreversereactivepowerStr = viewDisplayF33F34.getTotalreversereactivepower();
+        String totalreversereactivepowerStr = twoRealtimeDisplay.getTotalreversereactivepower();
         if (totalreversereactivepowerStr == null || totalreversereactivepowerStr.length() == 0) {
             totalreversereactivepowerStr = "0";
         }
@@ -642,10 +641,9 @@ public class PowerDetailController {
         totalreverseactivepower = Arith.mul(totalreverseactivepower, pct);
         totalreversereactivepower = Arith.mul(totalreversereactivepower, pct);
 
-        viewDisplayF33F34.setTotalpositiveactivepower("" + totalpositiveactivepower);
-        viewDisplayF33F34.setTotalpositivereactivepower("" + totalpositivereactivepower);
-        viewDisplayF33F34.setTotalreverseactivepower("" + totalreverseactivepower);
-        viewDisplayF33F34.setTotalreversereactivepower("" + totalreversereactivepower);
-
+        twoRealtimeDisplay.setTotalpositiveactivepower("" + totalpositiveactivepower);
+        twoRealtimeDisplay.setTotalpositivereactivepower("" + totalpositivereactivepower);
+        twoRealtimeDisplay.setTotalreverseactivepower("" + totalreverseactivepower);
+        twoRealtimeDisplay.setTotalreversereactivepower("" + totalreversereactivepower);
     }
 }

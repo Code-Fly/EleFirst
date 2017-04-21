@@ -72,7 +72,7 @@
                     <th rowspan="2" field="stat" width="80" align="center" formatter="DataGridUtils.strFormatter">状态
                     </th>
                     <th colspan="4">示数</th>
-                    <th rowspan="2" field="clientoperationtime33" width="120" align="center"
+                    <th rowspan="2" field="clientoperationtime" width="120" align="center"
                         formatter="DataGridUtils.dateToMinuteFormatter">抄表时刻
                     </th>
                 </tr>
@@ -303,7 +303,7 @@
                     <table id="dtt2" style="display: none">
                         <thead>
                         <tr>
-                            <th rowspan="2" field="clientoperationtime33" width="120" align="center"
+                            <th rowspan="2" field="clientoperationtime" width="120" align="center"
                                 formatter="DataGridUtils.dateToMinuteFormatter">日期
                             </th>
                             <th colspan="4">示数</th>

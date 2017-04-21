@@ -281,9 +281,9 @@ $(document).ready(function () {
                         handerBySouthTabType('负荷');
                     } else if ('tt2' == dgId) {
                         singlerow = $('#tt2').datagrid('getSelected');
-                        areaId = singlerow.areaId33;
-                        concentratorId = singlerow.concentratorId33;
-                        pn = singlerow.pn33;
+                        areaId = singlerow.areaId;
+                        concentratorId = singlerow.concentratorId;
+                        pn = singlerow.pn;
                         date = singlerow.days;
                         var dateStr = date.substring(0, 4) + '-' + date.substring(4, 6) + "-01";
                         $("#input-detail-datebox").datebox("setValue", dateStr);
