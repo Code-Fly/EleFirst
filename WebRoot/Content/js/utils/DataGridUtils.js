@@ -83,5 +83,16 @@ var DataGridUtils = {
         } else {
             return "-";
         }
+    },
+    dateToYearFormatter: function (value) {
+        if (value != null && value != "null") {
+            if ((value + "").indexOf("-") < 0) {
+                return value.substring(0, 4);
+            } else {
+                return value;
+            }
+        } else {
+            return "-";
+        }
     }
 };

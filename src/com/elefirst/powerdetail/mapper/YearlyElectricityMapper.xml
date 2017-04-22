@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.powerdetail.mapper.YearlyElectricityMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.powerdetail.po.YearlyElectricity" >
+    <result column="days" property="days" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="totalPositiveActivePower" property="totalpositiveactivePower" jdbcType="DOUBLE" />
+    <result column="totalPositiveReactivePower" property="totalPositiveReactivePower" jdbcType="DOUBLE" />
+    <result column="rateseq1" property="rateseq1" jdbcType="DOUBLE" />
+    <result column="rateseq2" property="rateseq2" jdbcType="DOUBLE" />
+    <result column="rateseq3" property="rateseq3" jdbcType="DOUBLE" />
+    <result column="rateseq4" property="rateseq4" jdbcType="DOUBLE" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByExample" resultMap="BaseResultMap">
+    select * from (
+		    SELECT
+		    date_format(
+				CONCAT(b.frozen_month,'00000000'),
+				'%Y'
+			  ) AS days,
+				tt3.`name`,
+				b.area_id,
+				b.concentrator_id,
+				b.pn,
+				sum(ROUND(c.rateseq1 * tt3.pt * tt3.ct, 0)) rateseq1,
+				sum(ROUND(c.rateseq2 * tt3.pt * tt3.ct, 0)) rateseq2,
+				sum(ROUND(c.rateseq3 * tt3.pt * tt3.ct, 0)) rateseq3,
+				sum(ROUND(c.rateseq4 * tt3.pt * tt3.ct, 0)) rateseq4,
+				sum(round(
+					(b.totalPositiveActivePower) * tt3.pt * tt3.ct,
+					0
+				)) totalPositiveActivePower,
+				sum(round(
+					(
+						d.totalPositiveReactivePower
+					) * tt3.pt * tt3.ct,
+					0
+				)) totalPositiveReactivePower
+			FROM
+				t_035_type_two_data_fn21 b,
+				(
+					SELECT
+						id,
+						max(
+							CASE rate_seq
+							WHEN '1' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq1,
+						max(
+							CASE rate_seq
+							WHEN '2' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq2,
+						max(
+							CASE rate_seq
+							WHEN '3' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq3,
+						max(
+							CASE rate_seq
+							WHEN '4' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq4
+					FROM
+						t_035_type_two_data_fn21_rate a
+					GROUP BY
+						id
+				) c,
+				t_038_type_two_data_fn22 d,
+				t_202_pn_info tt3
+			WHERE
+				b.id = c.id
+			AND b.frozen_month IS NOT NULL
+			AND b.frozen_month = d.frozen_month
+			AND b.area_id = d.area_id
+			AND b.concentrator_id = d.concentrator_id
+			AND b.pn = d.pn
+			AND b.area_id = tt3.area_id
+			AND b.concentrator_id = tt3.concentrator_id
+			AND b.pn = tt3.pn
+		GROUP BY
+			`days`,
+			`area_id`,
+			`concentrator_id`,
+			`pn`
+) ct where 1=1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="date!= null and date!= ''">
+	      and ct.days = #{date ,jdbcType=VARCHAR}
+	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             ct.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and ct.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
+	order by ct.days desc
+	<if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="countByExample" resultType="java.lang.Integer" >
+    select count(1) from (
+			SELECT
+		    date_format(
+				CONCAT(b.frozen_month,'00000000'),
+				'%Y'
+			  ) AS days,
+				tt3.`name`,
+				b.area_id,
+				b.concentrator_id,
+				b.pn,
+				sum(ROUND(c.rateseq1 * tt3.pt * tt3.ct, 0)) rateseq1,
+				sum(ROUND(c.rateseq2 * tt3.pt * tt3.ct, 0)) rateseq2,
+				sum(ROUND(c.rateseq3 * tt3.pt * tt3.ct, 0)) rateseq3,
+				sum(ROUND(c.rateseq4 * tt3.pt * tt3.ct, 0)) rateseq4,
+				sum(round(
+					(b.totalPositiveActivePower) * tt3.pt * tt3.ct,
+					0
+				)) totalPositiveActivePower,
+				sum(round(
+					(
+						d.totalPositiveReactivePower
+					) * tt3.pt * tt3.ct,
+					0
+				)) totalPositiveReactivePower
+			FROM
+				t_035_type_two_data_fn21 b,
+				(
+					SELECT
+						id,
+						max(
+							CASE rate_seq
+							WHEN '1' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq1,
+						max(
+							CASE rate_seq
+							WHEN '2' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq2,
+						max(
+							CASE rate_seq
+							WHEN '3' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq3,
+						max(
+							CASE rate_seq
+							WHEN '4' THEN
+								a.positiveActivePower
+							ELSE
+								''
+							END
+						) AS rateseq4
+					FROM
+						t_035_type_two_data_fn21_rate a
+					GROUP BY
+						id
+				) c,
+				t_038_type_two_data_fn22 d,
+				t_202_pn_info tt3
+			WHERE
+				b.id = c.id
+			AND b.frozen_month IS NOT NULL
+			AND b.frozen_month = d.frozen_month
+			AND b.area_id = d.area_id
+			AND b.concentrator_id = d.concentrator_id
+			AND b.pn = d.pn
+			AND b.area_id = tt3.area_id
+			AND b.concentrator_id = tt3.concentrator_id
+			AND b.pn = tt3.pn
+		GROUP BY
+			`days`,
+			`area_id`,
+			`concentrator_id`,
+			`pn`
+) ct where 1=1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="date!= null and date!= ''">
+		  and ct.days = #{date ,jdbcType=VARCHAR}
+	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             ct.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and ct.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
+  </select>
+</mapper>
