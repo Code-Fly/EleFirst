@@ -1720,7 +1720,9 @@ var ChartUtils = {
         for (var i = 0; i < data.length; i++) {
             var tmp = parseFloat(data[i].totalpositiveactivepower);
             // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
-            series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenDay + "000000"), tmp]);
+            if (null != data[i].frozenDay && null != data[i].totalpositiveactivepower) {
+                series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenDay + "000000"), tmp]);
+            }
         }
 
         return series;
@@ -1808,7 +1810,7 @@ var ChartUtils = {
             console.log(this.options.dataGrouping.valueDecimals)
 
             var len = arr.length,
-                ret = this.sum(arr);
+                ret = ChartUtils.approximations.sum(arr);
 
             // If we have a number, return it divided by the length. If not, return
             // null or undefined based on what the sum method finds.
@@ -1822,14 +1824,31 @@ var ChartUtils = {
 
             return ret;
         },
+        averageLoad: function (arr) {
+
+            var len = arr.length,
+                ret = ChartUtils.approximations.sum(arr);
+
+            // If we have a number, return it divided by the length. If not, return
+            // null or undefined based on what the sum method finds.
+            if ($.isNumeric(ret) && len) {
+                ret = ret / (len * 24);
+            }
+
+            if (!this.options.dataGrouping.valueDecimals) {
+                ret.toFixed(this.options.dataGrouping.valueDecimal);
+            }
+
+            return ret;
+        },
         open: function (arr) {
             return arr.length ? arr[0] : (arr.hasNulls ? null : undefined);
         },
         high: function (arr) {
-            return arr.length ? this.arrayMax(arr) : (arr.hasNulls ? null : undefined);
+            return arr.length ? ChartUtils.arrayMax(arr) : (arr.hasNulls ? null : undefined);
         },
         low: function (arr) {
-            return arr.length ? this.arrayMin(arr) : (arr.hasNulls ? null : undefined);
+            return arr.length ? ChartUtils.arrayMin(arr) : (arr.hasNulls ? null : undefined);
         },
         close: function (arr) {
             return arr.length ? arr[arr.length - 1] : (arr.hasNulls ? null : undefined);

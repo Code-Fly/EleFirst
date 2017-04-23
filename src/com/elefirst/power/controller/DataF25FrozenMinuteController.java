@@ -5,6 +5,7 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF25FrozenMinute;
+import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 import com.elefirst.power.po.StatisticF25TotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.google.gson.Gson;
@@ -149,6 +150,30 @@ public class DataF25FrozenMinuteController extends BaseController {
         for (int j = 0; j < times.size(); j++) {
             List<DataF25FrozenMinute> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteSumList(nodes, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
             result.add(dataF25FrozenMinuteService.format(item));
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f25f5/frozen/minute/node/time/sum.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteSumWithF5ByNodesAndTime(HttpServletRequest request,
+                                                                  HttpServletResponse response,
+                                                                  @RequestParam(value = "node", required = false) String node,
+                                                                  @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
+        }.getType());
+
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
+        }.getType());
+
+        List<List<DataF25FrozenMinuteWithF5>> result = new ArrayList<>();
+
+        for (int j = 0; j < times.size(); j++) {
+            List<DataF25FrozenMinuteWithF5> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteSumWithF5List(nodes, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+            result.add(dataF25FrozenMinuteService.formatWithF5(item));
         }
 
         return new ErrorMsg(Error.SUCCESS, "success", result);
