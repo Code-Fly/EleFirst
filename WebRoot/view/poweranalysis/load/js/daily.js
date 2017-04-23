@@ -345,41 +345,6 @@ $(document).ready(function () {
             node: JSON.stringify(pnList),
             time: JSON.stringify(times)
         });
-
-        return;
-
-        $.ajax({
-            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/list.do",
-            type: "POST",
-            cache: false,
-            data: {
-                node: JSON.stringify(pnList),
-                time: JSON.stringify(times)
-            },
-            success: function (r) {
-                if (r.hasOwnProperty("errcode")) {
-                    if ("0" == r.errcode) {
-
-                        $("#dg-table").datagrid("loadData", r.data);
-                        console.log(JSON.stringify(r.data))
-
-                    } else {
-                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                    }
-                } else {
-                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                }
-            },
-            beforeSend: function (XMLHttpRequest) {
-                _spinner.load();
-            },
-            error: function (request) {
-                jError("请求失败！" + ErrUtils.getMsg("3"));
-            },
-            complete: function (XMLHttpRequest, textStatus) {
-                _spinner.unload();
-            }
-        });
     }
 
     function getPnDetail(nodes) {
