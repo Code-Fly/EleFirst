@@ -233,7 +233,7 @@ $(document).ready(function () {
             //最小负荷发生时间
             $("#table1 tr:eq(1) td:eq(3)").html(DataGridUtils.dateToMonthFormatter(data.minTotalActivePowerTime));
             //峰谷差
-            $("#table1 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.peakValleyDifference, 3) + "(kw)");
+            $("#table1 tr:eq(2) td:eq(3)").html(DataGridUtils.floatFormatter(data.peakValleyDifference, 3) + "(kW)");
             //负荷率
             $("#table1 tr:eq(3) td:eq(3)").html(DataGridUtils.floatFormatter(data.loadFactorRate, 1) + "(%)");
         } else if ("electricity" == tabType) {
