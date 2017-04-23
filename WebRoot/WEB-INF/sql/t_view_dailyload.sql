@@ -1,1 +1,18 @@
-﻿select date_format(`a`.`clientOperationTime`,'%Y%m%d') AS `days`,`a`.`area_id` AS `area_id`,`a`.`concentrator_id` AS `concentrator_id`,`b`.`name` AS `name`,`a`.`pn` AS `pn`,max((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`)) AS `maxActivePower`,min((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`)) AS `minActivePower`,round(avg((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`)),2) AS `avgActivePower`,round(((avg((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`)) * 100) / max((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`))),0) AS `loadrate`,round((((max((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`)) - min((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`))) * 100) / max((((`a`.`totalActivePower` + 0) * `b`.`pt`) * `b`.`ct`))),0) AS `peakrate` from (`t_003_type_one_data_fn25_frozen_day` `a` join `t_202_pn_info` `b`) where ((`a`.`area_id` = `b`.`area_id`) and (`a`.`concentrator_id` = `b`.`concentrator_id`) and (`a`.`pn` = `b`.`pn`)) group by `days`,`a`.`area_id`,`a`.`concentrator_id`,`a`.`pn`
+INSERT INTO `t_view_dailyload` VALUES ('20170405', '1', '3838', '冷冻泵', '1', 121.80000000000001, 0, NULL, NULL, 100);
+INSERT INTO `t_view_dailyload` VALUES ('20170406', '1', '3838', '冷冻泵', '1', 119.2, 107.39999999999999, NULL, NULL, 10);
+INSERT INTO `t_view_dailyload` VALUES ('20170407', '1', '3838', '冷冻泵', '1', 119.3, 105.1, NULL, NULL, 12);
+INSERT INTO `t_view_dailyload` VALUES ('20170408', '1', '3838', '冷冻泵', '1', 116.2, 107.30000000000001, NULL, NULL, 8);
+INSERT INTO `t_view_dailyload` VALUES ('20170409', '1', '3838', '冷冻泵', '1', 121.30000000000001, 108.3, NULL, NULL, 11);
+INSERT INTO `t_view_dailyload` VALUES ('20170410', '1', '3838', '冷冻泵', '1', 120.2, 106.6, NULL, NULL, 11);
+INSERT INTO `t_view_dailyload` VALUES ('20170411', '1', '3838', '冷冻泵', '1', 119.5, 105, NULL, NULL, 12);
+INSERT INTO `t_view_dailyload` VALUES ('20170412', '1', '3838', '冷冻泵', '1', 119.8, 105.30000000000001, NULL, NULL, 12);
+INSERT INTO `t_view_dailyload` VALUES ('20170413', '1', '3838', '冷冻泵', '1', 118.5, 106.5, NULL, NULL, 10);
+INSERT INTO `t_view_dailyload` VALUES ('20170414', '1', '3838', '冷冻泵', '1', 116, 104.5, NULL, NULL, 10);
+INSERT INTO `t_view_dailyload` VALUES ('20170415', '1', '3838', '冷冻泵', '1', 116.6, 105.80000000000001, NULL, NULL, 9);
+INSERT INTO `t_view_dailyload` VALUES ('20170416', '1', '3838', '冷冻泵', '1', 116, 109.39999999999999, NULL, NULL, 6);
+INSERT INTO `t_view_dailyload` VALUES ('20170417', '1', '3838', '冷冻泵', '1', 116, 105.80000000000001, 111.25, 95.90, 9);
+INSERT INTO `t_view_dailyload` VALUES ('20170418', '1', '3838', '冷冻泵', '1', 114.7, 103.9, 109.58, 95.54, 9);
+INSERT INTO `t_view_dailyload` VALUES ('20170419', '1', '3838', '冷冻泵', '1', 130.20000000000002, 103.1, 115.42, 88.65, 21);
+INSERT INTO `t_view_dailyload` VALUES ('20170420', '1', '3838', '冷冻泵', '1', 129.39999999999998, 111.8, 122.08, 94.34, 14);
+INSERT INTO `t_view_dailyload` VALUES ('20170421', '1', '3838', '冷冻泵', '1', 126.3, 116.2, 121.25, 96.00, 8);
+INSERT INTO `t_view_dailyload` VALUES ('20170422', '1', '3838', '冷冻泵', '1', 124.2, 0, 117.92, 94.94, 100);

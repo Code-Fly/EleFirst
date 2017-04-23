@@ -336,7 +336,7 @@
   </update>
      <!-- 自定义获取每个区域下相关集线器对应的监测点最新一条电力示数(根据发送时间) -->
   <select id="myselectByExample" resultMap="BaseResultMap">
-	select a.* ,c.`name`,c.ct,c.pt,d.stat from t_view_display_f33_f34 a,(select area_id33, concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b ,t_202_pn_info c,t_020_pn_stat d where a.area_id33 = b.area_id33 and a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 and b.area_id33 = c.area_id and b.concentrator_id33 = c.concentrator_id and b.pn33 = c.pn and c.area_id = d.area_id and c.concentrator_id = d.concentrator_id and c.pn = d.pn	
+	select a.* ,c.`name`,c.ct,c.pt,c.state from t_view_display_f33_f34 a,(select area_id33, concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b ,t_202_pn_info c,t_020_pn_stat d where a.area_id33 = b.area_id33 and a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 and b.area_id33 = c.area_id and b.concentrator_id33 = c.concentrator_id and b.pn33 = c.pn 	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
 	</if>
@@ -361,7 +361,7 @@
   
   <!-- 获取每个区域下相关集线器对应的监测点示数总和 -->
   <select id="myselectByExampleCount" resultType="int">
-    select count(1) as num from t_view_display_f33_f34 a,(select area_id33, concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b ,t_202_pn_info c,t_020_pn_stat d where a.area_id33 = b.area_id33 and a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 and b.area_id33 = c.area_id and b.concentrator_id33 = c.concentrator_id and b.pn33 = c.pn and c.area_id = d.area_id and c.concentrator_id = d.concentrator_id and c.pn = d.pn	
+    select count(1) as num from t_view_display_f33_f34 a,(select area_id33, concentrator_id33,pn33,max(clientOperationTime33 + 0) clientOperationTime33 from t_view_display_f33_f34 group by concentrator_id33,pn33) b ,t_202_pn_info c,t_020_pn_stat d where a.area_id33 = b.area_id33 and a.concentrator_id33 = b.concentrator_id33 and a.pn33 = b.pn33 and a.clientOperationTime33 = b.clientOperationTime33 and b.area_id33 = c.area_id and b.concentrator_id33 = c.concentrator_id and b.pn33 = c.pn 	
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id33 = #{areaId ,jdbcType=VARCHAR} 
 	</if>

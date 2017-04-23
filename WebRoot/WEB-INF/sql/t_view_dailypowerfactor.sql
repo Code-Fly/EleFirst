@@ -1,1 +1,18 @@
-﻿select date_format(`a`.`clientOperationTime`,'%Y%m%d') AS `days`,`a`.`area_id` AS `area_id`,`a`.`concentrator_id` AS `concentrator_id`,`b`.`name` AS `name`,`a`.`pn` AS `pn`,`b`.`power_factor_standard` AS `power_factor_standard`,round(avg((`a`.`totalPowerFactor` + 0)),0) AS `avgTotalPowerFactor`,max((`a`.`A_PowerFactor` + 0)) AS `aMaxPowerFactor`,max((`a`.`B_PowerFactor` + 0)) AS `bMaxPowerFactor`,max((`a`.`C_PowerFactor` + 0)) AS `cMaxPowerFactor`,max((`a`.`totalPowerFactor` + 0)) AS `maxTotalPowerFactor`,min((`a`.`A_PowerFactor` + 0)) AS `aMinPowerFactor`,min((`a`.`B_PowerFactor` + 0)) AS `bMinPowerFactor`,min((`a`.`C_PowerFactor` + 0)) AS `cMinPowerFactor`,min((`a`.`totalPowerFactor` + 0)) AS `minTotalPowerFactor` from (`t_003_type_one_data_fn25_frozen_day` `a` join `t_202_pn_info` `b`) where ((`a`.`area_id` = `b`.`area_id`) and (`a`.`concentrator_id` = `b`.`concentrator_id`) and (`a`.`pn` = `b`.`pn`)) group by `days`,`a`.`area_id`,`a`.`concentrator_id`,`a`.`pn`
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170405', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 0, 0, 0, 0);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170406', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170407', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170408', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170409', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170410', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170411', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170412', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170413', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170414', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170415', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170416', '1', '3838', '冷冻泵', '1', 90, NULL, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170417', '1', '3838', '冷冻泵', '1', 90, 1, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170418', '1', '3838', '冷冻泵', '1', 90, 1, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170419', '1', '3838', '冷冻泵', '1', 90, 1, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170420', '1', '3838', '冷冻泵', '1', 90, 1, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170421', '1', '3838', '冷冻泵', '1', 90, 1, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9, 99.9);
+INSERT INTO `t_view_dailypowerfactor` VALUES ('20170422', '1', '3838', '冷冻泵', '1', 90, 1, 99.9, 99.9, 99.9, 99.9, 0, 0, 0, 0);

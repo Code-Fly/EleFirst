@@ -1,1 +1,18 @@
-﻿select date_format(`a`.`clientOperationTime`,'%Y%m%d') AS `days`,`a`.`area_id` AS `area_id`,`a`.`concentrator_id` AS `concentrator_id`,`b`.`name` AS `name`,`a`.`pn` AS `pn`,(max((`a`.`A_Voltage` + 0)) * `b`.`pt`) AS `maxAVoltage`,(max((`a`.`B_Voltage` + 0)) * `b`.`pt`) AS `maxBVoltage`,(max((`a`.`C_Voltage` + 0)) * `b`.`pt`) AS `maxCVoltage`,(min((`a`.`A_Voltage` + 0)) * `b`.`pt`) AS `minAVoltage`,(min((`a`.`B_Voltage` + 0)) * `b`.`pt`) AS `minBVoltage`,(min((`a`.`C_Voltage` + 0)) * `b`.`pt`) AS `minCVoltage` from (`t_003_type_one_data_fn25_frozen_day` `a` join `t_202_pn_info` `b`) where ((`a`.`area_id` = `b`.`area_id`) and (`a`.`concentrator_id` = `b`.`concentrator_id`) and (`a`.`pn` = `b`.`pn`)) group by `days`,`a`.`area_id`,`a`.`concentrator_id`,`a`.`pn`
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170405', '1', '3838', '冷冻泵', '1', 235.8, 235.8, 235.8, 220.8, 220.8, 220.8);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170406', '1', '3838', '冷冻泵', '1', 235.6, 235.6, 235.5, 222.8, 222.8, 222.8);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170407', '1', '3838', '冷冻泵', '1', 236, 236, 236, 221.3, 221.2, 221.2);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170408', '1', '3838', '冷冻泵', '1', 231.9, 231.9, 231.9, 223, 223, 223);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170409', '1', '3838', '冷冻泵', '1', 236.8, 236.8, 236.8, 223.9, 223.9, 223.9);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170410', '1', '3838', '冷冻泵', '1', 235.7, 235.7, 235.7, 221, 221, 221);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170411', '1', '3838', '冷冻泵', '1', 234.9, 234.9, 234.9, 221.2, 221.2, 221.2);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170412', '1', '3838', '冷冻泵', '1', 235.7, 235.7, 235.7, 220.6, 220.6, 220.5);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170413', '1', '3838', '冷冻泵', '1', 234.4, 234.4, 234.4, 222.1, 222.1, 222.1);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170414', '1', '3838', '冷冻泵', '1', 233.1, 233.1, 233.1, 219.9, 219.9, 219.9);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170415', '1', '3838', '冷冻泵', '1', 234.5, 234.5, 234.5, 222.4, 222.4, 222.3);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170416', '1', '3838', '冷冻泵', '1', 234, 234, 234, 226.4, 226.4, 226.3);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170417', '1', '3838', '冷冻泵', '1', 234.1, 234.1, 234.1, 220.9, 220.9, 220.9);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170418', '1', '3838', '冷冻泵', '1', 232.9, 232.9, 232.9, 221.2, 221.2, 221.2);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170419', '1', '3838', '冷冻泵', '1', 233.6, 233.6, 233.6, 222.5, 222.5, 222.5);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170420', '1', '3838', '冷冻泵', '1', 233.9, 233.9, 233.9, 220.7, 220.6, 220.6);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170421', '1', '3838', '冷冻泵', '1', 234.7, 234.7, 234.7, 223, 223, 223);
+INSERT INTO `t_view_dailyvoltage` VALUES ('20170422', '1', '3838', '冷冻泵', '1', 233.8, 233.8, 233.8, 223, 223, 223);
