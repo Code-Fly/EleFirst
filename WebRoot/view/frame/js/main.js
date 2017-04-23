@@ -327,7 +327,7 @@ $(document).ready(function () {
                 if (null == thisMonthTotal) {
                     thisMonthTotal = 0;
                 }
-                thisMonthTotal += parseFloat(data[0][i].totalpositiveactivepower);
+                thisMonthTotal += parseFloat(data[0][i].totalpositiveactivepower) * ChartUtils.NUM_FIX;
             }
         }
 
@@ -337,8 +337,16 @@ $(document).ready(function () {
                 if (null == lastMonthTotal) {
                     lastMonthTotal = 0;
                 }
-                lastMonthTotal += parseFloat(data[1][i].totalpositiveactivepower);
+                lastMonthTotal += parseFloat(data[1][i].totalpositiveactivepower) * ChartUtils.NUM_FIX;
             }
+        }
+
+        if (null != thisMonthTotal) {
+            thisMonthTotal = thisMonthTotal / ChartUtils.NUM_FIX;
+        }
+
+        if (null != lastMonthTotal) {
+            lastMonthTotal = lastMonthTotal / ChartUtils.NUM_FIX;
         }
 
         var rate = null;
@@ -346,6 +354,7 @@ $(document).ready(function () {
             rate = ((thisMonthTotal - lastMonthTotal) * 100) / lastMonthTotal;
             rate = rate.toFixed(1);
         }
+
 
         $("#this-month-total-electricity").text(null == thisMonthTotal ? "--" : (thisMonthTotal + "(kWh)"));
         $("#electricity-rate").text(null == rate ? "--" : (rate + "(%)"));
