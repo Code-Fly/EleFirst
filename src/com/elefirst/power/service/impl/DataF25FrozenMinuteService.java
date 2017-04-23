@@ -535,6 +535,10 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
         List<DataF25FrozenMinuteWithF21> avgTotalActivePowerList = formatWithF21(getDataF25FrozenMinuteSumWithF21List(nodes, startTime, endTime));
 
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        Calendar calendar = Calendar.getInstance();
+
         Double sum = null;
         int count = 0;
         for (int i = 0; i < avgTotalActivePowerList.size(); i++) {
@@ -542,19 +546,19 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                 if (null == sum) {
                     sum = 0D;
                 }
+                calendar.setTime(sdf.parse(avgTotalActivePowerList.get(i).getClientoperationtime()));
+
                 sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalpositiveactivepower());
-                count++;
+                count += calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
             }
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 
-        Calendar calendar = Calendar.getInstance();
         if (avgTotalActivePowerList.size() > 0) {
             calendar.setTime(sdf.parse(avgTotalActivePowerList.get(0).getClientoperationtime()));
         }
 
-        String avg = null == sum ? null : String.valueOf(sum / (24 * count * calendar.getActualMaximum(Calendar.DAY_OF_MONTH)));
+        String avg = null == sum ? null : String.valueOf(sum / (24 * count));
         if (avgTotalActivePowerList.size() == 0) {
             avg = null;
         }
