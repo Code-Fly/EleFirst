@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,10 +75,10 @@ public class PowerDetailController {
 
 
                 //查看状态
-                if ("0".equals(powerDetailF252.getStat().trim())) {
-                    powerDetailF252.setStat("正常");
+                if ("0".equals(powerDetailF252.getState().trim())) {
+                    powerDetailF252.setState("运行");
                 } else {
-                    powerDetailF252.setStat("异常");
+                    powerDetailF252.setState("调试");
                 }
 
                 //处理日期
@@ -144,9 +143,9 @@ public class PowerDetailController {
                 twoRealtimeDisplay.setClientoperationtime(dateStr);
 
                 //查看状态
-                if ("1".equals(twoRealtimeDisplay.getState().trim())) {
+                if ("0".equals(twoRealtimeDisplay.getState().trim())) {
                 	twoRealtimeDisplay.setState("运行");
-                } else if("2".equals(twoRealtimeDisplay.getState().trim())){
+                } else{
                 	twoRealtimeDisplay.setState("调试");
                 }
             }
