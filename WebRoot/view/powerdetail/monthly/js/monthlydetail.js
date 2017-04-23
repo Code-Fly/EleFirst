@@ -430,7 +430,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMM') + "01000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/list.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/list.do",
             type: "POST",
             cache: false,
             data: {
@@ -526,7 +526,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMM') + "01000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/list.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/list.do",
             type: "POST",
             cache: false,
             data: {
@@ -651,7 +651,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMM') + "01000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/list.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/list.do",
             type: "POST",
             cache: false,
             data: {
@@ -777,7 +777,7 @@ $(document).ready(function () {
         var endTime = endDate.format('yyyyMM') + "01000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/node/list.do",
+            url: _ctx + "power/data/f25/frozen/minute/node/list.do",
             type: "POST",
             cache: false,
             data: {
