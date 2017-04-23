@@ -125,6 +125,71 @@ $(document).ready(function () {
         date = $("#input-detail-datebox").datebox("getValue");
         refreshTab(title, areaId, concentratorId, pn, date);
     }
+    
+    //根据不同tab类型展现不同的表格数据
+    function clearTable(tabType) {
+        //电压详情
+        if ('电压' == tabType) {
+            //设置最大电压a,b,c
+            $("#table2 tr:eq(0) td:eq(1)").html("--");
+            $("#table2 tr:eq(1) td:eq(1)").html("--");
+            $("#table2 tr:eq(2) td:eq(1)").html("--");
+            //设置最小电压a,b,c
+            $("#table2 tr:eq(0) td:eq(3)").html("--");
+            $("#table2 tr:eq(1) td:eq(3)").html("--");
+            $("#table2 tr:eq(2) td:eq(3)").html("--");
+        } else if ('电流' == tabType) {
+            //设置最大电流a,b,c
+            $("#table3 tr:eq(0) td:eq(1)").html("--");
+            $("#table3 tr:eq(1) td:eq(1)").html("--");
+            $("#table3 tr:eq(2) td:eq(1)").html("--");
+            //设置最小电流a,b,c
+            $("#table3 tr:eq(0) td:eq(3)").html("--");
+            $("#table3 tr:eq(1) td:eq(3)").html("--");
+            $("#table3 tr:eq(2) td:eq(3)").html("--");
+        } else if ('功率因素' == tabType) {
+            //设置最大功率因素a,b,c
+            $("#table4 tr:eq(0) td:eq(1)").html("--");
+            $("#table4 tr:eq(1) td:eq(1)").html("--");
+            $("#table4 tr:eq(2) td:eq(1)").html("--");
+            $("#table4 tr:eq(3) td:eq(1)").html("--");
+            //设置最小功率因素a,b,c
+            $("#table4 tr:eq(0) td:eq(3)").html("--");
+            $("#table4 tr:eq(1) td:eq(3)").html("--");
+            $("#table4 tr:eq(2) td:eq(3)").html("--");
+            $("#table4 tr:eq(3) td:eq(3)").html("--");
+        } else if ('负荷' == tabType) {
+            //最大负荷
+            $("#table1 tr:eq(0) td:eq(1)").html("--");
+            //最小负荷
+            $("#table1 tr:eq(1) td:eq(1)").html("--");
+            //平均负荷
+            $("#table1 tr:eq(2) td:eq(1)").html("--");
+            //峰谷差率
+            $("#table1 tr:eq(3) td:eq(1)").html("--");
+            //最大负荷发生时间
+            $("#table1 tr:eq(0) td:eq(3)").html("--");
+            //最小负荷发生时间
+            $("#table1 tr:eq(1) td:eq(3)").html("--");
+            //峰谷差
+            $("#table1 tr:eq(2) td:eq(3)").html("--");
+            //负荷率
+            $("#table1 tr:eq(3) td:eq(3)").html("--");
+        } else if ("电量" == tabType) {
+            //总电量
+            $("#dtt4 tr:eq(0) td:eq(1)").html("--");
+            //峰电量
+            $("#dtt4 tr:eq(1) td:eq(1)").html("--");
+
+            //谷电量
+            $("#dtt4 tr:eq(2) td:eq(1)").html("--");
+
+            //平电量
+            $("#dtt4 tr:eq(1) td:eq(3)").html("--");
+            //尖峰电量
+            $("#dtt4 tr:eq(2) td:eq(3)").html("--");
+        }
+    }
 
     //根据不同tab类型展现不同的表格数据
     function handerByTabType(tabType, data) {
@@ -347,6 +412,7 @@ $(document).ready(function () {
 
             var tab = $('#tab2').tabs('getSelected');
             var title = tab.panel("options").title;
+            clearTable(title);
             if ("负荷" == title) {
                 handerBySouthTabType(title);
             } else if ("示数" == title) {
@@ -985,7 +1051,7 @@ $(document).ready(function () {
         });
     }
 
-
+    /*
     $("#btn-detail-search").linkbutton({
         onClick: function () {
             if (!$("#input-detail-datebox").datebox("isValid")) {
@@ -1010,7 +1076,7 @@ $(document).ready(function () {
             }
         }
     });
-
+    */
     function getPnDetail(node) {
         var pnInfo = $.parseJSON($.ajax({
             url: _ctx + "system/pn/info/detail.do",
