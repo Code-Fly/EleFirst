@@ -393,16 +393,18 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         List<DataF25FrozenMinuteWithF5> avgTotalActivePowerList = formatWithF5(getDataF25FrozenMinuteSumWithF5List(nodes, startTime, endTime));
 
         Double sum = null;
+        int count = 0;
         for (int i = 0; i < avgTotalActivePowerList.size(); i++) {
             if (null != avgTotalActivePowerList.get(i).getTotalpositiveactivepower()) {
                 if (null == sum) {
                     sum = 0D;
                 }
                 sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalpositiveactivepower());
+                count++;
             }
         }
 
-        String avg = null == sum ? null : String.valueOf(sum / 24);
+        String avg = null == sum ? null : String.valueOf(sum / (24 * count));
         if (avgTotalActivePowerList.size() == 0) {
             avg = null;
         }
