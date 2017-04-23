@@ -331,7 +331,27 @@ $(document).ready(function () {
             }
         }
 
-        $("#this-month-total-electricity").text(null == thisMonthTotal ? "--" : thisMonthTotal);
+        var lastMonthTotal = null;
+        for (var i = 0; i < data[1].length; i++) {
+            if (null != data[1][i].totalpositiveactivepower) {
+                if (null == lastMonthTotal) {
+                    lastMonthTotal = 0;
+                }
+                lastMonthTotal += parseFloat(data[1][i].totalpositiveactivepower);
+            }
+        }
+
+        var rate = null;
+        if (null != thisMonthTotal && null != lastMonthTotal) {
+            rate = ((thisMonthTotal - lastMonthTotal) * 100) / lastMonthTotal;
+            rate = rate.toFixed(1);
+        }
+
+        $("#this-month-total-electricity").text(null == thisMonthTotal ? "--" : (thisMonthTotal + "(kWh)"));
+        $("#electricity-rate").text(null == rate ? "--" : (rate + "(%)"));
+        var d = new Date();
+        d.setDate(d.getDate() - 1);
+        $("#this-month-total-electricity-time").text("截止：" + d.format('yyyy-MM-dd'));
     }
 
     function getDateInterval(start, end) {
