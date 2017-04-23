@@ -2,17 +2,17 @@ package com.elefirst.power.service.impl;
 
 import com.elefirst.base.service.BaseService;
 import com.elefirst.power.dao.iface.IDataF25FrozenMinuteDAO;
-import com.elefirst.power.po.DataF25FrozenMinute;
-import com.elefirst.power.po.DataF25FrozenMinuteExample;
-import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
-import com.elefirst.power.po.StatisticF25TotalActivePower;
+import com.elefirst.power.po.*;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -154,6 +154,38 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumWithF5List(condition);
     }
 
+    @Override
+    public List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteSumWithF21List(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenMinute node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumWithF21List(condition);
+    }
+
 
     @Override
     public int getDataF25FrozenMinuteListCount(DataF25FrozenMinute template) {
@@ -283,6 +315,47 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
     }
 
     @Override
+    public List<DataF25FrozenMinuteWithF21> formatWithF21(List<DataF25FrozenMinuteWithF21> data) {
+        PnInfo template = new PnInfo();
+        List<PnInfo> pnInfos = pnInfoService.getPnInfoList(template);
+        List<DataF25FrozenMinuteWithF21> result = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            DataF25FrozenMinuteWithF21 item = data.get(i);
+            PnInfo pnInfo = getPnInfo(pnInfos, item);
+            if (null != pnInfo) {
+                item.setTotalactivepower(calc(item.getTotalactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaActivepower(calc(item.getaActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbActivepower(calc(item.getbActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcActivepower(calc(item.getcActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+
+                item.setTotalreactivepower(calc(item.getTotalreactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaReactivepower(calc(item.getaReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbReactivepower(calc(item.getbReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcReactivepower(calc(item.getcReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+
+                item.setaVoltage(calc(item.getaVoltage(), pnInfo.getPt(), 1));
+                item.setbVoltage(calc(item.getbVoltage(), pnInfo.getPt(), 1));
+                item.setcVoltage(calc(item.getcVoltage(), pnInfo.getPt(), 1));
+
+                item.setaCurrent(calc(item.getaCurrent(), pnInfo.getCt(), 3));
+                item.setbCurrent(calc(item.getbCurrent(), pnInfo.getCt(), 3));
+                item.setcCurrent(calc(item.getcCurrent(), pnInfo.getCt(), 3));
+
+                item.setZeroSequenceCurrent(calc(item.getZeroSequenceCurrent(), pnInfo.getCt(), 3));
+
+                item.setTotalapparentpower(calc(item.getTotalapparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaApparentpower(calc(item.getaApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbApparentpower(calc(item.getbApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcApparentpower(calc(item.getcApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+
+                item.setTotalpositiveactivepower(calc(item.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            }
+            result.add(item);
+        }
+        return result;
+    }
+
+    @Override
     public List<DataF25FrozenMinute> getMaxValue(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String key) {
         DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         for (int i = 0; i < nodes.size(); i++) {
@@ -374,7 +447,7 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
     }
 
     @Override
-    public StatisticF25TotalActivePower getStatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+    public StatisticF25TotalActivePower getF5StatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
         List<DataF25FrozenMinute> maxTotalActivePowerList = getMaxValue(nodes, startTime, endTime, "totalActivePower");
 
         DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
@@ -405,6 +478,83 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         }
 
         String avg = null == sum ? null : String.valueOf(sum / (24 * count));
+        if (avgTotalActivePowerList.size() == 0) {
+            avg = null;
+        }
+
+        avgTotalActivePower.setTotalactivepower(calc(avg, 1D, 3));
+
+        StatisticF25TotalActivePower result = new StatisticF25TotalActivePower();
+        result.setMaxTotalActivePower(maxTotalActivePower.getTotalactivepower());
+        result.setMaxTotalActivePowerTime(maxTotalActivePower.getClientoperationtime());
+        result.setMinTotalActivePower(minTotalActivePower.getTotalactivepower());
+        result.setMinTotalActivePowerTime(minTotalActivePower.getClientoperationtime());
+        result.setAvgTotalActivePower(avgTotalActivePower.getTotalactivepower());
+
+        Double differ = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
+            differ = Double.valueOf(maxTotalActivePower.getTotalactivepower()) - Double.valueOf(minTotalActivePower.getTotalactivepower());
+        }
+
+        result.setDiffer(calc(null == differ ? null : String.valueOf(differ), 1D, 3));
+
+        Double differRate = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != minTotalActivePower.getTotalactivepower()) {
+            differRate = (differ / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
+        }
+
+        result.setDifferRate(calc(null == differRate ? null : String.valueOf(differRate), 1D, 1));
+
+
+        Double loadRate = null;
+        if (null != maxTotalActivePower.getTotalactivepower() && null != avgTotalActivePower.getTotalactivepower()) {
+            loadRate = (Double.valueOf(avgTotalActivePower.getTotalactivepower()) / Double.valueOf(maxTotalActivePower.getTotalactivepower())) * 100;
+        }
+
+        result.setLoadRate(calc(null == loadRate ? null : String.valueOf(loadRate), 1D, 1));
+
+        return result;
+    }
+
+    @Override
+    public StatisticF25TotalActivePower getF21StatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) throws ParseException {
+        List<DataF25FrozenMinute> maxTotalActivePowerList = getMaxValue(nodes, startTime, endTime, "totalActivePower");
+
+        DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
+        if (maxTotalActivePowerList.size() > 0) {
+            maxTotalActivePower = format(maxTotalActivePowerList).get(0);
+        }
+
+        List<DataF25FrozenMinute> minTotalActivePowerList = getMinValue(nodes, startTime, endTime, "totalActivePower");
+
+        DataF25FrozenMinute minTotalActivePower = new DataF25FrozenMinute();
+        if (minTotalActivePowerList.size() > 0) {
+            minTotalActivePower = format(minTotalActivePowerList).get(0);
+        }
+
+        DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
+        List<DataF25FrozenMinuteWithF21> avgTotalActivePowerList = formatWithF21(getDataF25FrozenMinuteSumWithF21List(nodes, startTime, endTime));
+
+        Double sum = null;
+        int count = 0;
+        for (int i = 0; i < avgTotalActivePowerList.size(); i++) {
+            if (null != avgTotalActivePowerList.get(i).getTotalpositiveactivepower()) {
+                if (null == sum) {
+                    sum = 0D;
+                }
+                sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalpositiveactivepower());
+                count++;
+            }
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+
+        Calendar calendar = Calendar.getInstance();
+        if (avgTotalActivePowerList.size() > 0) {
+            calendar.setTime(sdf.parse(avgTotalActivePowerList.get(0).getClientoperationtime()));
+        }
+
+        String avg = null == sum ? null : String.valueOf(sum / (24 * count * calendar.getActualMaximum(Calendar.DAY_OF_MONTH)));
         if (avgTotalActivePowerList.size() == 0) {
             avg = null;
         }

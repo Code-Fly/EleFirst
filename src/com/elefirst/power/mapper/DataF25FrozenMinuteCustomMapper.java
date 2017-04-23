@@ -2,6 +2,7 @@ package com.elefirst.power.mapper;
 
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF25FrozenMinuteExample;
+import com.elefirst.power.po.DataF25FrozenMinuteWithF21;
 import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface DataF25FrozenMinuteCustomMapper {
     List<DataF25FrozenMinute> selectSumByExample(DataF25FrozenMinuteExample example);
 
     List<DataF25FrozenMinuteWithF5> selectSumWithF5ByExample(DataF25FrozenMinuteExample example);
+
+    List<DataF25FrozenMinuteWithF21> selectSumWithF21ByExample(DataF25FrozenMinuteExample example);
 }

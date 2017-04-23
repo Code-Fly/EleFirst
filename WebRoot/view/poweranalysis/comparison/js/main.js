@@ -331,7 +331,7 @@ $(document).ready(function () {
             }
 
             $.ajax({
-                url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/node/list.do",
+                url: _ctx + "power/data/f25f5/frozen/minute/load/activepower/total/statistic/node/list.do",
                 type: "POST",
                 cache: false,
                 data: {

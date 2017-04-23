@@ -200,7 +200,7 @@ public class IndexController extends BaseController {
                 String tomorrowStr = new SimpleDateFormat("yyyyMMdd").format(tomorrow.getTime()) + "000000";
 
                 StatisticF25TotalActivePower s = new StatisticF25TotalActivePower();
-                s = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, todayStr, tomorrowStr);
+                s = dataF25FrozenMinuteService.getF5StatisticTotalActivePower(nodes, todayStr, tomorrowStr);
                 result.add(s);
 
                 // 昨日
@@ -208,7 +208,7 @@ public class IndexController extends BaseController {
                 yesterday.add(Calendar.DATE, -1);
                 String yesterdayStr = new SimpleDateFormat("yyyyMMdd").format(yesterday.getTime()) + "000000";
 
-                s = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, yesterdayStr, todayStr);
+                s = dataF25FrozenMinuteService.getF5StatisticTotalActivePower(nodes, yesterdayStr, todayStr);
                 result.add(s);
 
             }
@@ -255,7 +255,7 @@ public class IndexController extends BaseController {
     }
 
     public String getTotalMaxLoad(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
-        StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
+        StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getF5StatisticTotalActivePower(nodes, startTime, endTime);
 
         return item.getMaxTotalActivePower();
     }

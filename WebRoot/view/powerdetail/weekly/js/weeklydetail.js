@@ -460,6 +460,7 @@ $(document).ready(function () {
                         }, r.data[0]);
                         item.dataGrouping = {
                             valueDecimals: 3,
+                            groupType: "day",
                             approximation: ChartUtils.approximations.averageLoad,
                             forced: true
                         };

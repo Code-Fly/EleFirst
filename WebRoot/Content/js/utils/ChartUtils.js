@@ -1764,6 +1764,23 @@ var ChartUtils = {
 
         return series;
     },
+    getF21AllSeries: function (node, data) {
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].totalpositiveactivepower);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            if (null != data[i].frozenMonth && null != data[i].totalpositiveactivepower) {
+                series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenMonth + "01000000"), tmp]);
+            }
+        }
+
+        return series;
+    },
     getF105AllSeries: function (node, data) {
         var series = {
             name: node.name,
@@ -1804,7 +1821,7 @@ var ChartUtils = {
             // 3. it has zero length, so just return undefined
             // => doNothing()
 
-            return ret / ChartUtils.NUM_FIX;
+            return null == ret ? null : (ret / ChartUtils.NUM_FIX);
         },
         average: function (arr) {
             console.log(this.options.dataGrouping.valueDecimals)
@@ -1825,6 +1842,9 @@ var ChartUtils = {
             return ret;
         },
         averageLoad: function (arr) {
+            var rawData = this.options.data.slice(this.dataGroupInfo.start, this.dataGroupInfo.start + this.dataGroupInfo.length);
+            var groupType = this.options.dataGrouping.groupType;
+            var valueDecimal = this.options.dataGrouping.valueDecimal;
 
             var len = arr.length,
                 ret = ChartUtils.approximations.sum(arr);
@@ -1832,11 +1852,20 @@ var ChartUtils = {
             // If we have a number, return it divided by the length. If not, return
             // null or undefined based on what the sum method finds.
             if ($.isNumeric(ret) && len) {
-                ret = ret / (len * 24);
+                if ("day" == groupType) {
+                    ret = ret / (len * 24);
+                }
+                else if ("month" == groupType) {
+                    var str = rawData[0][0];
+                    var d = new Date(str);
+                    d.setMonth(d.getMonth() + 1);
+                    d.setDate(0);
+                    ret = ret / (len * 24 * d.getDate());
+                }
             }
 
-            if (!this.options.dataGrouping.valueDecimals) {
-                ret.toFixed(this.options.dataGrouping.valueDecimal);
+            if (!valueDecimal) {
+                ret.toFixed(valueDecimal);
             }
 
             return ret;

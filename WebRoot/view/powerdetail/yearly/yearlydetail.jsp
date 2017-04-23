@@ -11,8 +11,10 @@
 <body class="easyui-layout" id="cc">
 <div data-options="region:'center',border:false" style="width:100%;overflow: hidden">
     <div id="tab-tt-tools" style="border-left: none;border-top: none;border-right: none;">
-        <input id="main-input-detail-datebox" class="easyui-datebox"
-               data-options="editable:false,required: true" style="width:150px"/>
+        <%--<input id="main-input-detail-datebox" class="easyui-datebox"--%>
+        <%--data-options="editable:false,required: true" style="width:150px"/>--%>
+        <input id="main-input-detail-datebox" class="easyui-numberspinner" data-options="required: true"
+               style="width:150px;">
         <a id="main-input-btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
            data-options="iconCls:'icon-search'">查询</a>
     </div>
@@ -97,9 +99,12 @@
             <div style="margin-left:20px;padding:5px">
                 <a id="btn-detail-back" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'" onclick="backlist()">返回列表</a>
-                &nbsp;&nbsp;<input id="input-detail-datebox" class="easyui-datebox"
-                                   data-options="editable:false,required: true" label="日期:"
-                                   style="width:250px"/>
+                &nbsp;&nbsp;
+                <%--<input id="input-detail-datebox" class="easyui-datebox"--%>
+                <%--data-options="editable:false,required: true" label="日期:"--%>
+                <%--style="width:250px"/>--%>
+                <input id="input-detail-datebox" class="easyui-numberspinner" data-options="required: true"
+                       label="日期:" style="width:250px;">
                 <a id="btn-detail-search" href="javascript:void(0)" class="easyui-linkbutton"
                    data-options="iconCls:'icon-search'">查询</a>
             </div>

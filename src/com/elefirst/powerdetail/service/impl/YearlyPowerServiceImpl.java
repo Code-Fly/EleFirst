@@ -1,10 +1,5 @@
 package com.elefirst.powerdetail.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
-import org.springframework.stereotype.Service;
 import com.elefirst.powerdetail.mapper.YearlyElectricityMapper;
 import com.elefirst.powerdetail.mapper.YearlyLoadMapper;
 import com.elefirst.powerdetail.po.Concentrator;
@@ -12,6 +7,12 @@ import com.elefirst.powerdetail.po.YearlyElectricity;
 import com.elefirst.powerdetail.po.YearlyLoad;
 import com.elefirst.powerdetail.po.YearlyLoadExample;
 import com.elefirst.powerdetail.service.IYearlyPowerService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 @Service
 public class YearlyPowerServiceImpl implements IYearlyPowerService{
 
@@ -28,9 +29,9 @@ public class YearlyPowerServiceImpl implements IYearlyPowerService{
 		for (Concentrator concentrator : concentrators) {
 			YearlyLoadExample.Criteria criteria = condition.createCriteria();
 			if(date != null && date.length() > 0){
-				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyy");
-				criteria.andDaysEqualTo(vdate);
-			}
+//				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyy");
+                criteria.andDaysEqualTo(date);
+            }
 			criteria.andAreaIdEqualTo(areaId);
 			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
 			criteria.andPnIn(concentrator.getPns());

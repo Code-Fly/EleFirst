@@ -6,6 +6,7 @@ import com.elefirst.power.mapper.DataF25FrozenMinuteCustomMapper;
 import com.elefirst.power.mapper.DataF25FrozenMinuteMapper;
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF25FrozenMinuteExample;
+import com.elefirst.power.po.DataF25FrozenMinuteWithF21;
 import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,11 @@ public class DataF25FrozenMinuteDAO extends BaseDAO implements IDataF25FrozenMin
     @Override
     public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(DataF25FrozenMinuteExample example) {
         return dataF25FrozenMinuteCustomMapper.selectSumWithF5ByExample(example);
+    }
+
+    @Override
+    public List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteSumWithF21List(DataF25FrozenMinuteExample example) {
+        return dataF25FrozenMinuteCustomMapper.selectSumWithF21ByExample(example);
     }
 
     @Override

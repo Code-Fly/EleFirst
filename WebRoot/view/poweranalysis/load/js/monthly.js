@@ -31,7 +31,7 @@ $(document).ready(function () {
     });
 
     $("#dg-table").datagrid({
-        url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic/list.do",
+        url: _ctx + "power/data/f25f21/frozen/minute/load/activepower/total/statistic/list.do",
         method: "POST",
         singleSelect: true,
         rownumbers: true,
@@ -143,7 +143,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: _ctx + "power/data/f25f5/frozen/minute/node/time/sum.do",
+            url: _ctx + "power/data/f25f21/frozen/minute/node/time/sum.do",
             type: "POST",
             cache: false,
             data: {
@@ -177,11 +177,12 @@ $(document).ready(function () {
                         };
                         series.push(item);
 
-                        var item = ChartUtils.getF5AllSeries({
+                        var item = ChartUtils.getF21AllSeries({
                             name: "平均"
                         }, r.data[0]);
                         item.dataGrouping = {
                             valueDecimals: 3,
+                            groupType: "month",
                             approximation: ChartUtils.approximations.averageLoad,
                             forced: true
                         };
@@ -238,7 +239,7 @@ $(document).ready(function () {
         var endTime = endDate.format("yyyyMM") + "01000000";
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/minute/load/activepower/total/statistic.do",
+            url: _ctx + "power/data/f25f21/frozen/minute/load/activepower/total/statistic.do",
             type: "POST",
             cache: false,
             data: {

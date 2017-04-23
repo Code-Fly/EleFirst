@@ -5,6 +5,7 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF25FrozenMinute;
+import com.elefirst.power.po.DataF25FrozenMinuteWithF21;
 import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 import com.elefirst.power.po.StatisticF25TotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
@@ -179,7 +180,31 @@ public class DataF25FrozenMinuteController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
-    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/statistic.do")
+    @RequestMapping(value = "/f25f21/frozen/minute/node/time/sum.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteSumWithF21ByNodesAndTime(HttpServletRequest request,
+                                                                   HttpServletResponse response,
+                                                                   @RequestParam(value = "node", required = false) String node,
+                                                                   @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
+        }.getType());
+
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
+        }.getType());
+
+        List<List<DataF25FrozenMinuteWithF21>> result = new ArrayList<>();
+
+        for (int j = 0; j < times.size(); j++) {
+            List<DataF25FrozenMinuteWithF21> item = dataF25FrozenMinuteService.getDataF25FrozenMinuteSumWithF21List(nodes, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+            result.add(dataF25FrozenMinuteService.formatWithF21(item));
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f25f5/frozen/minute/load/activepower/total/statistic.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
     public ErrorMsg getDataF25FrozenMinuteLoadStatisticByNodes(HttpServletRequest request,
@@ -191,17 +216,33 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
 
-        StatisticF25TotalActivePower result = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, startTime, endTime);
+        StatisticF25TotalActivePower result = dataF25FrozenMinuteService.getF5StatisticTotalActivePower(nodes, startTime, endTime);
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
-    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/statistic/list.do")
+    @RequestMapping(value = "/f25f21/frozen/minute/load/activepower/total/statistic.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getDataF25FrozenMinuteLoadStatisticListByTime(HttpServletRequest request,
-                                                                  HttpServletResponse response,
-                                                                  @RequestParam(value = "node", required = false) String node,
-                                                                  @RequestParam(value = "time", required = false) String time
+    public ErrorMsg getDataF25FrozenMinuteWithF21LoadStatisticByNodes(HttpServletRequest request,
+                                                                      HttpServletResponse response,
+                                                                      @RequestParam(value = "node", required = false) String node,
+                                                                      @RequestParam(value = "startTime", required = false) String startTime,
+                                                                      @RequestParam(value = "endTime", required = false) String endTime
+    ) throws ParseException {
+        List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
+        }.getType());
+
+        StatisticF25TotalActivePower result = dataF25FrozenMinuteService.getF21StatisticTotalActivePower(nodes, startTime, endTime);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f25f5/frozen/minute/load/activepower/total/statistic/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteWithF5LoadStatisticListByTime(HttpServletRequest request,
+                                                                        HttpServletResponse response,
+                                                                        @RequestParam(value = "node", required = false) String node,
+                                                                        @RequestParam(value = "time", required = false) String time
     ) throws ParseException {
         List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
         }.getType());
@@ -212,7 +253,7 @@ public class DataF25FrozenMinuteController extends BaseController {
         List<StatisticF25TotalActivePower> result = new ArrayList<>();
 
         for (int i = 0; i < times.size(); i++) {
-            StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
+            StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getF5StatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
             if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
                 result.add(item);
             }
@@ -222,13 +263,40 @@ public class DataF25FrozenMinuteController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
-    @RequestMapping(value = "/f25/frozen/minute/load/activepower/total/statistic/node/list.do")
+    @RequestMapping(value = "/f25f21/frozen/minute/load/activepower/total/statistic/list.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getDataF25FrozenMinuteLoadStatisticListByNodes(HttpServletRequest request,
-                                                                   HttpServletResponse response,
-                                                                   @RequestParam(value = "node", required = false) String node,
-                                                                   @RequestParam(value = "time", required = false) String time
+    public ErrorMsg getDataF25FrozenMinuteWithF5WithF21LoadStatisticListByTime(HttpServletRequest request,
+                                                                               HttpServletResponse response,
+                                                                               @RequestParam(value = "node", required = false) String node,
+                                                                               @RequestParam(value = "time", required = false) String time
+    ) throws ParseException {
+        List<JSONObject> times = new Gson().fromJson(time, new TypeToken<List<JSONObject>>() {
+        }.getType());
+
+        List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
+        }.getType());
+
+        List<StatisticF25TotalActivePower> result = new ArrayList<>();
+
+        for (int i = 0; i < times.size(); i++) {
+            StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getF21StatisticTotalActivePower(nodes, times.get(i).getString("startTime"), times.get(i).getString("endTime"));
+            if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
+                result.add(item);
+            }
+        }
+
+
+        return new ErrorMsg(Error.SUCCESS, "success", result);
+    }
+
+    @RequestMapping(value = "/f25f5/frozen/minute/load/activepower/total/statistic/node/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF25FrozenMinuteWithF5LoadStatisticListByNodes(HttpServletRequest request,
+                                                                         HttpServletResponse response,
+                                                                         @RequestParam(value = "node", required = false) String node,
+                                                                         @RequestParam(value = "time", required = false) String time
     ) throws ParseException {
         List<DataF25FrozenMinute> nodes = new Gson().fromJson(node, new TypeToken<List<DataF25FrozenMinute>>() {
         }.getType());
@@ -242,7 +310,7 @@ public class DataF25FrozenMinuteController extends BaseController {
             for (int j = 0; j < times.size(); j++) {
                 List<DataF25FrozenMinute> singleList = new ArrayList<>();
                 singleList.add(nodes.get(i));
-                StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getStatisticTotalActivePower(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
+                StatisticF25TotalActivePower item = dataF25FrozenMinuteService.getF5StatisticTotalActivePower(singleList, times.get(j).getString("startTime"), times.get(j).getString("endTime"));
                 if (null != item.getMaxTotalActivePower() && null != item.getMaxTotalActivePowerTime()) {
                     item.setAreaId(nodes.get(i).getAreaId());
                     item.setConcentratorId(nodes.get(i).getConcentratorId());
@@ -251,10 +319,8 @@ public class DataF25FrozenMinuteController extends BaseController {
                 }
             }
         }
-
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
-
 
 
 }

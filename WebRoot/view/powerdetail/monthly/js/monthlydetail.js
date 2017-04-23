@@ -468,6 +468,7 @@ $(document).ready(function () {
                         }, r.data[0]);
                         item.dataGrouping = {
                             valueDecimals: 3,
+                            groupType: "day",
                             approximation: ChartUtils.approximations.averageLoad,
                             forced: true
                         };
@@ -947,7 +948,7 @@ $(document).ready(function () {
                         var series = [];
 
                         var item = ChartUtils.getF5AllSeries({
-                            name: startDate.format("yyyy-MM-dd") + "~" + endDate.format("yyyy-MM-dd")
+                            name: startDate.format("yyyy-MM")
                         }, r.data[0][0]);
 
                         item.dataGrouping = {
