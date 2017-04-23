@@ -1013,6 +1013,8 @@ $(document).ready(function () {
                     if ("0" == r.errcode) {
                         var series = [];
 
+                        endDate.setDate(endDate.getDate() - 1);
+
                         var item = ChartUtils.getF5AllSeries({
                             name: startDate.format("yyyy-MM-dd") + "~" + endDate.format("yyyy-MM-dd")
                         }, r.data[0][0]);
