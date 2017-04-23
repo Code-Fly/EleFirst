@@ -269,6 +269,8 @@ $(document).ready(function () {
                     if ("0" == r.errcode) {
                         // $.messager.alert("信息提示", JSON.stringify(r.data));
 
+                        getElectricityStatistic(r.data[0]);
+
                         var item = ChartUtils.getF5AllByDaySeries({
                             name: "本期"
                         }, r.data[0][0]);
@@ -297,6 +299,8 @@ $(document).ready(function () {
                             .setDataGroupingByDay();
 
                         $("#chart-month-electricity").highcharts("StockChart", config.getConfig());
+
+
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -314,6 +318,20 @@ $(document).ready(function () {
                 _spinner.unload();
             }
         });
+    }
+
+    function getElectricityStatistic(data) {
+        var thisMonthTotal = null;
+        for (var i = 0; i < data[0].length; i++) {
+            if (null != data[0][i].totalpositiveactivepower) {
+                if (null == thisMonthTotal) {
+                    thisMonthTotal = 0;
+                }
+                thisMonthTotal += parseFloat(data[0][i].totalpositiveactivepower);
+            }
+        }
+
+        $("#this-month-total-electricity").text(null == thisMonthTotal ? "--" : thisMonthTotal);
     }
 
     function getDateInterval(start, end) {

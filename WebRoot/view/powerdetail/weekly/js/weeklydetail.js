@@ -418,17 +418,19 @@ $(document).ready(function () {
         var endDate = new Date(startDate.getTime());
         endDate.setDate(endDate.getDate() + 7);
 
-        var startTime = startDate.format('yyyyMMdd') + "000000";
-        var endTime = endDate.format('yyyyMMdd') + "000000";
+        var timeList = [];
+        timeList.push({
+            startTime: startDate.format('yyyyMMdd') + "000000",
+            endTime: endDate.format('yyyyMMdd') + "000000"
+        });
 
         $.ajax({
-            url: _ctx + "power/data/f25/frozen/minute/node/list.do",
+            url: _ctx + "power/data/f25f5/frozen/minute/node/time/sum.do",
             type: "POST",
             cache: false,
             data: {
                 node: JSON.stringify(node),
-                startTime: startTime,
-                endTime: endTime
+                time: JSON.stringify(timeList)
             },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
@@ -437,7 +439,7 @@ $(document).ready(function () {
 
                         var item = ChartUtils.getLoadAllSeries({
                             name: "最大"
-                        }, r.data);
+                        }, r.data[0]);
                         item.dataGrouping = {
                             approximation: "high",
                             forced: true
@@ -446,18 +448,19 @@ $(document).ready(function () {
 
                         var item = ChartUtils.getLoadAllSeries({
                             name: "最小"
-                        }, r.data);
+                        }, r.data[0]);
                         item.dataGrouping = {
                             approximation: "low",
                             forced: true
                         };
                         series.push(item);
 
-                        var item = ChartUtils.getLoadAllSeries({
+                        var item = ChartUtils.getF5AllSeries({
                             name: "平均"
-                        }, r.data);
+                        }, r.data[0]);
                         item.dataGrouping = {
-                            approximation: "average",
+                            valueDecimals: 3,
+                            approximation: ChartUtils.approximations.averageLoad,
                             forced: true
                         };
                         series.push(item);
