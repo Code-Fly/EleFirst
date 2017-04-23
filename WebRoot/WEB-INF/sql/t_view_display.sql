@@ -1,1 +1,0 @@
-select `b`.`clientOperationTime` AS `clientOperationTime`,`b`.`area_id` AS `area_id`,`b`.`concentrator_id` AS `concentrator_id`,`b`.`pn` AS `pn`,`c`.`rateseq1` AS `rateseq1`,`c`.`rateseq2` AS `rateseq2`,`c`.`rateseq3` AS `rateseq3`,`c`.`rateseq4` AS `rateseq4` from (`t_004_type_one_data_fn33` `b` join `t_view_displayrate` `c`) where (`b`.`id` = `c`.`id`)
