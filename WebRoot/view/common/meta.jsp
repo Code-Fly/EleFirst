@@ -14,6 +14,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta name="format-detection" content="telephone=no"/>
+<title>${sessionScope.areaInfo.name}</title>
 <SCRIPT type="text/javascript">
     var _ctx = "${ctx}";
     var _areaId = "${sessionScope.areaInfo.areaId}";
@@ -29,15 +30,15 @@
 
 
 <!-- easyui库 -->
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.1/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/datagrid-dnd/datagrid-dnd.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/datagrid-columns/columns-ext.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/portal/jquery.portal.js"></script>
-<link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-easyui-1.5.1/themes/default/easyui.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-easyui-1.5.2/themes/default/easyui.css"/>
 <!-- theme定制图标与配色 -->
-<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.1.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.2.css"/>
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon.css"/>
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon2.css"/>
 

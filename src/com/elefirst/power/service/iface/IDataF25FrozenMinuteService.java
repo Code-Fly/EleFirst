@@ -1,6 +1,7 @@
 package com.elefirst.power.service.iface;
 
 import com.elefirst.power.po.DataF25FrozenMinute;
+import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 import com.elefirst.power.po.StatisticF25TotalActivePower;
 import com.elefirst.system.po.PnInfo;
 
@@ -20,6 +21,8 @@ public interface IDataF25FrozenMinuteService {
 
     List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String startTime, String endTime);
 
+    List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(List<DataF25FrozenMinute> nodes, String startTime, String endTime);
+
     //
 
     int getDataF25FrozenMinuteListCount(DataF25FrozenMinute template);
@@ -33,6 +36,8 @@ public interface IDataF25FrozenMinuteService {
     int delDataF25FrozenMinute(String id);
 
     List<DataF25FrozenMinute> format(List<DataF25FrozenMinute> data);
+
+    List<DataF25FrozenMinuteWithF5> formatWithF5(List<DataF25FrozenMinuteWithF5> data);
 
     PnInfo getPnInfo(List<PnInfo> pnInfos, DataF25FrozenMinute item);
 

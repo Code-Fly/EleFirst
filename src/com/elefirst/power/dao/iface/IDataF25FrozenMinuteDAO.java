@@ -3,6 +3,7 @@ package com.elefirst.power.dao.iface;
 
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF25FrozenMinuteExample;
+import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface IDataF25FrozenMinuteDAO {
     List<DataF25FrozenMinute> getDataF25FrozenMinuteList(DataF25FrozenMinuteExample example);
 
     List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(DataF25FrozenMinuteExample example);
+
+    List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(DataF25FrozenMinuteExample example);
 
     int getDataF25FrozenMinuteListCount(DataF25FrozenMinuteExample example);
 

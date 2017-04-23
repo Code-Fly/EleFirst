@@ -4,6 +4,7 @@ import com.elefirst.base.service.BaseService;
 import com.elefirst.power.dao.iface.IDataF25FrozenMinuteDAO;
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF25FrozenMinuteExample;
+import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 import com.elefirst.power.po.StatisticF25TotalActivePower;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.system.po.PnInfo;
@@ -121,6 +122,38 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
+    @Override
+    public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF25FrozenMinute node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andClientoperationtimeGreaterThanOrEqualTo(startTime)
+                    .andClientoperationtimeLessThan(endTime)
+                    .andClientoperationtimeIsNotNull()
+                    //
+                    .andTotalactivepowerIsNotNull()
+                    .andAActivepowerIsNotNull()
+                    .andBActivepowerIsNotNull()
+                    .andCActivepowerIsNotNull()
+                    .andAVoltageIsNotNull()
+                    .andBVoltageIsNotNull()
+                    .andCVoltageIsNotNull()
+                    .andACurrentIsNotNull()
+                    .andBCurrentIsNotNull()
+                    .andCCurrentIsNotNull()
+                    .andAPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+                    .andBPowerfactorIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumWithF5List(condition);
+    }
+
 
     @Override
     public int getDataF25FrozenMinuteListCount(DataF25FrozenMinute template) {
@@ -202,6 +235,47 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                 item.setbApparentpower(calc(item.getbApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
                 item.setcApparentpower(calc(item.getcApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
 
+            }
+            result.add(item);
+        }
+        return result;
+    }
+
+    @Override
+    public List<DataF25FrozenMinuteWithF5> formatWithF5(List<DataF25FrozenMinuteWithF5> data) {
+        PnInfo template = new PnInfo();
+        List<PnInfo> pnInfos = pnInfoService.getPnInfoList(template);
+        List<DataF25FrozenMinuteWithF5> result = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            DataF25FrozenMinuteWithF5 item = data.get(i);
+            PnInfo pnInfo = getPnInfo(pnInfos, item);
+            if (null != pnInfo) {
+                item.setTotalactivepower(calc(item.getTotalactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaActivepower(calc(item.getaActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbActivepower(calc(item.getbActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcActivepower(calc(item.getcActivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+
+                item.setTotalreactivepower(calc(item.getTotalreactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaReactivepower(calc(item.getaReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbReactivepower(calc(item.getbReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcReactivepower(calc(item.getcReactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+
+                item.setaVoltage(calc(item.getaVoltage(), pnInfo.getPt(), 1));
+                item.setbVoltage(calc(item.getbVoltage(), pnInfo.getPt(), 1));
+                item.setcVoltage(calc(item.getcVoltage(), pnInfo.getPt(), 1));
+
+                item.setaCurrent(calc(item.getaCurrent(), pnInfo.getCt(), 3));
+                item.setbCurrent(calc(item.getbCurrent(), pnInfo.getCt(), 3));
+                item.setcCurrent(calc(item.getcCurrent(), pnInfo.getCt(), 3));
+
+                item.setZeroSequenceCurrent(calc(item.getZeroSequenceCurrent(), pnInfo.getCt(), 3));
+
+                item.setTotalapparentpower(calc(item.getTotalapparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setaApparentpower(calc(item.getaApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setbApparentpower(calc(item.getbApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+                item.setcApparentpower(calc(item.getcApparentpower(), pnInfo.getCt() * pnInfo.getPt(), 3));
+
+                item.setTotalpositiveactivepower(calc(item.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
             }
             result.add(item);
         }
@@ -316,16 +390,21 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
         }
 
         DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
-        List<DataF25FrozenMinute> avgTotalActivePowerList = format(getDataF25FrozenMinuteSumList(nodes, startTime, endTime));
+        List<DataF25FrozenMinuteWithF5> avgTotalActivePowerList = formatWithF5(getDataF25FrozenMinuteSumWithF5List(nodes, startTime, endTime));
 
-        Double sum = 0D;
+        Double sum = null;
+        int count = 0;
         for (int i = 0; i < avgTotalActivePowerList.size(); i++) {
-            if (null != avgTotalActivePowerList.get(i).getTotalactivepower()) {
-                sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalactivepower());
+            if (null != avgTotalActivePowerList.get(i).getTotalpositiveactivepower()) {
+                if (null == sum) {
+                    sum = 0D;
+                }
+                sum += Double.valueOf(avgTotalActivePowerList.get(i).getTotalpositiveactivepower());
+                count++;
             }
         }
 
-        String avg = String.valueOf(sum / avgTotalActivePowerList.size());
+        String avg = null == sum ? null : String.valueOf(sum / (24 * count));
         if (avgTotalActivePowerList.size() == 0) {
             avg = null;
         }

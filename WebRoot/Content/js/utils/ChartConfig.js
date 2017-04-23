@@ -131,7 +131,7 @@ ChartConfig.prototype.setDataGroupingByWeek = function () {
             ]
         ],
         dateTimeLabelFormats: {
-            day: ["%A"]
+            day: ["%Y-%m-%d"]
         }
     };
     this.config.navigator.xAxis.dateTimeLabelFormats = {
