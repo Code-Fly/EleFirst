@@ -536,7 +536,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: _ctx + "power/data/f5/node/time/sum.do",
+            url: _ctx + "power/data/f21/node/time/sum.do",
             type: "POST",
             cache: false,
             data: {
@@ -548,7 +548,7 @@ $(document).ready(function () {
                     if ("0" == r.errcode) {
                         var series = [];
 
-                        var item = ChartUtils.getF5AllSeries({
+                        var item = ChartUtils.getF21AllSeries({
                             name: startDate.format("yyyy")
                         }, r.data[0][0]);
 

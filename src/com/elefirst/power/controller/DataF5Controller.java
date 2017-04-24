@@ -203,7 +203,7 @@ public class DataF5Controller extends BaseController {
                 rate2 = String.valueOf(((Double.valueOf(differThisMonth) - Double.valueOf(differLastYear)) * 100D) / Double.valueOf(differLastYear));
                 rate2 = dataF5Service.calc(rate2, 1D, 1);
             }
-            item.setRate1(rate2);
+            item.setRate2(rate2);
 
             if (null != differThisMonth) {
                 result.add(item);
@@ -272,7 +272,7 @@ public class DataF5Controller extends BaseController {
                 rate2 = String.valueOf(((Double.valueOf(differThisMonth) - Double.valueOf(differLastYear)) * 100D) / Double.valueOf(differLastYear));
                 rate2 = dataF5Service.calc(rate2, 1D, 1);
             }
-            item.setRate1(rate2);
+            item.setRate2(rate2);
 
             if (null != differThisMonth) {
                 result.add(item);
