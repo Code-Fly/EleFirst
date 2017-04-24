@@ -353,7 +353,7 @@ $(document).ready(function () {
                         pn = singlerow.pn;
                         date = singlerow.days;
                         var dateStr = date.substring(0, 4);
-                        //$("#input-detail-datebox").numberspinner("setValue", dateStr);
+                        $("#input-detail-datebox").numberspinner("setValue", dateStr);
                         $('#tab2').tabs('select', '电量');
                         //初始化负荷详情
                         handerBySouthTabType('电量');
