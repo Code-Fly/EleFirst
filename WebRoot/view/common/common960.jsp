@@ -7,6 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!--加载960CSS框架-->
-<link href="${ctx}Content/css/960/fluid/grid.css" rel="stylesheet" type="text/css"/>
+<link href="${ctx}Content/css/960/fluid/grid.css?v=${timestamp}" rel="stylesheet" type="text/css"/>
 <%----%>
-<link type="text/css" rel="stylesheet" href="${ctx}Content/css/page/grid.css"/>
+<link type="text/css" rel="stylesheet" href="${ctx}Content/css/page/grid.css?v=${timestamp}"/>

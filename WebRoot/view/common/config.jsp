@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: 123
   Date: 2016/4/11
@@ -10,4 +10,5 @@
     response.setContentType("text/html;charset=UTF-8");
     String path = request.getContextPath() + "/";
     application.setAttribute("ctx", path);
+    application.setAttribute("timestamp", new Date().getTime());
 %>

@@ -12,7 +12,7 @@
 <script type="text/javascript">
     mxBasePath = "${mxBasePath}";
 </script>
-<script src="${mxBasePath}js/mxClient.js"></script>
+<script src="${mxBasePath}js/mxClient.js?v=${timestamp}"></script>
 <script type="text/javascript">
     mxBasePath = "${mxBasePath}";
 </script>

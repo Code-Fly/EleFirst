@@ -26,57 +26,65 @@
     var _csrToken = "${_csrf.token}";
 </SCRIPT>
 
-<link href="${ctx}Content/css/base.css" rel="stylesheet" type="text/css"/>
+<link href="${ctx}Content/css/base.css?v=${timestamp}" rel="stylesheet" type="text/css"/>
 
 
 <!-- easyui库 -->
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/datagrid-dnd/datagrid-dnd.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/datagrid-columns/columns-ext.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-plugin/portal/jquery.portal.js"></script>
-<link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-easyui-1.5.2/themes/default/easyui.css"/>
+<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.min.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.easyui.min.js?v=${timestamp}"></script>
+<script type="text/javascript"
+        src="${ctx}Content/js/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js?v=${timestamp}"></script>
+<script type="text/javascript"
+        src="${ctx}Content/js/jquery-easyui-plugin/datagrid-dnd/datagrid-dnd.js?v=${timestamp}"></script>
+<script type="text/javascript"
+        src="${ctx}Content/js/jquery-easyui-plugin/datagrid-columns/columns-ext.js?v=${timestamp}"></script>
+<script type="text/javascript"
+        src="${ctx}Content/js/jquery-easyui-plugin/portal/jquery.portal.js?v=${timestamp}"></script>
+<link rel="stylesheet" type="text/css"
+      href="${ctx}Content/js/jquery-easyui-1.5.2/themes/default/easyui.css?v=${timestamp}"/>
 <!-- theme定制图标与配色 -->
-<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.2.css"/>
-<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon.css"/>
-<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon2.css"/>
+<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.2.css?v=${timestamp}"/>
+<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon.css?v=${timestamp}"/>
+<link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon2.css?v=${timestamp}"/>
 
 <!--加载组件CSS-->
-<script type="text/javascript" src="${ctx}Content/js/utils/Showloading.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/Showloading.js?v=${timestamp}"></script>
 
 <%----%>
-<script type="text/javascript" src="${ctx}Content/js/jquery-plugin/base64/jquery.base64.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/jquery-plugin/base64/jquery.base64.js?v=${timestamp}"></script>
 <script type="text/javascript" src="${ctx}Content/js/requirejs-2.3.2/require.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-i18n-properties-1.2.2/jquery.i18n.properties.js"></script>
+<script type="text/javascript"
+        src="${ctx}Content/js/jquery-i18n-properties-1.2.2/jquery.i18n.properties.js?v=${timestamp}"></script>
 
-<script type="text/javascript" src="${ctx}Content/js/utils/global.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/SQLUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/TimeUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/HTMLUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/CacheUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/DashboardUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/ChartUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/ChartConfig.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/DateBoxUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/DataGridUtils.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/Spinner.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/global.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/SQLUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/TimeUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/HTMLUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/CacheUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/DashboardUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/ChartUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/ChartConfig.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/DateBoxUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/DataGridUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/Spinner.js?v=${timestamp}"></script>
 
-<script type="text/javascript" src="${ctx}Content/js/utils/easyui.default.loader.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/error.map.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/easyui.validate.define.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/easyui.default.loader.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/error.map.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/utils/easyui.validate.define.js?v=${timestamp}"></script>
 
 <%-- color picker--%>
-<link rel="stylesheet" href="${ctx}Content/js/jquery-plugin/color-picker/css/colorpicker.css" type="text/css"/>
-<script type="text/javascript" src="${ctx}Content/js/jquery-plugin/color-picker/js/colorpicker.js"></script>
+<link rel="stylesheet" href="${ctx}Content/js/jquery-plugin/color-picker/css/colorpicker.css?v=${timestamp}"
+      type="text/css"/>
+<script type="text/javascript"
+        src="${ctx}Content/js/jquery-plugin/color-picker/js/colorpicker.js?v=${timestamp}"></script>
 
 <!-- 提示对话框 -->
-<script type="text/javascript" src="${ctx}Content/js/jquery-notify/jNotify.jquery.js"></script>
-<link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-notify/jNotify.jquery.css">
+<script type="text/javascript" src="${ctx}Content/js/jquery-notify/jNotify.jquery.js?v=${timestamp}"></script>
+<link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-notify/jNotify.jquery.css?v=${timestamp}">
 
 <SCRIPT type="text/javascript">
     require.config({
-        urlArgs: "bust=" + (new Date()).getTime(),
+        urlArgs: "v=" + (new Date()).getTime(),
     });
 
     // you can set utf8 encoding and decoding via global option
