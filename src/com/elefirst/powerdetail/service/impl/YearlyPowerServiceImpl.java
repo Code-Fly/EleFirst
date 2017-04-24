@@ -73,9 +73,9 @@ public class YearlyPowerServiceImpl implements IYearlyPowerService{
 		params.put("areaId", areaId);
 		
 		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyy");
-			params.put("date", vdate);
-		}
+//			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyy");
+            params.put("date", date);
+        }
 		if (rows > 0 && page > 0) {
 			params.put("limitStart", (page - 1) * rows);
 			params.put("limitEnd", rows);
@@ -92,9 +92,9 @@ public class YearlyPowerServiceImpl implements IYearlyPowerService{
 		params.put("areaId", areaId);
 			
 		if(date != null && date.length() > 0){
-			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyy");
-			params.put("date", vdate);
-		}
+//			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyy");
+            params.put("date", date);
+        }
 		int count = yearlyElectricityMapper.countByExample(params);
 		return count;
 	}
