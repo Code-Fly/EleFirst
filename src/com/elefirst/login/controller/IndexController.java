@@ -3,12 +3,11 @@ package com.elefirst.login.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
-import com.elefirst.power.po.DataF25FrozenMinute;
-import com.elefirst.power.po.DataF33;
-import com.elefirst.power.po.DataF33FrozenDay;
-import com.elefirst.power.po.StatisticF25TotalActivePower;
+import com.elefirst.power.po.*;
+import com.elefirst.power.service.iface.IDataF21Service;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.power.service.iface.IDataF33FrozenDayService;
+import com.elefirst.power.service.iface.IDataF5Service;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IAreaInfoService;
@@ -42,6 +41,12 @@ public class IndexController extends BaseController {
 
     @Autowired
     private IAreaInfoService areaInfoService;
+
+    @Autowired
+    private IDataF5Service dataF5Service;
+
+    @Autowired
+    private IDataF21Service dataF21Service;
 
     @Autowired
     private IDataF33FrozenDayService dataF33FrozenDayService;
@@ -91,43 +96,54 @@ public class IndexController extends BaseController {
                     nodes.add(item);
                 }
 
-                List<DataF33FrozenDay> nodeF33FrozenDayList = new ArrayList<>();
+                List<DataF5> nodeF5List = new ArrayList<>();
                 for (int i = 0; i < nodes.size(); i++) {
-                    DataF33FrozenDay n = new DataF33FrozenDay();
+                    DataF5 n = new DataF5();
                     n.setAreaId(nodes.get(i).getAreaId());
                     n.setConcentratorId(nodes.get(i).getConcentratorId());
                     n.setPn(nodes.get(i).getPn());
-                    nodeF33FrozenDayList.add(n);
+                    nodeF5List.add(n);
                 }
 
-
-                // 本月
+                //电量
+                //本月
                 Calendar thisMonth = Calendar.getInstance();
                 Calendar nextMonth = Calendar.getInstance();
                 nextMonth.add(Calendar.MONTH, 1);
 
-                String thisMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
-                String nextMonthStr = new SimpleDateFormat("yyyyMM").format(nextMonth.getTime()) + "01000000";
+                String thisMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01";
+                String nextMonthStr = new SimpleDateFormat("yyyyMM").format(nextMonth.getTime()) + "01";
 
-                result.put("electricityThisMonth", getElectricity(pns, dataF33FrozenDayService.getDataF33FrozenDayList(nodeF33FrozenDayList, thisMonthStr, nextMonthStr)));
+                result.put("electricityThisMonth", getElectricityF5(pns, dataF5Service.getDataF5SumList(nodeF5List, thisMonthStr, nextMonthStr)));
+
+
+                List<DataF21> nodeF21List = new ArrayList<>();
+                for (int i = 0; i < nodes.size(); i++) {
+                    DataF21 n = new DataF21();
+                    n.setAreaId(nodes.get(i).getAreaId());
+                    n.setConcentratorId(nodes.get(i).getConcentratorId());
+                    n.setPn(nodes.get(i).getPn());
+                    nodeF21List.add(n);
+                }
 
                 //上月
                 Calendar lastMonth = Calendar.getInstance();
                 lastMonth.add(Calendar.MONTH, -1);
 
-                String lastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
+                String lastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime());
 
-                result.put("electricityLastMonth", getElectricity(pns, dataF33FrozenDayService.getDataF33FrozenDayList(nodeF33FrozenDayList, lastMonthStr, thisMonthStr)));
+                result.put("electricityLastMonth", getElectricityF21(pns, dataF21Service.getDataF21SumList(nodeF21List, lastMonthStr, thisMonthStr)));
 
                 //上上月
                 Calendar lastLastMonth = Calendar.getInstance();
                 lastLastMonth.add(Calendar.MONTH, -2);
 
-                String lastLastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01000000";
+                String lastLastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime());
 
-                result.put("electricityLastLastMonth", getElectricity(pns, dataF33FrozenDayService.getDataF33FrozenDayList(nodeF33FrozenDayList, lastLastMonthStr, lastMonthStr)));
+                result.put("electricityLastLastMonth", getElectricityF21(pns, dataF21Service.getDataF21SumList(nodeF21List, lastLastMonthStr, lastMonthStr)));
 
 
+                //负荷
                 //本月
                 List<DataF25FrozenMinute> nodeF25FrozenMinuteList = new ArrayList<>();
                 for (int i = 0; i < nodes.size(); i++) {
@@ -247,6 +263,70 @@ public class IndexController extends BaseController {
 
             if (count > 0) {
                 electricity += (maxVal - minVal) * ct * pt;
+            }
+
+        }
+
+        return electricity;
+    }
+
+    public double getElectricityF5(List<PnInfo> pns, List<DataF5> data) {
+        double electricity = 0.0;
+        for (int j = 0; j < pns.size(); j++) {
+            String areaId = pns.get(j).getAreaId();
+            String concentratorId = pns.get(j).getConcentratorId();
+            String pn = pns.get(j).getPn();
+            Double ct = pns.get(j).getCt();
+            Double pt = pns.get(j).getPt();
+
+            Double sum = 0D;
+            int count = 0;
+
+            for (int k = 0; k < data.size(); k++) {
+                DataF5 item = data.get(k);
+                if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
+                    count++;
+
+                    if (item.getTotalpositiveactivepower() != null) {
+                        sum += Double.valueOf(item.getTotalpositiveactivepower());
+                    }
+                }
+            }
+
+            if (count > 0) {
+                electricity += sum * ct * pt;
+            }
+
+        }
+
+        return electricity;
+    }
+
+    public double getElectricityF21(List<PnInfo> pns, List<DataF21> data) {
+        double electricity = 0.0;
+        for (int j = 0; j < pns.size(); j++) {
+            String areaId = pns.get(j).getAreaId();
+            String concentratorId = pns.get(j).getConcentratorId();
+            String pn = pns.get(j).getPn();
+            Double ct = pns.get(j).getCt();
+            Double pt = pns.get(j).getPt();
+
+            Double sum = 0D;
+            int count = 0;
+
+            for (int k = 0; k < data.size(); k++) {
+                DataF21 item = data.get(k);
+                if (item.getAreaId().equals(areaId) && item.getConcentratorId().equals(concentratorId) && item.getPn().equals(pn)) {
+                    count++;
+
+                    if (item.getTotalpositiveactivepower() != null) {
+                        sum += Double.valueOf(item.getTotalpositiveactivepower());
+                    }
+                }
+            }
+
+            if (count > 0) {
+                electricity += sum * ct * pt;
             }
 
         }
