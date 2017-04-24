@@ -167,6 +167,23 @@ $(document).ready(function () {
                 align: "center",
                 width: 120
             }, {
+                field: "state",
+                title: "状态",
+                align: "center",
+                width: 120,
+                formatter: function (value, row, index) {
+                    if ("0" == value) {
+                        return "运行";
+                    }
+                    else if ("1" == value) {
+                        return "调试";
+                    }
+                    else {
+                        return "-";
+
+                    }
+                }
+            }, {
                 field: "ct",
                 title: "CT",
                 align: "center",
@@ -306,6 +323,18 @@ $(document).ready(function () {
                     areaId: _areaId
                 })
             );
+
+            $("#combo-dg-pn-state").combobox("loadData", [
+                {
+                    name: "运行",
+                    value: "0"
+                },
+                {
+                    name: "调试",
+                    value: "1"
+                }
+            ]);
+
 
             $("#form-add-pn-node").form("clear");
 

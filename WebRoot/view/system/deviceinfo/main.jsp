@@ -220,6 +220,19 @@
                             </p>
                         </div>
                         <div class="clear"></div>
+                        <div class="grid_4 cell title cell-concentratorId">
+                            <p>
+                                状态
+                            </p>
+                        </div>
+                        <div class="grid_8 cell cell-concentratorId">
+                            <p>
+                                <input id="combo-dg-pn-state" name="state" class="easyui-combobox"
+                                       style="width: 100%;"
+                                       editable="false" required="true" textField="name" valueField="value">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
                         <div class="grid_4 cell title">
                             <p>
                                 CT
