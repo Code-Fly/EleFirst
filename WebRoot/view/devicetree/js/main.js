@@ -1,6 +1,9 @@
 /**
  * Created by VM on 1/26/2017.
  */
+
+var treeType = GetQueryString("type");
+
 function getSelectedNodeInfo() {
     var node = $("#dTree").tree("getSelected");
     return node;
@@ -15,6 +18,7 @@ function findNode(id) {
 
 function traverse(tree) {
     var nodes = tree.children;
+
     if ("concentrator" == tree.attributes.type) {
         if (!isExist(info.concentrators, tree.attributes.concentratorId)) {
             info.concentrators.push({
@@ -70,6 +74,8 @@ var info = {
 };
 
 $(document).ready(function () {
+
+
     $("#dTree").tree({
         // url: "data/test.json",
         // method: "get",
@@ -81,7 +87,25 @@ $(document).ready(function () {
         lines: true,
         onSelect: function (node) {
             initInfo();
-            traverse(node);
+            if ("master" == treeType) {
+                if ($.isArray(node.attributes.master) && node.attributes.master.length > 0) {
+                    var masters = node.attributes.master;
+                    for (var i = 0; i < masters.length; i++) {
+                        var pns = [];
+                        pns.push(masters[i].pn);
+                        info.concentrators.push({
+                            concentratorId: masters[i].concentratorId,
+                            pns: pns
+                        });
+                    }
+                } else {
+                    info = null;
+                }
+            } else {
+                traverse(node);
+            }
+
+            console.log(info)
             parent.saveTreeInfo(info);
         },
         onBeforeSelect: function (node) {

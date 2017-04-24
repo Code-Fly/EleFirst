@@ -97,64 +97,79 @@
 
         <div class="easyui-layout" data-options="fit:true,border:false">
             <div data-options="region:'center'">
-                <div class="container_12" style="padding-top: 10px">
-                    <div class="grid_4 cell title">
-                        <p>
-                            名称
-                        </p>
+                <form id="form-add-tree-node" class="easyui-form" method="post" data-options="novalidate:true">
+                    <div class="container_12" style="padding-top: 10px">
+                        <div class="grid_4 cell title">
+                            <p>
+                                名称
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="text-tree-node-name" class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                类型
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="combo-tree-node-type" class="easyui-combobox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title">
+                            <p>
+                                图标
+                            </p>
+                        </div>
+                        <div class="grid_8 cell">
+                            <p>
+                                <input id="combo-tree-node-iconCls" class="easyui-combobox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <%--<div class="clear"></div>--%>
+                        <%--<div class="grid_4 cell title cell-concentratorId">--%>
+                        <%--<p>--%>
+                        <%--集中器--%>
+                        <%--</p>--%>
+                        <%--</div>--%>
+                        <%--<div class="grid_8 cell cell-concentratorId">--%>
+                        <%--<p>--%>
+                        <%--<input id="combo-tree-node-concentratorId" class="easyui-combobox" style="width: 100%;">--%>
+                        <%--</p>--%>
+                        <%--</div>--%>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title cell-concentratorId">
+                            <p>
+                                总表
+                            </p>
+                        </div>
+                        <div class="grid_8 cell cell-pn">
+                            <p>
+                                <input id="combo-tree-master-node-pn" class="easyui-combobox" style="width: 100%;">
+                                <input id="hid-tree-master-node-pn" type="hidden" value="[]">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_4 cell title cell-concentratorId">
+                            <p>
+                                监测点
+                            </p>
+                        </div>
+                        <div class="grid_8 cell cell-pn">
+                            <p>
+                                <input id="tagbox-tree-node-pn" class="easyui-tagbox" style="width: 100%;">
+                                <input id="hid-tree-node-pn" type="hidden" value="[]">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
                     </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="text-tree-node-name" class="easyui-textbox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title">
-                        <p>
-                            类型
-                        </p>
-                    </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="combo-tree-node-type" class="easyui-combobox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title">
-                        <p>
-                            图标
-                        </p>
-                    </div>
-                    <div class="grid_8 cell">
-                        <p>
-                            <input id="combo-tree-node-iconCls" class="easyui-combobox" style="width: 100%;">
-                        </p>
-                    </div>
-                    <%--<div class="clear"></div>--%>
-                    <%--<div class="grid_4 cell title cell-concentratorId">--%>
-                    <%--<p>--%>
-                    <%--集中器--%>
-                    <%--</p>--%>
-                    <%--</div>--%>
-                    <%--<div class="grid_8 cell cell-concentratorId">--%>
-                    <%--<p>--%>
-                    <%--<input id="combo-tree-node-concentratorId" class="easyui-combobox" style="width: 100%;">--%>
-                    <%--</p>--%>
-                    <%--</div>--%>
-                    <div class="clear"></div>
-                    <div class="grid_4 cell title cell-concentratorId">
-                        <p>
-                            监测点
-                        </p>
-                    </div>
-                    <div class="grid_8 cell cell-pn">
-                        <p>
-                            <input id="tagbox-tree-node-pn" class="easyui-tagbox" style="width: 100%;">
-                            <input id="hid-tree-node-pn" type="hidden" value="[]">
-                        </p>
-                    </div>
-                    <div class="clear"></div>
-                </div>
+                </form>
+
             </div>
             <div data-options="region:'south'" style="height:50px;overflow: hidden;">
                 <div class="container_12">

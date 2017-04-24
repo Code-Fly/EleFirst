@@ -796,6 +796,17 @@ $(document).ready(function () {
     // 树形处理开始
     $("#dlg-add-tree-node").dialog({
         onBeforeOpen: function () {
+            $("#text-tree-node-name").textbox("clear");
+            $("#combo-tree-node-type").combobox("clear");
+            $("#combo-tree-node-iconCls").combobox("clear");
+            $("#tagbox-tree-node-pn").tagbox("clear");
+            $("#hid-tree-node-pn").val("[]");
+            $("#tagbox-tree-node-pn").tagbox("reload");
+            $("#tagbox-tree-node-pn").combobox("disable");
+            $("#combo-tree-master-node-pn").combobox("clear");
+            $("#combo-tree-master-node-pn").combobox("reload");
+            $("#hid-tree-master-node-pn").val("[]");
+
             if (flag_tree_node_edit) {
                 var node = $("#dTree").tree("getSelected");
                 var name = node.text;
@@ -803,6 +814,7 @@ $(document).ready(function () {
                 var type = node.attributes.type;
                 var concentratorId = node.attributes.concentratorId;
                 var pns = node.attributes.pns == undefined ? [] : node.attributes.pns;
+                var masters = node.attributes.master == undefined ? [] : node.attributes.master;
 
                 var pnIds = [];
                 for (var i = 0; i < pns.length; i++) {
@@ -815,15 +827,10 @@ $(document).ready(function () {
                 $("#tagbox-tree-node-pn").tagbox("reload");
                 $("#hid-tree-node-pn").val(JSON.stringify(pns));
                 $("#tagbox-tree-node-pn").tagbox("setValues", pnIds);
-
-            } else {
-                $("#text-tree-node-name").textbox("clear");
-                $("#combo-tree-node-type").combobox("clear");
-                $("#combo-tree-node-iconCls").combobox("clear");
-                $("#tagbox-tree-node-pn").tagbox("clear");
-                $("#hid-tree-node-pn").val("[]");
-                $("#tagbox-tree-node-pn").tagbox("reload");
-                $("#tagbox-tree-node-pn").combobox("disable");
+                if (masters.length > 0) {
+                    $("#combo-tree-master-node-pn").combobox("select", masters[0].id);
+                }
+                $("#hid-tree-master-node-pn").val(JSON.stringify(masters));
             }
         },
         onOpen: function () {
@@ -844,8 +851,24 @@ $(document).ready(function () {
         editable: false,
     });
 
+    $("#combo-tree-master-node-pn").combobox({
+        required: true,
+        textField: "name",
+        valueField: "id",
+        url: _ctx + "system/pn/info/list.do",
+        queryParams: {
+            areaId: _areaId
+        },
+        editable: false,
+        onSelect: function (record) {
+            var nd = [];
+            nd.push(record);
+            $("#hid-tree-master-node-pn").val(JSON.stringify(nd));
+        },
+    });
+
     $("#tagbox-tree-node-pn").tagbox({
-        // required: true,
+        required: true,
         textField: "name",
         valueField: "id",
         limitToList: true,
@@ -931,159 +954,178 @@ $(document).ready(function () {
 
     $("#btn-tree-dlg-add-tree-node-submit").linkbutton({
         onClick: function () {
-            if (!$("#text-tree-node-name").textbox("isValid")) {
-                $.messager.alert("操作提示", "请输入正确名称！", "info");
-                return;
-            }
+            if ($("#form-add-tree-node").form("enableValidation").form("validate")) {
+                // if (!$("#text-tree-node-name").textbox("isValid")) {
+                //     $.messager.alert("操作提示", "请输入正确名称！", "info");
+                //     return;
+                // }
+                //
+                // if (!$("#combo-tree-node-iconCls").combobox("isValid")) {
+                //     $.messager.alert("操作提示", "请选择正确图标！", "info");
+                //     return;
+                // }
+                //
+                // if (!$("#combo-tree-node-type").combobox("isValid")) {
+                //     $.messager.alert("操作提示", "请选择正确类型！", "info");
+                //     return;
+                // }
+                //
+                // // if (!$("#combo-tree-node-concentratorId").combobox("isValid")) {
+                // //     $.messager.alert("操作提示", "请选择正确集中器！", "info");
+                // //     return;
+                // // }
+                //
+                // if (!$("#combo-tree-master-node-pn").combobox("isValid")) {
+                //     $.messager.alert("操作提示", "请选择正确总表！", "info");
+                //     return;
+                // }
+                //
+                // if (!$("#tagbox-tree-node-pn").tagbox("options").disabled && $.parseJSON($("#hid-tree-node-pn").val()).length == 0) {
+                //     $.messager.alert("操作提示", "请选择正确监测点！", "info");
+                //     return;
+                // }
 
-            if (!$("#combo-tree-node-iconCls").combobox("isValid")) {
-                $.messager.alert("操作提示", "请选择正确图标！", "info");
-                return;
-            }
+                var node = $("#dTree").tree("getSelected");
+                var children = node.children == undefined ? [] : node.children;
+                var name = $("#text-tree-node-name").textbox("getValue");
+                var iconCls = $("#combo-tree-node-iconCls").combobox("getValue");
+                var type = $("#combo-tree-node-type").combobox("getValue");
+                var pns = $.parseJSON($("#hid-tree-node-pn").val());
+                var masterPn = $.parseJSON($("#hid-tree-master-node-pn").val());
+                // var concentratorId = $("#combo-tree-node-concentratorId").combobox("getValue");
 
-            if (!$("#combo-tree-node-type").combobox("isValid")) {
-                $.messager.alert("操作提示", "请选择正确类型！", "info");
-                return;
-            }
-
-            // if (!$("#combo-tree-node-concentratorId").combobox("isValid")) {
-            //     $.messager.alert("操作提示", "请选择正确集中器！", "info");
-            //     return;
-            // }
-
-            if (!$("#tagbox-tree-node-pn").tagbox("options").disabled && $.parseJSON($("#hid-tree-node-pn").val()).length == 0) {
-                $.messager.alert("操作提示", "请选择正确监测点！", "info");
-                return;
-            }
-
-            var node = $("#dTree").tree("getSelected");
-            var children = node.children == undefined ? [] : node.children;
-            var name = $("#text-tree-node-name").textbox("getValue");
-            var iconCls = $("#combo-tree-node-iconCls").combobox("getValue");
-            var type = $("#combo-tree-node-type").combobox("getValue");
-            var pns = $.parseJSON($("#hid-tree-node-pn").val());
-            // var concentratorId = $("#combo-tree-node-concentratorId").combobox("getValue");
-
-            var pnIds = [];
-            for (var i = 0; i < pns.length; i++) {
-                pnIds.push({
-                    id: pns[i].id,
-                    areaId: pns[i].areaId,
-                    concentratorId: pns[i].concentratorId,
-                    pn: pns[i].pn
-                });
-            }
-
-            var attributes = {
-                type: type,
-                pns: pnIds
-            };
-
-            // if (attributes.type == "concentrator") {
-            //     attributes.concentratorId = concentratorId;
-            // }
-
-            if (attributes.type == "leaf") {
-                attributes.concentrators = [];
-
-                for (var n = 0; n < pns.length; n++) {
-                    attributes.concentrators = addPn(attributes.concentrators, pns[n]);
+                var pnIds = [];
+                for (var i = 0; i < pns.length; i++) {
+                    pnIds.push({
+                        id: pns[i].id,
+                        areaId: pns[i].areaId,
+                        concentratorId: pns[i].concentratorId,
+                        pn: pns[i].pn
+                    });
                 }
-            }
+
+                var masters = [];
+                for (var i = 0; i < masterPn.length; i++) {
+                    masters.push({
+                        id: masterPn[i].id,
+                        areaId: masterPn[i].areaId,
+                        concentratorId: masterPn[i].concentratorId,
+                        pn: masterPn[i].pn
+                    });
+                }
+
+                var attributes = {
+                    type: type,
+                    master: masters,
+                    pns: pnIds
+                };
+
+                // if (attributes.type == "concentrator") {
+                //     attributes.concentratorId = concentratorId;
+                // }
+
+                if (attributes.type == "leaf") {
+                    attributes.concentrators = [];
+
+                    for (var n = 0; n < pns.length; n++) {
+                        attributes.concentrators = addPn(attributes.concentrators, pns[n]);
+                    }
+                }
 
 
-            if (flag_tree_node_edit) {
-                $.ajax({
-                    url: _ctx + "system/tree/info/update.do",
-                    type: "POST",
-                    data: {
-                        id: node.id,
-                        iconCls: iconCls,
-                        attributes: JSON.stringify(attributes),
-                        name: name
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                $("#dTree").tree("reload");
-                                $("#dlg-add-tree-node").dialog("close");
-                                $.messager.alert("操作提示", "修改成功。", "info");
+                if (flag_tree_node_edit) {
+                    $.ajax({
+                        url: _ctx + "system/tree/info/update.do",
+                        type: "POST",
+                        data: {
+                            id: node.id,
+                            iconCls: iconCls,
+                            attributes: JSON.stringify(attributes),
+                            name: name
+                        },
+                        cache: false,
+                        success: function (r) {
+                            if (r.hasOwnProperty("errcode")) {
+                                if ("0" == r.errcode) {
+                                    $("#dTree").tree("reload");
+                                    $("#dlg-add-tree-node").dialog("close");
+                                    $.messager.alert("操作提示", "修改成功。", "info");
+                                } else {
+                                    jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                                }
                             } else {
-                                jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                                jError("请求失败！" + ErrUtils.getMsg("2"));
                             }
-                        } else {
-                            jError("请求失败！" + ErrUtils.getMsg("2"));
+                        },
+                        beforeSend: function (XMLHttpRequest) {
+                            MaskUtil.mask();
+                        },
+                        error: function (request) {
+                            jError("请求失败！" + ErrUtils.getMsg("3"));
+                        },
+                        complete: function (XMLHttpRequest, textStatus) {
+                            MaskUtil.unmask();
                         }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        jError("请求失败！" + ErrUtils.getMsg("3"));
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
+                    });
+                } else {
+                    if (node.attributes.type == "concentrator") {
+                        $.messager.alert("操作提示", "无法在此下添加节点！", "info");
+                        return;
                     }
-                });
-            } else {
-                if (node.attributes.type == "concentrator") {
-                    $.messager.alert("操作提示", "无法在此下添加节点！", "info");
-                    return;
-                }
 
-                if (attributes.type == "concentrator") {
-                    for (var i = 0; i < children.length; i++) {
-                        if (children[i].attributes.type != "concentrator") {
-                            $.messager.alert("操作提示", "无法在此下添加集中器！", "info");
-                            return;
+                    if (attributes.type == "concentrator") {
+                        for (var i = 0; i < children.length; i++) {
+                            if (children[i].attributes.type != "concentrator") {
+                                $.messager.alert("操作提示", "无法在此下添加集中器！", "info");
+                                return;
+                            }
                         }
                     }
-                }
-                else if (attributes.type == "category") {
-                    for (var i = 0; i < children.length; i++) {
-                        if (children[i].attributes.type == "concentrator") {
-                            $.messager.alert("操作提示", "无法在此下添加子分类！", "info");
-                            return;
+                    else if (attributes.type == "category") {
+                        for (var i = 0; i < children.length; i++) {
+                            if (children[i].attributes.type == "concentrator") {
+                                $.messager.alert("操作提示", "无法在此下添加子分类！", "info");
+                                return;
+                            }
                         }
                     }
-                }
 
-                $.ajax({
-                    url: _ctx + "system/tree/info/add.do",
-                    type: "POST",
-                    data: {
-                        areaId: _areaId,
-                        pid: node.id,
-                        treeId: _treeId,
-                        iconCls: iconCls,
-                        attributes: JSON.stringify(attributes),
-                        name: name
-                    },
-                    cache: false,
-                    success: function (r) {
-                        if (r.hasOwnProperty("errcode")) {
-                            if ("0" == r.errcode) {
-                                $("#dTree").tree("reload");
-                                $("#dlg-add-tree-node").dialog("close");
-                                $.messager.alert("操作提示", "添加成功。", "info");
+                    $.ajax({
+                        url: _ctx + "system/tree/info/add.do",
+                        type: "POST",
+                        data: {
+                            areaId: _areaId,
+                            pid: node.id,
+                            treeId: _treeId,
+                            iconCls: iconCls,
+                            attributes: JSON.stringify(attributes),
+                            name: name
+                        },
+                        cache: false,
+                        success: function (r) {
+                            if (r.hasOwnProperty("errcode")) {
+                                if ("0" == r.errcode) {
+                                    $("#dTree").tree("reload");
+                                    $("#dlg-add-tree-node").dialog("close");
+                                    $.messager.alert("操作提示", "添加成功。", "info");
+                                } else {
+                                    jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                                }
                             } else {
-                                jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                                jError("请求失败！" + ErrUtils.getMsg("2"));
                             }
-                        } else {
-                            jError("请求失败！" + ErrUtils.getMsg("2"));
+                        },
+                        beforeSend: function (XMLHttpRequest) {
+                            MaskUtil.mask();
+                        },
+                        error: function (request) {
+                            jError("请求失败！" + ErrUtils.getMsg("3"));
+                        },
+                        complete: function (XMLHttpRequest, textStatus) {
+                            MaskUtil.unmask();
                         }
-                    },
-                    beforeSend: function (XMLHttpRequest) {
-                        MaskUtil.mask();
-                    },
-                    error: function (request) {
-                        jError("请求失败！" + ErrUtils.getMsg("3"));
-                    },
-                    complete: function (XMLHttpRequest, textStatus) {
-                        MaskUtil.unmask();
-                    }
-                });
+                    });
+                }
             }
         }
     });
