@@ -113,7 +113,7 @@ public class DataF21Controller extends BaseController {
 //            List<DataF21> ns = nodes.get(i);
 
             for (int j = 0; j < times.size(); j++) {
-                List<DataF21> item = dataF21Service.getDataF21SumList(ns, times.get(j).getString("startTime").substring(0, 8), times.get(j).getString("endTime").substring(0, 8));
+                List<DataF21> item = dataF21Service.getDataF21SumList(ns, times.get(j).getString("startTime").substring(0, 6), times.get(j).getString("endTime").substring(0, 6));
                 rs.add(dataF21Service.format(item));
             }
 
@@ -153,8 +153,8 @@ public class DataF21Controller extends BaseController {
             Date thisMonthEndTimeDate = new Date(date.getTime());
             thisMonthEndTimeDate.setMonth(date.getMonth() + i + 1);
 
-            String thisMonthStartTime = sdf.format(thisMonthStartTimeDate).substring(0, 8);
-            String thisMonthEndTime = sdf.format(thisMonthEndTimeDate).substring(0, 8);
+            String thisMonthStartTime = sdf.format(thisMonthStartTimeDate).substring(0, 6);
+            String thisMonthEndTime = sdf.format(thisMonthEndTimeDate).substring(0, 6);
 
             StatisticF21TotalPositiveActivePower item = new StatisticF21TotalPositiveActivePower();
 

@@ -13,7 +13,7 @@ $(document).ready(function () {
     DateBoxUtils.initMonthBox($("#datebox-time-end"));
 
     $("#dg-table").datagrid({
-        url: _ctx + "/power/data/f5/interval/month/statistic.do",
+        url: _ctx + "/power/data/f21/interval/month/statistic.do",
         method: "POST",
         border: true,
         fit: true,
@@ -29,7 +29,7 @@ $(document).ready(function () {
                 formatter: DataGridUtils.dateToMonthFormatter
             },
             {
-                field: "thisMonthTotalPositiveActivePower",
+                field: "thisYearTotalPositiveActivePower",
                 title: "本期电量(kWh)",
                 align: "center",
                 width: 120,
@@ -122,7 +122,7 @@ $(document).ready(function () {
                         });
 
                         $.ajax({
-                            url: _ctx + "power/data/f5/node/time/sum.do",
+                            url: _ctx + "power/data/f21/node/time/sum.do",
                             type: "POST",
                             cache: false,
                             data: {
@@ -135,7 +135,7 @@ $(document).ready(function () {
                                         var series = [];
 
                                         // $.messager.alert("操作提示", JSON.stringify(r.data));
-                                        var item = ChartUtils.getF5AllSeries({
+                                        var item = ChartUtils.getF21AllSeries({
                                             name: "本期"
                                         }, r.data[0][0]);
                                         item.dataGrouping = {
@@ -144,7 +144,7 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
-                                        var item = ChartUtils.getF5AllSeries({
+                                        var item = ChartUtils.getF21AllSeries({
                                             name: "去年同期"
                                         }, r.data[0][1]);
                                         item.dataGrouping = {
@@ -221,94 +221,6 @@ $(document).ready(function () {
                             time: startTime,
                             interval: param.interval
                         });
-
-                        return;
-
-                        $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/monthly/interval/month/chart.do",
-                            type: "POST",
-                            cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        currentData = ChartUtils.getElectricityMonthlyIntervalMonthTable(paramNode, param.time, param.interval, r.data);
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            }
-                        });
-
-                        paramChart.time = [];
-                        for (var i = 0; i <= param.interval; i++) {
-                            var item = TimeUtils.dataBoxMonthToDate(param.time);
-                            item.setMonth(item.getMonth() + i);
-                            item.setFullYear(item.getFullYear() - 1);
-                            paramChart.time.push(item.format('yyyyMM') + "01000000");
-                        }
-
-                        var lastYearData = [];
-
-                        $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/monthly/interval/month/chart.do",
-                            type: "POST",
-                            cache: false,
-                            async: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        lastYearData = ChartUtils.getElectricityMonthlyIntervalMonthTable(paramNode, param.time, param.interval, r.data);
-
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            }
-                        });
-
-                        var dgData = [];
-
-                        var currentDataTotal = 0;
-                        var lastYearDataTotal = 0;
-
-                        for (var i = 0; i < (param.interval + 1); i++) {
-                            currentDataTotal = currentDataTotal + currentData[i];
-                            lastYearDataTotal = lastYearDataTotal + lastYearData[i];
-
-                            var item = TimeUtils.dataBoxMonthToDate(param.time);
-                            item.setMonth(item.getMonth() + i);
-
-                            dgData.push({
-                                time: item.format("yyyy-MM"),
-                                currentData: currentData[i],
-                                lastYearData: lastYearData[i],
-                                rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1),
-                            });
-                        }
-
-                        dgData.push({
-                            time: "总计",
-                            currentData: currentDataTotal,
-                            lastYearData: lastYearDataTotal,
-                            rate2: lastYearDataTotal == 0 ? "-" : DataGridUtils.floatFormatter((((currentDataTotal - lastYearDataTotal) * 100 ) / lastYearDataTotal), 1),
-                        });
-
-                        $("#dg-table").datagrid("loadData", dgData);
-
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
