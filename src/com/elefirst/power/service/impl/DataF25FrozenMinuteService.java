@@ -92,6 +92,11 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
 
     @Override
     public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        return getDataF25FrozenMinuteSumList(nodes, startTime, endTime, "clientOperationTime", "ASC");
+    }
+
+    @Override
+    public List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String orderBy, String order) {
         DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         for (int i = 0; i < nodes.size(); i++) {
             DataF25FrozenMinute node = nodes.get(i);
@@ -118,12 +123,17 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                     .andBPowerfactorIsNotNull()
             ;
         }
-        condition.setOrderByClause("`clientOperationTime` ASC");
+        condition.setOrderByClause("`" + orderBy + "` " + order);
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumList(condition);
     }
 
     @Override
     public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        return getDataF25FrozenMinuteSumWithF5List(nodes, startTime, endTime, "clientOperationTime", "ASC");
+    }
+
+    @Override
+    public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String orderBy, String order) {
         DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         for (int i = 0; i < nodes.size(); i++) {
             DataF25FrozenMinute node = nodes.get(i);
@@ -150,12 +160,17 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                     .andBPowerfactorIsNotNull()
             ;
         }
-        condition.setOrderByClause("`clientOperationTime` ASC");
+        condition.setOrderByClause("`" + orderBy + "` " + order);
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumWithF5List(condition);
     }
 
     @Override
     public List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteSumWithF21List(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
+        return getDataF25FrozenMinuteSumWithF21List(nodes, startTime, endTime, "clientOperationTime", "ASC");
+    }
+
+    @Override
+    public List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteSumWithF21List(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String orderBy, String order) {
         DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         for (int i = 0; i < nodes.size(); i++) {
             DataF25FrozenMinute node = nodes.get(i);
@@ -182,7 +197,7 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
                     .andBPowerfactorIsNotNull()
             ;
         }
-        condition.setOrderByClause("`clientOperationTime` ASC");
+        condition.setOrderByClause("`" + orderBy + "` " + order);
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteSumWithF21List(condition);
     }
 
@@ -448,22 +463,21 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
 
     @Override
     public StatisticF25TotalActivePower getF5StatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) {
-        List<DataF25FrozenMinute> maxTotalActivePowerList = getMaxValue(nodes, startTime, endTime, "totalActivePower");
+        List<DataF25FrozenMinuteWithF5> totalActivePowerList = formatWithF5(getDataF25FrozenMinuteSumWithF5List(nodes, startTime, endTime, "totalActivePower", "ASC"));
 
-        DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
-        if (maxTotalActivePowerList.size() > 0) {
-            maxTotalActivePower = format(maxTotalActivePowerList).get(0);
+        DataF25FrozenMinuteWithF5 maxTotalActivePower = new DataF25FrozenMinuteWithF5();
+        if (totalActivePowerList.size() > 0) {
+            maxTotalActivePower = totalActivePowerList.get(totalActivePowerList.size() - 1);
         }
 
-        List<DataF25FrozenMinute> minTotalActivePowerList = getMinValue(nodes, startTime, endTime, "totalActivePower");
 
-        DataF25FrozenMinute minTotalActivePower = new DataF25FrozenMinute();
-        if (minTotalActivePowerList.size() > 0) {
-            minTotalActivePower = format(minTotalActivePowerList).get(0);
+        DataF25FrozenMinuteWithF5 minTotalActivePower = new DataF25FrozenMinuteWithF5();
+        if (totalActivePowerList.size() > 0) {
+            minTotalActivePower = totalActivePowerList.get(0);
         }
 
-        DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
-        List<DataF25FrozenMinuteWithF5> avgTotalActivePowerList = formatWithF5(getDataF25FrozenMinuteSumWithF5List(nodes, startTime, endTime));
+        DataF25FrozenMinuteWithF5 avgTotalActivePower = new DataF25FrozenMinuteWithF5();
+        List<DataF25FrozenMinuteWithF5> avgTotalActivePowerList = totalActivePowerList;
 
         Double sum = null;
         int count = 0;
@@ -518,22 +532,22 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
 
     @Override
     public StatisticF25TotalActivePower getF21StatisticTotalActivePower(List<DataF25FrozenMinute> nodes, String startTime, String endTime) throws ParseException {
-        List<DataF25FrozenMinute> maxTotalActivePowerList = getMaxValue(nodes, startTime, endTime, "totalActivePower");
+        List<DataF25FrozenMinuteWithF21> totalActivePowerList = formatWithF21(getDataF25FrozenMinuteSumWithF21List(nodes, startTime, endTime, "totalActivePower", "ASC"));
 
-        DataF25FrozenMinute maxTotalActivePower = new DataF25FrozenMinute();
-        if (maxTotalActivePowerList.size() > 0) {
-            maxTotalActivePower = format(maxTotalActivePowerList).get(0);
+
+        DataF25FrozenMinuteWithF21 maxTotalActivePower = new DataF25FrozenMinuteWithF21();
+        if (totalActivePowerList.size() > 0) {
+            maxTotalActivePower = totalActivePowerList.get(totalActivePowerList.size() - 1);
         }
 
-        List<DataF25FrozenMinute> minTotalActivePowerList = getMinValue(nodes, startTime, endTime, "totalActivePower");
 
-        DataF25FrozenMinute minTotalActivePower = new DataF25FrozenMinute();
-        if (minTotalActivePowerList.size() > 0) {
-            minTotalActivePower = format(minTotalActivePowerList).get(0);
+        DataF25FrozenMinuteWithF21 minTotalActivePower = new DataF25FrozenMinuteWithF21();
+        if (totalActivePowerList.size() > 0) {
+            minTotalActivePower = totalActivePowerList.get(0);
         }
 
-        DataF25FrozenMinute avgTotalActivePower = new DataF25FrozenMinute();
-        List<DataF25FrozenMinuteWithF21> avgTotalActivePowerList = formatWithF21(getDataF25FrozenMinuteSumWithF21List(nodes, startTime, endTime));
+        DataF25FrozenMinuteWithF21 avgTotalActivePower = new DataF25FrozenMinuteWithF21();
+        List<DataF25FrozenMinuteWithF21> avgTotalActivePowerList = totalActivePowerList;
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");

@@ -23,9 +23,15 @@ public interface IDataF25FrozenMinuteService {
 
     List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String startTime, String endTime);
 
+    List<DataF25FrozenMinute> getDataF25FrozenMinuteSumList(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String orderBy, String order);
+
     List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(List<DataF25FrozenMinute> nodes, String startTime, String endTime);
 
+    List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String orderBy, String order);
+
     List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteSumWithF21List(List<DataF25FrozenMinute> nodes, String startTime, String endTime);
+
+    List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteSumWithF21List(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String orderBy, String order);
 
     //
 
