@@ -693,7 +693,63 @@
   </select>
   <!-- 获取每个监测点下最大,最小以及平均负荷-->
   <select id="queryTotalActivePowerDetail" resultType="com.elefirst.powerdetail.po.TotalActivePowerDetail">
-	select max((a.totalActivePower + 0)*b.pt*b.ct) as maxTotalActivePower, min((a.totalActivePower + 0)*b.pt*b.ct) as minTotalActivePower,ROUND(avg((a.totalActivePower + 0)*b.pt*b.ct),2) as avgTotalActivePower,ROUND(max(a.totalActivePower + 0),4) as orgMaxTotalActivePower, ROUND(min(a.totalActivePower + 0),4) as orgMinTotalActivePower from t_003_fn25_frozen_per_15m a ,t_202_pn_info b where 1=1 and a.area_id = b.area_id and a.concentrator_id = b.concentrator_id and a.pn = b.pn and a.totalActivePower is not NULL	
+SELECT
+	max(
+		(a.totalActivePower + 0) * b.pt * b.ct
+	) AS maxTotalActivePower,
+	min(
+		(a.totalActivePower + 0) * b.pt * b.ct
+	) AS minTotalActivePower,
+	round(
+		(
+			(
+				(
+					(
+						(
+							SELECT
+								`t`.`totalPositiveActivePower`
+							FROM
+								`t_030_type_two_data_fn5` `t`
+							WHERE
+								(
+									(`t`.`frozen_day` IS NOT NULL)
+									AND (
+										`t`.`area_id` = `a`.`area_id`
+									)
+									AND (
+										`t`.`concentrator_id` = `a`.`concentrator_id`
+									)
+									AND (`t`.`pn` = `a`.`pn`)
+									<if test="date!= null and date!= ''">
+							             AND (
+											`t`.`frozen_day` = #{date ,jdbcType=VARCHAR}
+									     )
+							        </if>
+								)
+						) + 0
+					) * `b`.`pt`
+				) * `b`.`ct`
+			) / 24
+		),
+		2
+	) AS `avgTotalActivePower`,
+	ROUND(
+		max(a.totalActivePower + 0),
+		4
+	) AS orgMaxTotalActivePower,
+	ROUND(
+		min(a.totalActivePower + 0),
+		4
+	) AS orgMinTotalActivePower
+FROM
+	t_003_fn25_frozen_per_15m a,
+	t_202_pn_info b
+WHERE
+	1 = 1
+AND a.area_id = b.area_id
+AND a.concentrator_id = b.concentrator_id
+AND a.pn = b.pn
+AND a.totalActivePower IS NOT NULL
 	<if test="areaId!= null and areaId!= ''">
 		  and a.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
