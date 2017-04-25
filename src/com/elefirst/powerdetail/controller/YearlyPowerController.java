@@ -129,7 +129,7 @@ public class YearlyPowerController {
 		try {
 			// 处理年期
 			String dateStr = com.elefirst.base.utils.DateUtil.StringPattern(
-					"date", "yyyy", "yyyy");
+					date, "yyyy", "yyyy");
 			if ("负荷".equals(tabName)) {
 				setTotalActivePowerDetail(areaId, concentratorId, pn, paramMap,
 						dateStr);
