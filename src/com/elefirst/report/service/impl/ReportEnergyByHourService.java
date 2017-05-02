@@ -32,6 +32,9 @@ public class ReportEnergyByHourService extends BaseService implements IReportEne
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
+        if (null != template && null != template.getOperationTime()) {
+            criteria.andOperationTimeEqualTo(template.getOperationTime());
+        }
         if (template.getRows() > 0 && template.getPage() > 0) {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
