@@ -79,11 +79,20 @@
                data-options="border:true,fit:true,rownumbers:true,singleSelect:true,fitColumns:true">
             <thead>
             <tr>
-                <th data-options="field:'name'" width="100" align="center">名称</th>
-                <th data-options="field:'electricity'" width="100" align="center">电量(kWh)</th>
-                <th data-options="field:'composition'" width="100" align="center">占比(%)</th>
-                <th data-options="field:'rate1'" width="100" align="center">环比(%)</th>
-                <th data-options="field:'rate2'" width="100" align="center">同比(%)</th>
+                <th data-options="field:'name'" width="100" align="center" formatter="DataGridUtils.strFormatter">名称
+                </th>
+                <th data-options="field:'electricity'" width="100" align="center"
+                    formatter="DataGridUtils.strFormatter">电量(kWh)
+                </th>
+                <th data-options="field:'composition'" width="100" align="center"
+                    formatter="DataGridUtils.strFormatter">占比(%)
+                </th>
+                <th data-options="field:'rate1'" width="100" align="center" formatter="DataGridUtils.strFormatter">
+                    环比(%)
+                </th>
+                <th data-options="field:'rate2'" width="100" align="center" formatter="DataGridUtils.strFormatter">
+                    同比(%)
+                </th>
             </tr>
             </thead>
         </table>

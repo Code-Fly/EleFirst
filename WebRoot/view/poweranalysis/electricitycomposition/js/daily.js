@@ -172,9 +172,11 @@ $(document).ready(function () {
             for (var ch = 0; ch < sNode.children.length; ch++) {
                 var sChildren = sNode.children[ch];
 
-                var sInfo = parent.parent.findNode(sChildren.id);
+                // var sInfo = parent.parent.findNode(sChildren.id);
+                //
+                // var pnInfos = getPnList(sInfo);
 
-                var pnInfos = getPnList(sInfo);
+                var pnInfos = sChildren.attributes.master;
 
                 paramNode.push(pnInfos);
                 categories.push(sChildren.text);
@@ -284,10 +286,11 @@ $(document).ready(function () {
         if (sNode.hasOwnProperty("children")) {
             for (var ch = 0; ch < sNode.children.length; ch++) {
                 var sChildren = sNode.children[ch];
+                // var sInfo = parent.parent.findNode(sChildren.id);
+                //
+                // var pnInfos = getPnList(sInfo);
 
-                var sInfo = parent.parent.findNode(sChildren.id);
-
-                var pnInfos = getPnList(sInfo);
+                var pnInfos = sChildren.attributes.master;
 
                 paramNode.push(pnInfos);
                 categories.push(sChildren.text);
@@ -333,9 +336,6 @@ $(document).ready(function () {
                             .setSeries(series)
                         // .setDataGroupingByDay();
 
-                        console.log(JSON.stringify(config.getConfig()))
-
-
                         $("#chart-electricity-composition").highcharts(config.getConfig());
 
                     } else {
@@ -349,204 +349,103 @@ $(document).ready(function () {
     }
 
     function getElectricityComparisonTable(param) {
-        var series = {};
-
         var sNode = parent.parent.getSelectedNodeInfo();
 
-        var paramChart = [];
+        var paramNode = [];
+
+        var categories = [];
         if (sNode.hasOwnProperty("children")) {
             for (var ch = 0; ch < sNode.children.length; ch++) {
                 var sChildren = sNode.children[ch];
 
-                var sInfo = parent.parent.findNode(sChildren.id);
+                // var sInfo = parent.parent.findNode(sChildren.id);
+                //
+                // var pnInfos = getPnList(sInfo);
 
-                var pnInfos = getPnList(sInfo);
+                var pnInfos = sChildren.attributes.master;
 
-                var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                endTime.setDate(endTime.getDate() + (param.interval + 1));
-                paramChart.push({
-                    node: pnInfos,
-                    id: sChildren.id,
-                    name: sChildren.text,
-                    start: startTime.format("yyyyMMdd") + "000000",
-                    end: endTime.format("yyyyMMdd") + "000000"
-                });
+                paramNode.push(pnInfos);
+                categories.push(sChildren.text);
             }
         }
 
-        var currentData = [];
-
-        $.ajax({
-            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
-            type: "POST",
-            cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
-            success: function (r) {
-                if (r.hasOwnProperty("errcode")) {
-                    if ("0" == r.errcode) {
-                        currentData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
-
-                        if (currentData.length > 0 && lastMonthData.length > 0 && lastYearData.length > 0) {
-                            var category = ChartUtils.getElectricityComparisonCategories(paramChart);
-                            var dgData = [];
-                            for (var i = 0; i < category.length; i++) {
-                                var item = {
-                                    name: category[i],
-                                    electricity: currentData[i],
-                                    composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
-                                    rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
-                                    rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
-                                };
-                                dgData.push(item);
-                            }
-
-                            $("#dg-table").datagrid("loadData", dgData);
-                        }
-                    } else {
-                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                    }
-                } else {
-                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                }
-            },
-            beforeSend: function (XMLHttpRequest) {
-
-            },
-            error: function (request) {
-                jError("请求失败！" + ErrUtils.getMsg("3"));
-            },
-            complete: function (XMLHttpRequest, textStatus) {
-
-            }
+        var timeList = [];
+        timeList.push({
+            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, 0).format('yyyyMMdd') + "000000",
+            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, param.interval + 1).format('yyyyMMdd') + "000000"
         });
 
-        var paramChart = [];
-        if (sNode.hasOwnProperty("children")) {
-            for (var ch = 0; ch < sNode.children.length; ch++) {
-                var sChildren = sNode.children[ch];
-
-                var sInfo = parent.parent.findNode(sChildren.id);
-
-                var pnInfos = getPnList(sInfo);
-
-                var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                startTime.setMonth(startTime.getMonth() - 1);
-                var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                endTime.setMonth(endTime.getMonth() - 1);
-                endTime.setDate(endTime.getDate() + (param.interval + 1));
-                paramChart.push({
-                    node: pnInfos,
-                    id: sChildren.id,
-                    name: sChildren.text,
-                    start: startTime.format("yyyyMMdd") + "000000",
-                    end: endTime.format("yyyyMMdd") + "000000"
-                });
-            }
-        }
-
-        var lastMonthData = [];
-
-        $.ajax({
-            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
-            type: "POST",
-            cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
-            success: function (r) {
-                if (r.hasOwnProperty("errcode")) {
-                    if ("0" == r.errcode) {
-                        lastMonthData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
-
-                        if (currentData.length > 0 && lastMonthData.length > 0 && lastYearData.length > 0) {
-                            var category = ChartUtils.getElectricityComparisonCategories(paramChart);
-                            var dgData = [];
-                            for (var i = 0; i < category.length; i++) {
-                                var item = {
-                                    name: category[i],
-                                    electricity: currentData[i],
-                                    composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
-                                    rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
-                                    rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
-                                };
-                                dgData.push(item);
-                            }
-
-                            $("#dg-table").datagrid("loadData", dgData);
-                        }
-                    } else {
-                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                    }
-                } else {
-                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                }
-            },
-            beforeSend: function (XMLHttpRequest) {
-
-            },
-            error: function (request) {
-                jError("请求失败！" + ErrUtils.getMsg("3"));
-            },
-            complete: function (XMLHttpRequest, textStatus) {
-
-            }
+        timeList.push({
+            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, -1, 0).format('yyyyMMdd') + "000000",
+            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, -1, param.interval + 1).format('yyyyMMdd') + "000000"
         });
 
-        var paramChart = [];
-        if (sNode.hasOwnProperty("children")) {
-            for (var ch = 0; ch < sNode.children.length; ch++) {
-                var sChildren = sNode.children[ch];
-
-                var sInfo = parent.parent.findNode(sChildren.id);
-
-                var pnInfos = getPnList(sInfo);
-
-                var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                startTime.setFullYear(startTime.getFullYear() - 1);
-                var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                endTime.setFullYear(endTime.getFullYear() - 1);
-                endTime.setDate(endTime.getDate() + (param.interval + 1));
-                paramChart.push({
-                    node: pnInfos,
-                    id: sChildren.id,
-                    name: sChildren.text,
-                    start: startTime.format("yyyyMMdd") + "000000",
-                    end: endTime.format("yyyyMMdd") + "000000"
-                });
-            }
-        }
-
-        var lastYearData = [];
+        timeList.push({
+            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, -1, 0, 0).format('yyyyMMdd') + "000000",
+            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, -1, 0, param.interval + 1).format('yyyyMMdd') + "000000"
+        });
 
         $.ajax({
-            url: _ctx + "poweranalysis/comparison/electricity/all/chart.do",
+            url: _ctx + "power/data/f5/node/time/sum.do",
             type: "POST",
             cache: false,
-            contentType: "text/plain;charset=UTF-8",
-            data: JSON.stringify(paramChart),
+            data: {
+                node: JSON.stringify(paramNode),
+                time: JSON.stringify(timeList)
+            },
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        var dgData = [];
 
-                        lastYearData = ChartUtils.getElectricityComparisonTable(paramChart, r.data);
+                        for (var i = 0; i < categories.length; i++) {
+                            // d.push(r.data[i][0]);
+                            console.log(JSON.stringify(r.data[i]))
 
-                        if (currentData.length > 0 && lastMonthData.length > 0 && lastYearData.length > 0) {
-                            var category = ChartUtils.getElectricityComparisonCategories(paramChart);
-                            var dgData = [];
-                            for (var i = 0; i < category.length; i++) {
-                                var item = {
-                                    name: category[i],
-                                    electricity: currentData[i],
-                                    composition: DataGridUtils.floatFormatter((currentData[i] * 100 / currentData[category.length]), 1),
-                                    rate1: lastMonthData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastMonthData[i]) * 100) / lastMonthData[i]), 1),
-                                    rate2: lastYearData[i] == 0 ? "-" : DataGridUtils.floatFormatter((((currentData[i] - lastYearData[i]) * 100 ) / lastYearData[i]), 1)
-                                };
-                                dgData.push(item);
+                            var thisMonth = 0;
+
+                            for (var j = 0; j < r.data[i][0].length; j++) {
+                                thisMonth += parseFloat(r.data[i][0][j].totalpositiveactivepower) * ChartUtils.NUM_FIX;
                             }
 
-                            $("#dg-table").datagrid("loadData", dgData);
+                            thisMonth = thisMonth / ChartUtils.NUM_FIX;
+
+                            var lastMonth = 0;
+
+                            for (var j = 0; j < r.data[i][1].length; j++) {
+                                lastMonth += parseFloat(r.data[i][1][j].totalpositiveactivepower) * ChartUtils.NUM_FIX;
+                            }
+
+                            lastMonth = lastMonth / ChartUtils.NUM_FIX;
+
+                            var lastYear = 0;
+
+                            for (var j = 0; j < r.data[i][2].length; j++) {
+                                lastYear += parseFloat(r.data[i][2][j].totalpositiveactivepower) * ChartUtils.NUM_FIX;
+                            }
+
+                            lastYear = lastYear / ChartUtils.NUM_FIX;
+
+                            dgData.push({
+                                name: categories[i],
+                                electricity: thisMonth,
+                                rate1: lastMonth == 0 ? null : ((thisMonth - lastMonth) / lastMonth).toFixed(1),
+                                rate2: lastYear == 0 ? null : ((thisMonth - lastYear) / lastYear).toFixed(1)
+                            });
+
+
                         }
+
+                        var total = 0;
+                        for (var i = 0; i < categories.length; i++) {
+                            total += dgData[i].electricity;
+                        }
+
+                        for (var i = 0; i < categories.length; i++) {
+                            dgData[i].composition = total == 0 ? null : (dgData[i].electricity * 100 / total).toFixed(1);
+                        }
+
+                        $("#dg-table").datagrid("loadData", dgData);
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -555,13 +454,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-
+                _spinner.unload();
             }
         });
     }

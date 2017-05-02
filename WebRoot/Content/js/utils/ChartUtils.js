@@ -1754,12 +1754,12 @@ var ChartUtils = {
         for (var i = 0; i < data.length; i++) {
             var total = 0;
             for (var j = 0; j < data[i].length; j++) {
-                total += parseFloat(data[i][j].totalpositiveactivepower);
+                total += parseFloat(data[i][j].totalpositiveactivepower) * ChartUtils.NUM_FIX;
                 // series.data.push([categories[i], data[i][j].totalpositiveactivepower]);
             }
             // var tmp = parseFloat(data[i].totalpositiveactivepower);
             // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
-            series.data.push([categories[i], total]);
+            series.data.push([categories[i], total / ChartUtils.NUM_FIX]);
         }
 
         return series;
