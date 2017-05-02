@@ -64,6 +64,23 @@ public class DataF105Service extends BaseService implements IDataF105Service {
     }
 
     @Override
+    public List<DataF105> getDataF105ByHourList(List<DataF105> nodes, String startDate, String endDate) {
+        DataF105Example condition = new DataF105Example();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF105 node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andFrozentimeGreaterThanOrEqualTo(startDate)
+                    .andFrozentimeLessThan(endDate)
+            ;
+        }
+        condition.setOrderByClause("`frozenTime` ASC");
+        return dataF105DAO.getDataF105ByHourList(condition);
+    }
+
+    @Override
     public List<DataF105> getDataF105SumList(DataF105 template) {
         DataF105Example condition = new DataF105Example();
         DataF105Example.Criteria criteria = condition.createCriteria();

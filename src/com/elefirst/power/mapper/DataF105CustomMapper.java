@@ -13,4 +13,6 @@ public interface DataF105CustomMapper {
      * @mbg.generated Thu Apr 20 09:41:10 CST 2017
      */
     List<DataF105> selectSumByExample(DataF105Example example);
+
+    List<DataF105> selectGroupByHourByExample(DataF105Example example);
 }

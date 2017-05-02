@@ -11,6 +11,8 @@ import java.util.List;
 public interface IDataF105DAO {
     List<DataF105> getDataF105List(DataF105Example example);
 
+    List<DataF105> getDataF105ByHourList(DataF105Example example);
+
     List<DataF105> getDataF105SumList(DataF105Example example);
 
     long getDataF105ListCount(DataF105Example example);

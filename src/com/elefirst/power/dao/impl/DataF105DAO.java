@@ -28,6 +28,11 @@ public class DataF105DAO extends BaseDAO implements IDataF105DAO {
     }
 
     @Override
+    public List<DataF105> getDataF105ByHourList(DataF105Example example) {
+        return dataF105CustomMapper.selectGroupByHourByExample(example);
+    }
+
+    @Override
     public List<DataF105> getDataF105SumList(DataF105Example example) {
         return dataF105CustomMapper.selectSumByExample(example);
     }

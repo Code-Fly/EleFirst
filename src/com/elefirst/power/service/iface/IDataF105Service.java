@@ -13,6 +13,8 @@ public interface IDataF105Service {
 
     List<DataF105> getDataF105List(List<DataF105> node, String startDate, String endDate);
 
+    List<DataF105> getDataF105ByHourList(List<DataF105> node, String startDate, String endDate);
+
     //
 
     List<DataF105> getDataF105SumList(DataF105 template);
