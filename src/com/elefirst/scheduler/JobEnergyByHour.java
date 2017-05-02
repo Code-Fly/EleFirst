@@ -76,9 +76,6 @@ public class JobEnergyByHour {
                         }
                     }
                 }
-
-                System.out.println(11);
-
             }
         }
     }
