@@ -4,14 +4,11 @@ import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
 import com.elefirst.base.utils.TimeUtil;
 import com.elefirst.power.po.DataF105;
-import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.service.iface.IDataF105Service;
-import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
 import com.elefirst.report.po.ReportEnergyByHour;
 import com.elefirst.report.service.iface.IReportEnergyByHourService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
-import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -43,8 +40,9 @@ public class JobEnergyByHour {
 
         Integer interval = Integer.valueOf(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_REPORT_MAX_DAY_INTERVAL));
 
-
+        // 获取所有节点
         for (int i = 0; i < pnInfoList.size(); i++) {
+            // 获取更新间隔
             for (int j = 0; j < interval + 1; j++) {
                 List<DataF105> list = new ArrayList<>();
 
@@ -59,15 +57,17 @@ public class JobEnergyByHour {
                 Date startDate = TimeUtil.getDate(new Date(), 0, 0, 0 - j);
                 Date endDate = TimeUtil.getDate(new Date(), 0, 0, 1 - j);
 
+                // 获取按小时统计电量
                 List<DataF105> result = dataF105Service.getDataF105ByHourList(list, TimeUtil.formatDbDate(startDate, "yyyyMMdd"), TimeUtil.formatDbDate(endDate, "yyyyMMdd"));
 
                 ReportEnergyByHour energy = setTemplate(item.getAreaId(), item.getConcentratorId(), item.getPn(), result);
 
-
+                // 判断记录是否存在，存在则更新，不存在则添加
                 if (null != energy.getOperationTime() && null != energy.getTotal()) {
                     List<ReportEnergyByHour> delList = reportEnergyByHourService.getReportEnergyByHourList(energy);
                     if (delList.size() > 0) {
                         if (null != energy.getTotal()) {
+                            energy.setId(delList.get(0).getId());
                             reportEnergyByHourService.updateReportEnergyByHour(energy);
                         }
                     } else {
@@ -77,6 +77,7 @@ public class JobEnergyByHour {
                     }
                 }
 
+                System.out.println(11);
 
             }
         }
@@ -88,6 +89,7 @@ public class JobEnergyByHour {
         template.setAreaId(areaId);
         template.setConcentratorId(concentratorId);
         template.setPn(pn);
+        template.setUpdateTime(TimeUtil.formatDbDate(new Date(), "yyyyMMddHHmmss"));
 
         Double total = null;
 
