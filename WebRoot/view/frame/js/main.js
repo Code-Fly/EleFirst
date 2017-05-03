@@ -296,7 +296,7 @@ $(document).ready(function () {
                             .setZoom(false)
                             .setCrossHairSnap(false)
                             .setSeries(series)
-                            .setDataGroupingByDay();
+                            .setDataGroupingByDayOfMonth();
 
                         $("#chart-month-electricity").highcharts("StockChart", config.getConfig());
 
