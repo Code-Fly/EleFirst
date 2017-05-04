@@ -32,6 +32,8 @@ public class Const {
 
     public static final String CONFIG_KEY_REPORT_MAX_YEAR_INTERVAL = "report.maxYearInterval";
 
+    public static final String CONFIG_KEY_REPORT_ENERGY_BY_HOUR_ENABLE = "report.EnergyByHour.enable";
+
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
 
     public static final String PATH_SEPARATOR = File.separator;

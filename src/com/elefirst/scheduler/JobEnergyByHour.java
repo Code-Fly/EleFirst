@@ -32,47 +32,54 @@ public class JobEnergyByHour {
     @Autowired
     private IReportEnergyByHourService reportEnergyByHourService;
 
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void job() {
         PnInfo pnTemplate = new PnInfo();
 
+        // 所有PN
         List<PnInfo> pnInfoList = pnInfoService.getPnInfoList(pnTemplate);
 
+        // 最大遍历时间
         Integer interval = Integer.valueOf(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_REPORT_MAX_DAY_INTERVAL));
 
-        // 获取所有节点
-        for (int i = 0; i < pnInfoList.size(); i++) {
-            // 获取更新间隔
-            for (int j = 0; j < interval + 1; j++) {
-                List<DataF105> list = new ArrayList<>();
+        // 启用标志位
+        String enable = ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_REPORT_ENERGY_BY_HOUR_ENABLE);
 
-                PnInfo item = pnInfoList.get(i);
+        if("true".equals(enable)){
+            // 获取所有节点
+            for (int i = 0; i < pnInfoList.size(); i++) {
+                // 获取更新间隔
+                for (int j = 0; j < interval + 1; j++) {
+                    List<DataF105> list = new ArrayList<>();
 
-                DataF105 node = new DataF105();
-                node.setAreaId(item.getAreaId());
-                node.setConcentratorId(item.getConcentratorId());
-                node.setPn(item.getPn());
-                list.add(node);
+                    PnInfo item = pnInfoList.get(i);
 
-                Date startDate = TimeUtil.getDate(new Date(), 0, 0, 0 - j);
-                Date endDate = TimeUtil.getDate(new Date(), 0, 0, 1 - j);
+                    DataF105 node = new DataF105();
+                    node.setAreaId(item.getAreaId());
+                    node.setConcentratorId(item.getConcentratorId());
+                    node.setPn(item.getPn());
+                    list.add(node);
 
-                // 获取按小时统计电量
-                List<DataF105> result = dataF105Service.getDataF105ByHourList(list, TimeUtil.formatDbDate(startDate, "yyyyMMdd"), TimeUtil.formatDbDate(endDate, "yyyyMMdd"));
+                    Date startDate = TimeUtil.getDate(new Date(), 0, 0, 0 - j);
+                    Date endDate = TimeUtil.getDate(new Date(), 0, 0, 1 - j);
 
-                ReportEnergyByHour energy = setTemplate(item.getAreaId(), item.getConcentratorId(), item.getPn(), result);
+                    // 获取按小时统计电量
+                    List<DataF105> result = dataF105Service.getDataF105ByHourList(list, TimeUtil.formatDbDate(startDate, "yyyyMMdd"), TimeUtil.formatDbDate(endDate, "yyyyMMdd"));
 
-                // 判断记录是否存在，存在则更新，不存在则添加
-                if (null != energy.getOperationTime() && null != energy.getTotal()) {
-                    List<ReportEnergyByHour> delList = reportEnergyByHourService.getReportEnergyByHourList(energy);
-                    if (delList.size() > 0) {
-                        if (null != energy.getTotal()) {
-                            energy.setId(delList.get(0).getId());
-                            reportEnergyByHourService.updateReportEnergyByHour(energy);
-                        }
-                    } else {
-                        if (null != energy.getTotal()) {
-                            reportEnergyByHourService.addReportEnergyByHour(energy);
+                    ReportEnergyByHour energy = setTemplate(item.getAreaId(), item.getConcentratorId(), item.getPn(), result);
+
+                    // 判断记录是否存在，存在则更新，不存在则添加
+                    if (null != energy.getOperationTime() && null != energy.getTotal()) {
+                        List<ReportEnergyByHour> delList = reportEnergyByHourService.getReportEnergyByHourList(energy);
+                        if (delList.size() > 0) {
+                            if (null != energy.getTotal()) {
+                                energy.setId(delList.get(0).getId());
+                                reportEnergyByHourService.updateReportEnergyByHour(energy);
+                            }
+                        } else {
+                            if (null != energy.getTotal()) {
+                                reportEnergyByHourService.addReportEnergyByHour(energy);
+                            }
                         }
                     }
                 }
