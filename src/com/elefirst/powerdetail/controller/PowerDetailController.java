@@ -265,6 +265,9 @@ public class PowerDetailController {
         paramMap.put("minTotalActivePowerTime", minTotalActivePowerTime);
 
         String avgTotalActivePowerStr = totalActivePowerDetail.getAvgTotalActivePower();
+        if(avgTotalActivePowerStr == null || avgTotalActivePowerStr.length() == 0){
+        	avgTotalActivePowerStr = "0";
+        }
         //平均负荷
         paramMap.put("avgTotalActivePower", avgTotalActivePowerStr);
 
