@@ -1886,7 +1886,7 @@ var ChartUtils = {
                 }
             }
 
-            if (!valueDecimal) {
+            if ($.isNumeric(valueDecimal) && $.isNumeric(ret)) {
                 ret.toFixed(valueDecimal);
             }
 
