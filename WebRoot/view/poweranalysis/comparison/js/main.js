@@ -121,33 +121,32 @@ $(document).ready(function () {
         editable: false,
     });
 
-    $("#tab-table").tabs({
-        onAdd: function (title, index) {
-            var panel = $(this).tabs("getTab", index);
-            var table = $(panel).find(".dg-table");
-            $(table).datagrid({
-                // data: d,
-                fitColumns: true,
-                border: false,
-                singleSelect: true,
-                columns: [[
-                    {
-                        field: "clientOperationTime",
-                        title: "日期",
-                        align: "center",
-                        width: 100
-                    },
-                    {field: "totalactivepower", title: "最大值", align: "center", width: 100},
-                    {
-                        field: "currentClientOperationTime",
-                        title: "发生时间",
-                        align: "center",
-                        width: 100
-                    }
-                ]]
-            });
-        }
-    });
+    // $("#tab-table").tabs({
+    //     onAdd: function (title, index) {
+    //         var panel = $(this).tabs("getTab", index);
+    //         var table = $(panel).find(".dg-table");
+    //         $(table).datagrid({
+    //             fitColumns: true,
+    //             border: false,
+    //             singleSelect: true,
+    //             columns: [[
+    //                 {
+    //                     field: "clientOperationTime",
+    //                     title: "日期",
+    //                     align: "center",
+    //                     width: 100
+    //                 },
+    //                 {field: "totalactivepower", title: "最大值", align: "center", width: 100},
+    //                 {
+    //                     field: "currentClientOperationTime",
+    //                     title: "发生时间",
+    //                     align: "center",
+    //                     width: 100
+    //                 }
+    //             ]]
+    //         });
+    //     }
+    // });
 
     $("#btn-search").linkbutton({
         onClick: function () {
@@ -341,12 +340,14 @@ $(document).ready(function () {
                 success: function (r) {
                     if (r.hasOwnProperty("errcode")) {
                         if ("0" == r.errcode) {
+                            var dgData = [];
                             for (var i = 0; i < nodes.length; i++) {
                                 var d = [];
 
                                 for (var j = 0; j < r.data.length; j++) {
                                     if (nodes[i].areaId == r.data[j].areaId && nodes[i].concentratorId == r.data[j].concentratorId && nodes[i].pn == r.data[j].pn) {
                                         d.push({
+                                            name: nodes[i].name,
                                             clientOperationTime: (formatDbTimestamp(r.data[j].maxTotalActivePowerTime) + "").substr(0, 10),
                                             totalactivepower: r.data[j].maxTotalActivePower,
                                             currentClientOperationTime: (formatDbTimestamp(r.data[j].maxTotalActivePowerTime) + "").substr(11, 5)
@@ -355,9 +356,10 @@ $(document).ready(function () {
                                 }
 
                                 if (d.length > 0) {
-                                    $(".table-" + nodes[i].areaId + "-" + nodes[i].concentratorId + "-" + nodes[i].pn).datagrid("loadData", d);
+                                    dgData = dgData.concat(d);
                                 }
                             }
+                            $("#dg-table").datagrid("loadData", dgData);
                         } else {
                             jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                         }
@@ -366,14 +368,14 @@ $(document).ready(function () {
                     }
                 },
                 beforeSend: function (XMLHttpRequest) {
-                    for (var i = 0; i < nodes.length; i++) {
-                        if (!$("#tab-table").tabs("getTab", nodes[i].name)) {
-                            $("#tab-table").tabs("add", {
-                                title: nodes[i].name,
-                                content: "<div class='dg-table table-" + nodes[i].areaId + "-" + nodes[i].concentratorId + "-" + nodes[i].pn + "'></div>"
-                            })
-                        }
-                    }
+                    // for (var i = 0; i < nodes.length; i++) {
+                    //     if (!$("#tab-table").tabs("getTab", nodes[i].name)) {
+                    //         $("#tab-table").tabs("add", {
+                    //             title: nodes[i].name,
+                    //             content: "<div class='dg-table table-" + nodes[i].areaId + "-" + nodes[i].concentratorId + "-" + nodes[i].pn + "'></div>"
+                    //         })
+                    //     }
+                    // }
 
 
                     _spinner.load();

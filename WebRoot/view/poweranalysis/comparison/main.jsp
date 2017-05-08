@@ -89,20 +89,30 @@
             </div>
             <div class="easyui-panel" data-options="border:false"
                  style="margin-bottom: 10px;height: 200px;width: 95%;">
-                <div id="tab-table" class="easyui-tabs" data-options="plain:true,fit:true">
-                    <%--<div title="负荷" align="center">--%>
-                    <%--<table id="dg-table" class="easyui-datagrid" data-options="border:false,fit:true,fitColumns:true">--%>
-                    <%--<thead>--%>
-                    <%--<tr>--%>
-                    <%--<th field="clientOperationTime" width="30%" align="center">日期</th>--%>
-                    <%--<th field="totalactivepower" width="35%" align="center">最大值</th>--%>
-                    <%--<th field="currentClientOperationTime" width="35%" align="center">发生时间</th>--%>
-                    <%--</tr>--%>
-                    <%--</thead>--%>
-                    <%--</table>--%>
+                <table id="dg-table" class="easyui-datagrid" data-options="border:false,fit:true,fitColumns:true">
+                    <thead>
+                    <tr>
+                        <th field="name" width="30%" align="center">监测点</th>
+                        <th field="clientOperationTime" width="30%" align="center">日期</th>
+                        <th field="totalactivepower" width="35%" align="center">最大值</th>
+                        <th field="currentClientOperationTime" width="35%" align="center">发生时间</th>
+                    </tr>
+                    </thead>
+                </table>
+                <%--<div id="tab-table" data-options="plain:true,fit:true">--%>
+                <%--&lt;%&ndash;<div title="负荷" align="center">&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<table id="dg-table" class="easyui-datagrid" data-options="border:false,fit:true,fitColumns:true">&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<thead>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<tr>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<th field="clientOperationTime" width="30%" align="center">日期</th>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<th field="totalactivepower" width="35%" align="center">最大值</th>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<th field="currentClientOperationTime" width="35%" align="center">发生时间</th>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</tr>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</thead>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</table>&ndash;%&gt;--%>
 
-                    <%--</div>--%>
-                </div>
+                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--</div>--%>
             </div>
         </div>
     </div>
