@@ -48,7 +48,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon2.css?v=${timestamp}"/>
 
 <!--加载组件CSS-->
-<script type="text/javascript" src="${ctx}Content/js/utils/Showloading.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/Showloading.js?v=${timestamp}"></script>
 
 <%----%>
 <script type="text/javascript" src="${ctx}Content/js/jquery-plugin/base64/jquery.base64.js?v=${timestamp}"></script>
@@ -56,21 +56,21 @@
 <script type="text/javascript"
         src="${ctx}Content/js/jquery-i18n-properties-1.2.2/jquery.i18n.properties.js?v=${timestamp}"></script>
 
-<script type="text/javascript" src="${ctx}Content/js/utils/global.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/SQLUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/TimeUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/HTMLUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/CacheUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/DashboardUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/ChartUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/ChartConfig.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/DateBoxUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/DataGridUtils.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/Spinner.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/global.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/SQLUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/TimeUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/HTMLUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/CacheUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/DashboardUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/ChartUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/ChartConfig.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/DateBoxUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/DataGridUtils.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/Spinner.js?v=${timestamp}"></script>
 
-<script type="text/javascript" src="${ctx}Content/js/utils/easyui.default.loader.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/error.map.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/utils/easyui.validate.define.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/easyui.default.loader.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/error.map.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}view/utils/easyui.validate.define.js?v=${timestamp}"></script>
 
 <%-- color picker--%>
 <link rel="stylesheet" href="${ctx}Content/js/jquery-plugin/color-picker/css/colorpicker.css?v=${timestamp}"
