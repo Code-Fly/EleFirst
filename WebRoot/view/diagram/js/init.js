@@ -4,6 +4,8 @@
 $(document).ready(function () {
     BASE_PATH = "../../";
 
+    _editable = true;
+
     if (!mxClient.isBrowserSupported()) {
         // Displays an error message if the browser is not supported.
         $.messager.alert("操作提示", "浏览器不支持！", "info");

@@ -14,6 +14,13 @@ $(document).ready(function () {
     editor = new mxEditor();
     graph = editor.graph;
 
+    if (!_editable) {
+        graph.clearSelection();
+        graph.setEnabled(false);
+        graph.setTooltips(false);
+    }
+
+
     // Sets the graph container and configures the editor
     editor.setGraphContainer(container);
 

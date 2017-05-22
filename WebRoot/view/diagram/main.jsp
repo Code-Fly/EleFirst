@@ -90,7 +90,7 @@
             <input id="combo-template" class="easyui-combobox" style="width: 100%">
         </div>
         <div class="grid_2">
-            <div style="float: right">
+            <div style="float: right" id="toolbar">
                 <a id="btn-save-template" title="保存" href="javascript:void(0)" plain="true"
                    class="easyui-linkbutton"
                    icon="icon-disk"></a>

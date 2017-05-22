@@ -73,64 +73,67 @@ $(document).ready(function () {
 
         connectionHandlerMouseUp.apply(this, arguments);
     };
-    toolbar.addSwitchMode("选择", mxBasePath + "images/editors/select.gif", function (evt, cell) {
-        wireMode = false;
-    });
-    toolbar.addSwitchMode("画线", mxBasePath + "images/editors/vertical.gif", function (evt, cell) {
-        wireMode = true;
-    });
-    toolbar.addLine();
-    // Undo/redo
-    var undoManager = new mxUndoManager();
-    var listener = function (sender, evt) {
-        undoManager.undoableEditHappened(evt.getProperty("edit"));
-    };
-    graph.getModel().addListener(mxEvent.UNDO, listener);
-    graph.getView().addListener(mxEvent.UNDO, listener);
 
-    toolbar.addItem("撤销", mxBasePath + "images/editors/undo.gif", function (evt) {
-        undoManager.undo();
-    });
+    if (_editable) {
+        toolbar.addSwitchMode("选择", mxBasePath + "images/editors/select.gif", function (evt, cell) {
+            wireMode = false;
+        });
+        toolbar.addSwitchMode("画线", mxBasePath + "images/editors/vertical.gif", function (evt, cell) {
+            wireMode = true;
+        });
+        toolbar.addLine();
+        // Undo/redo
+        var undoManager = new mxUndoManager();
+        var listener = function (sender, evt) {
+            undoManager.undoableEditHappened(evt.getProperty("edit"));
+        };
+        graph.getModel().addListener(mxEvent.UNDO, listener);
+        graph.getView().addListener(mxEvent.UNDO, listener);
 
-    toolbar.addItem("恢复", mxBasePath + "images/editors/redo.gif", function (evt) {
-        undoManager.undo();
-    });
-    toolbar.addLine();
-    toolbar.addItem("剪切", mxBasePath + "images/editors/cut.gif", function (evt) {
-        mxClipboard.cut(graph);
-    });
-    toolbar.addItem("复制", mxBasePath + "images/editors/copy.gif", function (evt) {
-        mxClipboard.copy(graph);
-    });
-    toolbar.addItem("粘贴", mxBasePath + "images/editors/paste.gif", function (evt) {
-        mxClipboard.paste(graph);
-    });
-    toolbar.addItem("删除", mxBasePath + "images/editors/delete.gif", function (evt) {
-        graph.removeCells();
-    });
-    toolbar.addLine();
-    // addVertex("", mxBasePath + "images/editors/rectangle.gif", 100, 40, "");
-    // addVertex("", mxBasePath + "images/editors/ellipse.gif", 40, 40, "shape=ellipse");
-    // addVertex("", mxBasePath + "images/editors/rhombus.gif", 40, 40, "shape=rhombus");
-    // addVertex("", mxBasePath + "images/editors/triangle.gif", 40, 40, "shape=triangle");
-    // addVertex("", mxBasePath + "images/editors/cylinder.gif", 40, 40, "shape=cylinder");
-    // addVertex("", mxBasePath + "images/editors/actor.gif", 30, 40, "shape=actor");
-    addVertex("", mxBasePath + "images/editors/text.gif", 150, 30, "text");
-    toolbar.addLine();
-    var customToolbarInfo = getCustomToolbarInfo();
-    for (var i = 0; i < customToolbarInfo.length; i++) {
-        var name = customToolbarInfo[i].name;
-        var width = customToolbarInfo[i].width;
-        var height = customToolbarInfo[i].height;
-        var iconPath = BASE_PATH + customToolbarInfo[i].iconPath;
-        var imgPath = BASE_PATH + customToolbarInfo[i].imgPath;
+        toolbar.addItem("撤销", mxBasePath + "images/editors/undo.gif", function (evt) {
+            undoManager.undo();
+        });
 
-        addVertex(name, iconPath, width, height, graphConstants.USER_OBJECT_CUSTOM_IMG + ";image=" + imgPath);
+        toolbar.addItem("恢复", mxBasePath + "images/editors/redo.gif", function (evt) {
+            undoManager.undo();
+        });
+        toolbar.addLine();
+        toolbar.addItem("剪切", mxBasePath + "images/editors/cut.gif", function (evt) {
+            mxClipboard.cut(graph);
+        });
+        toolbar.addItem("复制", mxBasePath + "images/editors/copy.gif", function (evt) {
+            mxClipboard.copy(graph);
+        });
+        toolbar.addItem("粘贴", mxBasePath + "images/editors/paste.gif", function (evt) {
+            mxClipboard.paste(graph);
+        });
+        toolbar.addItem("删除", mxBasePath + "images/editors/delete.gif", function (evt) {
+            graph.removeCells();
+        });
+        toolbar.addLine();
+        // addVertex("", mxBasePath + "images/editors/rectangle.gif", 100, 40, "");
+        // addVertex("", mxBasePath + "images/editors/ellipse.gif", 40, 40, "shape=ellipse");
+        // addVertex("", mxBasePath + "images/editors/rhombus.gif", 40, 40, "shape=rhombus");
+        // addVertex("", mxBasePath + "images/editors/triangle.gif", 40, 40, "shape=triangle");
+        // addVertex("", mxBasePath + "images/editors/cylinder.gif", 40, 40, "shape=cylinder");
+        // addVertex("", mxBasePath + "images/editors/actor.gif", 30, 40, "shape=actor");
+        addVertex("", mxBasePath + "images/editors/text.gif", 150, 30, "text");
+        toolbar.addLine();
+        var customToolbarInfo = getCustomToolbarInfo();
+        for (var i = 0; i < customToolbarInfo.length; i++) {
+            var name = customToolbarInfo[i].name;
+            var width = customToolbarInfo[i].width;
+            var height = customToolbarInfo[i].height;
+            var iconPath = BASE_PATH + customToolbarInfo[i].iconPath;
+            var imgPath = BASE_PATH + customToolbarInfo[i].imgPath;
+
+            addVertex(name, iconPath, width, height, graphConstants.USER_OBJECT_CUSTOM_IMG + ";image=" + imgPath);
+        }
+        toolbar.addLine();
+        addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=3");
+        addVertex("开关状态", BASE_PATH + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
+        toolbar.addLine();
     }
-    toolbar.addLine();
-    addVertex("三相电流", mxBasePath + "images/editors/italic.gif", 50, 80, graphConstants.USER_OBJECT_CURRENT + ";phase=3");
-    addVertex("开关状态", BASE_PATH + "Content/images/graph/toolbar/custom/small-rectangle.gif", 30, 20, graphConstants.USER_OBJECT_SWITCH_STATE);
-    toolbar.addLine();
     toolbar.addItem("放大", mxBasePath + "images/editors/zoomin.gif", function (evt) {
         graph.zoomIn();
     });
