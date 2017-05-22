@@ -5,8 +5,10 @@ import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.MenuInfo;
+import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import com.elefirst.system.service.iface.IMenuInfoService;
+import com.elefirst.system.service.iface.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -32,6 +34,9 @@ public class LoginController extends BaseController {
 
     @Autowired
     private IAreaInfoService areaInfoService;
+
+    @Autowired
+    private IUserInfoService userInfoService;
 
     @RequestMapping("index.do")
     public String index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
@@ -60,9 +65,12 @@ public class LoginController extends BaseController {
         User user = (User) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
-        System.out.println(user.getUsername());
-        System.out.println(user.getAuthorities());
-
+        UserInfo template = new UserInfo();
+        template.setUserName(user.getUsername());
+        List<UserInfo> users = userInfoService.getUserInfoList(template);
+        if (users.size() > 0) {
+            session.setAttribute("userInfo", users.get(0));
+        }
     }
 
     public void loadAreaInfo(HttpSession session) {

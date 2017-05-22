@@ -5,7 +5,9 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.Page2;
+import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.system.po.PnInfo;
+import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
@@ -150,8 +152,14 @@ public class PnInfoController extends BaseController {
                                  HttpServletResponse response,
                                  @RequestBody String sData
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         PnInfo template = new Gson().fromJson(sData, PnInfo.class);
-        template.setUpdatePerson("admin");
+        template.setUpdatePerson(userInfo.getUserName());
         template.setUpdateDate(new Date());
 
         int result = pnInfoService.updatePnInfo(template);
@@ -166,11 +174,15 @@ public class PnInfoController extends BaseController {
                             HttpServletResponse response,
                             @RequestBody String sData
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
 
-        System.out.println(sData);
         PnInfo template = new Gson().fromJson(sData, PnInfo.class);
         template.setId(UUID.randomUUID().toString());
-        template.setCreatePerson("admin");
+        template.setCreatePerson(userInfo.getUserName());
         template.setCreateDate(new Date());
         int result = pnInfoService.addPnInfo(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);

@@ -4,9 +4,11 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
+import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
@@ -139,8 +141,14 @@ public class AreaInfoController extends BaseController {
                                    HttpServletResponse response,
                                    @RequestBody String sData
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         AreaInfoWithBLOBs template = new Gson().fromJson(sData, AreaInfoWithBLOBs.class);
-        template.setUpdatePerson("admin");
+        template.setUpdatePerson(userInfo.getUserName());
         template.setUpdateDate(new Date());
         int result = areaInfoService.updateAreaInfo(template);
         ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME, template.getName());
@@ -158,9 +166,15 @@ public class AreaInfoController extends BaseController {
                                 HttpServletResponse response,
                                 @RequestBody String sData
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         AreaInfoWithBLOBs template = new Gson().fromJson(sData, AreaInfoWithBLOBs.class);
         template.setId(UUID.randomUUID().toString());
-        template.setCreatePerson("admin");
+        template.setCreatePerson(userInfo.getUserName());
         template.setCreateDate(new Date());
         int result = areaInfoService.addAreaInfo(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);

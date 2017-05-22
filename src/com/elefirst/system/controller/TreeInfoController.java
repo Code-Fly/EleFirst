@@ -4,8 +4,10 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.system.po.TreeInfo;
 import com.elefirst.system.po.TreeNode;
+import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.service.iface.ITreeInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -83,6 +85,12 @@ public class TreeInfoController extends BaseController {
                                    @RequestParam(value = "attributes", required = false) String attributes,
                                    @RequestParam(value = "name") String name
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+        
         TreeInfo template = new TreeInfo();
 
         if (null != name && !name.isEmpty()) {
@@ -99,7 +107,7 @@ public class TreeInfoController extends BaseController {
             }
 
             template.setName(name);
-            template.setUpdatePerson("admin");
+            template.setUpdatePerson(userInfo.getUserName());
             template.setUpdateDate(new Date());
             int result = treeInfoService.updateTreeInfo(template);
             return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -122,6 +130,12 @@ public class TreeInfoController extends BaseController {
                                 @RequestParam(value = "attributes") String attributes,
                                 @RequestParam(value = "name") String name
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+        
         TreeInfo template = new TreeInfo();
         template.setId(UUID.randomUUID().toString());
         template.setPid(pid);
@@ -133,7 +147,7 @@ public class TreeInfoController extends BaseController {
         }
         template.setAttributes(attributes);
         template.setName(name);
-        template.setCreatePerson("admin");
+        template.setCreatePerson(userInfo.getUserName());
         template.setCreateDate(new Date());
         int result = treeInfoService.addTreeInfo(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);

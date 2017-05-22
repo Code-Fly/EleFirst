@@ -4,6 +4,7 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.service.iface.IUserInfoService;
 import com.google.gson.Gson;
@@ -86,8 +87,14 @@ public class UserInfoController extends BaseController {
                                    HttpServletResponse response,
                                    @RequestBody String sData
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         UserInfo template = new Gson().fromJson(sData, UserInfo.class);
-        template.setUpdatePerson("admin");
+        template.setUpdatePerson(userInfo.getUserName());
         template.setUpdateDate(new Date());
         int result = userInfoService.updateUserInfo(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -101,9 +108,15 @@ public class UserInfoController extends BaseController {
                                 HttpServletResponse response,
                                 @RequestBody String sData
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         UserInfo template = new Gson().fromJson(sData, UserInfo.class);
         template.setId(UUID.randomUUID().toString());
-        template.setCreatePerson("admin");
+        template.setCreatePerson(userInfo.getUserName());
         template.setCreateDate(new Date());
         int result = userInfoService.addUserInfo(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);

@@ -5,7 +5,9 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.Page2;
+import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.system.po.ConcentratorInfo;
+import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.service.iface.IConcentratorInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -119,6 +121,12 @@ public class ConcentratorInfoController extends BaseController {
                                            @RequestParam(value = "concentratorId") String concentratorId,
                                            @RequestParam(value = "name") String name
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         ConcentratorInfo template = new ConcentratorInfo();
 
         if (null != name && !name.isEmpty()) {
@@ -127,7 +135,7 @@ public class ConcentratorInfoController extends BaseController {
             template.setAreaId(areaId);
             template.setConcentratorId(concentratorId);
             template.setName(name);
-            template.setUpdatePerson("admin");
+            template.setUpdatePerson(userInfo.getUserName());
             template.setUpdateDate(new Date());
             int result = concentratorInfoService.updateConcentratorInfo(template);
             return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -146,6 +154,12 @@ public class ConcentratorInfoController extends BaseController {
                                                  @RequestParam(value = "concentratorId") String concentratorId,
                                                  @RequestParam(value = "name") String name
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         ConcentratorInfo template = new ConcentratorInfo();
 
         if (null != name && !name.isEmpty()) {
@@ -153,7 +167,7 @@ public class ConcentratorInfoController extends BaseController {
             template.setAreaId(areaId);
             template.setConcentratorId(concentratorId);
             template.setName(name);
-            template.setUpdatePerson("admin");
+            template.setUpdatePerson(userInfo.getUserName());
             template.setUpdateDate(new Date());
             int result = concentratorInfoService.updateConcentratorInfoByInfo(template);
             return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -172,12 +186,18 @@ public class ConcentratorInfoController extends BaseController {
                                         @RequestParam(value = "concentratorId") String concentratorId,
                                         @RequestParam(value = "name") String name
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         ConcentratorInfo template = new ConcentratorInfo();
         template.setId(UUID.randomUUID().toString());
         template.setAreaId(areaId);
         template.setConcentratorId(concentratorId);
         template.setName(name);
-        template.setCreatePerson("admin");
+        template.setCreatePerson(userInfo.getUserName());
         template.setCreateDate(new Date());
         int result = concentratorInfoService.addConcentratorInfo(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);

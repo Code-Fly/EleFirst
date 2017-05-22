@@ -4,8 +4,10 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.graph.po.GraphTemplateWithBLOBs;
 import com.elefirst.graph.service.iface.IGraphTemplateService;
+import com.elefirst.system.po.UserInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,11 +81,17 @@ public class GraphTemplateController extends BaseController {
                                    @RequestParam(value = "config") String config,
                                    @RequestParam(value = "content") String content
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         GraphTemplateWithBLOBs template = new GraphTemplateWithBLOBs();
         template.setId(id);
         template.setConfig(config);
         template.setContent(content);
-        template.setCreatePerson("admin");
+        template.setCreatePerson(userInfo.getUserName());
         template.setCreateDate(new Date());
         int result = graphTemplateService.updateGraphTemplate(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -99,12 +107,18 @@ public class GraphTemplateController extends BaseController {
                                      @RequestParam(value = "content") String content,
                                      @RequestParam(value = "name") String name
     ) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+
         GraphTemplateWithBLOBs template = new GraphTemplateWithBLOBs();
         template.setId(UUID.randomUUID().toString());
         template.setConfig(config);
         template.setContent(content);
         template.setName(name);
-        template.setCreatePerson("admin");
+        template.setCreatePerson(userInfo.getUserName());
         template.setCreateDate(new Date());
         int result = graphTemplateService.addGraphTemplate(template);
         return new ErrorMsg(Error.SUCCESS, "success", result);
