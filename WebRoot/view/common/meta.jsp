@@ -21,6 +21,10 @@
     var _areaName = "${sessionScope.areaInfo.name}";
     var _treeId = "${sessionScope.treeId}";
 
+    var _userName = "${sessionScope.userInfo.userName}";
+    var _userCode = "${sessionScope.userInfo.userCode}";
+    var _roleName = "${sessionScope.userInfo.roleName}";
+
     var _csrfHeaderName = "${_csrf.headerName}"
     var _csrfParameterName = "${_csrf.parameterName}";
     var _csrToken = "${_csrf.token}";

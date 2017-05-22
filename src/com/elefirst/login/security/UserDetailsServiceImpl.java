@@ -1,8 +1,8 @@
 package com.elefirst.login.security;
 
-import com.elefirst.base.utils.ConfigUtil;
-import com.elefirst.base.utils.Const;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.service.iface.IUserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,22 +14,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserDetailsServiceImpl implements UserDetailsService {
-    public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
+    @Autowired
+    private IUserInfoService userInfoService;
 
-        String adminName = Const.SUPER_USER_NAME;
-        String adminPassword = ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_SUPER_USER_PASSWORD);
+    public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
+        UserInfo template = new UserInfo();
+        template.setUserName(loginName);
 
         Set<GrantedAuthority> grantedAuths = obtionGrantedAuthorities();
-        if (loginName.equals(adminName)) {
-            Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 
-            User userInfo = new User(adminName, encoder.encodePassword(adminPassword, adminName), grantedAuths);
+//        System.err.println(loginName);
+//        Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+//        String encoded = encoder.encodePassword("admin", "admin");
+//        System.err.println(encoded);
+
+        List<UserInfo> users = userInfoService.getUserInfoList(template);
+        if (users.size() == 1) {
+
+            User userInfo = new User(users.get(0).getUserName(), users.get(0).getPassword(), grantedAuths);
 
             return userInfo;
         } else {
