@@ -146,9 +146,9 @@ public class PnInfoController extends BaseController {
     @RequestMapping(value = "/info/update.do")
     @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg updateTreeInfo(HttpServletRequest request,
-                                   HttpServletResponse response,
-                                   @RequestBody String sData
+    public ErrorMsg updatePnInfo(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @RequestBody String sData
     ) {
         PnInfo template = new Gson().fromJson(sData, PnInfo.class);
         template.setUpdatePerson("admin");

@@ -24,19 +24,19 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- targetProject:自动生成代码的位置 -->
-        <javaModelGenerator targetPackage="com.elefirst.login.po" targetProject="EleFirst">
+        <javaModelGenerator targetPackage="com.elefirst.system.po" targetProject="EleFirst">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
-        <sqlMapGenerator targetPackage="com.elefirst.login.mapper" targetProject="EleFirst">
+        <sqlMapGenerator targetPackage="com.elefirst.system.mapper" targetProject="EleFirst">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.elefirst.login.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.elefirst.system.mapper"
                              targetProject="EleFirst">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->
-        <table tableName="t_207_user_info" domainObjectName="UserInfo"/>
+        <table tableName="t_208_sys_role" domainObjectName="RoleInfo"/>
 
     </context>
 </generatorConfiguration>

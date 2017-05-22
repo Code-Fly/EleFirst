@@ -135,7 +135,7 @@ public class AreaInfoController extends BaseController {
     @RequestMapping(value = "/info/update.do")
     @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg updateTreeInfo(HttpServletRequest request,
+    public ErrorMsg updateAreaInfo(HttpServletRequest request,
                                    HttpServletResponse response,
                                    @RequestBody String sData
     ) {
@@ -154,9 +154,9 @@ public class AreaInfoController extends BaseController {
     @RequestMapping(value = "/info/add.do")
     @ApiOperation(value = "添加", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg addPnfo(HttpServletRequest request,
-                            HttpServletResponse response,
-                            @RequestBody String sData
+    public ErrorMsg addAreaInfo(HttpServletRequest request,
+                                HttpServletResponse response,
+                                @RequestBody String sData
     ) {
         AreaInfoWithBLOBs template = new Gson().fromJson(sData, AreaInfoWithBLOBs.class);
         template.setId(UUID.randomUUID().toString());
@@ -169,9 +169,9 @@ public class AreaInfoController extends BaseController {
     @RequestMapping(value = "/info/delete.do")
     @ApiOperation(value = "删除", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg deletePnInfo(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 @RequestParam(value = "id") String id
+    public ErrorMsg deleteAreaInfo(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @RequestParam(value = "id") String id
     ) {
         int result = areaInfoService.delAreaInfo(id);
         return new ErrorMsg(Error.SUCCESS, "success", result);

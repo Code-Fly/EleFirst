@@ -112,12 +112,12 @@ public class ConcentratorInfoController extends BaseController {
     @RequestMapping(value = "/info/update.do")
     @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg updateTreeInfo(HttpServletRequest request,
-                                   HttpServletResponse response,
-                                   @RequestParam(value = "id") String id,
-                                   @RequestParam(value = "areaId") String areaId,
-                                   @RequestParam(value = "concentratorId") String concentratorId,
-                                   @RequestParam(value = "name") String name
+    public ErrorMsg updateConcentratorInfo(HttpServletRequest request,
+                                           HttpServletResponse response,
+                                           @RequestParam(value = "id") String id,
+                                           @RequestParam(value = "areaId") String areaId,
+                                           @RequestParam(value = "concentratorId") String concentratorId,
+                                           @RequestParam(value = "name") String name
     ) {
         ConcentratorInfo template = new ConcentratorInfo();
 
@@ -140,11 +140,11 @@ public class ConcentratorInfoController extends BaseController {
     @RequestMapping(value = "/info/updateByInfo.do")
     @ApiOperation(value = "更新", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg updateTreeInfoByInfo(HttpServletRequest request,
-                                         HttpServletResponse response,
-                                         @RequestParam(value = "areaId") String areaId,
-                                         @RequestParam(value = "concentratorId") String concentratorId,
-                                         @RequestParam(value = "name") String name
+    public ErrorMsg updateConcentratorInfoByInfo(HttpServletRequest request,
+                                                 HttpServletResponse response,
+                                                 @RequestParam(value = "areaId") String areaId,
+                                                 @RequestParam(value = "concentratorId") String concentratorId,
+                                                 @RequestParam(value = "name") String name
     ) {
         ConcentratorInfo template = new ConcentratorInfo();
 
@@ -166,11 +166,11 @@ public class ConcentratorInfoController extends BaseController {
     @RequestMapping(value = "/info/add.do")
     @ApiOperation(value = "添加", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg addTreeInfo(HttpServletRequest request,
-                                HttpServletResponse response,
-                                @RequestParam(value = "areaId") String areaId,
-                                @RequestParam(value = "concentratorId") String concentratorId,
-                                @RequestParam(value = "name") String name
+    public ErrorMsg addConcentratorInfo(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        @RequestParam(value = "areaId") String areaId,
+                                        @RequestParam(value = "concentratorId") String concentratorId,
+                                        @RequestParam(value = "name") String name
     ) {
         ConcentratorInfo template = new ConcentratorInfo();
         template.setId(UUID.randomUUID().toString());
@@ -186,9 +186,9 @@ public class ConcentratorInfoController extends BaseController {
     @RequestMapping(value = "/info/delete.do")
     @ApiOperation(value = "删除", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg deleteTreeInfo(HttpServletRequest request,
-                                   HttpServletResponse response,
-                                   @RequestParam(value = "id") String id
+    public ErrorMsg deleteConcentratorInfo(HttpServletRequest request,
+                                           HttpServletResponse response,
+                                           @RequestParam(value = "id") String id
     ) {
         int result = concentratorInfoService.delConcentratorInfo(id);
         return new ErrorMsg(Error.SUCCESS, "success", result);
@@ -197,10 +197,10 @@ public class ConcentratorInfoController extends BaseController {
     @RequestMapping(value = "/info/deleteByInfo.do")
     @ApiOperation(value = "删除", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg deleteTreeInfoByInfo(HttpServletRequest request,
-                                         HttpServletResponse response,
-                                         @RequestParam(value = "areaId") String areaId,
-                                         @RequestParam(value = "concentratorId") String concentratorId
+    public ErrorMsg deleteConcentratorInfoByInfo(HttpServletRequest request,
+                                                 HttpServletResponse response,
+                                                 @RequestParam(value = "areaId") String areaId,
+                                                 @RequestParam(value = "concentratorId") String concentratorId
     ) {
         ConcentratorInfo template = new ConcentratorInfo();
         template.setId(UUID.randomUUID().toString());
