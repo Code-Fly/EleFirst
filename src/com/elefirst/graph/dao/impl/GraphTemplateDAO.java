@@ -24,7 +24,7 @@ public class GraphTemplateDAO extends BaseDAO implements IGraphTemplateDAO {
     }
 
     @Override
-    public int getGraphTemplateListCount(GraphTemplateExample example) {
+    public long getGraphTemplateListCount(GraphTemplateExample example) {
         return graphTemplateMapper.countByExample(example);
     }
 

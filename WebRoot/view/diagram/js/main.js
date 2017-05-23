@@ -281,6 +281,7 @@ $(document).ready(function () {
                         type: "POST",
                         cache: false,
                         data: {
+                            areaId: _areaId,
                             name: name,
                             config: config,
                             content: content
@@ -364,6 +365,9 @@ $(document).ready(function () {
         valueField: "id",
         textField: "name",
         url: _ctx + "system/graph/template/list.do",
+        queryParams: {
+            areaId: _areaId
+        },
         formatter: function (row) {
             return "<div title='" + HTMLUtils.encode(row.name) + "'>" + HTMLUtils.encode(row.name) + "</div>";
         },

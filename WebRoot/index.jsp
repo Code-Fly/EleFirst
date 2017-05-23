@@ -36,7 +36,7 @@
 <div data-options="region:'center',href:'${ctx}view/frame/center.jsp'" style="overflow: hidden;"></div>
 <div id="dlg-select-area" class="easyui-dialog" title="选择区域"
      data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
-     style="width:400px;height:150px;">
+     style="width:400px;height:120px;">
 
     <div class="easyui-layout" data-options="fit:true,border:false">
         <div data-options="region:'center'">
