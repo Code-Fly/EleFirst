@@ -160,7 +160,7 @@ $(document).ready(function () {
                                     if ("0" == r.errcode) {
                                         var series = [];
 
-                                        var item = ChartUtils.getF5AllSeries({
+                                        var item = ChartUtils.getF5AllByDaySeries({
                                             name: "本期"
                                         }, r.data[0][0]);
                                         item.dataGrouping = {
@@ -169,7 +169,7 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
-                                        var item = ChartUtils.getF5AllSeries({
+                                        var item = ChartUtils.getF5AllByDaySeries({
                                             name: "上月同期"
                                         }, r.data[0][1]);
                                         item.dataGrouping = {
@@ -178,7 +178,7 @@ $(document).ready(function () {
                                         };
                                         series.push(item);
 
-                                        var item = ChartUtils.getF5AllSeries({
+                                        var item = ChartUtils.getF5AllByDaySeries({
                                             name: "去年同期"
                                         }, r.data[0][2]);
                                         item.dataGrouping = {
@@ -193,7 +193,7 @@ $(document).ready(function () {
                                             .setZoom(false)
                                             .setCrossHairSnap(false)
                                             .setSeries(series)
-                                            .setDataGroupingByDay();
+                                            .setDataGroupingByDayOfMonth();
 
 
                                         $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());

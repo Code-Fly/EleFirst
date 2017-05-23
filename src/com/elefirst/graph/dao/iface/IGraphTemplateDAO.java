@@ -11,7 +11,7 @@ import java.util.List;
 public interface IGraphTemplateDAO {
     List<GraphTemplateWithBLOBs> getGraphTemplateList(GraphTemplateExample example);
 
-    int getGraphTemplateListCount(GraphTemplateExample example);
+    long getGraphTemplateListCount(GraphTemplateExample example);
 
     int addGraphTemplate(GraphTemplateWithBLOBs template);
 

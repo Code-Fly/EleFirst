@@ -37,10 +37,12 @@ public class GraphTemplateController extends BaseController {
     @ResponseBody
     public ErrorMsg getGraphTemplateList(HttpServletRequest request,
                                          HttpServletResponse response,
+                                         @RequestParam(value = "areaId", required = false) String areaId,
                                          @RequestParam(value = "page", required = false) Integer page,
                                          @RequestParam(value = "rows", required = false) Integer rows
     ) {
         GraphTemplateWithBLOBs template = new GraphTemplateWithBLOBs();
+        template.setAreaId(areaId);
 
         if (null != page && null != rows) {
             template.setPage(page);
@@ -48,7 +50,7 @@ public class GraphTemplateController extends BaseController {
             List<GraphTemplateWithBLOBs> result = graphTemplateService.getGraphTemplateList(template);
 
             DataGrid dg = new DataGrid();
-            int count = graphTemplateService.getGraphTemplateListCount(template);
+            long count = graphTemplateService.getGraphTemplateListCount(template);
             dg.setTotal(count);
             dg.setRows(result);
 
@@ -103,6 +105,7 @@ public class GraphTemplateController extends BaseController {
     @ResponseBody
     public ErrorMsg addGraphTemplate(HttpServletRequest request,
                                      HttpServletResponse response,
+                                     @RequestParam(value = "areaId") String areaId,
                                      @RequestParam(value = "config") String config,
                                      @RequestParam(value = "content") String content,
                                      @RequestParam(value = "name") String name
@@ -115,6 +118,7 @@ public class GraphTemplateController extends BaseController {
 
         GraphTemplateWithBLOBs template = new GraphTemplateWithBLOBs();
         template.setId(UUID.randomUUID().toString());
+        template.setAreaId(areaId);
         template.setConfig(config);
         template.setContent(content);
         template.setName(name);

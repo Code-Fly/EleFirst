@@ -10,7 +10,7 @@ import java.util.List;
 public interface IGraphTemplateService {
     List<GraphTemplateWithBLOBs> getGraphTemplateList(GraphTemplateWithBLOBs template);
 
-    int getGraphTemplateListCount(GraphTemplateWithBLOBs template);
+    long getGraphTemplateListCount(GraphTemplateWithBLOBs template);
 
     List<GraphTemplateWithBLOBs> getGraphTemplateDetail(String id);
 

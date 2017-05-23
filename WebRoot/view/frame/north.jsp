@@ -15,7 +15,7 @@
            data-options="menu:'#mm_user'">${userInfo.userName}</a>
         <div id="mm_user" style="width: 150px;">
             <c:if test="${userInfo.userName =='admin'}">
-                <div data-options="iconCls:'icon-information'" id="btn-select-area">切换区域</div>
+                <div data-options="iconCls:'icon-information'" id="btn-select-area">切换企业</div>
                 <div class="menu-sep"></div>
             </c:if>
             <form id="form-logout" action="<c:url value="/logout"/>" method="post" style="display: none">

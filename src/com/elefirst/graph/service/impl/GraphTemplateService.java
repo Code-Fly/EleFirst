@@ -23,6 +23,10 @@ public class GraphTemplateService extends BaseService implements IGraphTemplateS
         GraphTemplateExample condition = new GraphTemplateExample();
         GraphTemplateExample.Criteria criteria = condition.createCriteria();
 
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+
         if (null != template && null != template.getName()) {
             criteria.andNameLike("%" + template.getName() + "%");
         }
@@ -35,7 +39,7 @@ public class GraphTemplateService extends BaseService implements IGraphTemplateS
     }
 
     @Override
-    public int getGraphTemplateListCount(GraphTemplateWithBLOBs template) {
+    public long getGraphTemplateListCount(GraphTemplateWithBLOBs template) {
         GraphTemplateExample condition = new GraphTemplateExample();
         GraphTemplateExample.Criteria criteria = condition.createCriteria();
 

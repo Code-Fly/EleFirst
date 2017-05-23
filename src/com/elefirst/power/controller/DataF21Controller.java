@@ -161,7 +161,7 @@ public class DataF21Controller extends BaseController {
             item.setFrozenDay(thisMonthStartTime);
 
             String differThisMonth = dataF21Service.getDifferTotalPositiveActivePower(nodes, thisMonthStartTime, thisMonthEndTime);
-            item.setThisYearTotalPositiveActivePower(dataF21Service.calc(differThisMonth, 1D, 1));
+            item.setThisYearTotalPositiveActivePower(dataF21Service.calc(differThisMonth, 1D, 4));
 
             //
             Date lastYearStartTimeDate = new Date(date.getTime());
@@ -175,7 +175,7 @@ public class DataF21Controller extends BaseController {
             String lastYearEndTime = sdf.format(lastYearEndTimeDate).substring(0, 8);
 
             String differLastYear = dataF21Service.getDifferTotalPositiveActivePower(nodes, lastYearStartTime, lastYearEndTime);
-            item.setLastYearTotalPositiveActivePower(dataF21Service.calc(differLastYear, 1D, 1));
+            item.setLastYearTotalPositiveActivePower(dataF21Service.calc(differLastYear, 1D, 4));
 
             String rate2 = null;
             if (null != differThisMonth && null != differLastYear && 0 != Double.valueOf(differLastYear)) {
