@@ -27,29 +27,31 @@ $(document).ready(function () {
                         $("#maxLoadThisYear").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadThisYear, 3));
                         $("#maxLoadTotal").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadTotal, 3));
 
-                        var transformers = r.data.transformersInfo;
-                        var nodes = [];
+                        if (null != r.data.masterPnId) {
+                            var transformers = r.data.transformersInfo;
+                            var nodes = [];
 
-                        for (var i = 0; i < transformers.length; i++) {
-                            var pnInfo = $.parseJSON($.ajax({
-                                url: _ctx + "system/pn/info/detailById.do",
-                                type: "POST",
-                                data: {
-                                    id: r.data.masterPnId
-                                },
-                                async: false
-                            }).responseText).data[0];
-                            nodes.push(pnInfo);
-                        }
-                        if (nodes.length > 0) {
-                            getLoadDetailChart({
-                                nodes: nodes
-                            });
+                            for (var i = 0; i < transformers.length; i++) {
+                                var pnInfo = $.parseJSON($.ajax({
+                                    url: _ctx + "system/pn/info/detailById.do",
+                                    type: "POST",
+                                    data: {
+                                        id: r.data.masterPnId
+                                    },
+                                    async: false
+                                }).responseText).data[0];
+                                nodes.push(pnInfo);
+                            }
+                            if (nodes.length > 0) {
+                                getLoadDetailChart({
+                                    nodes: nodes
+                                });
 
 
-                            getElectricityDetailChart({
-                                nodes: nodes
-                            });
+                                getElectricityDetailChart({
+                                    nodes: nodes
+                                });
+                            }
                         }
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
