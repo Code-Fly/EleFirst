@@ -22,6 +22,7 @@ function addTab(cname, curl, ciconCls) {
 $(document).ready(function () {
     $("#combo-areaId").combobox({
         url: _ctx + "system/area/info/list.do",
+        editable: false,
         valueField: "areaId",
         textField: "name",
         onSelect: function (record) {
