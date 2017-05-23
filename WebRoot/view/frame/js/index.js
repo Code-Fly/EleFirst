@@ -21,7 +21,7 @@ function addTab(cname, curl, ciconCls) {
 
 $(document).ready(function () {
     $("#combo-areaId").combobox({
-        url: _ctx + "system/area/info/list.do",
+        // url: _ctx + "system/area/info/list.do",
         editable: false,
         valueField: "areaId",
         textField: "name",
@@ -33,7 +33,33 @@ $(document).ready(function () {
     $("#dlg-select-area").dialog({
         closable: false,
         onBeforeOpen: function () {
-            $("#combo-areaId").combobox("reload");
+            $.ajax({
+                url: _ctx + "system/area/info/list.do",
+                type: "POST",
+                cache: false,
+                success: function (r) {
+                    if (r.hasOwnProperty("errcode")) {
+                        if ("0" == r.errcode) {
+                            $("#combo-areaId").combobox("loadData", r.data.filter(function (item) {
+                                return item.areaId != "0";
+                            }));
+                        } else {
+                            jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                        }
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg("2"));
+                    }
+                },
+                beforeSend: function (XMLHttpRequest) {
+                    // _spinner.load();
+                },
+                error: function (request) {
+                    jError("请求失败！" + ErrUtils.getMsg("3"));
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                    //  _spinner.unload();
+                }
+            });
         },
         onOpen: function () {
 
