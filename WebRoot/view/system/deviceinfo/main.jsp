@@ -179,7 +179,7 @@
                     <%--icon="icon-arrow_refresh" title="重置">重置</a>--%>
                     <%--</p>--%>
                     <%--</div>--%>
-                    <div class="grid_3 prefix_4 cell">
+                    <div class="grid_4 prefix_4 cell">
                         <p style="text-align: center;">
                             <a id="btn-tree-dlg-add-tree-node-submit" style="width: 100%;max-width: 150px;"
                                href="javascript:void(0)"
@@ -463,7 +463,7 @@
                     <%--icon="icon-arrow_refresh" title="重置">重置</a>--%>
                     <%--</p>--%>
                     <%--</div>--%>
-                    <div class="grid_3 prefix_4 cell">
+                    <div class="grid_4 prefix_4 cell">
                         <p style="text-align: center;">
                             <a id="btn-dg-dlg-add-pn-submit" style="width: 100%;max-width: 150px;"
                                href="javascript:void(0)"
