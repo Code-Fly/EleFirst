@@ -20,7 +20,7 @@ public class RoleInfoDAO extends BaseDAO implements IRoleInfoDAO {
 
     @Override
     public List<RoleInfo> getRoleInfoList(RoleInfoExample example) {
-        return roleInfoMapper.selectByExample(example);
+        return roleInfoMapper.selectByExampleWithBLOBs(example);
     }
 
     @Override
