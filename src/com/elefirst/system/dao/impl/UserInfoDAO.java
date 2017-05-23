@@ -2,8 +2,10 @@ package com.elefirst.system.dao.impl;
 
 import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.system.dao.iface.IUserInfoDAO;
+import com.elefirst.system.mapper.UserInfoCustomMapper;
 import com.elefirst.system.mapper.UserInfoMapper;
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.po.UserInfoExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,9 +20,17 @@ public class UserInfoDAO extends BaseDAO implements IUserInfoDAO {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
+    private UserInfoCustomMapper userInfoCustomMapper;
+
     @Override
     public List<UserInfo> getUserInfoList(UserInfoExample example) {
         return userInfoMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<UserInfoCustom> getUserInfoExtends(UserInfoExample example) {
+        return userInfoCustomMapper.selectWithExtends(example);
     }
 
     @Override
