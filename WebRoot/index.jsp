@@ -34,7 +34,7 @@
 <%--<div data-options="region:'north',href:'${ctx}view/frame/north.jsp'" style="height: 70px;overflow: hidden;" class="head-north"></div>--%>
 <%--<div data-options="region:'west',href:'${ctx}view/frame/west.jsp'" style="width: 150px;overflow: hidden;"></div>--%>
 <div data-options="region:'center',href:'${ctx}view/frame/center.jsp'" style="overflow: hidden;"></div>
-<div id="dlg-select-area" class="easyui-dialog" title="选择区域"
+<div id="dlg-select-area" class="easyui-dialog" title="选择企业"
      data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
      style="width:400px;height:120px;">
 
@@ -43,7 +43,7 @@
             <div class="container_12" style="padding-top: 10px">
                 <div class="grid_4 cell title">
                     <p>
-                        区域
+                        企业
                     </p>
                 </div>
                 <div class="grid_8 cell">
