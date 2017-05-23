@@ -3,7 +3,10 @@
  */
 $(document).ready(function () {
     var localInfo = $.parseJSON($.ajax({
-        url: _ctx + "system/area/info/local/detail.do",
+        url: _ctx + "system/area/info/detailByAreaId.do",
+        data: {
+            areaId: _areaId
+        },
         type: "POST",
         async: false
     }).responseText).data;
@@ -110,7 +113,7 @@ $(document).ready(function () {
                         success: function (r) {
                             if (r.hasOwnProperty("errcode")) {
                                 if ("0" == r.errcode) {
-                                    $.messager.alert("操作提示", "修改成功", "info");
+                                    $.messager.alert("操作提示", "修改成功，请重新登陆", "info");
                                 } else {
                                     jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                 }

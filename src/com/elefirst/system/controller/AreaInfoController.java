@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by  ffff  1111 xxxxx barrie on 17/1/29.
+ * Created by barrie on 17/1/29.
  */
 @Controller
 @RequestMapping("/system/area")
@@ -100,11 +100,11 @@ public class AreaInfoController extends BaseController {
             return new ErrorMsg(Error.SUCCESS, "success", result.get(0));
         } else {
             AreaInfoWithBLOBs info = new AreaInfoWithBLOBs();
-            info.setAreaId("-1");
-            info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
-            info.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
-            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
-            info.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
+            info.setAreaId(areaId);
+//            info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
+//            info.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
+//            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
+//            info.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
 
             return new ErrorMsg(Error.SUCCESS, "success", info);
         }
