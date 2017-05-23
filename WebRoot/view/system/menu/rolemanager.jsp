@@ -35,23 +35,21 @@
 		<table id="tt2" style="display: none">
 			<thead>
 				<tr>
-					<th field="roleid" hidden="true"></th>
-					<th field="rolename" align="left" width="200">角色名称</th>
-					<th field="rolecode" align="left" width="200">角色编码</th>
-					<th field="createperson" align="left" width="100">创建人</th>
-					<th field="createdate" align="left" width="200">创建日期</th>
+					<th field="id" hidden="true"></th>
+					<th field="roleName" align="left" width="200">角色名称</th>
+					<th field="roleCode" align="left" width="200">角色编码</th>
+					<th field="createPerson" align="left" width="100">创建人</th>
+					<th field="createDate" align="left" width="200">创建日期</th>
 					<th field="description" align="left" width="300" editor="text">描述</th>
 				</tr>
 			</thead>
 		</table>
 	</div>
-	<div id="dlg" class="easyui-dialog"
-		"
-     style="width: 300px; height: 270px; padding: 10px 20px"
+	<div id="dlg" class="easyui-dialog" style="width: 300px; height: 270px; padding: 10px 20px"
 		closed="true" buttons="#dlg-buttons" style="display:none"
 		data-options="modal:true">
 		<div class="container_12">
-			<form id="ff" method="post">
+			<form id="ff" method="get">
 				<div style="margin-bottom: 20px">
 					<div class="grid_4 lbl">
 						角色名称
@@ -117,7 +115,7 @@
 <script type="text/javascript">
     $().ready(function () {
         $("#tt2").datagrid({
-            url: '',
+            url: _ctx + '/system/role/info/list.do',
             pagination: true,
             rownumbers: true,
             pageSize: 20,
@@ -134,4 +132,151 @@
             }
         });
     });
+    
+    //操作标示
+    var flag = "";
+
+    //添加角色
+    function addClick() {
+        flag = "add";
+        $('#dlg').dialog('open').dialog('setTitle',"新增角色");
+        $('#ff').form('clear');
+        $("#roleCode").textbox('readonly',false);
+        $("#roleName").textbox('readonly',false);
+        $("#description").textbox('readonly',false);
+    }
+
+    //编辑角色
+    function editClick() {
+        flag = "modify";
+        var singlerow = $('#tt2').datagrid('getSelected');
+        var index = null;
+        if (singlerow) {
+            index = $('#tt2').datagrid('getRowIndex', singlerow);
+        } else {
+            jNotify("请选择一条记录", {
+                VerticalPosition: 'center',
+                HorizontalPosition: 'center',
+                ShowOverlay: false
+            });
+            return;
+        }
+        $('#dlg').dialog('open').dialog('setTitle',"编辑角色");
+        $('#ff').form('load', {
+            roleName: singlerow.roleName,
+            roleCode: singlerow.roleCode,
+            description: singlerow.description
+        });
+        $("#roleCode").textbox('readonly',true);
+        $("#roleName").textbox('readonly',true);
+        
+        if(singlerow.rolecode=="sysmanager"){
+      	  $("#description").textbox('readonly',true);
+        }else{
+          $("#description").textbox('readonly',false);
+        }
+    }
+
+    //新增角色
+    function submitForm() {
+        var url = "";
+        var roleId = "";
+        if ("add" == flag) {
+            url = _ctx + 'system/role/info/addroleinfo.do';
+        } else if ("modify" == flag) {
+            var singlerow = $('#tt2').datagrid('getSelected');
+            roleId = singlerow.id
+            url = _ctx + 'system/role/info/updateroleinfo.do';
+        } else {
+            return;
+        }
+        $('#ff').form('submit', {
+            url: url,
+            queryParams: {
+                roleId: roleId
+            },
+            success: function (data) {
+                var d = eval('(' + data + ')');
+                if ("success" == d.errmsg) {
+                    $('#dlg').dialog('close');
+                    //重新查询数据
+                    $('#tt2').datagrid("reload");
+                    jSuccess("保存成功", {
+                        VerticalPosition: 'center',
+                        HorizontalPosition: 'center',
+                        ShowOverlay: false
+                    });
+                } else {
+                        jError("保存失败", {
+                            VerticalPosition: 'center',
+                            HorizontalPosition: 'center',
+                            ShowOverlay: false
+                        });
+                }
+            },
+            onLoadError: function () {
+                jError("保存失败", {
+                    VerticalPosition: 'center',
+                    HorizontalPosition: 'center',
+                    ShowOverlay: false
+                });
+            }
+        });
+    }
+
+    function clearForm() {
+        $('#ff').form('clear');
+    }
+
+    //删除角色实例
+    function deleteClick() {
+        var singlerow = $('#tt2').datagrid('getSelected');
+
+        var index = null;
+        if (singlerow) {
+            index = $('#tt2').datagrid('getRowIndex', singlerow);
+        } else {
+            jNotify("请选择一条记录", {
+                VerticalPosition: 'center',
+                HorizontalPosition: 'center',
+                ShowOverlay: false
+            });
+            return;
+        }
+
+        $.messager.confirm("确认", "删除角色", function (r) {
+            if (r) {
+                $.ajax({
+                    url: _ctx + 'system/role/info/delete.do',
+                    type: "post",//使用post方法访问后台
+                    dataType: "json",
+                    cache: false,
+                    data: {
+                        id: singlerow.id
+                    },
+                    success: function (msg) {
+                        if ("success" == msg.errmsg) {
+                            jSuccess("删除成功", {
+                                VerticalPosition: 'center',
+                                HorizontalPosition: 'center',
+                                ShowOverlay: false
+                            });
+                            $('#tt2').datagrid("reload");
+                        } else {
+                            jError("删除失败", {
+                                VerticalPosition: 'center',
+                                HorizontalPosition: 'center',
+                                ShowOverlay: false
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //刷新页面
+    function refreshClick() {
+        window.location.reload();
+    }
 </script>
