@@ -35,11 +35,11 @@
 		<table id="tt2">
 			<thead>
 				<tr>
-					<th field="userid" hidden="true"></th>
-					<th field="username" align="left" width="200">用户名</th>
-					<th field="usercode" align="left" width="200">用户编码</th>
-					<th field="createperson" align="left" width="100">创建者</th>
-					<th field="createdate" align="left" width="200">创建日期</th>
+					<th field="id" hidden="true"></th>
+					<th field="userName" align="left" width="200">用户名</th>
+					<th field="userCode" align="left" width="200">用户编码</th>
+					<th field="createPerson" align="left" width="100">创建者</th>
+					<th field="createDate" align="left" width="200">创建日期</th>
 					<th field="description" align="left" width="300" editor="text">描述</th>
 				</tr>
 			</thead>
@@ -49,7 +49,7 @@
 		style="width: 350px; height: 300px; padding: 10px 20px" closed="true"
 		buttons="#dlg-buttons" style="display:none" data-options="modal:true">
 		<div class="container_12">
-			<form id="ff" method="post">
+			<form id="ff" method="get">
 				<div style="margin-bottom: 20px">
 					<div class="grid_4 lbl">用户名</div>
 					<div class="grid_8 val">
@@ -104,7 +104,7 @@
 		style="width: 300px; height: 260px; padding: 10px 20px" closed="true"
 		buttons="#dlg-buttons" style="display:none" data-options="modal:true">
 		<div class="container_12">
-			<form id="ffs" method="post">
+			<form id="ffs" method="get">
 				<div style="margin-bottom: 20px">
 					<div class="grid_4 lbl">
 						用户名称
@@ -127,10 +127,19 @@
 					</div>
 				</div>
 				<div class="clear"></div>
+				<div style="margin-bottom: 20px">
+					<div class="grid_4 lbl">用户密码</div>
+					<div class="grid_8 val">
+						<input name="passwd" validType="length[4,32]" style="width: 98%"
+							class="easyui-validatebox" required="true" type="password"
+							value="" />
+					</div>
+				</div>
+
 				<div class="clear"></div>
 				<div style="margin-bottom: 20px">
 					<div class="grid_4 lbl">
-						描述
+						描述说明
 					</div>
 					<div class="grid_8 val">
 						<input class="easyui-textbox" name="description"
@@ -190,7 +199,7 @@
 <script type="text/javascript">
 	$().ready(function() {
 		$("#tt2").datagrid({
-			url : '',
+			url : _ctx + 'system/user/info/list.do',
 			pagination : true,
 			rownumbers : true,
 			pageSize : 20,
@@ -207,4 +216,187 @@
 			}
 		});
 	});
+	
+	//刷新页面
+	function refreshClick() {
+		window.location.reload();
+	}
+	
+	//添加用户实例
+	function addClick() {
+		flag = "add";
+		$('#dlg').dialog('open').dialog('setTitle','新增用户');
+		$('#ff').form('clear');
+	}
+	
+	//编辑用户
+	function editClick() {
+		flag = "modify";
+		var singlerow = $('#tt2').datagrid('getSelected');
+		var index = null;
+		if (singlerow) {
+			index = $('#tt2').datagrid('getRowIndex', singlerow);
+		} else {
+			jNotify("请选择一条用户记录", {
+				VerticalPosition : 'center',
+				HorizontalPosition : 'center',
+				ShowOverlay : false
+			});
+			return;
+		}
+		
+		
+		$('#dlgUpdate').dialog('open').dialog('setTitle','编辑用户');
+		$('#ffs').form('clear');
+		$('#ffs').form('load', {
+			userName : singlerow.userName,
+			userCode : singlerow.userCode,
+			description : singlerow.description
+		});
+	}
+	
+	//新增用户
+	function submitForm() {
+		var url = "";
+		var userId = "";
+		if ("add" == flag) {
+			url = _ctx +  'system/user/info/addpersoninfo.do';
+			$('#ff').form('submit', {
+				url : url,
+				success : function(data) {
+					var d = eval('(' + data + ')');
+					if ("success" == d.errmsg) {
+						$('#dlg').dialog('close');
+						//重新查询数据
+						$('#tt2').datagrid("reload");
+						jSuccess("保存成功", {
+							VerticalPosition : 'center',
+							HorizontalPosition : 'center',
+							ShowOverlay : false
+						});
+					} else {
+						if('-1' == d.errcode){
+							jError("保存失败", {
+								VerticalPosition : 'center',
+								HorizontalPosition : 'center',
+								ShowOverlay : false
+							});
+						}else if('-2' == d.errcode){
+							jError("用户名已存在", {
+								VerticalPosition : 'center',
+								HorizontalPosition : 'center',
+								ShowOverlay : false
+							});
+						}
+					}
+				},
+				onLoadError : function() {
+					jError("保存失败", {
+						VerticalPosition : 'center',
+						HorizontalPosition : 'center',
+						ShowOverlay : false
+					});
+				}
+			});
+		} else if ("modify" == flag) {
+			var singlerow = $('#tt2').datagrid('getSelected');
+			userId = singlerow.id
+			url = _ctx +  'system/user/info/updatePersonInfo.do';
+			
+			$('#ffs').form('submit', {
+				url : url,
+				queryParams : {
+					userId : userId
+				},
+				success : function(data) {
+					var d = eval('(' + data + ')');
+					if ("success" == d.errmsg) {
+						$('#dlgUpdate').dialog('close');
+						//重新查询数据
+						$('#tt2').datagrid("reload");
+						jSuccess("保存成功", {
+							VerticalPosition : 'center',
+							HorizontalPosition : 'center',
+							ShowOverlay : false
+						});
+					} else {
+						if('-1' == d.errcode){
+							jError("保存失败", {
+								VerticalPosition : 'center',
+								HorizontalPosition : 'center',
+								ShowOverlay : false
+							});
+						}else if('-2' == d.errcode){
+							jError("用户已存在", {
+								VerticalPosition : 'center',
+								HorizontalPosition : 'center',
+								ShowOverlay : false
+							});
+						}
+					}
+				},
+				onLoadError : function() {
+					jError("保存失败", {
+						VerticalPosition : 'center',
+						HorizontalPosition : 'center',
+						ShowOverlay : false
+					});
+				}
+			});
+		} else {
+			return;
+		}
+		
+	}
+
+	function clearForm() {
+		$('#ff').form('clear');
+		$('#ffs').form('clear');
+	}
+	
+	//删除用户
+	function deleteClick() {
+		var singlerow = $('#tt2').datagrid('getSelected');
+		var index = null;
+		if (singlerow) {
+			index = $('#tt2').datagrid('getRowIndex', singlerow);
+		} else {
+			jNotify("请选择一条用户记录", {
+				VerticalPosition : 'center',
+				HorizontalPosition : 'center',
+				ShowOverlay : false
+			});
+			return;
+		}
+		
+		$.messager.confirm("确认", "删除用户", function(r){
+            if (r){
+            	$.ajax({
+        			url :  _ctx +  'system/user/info/delete.do',
+        			type : "post",//使用post方法访问后台
+        			dataType : "json",
+        			cache : false,
+        			data : {
+        				id : singlerow.id
+        			},
+        			success : function(msg) {
+        				if ("success" == msg.errmsg) {
+        					jSuccess("删除成功", {
+        						VerticalPosition : 'center',
+        						HorizontalPosition : 'center',
+        						ShowOverlay : false
+        					});
+        					$('#tt2').datagrid("reload");
+        				}else{
+        					jError("删除失败", {
+        						VerticalPosition : 'center',
+        						HorizontalPosition : 'center',
+        						ShowOverlay : false
+        					});
+        				}
+        			}
+        		});
+            }
+        });
+	}
 </script>

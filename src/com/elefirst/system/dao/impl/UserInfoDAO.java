@@ -25,7 +25,7 @@ public class UserInfoDAO extends BaseDAO implements IUserInfoDAO {
 
     @Override
     public List<UserInfo> getUserInfoList(UserInfoExample example) {
-        return userInfoMapper.selectByExample(example);
+        return userInfoMapper.selectByExampleWithBLOBs(example);
     }
 
     @Override
