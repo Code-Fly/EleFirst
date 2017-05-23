@@ -5,12 +5,15 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.exception.SessionExpiredException;
+import com.elefirst.base.utils.UUIDKeyGenerator;
 import com.elefirst.system.po.RoleInfo;
 import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.service.iface.IRoleInfoService;
 import com.google.gson.Gson;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -133,4 +138,64 @@ public class RoleInfoController extends BaseController {
         int result = roleInfoService.delRoleInfo(id);
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
+    
+    /**
+	 * 新增角色
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/info/addroleinfo.do")
+	public @ResponseBody ErrorMsg addRoleInfo(String roleCode,String roleName,String description,HttpServletRequest request,HttpSession session) {
+		RoleInfo roleInfo = null;
+		try {
+			UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+	        if (null == userInfo || null == userInfo.getUserName()) {
+	            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+	            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+	        }
+			roleInfo = new RoleInfo();
+			roleInfo.setId(UUIDKeyGenerator.getUUID());
+			roleInfo.setRoleCode(roleCode);
+			roleInfo.setRoleName(roleName);
+			roleInfo.setDescription(description);
+			roleInfo.setCreateDate(new Date());
+			roleInfo.setCreatePerson(userInfo.getUserName());
+			roleInfoService.addRoleInfo(roleInfo);
+			logger.info("添加新用户实例对象成功!");
+			return new ErrorMsg(Error.SUCCESS, "success", "");
+		} catch (Exception e) {
+			logger.error("{}", e);
+			return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
+		}
+	}
+	
+	/**
+	 * 修改角色信息
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/info/updateroleinfo.do")
+	public @ResponseBody ErrorMsg updateRoleInfo(String roleId,String roleCode,String roleName,String description,HttpServletRequest request,HttpSession session){
+		
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        if (null == userInfo || null == userInfo.getUserName()) {
+            logger.error("用户Session过期(" + Error.SESSION_EXPIRED_EXCEPTION + ")", new SessionExpiredException("Session Expired"));
+            return new ErrorMsg(Error.SESSION_EXPIRED_EXCEPTION, "Session expired");
+        }
+		try {
+			RoleInfo roleInfo = new RoleInfo();
+			roleInfo.setId(roleId);
+			roleInfo.setRoleCode(roleCode);
+			roleInfo.setRoleName(roleName);
+			roleInfo.setDescription(description);
+			roleInfo.setUpdateDate(new Date());
+			roleInfo.setUpdatePerson(userInfo.getUserName());
+			roleInfoService.updateRoleInfo(roleInfo);
+			logger.info("修改角色实例对象成功!");
+			return new ErrorMsg(Error.SUCCESS, "success", "");
+		} catch (Exception e) {
+			logger.error("{}", e);
+			return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
+		}
+	}
 }
