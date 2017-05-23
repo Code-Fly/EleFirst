@@ -10,6 +10,8 @@ import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -418,7 +420,10 @@ public class DataF25Service extends BaseService implements IDataF25Service {
             if (null == precision) {
                 return String.valueOf(Double.valueOf(org) * num);
             } else {
-                return String.valueOf(String.format("%." + precision + "f", Double.valueOf(org) * num));
+                BigDecimal n1 = new BigDecimal(Double.valueOf(org));
+                BigDecimal n2 = new BigDecimal(num);
+                double d = n1.multiply(n2).setScale(precision, RoundingMode.HALF_UP).doubleValue();
+                return String.valueOf(d);
             }
         }
         return null;
