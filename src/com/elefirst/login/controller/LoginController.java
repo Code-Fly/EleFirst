@@ -6,6 +6,7 @@ import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.MenuInfo;
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import com.elefirst.system.service.iface.IMenuInfoService;
 import com.elefirst.system.service.iface.IUserInfoService;
@@ -40,7 +41,7 @@ public class LoginController extends BaseController {
 
     @RequestMapping("index.do")
     public String index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-        loadUserInfo(session);
+        UserInfoCustom userInfo = loadUserInfo(session);
         loadMenu(session);
         String areaId = request.getParameter("id");
         if (null != areaId && !areaId.isEmpty()) {
@@ -50,12 +51,13 @@ public class LoginController extends BaseController {
             if (result.size() > 0) {
                 session.setAttribute("areaInfo", result.get(0));
                 session.setAttribute("treeId", areaId);
-            } else {
-                template.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
-                template.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
-                template.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
-                template.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
-                session.setAttribute("areaInfo", template);
+            }
+        } else {
+            AreaInfoWithBLOBs template = new AreaInfoWithBLOBs();
+            template.setAreaId(userInfo.getAreaId());
+            List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
+            if (result.size() > 0) {
+                session.setAttribute("areaInfo", result.get(0));
                 session.setAttribute("treeId", areaId);
             }
         }
@@ -68,16 +70,18 @@ public class LoginController extends BaseController {
         return "login";
     }
 
-    public void loadUserInfo(HttpSession session) {
+    public UserInfoCustom loadUserInfo(HttpSession session) {
         User user = (User) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
         UserInfo template = new UserInfo();
         template.setUserName(user.getUsername());
-        List<UserInfo> users = userInfoService.getUserInfoList(template);
+        List<UserInfoCustom> users = userInfoService.getUserInfoExtends(template);
         if (users.size() > 0) {
             session.setAttribute("userInfo", users.get(0));
+            return users.get(0);
         }
+        return null;
     }
 
     public void loadAreaInfo(HttpSession session) {
