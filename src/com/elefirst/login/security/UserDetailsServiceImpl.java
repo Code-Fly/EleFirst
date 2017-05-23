@@ -1,6 +1,7 @@
 package com.elefirst.login.security;
 
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.service.iface.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        String encoded = encoder.encodePassword("admin", "admin");
 //        System.err.println(encoded);
 
-        List<UserInfo> users = userInfoService.getUserInfoList(template);
+        List<UserInfoCustom> users = userInfoService.getUserInfoExtends(template);
         if (users.size() == 1) {
 
             User userInfo = new User(users.get(0).getUserName(), users.get(0).getPassword(), grantedAuths);
