@@ -4,7 +4,11 @@
 $(document).ready(function () {
     BASE_PATH = "../../";
 
-    _editable = true;
+    if ("admin" != _userName) {
+        _editable = false;
+    } else {
+        _editable = true;
+    }
 
     if (!mxClient.isBrowserSupported()) {
         // Displays an error message if the browser is not supported.

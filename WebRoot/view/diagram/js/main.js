@@ -4,9 +4,6 @@
 $(document).ready(function () {
     var flag_bound_pn_edit = false;
 
-    if (!_editable) {
-        $("#toolbar").hide();
-    }
 
     $("#dlg-bound-pn").dialog({
         onBeforeOpen: function () {
