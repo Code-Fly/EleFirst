@@ -1,6 +1,7 @@
 package com.elefirst.system.service.iface;
 
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface IUserInfoService {
     List<UserInfo> getUserInfoList(UserInfo template);
 
     List<UserInfo> getUserInfoListByInfos(List<UserInfo> templates);
+
+    List<UserInfoCustom> getUserInfoExtends(UserInfo template);
 
     long getUserInfoListCount(UserInfo template);
 

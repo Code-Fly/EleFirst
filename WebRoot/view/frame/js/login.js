@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     var error = GetQueryString("error");
     if (error == "1") {
-        $.messager.alert("信息提示", "用户名或密码错误！", "warning");
+        $.messager.alert("信息提示", "无效用户或用户名、密码错误！", "warning");
     }
     else if (error == "2") {
         $.messager.alert("信息提示", "Session 已过期，请重新登陆！", "warning");

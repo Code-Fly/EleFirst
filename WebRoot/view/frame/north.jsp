@@ -14,8 +14,10 @@
         <a id="user" href="javascript:void(0)" class="easyui-menubutton" style="color:whitesmoke;"
            data-options="menu:'#mm_user'">${userInfo.userName}</a>
         <div id="mm_user" style="width: 150px;">
-            <%--<div data-options="iconCls:'icon-information'" id="version">系统版本</div>--%>
-            <%--<div class="menu-sep"></div>--%>
+            <c:if test="${userInfo.userName =='admin'}">
+                <div data-options="iconCls:'icon-information'" id="btn-select-area">切换区域</div>
+                <div class="menu-sep"></div>
+            </c:if>
             <form id="form-logout" action="<c:url value="/logout"/>" method="post" style="display: none">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             </form>

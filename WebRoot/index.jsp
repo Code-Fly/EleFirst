@@ -11,12 +11,16 @@
 <html>
 <head>
     <%@ include file="view/common/meta.jsp" %>
+    <%@ include file="/view/common/common960.jsp" %>
     <!--本页面样式-->
     <link href="${ctx}Content/css/page/index.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         require(["view/frame/js/index.js"]);
     </script>
     <style>
+        .title p {
+            text-align: left;
+        }
         .tab-body {
             overflow: hidden;
         }
@@ -30,9 +34,31 @@
 <%--<div data-options="region:'north',href:'${ctx}view/frame/north.jsp'" style="height: 70px;overflow: hidden;" class="head-north"></div>--%>
 <%--<div data-options="region:'west',href:'${ctx}view/frame/west.jsp'" style="width: 150px;overflow: hidden;"></div>--%>
 <div data-options="region:'center',href:'${ctx}view/frame/center.jsp'" style="overflow: hidden;"></div>
+<div id="dlg-select-area" class="easyui-dialog" title="选择区域"
+     data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
+     style="width:400px;height:150px;">
+
+    <div class="easyui-layout" data-options="fit:true,border:false">
+        <div data-options="region:'center'">
+            <div class="container_12" style="padding-top: 10px">
+                <div class="grid_4 cell title">
+                    <p>
+                        区域
+                    </p>
+                </div>
+                <div class="grid_8 cell">
+                    <p>
+                        <input id="combo-areaId" class="easyui-combobox" style="width: 100%;">
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <div data-options="region:'south'" class="head-south">
-    ${sessionScope.areaInfo.name} <a href="http://www.miitbeian.gov.cn/"
-                                     style="color: black;text-decoration: none">${sessionScope.areaInfo.icp}</a>
+    ${sessionScope.areaInfo.name}
+    <a href="http://www.miitbeian.gov.cn/" style="color: black;text-decoration: none">${sessionScope.areaInfo.icp}</a>
 </div>
 </body>
 </html>

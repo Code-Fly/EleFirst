@@ -86,92 +86,94 @@ public class IndexController extends BaseController {
 
                 List<DataF33> nodes = new ArrayList<>();
                 String masterPnId = areas.get(0).getMasterPnId();
-                result.put("masterPnId", masterPnId);
-                DataF33 item = new DataF33();
-                List<PnInfo> pn = pnInfoService.getPnInfoDetail(masterPnId);
-                if (pn.size() > 0) {
-                    item.setAreaId(pn.get(0).getAreaId());
-                    item.setConcentratorId(pn.get(0).getConcentratorId());
-                    item.setPn(pn.get(0).getPn());
-                    nodes.add(item);
+                if (null != masterPnId) {
+                    result.put("masterPnId", masterPnId);
+
+                    DataF33 item = new DataF33();
+                    List<PnInfo> pn = pnInfoService.getPnInfoDetail(masterPnId);
+                    if (pn.size() > 0) {
+                        item.setAreaId(pn.get(0).getAreaId());
+                        item.setConcentratorId(pn.get(0).getConcentratorId());
+                        item.setPn(pn.get(0).getPn());
+                        nodes.add(item);
+                    }
+
+                    List<DataF5> nodeF5List = new ArrayList<>();
+                    for (int i = 0; i < nodes.size(); i++) {
+                        DataF5 n = new DataF5();
+                        n.setAreaId(nodes.get(i).getAreaId());
+                        n.setConcentratorId(nodes.get(i).getConcentratorId());
+                        n.setPn(nodes.get(i).getPn());
+                        nodeF5List.add(n);
+                    }
+
+                    //电量
+                    //本月
+                    Calendar thisMonth = Calendar.getInstance();
+                    Calendar nextMonth = Calendar.getInstance();
+                    nextMonth.add(Calendar.MONTH, 1);
+
+                    String thisMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01";
+                    String nextMonthStr = new SimpleDateFormat("yyyyMM").format(nextMonth.getTime()) + "01";
+
+                    result.put("electricityThisMonth", getElectricityF5(pns, dataF5Service.getDataF5SumList(nodeF5List, thisMonthStr, nextMonthStr)));
+
+
+                    List<DataF21> nodeF21List = new ArrayList<>();
+                    for (int i = 0; i < nodes.size(); i++) {
+                        DataF21 n = new DataF21();
+                        n.setAreaId(nodes.get(i).getAreaId());
+                        n.setConcentratorId(nodes.get(i).getConcentratorId());
+                        n.setPn(nodes.get(i).getPn());
+                        nodeF21List.add(n);
+                    }
+
+                    //上月
+                    Calendar lastMonth = Calendar.getInstance();
+                    lastMonth.add(Calendar.MONTH, -1);
+
+                    String lastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime());
+
+                    result.put("electricityLastMonth", getElectricityF21(pns, dataF21Service.getDataF21SumList(nodeF21List, lastMonthStr, thisMonthStr)));
+
+                    //上上月
+                    Calendar lastLastMonth = Calendar.getInstance();
+                    lastLastMonth.add(Calendar.MONTH, -2);
+
+                    String lastLastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime());
+
+                    result.put("electricityLastLastMonth", getElectricityF21(pns, dataF21Service.getDataF21SumList(nodeF21List, lastLastMonthStr, lastMonthStr)));
+
+
+                    //负荷
+                    //本月
+                    List<DataF25FrozenMinute> nodeF25FrozenMinuteList = new ArrayList<>();
+                    for (int i = 0; i < nodes.size(); i++) {
+                        DataF25FrozenMinute n = new DataF25FrozenMinute();
+                        n.setAreaId(nodes.get(i).getAreaId());
+                        n.setConcentratorId(nodes.get(i).getConcentratorId());
+                        n.setPn(nodes.get(i).getPn());
+                        nodeF25FrozenMinuteList.add(n);
+                    }
+
+                    result.put("maxLoadThisMonth", getTotalMaxLoad(nodeF25FrozenMinuteList, thisMonthStr, nextMonthStr));
+
+                    //今年
+                    Calendar thisYear = Calendar.getInstance();
+                    String thisYearStr = new SimpleDateFormat("yyyy").format(thisYear.getTime()) + "0101000000";
+                    Calendar nextYear = Calendar.getInstance();
+                    nextYear.add(Calendar.YEAR, 1);
+                    String nextYearStr = new SimpleDateFormat("yyyy").format(nextYear.getTime()) + "0101000000";
+
+                    result.put("maxLoadThisYear", getTotalMaxLoad(nodeF25FrozenMinuteList, thisYearStr, nextYearStr));
+
+                    //历史
+                    Calendar firstYear = Calendar.getInstance();
+                    firstYear.add(Calendar.YEAR, -100);
+                    String firstYearStr = new SimpleDateFormat("yyyy").format(firstYear.getTime()) + "0101000000";
+
+                    result.put("maxLoadTotal", getTotalMaxLoad(nodeF25FrozenMinuteList, firstYearStr, nextMonthStr));
                 }
-
-                List<DataF5> nodeF5List = new ArrayList<>();
-                for (int i = 0; i < nodes.size(); i++) {
-                    DataF5 n = new DataF5();
-                    n.setAreaId(nodes.get(i).getAreaId());
-                    n.setConcentratorId(nodes.get(i).getConcentratorId());
-                    n.setPn(nodes.get(i).getPn());
-                    nodeF5List.add(n);
-                }
-
-                //电量
-                //本月
-                Calendar thisMonth = Calendar.getInstance();
-                Calendar nextMonth = Calendar.getInstance();
-                nextMonth.add(Calendar.MONTH, 1);
-
-                String thisMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime()) + "01";
-                String nextMonthStr = new SimpleDateFormat("yyyyMM").format(nextMonth.getTime()) + "01";
-
-                result.put("electricityThisMonth", getElectricityF5(pns, dataF5Service.getDataF5SumList(nodeF5List, thisMonthStr, nextMonthStr)));
-
-
-                List<DataF21> nodeF21List = new ArrayList<>();
-                for (int i = 0; i < nodes.size(); i++) {
-                    DataF21 n = new DataF21();
-                    n.setAreaId(nodes.get(i).getAreaId());
-                    n.setConcentratorId(nodes.get(i).getConcentratorId());
-                    n.setPn(nodes.get(i).getPn());
-                    nodeF21List.add(n);
-                }
-
-                //上月
-                Calendar lastMonth = Calendar.getInstance();
-                lastMonth.add(Calendar.MONTH, -1);
-
-                String lastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime());
-
-                result.put("electricityLastMonth", getElectricityF21(pns, dataF21Service.getDataF21SumList(nodeF21List, lastMonthStr, thisMonthStr)));
-
-                //上上月
-                Calendar lastLastMonth = Calendar.getInstance();
-                lastLastMonth.add(Calendar.MONTH, -2);
-
-                String lastLastMonthStr = new SimpleDateFormat("yyyyMM").format(thisMonth.getTime());
-
-                result.put("electricityLastLastMonth", getElectricityF21(pns, dataF21Service.getDataF21SumList(nodeF21List, lastLastMonthStr, lastMonthStr)));
-
-
-                //负荷
-                //本月
-                List<DataF25FrozenMinute> nodeF25FrozenMinuteList = new ArrayList<>();
-                for (int i = 0; i < nodes.size(); i++) {
-                    DataF25FrozenMinute n = new DataF25FrozenMinute();
-                    n.setAreaId(nodes.get(i).getAreaId());
-                    n.setConcentratorId(nodes.get(i).getConcentratorId());
-                    n.setPn(nodes.get(i).getPn());
-                    nodeF25FrozenMinuteList.add(n);
-                }
-
-                result.put("maxLoadThisMonth", getTotalMaxLoad(nodeF25FrozenMinuteList, thisMonthStr, nextMonthStr));
-
-                //今年
-                Calendar thisYear = Calendar.getInstance();
-                String thisYearStr = new SimpleDateFormat("yyyy").format(thisYear.getTime()) + "0101000000";
-                Calendar nextYear = Calendar.getInstance();
-                nextYear.add(Calendar.YEAR, 1);
-                String nextYearStr = new SimpleDateFormat("yyyy").format(nextYear.getTime()) + "0101000000";
-
-                result.put("maxLoadThisYear", getTotalMaxLoad(nodeF25FrozenMinuteList, thisYearStr, nextYearStr));
-
-                //历史
-                Calendar firstYear = Calendar.getInstance();
-                firstYear.add(Calendar.YEAR, -100);
-                String firstYearStr = new SimpleDateFormat("yyyy").format(firstYear.getTime()) + "0101000000";
-
-                result.put("maxLoadTotal", getTotalMaxLoad(nodeF25FrozenMinuteList, firstYearStr, nextMonthStr));
-
             }
         }
 

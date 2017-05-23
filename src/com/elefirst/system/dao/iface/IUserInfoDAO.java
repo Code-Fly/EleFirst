@@ -1,6 +1,7 @@
 package com.elefirst.system.dao.iface;
 
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.po.UserInfoExample;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  */
 public interface IUserInfoDAO {
     List<UserInfo> getUserInfoList(UserInfoExample example);
+
+    List<UserInfoCustom> getUserInfoExtends(UserInfoExample example);
 
     long getUserInfoListCount(UserInfoExample example);
 

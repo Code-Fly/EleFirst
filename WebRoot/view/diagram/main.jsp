@@ -89,19 +89,21 @@
         <div class="grid_2" style="padding-top: 2px;">
             <input id="combo-template" class="easyui-combobox" style="width: 100%">
         </div>
-        <div class="grid_2">
-            <div style="float: right" id="toolbar">
-                <a id="btn-save-template" title="保存" href="javascript:void(0)" plain="true"
-                   class="easyui-linkbutton"
-                   icon="icon-disk"></a>
-                <a id="btn-saveAs-template" title="另存为" href="javascript:void(0)" plain="true"
-                   class="easyui-linkbutton"
-                   icon="icon-disk_multiple"></a>
-                <a id="btn-del-template" title="删除" href="javascript:void(0)" plain="true"
-                   class="easyui-linkbutton"
-                   icon="icon-cross"></a>
+        <c:if test="${userInfo.userName =='admin'}">
+            <div class="grid_2">
+                <div style="float: right" id="toolbar">
+                    <a id="btn-save-template" title="保存" href="javascript:void(0)" plain="true"
+                       class="easyui-linkbutton"
+                       icon="icon-disk"></a>
+                    <a id="btn-saveAs-template" title="另存为" href="javascript:void(0)" plain="true"
+                       class="easyui-linkbutton"
+                       icon="icon-disk_multiple"></a>
+                    <a id="btn-del-template" title="删除" href="javascript:void(0)" plain="true"
+                       class="easyui-linkbutton"
+                       icon="icon-cross"></a>
+                </div>
             </div>
-        </div>
+        </c:if>
     </div>
 </div>
 <div data-options="region:'center',border:false" align="center">
