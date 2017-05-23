@@ -160,7 +160,7 @@ public class DataF5Controller extends BaseController {
             item.setFrozenDay(thisMonthStartTime);
 
             String differThisMonth = dataF5Service.getDifferTotalPositiveActivePower(nodes, thisMonthStartTime, thisMonthEndTime);
-            item.setThisMonthTotalPositiveActivePower(dataF5Service.calc(differThisMonth, 1D, 1));
+            item.setThisMonthTotalPositiveActivePower(dataF5Service.calc(differThisMonth, 1D, 4));
 
             //
             Date lastMonthStartTimeDate = new Date(date.getTime());
@@ -174,7 +174,7 @@ public class DataF5Controller extends BaseController {
             String lastMonthEndTime = sdf.format(lastMonthEndTimeDate).substring(0, 8);
 
             String differLastMonth = dataF5Service.getDifferTotalPositiveActivePower(nodes, lastMonthStartTime, lastMonthEndTime);
-            item.setLastMonthTotalPositiveActivePower(dataF5Service.calc(differLastMonth, 1D, 1));
+            item.setLastMonthTotalPositiveActivePower(dataF5Service.calc(differLastMonth, 1D, 4));
 
             //
             Date lastYearStartTimeDate = new Date(date.getTime());
@@ -188,7 +188,7 @@ public class DataF5Controller extends BaseController {
             String lastYearEndTime = sdf.format(lastYearEndTimeDate).substring(0, 8);
 
             String differLastYear = dataF5Service.getDifferTotalPositiveActivePower(nodes, lastYearStartTime, lastYearEndTime);
-            item.setLastYearTotalPositiveActivePower(dataF5Service.calc(differLastYear, 1D, 1));
+            item.setLastYearTotalPositiveActivePower(dataF5Service.calc(differLastYear, 1D, 4));
 
 
             String rate1 = null;
