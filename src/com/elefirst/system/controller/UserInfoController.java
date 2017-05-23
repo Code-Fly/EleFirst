@@ -6,6 +6,7 @@ import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.service.iface.IUserInfoService;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
@@ -66,6 +67,19 @@ public class UserInfoController extends BaseController {
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
 
+    }
+
+    @RequestMapping(value = "/info/extends.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getUserInfoExtends(HttpServletRequest request,
+                                       HttpServletResponse response,
+                                       @RequestParam(value = "userName", required = true) String userName
+    ) {
+        UserInfo template = new UserInfo();
+        template.setUserName(userName);
+        List<UserInfoCustom> result = userInfoService.getUserInfoExtends(template);
+        return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
     @RequestMapping(value = "/info/detail.do")

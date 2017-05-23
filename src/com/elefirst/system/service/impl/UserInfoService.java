@@ -3,6 +3,7 @@ package com.elefirst.system.service.impl;
 import com.elefirst.base.service.BaseService;
 import com.elefirst.system.dao.iface.IUserInfoDAO;
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.po.UserInfoExample;
 import com.elefirst.system.service.iface.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,15 @@ public class UserInfoService extends BaseService implements IUserInfoService {
 
         condition.setOrderByClause("`create_date` ASC");
         return userInfoDAO.getUserInfoList(condition);
+    }
+
+    @Override
+    public List<UserInfoCustom> getUserInfoExtends(UserInfo template) {
+        UserInfoExample condition = new UserInfoExample();
+        UserInfoExample.Criteria criteria = condition.createCriteria();
+        criteria.andUserNameEqualTo(template.getUserName());
+        condition.setOrderByClause("`create_date` ASC");
+        return userInfoDAO.getUserInfoExtends(condition);
     }
 
     @Override

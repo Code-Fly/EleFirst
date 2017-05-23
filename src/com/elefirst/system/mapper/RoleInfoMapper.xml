@@ -131,6 +131,9 @@
         <if test="orderByClause != null">
             order by ${orderByClause}
         </if>
+        <if test="limitStart != null and limitStart&gt;-1">
+            limit ${limitStart} , ${limitEnd}
+        </if>
     </select>
     <select id="selectByExample" parameterType="com.elefirst.system.po.RoleInfoExample" resultMap="BaseResultMap">
         <!--
