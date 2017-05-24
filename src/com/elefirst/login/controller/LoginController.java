@@ -105,23 +105,29 @@ public class LoginController extends BaseController {
     }
 
     public void loadMenu(HttpSession session) throws Exception {
+    	String userName = ((UserInfo)session.getAttribute("userInfo")).getUserName();
         //获取一级菜单
         List<String> oneLevelMenuIds = new ArrayList<String>();
         oneLevelMenuIds.add("1");
         oneLevelMenuIds.add("2");
         oneLevelMenuIds.add("3");
-        oneLevelMenuIds.add("4");
+        if(userName != null && "admin".equals(userName)){
+        	oneLevelMenuIds.add("4");
+        }
         List<MenuInfo> oneLevelmenuInfos = menuInfoServiceImpl.fetchOneLevelMenuInfo(oneLevelMenuIds);
         //根据一级菜单编码获取对应的二级菜单
         List<MenuInfo> twoLevelmenuInos01 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("01");
         List<MenuInfo> twoLevelmenuInos02 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("02");
         List<MenuInfo> twoLevelmenuInos03 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("03");
         List<MenuInfo> twoLevelmenuInos04 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("04");
+        
         session.setAttribute("oneLevelmenuInfos", oneLevelmenuInfos);
         session.setAttribute("twoLevelmenuInos01", twoLevelmenuInos01);
         session.setAttribute("twoLevelmenuInos02", twoLevelmenuInos02);
         session.setAttribute("twoLevelmenuInos03", twoLevelmenuInos03);
-        session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
+        if(userName != null && "admin".equals(userName)){
+        	session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
+        }
     }
 
 }
