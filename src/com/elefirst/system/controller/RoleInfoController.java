@@ -4,10 +4,12 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.entity.GeneralMessage;
 import com.elefirst.base.exception.SessionExpiredException;
 import com.elefirst.base.utils.UUIDKeyGenerator;
 import com.elefirst.system.po.RoleInfo;
 import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserRoleMap;
 import com.elefirst.system.service.iface.IRoleInfoService;
 import com.google.gson.Gson;
 
@@ -25,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -192,6 +195,65 @@ public class RoleInfoController extends BaseController {
 			roleInfo.setUpdatePerson(userInfo.getUserName());
 			roleInfoService.updateRoleInfo(roleInfo);
 			logger.info("修改角色实例对象成功!");
+			return new ErrorMsg(Error.SUCCESS, "success", "");
+		} catch (Exception e) {
+			logger.error("{}", e);
+			return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/info/queryRoleByUserId.do")
+	public @ResponseBody ErrorMsg queryRoleByUserId(String page, String rows,String userId,HttpSession session){
+		DataGrid dg = new DataGrid();
+		try {
+			int pageNum = Integer.valueOf(page == null ? "1" : page);
+			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+			UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+			if (null == userInfo || null == userInfo.getUserName()) {
+				logger.error("用户Session过期");
+				return null;
+			}
+			RoleInfo roleInfo = new RoleInfo();
+			roleInfo.setPage(pageNum);
+			roleInfo.setRows(rowsNum);
+			List<RoleInfo> roleInfos = roleInfoService.fetchRoleInfoByUserId(roleInfo, true, userId);
+			// 返回分页对象数
+			dg.setRows(roleInfos);
+			int totalNum = roleInfoService.fetchRoleInfoByCond(roleInfo, false).size();
+			dg.setTotal(totalNum);
+			
+			return new ErrorMsg(Error.SUCCESS, "success", dg);
+		} catch (Exception e) {
+			dg = null;
+			logger.error("根据条件查看角色信息失败！", e);
+			return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
+		}
+	}
+	
+	/**
+	 * 新增角色与用户关系
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/info/addUserRoleMap.do")
+	public @ResponseBody ErrorMsg addUserRoleMap(String userId,String roleIdsStr) {
+		//保存前先根据userId清空角色与用户关系表
+		List<UserRoleMap> usrerRoleMaps = null;
+		try {
+			if(roleIdsStr !=null && roleIdsStr.length() > 0){
+				usrerRoleMaps = new ArrayList<UserRoleMap>();
+				String[] rIds = roleIdsStr.split(",");
+				for(int i=0;i < rIds.length;i++){
+					UserRoleMap tmpUserRoleMap = new UserRoleMap();
+					tmpUserRoleMap.setId(UUIDKeyGenerator.getUUID());
+					tmpUserRoleMap.setUserId(userId);
+					tmpUserRoleMap.setRoleId(rIds[i]);
+					usrerRoleMaps.add(tmpUserRoleMap);
+				}
+			}
+			roleInfoService.saveUserRoleMaps(usrerRoleMaps, userId);
+			logger.info("添加角色与用户关系实例成功!");
 			return new ErrorMsg(Error.SUCCESS, "success", "");
 		} catch (Exception e) {
 			logger.error("{}", e);
