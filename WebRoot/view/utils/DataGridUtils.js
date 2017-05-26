@@ -94,5 +94,14 @@ var DataGridUtils = {
         } else {
             return "-";
         }
-    }
+    },
+    timestampToMinuteFormatter: function (value) {
+        if (value != null && value != "null") {
+            var date = new Date();
+            date.setTime(value);
+            return date.format("yyyy-MM-dd hh:mm:ss");
+        } else {
+            return "-";
+        }
+    },
 };

@@ -31,7 +31,7 @@ $(document).ready(function () {
     });
 
     $("#dlg-select-area").dialog({
-        closable: false,
+        // closable: false,
         onBeforeOpen: function () {
             $.ajax({
                 url: _ctx + "system/area/info/list.do",
