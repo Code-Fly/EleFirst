@@ -116,7 +116,7 @@
                         <a style="width: 100%;max-width: 150px;"
                            href="javascript:void(0)"
                            class="easyui-linkbutton"
-                           title="提交" onclick="submitForm()">提交</a>
+                           icon="icon-save" title="提交" onclick="submitForm()">提交</a>
                     </p>
                 </div>
             </div>
@@ -194,7 +194,7 @@
                         <a style="width: 100%;max-width: 150px;"
                            href="javascript:void(0)"
                            class="easyui-linkbutton"
-                           title="提交" onclick="submitForm()">提交</a>
+                           icon="icon-save" title="提交" onclick="submitForm()">提交</a>
                     </p>
                 </div>
             </div>
@@ -221,20 +221,12 @@
         </div>
         <div data-options="region:'south'" style="height:50px;overflow: hidden;">
             <div class="container_12">
-                <div class="grid_3 prefix_3 cell">
+                <div class="grid_4 prefix_4 cell">
                     <p style="text-align: center;">
                         <a style="width: 100%;max-width: 150px;"
                            href="javascript:void(0)"
                            class="easyui-linkbutton"
-                           title="重置" onclick="confirm()">确认</a>
-                    </p>
-                </div>
-                <div class="grid_3 suffix_3 cell">
-                    <p style="text-align: center;">
-                        <a style="width: 100%;max-width: 150px;"
-                           href="javascript:void(0)"
-                           class="easyui-linkbutton"
-                           title="提交" onclick="cancel()">取消</a>
+                           icon="icon-save" title="提交" onclick="confirm()">提交</a>
                     </p>
                 </div>
             </div>
