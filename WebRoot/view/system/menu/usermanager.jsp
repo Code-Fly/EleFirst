@@ -139,7 +139,7 @@
                     <div class="grid_8 cell">
                         <p>
                             <input class="easyui-textbox" id="userName" name="userName"
-                                   style="width: 100%" data-options="required:true">
+                                   style="width: 100%" data-options="required:true,editable:false">
                         </p>
                     </div>
                     <div class="clear"></div>
@@ -152,7 +152,7 @@
                     <div class="grid_8 cell">
                         <p>
                             <input class="easyui-textbox" id="userCode" name="userCode"
-                                   style="width: 100%" data-options="required:true">
+                                   style="width: 100%" data-options="required:true,editable:false">
                         </p>
                     </div>
                     <div class="clear"></div>
