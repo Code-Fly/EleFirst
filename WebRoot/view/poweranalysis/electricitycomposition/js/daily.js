@@ -429,8 +429,8 @@ $(document).ready(function () {
                             dgData.push({
                                 name: categories[i],
                                 electricity: thisMonth,
-                                rate1: lastMonth == 0 ? null : ((thisMonth - lastMonth) / lastMonth).toFixed(1),
-                                rate2: lastYear == 0 ? null : ((thisMonth - lastYear) / lastYear).toFixed(1)
+                                rate1: lastMonth == 0 ? null : ((thisMonth - lastMonth) * 100 / lastMonth).toFixed(1),
+                                rate2: lastYear == 0 ? null : ((thisMonth - lastYear) * 100 / lastYear).toFixed(1)
                             });
 
 
