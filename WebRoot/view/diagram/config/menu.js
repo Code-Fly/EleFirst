@@ -19,10 +19,12 @@ $(document).ready(function () {
         graphConstants.USER_OBJECT_CURRENT
     ];
 
-    // Installs a popupmenu handler using local function (see below).
-    graph.popupMenuHandler.factoryMethod = function (menu, cell, evt) {
-        return createPopupMenu(graph, menu, cell, evt);
-    };
+    if (_editable) {
+        // Installs a popupmenu handler using local function (see below).
+        graph.popupMenuHandler.factoryMethod = function (menu, cell, evt) {
+            return createPopupMenu(graph, menu, cell, evt);
+        };
+    }
 
     function createPopupMenu(graph, menu, cell, evt) {
         if (cell != null) {
