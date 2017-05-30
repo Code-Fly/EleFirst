@@ -46,6 +46,7 @@ $(document).ready(function () {
             keyup: function (event) {
                 if (event.keyCode == 13) {
                     if (checkInputValid()) {
+                        verifyCode.refresh();
                         $("#dlg-verity").dialog("open");
                     }
                 }
@@ -55,6 +56,7 @@ $(document).ready(function () {
 
     $("#btnLogin").click(function () {
         if (checkInputValid()) {
+            verifyCode.refresh();
             $("#dlg-verity").dialog("open");
         }
     });
