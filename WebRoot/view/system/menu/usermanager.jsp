@@ -40,13 +40,13 @@
     </table>
     <div id="tool-table" style="">
         <a href="#" id="btn-pn-tool-add" class="easyui-linkbutton"
-           data-options="plain:true,iconCls:'icon-add'" onclick="addClick()">添加</a>
+           data-options="plain:true,iconCls:'icon-add'">添加</a>
         <a href="#" id="btn-pn-tool-edit" class="easyui-linkbutton"
-           data-options="plain:true,iconCls:'icon-edit'" onclick="editClick()">编辑</a>
+           data-options="plain:true,iconCls:'icon-edit'">编辑</a>
         <a href="#" id="btn-pn-tool-delete" class="easyui-linkbutton"
-           data-options="plain:true,iconCls:'icon-cross'" onclick="deleteClick()">删除</a>
+           data-options="plain:true,iconCls:'icon-cross'">删除</a>
         <a href="#" id="btn-pn-tool-load-current" class="easyui-linkbutton"
-           data-options="plain:true,iconCls:'icon-user_key'" onclick="roleClick()">分配角色</a>
+           data-options="plain:true,iconCls:'icon-user_key'">分配角色</a>
     </div>
 </div>
 <div id="dlg" class="easyui-dialog"
@@ -113,10 +113,10 @@
             <div class="container_12">
                 <div class="grid_4 prefix_4 cell">
                     <p style="text-align: center;">
-                        <a style="width: 100%;max-width: 150px;"
+                        <a style="width: 100%;max-width: 150px;" id="btn-dlg-submit"
                            href="javascript:void(0)"
                            class="easyui-linkbutton"
-                           icon="icon-save" title="提交" onclick="submitForm()">提交</a>
+                           icon="icon-save" title="提交">提交</a>
                     </p>
                 </div>
             </div>
@@ -191,10 +191,10 @@
             <div class="container_12">
                 <div class="grid_4 prefix_4 cell">
                     <p style="text-align: center;">
-                        <a style="width: 100%;max-width: 150px;"
+                        <a style="width: 100%;max-width: 150px;" id="btn-dlgUpdate-submit"
                            href="javascript:void(0)"
                            class="easyui-linkbutton"
-                           icon="icon-save" title="提交" onclick="submitForm()">提交</a>
+                           icon="icon-save" title="提交">提交</a>
                     </p>
                 </div>
             </div>
@@ -223,10 +223,10 @@
             <div class="container_12">
                 <div class="grid_4 prefix_4 cell">
                     <p style="text-align: center;">
-                        <a style="width: 100%;max-width: 150px;"
+                        <a style="width: 100%;max-width: 150px;" id="btn-dlg2-submit"
                            href="javascript:void(0)"
                            class="easyui-linkbutton"
-                           icon="icon-save" title="提交" onclick="confirm()">提交</a>
+                           icon="icon-save" title="提交">提交</a>
                     </p>
                 </div>
             </div>
