@@ -54,6 +54,7 @@
 <!--加载组件CSS-->
 <script type="text/javascript" src="${ctx}view/utils/Showloading.js?v=${timestamp}"></script>
 
+
 <%----%>
 <script type="text/javascript" src="${ctx}Content/js/jquery-plugin/base64/jquery.base64.js?v=${timestamp}"></script>
 <script type="text/javascript" src="${ctx}Content/js/requirejs-2.3.2/require.js"></script>
@@ -81,6 +82,8 @@
       type="text/css"/>
 <script type="text/javascript"
         src="${ctx}Content/js/jquery-plugin/color-picker/js/colorpicker.js?v=${timestamp}"></script>
+
+<script type="text/javascript" src="${ctx}Content/js/jquery-plugin/verify/gVerify.js?v=${timestamp}"></script>
 
 <!-- 提示对话框 -->
 <script type="text/javascript" src="${ctx}Content/js/jquery-notify/jNotify.jquery.js?v=${timestamp}"></script>

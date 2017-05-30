@@ -7,6 +7,9 @@ $(document).ready(function () {
         topWindow.location.href = window.location.href;
     }
 
+    var verifyCode = new GVerify("v_container");
+
+
     var error = GetQueryString("error");
     if (error == "1") {
         $.messager.alert("信息提示", "无效用户或用户名、密码错误！", "warning");
@@ -42,10 +45,8 @@ $(document).ready(function () {
         inputEvents: $.extend({}, $.fn.passwordbox.defaults.inputEvents, {
             keyup: function (event) {
                 if (event.keyCode == 13) {
-                    var vUsr = $("#userName").textbox("isValid");
-                    var vPwd = $("#password").passwordbox("isValid");
-                    if (vUsr && vPwd) {
-                        $("#form-login").submit();
+                    if (checkInputValid()) {
+                        $("#dlg-verity").dialog("open");
                     }
                 }
             }
@@ -53,20 +54,31 @@ $(document).ready(function () {
     });
 
     $("#btnLogin").click(function () {
-        // if ($("#userName").val() == "admin" && $("#password").val() == "admin") {
-        // 	  $("#f1").submit();
-        // 	  return true;
-        //     //window.location.href = "login/login.do";
-        // } else {
-        //     $.messager.alert("信息提示", "用户名或密码错误！", "warning");
-        // }
+        if (checkInputValid()) {
+            $("#dlg-verity").dialog("open");
+        }
+    });
+
+    $("#btn-verity-submit").click(function () {
+        if (checkVerityCode()) {
+            $("#form-login").submit();
+        } else {
+            $.messager.alert("信息提示", "验证码有误！", "warning");
+        }
+    });
+
+    function checkInputValid() {
         var vUsr = $("#userName").textbox("isValid");
         var vPwd = $("#password").passwordbox("isValid");
         if (vUsr && vPwd) {
-            $("#form-login").submit();
+            return true;
         }
+        return false;
+    }
 
-    });
+    function checkVerityCode() {
+        return verifyCode.validate($("#verityCode").textbox("getValue"));
+    }
 
     function isTopWindow() {
         var p = window;

@@ -19,6 +19,8 @@
         <security:intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/login.do" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/**" access="ROLE_USER"/>
+        <!-- 记住我功能 -->
+        <security:remember-me/>
 
         <security:form-login login-page="/"
                              login-processing-url="/login"
@@ -53,7 +55,7 @@
 
     <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>
 
-    <security:authentication-manager>
+    <security:authentication-manager alias="authenticationManager" erase-credentials="false">
         <security:authentication-provider ref="authenticationProvider"/>
     </security:authentication-manager>
 

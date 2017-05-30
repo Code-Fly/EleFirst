@@ -11,6 +11,7 @@
 <html>
 <head>
     <%@ include file="view/common/meta.jsp" %>
+    <%@ include file="/view/common/common960.jsp" %>
     <!--本页面样式-->
     <link href="${ctx}Content/css/page/login.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
@@ -60,7 +61,8 @@
                 <li>
                     <input id="btnLogin" name="" type="button" class="loginbtn" value="登录"/>
                     <%--<label>--%>
-                    <%--<input name="" type="checkbox" value="" checked="checked"/>记住密码</label>--%>
+                    <%--<input type="checkbox" name="remember-me" value="true">记住密码--%>
+                    <%--</label>--%>
                     <%--<label>--%>
                     <%--<a href="#">忘记密码？</a>--%>
                     <%--</label>--%>
@@ -68,6 +70,41 @@
             </ul>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         </form>
+    </div>
+
+    <div id="dlg-verity" class="easyui-dialog" title="验证码"
+         data-options="iconCls:'icon-key',closed: true, cache: false, modal: true,"
+         style="width:300px;height:150px;">
+
+        <div class="easyui-layout" data-options="fit:true,border:false">
+            <div data-options="region:'center'">
+                <div class="container_12" style="padding-top: 10px">
+                    <div class="grid_6 cell title">
+                        <p>
+                        <div id="v_container" style="width: 100%;"></div>
+                        </p>
+                    </div>
+                    <div class="grid_6 cell">
+                        <p>
+                            <input id="verityCode" class="easyui-textbox" style="width: 100%;height: 30px;">
+                        </p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div data-options="region:'south'" style="height:50px;overflow: hidden;padding: 10px;">
+                <div class="container_12">
+                    <div class="grid_4 prefix_4 cell">
+                        <p style="text-align: center;">
+                            <a id="btn-verity-submit" style="width: 100%;max-width: 150px;"
+                               href="javascript:void(0)"
+                               class="easyui-linkbutton"
+                               title="提交">提交</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="loginbm">
