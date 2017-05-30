@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $("#tt2").datagrid({
-        url: _ctx + '/system/role/info/list.do',
+        url: _ctx + 'system/role/info/list.do',
         pagination: true,
         rownumbers: true,
         fitColumns: true,
@@ -183,7 +183,7 @@ $(document).ready(function () {
         var roleId = singlerow.id;
         $('#dlg4').dialog('open');
         $("#tt4").datagrid({
-            url: _ctx + '/system/area/info/queryAreaByRoleId.do',
+            url: _ctx + 'system/area/info/queryAreaByRoleId.do',
             pagination: true,
             rownumbers: true,
             fit: true,
@@ -228,7 +228,7 @@ $(document).ready(function () {
         var singlerow = $('#tt2').datagrid('getSelected');
         var roleId = singlerow.id;
         $.ajax({
-            url: _ctx + '/system/area/info/addRoleAreaMap.do',
+            url: _ctx + 'system/area/info/addRoleAreaMap.do',
             type: "post",//使用post方法访问后台
             dataType: "json",
             cache: false,

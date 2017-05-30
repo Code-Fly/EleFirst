@@ -219,7 +219,7 @@ $(document).ready(function () {
         var userId = singlerow.id;
         $('#dlg2').dialog('open');
         $("#tt3").datagrid({
-            url: _ctx + '/system/role/info/queryRoleByUserId.do',
+            url: _ctx + 'system/role/info/queryRoleByUserId.do',
             pagination: true,
             rownumbers: true,
             pageSize: DEFAULT_PAGE_SIZE,
@@ -262,7 +262,7 @@ $(document).ready(function () {
         var singlerow = $('#tt2').datagrid('getSelected');
         var userId = singlerow.id;
         $.ajax({
-            url: _ctx + '/system/role/info/addUserRoleMap.do',
+            url: _ctx + 'system/role/info/addUserRoleMap.do',
             type: "post",//使用post方法访问后台
             dataType: "json",
             cache: false,
