@@ -10,10 +10,8 @@ import com.elefirst.system.po.UserInfo;
 import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.service.iface.IUserInfoService;
 import com.google.gson.Gson;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -162,7 +159,10 @@ public class UserInfoController extends BaseController {
         	personInfo.setUserCode(userCode);
         	personInfo.setUserName(userName);
             personInfo.setDescription(description);
-            personInfo.setRoleName(passwd);
+            //对密码进行MD5加密
+            Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+            String encoded = encoder.encodePassword(passwd, userName);
+            personInfo.setPassword(encoded);
             personInfo.setUpdateDate(new Date());
             personInfo.setUpdatePerson(userInfo.getUserName());
             userInfoService.updateUserInfo(personInfo);
