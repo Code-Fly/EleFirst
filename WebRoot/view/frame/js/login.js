@@ -54,6 +54,23 @@ $(document).ready(function () {
         })
     });
 
+    $("#verityCode").textbox({
+        required: true,
+        validateOnCreate: false,
+        inputEvents: $.extend({}, $.fn.textbox.defaults.inputEvents, {
+            keyup: function (event) {
+                if (event.keyCode == 13) {
+                    if (checkVerityCode()) {
+                        $("#form-login").submit();
+                    } else {
+                        $.messager.alert("信息提示", "验证码有误！", "warning");
+                    }
+                }
+            }
+        })
+    });
+
+
     $("#btnLogin").click(function () {
         if (checkInputValid()) {
             verifyCode.refresh();
