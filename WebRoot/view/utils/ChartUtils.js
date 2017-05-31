@@ -1786,6 +1786,23 @@ var ChartUtils = {
 
         return series;
     },
+    getF5RateAllSeries: function (node, data) {
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].positiveactivepower);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            if (null != data[i].frozenDay && null != data[i].positiveactivepower) {
+                series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenDay + "000000"), tmp]);
+            }
+        }
+
+        return series;
+    },
     getF21AllSeries: function (node, data) {
         var series = {
             name: node.name,
