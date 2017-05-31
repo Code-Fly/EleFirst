@@ -66,6 +66,49 @@ public class DataF5RateService extends BaseService implements IDataF5RateService
     }
 
     @Override
+    public List<DataF5Rate> getDataF5RateSumList(DataF5Rate template) {
+        DataF5RateExample condition = new DataF5RateExample();
+        DataF5RateExample.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        criteria.andFrozenDayIsNotNull();
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`frozen_day` ASC");
+        return dataF5RateDAO.getDataF5RateSumList(condition);
+    }
+
+    @Override
+    public List<DataF5Rate> getDataF5RateSumList(List<DataF5Rate> nodes, String startTime, String endTime) {
+        DataF5RateExample condition = new DataF5RateExample();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF5Rate node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andFrozenDayGreaterThanOrEqualTo(startTime)
+                    .andFrozenDayLessThan(endTime)
+                    .andFrozenDayIsNotNull()
+                    //
+                    .andPositiveactivepowerIsNotNull()
+            ;
+        }
+        condition.setOrderByClause("`frozen_day` ASC");
+        return dataF5RateDAO.getDataF5RateSumList(condition);
+    }
+
+    @Override
     public long getDataF5RateListCount(DataF5Rate template) {
         DataF5RateExample condition = new DataF5RateExample();
         DataF5RateExample.Criteria criteria = condition.createCriteria();

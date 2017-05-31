@@ -2,6 +2,7 @@ package com.elefirst.power.dao.impl;
 
 import com.elefirst.base.dao.impl.BaseDAO;
 import com.elefirst.power.dao.iface.IDataF5RateDAO;
+import com.elefirst.power.mapper.DataF5RateCustomMapper;
 import com.elefirst.power.mapper.DataF5RateMapper;
 import com.elefirst.power.po.DataF5Rate;
 import com.elefirst.power.po.DataF5RateExample;
@@ -18,10 +19,17 @@ public class DataF5RateDAO extends BaseDAO implements IDataF5RateDAO {
     @Autowired
     private DataF5RateMapper dataF5RateMapper;
 
+    @Autowired
+    private DataF5RateCustomMapper dataF5RateCustomMapper;
 
     @Override
     public List<DataF5Rate> getDataF5RateList(DataF5RateExample example) {
         return dataF5RateMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<DataF5Rate> getDataF5RateSumList(DataF5RateExample example) {
+        return dataF5RateCustomMapper.selectSumByExample(example);
     }
 
     @Override
