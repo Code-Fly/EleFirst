@@ -78,7 +78,7 @@ public class DataF21RateController extends BaseController {
         List<DataF21Rate> nodes = new Gson().fromJson(node, new TypeToken<List<DataF21Rate>>() {
         }.getType());
 
-        List<DataF21Rate> result = dataF21RateService.getDataF21RateList(nodes, startTime, endTime);
+        List<DataF21Rate> result = dataF21RateService.getDataF21RateList(nodes, startTime.substring(0, 6), endTime.substring(0, 6));
 
         return new ErrorMsg(Error.SUCCESS, "success", dataF21RateService.format(result));
     }
@@ -110,7 +110,7 @@ public class DataF21RateController extends BaseController {
 //            List<DataF5> ns = nodes.get(i);
 
             for (int j = 0; j < times.size(); j++) {
-                List<DataF21Rate> item = dataF21RateService.getDataF21RateSumList(ns, times.get(j).getString("startTime").substring(0, 8), times.get(j).getString("endTime").substring(0, 8));
+                List<DataF21Rate> item = dataF21RateService.getDataF21RateSumList(ns, times.get(j).getString("startTime").substring(0, 6), times.get(j).getString("endTime").substring(0, 6));
                 rs.add(dataF21RateService.format(item));
             }
 
