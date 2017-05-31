@@ -27,7 +27,7 @@ $(document).ready(function () {
     });
 
     $("#dg-table").datagrid({
-        url: _ctx + "/power/data/f5/interval/day/statistic.do",
+        url: _ctx + "power/data/f5/interval/day/statistic.do",
         method: "POST",
         // queryParams: {
         //     node: "[]",

@@ -13,7 +13,7 @@ $(document).ready(function () {
     DateBoxUtils.initMonthBox($("#datebox-time-end"));
 
     $("#dg-table").datagrid({
-        url: _ctx + "/power/data/f21/interval/month/statistic.do",
+        url: _ctx + "power/data/f21/interval/month/statistic.do",
         method: "POST",
         border: true,
         fit: true,
