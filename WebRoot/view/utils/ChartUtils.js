@@ -1803,6 +1803,42 @@ var ChartUtils = {
 
         return series;
     },
+
+    getF5RateAllCategorySeries: function (node, data) {
+        var categories = node.categories;
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+        var total = [];
+
+        for (var i = 0; i < categories.length; i++) {
+            var newData = _.filter(data, function (o) {
+                return o.rateSeq == (i + 1);
+            });
+
+            total[i] = 0;
+            for (var j = 0; j < newData.length; j++) {
+                total[i] += parseFloat(newData[j].positiveactivepower) * ChartUtils.NUM_FIX;
+            }
+            total[i] = total[i] / ChartUtils.NUM_FIX;
+
+            // series.data.push([categories[i], total[i] / ChartUtils.NUM_FIX]);
+        }
+
+        var all = 0;
+        for (var i = 0; i < categories.length; i++) {
+            all += parseFloat(total[i]) * ChartUtils.NUM_FIX;
+        }
+        all = all / ChartUtils.NUM_FIX;
+
+        for (var i = 0; i < categories.length; i++) {
+            series.data.push([categories[i], parseFloat((total[i] * 100 / all ).toFixed(1))]);
+        }
+
+        return series;
+    },
     getF21AllSeries: function (node, data) {
         var series = {
             name: node.name,

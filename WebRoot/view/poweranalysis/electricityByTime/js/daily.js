@@ -46,12 +46,12 @@ $(document).ready(function () {
                 interval: interval
             });
 
-            // getElectricityComparisonBarChart({
-            //     node: _nodes,
-            //     time: $("#datebox-time-start").datebox("getValue"),
-            //     interval: interval
-            // });
-            //
+            getElectricityComparisonBarChart({
+                node: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
+
             // getElectricityComparisonPieChart({
             //     node: _nodes,
             //     time: $("#datebox-time-start").datebox("getValue"),
@@ -73,7 +73,6 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
 
                         var startTime = TimeUtils.dataBoxDateToDate(param.time);
                         var endTime = TimeUtils.dataBoxDateToDate(param.time);
@@ -207,159 +206,94 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
+                        var paramNode = [
+                            r.data
+                        ];
 
-                        var chartCnt = 3;
+                        var timeList = [];
+                        timeList.push({
+                            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, 0).format('yyyyMMdd') + "000000",
+                            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, param.interval + 1).format('yyyyMMdd') + "000000"
+                        });
 
-                        var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                        var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                        endTime.setDate(endTime.getDate() + (param.interval + 1));
+                        timeList.push({
+                            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, -1, 0).format('yyyyMMdd') + "000000",
+                            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, -1, param.interval + 1).format('yyyyMMdd') + "000000"
+                        });
 
-                        var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            start: startTime.format("yyyyMMdd") + "000000",
-                            end: endTime.format("yyyyMMdd") + "000000"
-                        };
-
+                        timeList.push({
+                            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, -1, 0, 0).format('yyyyMMdd') + "000000",
+                            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, -1, 0, param.interval + 1).format('yyyyMMdd') + "000000"
+                        });
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/monthly/rateseq/all/chart.do",
+                            url: _ctx + "power/data/f5/rate/node/time/sum.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(paramNode),
+                                time: JSON.stringify(timeList)
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         // $.messager.alert("操作提示", JSON.stringify(r.data));
 
-                                        chartCnt = chartCnt - 1;
+                                        var series = [];
 
-                                        var item = ChartUtils.getElectricityRateSeqBarSeries("本期", paramNode, param.time, param.interval, r.data);
+                                        var categories = ChartUtils.getElectricityRateSeqCategories();
+
+                                        var d = r.data[0][0];
+
+                                        var item = ChartUtils.getF5RateAllCategorySeries({
+                                            name: "本期",
+                                            categories: categories
+                                        }, d);
                                         series.push(item);
 
-                                        if (chartCnt <= 0) {
-                                            var config = $.parseJSON($.ajax({
-                                                url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
-                                                type: "GET",
-                                                async: false
-                                            }).responseText);
+                                        var d = r.data[0][1];
 
-                                            config.xAxis.categories = ChartUtils.getElectricityRateSeqBarCategories(param.time, param.interval);
-                                            config.series = series;
+                                        var item = ChartUtils.getF5RateAllCategorySeries({
+                                            name: "上月同期",
+                                            categories: categories
+                                        }, d);
+                                        series.push(item);
 
-                                            $("#chart-electricity-comparison").highcharts(config);
-                                        }
+                                        var d = r.data[0][2];
+
+                                        var item = ChartUtils.getF5RateAllCategorySeries({
+                                            name: "去年同期",
+                                            categories: categories
+                                        }, d);
+                                        series.push(item);
+
+
+                                        var config = new ChartConfig("view/poweranalysis/electricityByTime/data/electricityComparisonChart.json");
+                                        config
+                                            .setShared(false)
+                                            // .setZoom(false)
+                                            .setCrossHairSnap(false)
+                                            .setSeries(series)
+                                        // .setDataGroupingByDay();
+
+                                        $("#chart-electricity-comparison").highcharts(config.getConfig());
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
                                 } else {
                                     jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
+                            error: function (request) {
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                _spinner.unload();
                             }
                         });
-
-                        var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                        startTime.setMonth(startTime.getMonth() - 1);
-                        var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                        endTime.setDate(endTime.getDate() + (param.interval + 1));
-                        endTime.setMonth(endTime.getMonth() - 1);
-
-                        var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            start: startTime.format("yyyyMMdd") + "000000",
-                            end: endTime.format("yyyyMMdd") + "000000"
-                        };
-
-                        $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/monthly/rateseq/all/chart.do",
-                            type: "POST",
-                            cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        chartCnt = chartCnt - 1;
-
-                                        var item = ChartUtils.getElectricityRateSeqBarSeries("上月同期", paramNode, param.time, param.interval, r.data);
-                                        series.push(item);
-
-                                        if (chartCnt <= 0) {
-                                            var config = $.parseJSON($.ajax({
-                                                url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
-                                                type: "GET",
-                                                async: false
-                                            }).responseText);
-
-                                            config.xAxis.categories = ChartUtils.getElectricityRateSeqBarCategories(param.time, param.interval);
-                                            config.series = series;
-
-                                            $("#chart-electricity-comparison").highcharts(config);
-                                        }
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            }
-                        });
-
-                        var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                        startTime.setFullYear(startTime.getFullYear() - 1);
-                        var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                        endTime.setDate(endTime.getDate() + (param.interval + 1));
-                        endTime.setFullYear(endTime.getFullYear() - 1);
-
-                        var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            start: startTime.format("yyyyMMdd") + "000000",
-                            end: endTime.format("yyyyMMdd") + "000000"
-                        };
-
-                        $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/monthly/rateseq/all/chart.do",
-                            type: "POST",
-                            cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
-                            success: function (r) {
-                                if (r.hasOwnProperty("errcode")) {
-                                    if ("0" == r.errcode) {
-                                        // $.messager.alert("操作提示", JSON.stringify(r.data));
-
-                                        chartCnt = chartCnt - 1;
-
-                                        var item = ChartUtils.getElectricityRateSeqBarSeries("去年同期", paramNode, param.time, param.interval, r.data);
-                                        series.push(item);
-
-                                        if (chartCnt <= 0) {
-                                            var config = $.parseJSON($.ajax({
-                                                url: "data/electricityComparisonChart.json?bust=" + new Date().getTime(),
-                                                type: "GET",
-                                                async: false
-                                            }).responseText);
-
-                                            config.xAxis.categories = ChartUtils.getElectricityRateSeqBarCategories(param.time, param.interval);
-                                            config.series = series;
-
-                                            $("#chart-electricity-comparison").highcharts(config);
-                                        }
-                                    } else {
-                                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
-                                    }
-                                } else {
-                                    jError("请求失败！" + ErrUtils.getMsg("2"));
-                                }
-                            }
-                        });
-
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -368,13 +302,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+                _spinner.unload();
             }
         });
     }
@@ -527,12 +461,12 @@ $(document).ready(function () {
             interval: interval
         });
 
-        // getElectricityComparisonBarChart({
-        //     node: _nodes,
-        //     time: $("#datebox-time-start").datebox("getValue"),
-        //     interval: interval
-        // });
-        //
+        getElectricityComparisonBarChart({
+            node: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: interval
+        });
+
         // getElectricityComparisonPieChart({
         //     node: _nodes,
         //     time: $("#datebox-time-start").datebox("getValue"),

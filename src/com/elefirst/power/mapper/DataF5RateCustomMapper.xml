@@ -77,7 +77,7 @@
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
-        GROUP BY frozen_day
+        GROUP BY rate_seq, frozen_day
         <if test="orderByClause != null">
             order by ${orderByClause}
         </if>
