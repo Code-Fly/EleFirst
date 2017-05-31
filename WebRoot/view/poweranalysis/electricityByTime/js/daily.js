@@ -52,11 +52,11 @@ $(document).ready(function () {
                 interval: interval
             });
 
-            // getElectricityComparisonPieChart({
-            //     node: _nodes,
-            //     time: $("#datebox-time-start").datebox("getValue"),
-            //     interval: interval
-            // });
+            getElectricityComparisonPieChart({
+                node: _nodes,
+                time: $("#datebox-time-start").datebox("getValue"),
+                interval: interval
+            });
         }
     });
 
@@ -324,58 +324,83 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
+                        var paramNode = [
+                            r.data
+                        ];
 
-                        var chartCnt = 1;
-
-                        var startTime = TimeUtils.dataBoxDateToDate(param.time);
-                        var endTime = TimeUtils.dataBoxDateToDate(param.time);
-                        endTime.setDate(endTime.getDate() + (param.interval + 1));
-
-                        var paramNode = r.data;
-                        var paramChart = {
-                            node: paramNode,
-                            start: startTime.format("yyyyMMdd") + "000000",
-                            end: endTime.format("yyyyMMdd") + "000000"
-                        };
-
+                        var timeList = [];
+                        timeList.push({
+                            startTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, 0).format('yyyyMMdd') + "000000",
+                            endTime: TimeUtils.getDataBoxDateToDateInterval(param.time, 0, 0, param.interval + 1).format('yyyyMMdd') + "000000"
+                        });
 
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/monthly/rateseq/all/chart.do",
+                            url: _ctx + "power/data/f5/rate/node/time/sum.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: {
+                                node: JSON.stringify(paramNode),
+                                time: JSON.stringify(timeList)
+                            },
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
                                         // $.messager.alert("操作提示", JSON.stringify(r.data));
 
-                                        chartCnt = chartCnt - 1;
+                                        var series = [];
 
-                                        var item = ChartUtils.getElectricityRateSeqPieSeries("本期", paramNode, param.time, param.interval, r.data);
+                                        var categories = ChartUtils.getElectricityRateSeqCategories();
+
+                                        var d = r.data[0][0];
+
+                                        var item = ChartUtils.getF5RateAllCategoryPieSeries({
+                                            name: "本期",
+                                            categories: categories
+                                        }, d);
                                         series.push(item);
 
-                                        if (chartCnt <= 0) {
-                                            var config = $.parseJSON($.ajax({
-                                                url: "data/electricityCompositionChart.json?bust=" + new Date().getTime(),
-                                                type: "GET",
-                                                async: false
-                                            }).responseText);
 
-                                            config.series = series;
+                                        var config = new ChartConfig("view/poweranalysis/electricityByTime/data/electricityCompositionChart.json");
+                                        config
+                                        // .setShared(false)
+                                        // .setZoom(false)
+                                        // .setCrossHairSnap(false)
+                                            .setSeries(series)
+                                        // .setDataGroupingByDay();
 
-                                            $("#chart-electricity-composition").highcharts(config);
-                                        }
+                                        $("#chart-electricity-composition").highcharts(config.getConfig());
+
+                                        // var item = ChartUtils.getElectricityRateSeqPieSeries("本期", paramNode, param.time, param.interval, r.data);
+                                        // series.push(item);
+                                        //
+                                        // if (chartCnt <= 0) {
+                                        //     var config = $.parseJSON($.ajax({
+                                        //         url: "data/electricityCompositionChart.json?bust=" + new Date().getTime(),
+                                        //         type: "GET",
+                                        //         async: false
+                                        //     }).responseText);
+                                        //
+                                        //     config.series = series;
+                                        //
+                                        //     $("#chart-electricity-composition").highcharts(config);
+                                        // }
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
                                 } else {
                                     jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
+                            error: function (request) {
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                _spinner.unload();
                             }
                         });
-
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -384,13 +409,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+                _spinner.unload();
             }
         });
     }
@@ -467,11 +492,11 @@ $(document).ready(function () {
             interval: interval
         });
 
-        // getElectricityComparisonPieChart({
-        //     node: _nodes,
-        //     time: $("#datebox-time-start").datebox("getValue"),
-        //     interval: interval
-        // });
+        getElectricityComparisonPieChart({
+            node: _nodes,
+            time: $("#datebox-time-start").datebox("getValue"),
+            interval: interval
+        });
     }
 
 });
