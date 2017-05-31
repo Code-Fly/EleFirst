@@ -4,6 +4,8 @@
 $(document).ready(function () {
     var DEFAULT_INTERVAL = 11;
 
+    var _spinner = new Spinner();
+
     var _nodes = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
     DateBoxUtils.initMonthBox($("#datebox-time-start"));
@@ -67,7 +69,6 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
-                        var series = [];
 
                         var startTime = TimeUtils.dataBoxMonthToDate(param.time);
                         var endTime = TimeUtils.dataBoxMonthToDate(param.time);
@@ -75,51 +76,102 @@ $(document).ready(function () {
 
                         var paramNode = r.data;
                         var paramChart = {
-                            node: paramNode,
-                            start: startTime.format("yyyyMM") + "01000000",
-                            end: endTime.format("yyyyMM") + "01000000"
+                            node: JSON.stringify(paramNode),
+                            startTime: startTime.format("yyyyMM") + "01000000",
+                            endTime: endTime.format("yyyyMM") + "01000000"
                         };
 
-                        var chartCnt = 1;
-
                         $.ajax({
-                            url: _ctx + "poweranalysis/comparison/electricity/yearly/rateseq/all/chart.do",
+                            url: _ctx + "power/data/f21/rate/node/list.do",
                             type: "POST",
                             cache: false,
-                            contentType: "text/plain;charset=UTF-8",
-                            data: JSON.stringify(paramChart),
+                            data: paramChart,
                             success: function (r) {
                                 if (r.hasOwnProperty("errcode")) {
                                     if ("0" == r.errcode) {
 
-                                        chartCnt = chartCnt - 1;
+                                        var series = [];
 
-                                        var category = ChartUtils.getElectricityRateSeqCategories();
-                                        for (var i = 0; i < category.length; i++) {
-                                            var item = ChartUtils.getElectricityYearlyRateSeqSeries(category[i], paramNode, param.time, param.interval, r.data, (i + 1));
-                                            series.push(item);
-                                        }
+                                        var data = _.filter(r.data, function (o) {
+                                            return o.rateSeq == "1";
+                                        });
 
-                                        if (chartCnt <= 0) {
-                                            var config = $.parseJSON($.ajax({
-                                                url: "data/electricityDetailByDateChart.json?bust=" + new Date().getTime(),
-                                                type: "GET",
-                                                async: false
-                                            }).responseText);
+                                        var item = ChartUtils.getF5RateAllSeries({
+                                            name: "尖电量"
+                                        }, data);
+                                        item.dataGrouping = {
+                                            approximation: ChartUtils.approximations.sum,
+                                            forced: true
+                                        };
+                                        series.push(item);
 
-                                            // config.xAxis.categories = ChartUtils.getMonthlyIntervalMonthCategories(param.time, param.interval);
-                                            config.series = series;
+                                        var data = _.filter(r.data, function (o) {
+                                            return o.rateSeq == "2";
+                                        });
 
-                                            $("#chart-electricity-detail").highcharts(config);
-                                        }
+                                        var item = ChartUtils.getF5RateAllSeries({
+                                            name: "峰电量"
+                                        }, data);
+                                        item.dataGrouping = {
+                                            approximation: ChartUtils.approximations.sum,
+                                            forced: true
+                                        };
+                                        series.push(item);
+
+                                        var data = _.filter(r.data, function (o) {
+                                            return o.rateSeq == "3";
+                                        });
+
+                                        var item = ChartUtils.getF5RateAllSeries({
+                                            name: "平电量"
+                                        }, data);
+                                        item.dataGrouping = {
+                                            approximation: ChartUtils.approximations.sum,
+                                            forced: true
+                                        };
+                                        series.push(item);
+
+                                        var data = _.filter(r.data, function (o) {
+                                            return o.rateSeq == "4";
+                                        });
+
+                                        var item = ChartUtils.getF5RateAllSeries({
+                                            name: "谷电量"
+                                        }, data);
+                                        item.dataGrouping = {
+                                            approximation: ChartUtils.approximations.sum,
+                                            forced: true
+                                        };
+                                        series.push(item);
+
+                                        var config = new ChartConfig("view/chart/column-date-all-electricity.json");
+                                        config
+                                            .setShared(false)
+                                            .setZoom(false)
+                                            .setCrossHairSnap(false)
+                                            .setSeries(series)
+                                            .setDataGroupingByDay();
+
+
+                                        $("#chart-electricity-detail").highcharts("StockChart", config.getConfig());
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
                                 } else {
                                     jError("请求失败！" + ErrUtils.getMsg("2"));
                                 }
+                            },
+                            beforeSend: function (XMLHttpRequest) {
+                                _spinner.load();
+                            },
+                            error: function (request) {
+                                jError("请求失败！" + ErrUtils.getMsg("3"));
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                                _spinner.unload();
                             }
                         });
+
                     } else {
                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                     }
@@ -128,13 +180,13 @@ $(document).ready(function () {
                 }
             },
             beforeSend: function (XMLHttpRequest) {
-                MaskUtil.mask();
+                _spinner.load();
             },
             error: function (request) {
                 jError("请求失败！" + ErrUtils.getMsg("3"));
             },
             complete: function (XMLHttpRequest, textStatus) {
-                MaskUtil.unmask();
+                _spinner.unload();
             }
         });
     }

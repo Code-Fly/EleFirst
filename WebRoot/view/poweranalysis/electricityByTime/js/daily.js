@@ -369,21 +369,6 @@ $(document).ready(function () {
                                         // .setDataGroupingByDay();
 
                                         $("#chart-electricity-composition").highcharts(config.getConfig());
-
-                                        // var item = ChartUtils.getElectricityRateSeqPieSeries("本期", paramNode, param.time, param.interval, r.data);
-                                        // series.push(item);
-                                        //
-                                        // if (chartCnt <= 0) {
-                                        //     var config = $.parseJSON($.ajax({
-                                        //         url: "data/electricityCompositionChart.json?bust=" + new Date().getTime(),
-                                        //         type: "GET",
-                                        //         async: false
-                                        //     }).responseText);
-                                        //
-                                        //     config.series = series;
-                                        //
-                                        //     $("#chart-electricity-composition").highcharts(config);
-                                        // }
                                     } else {
                                         jError("请求失败！" + ErrUtils.getMsg(r.errcode));
                                     }
