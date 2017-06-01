@@ -5,8 +5,11 @@ import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.MenuInfo;
+import com.elefirst.system.po.UserInfo;
+import com.elefirst.system.po.UserInfoCustom;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import com.elefirst.system.service.iface.IMenuInfoService;
+import com.elefirst.system.service.iface.IUserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -33,9 +36,12 @@ public class LoginController extends BaseController {
     @Autowired
     private IAreaInfoService areaInfoService;
 
+    @Autowired
+    private IUserInfoService userInfoService;
+
     @RequestMapping("index.do")
     public String index(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-        loadUserInfo(session);
+        UserInfoCustom userInfo = loadUserInfo(session);
         loadMenu(session);
         String areaId = request.getParameter("id");
         if (null != areaId && !areaId.isEmpty()) {
@@ -45,6 +51,14 @@ public class LoginController extends BaseController {
             if (result.size() > 0) {
                 session.setAttribute("areaInfo", result.get(0));
                 session.setAttribute("treeId", areaId);
+            }
+        } else {
+            AreaInfoWithBLOBs template = new AreaInfoWithBLOBs();
+            template.setAreaId(userInfo.getAreaId());
+            List<AreaInfoWithBLOBs> result = areaInfoService.getAreaInfoList(template);
+            if (result.size() > 0) {
+                session.setAttribute("areaInfo", result.get(0));
+                session.setAttribute("treeId", userInfo.getAreaId());
             }
         }
         return "index";
@@ -56,13 +70,18 @@ public class LoginController extends BaseController {
         return "login";
     }
 
-    public void loadUserInfo(HttpSession session) {
+    public UserInfoCustom loadUserInfo(HttpSession session) {
         User user = (User) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
-        System.out.println(user.getUsername());
-        System.out.println(user.getAuthorities());
-
+        UserInfo template = new UserInfo();
+        template.setUserName(user.getUsername());
+        List<UserInfoCustom> users = userInfoService.getUserInfoExtends(template);
+        if (users.size() > 0) {
+            session.setAttribute("userInfo", users.get(0));
+            return users.get(0);
+        }
+        return null;
     }
 
     public void loadAreaInfo(HttpSession session) {
@@ -86,13 +105,16 @@ public class LoginController extends BaseController {
     }
 
     public void loadMenu(HttpSession session) throws Exception {
+        String userName = ((UserInfo) session.getAttribute("userInfo")).getUserName();
         //获取一级菜单
         List<String> oneLevelMenuIds = new ArrayList<String>();
         oneLevelMenuIds.add("1");
         oneLevelMenuIds.add("2");
         oneLevelMenuIds.add("3");
         oneLevelMenuIds.add("21");
-        oneLevelMenuIds.add("4");
+        if (userName != null && "admin".equals(userName)) {
+            oneLevelMenuIds.add("4");
+        }
         List<MenuInfo> oneLevelmenuInfos = menuInfoServiceImpl.fetchOneLevelMenuInfo(oneLevelMenuIds);
         //根据一级菜单编码获取对应的二级菜单
         List<MenuInfo> twoLevelmenuInos01 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("01");
@@ -104,8 +126,10 @@ public class LoginController extends BaseController {
         session.setAttribute("twoLevelmenuInos01", twoLevelmenuInos01);
         session.setAttribute("twoLevelmenuInos02", twoLevelmenuInos02);
         session.setAttribute("twoLevelmenuInos03", twoLevelmenuInos03);
-        session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
         session.setAttribute("twoLevelmenuInos21", twoLevelmenuInos21);
+        if (userName != null && "admin".equals(userName)) {
+            session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
+        }
     }
 
 }
