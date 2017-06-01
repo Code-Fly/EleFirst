@@ -85,6 +85,7 @@
 
 <script type="text/javascript" src="${ctx}Content/js/jquery-plugin/verify/gVerify.js?v=${timestamp}"></script>
 
+
 <!-- 提示对话框 -->
 <script type="text/javascript" src="${ctx}Content/js/jquery-notify/jNotify.jquery.js?v=${timestamp}"></script>
 <link rel="stylesheet" type="text/css" href="${ctx}Content/js/jquery-notify/jNotify.jquery.css?v=${timestamp}">
@@ -126,4 +127,6 @@
 
 
     window.history.forward(1);
+
+    require([_ctx + "Content/js/lodash/lodash.js"]);
 </SCRIPT>

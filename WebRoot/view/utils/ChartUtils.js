@@ -1786,6 +1786,97 @@ var ChartUtils = {
 
         return series;
     },
+    getF5RateAllSeries: function (node, data) {
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].positiveactivepower);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            if (null != data[i].frozenDay && null != data[i].positiveactivepower) {
+                series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenDay + "000000"), tmp]);
+            }
+        }
+
+        return series;
+    },
+
+    getF5RateAllCategorySeries: function (node, data) {
+        var categories = node.categories;
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+        var total = [];
+
+        for (var i = 0; i < categories.length; i++) {
+            var newData = _.filter(data, function (o) {
+                return o.rateSeq == (i + 1);
+            });
+
+            total[i] = 0;
+            for (var j = 0; j < newData.length; j++) {
+                total[i] += parseFloat(newData[j].positiveactivepower) * ChartUtils.NUM_FIX;
+            }
+            total[i] = total[i] / ChartUtils.NUM_FIX;
+
+            // series.data.push([categories[i], total[i] / ChartUtils.NUM_FIX]);
+        }
+
+        var all = 0;
+        for (var i = 0; i < categories.length; i++) {
+            all += parseFloat(total[i]) * ChartUtils.NUM_FIX;
+        }
+        all = all / ChartUtils.NUM_FIX;
+
+        for (var i = 0; i < categories.length; i++) {
+            series.data.push([categories[i], parseFloat((total[i] * 100 / all ).toFixed(1))]);
+        }
+
+        return series;
+    },
+
+    getF5RateAllCategoryPieSeries: function (node, data) {
+        var categories = node.categories;
+        var series = {
+            name: node.name,
+            type: "pie",
+            color: node.color,
+            data: []
+        };
+
+        var total = [];
+
+        for (var i = 0; i < categories.length; i++) {
+            var newData = _.filter(data, function (o) {
+                return o.rateSeq == (i + 1);
+            });
+
+            total[i] = 0;
+            for (var j = 0; j < newData.length; j++) {
+                total[i] += parseFloat(newData[j].positiveactivepower) * ChartUtils.NUM_FIX;
+            }
+            total[i] = total[i] / ChartUtils.NUM_FIX;
+
+            // series.data.push([categories[i], total[i] / ChartUtils.NUM_FIX]);
+        }
+
+        var all = 0;
+        for (var i = 0; i < categories.length; i++) {
+            all += parseFloat(total[i]) * ChartUtils.NUM_FIX;
+        }
+        all = all / ChartUtils.NUM_FIX;
+
+        for (var i = 0; i < categories.length; i++) {
+            series.data.push([categories[i], parseFloat((total[i] * 100 / all ).toFixed(1))]);
+        }
+
+        return series;
+    },
     getF21AllSeries: function (node, data) {
         var series = {
             name: node.name,
@@ -1799,6 +1890,95 @@ var ChartUtils = {
             if (null != data[i].frozenMonth && null != data[i].totalpositiveactivepower) {
                 series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenMonth + "01000000"), tmp]);
             }
+        }
+
+        return series;
+    },
+    getF21RateAllSeries: function (node, data) {
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var tmp = parseFloat(data[i].positiveactivepower);
+            // tmp = DataGridUtils.floatFormatter(tmp, 3, true);
+            if (null != data[i].frozenMonth && null != data[i].positiveactivepower) {
+                series.data.push([TimeUtils.dbTimeToUTC(data[i].frozenMonth + "01000000"), tmp]);
+            }
+        }
+
+        return series;
+    },
+    getF21RateAllCategorySeries: function (node, data) {
+        var categories = node.categories;
+        var series = {
+            name: node.name,
+            color: node.color,
+            data: []
+        };
+        var total = [];
+
+        for (var i = 0; i < categories.length; i++) {
+            var newData = _.filter(data, function (o) {
+                return o.rateSeq == (i + 1);
+            });
+
+            total[i] = 0;
+            for (var j = 0; j < newData.length; j++) {
+                total[i] += parseFloat(newData[j].positiveactivepower) * ChartUtils.NUM_FIX;
+            }
+            total[i] = total[i] / ChartUtils.NUM_FIX;
+
+            // series.data.push([categories[i], total[i] / ChartUtils.NUM_FIX]);
+        }
+
+        var all = 0;
+        for (var i = 0; i < categories.length; i++) {
+            all += parseFloat(total[i]) * ChartUtils.NUM_FIX;
+        }
+        all = all / ChartUtils.NUM_FIX;
+
+        for (var i = 0; i < categories.length; i++) {
+            series.data.push([categories[i], parseFloat((total[i] * 100 / all ).toFixed(1))]);
+        }
+
+        return series;
+    },
+    getF21RateAllCategoryPieSeries: function (node, data) {
+        var categories = node.categories;
+        var series = {
+            name: node.name,
+            type: "pie",
+            color: node.color,
+            data: []
+        };
+
+        var total = [];
+
+        for (var i = 0; i < categories.length; i++) {
+            var newData = _.filter(data, function (o) {
+                return o.rateSeq == (i + 1);
+            });
+
+            total[i] = 0;
+            for (var j = 0; j < newData.length; j++) {
+                total[i] += parseFloat(newData[j].positiveactivepower) * ChartUtils.NUM_FIX;
+            }
+            total[i] = total[i] / ChartUtils.NUM_FIX;
+
+            // series.data.push([categories[i], total[i] / ChartUtils.NUM_FIX]);
+        }
+
+        var all = 0;
+        for (var i = 0; i < categories.length; i++) {
+            all += parseFloat(total[i]) * ChartUtils.NUM_FIX;
+        }
+        all = all / ChartUtils.NUM_FIX;
+
+        for (var i = 0; i < categories.length; i++) {
+            series.data.push([categories[i], parseFloat((total[i] * 100 / all ).toFixed(1))]);
         }
 
         return series;

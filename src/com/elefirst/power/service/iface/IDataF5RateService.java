@@ -15,6 +15,11 @@ public interface IDataF5RateService {
 
     //
 
+    List<DataF5Rate> getDataF5RateSumList(DataF5Rate template);
+
+    List<DataF5Rate> getDataF5RateSumList(List<DataF5Rate> nodes, String startTime, String endTime);
+    //
+
     long getDataF5RateListCount(DataF5Rate template);
 
     List<DataF5Rate> getDataF5RateDetail(String id);

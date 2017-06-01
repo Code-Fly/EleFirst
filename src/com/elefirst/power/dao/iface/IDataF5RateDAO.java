@@ -11,6 +11,8 @@ import java.util.List;
 public interface IDataF5RateDAO {
     List<DataF5Rate> getDataF5RateList(DataF5RateExample example);
 
+    List<DataF5Rate> getDataF5RateSumList(DataF5RateExample example);
+
     long getDataF5RateListCount(DataF5RateExample example);
 
     int addDataF5Rate(DataF5Rate template);

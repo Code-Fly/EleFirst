@@ -6,7 +6,7 @@
     "enabled": false
   },
   "chart": {
-    "type": "bar"
+    "type": "column"
   },
   "title": {
     "text": null
@@ -15,18 +15,34 @@
     "borderWidth": 1,
     "shadow": false
   },
-  "xAxis": {
-    "tickmarkPlacement": "on",
-    "categories": [],
-    "title": {
-      "text": null
+  "xAxis": [
+    {
+      "tickmarkPlacement": "on",
+      "title": {
+        "text": null
+      },
+      "crosshair": {
+        "width": 1,
+        "dashStyle": "dash",
+        "color": "#898989",
+        "snap": true
+      },
+      "type": "category"
     }
-  },
-  "yAxis": {
-    "title": {
-      "text": "单位（%）"
+  ],
+  "yAxis": [
+    {
+      "title": {
+        "text": "单位（%）"
+      },
+      "crosshair": {
+        "width": 1,
+        "dashStyle": "dash",
+        "color": "#898989",
+        "snap": true
+      }
     }
-  },
+  ],
   "tooltip": {
     "valueSuffix": "%",
     "shared": true

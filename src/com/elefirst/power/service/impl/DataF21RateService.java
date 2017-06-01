@@ -1,10 +1,10 @@
 package com.elefirst.power.service.impl;
 
 import com.elefirst.base.service.BaseService;
-import com.elefirst.power.dao.iface.IDataF5RateDAO;
-import com.elefirst.power.po.DataF5Rate;
-import com.elefirst.power.po.DataF5RateExample;
-import com.elefirst.power.service.iface.IDataF5RateService;
+import com.elefirst.power.dao.iface.IDataF21RateDAO;
+import com.elefirst.power.po.DataF21Rate;
+import com.elefirst.power.po.DataF21RateExample;
+import com.elefirst.power.service.iface.IDataF21RateService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +19,17 @@ import java.util.List;
  * Created by barrie on 17/2/2.
  */
 @Service
-public class DataF5RateService extends BaseService implements IDataF5RateService {
+public class DataF21RateService extends BaseService implements IDataF21RateService {
     @Autowired
-    private IDataF5RateDAO dataF5RateDAO;
+    private IDataF21RateDAO dataF21RateDAO;
 
     @Autowired
     private IPnInfoService pnInfoService;
 
     @Override
-    public List<DataF5Rate> getDataF5RateList(DataF5Rate template) {
-        DataF5RateExample condition = new DataF5RateExample();
-        DataF5RateExample.Criteria criteria = condition.createCriteria();
+    public List<DataF21Rate> getDataF21RateList(DataF21Rate template) {
+        DataF21RateExample condition = new DataF21RateExample();
+        DataF21RateExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -44,31 +44,31 @@ public class DataF5RateService extends BaseService implements IDataF5RateService
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`frozen_day` ASC");
-        return dataF5RateDAO.getDataF5RateList(condition);
+        condition.setOrderByClause("`frozen_month` ASC");
+        return dataF21RateDAO.getDataF21RateList(condition);
     }
 
     @Override
-    public List<DataF5Rate> getDataF5RateList(List<DataF5Rate> nodes, String startDate, String endDate) {
-        DataF5RateExample condition = new DataF5RateExample();
+    public List<DataF21Rate> getDataF21RateList(List<DataF21Rate> nodes, String startDate, String endDate) {
+        DataF21RateExample condition = new DataF21RateExample();
         for (int i = 0; i < nodes.size(); i++) {
-            DataF5Rate node = nodes.get(i);
+            DataF21Rate node = nodes.get(i);
             condition.or()
                     .andAreaIdEqualTo(node.getAreaId())
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
-                    .andFrozenDayGreaterThanOrEqualTo(startDate)
-                    .andFrozenDayLessThan(endDate)
+                    .andFrozenMonthGreaterThanOrEqualTo(startDate)
+                    .andFrozenMonthLessThan(endDate)
             ;
         }
-        condition.setOrderByClause("`frozen_day` ASC");
-        return dataF5RateDAO.getDataF5RateList(condition);
+        condition.setOrderByClause("`frozen_month` ASC");
+        return dataF21RateDAO.getDataF21RateList(condition);
     }
 
     @Override
-    public List<DataF5Rate> getDataF5RateSumList(DataF5Rate template) {
-        DataF5RateExample condition = new DataF5RateExample();
-        DataF5RateExample.Criteria criteria = condition.createCriteria();
+    public List<DataF21Rate> getDataF21RateSumList(DataF21Rate template) {
+        DataF21RateExample condition = new DataF21RateExample();
+        DataF21RateExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -79,39 +79,39 @@ public class DataF5RateService extends BaseService implements IDataF5RateService
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
-        criteria.andFrozenDayIsNotNull();
+        criteria.andFrozenMonthIsNotNull();
         if (template.getRows() > 0 && template.getPage() > 0) {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`frozen_day` ASC");
-        return dataF5RateDAO.getDataF5RateSumList(condition);
+        condition.setOrderByClause("`frozen_month` ASC");
+        return dataF21RateDAO.getDataF21RateSumList(condition);
     }
 
     @Override
-    public List<DataF5Rate> getDataF5RateSumList(List<DataF5Rate> nodes, String startTime, String endTime) {
-        DataF5RateExample condition = new DataF5RateExample();
+    public List<DataF21Rate> getDataF21RateSumList(List<DataF21Rate> nodes, String startTime, String endTime) {
+        DataF21RateExample condition = new DataF21RateExample();
         for (int i = 0; i < nodes.size(); i++) {
-            DataF5Rate node = nodes.get(i);
+            DataF21Rate node = nodes.get(i);
             condition.or()
                     .andAreaIdEqualTo(node.getAreaId())
                     .andConcentratorIdEqualTo(node.getConcentratorId())
                     .andPnEqualTo(node.getPn())
-                    .andFrozenDayGreaterThanOrEqualTo(startTime)
-                    .andFrozenDayLessThan(endTime)
-                    .andFrozenDayIsNotNull()
+                    .andFrozenMonthGreaterThanOrEqualTo(startTime)
+                    .andFrozenMonthLessThan(endTime)
+                    .andFrozenMonthIsNotNull()
                     //
                     .andPositiveactivepowerIsNotNull()
             ;
         }
-        condition.setOrderByClause("`frozen_day` ASC");
-        return dataF5RateDAO.getDataF5RateSumList(condition);
+        condition.setOrderByClause("`frozen_month` ASC");
+        return dataF21RateDAO.getDataF21RateSumList(condition);
     }
 
     @Override
-    public long getDataF5RateListCount(DataF5Rate template) {
-        DataF5RateExample condition = new DataF5RateExample();
-        DataF5RateExample.Criteria criteria = condition.createCriteria();
+    public long getDataF21RateListCount(DataF21Rate template) {
+        DataF21RateExample condition = new DataF21RateExample();
+        DataF21RateExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -122,45 +122,45 @@ public class DataF5RateService extends BaseService implements IDataF5RateService
         if (null != template && null != template.getPn()) {
             criteria.andPnEqualTo(template.getPn());
         }
-        return dataF5RateDAO.getDataF5RateListCount(condition);
+        return dataF21RateDAO.getDataF21RateListCount(condition);
     }
 
     @Override
-    public List<DataF5Rate> getDataF5RateDetail(String id) {
-        DataF5RateExample condition = new DataF5RateExample();
-        DataF5RateExample.Criteria criteria = condition.createCriteria();
+    public List<DataF21Rate> getDataF21RateDetail(String id) {
+        DataF21RateExample condition = new DataF21RateExample();
+        DataF21RateExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
-        return dataF5RateDAO.getDataF5RateList(condition);
+        return dataF21RateDAO.getDataF21RateList(condition);
     }
 
     @Override
-    public int addDataF5Rate(DataF5Rate template) {
-        return dataF5RateDAO.addDataF5Rate(template);
+    public int addDataF21Rate(DataF21Rate template) {
+        return dataF21RateDAO.addDataF21Rate(template);
     }
 
     @Override
-    public int updateDataF5Rate(DataF5Rate template) {
-        DataF5RateExample condition = new DataF5RateExample();
-        DataF5RateExample.Criteria criteria = condition.createCriteria();
+    public int updateDataF21Rate(DataF21Rate template) {
+        DataF21RateExample condition = new DataF21RateExample();
+        DataF21RateExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(template.getId());
-        return dataF5RateDAO.updateDataF5Rate(condition, template);
+        return dataF21RateDAO.updateDataF21Rate(condition, template);
     }
 
     @Override
-    public int delDataF5Rate(String id) {
-        DataF5RateExample condition = new DataF5RateExample();
-        DataF5RateExample.Criteria criteria = condition.createCriteria();
+    public int delDataF21Rate(String id) {
+        DataF21RateExample condition = new DataF21RateExample();
+        DataF21RateExample.Criteria criteria = condition.createCriteria();
         criteria.andIdEqualTo(id);
-        return dataF5RateDAO.delDataF5Rate(condition);
+        return dataF21RateDAO.delDataF21Rate(condition);
     }
 
     @Override
-    public List<DataF5Rate> format(List<DataF5Rate> data) {
+    public List<DataF21Rate> format(List<DataF21Rate> data) {
         PnInfo template = new PnInfo();
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(template);
-        List<DataF5Rate> result = new ArrayList<>();
+        List<DataF21Rate> result = new ArrayList<>();
         for (int i = 0; i < data.size(); i++) {
-            DataF5Rate item = data.get(i);
+            DataF21Rate item = data.get(i);
             PnInfo pnInfo = getPnInfo(pnInfos, item);
             if (null != pnInfo) {
                 item.setPositiveactivepower(calc(item.getPositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 3));
@@ -171,7 +171,7 @@ public class DataF5RateService extends BaseService implements IDataF5RateService
     }
 
     @Override
-    public PnInfo getPnInfo(List<PnInfo> pnInfos, DataF5Rate item) {
+    public PnInfo getPnInfo(List<PnInfo> pnInfos, DataF21Rate item) {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
             if (pnInfo.getAreaId().equals(item.getAreaId()) && pnInfo.getConcentratorId().equals(item.getConcentratorId()) && pnInfo.getPn().equals(item.getPn())) {
