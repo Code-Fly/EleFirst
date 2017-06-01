@@ -57,8 +57,8 @@
     </div>
 </div>
 <div data-options="region:'south'" class="head-south">
-    ${sessionScope.areaInfo.name}
-    <a href="http://www.miitbeian.gov.cn/" style="color: black;text-decoration: none">${sessionScope.areaInfo.icp}</a>
+    ${sessionScope.areaLocal.name}
+    <a href="http://www.miitbeian.gov.cn/" style="color: black;text-decoration: none">${sessionScope.areaLocal.icp}</a>
 </div>
 </body>
 </html>

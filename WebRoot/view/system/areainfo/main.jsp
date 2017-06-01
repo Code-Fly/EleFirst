@@ -48,14 +48,24 @@
                     </p>
                 </div>
                 <div class="clear"></div>
+                <%--<div class="grid_2 cell title">--%>
+                <%--<p>--%>
+                <%--ICP备案号--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_4 cell">--%>
+                <%--<p>--%>
+                <%--<input name="icp" required="true" class="easyui-textbox" style="width: 100%;">--%>
+                <%--</p>--%>
+                <%--</div>--%>
                 <div class="grid_2 cell title">
                     <p>
-                        ICP备案号
+                        首页LOGO
                     </p>
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="icp" required="true" class="easyui-textbox" style="width: 100%;">
+                        <input name="indexLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -70,27 +80,27 @@
                     </p>
                 </div>
                 <div class="clear"></div>
-                <div class="grid_2 cell title">
-                    <p>
-                        登陆LOGO
-                    </p>
-                </div>
-                <div class="grid_4 cell">
-                    <p>
-                        <input name="loginLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
-                    </p>
-                </div>
-                <div class="grid_2 cell title">
-                    <p>
-                        首页LOGO
-                    </p>
-                </div>
-                <div class="grid_4 cell">
-                    <p>
-                        <input name="indexLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
-                    </p>
-                </div>
-                <div class="clear"></div>
+                <%--<div class="grid_2 cell title">--%>
+                <%--<p>--%>
+                <%--登陆LOGO--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_4 cell">--%>
+                <%--<p>--%>
+                <%--<input name="loginLogoPath" required="true" class="easyui-textbox" style="width: 100%;">--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_2 cell title">--%>
+                <%--<p>--%>
+                <%--首页LOGO--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_4 cell">--%>
+                <%--<p>--%>
+                <%--<input name="indexLogoPath" required="true" class="easyui-textbox" style="width: 100%;">--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="clear"></div>--%>
                 <div class="grid_2 cell title">
                     <p>
                         企业性质
