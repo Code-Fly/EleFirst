@@ -34,7 +34,7 @@ $(document).ready(function () {
 
     //初始化databox为当前日期
     var d = new Date();
-    var dateboxDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-01";
+    var dateboxDate = d.getFullYear() + "-" + (d.getMonth()) + "-01";
     $("#main-input-detail-datebox").datebox("clear");
     $("#main-input-detail-datebox").datebox("setValue", dateboxDate);
     //初始化第一个页面
