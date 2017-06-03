@@ -331,13 +331,13 @@
 </div>
 <div data-options="region:'south'" style="height:50px;overflow: hidden;">
     <div class="container_12">
-        <div class="grid_4 prefix_2 cell">
-            <p style="text-align: center;">
-                <a id="btn-reset" style="width: 150px;" href="javascript:void(0)" class="easyui-linkbutton"
-                   icon="icon-arrow_refresh" title="清空">清空</a>
-            </p>
-        </div>
-        <div class="grid_4 suffix_2 cell">
+        <%--<div class="grid_4 prefix_2 cell">--%>
+        <%--<p style="text-align: center;">--%>
+        <%--<a id="btn-reset" style="width: 150px;" href="javascript:void(0)" class="easyui-linkbutton"--%>
+        <%--icon="icon-arrow_refresh" title="清空">清空</a>--%>
+        <%--</p>--%>
+        <%--</div>--%>
+        <div class="grid_4 prefix_4 cell">
             <p style="text-align: center;">
                 <a id="btn-submit" style="width: 100%;max-width: 150px;"
                    href="javascript:void(0)"
