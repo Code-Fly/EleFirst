@@ -5,8 +5,9 @@
             canvasId: "verifyCanvas", //canvas的ID
             width: "100", //默认canvas宽度
             height: "30", //默认canvas高度
-            type: "blend", //图形验证码默认类型blend:数字字母混合类型、number:纯数字、letter:纯字母
-            code: ""
+            type: "number", //图形验证码默认类型blend:数字字母混合类型、number:纯数字、letter:纯字母
+            code: "",
+            stroke: false //干扰线
         }
 
         if (Object.prototype.toString.call(options) == "[object Object]") {//判断传入参数类型
@@ -89,20 +90,22 @@
                 ctx.rotate(-deg * Math.PI / 180);
                 ctx.translate(-x, -y);
             }
-            /**绘制干扰线**/
-            for (var i = 0; i < 4; i++) {
-                ctx.strokeStyle = randomColor(40, 180);
-                ctx.beginPath();
-                ctx.moveTo(randomNum(0, this.options.width), randomNum(0, this.options.height));
-                ctx.lineTo(randomNum(0, this.options.width), randomNum(0, this.options.height));
-                ctx.stroke();
-            }
-            /**绘制干扰点**/
-            for (var i = 0; i < this.options.width / 4; i++) {
-                ctx.fillStyle = randomColor(0, 255);
-                ctx.beginPath();
-                ctx.arc(randomNum(0, this.options.width), randomNum(0, this.options.height), 1, 0, 2 * Math.PI);
-                ctx.fill();
+            if (this.options.stroke) {
+                /**绘制干扰线**/
+                for (var i = 0; i < 4; i++) {
+                    ctx.strokeStyle = randomColor(40, 180);
+                    ctx.beginPath();
+                    ctx.moveTo(randomNum(0, this.options.width), randomNum(0, this.options.height));
+                    ctx.lineTo(randomNum(0, this.options.width), randomNum(0, this.options.height));
+                    ctx.stroke();
+                }
+                /**绘制干扰点**/
+                for (var i = 0; i < this.options.width / 4; i++) {
+                    ctx.fillStyle = randomColor(0, 255);
+                    ctx.beginPath();
+                    ctx.arc(randomNum(0, this.options.width), randomNum(0, this.options.height), 1, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
             }
         },
 

@@ -57,6 +57,7 @@
 
 <%----%>
 <script type="text/javascript" src="${ctx}Content/js/jquery-plugin/base64/jquery.base64.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/lodash/lodash.js"></script>
 <script type="text/javascript" src="${ctx}Content/js/requirejs-2.3.2/require.js"></script>
 <script type="text/javascript"
         src="${ctx}Content/js/jquery-i18n-properties-1.2.2/jquery.i18n.properties.js?v=${timestamp}"></script>
@@ -128,5 +129,5 @@
 
     window.history.forward(1);
 
-    require([_ctx + "Content/js/lodash/lodash.js"]);
+    //    require([_ctx + "Content/js/lodash/lodash.js"]);
 </SCRIPT>
