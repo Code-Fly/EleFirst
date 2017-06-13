@@ -11,15 +11,11 @@ import com.elefirst.base.utils.UUIDKeyGenerator;
 import com.elefirst.system.po.AreaInfo;
 import com.elefirst.system.po.AreaInfoWithBLOBs;
 import com.elefirst.system.po.RoleAreaMap;
-import com.elefirst.system.po.RoleInfo;
 import com.elefirst.system.po.UserInfo;
-import com.elefirst.system.po.UserRoleMap;
 import com.elefirst.system.service.iface.IAreaInfoService;
 import com.google.gson.Gson;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -113,7 +108,7 @@ public class AreaInfoController extends BaseController {
             info.setAreaId(areaId);
             info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
             info.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
-            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
+//            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
             info.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
 
             return new ErrorMsg(Error.SUCCESS, "success", info);
@@ -137,7 +132,7 @@ public class AreaInfoController extends BaseController {
             info.setAreaId(areaId);
             info.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
             info.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
-            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
+//            info.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
             info.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
 
             return new ErrorMsg(Error.SUCCESS, "success", info);
@@ -161,10 +156,13 @@ public class AreaInfoController extends BaseController {
         template.setUpdatePerson(userInfo.getUserName());
         template.setUpdateDate(new Date());
         int result = areaInfoService.updateAreaInfo(template);
-        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME, template.getName());
-        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP, template.getIcp());
-        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH, template.getIndexLogoPath());
-        ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH, template.getLoginLogoPath());
+        String localAreaId = ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_ID);
+        if (localAreaId.equals(template.getAreaId())) {
+            ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME, template.getName());
+            ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP, template.getIcp());
+//            ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH, template.getIndexLogoPath());
+            ConfigUtil.setProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH, template.getLoginLogoPath());
+        }
         return new ErrorMsg(Error.SUCCESS, "success", result);
 
     }
@@ -200,63 +198,66 @@ public class AreaInfoController extends BaseController {
         int result = areaInfoService.delAreaInfo(id);
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
-    
+
     @SuppressWarnings("unchecked")
-	@RequestMapping("/info/queryAreaByRoleId.do")
-	public @ResponseBody ErrorMsg queryAreaByRoleId(String page, String rows,String roleId,HttpSession session){
-		DataGrid dg = new DataGrid();
-		try {
-			int pageNum = Integer.valueOf(page == null ? "1" : page);
-			int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
-			UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
-			if (null == userInfo || null == userInfo.getUserName()) {
-				logger.error("用户Session过期");
-				return null;
-			}
-			AreaInfo areaInfo = new AreaInfo();
-			areaInfo.setPage(pageNum);
-			areaInfo.setRows(rowsNum);
-			List<AreaInfoWithBLOBs> areaInfos = areaInfoService.fetchAreaInfoByRoleId(areaInfo, true, roleId);
-			// 返回分页对象数
-			dg.setRows(areaInfos);
-			int totalNum = areaInfoService.fetchAreaInfoByCond(areaInfo, false).size();
-			dg.setTotal(totalNum);
-			
-			return new ErrorMsg(Error.SUCCESS, "success", dg);
-		} catch (Exception e) {
-			dg = null;
-			logger.error("根据条件查看区域信息失败！", e);
-			return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
-		}
-	}
-	
-	/**
-	 * 新增角色与区域关系
-	 * @param user
-	 * @return
-	 */
-	@RequestMapping("/info/addRoleAreaMap.do")
-	public @ResponseBody ErrorMsg addRoleAreaMap(String roleId,String areaIdsStr) {
-		//保存前先根据roleId清空角色与区域关系表
-		List<RoleAreaMap> roleAreaMaps = null;
-		try {
-			if(areaIdsStr !=null && areaIdsStr.length() > 0){
-				roleAreaMaps = new ArrayList<RoleAreaMap>();
-				String[] aIds = areaIdsStr.split(",");
-				for(int i=0;i < aIds.length;i++){
-					RoleAreaMap tmpRoleAreaMap = new RoleAreaMap();
-					tmpRoleAreaMap.setId(UUIDKeyGenerator.getUUID());
-					tmpRoleAreaMap.setRoleId(roleId);
-					tmpRoleAreaMap.setAreaId(aIds[i]);
-					roleAreaMaps.add(tmpRoleAreaMap);
-				}
-			}
-			areaInfoService.saveRoleAreaMaps(roleAreaMaps, roleId);
-			logger.info("添加角色与区域关系实例成功!");
-			return new ErrorMsg(Error.SUCCESS, "success", "");
-		} catch (Exception e) {
-			logger.error("{}", e);
-			return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
-		}
-	}
+    @RequestMapping("/info/queryAreaByRoleId.do")
+    public @ResponseBody
+    ErrorMsg queryAreaByRoleId(String page, String rows, String roleId, HttpSession session) {
+        DataGrid dg = new DataGrid();
+        try {
+            int pageNum = Integer.valueOf(page == null ? "1" : page);
+            int rowsNum = Integer.valueOf(rows == null ? "10" : rows);
+            UserInfo userInfo = (UserInfo) session.getAttribute("userInfo");
+            if (null == userInfo || null == userInfo.getUserName()) {
+                logger.error("用户Session过期");
+                return null;
+            }
+            AreaInfo areaInfo = new AreaInfo();
+            areaInfo.setPage(pageNum);
+            areaInfo.setRows(rowsNum);
+            List<AreaInfoWithBLOBs> areaInfos = areaInfoService.fetchAreaInfoByRoleId(areaInfo, true, roleId);
+            // 返回分页对象数
+            dg.setRows(areaInfos);
+            int totalNum = areaInfoService.fetchAreaInfoByCond(areaInfo, false).size();
+            dg.setTotal(totalNum);
+
+            return new ErrorMsg(Error.SUCCESS, "success", dg);
+        } catch (Exception e) {
+            dg = null;
+            logger.error("根据条件查看区域信息失败！", e);
+            return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
+        }
+    }
+
+    /**
+     * 新增角色与区域关系
+     *
+     * @param user
+     * @return
+     */
+    @RequestMapping("/info/addRoleAreaMap.do")
+    public @ResponseBody
+    ErrorMsg addRoleAreaMap(String roleId, String areaIdsStr) {
+        //保存前先根据roleId清空角色与区域关系表
+        List<RoleAreaMap> roleAreaMaps = null;
+        try {
+            if (areaIdsStr != null && areaIdsStr.length() > 0) {
+                roleAreaMaps = new ArrayList<RoleAreaMap>();
+                String[] aIds = areaIdsStr.split(",");
+                for (int i = 0; i < aIds.length; i++) {
+                    RoleAreaMap tmpRoleAreaMap = new RoleAreaMap();
+                    tmpRoleAreaMap.setId(UUIDKeyGenerator.getUUID());
+                    tmpRoleAreaMap.setRoleId(roleId);
+                    tmpRoleAreaMap.setAreaId(aIds[i]);
+                    roleAreaMaps.add(tmpRoleAreaMap);
+                }
+            }
+            areaInfoService.saveRoleAreaMaps(roleAreaMaps, roleId);
+            logger.info("添加角色与区域关系实例成功!");
+            return new ErrorMsg(Error.SUCCESS, "success", "");
+        } catch (Exception e) {
+            logger.error("{}", e);
+            return new ErrorMsg(Error.API_RESPONSE_EXCEPTION, "faile", "");
+        }
+    }
 }

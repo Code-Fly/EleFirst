@@ -48,14 +48,24 @@
                     </p>
                 </div>
                 <div class="clear"></div>
+                <%--<div class="grid_2 cell title">--%>
+                <%--<p>--%>
+                <%--ICP备案号--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_4 cell">--%>
+                <%--<p>--%>
+                <%--<input name="icp" required="true" class="easyui-textbox" style="width: 100%;">--%>
+                <%--</p>--%>
+                <%--</div>--%>
                 <div class="grid_2 cell title">
                     <p>
-                        ICP备案号
+                        首页LOGO
                     </p>
                 </div>
                 <div class="grid_4 cell">
                     <p>
-                        <input name="icp" required="true" class="easyui-textbox" style="width: 100%;">
+                        <input name="indexLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
                     </p>
                 </div>
                 <div class="grid_2 cell title">
@@ -70,27 +80,27 @@
                     </p>
                 </div>
                 <div class="clear"></div>
-                <div class="grid_2 cell title">
-                    <p>
-                        登陆LOGO
-                    </p>
-                </div>
-                <div class="grid_4 cell">
-                    <p>
-                        <input name="loginLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
-                    </p>
-                </div>
-                <div class="grid_2 cell title">
-                    <p>
-                        首页LOGO
-                    </p>
-                </div>
-                <div class="grid_4 cell">
-                    <p>
-                        <input name="indexLogoPath" required="true" class="easyui-textbox" style="width: 100%;">
-                    </p>
-                </div>
-                <div class="clear"></div>
+                <%--<div class="grid_2 cell title">--%>
+                <%--<p>--%>
+                <%--登陆LOGO--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_4 cell">--%>
+                <%--<p>--%>
+                <%--<input name="loginLogoPath" required="true" class="easyui-textbox" style="width: 100%;">--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_2 cell title">--%>
+                <%--<p>--%>
+                <%--首页LOGO--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="grid_4 cell">--%>
+                <%--<p>--%>
+                <%--<input name="indexLogoPath" required="true" class="easyui-textbox" style="width: 100%;">--%>
+                <%--</p>--%>
+                <%--</div>--%>
+                <%--<div class="clear"></div>--%>
                 <div class="grid_2 cell title">
                     <p>
                         企业性质
@@ -321,13 +331,13 @@
 </div>
 <div data-options="region:'south'" style="height:50px;overflow: hidden;">
     <div class="container_12">
-        <div class="grid_4 prefix_2 cell">
-            <p style="text-align: center;">
-                <a id="btn-reset" style="width: 150px;" href="javascript:void(0)" class="easyui-linkbutton"
-                   icon="icon-arrow_refresh" title="清空">清空</a>
-            </p>
-        </div>
-        <div class="grid_4 suffix_2 cell">
+        <%--<div class="grid_4 prefix_2 cell">--%>
+        <%--<p style="text-align: center;">--%>
+        <%--<a id="btn-reset" style="width: 150px;" href="javascript:void(0)" class="easyui-linkbutton"--%>
+        <%--icon="icon-arrow_refresh" title="清空">清空</a>--%>
+        <%--</p>--%>
+        <%--</div>--%>
+        <div class="grid_4 prefix_4 cell">
             <p style="text-align: center;">
                 <a id="btn-submit" style="width: 100%;max-width: 150px;"
                    href="javascript:void(0)"

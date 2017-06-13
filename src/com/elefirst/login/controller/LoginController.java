@@ -96,7 +96,7 @@ public class LoginController extends BaseController {
         } else {
             template.setName(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_AREA_NAME));
             template.setIcp(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_ICP));
-            template.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
+//            template.setIndexLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_INDEX_LOGO_PATH));
             template.setLoginLogoPath(ConfigUtil.getProperty(Const.CONFIG_PATH_SETTING, Const.CONFIG_KEY_LOGIN_LOGO_PATH));
             session.setAttribute("areaInfo", template);
             session.setAttribute("areaLocal", template);
@@ -105,14 +105,15 @@ public class LoginController extends BaseController {
     }
 
     public void loadMenu(HttpSession session) throws Exception {
-    	String userName = ((UserInfo)session.getAttribute("userInfo")).getUserName();
+        String userName = ((UserInfo) session.getAttribute("userInfo")).getUserName();
         //获取一级菜单
         List<String> oneLevelMenuIds = new ArrayList<String>();
         oneLevelMenuIds.add("1");
         oneLevelMenuIds.add("2");
         oneLevelMenuIds.add("3");
-        if(userName != null && "admin".equals(userName)){
-        	oneLevelMenuIds.add("4");
+        oneLevelMenuIds.add("21");
+        if (userName != null && "admin".equals(userName)) {
+            oneLevelMenuIds.add("4");
         }
         List<MenuInfo> oneLevelmenuInfos = menuInfoServiceImpl.fetchOneLevelMenuInfo(oneLevelMenuIds);
         //根据一级菜单编码获取对应的二级菜单
@@ -120,13 +121,14 @@ public class LoginController extends BaseController {
         List<MenuInfo> twoLevelmenuInos02 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("02");
         List<MenuInfo> twoLevelmenuInos03 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("03");
         List<MenuInfo> twoLevelmenuInos04 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("04");
-        
+        List<MenuInfo> twoLevelmenuInos21 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("21");
         session.setAttribute("oneLevelmenuInfos", oneLevelmenuInfos);
         session.setAttribute("twoLevelmenuInos01", twoLevelmenuInos01);
         session.setAttribute("twoLevelmenuInos02", twoLevelmenuInos02);
         session.setAttribute("twoLevelmenuInos03", twoLevelmenuInos03);
-        if(userName != null && "admin".equals(userName)){
-        	session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
+        session.setAttribute("twoLevelmenuInos21", twoLevelmenuInos21);
+        if (userName != null && "admin".equals(userName)) {
+            session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
         }
     }
 
