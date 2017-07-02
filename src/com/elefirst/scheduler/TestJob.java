@@ -2,8 +2,12 @@ package com.elefirst.scheduler;
 
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
+
 import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,4 +33,8 @@ public class TestJob {
 
         System.err.println(JSONArray.fromObject(result).toString());
     }
+    
+    public static void main(String[] args) {  
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("dispatcher-servlet.xml");  
+    }  
 }

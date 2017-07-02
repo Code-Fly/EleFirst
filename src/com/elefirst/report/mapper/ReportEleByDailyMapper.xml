@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elefirst.report.mapper.ReportEleByDailyMapper" >
+  <resultMap id="BaseResultMap" type="com.elefirst.report.po.ReportEleByDaily" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="concentrator_id" property="concentratorId" jdbcType="VARCHAR" />
+    <result column="pn" property="pn" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="VARCHAR" />
+    <result column="p_00" property="p00" jdbcType="VARCHAR" />
+    <result column="p_01" property="p01" jdbcType="VARCHAR" />
+    <result column="p_02" property="p02" jdbcType="VARCHAR" />
+    <result column="p_03" property="p03" jdbcType="VARCHAR" />
+    <result column="p_04" property="p04" jdbcType="VARCHAR" />
+    <result column="p_05" property="p05" jdbcType="VARCHAR" />
+    <result column="p_06" property="p06" jdbcType="VARCHAR" />
+    <result column="p_07" property="p07" jdbcType="VARCHAR" />
+    <result column="p_08" property="p08" jdbcType="VARCHAR" />
+    <result column="p_09" property="p09" jdbcType="VARCHAR" />
+    <result column="p_10" property="p10" jdbcType="VARCHAR" />
+    <result column="p_11" property="p11" jdbcType="VARCHAR" />
+    <result column="p_12" property="p12" jdbcType="VARCHAR" />
+    <result column="p_13" property="p13" jdbcType="VARCHAR" />
+    <result column="p_14" property="p14" jdbcType="VARCHAR" />
+    <result column="p_15" property="p15" jdbcType="VARCHAR" />
+    <result column="p_16" property="p16" jdbcType="VARCHAR" />
+    <result column="p_17" property="p17" jdbcType="VARCHAR" />
+    <result column="p_18" property="p18" jdbcType="VARCHAR" />
+    <result column="p_19" property="p19" jdbcType="VARCHAR" />
+    <result column="p_20" property="p20" jdbcType="VARCHAR" />
+    <result column="p_21" property="p21" jdbcType="VARCHAR" />
+    <result column="p_22" property="p22" jdbcType="VARCHAR" />
+    <result column="p_23" property="p23" jdbcType="VARCHAR" />
+    <result column="p_24" property="p24" jdbcType="VARCHAR" />
+    <result column="p_25" property="p25" jdbcType="VARCHAR" />
+    <result column="p_26" property="p26" jdbcType="VARCHAR" />
+    <result column="p_27" property="p27" jdbcType="VARCHAR" />
+    <result column="p_28" property="p28" jdbcType="VARCHAR" />
+    <result column="p_29" property="p29" jdbcType="VARCHAR" />
+    <result column="p_30" property="p30" jdbcType="VARCHAR" />
+    <result column="p_31" property="p31" jdbcType="VARCHAR" />
+    <result column="operation_time" property="operationTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, area_id, concentrator_id, pn, address, total, p_00, p_01, p_02, p_03, p_04, p_05, 
+    p_06, p_07, p_08, p_09, p_10, p_11, p_12, p_13, p_14, p_15, p_16, p_17, p_18, p_19, 
+    p_20, p_21, p_22, p_23, p_24, p_25, p_26, p_27, p_28, p_29, p_30, p_31, operation_time, 
+    update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elefirst.report.po.ReportEleByDailyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_301_electricity_by_daily
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_301_electricity_by_daily
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_301_electricity_by_daily
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.elefirst.report.po.ReportEleByDailyExample" >
+    delete from t_301_electricity_by_daily
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elefirst.report.po.ReportEleByDaily" >
+    insert into t_301_electricity_by_daily (id, area_id, concentrator_id, 
+      pn, address, total, 
+      p_00, p_01, p_02, p_03, 
+      p_04, p_05, p_06, p_07, 
+      p_08, p_09, p_10, p_11, 
+      p_12, p_13, p_14, p_15, 
+      p_16, p_17, p_18, p_19, 
+      p_20, p_21, p_22, p_23, 
+      p_24, p_25, p_26, p_27, 
+      p_28, p_29, p_30, p_31, 
+      operation_time, update_time)
+    values (#{id,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, #{concentratorId,jdbcType=VARCHAR}, 
+      #{pn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{total,jdbcType=VARCHAR}, 
+      #{p00,jdbcType=VARCHAR}, #{p01,jdbcType=VARCHAR}, #{p02,jdbcType=VARCHAR}, #{p03,jdbcType=VARCHAR}, 
+      #{p04,jdbcType=VARCHAR}, #{p05,jdbcType=VARCHAR}, #{p06,jdbcType=VARCHAR}, #{p07,jdbcType=VARCHAR}, 
+      #{p08,jdbcType=VARCHAR}, #{p09,jdbcType=VARCHAR}, #{p10,jdbcType=VARCHAR}, #{p11,jdbcType=VARCHAR}, 
+      #{p12,jdbcType=VARCHAR}, #{p13,jdbcType=VARCHAR}, #{p14,jdbcType=VARCHAR}, #{p15,jdbcType=VARCHAR}, 
+      #{p16,jdbcType=VARCHAR}, #{p17,jdbcType=VARCHAR}, #{p18,jdbcType=VARCHAR}, #{p19,jdbcType=VARCHAR}, 
+      #{p20,jdbcType=VARCHAR}, #{p21,jdbcType=VARCHAR}, #{p22,jdbcType=VARCHAR}, #{p23,jdbcType=VARCHAR}, 
+      #{p24,jdbcType=VARCHAR}, #{p25,jdbcType=VARCHAR}, #{p26,jdbcType=VARCHAR}, #{p27,jdbcType=VARCHAR}, 
+      #{p28,jdbcType=VARCHAR}, #{p29,jdbcType=VARCHAR}, #{p30,jdbcType=VARCHAR}, #{p31,jdbcType=VARCHAR}, 
+      #{operationTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elefirst.report.po.ReportEleByDaily" >
+    insert into t_301_electricity_by_daily
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="concentratorId != null" >
+        concentrator_id,
+      </if>
+      <if test="pn != null" >
+        pn,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="p00 != null" >
+        p_00,
+      </if>
+      <if test="p01 != null" >
+        p_01,
+      </if>
+      <if test="p02 != null" >
+        p_02,
+      </if>
+      <if test="p03 != null" >
+        p_03,
+      </if>
+      <if test="p04 != null" >
+        p_04,
+      </if>
+      <if test="p05 != null" >
+        p_05,
+      </if>
+      <if test="p06 != null" >
+        p_06,
+      </if>
+      <if test="p07 != null" >
+        p_07,
+      </if>
+      <if test="p08 != null" >
+        p_08,
+      </if>
+      <if test="p09 != null" >
+        p_09,
+      </if>
+      <if test="p10 != null" >
+        p_10,
+      </if>
+      <if test="p11 != null" >
+        p_11,
+      </if>
+      <if test="p12 != null" >
+        p_12,
+      </if>
+      <if test="p13 != null" >
+        p_13,
+      </if>
+      <if test="p14 != null" >
+        p_14,
+      </if>
+      <if test="p15 != null" >
+        p_15,
+      </if>
+      <if test="p16 != null" >
+        p_16,
+      </if>
+      <if test="p17 != null" >
+        p_17,
+      </if>
+      <if test="p18 != null" >
+        p_18,
+      </if>
+      <if test="p19 != null" >
+        p_19,
+      </if>
+      <if test="p20 != null" >
+        p_20,
+      </if>
+      <if test="p21 != null" >
+        p_21,
+      </if>
+      <if test="p22 != null" >
+        p_22,
+      </if>
+      <if test="p23 != null" >
+        p_23,
+      </if>
+      <if test="p24 != null" >
+        p_24,
+      </if>
+      <if test="p25 != null" >
+        p_25,
+      </if>
+      <if test="p26 != null" >
+        p_26,
+      </if>
+      <if test="p27 != null" >
+        p_27,
+      </if>
+      <if test="p28 != null" >
+        p_28,
+      </if>
+      <if test="p29 != null" >
+        p_29,
+      </if>
+      <if test="p30 != null" >
+        p_30,
+      </if>
+      <if test="p31 != null" >
+        p_31,
+      </if>
+      <if test="operationTime != null" >
+        operation_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="concentratorId != null" >
+        #{concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="pn != null" >
+        #{pn,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=VARCHAR},
+      </if>
+      <if test="p00 != null" >
+        #{p00,jdbcType=VARCHAR},
+      </if>
+      <if test="p01 != null" >
+        #{p01,jdbcType=VARCHAR},
+      </if>
+      <if test="p02 != null" >
+        #{p02,jdbcType=VARCHAR},
+      </if>
+      <if test="p03 != null" >
+        #{p03,jdbcType=VARCHAR},
+      </if>
+      <if test="p04 != null" >
+        #{p04,jdbcType=VARCHAR},
+      </if>
+      <if test="p05 != null" >
+        #{p05,jdbcType=VARCHAR},
+      </if>
+      <if test="p06 != null" >
+        #{p06,jdbcType=VARCHAR},
+      </if>
+      <if test="p07 != null" >
+        #{p07,jdbcType=VARCHAR},
+      </if>
+      <if test="p08 != null" >
+        #{p08,jdbcType=VARCHAR},
+      </if>
+      <if test="p09 != null" >
+        #{p09,jdbcType=VARCHAR},
+      </if>
+      <if test="p10 != null" >
+        #{p10,jdbcType=VARCHAR},
+      </if>
+      <if test="p11 != null" >
+        #{p11,jdbcType=VARCHAR},
+      </if>
+      <if test="p12 != null" >
+        #{p12,jdbcType=VARCHAR},
+      </if>
+      <if test="p13 != null" >
+        #{p13,jdbcType=VARCHAR},
+      </if>
+      <if test="p14 != null" >
+        #{p14,jdbcType=VARCHAR},
+      </if>
+      <if test="p15 != null" >
+        #{p15,jdbcType=VARCHAR},
+      </if>
+      <if test="p16 != null" >
+        #{p16,jdbcType=VARCHAR},
+      </if>
+      <if test="p17 != null" >
+        #{p17,jdbcType=VARCHAR},
+      </if>
+      <if test="p18 != null" >
+        #{p18,jdbcType=VARCHAR},
+      </if>
+      <if test="p19 != null" >
+        #{p19,jdbcType=VARCHAR},
+      </if>
+      <if test="p20 != null" >
+        #{p20,jdbcType=VARCHAR},
+      </if>
+      <if test="p21 != null" >
+        #{p21,jdbcType=VARCHAR},
+      </if>
+      <if test="p22 != null" >
+        #{p22,jdbcType=VARCHAR},
+      </if>
+      <if test="p23 != null" >
+        #{p23,jdbcType=VARCHAR},
+      </if>
+      <if test="p24 != null" >
+        #{p24,jdbcType=VARCHAR},
+      </if>
+      <if test="p25 != null" >
+        #{p25,jdbcType=VARCHAR},
+      </if>
+      <if test="p26 != null" >
+        #{p26,jdbcType=VARCHAR},
+      </if>
+      <if test="p27 != null" >
+        #{p27,jdbcType=VARCHAR},
+      </if>
+      <if test="p28 != null" >
+        #{p28,jdbcType=VARCHAR},
+      </if>
+      <if test="p29 != null" >
+        #{p29,jdbcType=VARCHAR},
+      </if>
+      <if test="p30 != null" >
+        #{p30,jdbcType=VARCHAR},
+      </if>
+      <if test="p31 != null" >
+        #{p31,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        #{operationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elefirst.report.po.ReportEleByDailyExample" resultType="java.lang.Integer" >
+    select count(*) from t_301_electricity_by_daily
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_301_electricity_by_daily
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.concentratorId != null" >
+        concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pn != null" >
+        pn = #{record.pn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.total != null" >
+        total = #{record.total,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p00 != null" >
+        p_00 = #{record.p00,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p01 != null" >
+        p_01 = #{record.p01,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p02 != null" >
+        p_02 = #{record.p02,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p03 != null" >
+        p_03 = #{record.p03,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p04 != null" >
+        p_04 = #{record.p04,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p05 != null" >
+        p_05 = #{record.p05,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p06 != null" >
+        p_06 = #{record.p06,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p07 != null" >
+        p_07 = #{record.p07,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p08 != null" >
+        p_08 = #{record.p08,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p09 != null" >
+        p_09 = #{record.p09,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p10 != null" >
+        p_10 = #{record.p10,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p11 != null" >
+        p_11 = #{record.p11,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p12 != null" >
+        p_12 = #{record.p12,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p13 != null" >
+        p_13 = #{record.p13,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p14 != null" >
+        p_14 = #{record.p14,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p15 != null" >
+        p_15 = #{record.p15,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p16 != null" >
+        p_16 = #{record.p16,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p17 != null" >
+        p_17 = #{record.p17,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p18 != null" >
+        p_18 = #{record.p18,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p19 != null" >
+        p_19 = #{record.p19,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p20 != null" >
+        p_20 = #{record.p20,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p21 != null" >
+        p_21 = #{record.p21,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p22 != null" >
+        p_22 = #{record.p22,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p23 != null" >
+        p_23 = #{record.p23,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p24 != null" >
+        p_24 = #{record.p24,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p25 != null" >
+        p_25 = #{record.p25,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p26 != null" >
+        p_26 = #{record.p26,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p27 != null" >
+        p_27 = #{record.p27,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p28 != null" >
+        p_28 = #{record.p28,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p29 != null" >
+        p_29 = #{record.p29,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p30 != null" >
+        p_30 = #{record.p30,jdbcType=VARCHAR},
+      </if>
+      <if test="record.p31 != null" >
+        p_31 = #{record.p31,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationTime != null" >
+        operation_time = #{record.operationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_301_electricity_by_daily
+    set id = #{record.id,jdbcType=VARCHAR},
+      area_id = #{record.areaId,jdbcType=VARCHAR},
+      concentrator_id = #{record.concentratorId,jdbcType=VARCHAR},
+      pn = #{record.pn,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      total = #{record.total,jdbcType=VARCHAR},
+      p_00 = #{record.p00,jdbcType=VARCHAR},
+      p_01 = #{record.p01,jdbcType=VARCHAR},
+      p_02 = #{record.p02,jdbcType=VARCHAR},
+      p_03 = #{record.p03,jdbcType=VARCHAR},
+      p_04 = #{record.p04,jdbcType=VARCHAR},
+      p_05 = #{record.p05,jdbcType=VARCHAR},
+      p_06 = #{record.p06,jdbcType=VARCHAR},
+      p_07 = #{record.p07,jdbcType=VARCHAR},
+      p_08 = #{record.p08,jdbcType=VARCHAR},
+      p_09 = #{record.p09,jdbcType=VARCHAR},
+      p_10 = #{record.p10,jdbcType=VARCHAR},
+      p_11 = #{record.p11,jdbcType=VARCHAR},
+      p_12 = #{record.p12,jdbcType=VARCHAR},
+      p_13 = #{record.p13,jdbcType=VARCHAR},
+      p_14 = #{record.p14,jdbcType=VARCHAR},
+      p_15 = #{record.p15,jdbcType=VARCHAR},
+      p_16 = #{record.p16,jdbcType=VARCHAR},
+      p_17 = #{record.p17,jdbcType=VARCHAR},
+      p_18 = #{record.p18,jdbcType=VARCHAR},
+      p_19 = #{record.p19,jdbcType=VARCHAR},
+      p_20 = #{record.p20,jdbcType=VARCHAR},
+      p_21 = #{record.p21,jdbcType=VARCHAR},
+      p_22 = #{record.p22,jdbcType=VARCHAR},
+      p_23 = #{record.p23,jdbcType=VARCHAR},
+      p_24 = #{record.p24,jdbcType=VARCHAR},
+      p_25 = #{record.p25,jdbcType=VARCHAR},
+      p_26 = #{record.p26,jdbcType=VARCHAR},
+      p_27 = #{record.p27,jdbcType=VARCHAR},
+      p_28 = #{record.p28,jdbcType=VARCHAR},
+      p_29 = #{record.p29,jdbcType=VARCHAR},
+      p_30 = #{record.p30,jdbcType=VARCHAR},
+      p_31 = #{record.p31,jdbcType=VARCHAR},
+      operation_time = #{record.operationTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elefirst.report.po.ReportEleByDaily" >
+    update t_301_electricity_by_daily
+    <set >
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="concentratorId != null" >
+        concentrator_id = #{concentratorId,jdbcType=VARCHAR},
+      </if>
+      <if test="pn != null" >
+        pn = #{pn,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=VARCHAR},
+      </if>
+      <if test="p00 != null" >
+        p_00 = #{p00,jdbcType=VARCHAR},
+      </if>
+      <if test="p01 != null" >
+        p_01 = #{p01,jdbcType=VARCHAR},
+      </if>
+      <if test="p02 != null" >
+        p_02 = #{p02,jdbcType=VARCHAR},
+      </if>
+      <if test="p03 != null" >
+        p_03 = #{p03,jdbcType=VARCHAR},
+      </if>
+      <if test="p04 != null" >
+        p_04 = #{p04,jdbcType=VARCHAR},
+      </if>
+      <if test="p05 != null" >
+        p_05 = #{p05,jdbcType=VARCHAR},
+      </if>
+      <if test="p06 != null" >
+        p_06 = #{p06,jdbcType=VARCHAR},
+      </if>
+      <if test="p07 != null" >
+        p_07 = #{p07,jdbcType=VARCHAR},
+      </if>
+      <if test="p08 != null" >
+        p_08 = #{p08,jdbcType=VARCHAR},
+      </if>
+      <if test="p09 != null" >
+        p_09 = #{p09,jdbcType=VARCHAR},
+      </if>
+      <if test="p10 != null" >
+        p_10 = #{p10,jdbcType=VARCHAR},
+      </if>
+      <if test="p11 != null" >
+        p_11 = #{p11,jdbcType=VARCHAR},
+      </if>
+      <if test="p12 != null" >
+        p_12 = #{p12,jdbcType=VARCHAR},
+      </if>
+      <if test="p13 != null" >
+        p_13 = #{p13,jdbcType=VARCHAR},
+      </if>
+      <if test="p14 != null" >
+        p_14 = #{p14,jdbcType=VARCHAR},
+      </if>
+      <if test="p15 != null" >
+        p_15 = #{p15,jdbcType=VARCHAR},
+      </if>
+      <if test="p16 != null" >
+        p_16 = #{p16,jdbcType=VARCHAR},
+      </if>
+      <if test="p17 != null" >
+        p_17 = #{p17,jdbcType=VARCHAR},
+      </if>
+      <if test="p18 != null" >
+        p_18 = #{p18,jdbcType=VARCHAR},
+      </if>
+      <if test="p19 != null" >
+        p_19 = #{p19,jdbcType=VARCHAR},
+      </if>
+      <if test="p20 != null" >
+        p_20 = #{p20,jdbcType=VARCHAR},
+      </if>
+      <if test="p21 != null" >
+        p_21 = #{p21,jdbcType=VARCHAR},
+      </if>
+      <if test="p22 != null" >
+        p_22 = #{p22,jdbcType=VARCHAR},
+      </if>
+      <if test="p23 != null" >
+        p_23 = #{p23,jdbcType=VARCHAR},
+      </if>
+      <if test="p24 != null" >
+        p_24 = #{p24,jdbcType=VARCHAR},
+      </if>
+      <if test="p25 != null" >
+        p_25 = #{p25,jdbcType=VARCHAR},
+      </if>
+      <if test="p26 != null" >
+        p_26 = #{p26,jdbcType=VARCHAR},
+      </if>
+      <if test="p27 != null" >
+        p_27 = #{p27,jdbcType=VARCHAR},
+      </if>
+      <if test="p28 != null" >
+        p_28 = #{p28,jdbcType=VARCHAR},
+      </if>
+      <if test="p29 != null" >
+        p_29 = #{p29,jdbcType=VARCHAR},
+      </if>
+      <if test="p30 != null" >
+        p_30 = #{p30,jdbcType=VARCHAR},
+      </if>
+      <if test="p31 != null" >
+        p_31 = #{p31,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        operation_time = #{operationTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elefirst.report.po.ReportEleByDaily" >
+    update t_301_electricity_by_daily
+    set area_id = #{areaId,jdbcType=VARCHAR},
+      concentrator_id = #{concentratorId,jdbcType=VARCHAR},
+      pn = #{pn,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      total = #{total,jdbcType=VARCHAR},
+      p_00 = #{p00,jdbcType=VARCHAR},
+      p_01 = #{p01,jdbcType=VARCHAR},
+      p_02 = #{p02,jdbcType=VARCHAR},
+      p_03 = #{p03,jdbcType=VARCHAR},
+      p_04 = #{p04,jdbcType=VARCHAR},
+      p_05 = #{p05,jdbcType=VARCHAR},
+      p_06 = #{p06,jdbcType=VARCHAR},
+      p_07 = #{p07,jdbcType=VARCHAR},
+      p_08 = #{p08,jdbcType=VARCHAR},
+      p_09 = #{p09,jdbcType=VARCHAR},
+      p_10 = #{p10,jdbcType=VARCHAR},
+      p_11 = #{p11,jdbcType=VARCHAR},
+      p_12 = #{p12,jdbcType=VARCHAR},
+      p_13 = #{p13,jdbcType=VARCHAR},
+      p_14 = #{p14,jdbcType=VARCHAR},
+      p_15 = #{p15,jdbcType=VARCHAR},
+      p_16 = #{p16,jdbcType=VARCHAR},
+      p_17 = #{p17,jdbcType=VARCHAR},
+      p_18 = #{p18,jdbcType=VARCHAR},
+      p_19 = #{p19,jdbcType=VARCHAR},
+      p_20 = #{p20,jdbcType=VARCHAR},
+      p_21 = #{p21,jdbcType=VARCHAR},
+      p_22 = #{p22,jdbcType=VARCHAR},
+      p_23 = #{p23,jdbcType=VARCHAR},
+      p_24 = #{p24,jdbcType=VARCHAR},
+      p_25 = #{p25,jdbcType=VARCHAR},
+      p_26 = #{p26,jdbcType=VARCHAR},
+      p_27 = #{p27,jdbcType=VARCHAR},
+      p_28 = #{p28,jdbcType=VARCHAR},
+      p_29 = #{p29,jdbcType=VARCHAR},
+      p_30 = #{p30,jdbcType=VARCHAR},
+      p_31 = #{p31,jdbcType=VARCHAR},
+      operation_time = #{operationTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
