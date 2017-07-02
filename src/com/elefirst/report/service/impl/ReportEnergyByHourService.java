@@ -1,14 +1,19 @@
 package com.elefirst.report.service.impl;
 
 import com.elefirst.base.service.BaseService;
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.report.dao.iface.IReportEnergyByHourDAO;
+import com.elefirst.report.mapper.ReportEnergyByHourMapper;
 import com.elefirst.report.po.ReportEnergyByHour;
 import com.elefirst.report.po.ReportEnergyByHourExample;
 import com.elefirst.report.service.iface.IReportEnergyByHourService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import javax.annotation.Resource;
 
 /**
  * Created by barrie on 17/2/2.
@@ -18,6 +23,9 @@ public class ReportEnergyByHourService extends BaseService implements IReportEne
     @Autowired
     private IReportEnergyByHourDAO reportEnergyByHourDAO;
 
+    @Resource(name = "reportEnergyByHourMapper")
+	private ReportEnergyByHourMapper reportEnergyByHourMapper;
+    
     @Override
     public List<ReportEnergyByHour> getReportEnergyByHourList(ReportEnergyByHour template) {
         ReportEnergyByHourExample condition = new ReportEnergyByHourExample();
@@ -105,4 +113,39 @@ public class ReportEnergyByHourService extends BaseService implements IReportEne
         criteria.andIdEqualTo(id);
         return reportEnergyByHourDAO.delReportEnergyByHour(condition);
     }
+
+	@Override
+	public List<ReportEnergyByHour> fetchAllReportEnergyByHour(String date, String areaId,
+			List<Concentrator> concentrators, int rows, int page,
+			boolean isPagination) throws Exception {
+		ReportEnergyByHourExample condition = new ReportEnergyByHourExample();
+		ReportEnergyByHourExample.Criteria criteria = condition.createCriteria();
+		/*for (Concentrator concentrator : concentrators) {
+			ReportEnergyByHourExample.Criteria criteria = condition.createCriteria();
+			if(date != null && date.length() > 0){
+				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+				criteria.andOperationTimeEqualTo(vdate);
+			}
+			criteria.andAreaIdEqualTo(areaId);
+			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
+			criteria.andPnIn(concentrator.getPns());
+			condition.or(criteria);
+		}*/
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			criteria.andOperationTimeEqualTo(vdate);
+		}
+		
+		//排序后只取第一条记录返回
+		condition.setOrderByClause("operation_time DESC");
+		//是否分页
+		if(true == isPagination){
+			if (rows > 0 && page > 0) {
+				condition.setLimitStart((page - 1) * rows);
+				condition.setLimitEnd(rows);
+			}
+		}
+		List<ReportEnergyByHour> reportEnergyByHour = reportEnergyByHourMapper.selectByExample(condition);
+		return reportEnergyByHour;
+	}
 }

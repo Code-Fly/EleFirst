@@ -13,7 +13,7 @@
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/common960.jsp" %>
 	<script type="text/javascript">
-        require(["js/dailyelectricity.js"]);
+        require(["js/dailydisplay.js"]);
     </script>
 </head>
 <body>
@@ -23,7 +23,6 @@
 		<thead frozen="true">
 			<tr>
 				<th field="address" width="160" align="center">监测点</th>
-				<th field="total" width="160" align="center">总电量</th>
 			</tr>
 		</thead>
 		<thead>

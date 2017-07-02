@@ -1,0 +1,29 @@
+package com.elefirst.report.service;
+
+
+import java.util.List;
+
+import com.elefirst.powerdetail.po.Concentrator;
+import com.elefirst.report.po.ReportDisplayByDaily;
+
+/**
+ * Created by barrie on 17/2/2.
+ */
+public interface IReportDisplayDailyService {
+    List<ReportDisplayByDaily> getReportDisplayByDailyList(ReportDisplayByDaily template);
+    List<ReportDisplayByDaily> getReportDisplayByDailyList(List<ReportDisplayByDaily> node, String startDate, String endDate);
+
+    long getReportDisplayByDailyListCount(ReportDisplayByDaily template);
+
+    List<ReportDisplayByDaily> getReportDisplayByDailyDetail(String id);
+
+    int addReportDisplayByDaily(ReportDisplayByDaily template);
+
+    int updateReportDisplayByDaily(ReportDisplayByDaily template);
+
+    int delReportDisplayByDaily(String id);
+
+    public List<ReportDisplayByDaily> fetchAllReportDisplayByDaily(String date, String areaId,
+			List<Concentrator> concentrators, int rows, int page,
+			boolean isPagination) throws Exception;
+}

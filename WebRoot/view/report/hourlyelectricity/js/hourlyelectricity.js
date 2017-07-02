@@ -1,12 +1,21 @@
 $(document).ready(function () {
-	DateBoxUtils.initMonthBox($("#startdate"));
-	//初始化databox为当前日期
+	var _spinner = new Spinner();
+
+    var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
+
+    $("#startdate").datebox("calendar").calendar({
+        firstDay: 1
+    });
+    
+    //初始化databox为当前日期
     var d = new Date();
-    var dateboxDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-01";
+    d.setDate(d.getDate());
+    var dateboxDate = d.getFullYear() + "-" + (d.getMonth()) + "-" + d.getDate();
     $("#startdate").datebox("clear");
     $("#startdate").datebox("setValue", dateboxDate);
+    
     var dgtt2 = $("#tt2").datagrid({
-        url: _ctx + 'report/electricity/daily/list.do',
+        url: _ctx + 'report/energy/hour/list.do',
         pagination: true,
         rownumbers: true,
         pageSize: DEFAULT_PAGE_SIZE,
@@ -43,7 +52,7 @@ $(document).ready(function () {
      
      $("#exportexcel").linkbutton({
         onClick: function () {
-        	window.location.href = "http://localhost:8080/elefirst/view/report/dailyelectricity/report20170702160839.xls";
+        	window.location.href = "http://localhost:8080/elefirst/view/report/hourlyelectricity/report20170702164315.xls";
         }
      });
     
