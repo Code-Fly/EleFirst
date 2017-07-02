@@ -42,6 +42,22 @@
                            plain="true" href="javascript:void(0)">${menuinfo2.menuname}</a></li>
                 </c:forEach>
             </c:if>
+            <c:if test="${menuinfo.menucode =='31'}">
+                <c:forEach var="menuinfo2" items="${twoLevelmenuInos31}">
+                    <li><a class="easyui-linkbutton"
+                           data-options="iconCls:'${menuinfo2.iconclass}'"
+                           onclick="addTab('${menuinfo2.menuname}','${menuinfo2.url}','${menuinfo2.iconclass}')"
+                           plain="true" href="javascript:void(0)">${menuinfo2.menuname}</a></li>
+                </c:forEach>
+            </c:if>
+            <c:if test="${menuinfo.menucode =='41'}">
+                <c:forEach var="menuinfo2" items="${twoLevelmenuInos41}">
+                    <li><a class="easyui-linkbutton"
+                           data-options="iconCls:'${menuinfo2.iconclass}'"
+                           onclick="addTab('${menuinfo2.menuname}','${menuinfo2.url}','${menuinfo2.iconclass}')"
+                           plain="true" href="javascript:void(0)">${menuinfo2.menuname}</a></li>
+                </c:forEach>
+            </c:if>
             <c:if test="${menuinfo.menucode =='04'}">
                 <c:forEach var="menuinfo2" items="${twoLevelmenuInos04}">
                     <li><a class="easyui-linkbutton"

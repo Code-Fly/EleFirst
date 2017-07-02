@@ -111,7 +111,9 @@ public class LoginController extends BaseController {
         oneLevelMenuIds.add("1");
         oneLevelMenuIds.add("2");
         oneLevelMenuIds.add("3");
-        oneLevelMenuIds.add("21");
+        oneLevelMenuIds.add("30");
+        oneLevelMenuIds.add("31");
+        oneLevelMenuIds.add("32");
         if (userName != null && "admin".equals(userName)) {
             oneLevelMenuIds.add("4");
         }
@@ -122,11 +124,15 @@ public class LoginController extends BaseController {
         List<MenuInfo> twoLevelmenuInos03 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("03");
         List<MenuInfo> twoLevelmenuInos04 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("04");
         List<MenuInfo> twoLevelmenuInos21 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("21");
+        List<MenuInfo> twoLevelmenuInos31 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("31");
+        List<MenuInfo> twoLevelmenuInos41 = menuInfoServiceImpl.fetchTwoLevelMenuInfo("41");
         session.setAttribute("oneLevelmenuInfos", oneLevelmenuInfos);
         session.setAttribute("twoLevelmenuInos01", twoLevelmenuInos01);
         session.setAttribute("twoLevelmenuInos02", twoLevelmenuInos02);
         session.setAttribute("twoLevelmenuInos03", twoLevelmenuInos03);
         session.setAttribute("twoLevelmenuInos21", twoLevelmenuInos21);
+        session.setAttribute("twoLevelmenuInos31", twoLevelmenuInos31);
+        session.setAttribute("twoLevelmenuInos41", twoLevelmenuInos41);
         if (userName != null && "admin".equals(userName)) {
             session.setAttribute("twoLevelmenuInos04", twoLevelmenuInos04);
         }
