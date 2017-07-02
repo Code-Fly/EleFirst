@@ -29,22 +29,84 @@ $(document).ready(function () {
         ]
     });
 
-    $("#dgPnConfigList").datagrid({
-        pagination: false,
+    $("#dTree").tree({
+        animate: true,
+        lines: true,
         data: [
             {
-                pnName: "1-1",
-                pnAddr: "厂房开水炉/P1-11#",
-                pnType: "运行",
-                unit: "1号楼",
-                comment: ""
-            },
-            {
-                pnName: "1-2",
-                pnAddr: "检测楼一楼平面1AL/P2-12#",
-                pnType: "运行",
-                unit: "2号楼",
-                comment: ""
+                "text": "收费项目",
+                "attributes": {
+                    "type": "category"
+                },
+                "children": [
+                    {
+                        "text": "周期性收费项目",
+                        "state": "open",
+                        "attributes": {
+                            "type": "category"
+                        },
+                        "children": [
+                            {
+                                "text": "水费",
+                                "attributes": {
+                                    "type": "category"
+                                },
+                                "state": "closed",
+                                "children": []
+                            },
+                            {
+                                "text": "电费",
+                                "attributes": {
+                                    "type": "category"
+                                },
+                                "state": "closed",
+                                "children": []
+                            },
+                            {
+                                "text": "气费",
+                                "attributes": {
+                                    "type": "category"
+                                },
+                                "state": "closed",
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "text": "临时性收费项目",
+                        "state": "open",
+                        "attributes": {
+                            "type": "category"
+                        },
+                        "children": [
+                            {
+                                "text": "工本费",
+                                "attributes": {
+                                    "type": "category"
+                                },
+                                "state": "closed",
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "text": "押金类收费项目",
+                        "state": "open",
+                        "attributes": {
+                            "type": "category"
+                        },
+                        "children": [
+                            {
+                                "text": "装修保证金",
+                                "attributes": {
+                                    "type": "category"
+                                },
+                                "state": "closed",
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     });
@@ -66,4 +128,9 @@ $(document).ready(function () {
             $("#dlg-add-user").dialog("close");
         }
     });
+
+    $("#btn-tree-tool-add").click(function () {
+        $("#dlg-add-tree-node").dialog("open");
+    });
+
 });
