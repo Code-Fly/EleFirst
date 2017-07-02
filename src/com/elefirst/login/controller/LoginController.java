@@ -111,7 +111,7 @@ public class LoginController extends BaseController {
         oneLevelMenuIds.add("1");
         oneLevelMenuIds.add("2");
         oneLevelMenuIds.add("3");
-        oneLevelMenuIds.add("30");
+        oneLevelMenuIds.add("21");
         oneLevelMenuIds.add("31");
         oneLevelMenuIds.add("32");
         if (userName != null && "admin".equals(userName)) {
