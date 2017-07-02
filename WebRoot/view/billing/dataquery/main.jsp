@@ -25,7 +25,7 @@
 <div data-options="region:'center',border:false" align="center">
     <div class="easyui-tabs" data-options="fit:true" border="false">
         <div title="已收明细">
-            <div id="cc1" class="easyui-layout" data-options="fit:true">
+            <div id="cc1" class="easyui-layout" data-options="fit:true" style="height:100%;">
                 <div data-options="region:'center',border:false" style="overflow: hidden">
                     <table id="dgList_1" class="easyui-datagrid" toolbar="#dgListToolbar_1"
                            singleSelect="true"
@@ -64,8 +64,8 @@
                         </div>
                     </div>
                 </div>
-                <div data-options="region:'south',title:'查询:',border:false,collapsed:true,collapsible:true"
-                     style="height: 300px">
+                <div data-options="region:'south',title:'查询',border:false,collapsed:true,collapsible:true"
+                     style="height:100%;">
                     <div class="container_12" style="padding-top: 10px">
                         <div class="grid_2 cell title">
                             <p>
@@ -196,7 +196,7 @@
             </div>
         </div>
         <div title="未收明细">
-            <div id="cc2" class="easyui-layout" data-options="fit:true">
+            <div id="cc2" class="easyui-layout" data-options="fit:true" style="height:100%;">
                 <div data-options="region:'center',border:false" style="overflow: hidden">
                     <table id="dgList_2" class="easyui-datagrid" toolbar="#dgListToolbar_2"
                            singleSelect="true"
@@ -231,8 +231,8 @@
                         </div>
                     </div>
                 </div>
-                <div data-options="region:'south',title:'查询:',border:false,collapsed:true,collapsible:true"
-                     style="height: 300px">
+                <div data-options="region:'south',title:'查询',border:false,collapsed:true,collapsible:true"
+                     style="height:100%;">
                     <div class="container_12" style="padding-top: 10px">
                         <div class="grid_2 cell title">
                             <p>
@@ -347,7 +347,7 @@
             </div>
         </div>
         <div title="应收明细">
-            <div id="cc3" class="easyui-layout" data-options="fit:true">
+            <div id="cc3" class="easyui-layout" data-options="fit:true" style="height:100%;">
                 <div data-options="region:'center',border:false" style="overflow: hidden">
                     <table id="dgList_3" class="easyui-datagrid" toolbar="#dgListToolbar_3"
                            singleSelect="true"
@@ -385,8 +385,8 @@
                         </div>
                     </div>
                 </div>
-                <div data-options="region:'south',title:'查询:',border:false,collapsed:true,collapsible:true"
-                     style="height: 300px">
+                <div data-options="region:'south',title:'查询',border:false,collapsed:true,collapsible:true"
+                     style="height:100%;">
                     <div class="container_12" style="padding-top: 10px">
                         <div class="grid_2 cell title">
                             <p>
