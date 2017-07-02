@@ -45,7 +45,7 @@
                data-options="plain:true,iconCls:'icon-cross'">删除</a>
         </div>
     </div>
-    <div id="dlg-add-user" class="easyui-dialog" title="用户管理"
+    <div id="dlg-add-user" class="easyui-dialog" title="公摊管理"
          data-options="iconCls:'icon-save',closed: true, cache: false, modal: true,"
          style="width:470px;height:300px;">
 
