@@ -18,7 +18,7 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- Model文件保存位置 -->
-		<javaModelGenerator targetPackage="com.elefirst.powerdetail.po"
+		<javaModelGenerator targetPackage="com.elefirst.report.po"
 			targetProject="elefirst">
 			<property name="enableSubPackages" value="true" />
 			<!-- 从数据库返回的值被清理前后的空格 -->
@@ -26,14 +26,14 @@
 		</javaModelGenerator>
 
 		<!-- 生成的mapper文件 -->
-		<sqlMapGenerator targetPackage="com.elefirst.powerdetail.mapper"
+		<sqlMapGenerator targetPackage="com.elefirst.report.mapper"
 			targetProject="elefirst">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 生成的查询条件的类 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.elefirst.powerdetail.mapper" targetProject="elefirst">
+			targetPackage="com.elefirst.report.mapper" targetProject="elefirst">
 		    <property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
@@ -56,7 +56,8 @@
 		<!-- <table tableName="t_view_display_f33_f34" domainObjectName="ViewDisplayF33F34" /> -->
 		
 		<!-- <table tableName="t_view_two_realtime_display" domainObjectName="TwoRealtimeDisplay" /> -->
-		<table tableName="t_view_yearload" domainObjectName="YearlyLoad" />
+		<!-- <table tableName="t_view_yearload" domainObjectName="YearlyLoad" /> -->
+		<table tableName="t_301_electricity_by_daily" domainObjectName="ReportEleByDaily" />
 		
 	</context>
 </generatorConfiguration>
