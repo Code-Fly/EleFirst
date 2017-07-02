@@ -51,7 +51,6 @@ $(document).ready(function () {
                                 "attributes": {
                                     "type": "category"
                                 },
-                                "state": "closed",
                                 "children": []
                             },
                             {
@@ -59,7 +58,6 @@ $(document).ready(function () {
                                 "attributes": {
                                     "type": "category"
                                 },
-                                "state": "closed",
                                 "children": []
                             },
                             {
@@ -67,7 +65,6 @@ $(document).ready(function () {
                                 "attributes": {
                                     "type": "category"
                                 },
-                                "state": "closed",
                                 "children": []
                             }
                         ]
@@ -84,7 +81,6 @@ $(document).ready(function () {
                                 "attributes": {
                                     "type": "category"
                                 },
-                                "state": "closed",
                                 "children": []
                             }
                         ]
@@ -101,7 +97,6 @@ $(document).ready(function () {
                                 "attributes": {
                                     "type": "category"
                                 },
-                                "state": "closed",
                                 "children": []
                             }
                         ]
