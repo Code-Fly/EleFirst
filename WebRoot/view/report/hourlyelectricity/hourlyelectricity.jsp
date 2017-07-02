@@ -22,7 +22,7 @@
 			singleSelect="true" fitColumns="true" border="false" fit="true">
 		<thead frozen="true">
 			<tr>
-				<th field="address" width="160" align="center">监测点</th>
+				<th field="name" width="160" align="center">监测点</th>
 				<th field="total" width="160" align="center">总电量</th>
 			</tr>
 		</thead>

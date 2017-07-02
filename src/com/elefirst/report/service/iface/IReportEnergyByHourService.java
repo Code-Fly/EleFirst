@@ -30,4 +30,6 @@ public interface IReportEnergyByHourService {
 			List<Concentrator> concentrators, int rows, int page,
 			boolean isPagination) throws Exception;
 
+    public int fetchAllReportEnergyByHourCount(String date, String areaId,
+			List<Concentrator> concentrators) throws Exception;
 }

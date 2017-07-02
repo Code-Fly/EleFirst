@@ -10,12 +10,12 @@ $(document).ready(function () {
     //初始化databox为当前日期
     var d = new Date();
     d.setDate(d.getDate());
-    var dateboxDate = d.getFullYear() + "-" + (d.getMonth()) + "-" + d.getDate();
+    var dateboxDate = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
     $("#startdate").datebox("clear");
     $("#startdate").datebox("setValue", dateboxDate);
     
     var dgtt2 = $("#tt2").datagrid({
-        url: _ctx + 'report/energy/hour/list.do',
+        url: _ctx + 'report/energy/list.do',
         pagination: true,
         rownumbers: true,
         pageSize: DEFAULT_PAGE_SIZE,

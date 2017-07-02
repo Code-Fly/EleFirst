@@ -1,10 +1,13 @@
 package com.elefirst.report.mapper;
 
+import com.elefirst.powerdetail.po.DailyElectricity;
 import com.elefirst.report.po.ReportEnergyByHour;
 import com.elefirst.report.po.ReportEnergyByHourExample;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReportEnergyByHourMapper {
 
@@ -82,4 +85,8 @@ public interface ReportEnergyByHourMapper {
 	 * @mbggenerated  Wed May 03 01:35:00 CST 2017
 	 */
 	int updateByPrimaryKey(ReportEnergyByHour record);
+	
+	int mycountByExample(Map map);
+
+    List<ReportEnergyByHour> myselectByExample(Map map);
 }

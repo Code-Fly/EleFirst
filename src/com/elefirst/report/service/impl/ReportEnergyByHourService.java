@@ -11,7 +11,9 @@ import com.elefirst.report.service.iface.IReportEnergyByHourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -118,34 +120,30 @@ public class ReportEnergyByHourService extends BaseService implements IReportEne
 	public List<ReportEnergyByHour> fetchAllReportEnergyByHour(String date, String areaId,
 			List<Concentrator> concentrators, int rows, int page,
 			boolean isPagination) throws Exception {
-		ReportEnergyByHourExample condition = new ReportEnergyByHourExample();
-		ReportEnergyByHourExample.Criteria criteria = condition.createCriteria();
-		/*for (Concentrator concentrator : concentrators) {
-			ReportEnergyByHourExample.Criteria criteria = condition.createCriteria();
-			if(date != null && date.length() > 0){
-				String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
-				criteria.andOperationTimeEqualTo(vdate);
-			}
-			criteria.andAreaIdEqualTo(areaId);
-			criteria.andConcentratorIdEqualTo(concentrator.getConcentratorId());
-			criteria.andPnIn(concentrator.getPns());
-			condition.or(criteria);
-		}*/
+		Map<String,Object> params = new HashMap<String,Object>();
 		if(date != null && date.length() > 0){
 			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
-			criteria.andOperationTimeEqualTo(vdate);
+			params.put("date", vdate);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
 		}
 		
-		//排序后只取第一条记录返回
-		condition.setOrderByClause("operation_time DESC");
-		//是否分页
-		if(true == isPagination){
-			if (rows > 0 && page > 0) {
-				condition.setLimitStart((page - 1) * rows);
-				condition.setLimitEnd(rows);
-			}
-		}
-		List<ReportEnergyByHour> reportEnergyByHour = reportEnergyByHourMapper.selectByExample(condition);
+		List<ReportEnergyByHour> reportEnergyByHour = reportEnergyByHourMapper.myselectByExample(params);
 		return reportEnergyByHour;
+	}
+	
+	@Override
+	public int fetchAllReportEnergyByHourCount(String date, String areaId,
+			List<Concentrator> concentrators) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+			
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM-dd", "yyyyMMdd");
+			params.put("date", vdate);
+		}
+		int count = reportEnergyByHourMapper.mycountByExample(params);
+		return count;
 	}
 }

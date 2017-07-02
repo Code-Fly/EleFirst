@@ -12,6 +12,7 @@
     <result column="concentrator_id" jdbcType="VARCHAR" property="concentratorId"/>
     <result column="pn" jdbcType="VARCHAR" property="pn"/>
     <result column="total" jdbcType="VARCHAR" property="total"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
     <result column="p_00" jdbcType="VARCHAR" property="p00"/>
     <result column="p_01" jdbcType="VARCHAR" property="p01"/>
     <result column="p_02" jdbcType="VARCHAR" property="p02"/>
@@ -687,11 +688,68 @@
       p_18 = #{p18,jdbcType=VARCHAR},
       p_19 = #{p19,jdbcType=VARCHAR},
       p_20 = #{p20,jdbcType=VARCHAR},
-      p_21 = #{p21,jdbcType=VARCHAR},
+      p_21 = #{p21,jdbcType=VARCHAR},ds
       p_22 = #{p22,jdbcType=VARCHAR},
       p_23 = #{p23,jdbcType=VARCHAR},
     operation_time = #{operationTime,jdbcType=VARCHAR},
     update_time = #{updateTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="myselectByExample" resultMap="BaseResultMap">
+    SELECT
+	t1.total,
+	t2.`name`,
+	t1.p_00,
+	t1.p_01,
+	t1.p_02,
+	t1.p_03,
+	t1.p_04,
+	t1.p_05,
+	t1.p_06,
+	t1.p_07,
+	t1.p_08,
+	t1.p_09,
+	t1.p_10,
+	t1.p_11,
+	t1.p_12,
+	t1.p_13,
+	t1.p_14,
+	t1.p_15,
+	t1.p_16,
+	t1.p_17,
+	t1.p_18,
+	t1.p_19,
+	t1.p_20,
+	t1.p_21,
+	t1.p_22,
+	t1.p_23
+FROM
+	t_300_report_energy_by_hour t1,
+	t_202_pn_info t2
+WHERE
+	t1.area_id = t2.area_id
+AND t1.concentrator_id = t2.concentrator_id
+AND t1.pn = t2.pn
+	<if test="date!= null and date!= ''">
+	      AND t1.operation_time = #{date ,jdbcType=VARCHAR}
+	</if>
+	order by t1.operation_time desc
+	<if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="mycountByExample" resultType="java.lang.Integer" >
+    SELECT
+	count(1)
+FROM
+	t_300_report_energy_by_hour t1,
+	t_202_pn_info t2
+WHERE
+	t1.area_id = t2.area_id
+	AND t1.concentrator_id = t2.concentrator_id
+	AND t1.pn = t2.pn
+	<if test="date!= null and date!= ''">
+	      AND t1.operation_time = #{date ,jdbcType=VARCHAR}
+	</if>
+  </select>
 </mapper>
