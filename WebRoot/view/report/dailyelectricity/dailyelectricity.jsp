@@ -65,9 +65,8 @@
 	
 	<div id="tb" style="padding:5px;height:auto">
 		<div>
-			&nbsp;&nbsp;开始时间: <input class="easyui-datebox" style="width:120px" id="startdate">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束时间: <input class="easyui-datebox" style="width:120px">
-			&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="btn-detail-search">查询</a>
+			&nbsp;&nbsp;<input class="easyui-datebox" style="width:120px" id="startdate">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="btn-detail-search">查询</a>
 			&nbsp;&nbsp;<a href="#" class="easyui-linkbutton">导出报表</a>
 		</div>
 	</div>
