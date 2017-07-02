@@ -1,5 +1,6 @@
 package com.elefirst.report.service.iface;
 
+import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.report.po.ReportEnergyByHour;
 import com.elefirst.system.po.PnInfo;
 
@@ -24,5 +25,9 @@ public interface IReportEnergyByHourService {
     int updateReportEnergyByHour(ReportEnergyByHour template);
 
     int delReportEnergyByHour(String id);
+    
+    public List<ReportEnergyByHour> fetchAllReportEnergyByHour(String date, String areaId,
+			List<Concentrator> concentrators, int rows, int page,
+			boolean isPagination) throws Exception;
 
 }

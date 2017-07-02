@@ -57,7 +57,7 @@
 		
 		<!-- <table tableName="t_view_two_realtime_display" domainObjectName="TwoRealtimeDisplay" /> -->
 		<!-- <table tableName="t_view_yearload" domainObjectName="YearlyLoad" /> -->
-		<table tableName="t_301_electricity_by_daily" domainObjectName="ReportEleByDaily" />
+		<table tableName="t_302_display_by_daily" domainObjectName="ReportDisplayByDaily" />
 		
 	</context>
 </generatorConfiguration>
