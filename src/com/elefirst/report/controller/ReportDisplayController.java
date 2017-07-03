@@ -6,10 +6,8 @@ import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.report.po.ReportDisplayByDaily;
 import com.elefirst.report.service.IReportDisplayDailyService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -159,7 +156,7 @@ public class ReportDisplayController extends BaseController {
         map12.put("_parentId", 1);
         lists.add(map12);
         Map<String, Object> map121 = new HashMap<String, Object>();
-        map121.put("id", 111);
+        map121.put("id", 121);
         map121.put("region", "2#变压器");
         map121.put("f1", "1125");
         map121.put("f2", "601");
