@@ -52,7 +52,7 @@ $(document).ready(function () {
      
      $("#exportexcel").linkbutton({
         onClick: function () {
-        	window.location.href = "http://localhost:8080/elefirst/view/report/hourlyelectricity/report20170702164315.xls";
+        	window.location.href = _ctx + "view/report/hourlyelectricity/report20170702164315.xls";
         }
      });
     

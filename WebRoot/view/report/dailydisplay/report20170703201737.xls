@@ -1,0 +1,639 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 11">
+<link rel=File-List href="report20170703201737.files/filelist.xml">
+<link rel=Edit-Time-Data href="report20170703201737.files/editdata.mso">
+<link rel=OLE-Object-Data href="report20170703201737.files/oledata.mso">
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:LastAuthor>X</o:LastAuthor>
+  <o:LastSaved>2017-07-03T12:33:59Z</o:LastSaved>
+  <o:Version>11.9999</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:1.0in .75in 1.0in .75in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;}
+tr
+	{mso-height-source:auto;
+	mso-ruby-visibility:none;}
+col
+	{mso-width-source:auto;
+	mso-ruby-visibility:none;}
+br
+	{mso-data-placement:same-cell;}
+.style0
+	{mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	white-space:nowrap;
+	mso-rotate:0;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	border:none;
+	mso-protection:locked visible;
+	mso-style-name:常规;
+	mso-style-id:0;}
+td
+	{mso-style-parent:style0;
+	padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:windowtext;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:middle;
+	border:none;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	mso-protection:locked visible;
+	white-space:nowrap;
+	mso-rotate:0;}
+.xl24
+	{mso-style-parent:style0;
+	font-size:10.0pt;
+	font-weight:700;
+	font-family:"Arial Unicode MS", sans-serif;
+	mso-font-charset:0;
+	text-align:right;
+	white-space:normal;}
+.xl25
+	{mso-style-parent:style0;
+	font-size:18.0pt;
+	font-family:"Arial Unicode MS", sans-serif;
+	mso-font-charset:0;
+	text-align:center;
+	white-space:normal;}
+.xl26
+	{mso-style-parent:style0;
+	font-size:10.0pt;
+	font-weight:700;
+	font-family:"Arial Unicode MS", sans-serif;
+	mso-font-charset:0;
+	text-align:left;
+	white-space:normal;}
+.xl27
+	{mso-style-parent:style0;
+	font-size:10.0pt;
+	font-weight:700;
+	font-family:"Arial Unicode MS", sans-serif;
+	mso-font-charset:0;
+	text-align:center;
+	border:.5pt solid black;
+	white-space:normal;}
+.xl28
+	{mso-style-parent:style0;
+	font-size:10.0pt;
+	font-weight:700;
+	font-family:"Arial Unicode MS", sans-serif;
+	mso-font-charset:0;
+	mso-number-format:"m\0022月\0022d\0022日\0022";
+	text-align:center;
+	border:.5pt solid black;
+	white-space:normal;}
+.xl29
+	{mso-style-parent:style0;
+	font-size:10.0pt;
+	font-family:"Arial Unicode MS", sans-serif;
+	mso-font-charset:0;
+	border:.5pt solid black;
+	white-space:normal;}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:宋体;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <x:ExcelWorkbook>
+  <x:ExcelWorksheets>
+   <x:ExcelWorksheet>
+    <x:Name>report20170703201737</x:Name>
+    <x:WorksheetOptions>
+     <x:DefaultRowHeight>285</x:DefaultRowHeight>
+     <x:Selected/>
+     <x:DoNotDisplayGridlines/>
+     <x:Panes>
+      <x:Pane>
+       <x:Number>3</x:Number>
+       <x:ActiveRow>3</x:ActiveRow>
+       <x:ActiveCol>2</x:ActiveCol>
+      </x:Pane>
+     </x:Panes>
+     <x:ProtectContents>False</x:ProtectContents>
+     <x:ProtectObjects>False</x:ProtectObjects>
+     <x:ProtectScenarios>False</x:ProtectScenarios>
+    </x:WorksheetOptions>
+   </x:ExcelWorksheet>
+  </x:ExcelWorksheets>
+  <x:WindowHeight>6525</x:WindowHeight>
+  <x:WindowWidth>13860</x:WindowWidth>
+  <x:WindowTopX>240</x:WindowTopX>
+  <x:WindowTopY>15</x:WindowTopY>
+  <x:ProtectStructure>False</x:ProtectStructure>
+  <x:ProtectWindows>False</x:ProtectWindows>
+ </x:ExcelWorkbook>
+</xml><![endif]-->
+</head>
+
+<body link=blue vlink=purple>
+
+<table x:str border=0 cellpadding=0 cellspacing=0 width=2016 style='border-collapse:
+ collapse;table-layout:fixed;width:1521pt'>
+ <col width=163 style='mso-width-source:userset;mso-width-alt:5216;width:122pt'>
+ <col width=61 span=2 style='mso-width-source:userset;mso-width-alt:1952;
+ width:46pt'>
+ <col width=54 span=7 style='mso-width-source:userset;mso-width-alt:1728;
+ width:41pt'>
+ <col width=61 span=21 style='mso-width-source:userset;mso-width-alt:1952;
+ width:46pt'>
+ <col width=72 style='width:54pt'>
+ <tr height=31 style='mso-height-source:userset;height:23.25pt'>
+  <td colspan=32 height=31 class=xl25 width=2016 style='height:23.25pt;
+  width:1521pt'>抄见示值日报表</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td colspan=31 height=19 class=xl26 width=1944 style='height:14.25pt;
+  width:1467pt'>时间:2017-07-01至2017-07-31</td>
+  <td class=xl24 width=72 style='width:54pt'>单位:kWh</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl27 width=163 style='height:14.25pt;width:122pt'>监测点</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42917">7月1日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42918">7月2日</td>
+  <td class=xl28 width=54 style='border-left:none;width:41pt' x:num="42919">7月3日</td>
+  <td class=xl28 width=54 style='border-left:none;width:41pt' x:num="42920">7月4日</td>
+  <td class=xl28 width=54 style='border-left:none;width:41pt' x:num="42921">7月5日</td>
+  <td class=xl28 width=54 style='border-left:none;width:41pt' x:num="42922">7月6日</td>
+  <td class=xl28 width=54 style='border-left:none;width:41pt' x:num="42923">7月7日</td>
+  <td class=xl28 width=54 style='border-left:none;width:41pt' x:num="42924">7月8日</td>
+  <td class=xl28 width=54 style='border-left:none;width:41pt' x:num="42925">7月9日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42926">7月10日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42927">7月11日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42928">7月12日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42929">7月13日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42930">7月14日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42931">7月15日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42932">7月16日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42933">7月17日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42934">7月18日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42935">7月19日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42936">7月20日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42937">7月21日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42938">7月22日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42939">7月23日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42940">7月24日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42941">7月25日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42942">7月26日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42943">7月27日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42944">7月28日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42945">7月29日</td>
+  <td class=xl28 width=61 style='border-left:none;width:46pt' x:num="42946">7月30日</td>
+  <td class=xl28 width=72 style='border-left:none;width:54pt' x:num="42947">7月31日</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--1</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>1723.35</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>1726.46</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--2</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>627.68</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>628.47</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--3</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>248.61</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>248.91</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--4</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>194.13</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>194.25</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--5</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>1011.88</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>1012.81</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--6</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>331.69</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>332.12</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--7</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>2.39</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>2.39</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--8</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>9.86</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>9.86</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--9</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>287.42</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>288.48</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <tr height=19 style='height:14.25pt'>
+  <td height=19 class=xl29 width=163 style='height:14.25pt;border-top:none;
+  width:122pt'>1--10</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>65.11</td>
+  <td class=xl29 align=right width=61 style='border-top:none;border-left:none;
+  width:46pt' x:num>65.11</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=54 style='border-top:none;border-left:none;width:41pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=61 style='border-top:none;border-left:none;width:46pt'>-</td>
+  <td class=xl29 width=72 style='border-top:none;border-left:none;width:54pt'>-</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=163 style='width:122pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=54 style='width:41pt'></td>
+  <td width=54 style='width:41pt'></td>
+  <td width=54 style='width:41pt'></td>
+  <td width=54 style='width:41pt'></td>
+  <td width=54 style='width:41pt'></td>
+  <td width=54 style='width:41pt'></td>
+  <td width=54 style='width:41pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=61 style='width:46pt'></td>
+  <td width=72 style='width:54pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</body>
+
+</html>

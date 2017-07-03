@@ -43,7 +43,7 @@ $(document).ready(function () {
      
      $("#exportexcel").linkbutton({
         onClick: function () {
-        	window.location.href = "http://localhost:8080/elefirst/view/report/dailydisplay/report20170702160839.xls";
+        	window.location.href = _ctx + "view/report/dailydisplay/report20170703201737.xls";
         }
      });
      
