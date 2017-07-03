@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $("#tt").datagrid({
-        url: _ctx + 'report/electricity/lineloss/list.do',
+        url: _ctx + 'report/display/lineloss/list.do',
         pagination: true,
         rownumbers: true,
         pageSize: DEFAULT_PAGE_SIZE,

@@ -1,7 +1,7 @@
 $(document).ready(function () {
     
     $("#tt").datagrid({
-        url: _ctx + 'report/electricity/monthly/list.do',
+        url: _ctx + 'report/display/monthly/list.do',
         pagination: true,
         rownumbers: true,
         pageSize: DEFAULT_PAGE_SIZE,

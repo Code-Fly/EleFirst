@@ -12,63 +12,64 @@
     <!-- 公共属性 -->
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/common960.jsp" %>
-	<script type="text/javascript">
+    <script type="text/javascript">
         require(["js/dailydisplay.js"]);
     </script>
 </head>
 <body>
-	<table id="tt2" class="easyui-datagrid"
-			 toolbar="#tb"
-			singleSelect="true" fitColumns="true" border="false" fit="true">
-		<thead frozen="true">
-			<tr>
-				<th field="address" width="160" align="center">监测点</th>
-			</tr>
-		</thead>
-		<thead>
-			<tr>
-				<th field="p00" align="center">01</th>
-				<th field="p01" align="center">02</th>
-				<th field="p03" align="center">03</th>
-				<th field="p04" align="center">04</th>
-				<th field="p05" align="center">05</th>
-				<th field="p06" align="center">06</th>
-				<th field="p07" align="center">07</th>
-				<th field="p08" align="center">08</th>
-				<th field="p09" align="center">09</th>
-				<th field="p10" align="center">10</th>
-				<th field="p11" align="center">11</th>
-				<th field="p12" align="center">12</th>
-				<th field="p13" align="center">13</th>
-				<th field="p14" align="center">14</th>
-				<th field="p15" align="center">15</th>
-				<th field="p16" align="center">16</th>
-				<th field="p17" align="center">17</th>
-				<th field="p18" align="center">18</th>
-				<th field="p19" align="center">19</th>
-				<th field="p20" align="center">20</th>
-				<th field="p21" align="center">21</th>
-				<th field="p22" align="center">22</th>
-				<th field="p23" align="center">23</th>
-				<th field="p24" align="center">24</th>
-				<th field="p25" align="center">25</th>
-				<th field="p26" align="center">26</th>
-				<th field="p27" align="center">27</th>
-				<th field="p28" align="center">28</th>
-				<th field="p29" align="center">29</th>
-				<th field="p30" align="center">30</th>
-				<th field="p31" align="center">31</th>
-			</tr>
-		</thead>
-	</table>
-	
-	<div id="tb" style="padding:5px;height:auto">
-		<div>
-			&nbsp;&nbsp;<input class="easyui-datebox" style="width:120px" id="startdate">
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-search" id="btn-detail-search">查询</a>
-			&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" id="exportexcel">导出报表</a>
-		</div>
-	</div>
+<table id="tt2" class="easyui-datagrid"
+       toolbar="#tb"
+       singleSelect="true" border="false" fit="true">
+    <thead frozen="true">
+    <tr>
+        <th field="address" width="120" align="center">监测点</th>
+    </tr>
+    </thead>
+    <thead>
+    <tr>
+        <th field="p00" width="100" align="center">01</th>
+        <th field="p01" width="100" align="center">02</th>
+        <th field="p03" width="100" align="center">03</th>
+        <th field="p04" width="100" align="center">04</th>
+        <th field="p05" width="100" align="center">05</th>
+        <th field="p06" width="100" align="center">06</th>
+        <th field="p07" width="100" align="center">07</th>
+        <th field="p08" width="100" align="center">08</th>
+        <th field="p09" width="100" align="center">09</th>
+        <th field="p10" width="100" align="center">10</th>
+        <th field="p11" width="100" align="center">11</th>
+        <th field="p12" width="100" align="center">12</th>
+        <th field="p13" width="100" align="center">13</th>
+        <th field="p14" width="100" align="center">14</th>
+        <th field="p15" width="100" align="center">15</th>
+        <th field="p16" width="100" align="center">16</th>
+        <th field="p17" width="100" align="center">17</th>
+        <th field="p18" width="100" align="center">18</th>
+        <th field="p19" width="100" align="center">19</th>
+        <th field="p20" width="100" align="center">20</th>
+        <th field="p21" width="100" align="center">21</th>
+        <th field="p22" width="100" align="center">22</th>
+        <th field="p23" width="100" align="center">23</th>
+        <th field="p24" width="100" align="center">24</th>
+        <th field="p25" width="100" align="center">25</th>
+        <th field="p26" width="100" align="center">26</th>
+        <th field="p27" width="100" align="center">27</th>
+        <th field="p28" width="100" align="center">28</th>
+        <th field="p29" width="100" align="center">29</th>
+        <th field="p30" width="100" align="center">30</th>
+        <th field="p31" width="100" align="center">31</th>
+    </tr>
+    </thead>
+</table>
+
+<div id="tb" style="padding:5px;height:auto">
+    <div>
+        &nbsp;&nbsp;<input class="easyui-datebox" style="width:120px" id="startdate">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-search"
+                                               id="btn-detail-search">查询</a>
+        &nbsp;&nbsp;<a href="#" class="easyui-linkbutton" id="exportexcel">导出报表</a>
+    </div>
+</div>
 </body>
 <script type="text/javascript">
 

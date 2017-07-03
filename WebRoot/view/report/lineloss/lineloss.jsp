@@ -22,9 +22,9 @@
 </head>
 <body>
 	<table class="easyui-treegrid" border="false" fit="true" fitColumns = "true"
-			url="<%=basePath%>report/electricity/lineloss/list.do"
-			rownumbers="true"
-			idField="id" treeField="region" toolbar="#tb">
+		   url="<%=basePath%>report/display/lineloss/list.do"
+		   rownumbers="true"
+		   idField="id" treeField="region" toolbar="#tb">
 		<thead frozen="true">
 			<tr>
 				<th field="region" width="150">线路</th>

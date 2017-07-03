@@ -14,7 +14,6 @@ $(document).ready(function () {
         pageNumber: 1,
         singleSelect: true,
         fit: true,
-        fitColumns: true,
         loadMsg: "正在加载...",
         border: false,
         queryParams: {

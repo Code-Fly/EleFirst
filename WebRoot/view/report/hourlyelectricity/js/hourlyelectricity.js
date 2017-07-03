@@ -23,7 +23,6 @@ $(document).ready(function () {
         pageNumber: 1,
         singleSelect: true,
         fit: true,
-        fitColumns: true,
         loadMsg: "正在加载...",
         border: false,
         queryParams: {
@@ -52,7 +51,7 @@ $(document).ready(function () {
      
      $("#exportexcel").linkbutton({
         onClick: function () {
-        	window.location.href = _ctx + "view/report/hourlyelectricity/report20170702164315.xls";
+            window.location.href = _ctx + "view/report/hourlyelectricity/report20170703210150.xls";
         }
      });
     
