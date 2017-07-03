@@ -65,9 +65,11 @@
 <div id="tb" style="padding:5px;height:auto">
     <div>
         &nbsp;&nbsp;<input class="easyui-datebox" style="width:120px" id="startdate">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="easyui-linkbutton" iconCls="icon-search"
-                                               id="btn-detail-search">查询</a>
-        &nbsp;&nbsp;<a href="#" class="easyui-linkbutton" id="exportexcel">导出报表</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#" id="btn-detail-search" class="easyui-linkbutton"
+           data-options="plain:true,iconCls:'icon-search'">查询</a>
+        <a href="#" id="exportexcel" class="easyui-linkbutton"
+           data-options="plain:true,iconCls:'icon-page_excel'">导出</a>
     </div>
 </div>
 </body>
