@@ -24,10 +24,11 @@
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="overflow: hidden">
     <table id="dgList_1" class="easyui-datagrid" toolbar="#dgListToolbar_1"
-           singleSelect="true"
+           singleSelect="false" rownumbers="true"
            border="false" fit="true">
         <thead frozen="true">
         <tr>
+            <th data-options="field:'ck',checkbox:true"></th>
             <th field="userName" width="100" align="center">用户名</th>
             <th field="userCode" width="100" align="center">用户编号</th>
         </tr>

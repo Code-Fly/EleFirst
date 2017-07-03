@@ -24,7 +24,7 @@
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" align="center">
     <table id="dgList" class="easyui-datagrid" toolbar="#dgListToolbar"
-           singleSelect="true"
+           singleSelect="true" rownumbers="true"
            border="false" fit="true">
         <thead frozen="true">
         <tr>

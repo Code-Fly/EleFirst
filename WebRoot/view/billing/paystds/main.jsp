@@ -39,7 +39,7 @@
             <div class="easyui-layout" data-options="fit:true">
                 <div data-options="region:'center',border:false" style="overflow: hidden">
                     <table id="dgList" class="easyui-datagrid" toolbar="#dgListToolbar"
-                           singleSelect="true"
+                           singleSelect="true" rownumbers="true"
                            fit="true">
 
                         <thead>
@@ -91,17 +91,6 @@
                         <div class="clear"></div>
                         <div class="grid_3 cell title">
                             <p>
-                                用户编号
-                            </p>
-                        </div>
-                        <div class="grid_9 cell">
-                            <p>
-                                <input class="easyui-textbox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="grid_3 cell title">
-                            <p>
                                 单价
                             </p>
                         </div>
@@ -118,7 +107,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-textbox" style="width: 100%;">
+                                <input class="easyui-combobox" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -129,7 +118,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-textbox" style="width: 100%;">
+                                每隔<input class="easyui-numberspinner" style="width: 50px;">月计费一次
                             </p>
                         </div>
                         <div class="clear"></div>

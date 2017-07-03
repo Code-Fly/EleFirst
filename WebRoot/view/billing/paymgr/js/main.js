@@ -287,10 +287,21 @@ $(document).ready(function () {
         }
     });
 
+    $("#btn-pn-tool-chongzhi").linkbutton({
+        onClick: function () {
+            $("#dlg-chongzhi").dialog("open");
+        }
+    });
 
     $("#btn-dlg-add-user-submit").linkbutton({
         onClick: function () {
             $("#dlg-add-user").dialog("close");
+        }
+    });
+
+    $("#btn-dlg-chongzhi-submit").linkbutton({
+        onClick: function () {
+            $("#dlg-chongzhi").dialog("close");
         }
     });
 

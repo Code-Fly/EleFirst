@@ -28,7 +28,7 @@
             <div id="cc1" class="easyui-layout" data-options="fit:true" style="height:100%;">
                 <div data-options="region:'center',border:false" style="overflow: hidden">
                     <table id="dgList_1" class="easyui-datagrid" toolbar="#dgListToolbar_1"
-                           singleSelect="true"
+                           singleSelect="true" rownumbers="true"
                            border="false" fit="true">
                         <thead frozen="true">
                         <tr>
@@ -199,7 +199,7 @@
             <div id="cc2" class="easyui-layout" data-options="fit:true" style="height:100%;">
                 <div data-options="region:'center',border:false" style="overflow: hidden">
                     <table id="dgList_2" class="easyui-datagrid" toolbar="#dgListToolbar_2"
-                           singleSelect="true"
+                           singleSelect="true" rownumbers="true"
                            border="false" fit="true">
                         <thead frozen="true">
                         <tr>
@@ -350,7 +350,7 @@
             <div id="cc3" class="easyui-layout" data-options="fit:true" style="height:100%;">
                 <div data-options="region:'center',border:false" style="overflow: hidden">
                     <table id="dgList_3" class="easyui-datagrid" toolbar="#dgListToolbar_3"
-                           singleSelect="true"
+                           singleSelect="true" rownumbers="true"
                            border="false" fit="true">
                         <thead frozen="true">
                         <tr>

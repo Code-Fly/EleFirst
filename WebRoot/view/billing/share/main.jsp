@@ -25,7 +25,7 @@
 <div data-options="region:'center',border:false" align="center">
     <table id="dgList" class="easyui-datagrid" toolbar="#dgListToolbar"
            singleSelect="true"
-           fitColumns="true"
+           fitColumns="true" rownumbers="true"
            border="false" fit="true">
         <thead>
         <tr>
@@ -71,7 +71,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-textbox" style="width: 100%;">
+                                <input class="easyui-combobox" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -82,7 +82,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-textbox" style="width: 100%;">
+                                <input class="easyui-combobox" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -110,7 +110,7 @@
         <div class="easyui-layout" data-options="fit:true,border:false">
             <div data-options="region:'center'">
                 <table id="dgPnConfigList" class="easyui-datagrid"
-                       singleSelect="false"
+                       singleSelect="false" rownumbers="true"
                        border="false" fit="true">
                     <thead>
                     <tr>
