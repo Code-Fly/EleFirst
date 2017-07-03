@@ -7,26 +7,39 @@ $(document).ready(function () {
         pageSize: DEFAULT_PAGE_SIZE,
         pageList: DEFAULT_PAGE_LIST,
         pageNumber: 1,
-        data: [
-            {
-                name: "电费",
-                type: "周期性收费",
-                calcType: "单价 x 数量",
-                unitPrice: "2.13",
-                measure: "用电量",
-                period: "每隔 1 月计费一次",
-                comment: ""
-            },
-            {
-                name: "水费",
-                type: "周期性收费",
-                calcType: "单价 x 数量",
-                unitPrice: "1.22",
-                measure: "用水量",
-                period: "每隔 2 月计费一次",
-                comment: ""
-            }
-        ]
+        data: [{
+            name: "电费",
+            type: "周期性收费",
+            calcType: "单价 x 数量",
+            unitPrice: "2.6",
+            measure: "用电量",
+            period: "每隔 1 月计费一次",
+            comment: ""
+        }, {
+            name: "水费",
+            type: "周期性收费",
+            calcType: "单价 x 数量",
+            unitPrice: "2.22",
+            measure: "用水量",
+            period: "每隔 2 月计费一次",
+            comment: ""
+        }, {
+            name: "气费",
+            type: "周期性收费",
+            calcType: "单价 x 数量",
+            unitPrice: "2.9",
+            measure: "用电量",
+            period: "每隔 1 月计费一次",
+            comment: ""
+        }, {
+            name: "热费",
+            type: "周期性收费",
+            calcType: "单价 x 数量",
+            unitPrice: "2.62",
+            measure: "用水量",
+            period: "每隔 2 月计费一次",
+            comment: ""
+        }]
     });
 
     $("#dTree").tree({
@@ -62,6 +75,13 @@ $(document).ready(function () {
                             },
                             {
                                 "text": "气费",
+                                "attributes": {
+                                    "type": "category"
+                                },
+                                "children": []
+                            },
+                            {
+                                "text": "热费",
                                 "attributes": {
                                     "type": "category"
                                 },

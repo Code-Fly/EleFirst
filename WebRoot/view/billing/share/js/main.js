@@ -7,22 +7,23 @@ $(document).ready(function () {
         pageSize: DEFAULT_PAGE_SIZE,
         pageList: DEFAULT_PAGE_LIST,
         pageNumber: 1,
-        data: [
-            {
-                name: "1号楼公摊",
-                type: "按用量公摊",
-                unit: "1号楼"
-            },
-            {
-                name: "2号楼公摊",
-                type: "按用量公摊",
-                unit: "2号楼"
-            },
-            {
-                name: "3号楼公摊",
-                type: "按用量公摊",
-                unit: "3号楼"
-            }
+        data: [{
+            name: "干货区公用公摊",
+            type: "按面积公摊公用",
+            unit: "干货区"
+        }, {
+            name: "干货区损耗公摊",
+            type: "按面积公摊损耗",
+            unit: "干货区"
+        }, {
+            name: "水产区公用公摊",
+            type: "按面积公摊公用",
+            unit: "水产区"
+        }, {
+            name: "水产区损耗公摊",
+            type: "按面积公摊损耗",
+            unit: "干货区"
+        }
         ]
     });
 
