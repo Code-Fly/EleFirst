@@ -24,7 +24,7 @@
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="padding: 5px;">
     <div class="easyui-layout" data-options="fit:true">
-        <div data-options="region:'west',title:'树形',tools:'#tool-tree'" style="width:200px;overflow: hidden">
+        <div data-options="region:'west',title:'树形',tools:'#tool-tree'" style="width:200px;">
             <ul id="dTree" class="easyui-tree">
 
             </ul>

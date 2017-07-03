@@ -17,10 +17,10 @@
 <body class="easyui-layout">
 <div data-options="region:'center',border:false" style="padding: 5px;">
     <div class="easyui-layout" data-options="fit:true">
-        <div data-options="region:'west',title:'监测点',tools:'#tool-tree'" style="width:200px;overflow: hidden">
+        <div data-options="region:'west',title:'监测点',tools:'#tool-tree'" style="width:200px;overflow: hidden;">
             <iframe id="frame-tree" src="../../devicetree/main.jsp" style="width: 100%;height: 100%;" frameborder="no"
                     border="0"
-                    marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+                    marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe>
         </div>
         <div id="tool-tree">
             <a href="javascript:void(0)" id="btn-tree-tool-refresh" class="icon-reload"></a>

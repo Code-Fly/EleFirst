@@ -83,6 +83,7 @@ $(document).ready(function () {
         queryParams: {
             treeId: _treeId
         },
+        fit: true,
         animate: true,
         lines: true,
         onSelect: function (node) {
