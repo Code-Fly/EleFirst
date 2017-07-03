@@ -34,21 +34,21 @@
         </thead>
         <thead>
         <tr>
-            <th field="jfType" width="150">缴费模式</th>
-            <th field="jfzq" width="150">计费周期</th>
-            <th field="jnqj" width="150">计能期间</th>
-            <th field="ynlx" width="150">用能类型</th>
-            <th field="jjlx" width="150">计价类型</th>
-            <th field="gtfs" width="150">公摊方式</th>
-            <th field="sccbss" width="150">上次抄表示数</th>
-            <th field="bccbss" width="150">本次抄表示数</th>
-            <th field="ynl" width="150">用能量</th>
-            <th field="dj" width="150">单价</th>
-            <th field="nhfy" width="150">能耗费用</th>
-            <th field="gtfy" width="150">公摊费用</th>
-            <th field="zfy" width="150">总费用</th>
-            <th field="zhye" width="150">账户余额</th>
-            <th field="comment" width="150">备注</th>
+            <th field="jfType" align="center" width="150">缴费模式</th>
+            <th field="jfzq" align="center" width="150">计费周期</th>
+            <th field="jnqj" align="center" width="150">计能期间</th>
+            <th field="ynlx" align="center" width="150">用能类型</th>
+            <th field="jjlx" align="center" width="150">计价类型</th>
+            <th field="gtfs" align="center" width="150">公摊方式</th>
+            <th field="sccbss" align="center" width="150">上次抄表示数</th>
+            <th field="bccbss" align="center" width="150">本次抄表示数</th>
+            <th field="ynl" align="center" width="150">用能量</th>
+            <th field="dj" align="center" width="150">单价</th>
+            <th field="nhfy" align="center" width="150">能耗费用</th>
+            <th field="gtfy" align="center" width="150">公摊费用</th>
+            <th field="zfy" align="center" width="150">总费用</th>
+            <th field="zhye" align="center" width="150">账户余额</th>
+            <th field="comment" align="center" width="150">备注</th>
 
         </tr>
         </thead>
