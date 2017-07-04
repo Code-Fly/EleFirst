@@ -46,7 +46,7 @@ public class GraphUpdateService extends BaseService implements IGraphUpdateServi
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
             condition.setLimitEnd(template.getRows());
         }
-        condition.setOrderByClause("`sendTime` DESC");
+        condition.setOrderByClause("`clientOperationTime` DESC");
         return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
 
