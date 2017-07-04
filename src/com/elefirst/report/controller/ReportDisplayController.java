@@ -152,7 +152,7 @@ public class ReportDisplayController extends BaseController {
         map12.put("f1", "2400");
         map12.put("f2", "2327");
         map12.put("f3", "73");
-        map12.put("f4", "43.04%");
+        map12.put("f4", "3.04%");
         map12.put("_parentId", 1);
         lists.add(map12);
         Map<String, Object> map121 = new HashMap<String, Object>();
@@ -161,7 +161,7 @@ public class ReportDisplayController extends BaseController {
         map121.put("f1", "2400");
         map121.put("f2", "2327");
         map121.put("f3", "73");
-        map121.put("f4", "43.04%");
+        map121.put("f4", "3.04%");
         map121.put("_parentId", 12);
         lists.add(map121);
 
