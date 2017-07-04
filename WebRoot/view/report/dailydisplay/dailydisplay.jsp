@@ -22,7 +22,7 @@
        singleSelect="true" border="false" fit="true">
     <thead frozen="true">
     <tr>
-        <th field="address" width="120" align="center">监测点</th>
+        <th field="name" width="120" align="center">监测点</th>
     </tr>
     </thead>
     <thead>

@@ -51,14 +51,6 @@
         <th field="p21" width="100" align="center">21</th>
         <th field="p22" width="100" align="center">22</th>
         <th field="p23" width="100" align="center">23</th>
-        <th field="p24" width="100" align="center">24</th>
-        <th field="p25" width="100" align="center">25</th>
-        <th field="p26" width="100" align="center">26</th>
-        <th field="p27" width="100" align="center">27</th>
-        <th field="p28" width="100" align="center">28</th>
-        <th field="p29" width="100" align="center">29</th>
-        <th field="p30" width="100" align="center">30</th>
-        <th field="p31" width="100" align="center">31</th>
     </tr>
     </thead>
 </table>
