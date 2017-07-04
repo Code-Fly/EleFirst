@@ -28,37 +28,37 @@
     </thead>
     <thead>
     <tr>
-        <th field="p00" width="100" align="center">01</th>
-        <th field="p01" width="100" align="center">02</th>
-        <th field="p03" width="100" align="center">03</th>
-        <th field="p04" width="100" align="center">04</th>
-        <th field="p05" width="100" align="center">05</th>
-        <th field="p06" width="100" align="center">06</th>
-        <th field="p07" width="100" align="center">07</th>
-        <th field="p08" width="100" align="center">08</th>
-        <th field="p09" width="100" align="center">09</th>
-        <th field="p10" width="100" align="center">10</th>
-        <th field="p11" width="100" align="center">11</th>
-        <th field="p12" width="100" align="center">12</th>
-        <th field="p13" width="100" align="center">13</th>
-        <th field="p14" width="100" align="center">14</th>
-        <th field="p15" width="100" align="center">15</th>
-        <th field="p16" width="100" align="center">16</th>
-        <th field="p17" width="100" align="center">17</th>
-        <th field="p18" width="100" align="center">18</th>
-        <th field="p19" width="100" align="center">19</th>
-        <th field="p20" width="100" align="center">20</th>
-        <th field="p21" width="100" align="center">21</th>
-        <th field="p22" width="100" align="center">22</th>
-        <th field="p23" width="100" align="center">23</th>
-        <th field="p24" width="100" align="center">24</th>
-        <th field="p25" width="100" align="center">25</th>
-        <th field="p26" width="100" align="center">26</th>
-        <th field="p27" width="100" align="center">27</th>
-        <th field="p28" width="100" align="center">28</th>
-        <th field="p29" width="100" align="center">29</th>
-        <th field="p30" width="100" align="center">30</th>
-        <th field="p31" width="100" align="center">31</th>
+        <th field="p01" width="100" align="center">1日</th>
+        <th field="p02" width="100" align="center">2日</th>
+        <th field="p03" width="100" align="center">3日</th>
+        <th field="p04" width="100" align="center">4日</th>
+        <th field="p05" width="100" align="center">5日</th>
+        <th field="p06" width="100" align="center">6日</th>
+        <th field="p07" width="100" align="center">7日</th>
+        <th field="p08" width="100" align="center">8日</th>
+        <th field="p09" width="100" align="center">9日</th>
+        <th field="p10" width="100" align="center">10日</th>
+        <th field="p11" width="100" align="center">11日</th>
+        <th field="p12" width="100" align="center">12日</th>
+        <th field="p13" width="100" align="center">13日</th>
+        <th field="p14" width="100" align="center">14日</th>
+        <th field="p15" width="100" align="center">15日</th>
+        <th field="p16" width="100" align="center">16日</th>
+        <th field="p17" width="100" align="center">17日</th>
+        <th field="p18" width="100" align="center">18日</th>
+        <th field="p19" width="100" align="center">19日</th>
+        <th field="p20" width="100" align="center">20日</th>
+        <th field="p21" width="100" align="center">21日</th>
+        <th field="p22" width="100" align="center">22日</th>
+        <th field="p23" width="100" align="center">23日</th>
+        <th field="p24" width="100" align="center">24日</th>
+        <th field="p25" width="100" align="center">25日</th>
+        <th field="p26" width="100" align="center">26日</th>
+        <th field="p27" width="100" align="center">27日</th>
+        <th field="p28" width="100" align="center">28日</th>
+        <th field="p29" width="100" align="center">29日</th>
+        <th field="p30" width="100" align="center">30日</th>
+        <th field="p31" width="100" align="center">31日</th>
     </tr>
     </thead>
 </table>

@@ -28,8 +28,9 @@
     </thead>
     <thead>
     <tr>
-        <th field="p00" width="100" align="center">01</th>
-        <th field="p01" width="100" align="center">02</th>
+        <th field="p00" width="100" align="center">00</th>
+        <th field="p01" width="100" align="center">01</th>
+        <th field="p02" width="100" align="center">02</th>
         <th field="p03" width="100" align="center">03</th>
         <th field="p04" width="100" align="center">04</th>
         <th field="p05" width="100" align="center">05</th>
