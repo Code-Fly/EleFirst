@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -69,9 +71,9 @@ public class GraphUpdateController extends BaseController {
             pnTemplate.setPn(jItem.getString("pn"));
             List<PnInfo> pnList = pnInfoService.getPnInfoList(pnTemplate);
             if (currentPnList.size() > 0 && pnList.size() > 0) {
-                jItem.put("aCurrent", Double.valueOf(currentPnList.get(0).getaCurrent()) * pnList.get(0).getCt());
-                jItem.put("bCurrent", Double.valueOf(currentPnList.get(0).getbCurrent()) * pnList.get(0).getCt());
-                jItem.put("cCurrent", Double.valueOf(currentPnList.get(0).getcCurrent()) * pnList.get(0).getCt());
+                jItem.put("aCurrent", calc(currentPnList.get(0).getaCurrent(), pnList.get(0).getCt(), 3));
+                jItem.put("bCurrent", calc(currentPnList.get(0).getbCurrent(), pnList.get(0).getCt(), 3));
+                jItem.put("cCurrent", calc(currentPnList.get(0).getcCurrent(), pnList.get(0).getCt(), 3));
                 jItem.put("clientOperationTime", currentPnList.get(0).getClientoperationtime());
                 newCurrent.add(jItem);
             }
@@ -109,4 +111,17 @@ public class GraphUpdateController extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", result);
     }
 
+    public String calc(String org, Double num, Integer precision) {
+        if (null != org) {
+            if (null == precision) {
+                return String.valueOf(Double.valueOf(org) * num);
+            } else {
+                BigDecimal n1 = new BigDecimal(Double.valueOf(org));
+                BigDecimal n2 = new BigDecimal(num);
+                double d = n1.multiply(n2).setScale(precision, RoundingMode.HALF_UP).doubleValue();
+                return String.valueOf(d);
+            }
+        }
+        return null;
+    }
 }
