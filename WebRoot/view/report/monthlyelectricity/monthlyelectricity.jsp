@@ -21,19 +21,19 @@
 		<thead>
 		    <tr>
 				<th colspan="2">月电量最大值(kWh)</th>
-				<th colspan="2">580</th>
+				<th colspan="2">8.90</th>
 				<th align="center">出现时间</th>
-				<th align="center">2017-06-03</th>
+				<th align="center">2017-06-10</th>
 			</tr>
 			<tr>
 				<th colspan="2">月电量最小值(kWh)</th>
-				<th colspan="2">243</th>
+				<th colspan="2">1</th>
 				<th width="100" align="center">出现时间</th>
-				<th width="100" align="center">2017-06-04</th>
+				<th width="100" align="center">2017-06-07</th>
 			</tr>
 			<tr>
 				<th colspan="2">月电量累计(kWh)</th>
-				<th colspan="4">2891</th>
+				<th colspan="4">102.65</th>
 			</tr>
 			<tr>
 				<th width="100" field="date" align="center">日期</th>
