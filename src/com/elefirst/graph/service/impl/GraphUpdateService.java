@@ -2,10 +2,10 @@ package com.elefirst.graph.service.impl;
 
 import com.elefirst.base.service.BaseService;
 import com.elefirst.graph.service.iface.IGraphUpdateService;
-import com.elefirst.power.dao.iface.IDataF25DAO;
+import com.elefirst.power.dao.iface.IDataF25FrozenMinuteDAO;
 import com.elefirst.power.dao.iface.IPnStatDAO;
-import com.elefirst.power.po.DataF25;
-import com.elefirst.power.po.DataF25Example;
+import com.elefirst.power.po.DataF25FrozenMinute;
+import com.elefirst.power.po.DataF25FrozenMinuteExample;
 import com.elefirst.power.po.PnStat;
 import com.elefirst.power.po.PnStatExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +19,16 @@ import java.util.List;
 @Service
 public class GraphUpdateService extends BaseService implements IGraphUpdateService {
     @Autowired
-    private IDataF25DAO dataF25DAO;
+    private IDataF25FrozenMinuteDAO dataF25FrozenMinuteDAO;
 
     @Autowired
     private IPnStatDAO pnStatDAO;
 
 
     @Override
-    public List<DataF25> getLatestCurrentPnList(DataF25 template) {
-        DataF25Example condition = new DataF25Example();
-        DataF25Example.Criteria criteria = condition.createCriteria();
+    public List<DataF25FrozenMinute> getLatestCurrentPnList(DataF25FrozenMinute template) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -47,13 +47,13 @@ public class GraphUpdateService extends BaseService implements IGraphUpdateServi
             condition.setLimitEnd(template.getRows());
         }
         condition.setOrderByClause("`sendTime` DESC");
-        return dataF25DAO.getDataF25List(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteList(condition);
     }
 
     @Override
-    public int getLatestCurrentPnListCount(DataF25 template) {
-        DataF25Example condition = new DataF25Example();
-        DataF25Example.Criteria criteria = condition.createCriteria();
+    public int getLatestCurrentPnListCount(DataF25FrozenMinute template) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
 
         if (null != template && null != template.getAreaId()) {
             criteria.andAreaIdEqualTo(template.getAreaId());
@@ -65,7 +65,7 @@ public class GraphUpdateService extends BaseService implements IGraphUpdateServi
             criteria.andPnEqualTo(template.getPn());
         }
         condition.setOrderByClause("`clientOperationTime` DESC");
-        return dataF25DAO.getDataF25ListCount(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteListCount(condition);
     }
 
     @Override

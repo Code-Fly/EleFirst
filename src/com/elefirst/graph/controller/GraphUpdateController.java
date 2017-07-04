@@ -4,7 +4,7 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.graph.service.iface.IGraphUpdateService;
-import com.elefirst.power.po.DataF25;
+import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.PnStat;
 import com.elefirst.power.service.iface.IPnStatService;
 import com.elefirst.system.po.PnInfo;
@@ -55,13 +55,13 @@ public class GraphUpdateController extends BaseController {
 
         for (int i = 0; i < jCurrent.size(); i++) {
             JSONObject jItem = jCurrent.getJSONObject(i);
-            DataF25 template = new DataF25();
+            DataF25FrozenMinute template = new DataF25FrozenMinute();
             template.setAreaId(jItem.getString("areaId"));
             template.setConcentratorId(jItem.getString("concentratorId"));
             template.setPn(jItem.getString("pn"));
             template.setPage(1);
             template.setRows(1);
-            List<DataF25> currentPnList = graphUpdateService.getLatestCurrentPnList(template);
+            List<DataF25FrozenMinute> currentPnList = graphUpdateService.getLatestCurrentPnList(template);
 
             PnInfo pnTemplate = new PnInfo();
             pnTemplate.setAreaId(jItem.getString("areaId"));

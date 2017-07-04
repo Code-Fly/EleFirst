@@ -121,8 +121,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "100",
             price: "2.62",
-            owe: "262",
-            penalty: "0",
+            pay: "262",
+            payId: "1470901302",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }, {
             userName: "张斌",
@@ -136,8 +138,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "300",
             price: "1.6",
-            owe: "480",
-            penalty: "0",
+            pay: "480",
+            payId: "1470901303",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }, {
             userName: "刘明",
@@ -151,8 +155,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "600",
             price: "1.6",
-            owe: "960",
-            penalty: "0",
+            pay: "960",
+            payId: "1470901304",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }, {
             userName: "孙凡",
@@ -166,8 +172,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "100",
             price: "1.6",
-            owe: "160",
-            penalty: "0",
+            pay: "160",
+            payId: "1470901305",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }, {
             userName: "王方",
@@ -181,8 +189,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "410",
             price: "1.6",
-            owe: "656",
-            penalty: "0",
+            pay: "656",
+            payId: "1470901306",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }, {
             userName: "王方",
@@ -196,8 +206,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "410",
             price: "1.6",
-            owe: "656",
-            penalty: "0",
+            pay: "656",
+            payId: "1470901307",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }, {
             userName: "高权",
@@ -211,8 +223,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "100",
             price: "2.62",
-            owe: "262",
-            penalty: "0",
+            pay: "262",
+            payId: "1470901308",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }, {
             userName: "高权",
@@ -226,8 +240,10 @@ $(document).ready(function () {
             payType: "现金",
             amount: "100",
             price: "2.62",
-            owe: "262",
-            penalty: "0",
+            pay: "262",
+            payId: "1470901309",
+            operator: "admin",
+            opTime: "2017-07-02",
             comment: ""
         }]
     });
