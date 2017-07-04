@@ -28,7 +28,7 @@ $(document).ready(function () {
             type: "周期性收费",
             calcType: "单价 x 数量",
             unitPrice: "2.9",
-            measure: "用电量",
+            measure: "用气量",
             period: "每隔 1 月计费一次",
             comment: ""
         }, {
@@ -36,7 +36,7 @@ $(document).ready(function () {
             type: "周期性收费",
             calcType: "单价 x 数量",
             unitPrice: "2.62",
-            measure: "用水量",
+            measure: "用热量",
             period: "每隔 2 月计费一次",
             comment: ""
         }]
