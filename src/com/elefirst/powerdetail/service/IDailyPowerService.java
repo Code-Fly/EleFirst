@@ -9,6 +9,7 @@ import com.elefirst.powerdetail.po.DailyLoad;
 import com.elefirst.powerdetail.po.DailyHarmonic;
 import com.elefirst.powerdetail.po.DailyPowerFactor;
 import com.elefirst.powerdetail.po.DailyVoltage;
+import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 
 public interface IDailyPowerService {
 	/**
@@ -82,6 +83,10 @@ public interface IDailyPowerService {
 	 * @throws Exception
 	 */
 	public List<DailyElectricity> fetchAllDailyElectricity(String date,String areaId,List<Concentrator> concentrators,int rows,int page) throws Exception;
+	
+	public List<DailyElectricity> fetchAllDailyElectricity(String startdate,String enddate,
+			String areaId, List<Concentrator> concentrators, int rows, int page,String pn)
+			throws Exception;
 	
 	/**
 	 *  查询按日统计电量相关数据条数

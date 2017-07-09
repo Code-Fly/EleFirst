@@ -10,5 +10,7 @@ public interface MonthlyDemandDetailMapper {
     int countByExample(Map map);
 
     List<MonthlyDemandDetail> selectByExample(Map map);
+    
+    List<MonthlyDemandDetail> selectByExample2(Map map);
 
 }

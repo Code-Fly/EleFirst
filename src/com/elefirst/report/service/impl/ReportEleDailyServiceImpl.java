@@ -1,6 +1,8 @@
 package com.elefirst.report.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +13,7 @@ import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.DailyVoltage;
 import com.elefirst.powerdetail.po.DailyVoltageExample;
 import com.elefirst.report.mapper.ReportEleByDailyMapper;
+import com.elefirst.report.po.ReportDisplayByDaily;
 import com.elefirst.report.po.ReportEleByDaily;
 import com.elefirst.report.po.ReportEleByDailyExample;
 import com.elefirst.report.service.IReportEleDailyService;
@@ -97,6 +100,31 @@ public class ReportEleDailyServiceImpl implements IReportEleDailyService{
 		}
 		List<ReportEleByDaily> reportEleByDaily = reportEleByDailyMapper.selectByExample(condition);
 		return reportEleByDaily;
+	}
+
+	@Override
+	public List<ReportEleByDaily> fetchAllReportEleByDaily2(String date,
+			String areaId, List<Concentrator> concentrators, int rows,
+			int page, boolean isPagination) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			params.put("date", vdate);
+		}
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		
+		List<ReportEleByDaily> reportEleByDaily = reportEleByDailyMapper.myselectByExample(params);
+		return reportEleByDaily;
+	}
+
+	@Override
+	public int fetchAllReportEleByDailyCount(String date, String areaId,
+			List<Concentrator> concentrators) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

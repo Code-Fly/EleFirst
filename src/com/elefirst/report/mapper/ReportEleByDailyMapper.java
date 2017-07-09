@@ -1,8 +1,12 @@
 package com.elefirst.report.mapper;
 
+import com.elefirst.report.po.ReportDisplayByDaily;
 import com.elefirst.report.po.ReportEleByDaily;
 import com.elefirst.report.po.ReportEleByDailyExample;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ReportEleByDailyMapper {
@@ -27,4 +31,8 @@ public interface ReportEleByDailyMapper {
     int updateByPrimaryKeySelective(ReportEleByDaily record);
 
     int updateByPrimaryKey(ReportEleByDaily record);
+    
+    int mycountByExample(Map map);
+
+    List<ReportEleByDaily> myselectByExample(Map map);
 }

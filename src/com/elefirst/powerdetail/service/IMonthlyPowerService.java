@@ -98,6 +98,9 @@ public interface IMonthlyPowerService {
 	 */
 	public int fetchAllMonthlyDemandCount(String date,String areaId,List<Concentrator> concentrators) throws Exception;
 	
+	
+	
+	
 	/**
 	 * 查询按月统计需量详情示数相关数据
 	 * @param areaId
@@ -106,6 +109,9 @@ public interface IMonthlyPowerService {
 	 */
 	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String date,String areaId,List<Concentrator> concentrators,int rows,int page,String pn) throws Exception;
 	
+	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand(String startdate,String enddate,
+			String areaId, List<Concentrator> concentrators, int rows, int page,String pn)
+			throws Exception;
 	/**
 	 *  查查询按月统计需量详情示数相关数据条数
 	 * @param date

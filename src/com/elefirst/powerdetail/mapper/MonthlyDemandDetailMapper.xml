@@ -189,6 +189,181 @@
       limit ${limitStart} , ${limitEnd}
     </if>
   </select>
+  <select id="selectByExample2" resultMap="BaseResultMap">
+    select * from (
+	      SELECT
+			date_format(
+				clientOperationTime,
+				'%Y%m%d'
+			) AS days,
+			t.`name`,
+			t.clientOperationTime,
+			t.area_id,
+			t.concentrator_id,
+			t.pn,
+			t.totalPositiveActivePower,
+			t.rateseq1,
+			t.rateseq2,
+			t.rateseq3,
+			t.rateseq4,
+			t.totalPositiveMaxActivePower,
+			t.totalPositiveMaxActivePowerTime
+		FROM
+			(
+				SELECT
+					dm.`name`,
+					dp.clientOperationTime,
+					dp.area_id,
+					dp.concentrator_id,
+					dp.pn,
+					dp.totalPositiveActivePower,
+					dp.rateseq1,
+					dp.rateseq2,
+					dp.rateseq3,
+					dp.rateseq4,
+					dm.totalPositiveMaxActivePower,
+					dm.totalPositiveMaxActivePowerTime
+				FROM
+					(
+						SELECT
+							b.clientOperationTime,
+							b.area_id,
+							b.concentrator_id,
+							b.pn,
+							b.totalPositiveActivePower,
+							c.rateseq1,
+							c.rateseq2,
+							c.rateseq3,
+							c.rateseq4
+						FROM
+							t_033_type_two_data_fn161 b,
+							(
+								SELECT
+									id,
+									max(
+										CASE rate_seq
+										WHEN '1' THEN
+											a.positiveActivePower
+										ELSE
+											''
+										END
+									) AS rateseq1,
+									max(
+										CASE rate_seq
+										WHEN '2' THEN
+											a.positiveActivePower
+										ELSE
+											''
+										END
+									) AS rateseq2,
+									max(
+										CASE rate_seq
+										WHEN '3' THEN
+											a.positiveActivePower
+										ELSE
+											''
+										END
+									) AS rateseq3,
+									max(
+										CASE rate_seq
+										WHEN '4' THEN
+											a.positiveActivePower
+										ELSE
+											''
+										END
+									) AS rateseq4
+								FROM
+									t_033_type_two_data_fn161_rate a
+								GROUP BY
+									id
+							) c
+						WHERE
+							b.id = c.id
+					) dp,
+					(
+						SELECT
+							a.clientOperationTime,
+							a.area_id,
+							a.concentrator_id,
+							a.pn,
+							a.totalPositiveMaxActivePower,
+							a.totalPositiveMaxActivePowerTime,
+							a.`name`
+						FROM
+							(
+								SELECT
+									t3.clientOperationTime,
+									t3.area_id,
+									t3.concentrator_id,
+									t3.pn,
+									t3.totalPositiveMaxActivePower,
+									t3.totalPositiveMaxActivePowerTime,
+									t3.`name`
+								FROM
+									(
+										SELECT
+											t1.`name`,
+											t2.area_id,
+											t2.concentrator_id,
+											t2.pn,
+											t2.totalPositiveMaxActivePower,
+											t2.totalPositiveMaxActivePowerTime,
+											t2.clientOperationTime
+										FROM
+											t_202_pn_info t1
+										INNER JOIN t_034_type_two_data_fn185 t2 ON t1.area_id = t2.area_id
+										AND t1.concentrator_id = t2.concentrator_id
+										AND t1.pn = t2.pn
+										ORDER BY
+											(t2.clientOperationTime + 0) DESC
+									) t3
+								GROUP BY
+									t3.area_id,
+									t3.concentrator_id,
+									t3.pn
+							) a
+						GROUP BY
+							a.area_id,
+							a.concentrator_id,
+							a.pn
+					) dm
+				WHERE
+					dp.clientOperationTime = dm.clientOperationTime
+				AND dp.area_id = dm.area_id
+				AND dp.concentrator_id = dm.concentrator_id
+				AND dp.pn = dm.pn
+			) t
+		GROUP BY
+			days,
+			t.area_id,
+			t.concentrator_id,
+			t.pn
+    ) ct where 1=1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="startdate!= null and startdate!= '' and enddate!= null and enddate!= ''">
+	      and ct.clientOperationTime between #{startdate,jdbcType=VARCHAR} and #{enddate,jdbcType=VARCHAR}
+	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             ct.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and ct.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
+	order by ct.days desc
+	<if test="limitStart != null and limitStart >=0">
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  
   <select id="countByExample" resultType="java.lang.Integer" >
     select count(1) from (
 		  SELECT

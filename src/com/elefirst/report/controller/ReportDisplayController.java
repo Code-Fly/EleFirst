@@ -40,9 +40,9 @@ public class ReportDisplayController extends BaseController {
                                                       @RequestParam(value = "page", required = false) Integer page,
                                                       @RequestParam(value = "rows", required = false) Integer rows, String date
     ) throws Exception {
-        List<ReportDisplayByDaily> reportDisplayByDailys = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDaily(date, null, null, rows, page, true);
+        List<ReportDisplayByDaily> reportDisplayByDailys = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDaily2(date, null, null, rows, page, true);
         DataGrid dg = new DataGrid();
-        long count = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDaily(date, null, null, rows, page, false).size();
+        long count = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDailyCount(date, null, null);
         dg.setTotal(count);
         dg.setRows(reportDisplayByDailys);
         return new ErrorMsg(Error.SUCCESS, "success", dg);

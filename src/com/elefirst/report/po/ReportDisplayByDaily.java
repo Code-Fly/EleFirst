@@ -79,7 +79,17 @@ public class ReportDisplayByDaily {
 
     private String updateTime;
 
-    public String getId() {
+    private String name;
+    
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getId() {
         return id;
     }
 

@@ -9,5 +9,6 @@ public interface DailyElectricityMapper {
     int countByExample(Map map);
 
     List<DailyElectricity> selectByExample(Map map);
-
+    
+    List<DailyElectricity> selectByExample2(Map map);
 }
