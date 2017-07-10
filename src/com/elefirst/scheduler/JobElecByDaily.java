@@ -49,7 +49,7 @@ public class JobElecByDaily {
 	@Resource(name = "reportEleDailyServiceImpl")
 	private IReportEleDailyService reportEleDailyServiceImpl;
 
-	@Scheduled(cron = "0/5 0 0 * * ?")
+	@Scheduled(cron = "0/50 * * * * ?")
 	public void job() {
 		try {
 			PnInfo pnTemplate = new PnInfo();

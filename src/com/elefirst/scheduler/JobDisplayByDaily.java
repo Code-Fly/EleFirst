@@ -45,7 +45,7 @@ public class JobDisplayByDaily {
 	@Resource(name = "reportDisplayDailyServiceImpl")
 	private IReportDisplayDailyService reportDisplayDailyServiceImpl;
 
-	@Scheduled(cron = "0 0 0 * * ?")
+	//@Scheduled(cron = "0/6 * * * * ?")
 	public void job() {
 		try {
 			PnInfo pnTemplate = new PnInfo();

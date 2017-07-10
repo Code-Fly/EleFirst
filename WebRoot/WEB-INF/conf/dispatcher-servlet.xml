@@ -67,5 +67,4 @@
     <mvc:resources mapping="login.jsp" location="/"/>
 
     <!-- <import resource="classpath:mybatis.xml"/> -->
-
 </beans>		

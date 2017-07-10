@@ -14,8 +14,10 @@ import com.elefirst.powerdetail.po.DailyVoltage;
 import com.elefirst.powerdetail.po.DailyVoltageExample;
 import com.elefirst.report.mapper.ReportEleByDailyMapper;
 import com.elefirst.report.po.ReportDisplayByDaily;
+import com.elefirst.report.po.ReportDisplayByDailyExample;
 import com.elefirst.report.po.ReportEleByDaily;
 import com.elefirst.report.po.ReportEleByDailyExample;
+import com.elefirst.report.po.ReportEnergyByHourExample;
 import com.elefirst.report.service.IReportEleDailyService;
 
 @Service
@@ -27,8 +29,21 @@ public class ReportEleDailyServiceImpl implements IReportEleDailyService{
 	@Override
 	public List<ReportEleByDaily> getReportEleByDailyList(
 			ReportEleByDaily template) {
-		// TODO Auto-generated method stub
-		return null;
+		ReportEleByDailyExample condition = new ReportEleByDailyExample();
+		ReportEleByDailyExample.Criteria criteria = condition.createCriteria();
+		if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        if (null != template && null != template.getOperationTime()) {
+            criteria.andOperationTimeEqualTo(template.getOperationTime());
+        }
+		return reportEleByDailyMapper.selectByExample(condition);
 	}
 
 	@Override
@@ -57,9 +72,11 @@ public class ReportEleDailyServiceImpl implements IReportEleDailyService{
 
 	@Override
 	public int updateReportEleByDaily(ReportEleByDaily template) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		ReportEleByDailyExample condition = new ReportEleByDailyExample();
+		ReportEleByDailyExample.Criteria criteria = condition.createCriteria();
+        criteria.andIdEqualTo(template.getId());
+        return reportEleByDailyMapper.updateByExampleSelective(template, condition);
+}
 
 	@Override
 	public int delReportEleByDaily(String id) {

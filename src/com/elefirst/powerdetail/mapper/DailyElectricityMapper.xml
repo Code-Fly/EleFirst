@@ -224,7 +224,7 @@
 		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
 	</if>
 	<if test="startdate!= null and startdate!= '' and enddate!= null and enddate!= ''">
-	      and ct.clientOperationTime between #{startdate,jdbcType=VARCHAR} and #{enddate,jdbcType=VARCHAR}
+	      and ct.days between #{startdate,jdbcType=VARCHAR} and #{enddate,jdbcType=VARCHAR}
 	</if>
 	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
         and (
