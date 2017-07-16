@@ -31,7 +31,8 @@
         <tr>
             <th field="name" width="150" align="center">公摊名称</th>
             <th field="type" width="150" align="center">公摊方式</th>
-            <th field="unit" width="150" align="center">用能公摊单元</th>
+            <th field="unit" width="150" align="center">公摊单元</th>
+            <th field="enable" width="150" align="center">启用状态</th>
         </tr>
         </thead>
     </table>
@@ -71,7 +72,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-combobox" style="width: 100%;">
+                                <input class="easyui-combobox" value="按用量公摊" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -82,7 +83,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-combobox" style="width: 100%;">
+                                <input class="easyui-combobox" value="全部" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
