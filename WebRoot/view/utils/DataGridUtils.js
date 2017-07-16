@@ -32,6 +32,14 @@ var DataGridUtils = {
                 t = t / 10000.0
                 return parseFloat(t.toFixed(2)) + "万";
             }
+            else if (t > 1000) {
+                t = t / 1000.0
+                return parseFloat(t.toFixed(2)) + "千";
+            }
+            else if (t > 100) {
+                t = t / 100.0
+                return parseFloat(t.toFixed(2)) + "百";
+            }
             else {
                 return parseFloat(t.toFixed(precision));
             }

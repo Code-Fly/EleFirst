@@ -3,30 +3,21 @@ package com.elefirst.scheduler;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.Const;
 import com.elefirst.base.utils.TimeUtil;
-import com.elefirst.power.po.DataF105;
 import com.elefirst.power.service.iface.IDataF105Service;
 import com.elefirst.powerdetail.po.Concentrator;
 import com.elefirst.powerdetail.po.MonthlyDemandDetail;
 import com.elefirst.powerdetail.service.IMonthlyPowerService;
 import com.elefirst.report.po.ReportDisplayByDaily;
-import com.elefirst.report.po.ReportEnergyByHour;
 import com.elefirst.report.service.IReportDisplayDailyService;
-import com.elefirst.report.service.iface.IReportEnergyByHourService;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by barrie on 2017/3/13.
@@ -45,8 +36,8 @@ public class JobDisplayByDaily {
 	@Resource(name = "reportDisplayDailyServiceImpl")
 	private IReportDisplayDailyService reportDisplayDailyServiceImpl;
 
-	//@Scheduled(cron = "0/6 * * * * ?")
-	public void job() {
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void job() {
 		try {
 			PnInfo pnTemplate = new PnInfo();
 

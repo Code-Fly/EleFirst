@@ -46,12 +46,7 @@
             <th field="unit" width="150" align="center">所属单元</th>
             <th field="chargeType" width="150" align="center">能源收费类别</th>
             <th field="openDate" width="150" align="center">开户日期</th>
-            <th field="pnType" width="150" align="center">电表类型</th>
-            <th field="pnBase" width="150" align="center">表计底数</th>
-            <th field="billType" width="150" align="center">计价类型</th>
             <th field="payment" width="150" align="center">缴费模式</th>
-            <th field="paymentDeadline" width="150" align="center">缴费截止日</th>
-            <th field="balance" width="150" align="center">剩余金额</th>
             <th field="comment" width="150" align="center">备注</th>
         </tr>
         </thead>
@@ -153,7 +148,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-datebox" style="width: 100%;">
+                                <input class="easyui-datebox" value="2016-10-01" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -164,7 +159,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-datebox" style="width: 100%;">
+                                <input class="easyui-datebox" value="2017-10-01" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -197,7 +192,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-combobox" style="width: 100%;">
+                                <input class="easyui-combobox" value="入住" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -208,7 +203,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-combobox" style="width: 100%;">
+                                <input class="easyui-combobox" value="干货区" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -219,7 +214,8 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-combobox" style="width: 100%;">
+                                <input id="combo-charge-type" class="easyui-combobox" multiple="true"
+                                       style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -230,40 +226,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-datebox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="grid_3 cell title">
-                            <p>
-                                电表类型
-                            </p>
-                        </div>
-                        <div class="grid_9 cell">
-                            <p>
-                                <input class="easyui-combobox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="grid_3 cell title">
-                            <p>
-                                表计底数
-                            </p>
-                        </div>
-                        <div class="grid_9 cell">
-                            <p>
-                                <input class="easyui-textbox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="grid_3 cell title">
-                            <p>
-                                计价类型
-                            </p>
-                        </div>
-                        <div class="grid_9 cell">
-                            <p>
-                                <input class="easyui-combobox" style="width: 100%;">
+                                <input class="easyui-datebox" value="2017-03-02" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -274,29 +237,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-combobox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="grid_3 cell title">
-                            <p>
-                                缴费截止日
-                            </p>
-                        </div>
-                        <div class="grid_9 cell">
-                            <p>
-                                <input class="easyui-datebox" style="width: 100%;">
-                            </p>
-                        </div>
-                        <div class="clear"></div>
-                        <div class="grid_3 cell title">
-                            <p>
-                                剩余金额
-                            </p>
-                        </div>
-                        <div class="grid_9 cell">
-                            <p>
-                                <input class="easyui-textbox" style="width: 100%;">
+                                <input class="easyui-combobox" value="预缴费" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>

@@ -405,6 +405,25 @@ $(document).ready(function () {
         }]
     });
 
+    $("#combo-charge-type").combobox({
+        data: [{
+            "value": 1,
+            "text": "电",
+            "selected": true
+        }, {
+            "value": 2,
+            "text": "水",
+            "selected": true
+        }, {
+            "value": 3,
+            "text": "气",
+            "selected": true
+        }, {
+            "value": 4,
+            "text": "热"
+        }]
+    });
+
     $("#btn-pn-tool-add").linkbutton({
         onClick: function () {
             $("#dlg-add-user").dialog("open");
