@@ -44,6 +44,10 @@
                data-options="plain:true,iconCls:'icon-edit'">编辑</a>
             <a href="#" id="btn-pn-tool-delete" class="easyui-linkbutton"
                data-options="plain:true,iconCls:'icon-cross'">删除</a>
+            <a href="#" id="btn-pn-tool-enable" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-play_green'">启用</a>
+            <a href="#" id="btn-pn-tool-disable" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-stop_red'">禁用</a>
         </div>
     </div>
     <div id="dlg-add-user" class="easyui-dialog" title="公摊管理"

@@ -150,7 +150,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-datebox" value="2016-10-01" style="width: 100%;">
+                                <input class="easyui-datebox" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -161,7 +161,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-datebox" value="2017-10-01" style="width: 100%;">
+                                <input class="easyui-datebox" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>

@@ -44,12 +44,21 @@
 
                         <thead>
                         <tr>
+                            <th field="corpName" width="150" align="center">单位名称</th>
+                            <th field="corpCode" width="150" align="center">单位编号</th>
                             <th field="name" width="150" align="center">收费项目名称</th>
+                            <th field="evalTimeStart" width="150" align="center">有效期（起）</th>
+                            <th field="evalTimeEnd" width="150" align="center">有效期（止）</th>
                             <th field="type" width="150" align="center">收费类别</th>
                             <th field="calcType" width="150" align="center">金额计算方式</th>
                             <th field="unitPrice" width="150" align="center">单价</th>
-                            <th field="measure" width="150" align="center">计量方式</th>
-                            <th field="period" width="150" align="center">计费周期</th>
+                            <th field="jfr" width="150" align="center">计费日</th>
+                            <th field="jfjzr" width="150" align="center">缴费截止日</th>
+                            <th field="zdkfr" width="150" align="center">自动扣费日</th>
+                            <th field="wyj" width="150" align="center">违约金</th>
+                            <th field="ycxyhje" width="150" align="center">一次性优惠金额</th>
+                            <th field="ycxyhwjbh" width="150" align="center">一次性优惠文件编号</th>
+                            <th field="enable" width="150" align="center">启用状态</th>
                             <th field="comment" width="150" align="center">备注</th>
                         </tr>
                         </thead>
@@ -62,6 +71,10 @@
                                data-options="plain:true,iconCls:'icon-edit'">编辑</a>
                             <a href="#" id="btn-pn-tool-delete" class="easyui-linkbutton"
                                data-options="plain:true,iconCls:'icon-cross'">删除</a>
+                            <a href="#" id="btn-pn-tool-enable" class="easyui-linkbutton"
+                               data-options="plain:true,iconCls:'icon-play_green'">启用</a>
+                            <a href="#" id="btn-pn-tool-disable" class="easyui-linkbutton"
+                               data-options="plain:true,iconCls:'icon-stop_red'">禁用</a>
                         </div>
                     </div>
                 </div>
@@ -85,7 +98,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-textbox" style="width: 100%;">
+                                <input class="easyui-combobox" value="单一制（单价x数量）" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -107,7 +120,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-combobox" style="width: 100%;">
+                                <input class="easyui-combobox" value="用电量（千瓦时）" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -118,7 +131,95 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                每隔<input class="easyui-numberspinner" style="width: 50px;">月计费一次
+                                每隔<input class="easyui-numberspinner" value="1" style="width: 50px;">月计费一次
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                计费日
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                <input class="easyui-numberspinner" value="1" style="width: 50px;">日
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                缴费截止日
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                <input class="easyui-numberspinner" value="1" style="width: 50px;">日
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                自动扣费日
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                <input class="easyui-numberspinner" value="1" style="width: 50px;">日
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                违约金
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                逾期未缴按欠费金额<input class="easyui-numberspinner" value="1" style="width: 50px;">%/天收取
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                优惠金额
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                <input class="easyui-numberspinner" value="0" style="width: 50px;">元
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                文件编号
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                <input class="easyui-textbox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                有效期（起）
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                <input class="easyui-datebox" style="width: 100%;">
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_3 cell title">
+                            <p>
+                                有效期（止）
+                            </p>
+                        </div>
+                        <div class="grid_9 cell">
+                            <p>
+                                <input class="easyui-datebox" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
@@ -176,7 +277,7 @@
                         </div>
                         <div class="grid_9 cell">
                             <p>
-                                <input class="easyui-textbox" style="width: 100%;">
+                                <input class="easyui-combobox" value="周期性收费" style="width: 100%;">
                             </p>
                         </div>
                         <div class="clear"></div>
