@@ -64,8 +64,8 @@
                        data-options="plain:true,iconCls:'icon-money_yen'">现金收费</a>
                     <a href="#" id="btn-pn-tool-edit" class="easyui-linkbutton"
                        data-options="plain:true,iconCls:'icon-mail'">打印票据</a>
-                    <a href="#" id="btn-pn-tool-xhjs" class="easyui-linkbutton"
-                       data-options="plain:true,iconCls:'icon-user_delete'">销户结算</a>
+                    <%--<a href="#" id="btn-pn-tool-xhjs" class="easyui-linkbutton"--%>
+                    <%--data-options="plain:true,iconCls:'icon-user_delete'">销户结算</a>--%>
                     <a href="#" id="btn-pn-tool-search" class="easyui-linkbutton"
                        data-options="plain:true,iconCls:'icon-search'">查询</a>
                     <a href="#" id="btn-pn-tool-export" class="easyui-linkbutton"
