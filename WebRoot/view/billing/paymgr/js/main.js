@@ -305,4 +305,9 @@ $(document).ready(function () {
         }
     });
 
+    $("#btn-pn-tool-search").linkbutton({
+        onClick: function () {
+            $("#cc1").layout("expand", "south")
+        }
+    });
 });
