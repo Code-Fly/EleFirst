@@ -46,7 +46,9 @@
             <th field="unit" width="150" align="center">所属单元</th>
             <th field="chargeType" width="150" align="center">能源收费类别</th>
             <th field="openDate" width="150" align="center">开户日期</th>
+            <th field="pnType" width="150" align="center">电表类型</th>
             <th field="payment" width="150" align="center">缴费模式</th>
+            <th field="balance" width="150" align="center">剩余金额</th>
             <th field="comment" width="150" align="center">备注</th>
         </tr>
         </thead>
@@ -280,11 +282,19 @@
                        border="false" fit="true">
                     <thead>
                     <tr>
-                        <th field="pnName" width="150" align="center">表计名称</th>
-                        <th field="pnAddr" width="150" align="center">表计地址</th>
-                        <th field="pnType" width="150" align="center">电表类型</th>
-                        <th field="unit" width="150" align="center">所属单元</th>
-                        <th field="comment" width="150" align="center">备注</th>
+                        <th field="pnName" width="150" align="center" rowspan="2">表计名称</th>
+                        <th field="pnAddr" width="150" align="center" rowspan="2">表计地址</th>
+                        <th field="pnType" width="150" align="center" rowspan="2">电表类型</th>
+                        <th colspan="5">表计当前示数</th>
+                        <th field="unit" width="150" align="center" rowspan="2">所属单元</th>
+                        <th field="comment" width="150" align="center" rowspan="2">备注</th>
+                    </tr>
+                    <tr>
+                        <th field="total" width="80" align="center">总</th>
+                        <th field="rate1" width="80" align="center">峰</th>
+                        <th field="rate2" width="80" align="center">平</th>
+                        <th field="rate3" width="80" align="center">谷</th>
+                        <th field="rate4" width="80" align="center">尖</th>
                     </tr>
                     </thead>
                 </table>
