@@ -142,7 +142,6 @@
                            border="false" fit="true">
                         <thead frozen="true">
                         <tr>
-                            <th data-options="field:'ck',checkbox:true"></th>
                             <th field="userName" width="100" align="center">用户名</th>
                             <th field="userCode" width="100" align="center">用户编号</th>
                         </tr>
