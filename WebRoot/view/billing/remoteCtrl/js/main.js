@@ -340,6 +340,179 @@ $(document).ready(function () {
         }]
     });
 
+    $("#dgList_2").datagrid({
+        pagination: true,
+        pageSize: DEFAULT_PAGE_SIZE,
+        pageList: DEFAULT_PAGE_LIST,
+        pageNumber: 1,
+        data: [{
+            userName: "王勇",
+            userCode: "1890901601",
+            bjlx: "单费率",
+            bjdz: "bj021201",
+            ssdy: "水产区",
+            zhye: "2000",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "钱名",
+            userCode: "1890901602",
+            bjlx: "单费率",
+            bjdz: "bj021206",
+            ssdy: "水产区",
+            zhye: "1000",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "刘明",
+            userCode: "1890901607",
+            bjlx: "单费率",
+            bjdz: "bj061201",
+            ssdy: "干货区",
+            zhye: "0",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "王方",
+            userCode: "1890901608",
+            bjlx: "多费率",
+            bjdz: "bj021209",
+            ssdy: "干货区",
+            zhye: "0",
+            qfye: "100",
+            kzzt: "跳闸",
+            comment: ""
+
+        }, {
+            userName: "孙凡",
+            userCode: "1890901609",
+            bjlx: "多费率",
+            bjdz: "bj091201",
+            ssdy: "干货区",
+            zhye: "1000",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "孔亮",
+            userCode: "1890901610",
+            bjlx: "单费率",
+            bjdz: "bj061609",
+            ssdy: "水产区",
+            zhye: "600",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "高学峰",
+            userCode: "1890901611",
+            bjlx: "单费率",
+            bjdz: "bj161629",
+            ssdy: "水产区",
+            zhye: "200",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "葛明",
+            userCode: "1890901612",
+            bjlx: "多费率",
+            bjdz: "bj861699",
+            ssdy: "水产区",
+            zhye: "1000",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "方亮",
+            userCode: "1890901613",
+            bjlx: "单费率",
+            bjdz: "bj161609",
+            ssdy: "干货区",
+            zhye: "800",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "王强",
+            userCode: "1890901616",
+            bjlx: "单费率",
+            bjdz: "bj661601",
+            ssdy: "干货区",
+            zhye: "200",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "孔亮",
+            userCode: "1890901610",
+            bjlx: "单费率",
+            bjdz: "bj661602",
+            ssdy: "干货区",
+            zhye: "600",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "冯勤",
+            userCode: "1890902211",
+            bjlx: "单费率",
+            bjdz: "bj661606",
+            ssdy: "干货区",
+            zhye: "800",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "张远",
+            userCode: "1390901612",
+            bjlx: "单费率",
+            bjdz: "bj661607",
+            ssdy: "干货区",
+            zhye: "200",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "王翔",
+            userCode: "1890922611",
+            bjlx: "单费率",
+            bjdz: "bj661609",
+            ssdy: "干货区",
+            zhye: "800",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }, {
+            userName: "王为",
+            userCode: "18979166619",
+            bjlx: "单费率",
+            bjdz: "bj661610",
+            ssdy: "干货区",
+            zhye: "900",
+            qfye: "0",
+            kzzt: "合闸",
+            comment: ""
+
+        }]
+    });
+
     $("#btn-pn-tool-setting").linkbutton({
         onClick: function () {
             $("#dlg-remote-setting").dialog("open")

@@ -38,17 +38,15 @@
             <th field="mobile" width="150" align="center">移动电话</th>
             <th field="wechat" width="150" align="center">微信号</th>
             <th field="contractNo" width="150" align="center">合同号</th>
-            <th field="billTimeStart" width="150" align="center">计费时间(起)</th>
-            <th field="billTimeEnd" width="150" align="center">计费时间(止)</th>
+            <th field="billTimeStart" width="150" align="center">合同时间(起)</th>
+            <th field="billTimeEnd" width="150" align="center">合同时间(止)</th>
             <th field="address" width="150" align="center">地址</th>
             <th field="area" width="150" align="center">建筑面积</th>
             <th field="checkInStatus" width="150" align="center">入住状态</th>
             <th field="unit" width="150" align="center">所属单元</th>
             <th field="chargeType" width="150" align="center">能源收费类别</th>
             <th field="openDate" width="150" align="center">开户日期</th>
-            <th field="pnType" width="150" align="center">电表类型</th>
             <th field="payment" width="150" align="center">缴费模式</th>
-            <th field="balance" width="150" align="center">剩余金额</th>
             <th field="comment" width="150" align="center">备注</th>
         </tr>
         </thead>

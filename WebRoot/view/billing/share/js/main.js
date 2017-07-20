@@ -8,37 +8,15 @@ $(document).ready(function () {
         pageList: DEFAULT_PAGE_LIST,
         pageNumber: 1,
         data: [{
-            name: "干货区公用公摊（按面积）",
-            type: "按面积公摊公用",
-            unit: "干货区"
+            name: "公摊（按面积）",
+            type: "按面积公摊",
+            unit: "干货区",
+            enable: "启用"
         }, {
-            name: "干货区损耗公摊（按面积）",
-            type: "按面积公摊损耗",
-            unit: "干货区"
-        }, {
-            name: "水产区公用公摊（按面积）",
-            type: "按面积公摊公用",
-            unit: "水产区"
-        }, {
-            name: "水产区损耗公摊（按面积）",
-            type: "按面积公摊损耗",
-            unit: "干货区"
-        }, {
-            name: "干货区公用公摊（按用能量）",
-            type: "按用能量公摊公用",
-            unit: "干货区"
-        }, {
-            name: "干货区损耗公摊（按用能量）",
-            type: "按用能量公摊损耗",
-            unit: "干货区"
-        }, {
-            name: "水产区公用公摊（按用能量）",
-            type: "按用能量公摊公用",
-            unit: "水产区"
-        }, {
-            name: "水产区损耗公摊（按用能量）",
-            type: "按用能量公摊损耗",
-            unit: "干货区"
+            name: "公摊（按用量）",
+            type: "按用量公摊",
+            unit: "水产区",
+            enable: "启用"
         }]
     });
 
