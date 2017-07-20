@@ -146,12 +146,14 @@
 								GROUP BY
 									t3.area_id,
 									t3.concentrator_id,
-									t3.pn
+      t3.pn,
+      t3.clientOperationTime
 							) a
 						GROUP BY
 							a.area_id,
 							a.concentrator_id,
-							a.pn
+      a.pn,
+      a.clientOperationTime
 					) dm
 				WHERE
 					dp.clientOperationTime = dm.clientOperationTime
