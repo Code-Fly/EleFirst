@@ -20,12 +20,12 @@ $(document).ready(function () {
                         $("#transformers").text(r.data.transformers);
                         $("#ratedCapacity").text(r.data.ratedCapacity);
                         $("#pns").text(r.data.pns);
-                        $("#electricityThisMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.electricityThisMonth, 2));
-                        $("#electricityLastMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.electricityLastMonth, 2));
-                        $("#electricityLastLastMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.electricityLastLastMonth, 2));
-                        $("#maxLoadThisMonth").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadThisMonth, 3));
-                        $("#maxLoadThisYear").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadThisYear, 3));
-                        $("#maxLoadTotal").text(DataGridUtils.floatWithUnitFormatter(r.data.maxLoadTotal, 3));
+                        $("#electricityThisMonth").text(DataGridUtils.floatFormatter(r.data.electricityThisMonth, 2));
+                        $("#electricityLastMonth").text(DataGridUtils.floatFormatter(r.data.electricityLastMonth, 2));
+                        $("#electricityLastLastMonth").text(DataGridUtils.floatFormatter(r.data.electricityLastLastMonth, 2));
+                        $("#maxLoadThisMonth").text(DataGridUtils.floatFormatter(r.data.maxLoadThisMonth, 3));
+                        $("#maxLoadThisYear").text(DataGridUtils.floatFormatter(r.data.maxLoadThisYear, 3));
+                        $("#maxLoadTotal").text(DataGridUtils.floatFormatter(r.data.maxLoadTotal, 3));
 
                         if (null != r.data.masterPnId) {
                             var transformers = r.data.transformersInfo;
