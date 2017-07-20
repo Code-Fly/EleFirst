@@ -378,7 +378,9 @@ $(document).ready(function () {
 
     $("#btn-pn-tool-load-all").linkbutton({
         onClick: function () {
-            $("#dg-pn-detail").datagrid("load", {});
+            $("#dg-pn-detail").datagrid("load", {
+                areaId: _areaId
+            });
         }
     });
 
@@ -828,6 +830,7 @@ $(document).ready(function () {
                 $("#hid-tree-node-pn").val(JSON.stringify(pns));
                 $("#tagbox-tree-node-pn").tagbox("setValues", pnIds);
                 if (masters.length > 0) {
+                    // $("#combo-tree-master-node-pn").combobox("validate");
                     $("#combo-tree-master-node-pn").combobox("select", masters[0].id);
                 }
                 $("#hid-tree-master-node-pn").val(JSON.stringify(masters));
@@ -842,6 +845,7 @@ $(document).ready(function () {
 
     $("#combo-tree-node-concentratorId").combobox({
         required: true,
+        limitToList: true,
         textField: "name",
         valueField: "concentratorId",
         url: _ctx + "system/concentrator/info/list.do",
@@ -853,6 +857,7 @@ $(document).ready(function () {
 
     $("#combo-tree-master-node-pn").combobox({
         required: true,
+        limitToList: true,
         textField: "name",
         valueField: "id",
         url: _ctx + "system/pn/info/list.do",
@@ -914,6 +919,7 @@ $(document).ready(function () {
 
     $("#combo-tree-node-type").combobox({
         required: true,
+        limitToList: true,
         textField: "name",
         valueField: "value",
         url: "data/comboTreeNodeType.json?bust=" + new Date().getTime(),
@@ -946,6 +952,7 @@ $(document).ready(function () {
 
     $("#combo-tree-node-iconCls").combobox({
         required: true,
+        limitToList: true,
         method: "GET",
         textField: "name",
         valueField: "value",
