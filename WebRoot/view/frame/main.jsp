@@ -175,10 +175,12 @@
                             <tr style="border-bottom: 1px solid">
                                 <td>预警次数</td>
                                 <td>
-                                    <h4 id="d10" style="font-size: 18px; margin: 0px">
-                                        <span id="maxLoadThisYear">0</span>
-                                        <span class="unitStyle">次</span>
-                                    </h4>
+                                    <div class="tooltipMaxMonth" data-toggle="tooltip" data-placement="top" title="">
+                                        <h4 style="font-size: 18px; margin: 0px">
+                                            <span>0</span>
+                                            <span class="unitStyle">次</span>
+                                        </h4>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
