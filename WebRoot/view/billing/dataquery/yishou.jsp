@@ -35,7 +35,6 @@
         <thead>
         <tr>
             <th field="idNo" width="150" align="center">身份证号</th>
-            <th field="jiaofeiType" width="150" align="center">缴费模式</th>
             <th field="period" width="150" align="center">计费期间</th>
             <th field="billType" width="150" align="center">收费项目</th>
             <th field="jijiaType" width="150" align="center">计价类型</th>

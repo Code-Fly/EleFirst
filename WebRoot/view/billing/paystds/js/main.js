@@ -8,38 +8,42 @@ $(document).ready(function () {
         pageList: DEFAULT_PAGE_LIST,
         pageNumber: 1,
         data: [{
+            corpName: "南通农副产品物流中心",
+            corpCode: "ntnfwlzx",
             name: "电费",
+            evalTimeStart: "2017.1.1",
+            evalTimeEnd: "2018.12.31",
             type: "周期性收费",
-            calcType: "单价 x 数量",
-            unitPrice: "2.6",
-            measure: "用电量",
-            period: "每隔 1 月计费一次",
+            calcType: "单一制",
+            unitPrice: "",
+            jfr: "1日",
+            jfjzr: "15日",
+            zdkfr: "2日",
+            wyj: "逾期未缴按欠费金额0.1%/天收取",
+            ycxyhje: "100",
+            ycxyhwjbh: "ycx001",
+            enable: "启用",
             comment: ""
         }, {
-            name: "水费",
+            corpName: "南通农副产品物流中心",
+            corpCode: "ntnfwlzx",
+            name: "电费",
+            evalTimeStart: "2017.1.1",
+            evalTimeEnd: "2018.12.31",
             type: "周期性收费",
-            calcType: "单价 x 数量",
-            unitPrice: "2.22",
-            measure: "用水量",
-            period: "每隔 2 月计费一次",
+            calcType: "分时电价",
+            unitPrice: "",
+            jfr: "1日",
+            jfjzr: "15日",
+            zdkfr: "2日",
+            wyj: "逾期未缴按欠费金额0.1%/天收取",
+            ycxyhje: "0",
+            ycxyhwjbh: "",
+            enable: "启用",
             comment: ""
-        }, {
-            name: "气费",
-            type: "周期性收费",
-            calcType: "单价 x 数量",
-            unitPrice: "2.9",
-            measure: "用气量",
-            period: "每隔 1 月计费一次",
-            comment: ""
-        }, {
-            name: "热费",
-            type: "周期性收费",
-            calcType: "单价 x 数量",
-            unitPrice: "2.62",
-            measure: "用热量",
-            period: "每隔 2 月计费一次",
-            comment: ""
-        }]
+        }
+
+        ]
     });
 
     $("#dTree").tree({

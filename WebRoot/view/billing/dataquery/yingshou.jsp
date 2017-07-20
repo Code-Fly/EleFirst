@@ -13,7 +13,7 @@
     <%@ include file="/view/common/common960.jsp" %>
 
     <script type="text/javascript">
-        require(["js/weishou.js"]);
+        require(["js/yingshou.js"]);
     </script>
     <style>
         .title p {
