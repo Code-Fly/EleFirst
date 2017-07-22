@@ -2,9 +2,7 @@ $(document).ready(function () {
     DateBoxUtils.initMonthBox($("#startdate"));
     //初始化databox为当前日期
     var d = new Date();
-    var dateboxDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-01";
-    $("#startdate").datebox("clear");
-    $("#startdate").datebox("setValue", "2017-06");
+    $("#startdate").datebox("setValue", new Date().format('yyyy-MM'));
     var dgtt2 = $("#tt2").datagrid({
         url: _ctx + 'report/electricity/daily/list.do',
         queryParams: {
@@ -36,7 +34,8 @@ $(document).ready(function () {
                 return;
             }
             dgtt2.datagrid('load', {
-                date: $("#startdate").datebox("getValue")
+                date: $("#startdate").datebox("getValue"),
+                areaId: _areaId
             });
         }
     });
