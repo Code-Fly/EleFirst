@@ -112,16 +112,31 @@ var DataGridUtils = {
             return "-";
         }
     },
-    getColumn: function (result) {
+    getColumn: function (result, frozenColumns) {
         var columns = new Array();
         if (null != result && result.length > 0) {
             $.each(result[0], function (i, field) {
-                var column = {};
-                column["title"] = i;
-                column["field"] = i;
-                column["width"] = 100;
-                column["formatter"] = DataGridUtils.strFormatter
-                columns.push(column);
+                // var index = -1;
+                // for (var j = 0; j < frozenColumns.length; j++) {
+                //     if (frozenColumns[j].field == i) {
+                //         index = j
+                //     }
+                // }
+
+                var index = _.findIndex(frozenColumns, function (o) {
+                    return o.field == i;
+                });
+                console.log(i, index)
+
+                if (-1 == index) {
+                    var column = {};
+                    column["title"] = i;
+                    column["field"] = i;
+                    column["width"] = 100;
+                    column["align"] = "center";
+                    column["formatter"] = DataGridUtils.strFormatter
+                    columns.push(column);
+                }
             });
         }
         return columns;

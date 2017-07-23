@@ -117,6 +117,10 @@ $(document).ready(function () {
             success: function (r) {
                 if (r.hasOwnProperty("errcode")) {
                     if ("0" == r.errcode) {
+                        var frozenColumns = [
+                            {field: '监测点', title: '监测点', width: 100, align: 'center'},
+                        ];
+
                         $("#tt2").datagrid({
                             url: _ctx + "report/t031/daily/list.do",
                             queryParams: {
@@ -126,7 +130,8 @@ $(document).ready(function () {
                                 startTime: startDate.format("yyyyMMddhhmmss"),
                                 endTime: endDate.format("yyyyMMddhhmmss"),
                             },
-                            columns: [DataGridUtils.getColumn(r.data)]
+                            frozenColumns: [frozenColumns],
+                            columns: [DataGridUtils.getColumn(r.data, frozenColumns)]
                         });
 
                     } else {
