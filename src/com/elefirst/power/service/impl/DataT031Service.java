@@ -52,6 +52,41 @@ public class DataT031Service extends BaseService implements IDataT031Service {
     }
 
     @Override
+    public List<DataT031> getDataT031List(DataT031 template, String startDate, String endDate, String hour, String minute) {
+        DataT031Example condition = new DataT031Example();
+        DataT031Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+
+        if (null != startDate) {
+            criteria.andClientoperationtimeGreaterThanOrEqualTo(startDate);
+        }
+
+        if (null != endDate) {
+            criteria.andClientoperationtimeLessThan(endDate);
+        }
+
+        if (null != hour && null != minute) {
+            criteria.andClientoperationtimeLike("%" + hour + minute + "00");
+        }
+
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`clientOperationTime` ASC");
+        return dataT031DAO.getDataT031List(condition);
+    }
+
+    @Override
     public List<DataT031> getDataT031List(List<DataT031> nodes, String startDate, String endDate) {
         DataT031Example condition = new DataT031Example();
         for (int i = 0; i < nodes.size(); i++) {

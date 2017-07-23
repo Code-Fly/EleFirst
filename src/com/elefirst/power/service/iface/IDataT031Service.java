@@ -11,6 +11,8 @@ import java.util.List;
 public interface IDataT031Service {
     List<DataT031> getDataT031List(DataT031 template);
 
+    List<DataT031> getDataT031List(DataT031 template, String startDate, String endDate, String hour, String minute);
+
     List<DataT031> getDataT031List(List<DataT031> node, String startDate, String endDate);
 
     //
