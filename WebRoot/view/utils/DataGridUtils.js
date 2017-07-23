@@ -112,4 +112,18 @@ var DataGridUtils = {
             return "-";
         }
     },
+    getColumn: function (result) {
+        var columns = new Array();
+        if (null != result && result.length > 0) {
+            $.each(result[0], function (i, field) {
+                var column = {};
+                column["title"] = i;
+                column["field"] = i;
+                column["width"] = 100;
+                column["formatter"] = DataGridUtils.strFormatter
+                columns.push(column);
+            });
+        }
+        return columns;
+    }
 };

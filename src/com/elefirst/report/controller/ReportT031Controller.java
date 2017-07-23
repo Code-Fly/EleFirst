@@ -3,6 +3,7 @@ package com.elefirst.report.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
+import com.elefirst.base.entity.Page2;
 import com.elefirst.base.utils.DateUtil;
 import com.elefirst.power.po.DataT031;
 import com.elefirst.power.service.iface.IDataT031Service;
@@ -52,10 +53,10 @@ public class ReportT031Controller extends BaseController {
     ) throws Exception {
         DataT031 template = new DataT031();
         template.setAreaId(areaId);
-        if (null != page && null != rows) {
-            template.setPage(page);
-            template.setRows(rows);
-        }
+//        if (null != page && null != rows) {
+//            template.setPage(page);
+//            template.setRows(rows);
+//        }
         PnInfo pnInfoTpl = new PnInfo();
         if (null != areaId) {
             pnInfoTpl.setAreaId(areaId);
@@ -85,8 +86,8 @@ public class ReportT031Controller extends BaseController {
             report.add(item);
         }
 
-
-        return new ErrorMsg(Error.SUCCESS, "success", report);
+        Page2 result = new Page2(report, rows);
+        return new ErrorMsg(Error.SUCCESS, "success", result.getPages(page));
     }
 
     private PnInfo getPnInfo(List<PnInfo> pnInfos, PnInfo pnInfo) {
