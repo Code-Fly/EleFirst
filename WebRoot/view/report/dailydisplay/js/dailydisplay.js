@@ -84,9 +84,7 @@ $(document).ready(function () {
                 hour: fixNum(hour, 2),
                 minute: fixNum(minute, 2),
                 startTime: startDate.format("yyyyMMddhhmmss"),
-                endTime: endDate.format("yyyyMMddhhmmss"),
-                page: 1,
-                rows: 500
+                endTime: endDate.format("yyyyMMddhhmmss")
             });
             window.location.href = _ctx + "report/t031/daily/export.do?" + param;
         }

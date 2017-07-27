@@ -110,8 +110,8 @@ public class ExportUtil {
             for (; rowIndex <= st.getLastRowNum(); rowIndex++) {
                 logger.info("rowIndex = " + rowIndex);
                 XSSFRow row = st.getRow(rowIndex);
-                lastCellNum = row.getLastCellNum();
-                logger.info("lastCellNum = " + lastCellNum);
+//                lastCellNum = row.getLastCellNum();
+//                logger.info("lastCellNum = " + lastCellNum);
                 if (rowIndex < dataBeginIndex - 1) {
                     for (Cell c : row) {
                         String value = getValue(c);
