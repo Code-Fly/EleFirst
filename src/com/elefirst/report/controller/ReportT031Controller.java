@@ -104,7 +104,7 @@ public class ReportT031Controller extends BaseController {
                                             @RequestParam(value = "rows", required = false) Integer rows
     ) {
         try {
-            String fileName = "report-" + String.valueOf(new Date().getTime());
+            String fileName = "report-" + startTime.substring(0, 8) + "-" + endTime.substring(0, 8) + "-" + hour + "-" + minute;
             File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t031daily"));
 
             // 声明一个工作薄
