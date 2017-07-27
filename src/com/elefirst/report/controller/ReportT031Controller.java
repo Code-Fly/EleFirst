@@ -140,7 +140,6 @@ public class ReportT031Controller extends BaseController {
                     SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
                     String title = oformat.format(format.parse(days[j]));
 
-                    DataT031 dataT031 = getDataT031(dataT031s, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
                     item.add(title);
                 }
                 rowList.add(item);
