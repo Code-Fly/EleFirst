@@ -70,9 +70,25 @@ $(document).ready(function () {
         }
     });
 
-    $("#exportexcel").linkbutton({
+    $("#btn-detail-export").linkbutton({
         onClick: function () {
-            window.location.href = _ctx + "view/report/dailydisplay/report20170703201737.xls";
+            var startDate = TimeUtils.dataBoxDateToDate($("#datebox-time-start").datebox("getValue"));
+            var endDate = TimeUtils.dataBoxDateToDate($("#datebox-time-end").datebox("getValue"));
+            endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000 - 1));
+
+            var hour = parseInt($("#numberspinner-hour").numberspinner("getValue"));
+            var minute = parseInt($("#numberspinner-minute").numberspinner("getValue"));
+
+            var param = $.param({
+                areaId: _areaId,
+                hour: fixNum(hour, 2),
+                minute: fixNum(minute, 2),
+                startTime: startDate.format("yyyyMMddhhmmss"),
+                endTime: endDate.format("yyyyMMddhhmmss"),
+                page: 1,
+                rows: 500
+            });
+            window.location.href = _ctx + "report/t031/daily/export.do?" + param;
         }
     });
 

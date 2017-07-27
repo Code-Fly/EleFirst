@@ -131,7 +131,7 @@ public class ExportUtil {
             int dataIndex = dataBeginIndex - 1;
             for (List<String> oneRowRecord : rowList) {
                 XSSFRow row = st.createRow(dataIndex);
-                for (int j = 0; j < lastCellNum; j++) {
+                for (int j = 0; j < oneRowRecord.size(); j++) {
                     // Cell c = row.createCell(j);
                     // String value = getCellValue(c);
                     // System.out.println("cell value = " + value);
