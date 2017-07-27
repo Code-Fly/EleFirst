@@ -56,4 +56,14 @@ public class DateUtil {
         }
         return days;
     }
+
+    /**
+     * 获取当前日期
+     *
+     * @return 当前日期
+     */
+    public static String getDate(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.format(date);
+    }
 }
