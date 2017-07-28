@@ -4,6 +4,7 @@ import com.elefirst.base.service.BaseService;
 import com.elefirst.power.dao.iface.IDataF5DAO;
 import com.elefirst.power.po.DataF5;
 import com.elefirst.power.po.DataF5Example;
+import com.elefirst.power.po.DataF5WithRate;
 import com.elefirst.power.service.iface.IDataF5Service;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
@@ -106,6 +107,62 @@ public class DataF5Service extends BaseService implements IDataF5Service {
         }
         condition.setOrderByClause("`frozen_day` ASC");
         return dataF5DAO.getDataF5SumList(condition);
+    }
+
+    @Override
+    public List<DataF5WithRate> getDataF5WithRateList(DataF5 template) {
+        DataF5Example condition = new DataF5Example();
+        DataF5Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`sendTime` ASC");
+        return dataF5DAO.getDataF5WithRateList(condition);
+    }
+
+    @Override
+    public List<DataF5WithRate> getDataF5WithRateList(List<DataF5> nodes, String startDate, String endDate) {
+        DataF5Example condition = new DataF5Example();
+        for (int i = 0; i < nodes.size(); i++) {
+            DataF5 node = nodes.get(i);
+            condition.or()
+                    .andAreaIdEqualTo(node.getAreaId())
+                    .andConcentratorIdEqualTo(node.getConcentratorId())
+                    .andPnEqualTo(node.getPn())
+                    .andFrozenDayGreaterThanOrEqualTo(startDate)
+                    .andFrozenDayLessThan(endDate)
+            ;
+        }
+        condition.setOrderByClause("`frozen_day` ASC");
+        return dataF5DAO.getDataF5WithRateList(condition);
+    }
+
+    @Override
+    public long getDataF5WithRateListCount(DataF5 template) {
+        DataF5Example condition = new DataF5Example();
+        DataF5Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        return dataF5DAO.getDataF5WithRateListCount(condition);
     }
 
     @Override

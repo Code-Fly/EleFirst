@@ -1,6 +1,7 @@
 package com.elefirst.power.service.iface;
 
 import com.elefirst.power.po.DataF5;
+import com.elefirst.power.po.DataF5WithRate;
 import com.elefirst.system.po.PnInfo;
 
 import java.util.List;
@@ -20,6 +21,12 @@ public interface IDataF5Service {
     List<DataF5> getDataF5SumList(List<DataF5> nodes, String startTime, String endTime);
 
     //
+    List<DataF5WithRate> getDataF5WithRateList(DataF5 template);
+
+    List<DataF5WithRate> getDataF5WithRateList(List<DataF5> node, String startDate, String endDate);
+    //
+
+    long getDataF5WithRateListCount(DataF5 template);
 
     long getDataF5ListCount(DataF5 template);
 

@@ -6,6 +6,7 @@ import com.elefirst.power.mapper.DataF5CustomMapper;
 import com.elefirst.power.mapper.DataF5Mapper;
 import com.elefirst.power.po.DataF5;
 import com.elefirst.power.po.DataF5Example;
+import com.elefirst.power.po.DataF5WithRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +34,18 @@ public class DataF5DAO extends BaseDAO implements IDataF5DAO {
     }
 
     @Override
+    public List<DataF5WithRate> getDataF5WithRateList(DataF5Example example) {
+        return dataF5CustomMapper.selectWithRateByExample(example);
+    }
+
+    @Override
     public long getDataF5ListCount(DataF5Example example) {
         return dataF5Mapper.countByExample(example);
+    }
+
+    @Override
+    public long getDataF5WithRateListCount(DataF5Example example) {
+        return dataF5CustomMapper.countWithRateByExample(example);
     }
 
 

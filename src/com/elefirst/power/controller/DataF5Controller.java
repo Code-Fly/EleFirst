@@ -5,6 +5,7 @@ import com.elefirst.base.entity.DataGrid;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.power.po.DataF5;
+import com.elefirst.power.po.DataF5WithRate;
 import com.elefirst.power.po.StatisticF5TotalPositiveActivePower;
 import com.elefirst.power.service.iface.IDataF5Service;
 import com.google.gson.Gson;
@@ -64,6 +65,38 @@ public class DataF5Controller extends BaseController {
             return new ErrorMsg(Error.SUCCESS, "success", dg);
         } else {
             List<DataF5> result = dataF5Service.getDataF5List(template);
+            return new ErrorMsg(Error.SUCCESS, "success", result);
+        }
+
+    }
+
+    @RequestMapping(value = "/f5/withrate/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDataF5WithRateList(HttpServletRequest request,
+                                          HttpServletResponse response,
+                                          @RequestParam(value = "areaId", required = false) String areaId,
+                                          @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                          @RequestParam(value = "page", required = false) Integer page,
+                                          @RequestParam(value = "rows", required = false) Integer rows
+    ) {
+        DataF5 template = new DataF5();
+        template.setAreaId(areaId);
+        template.setConcentratorId(concentratorId);
+
+        if (null != page && null != rows) {
+            template.setPage(page);
+            template.setRows(rows);
+            List<DataF5WithRate> result = dataF5Service.getDataF5WithRateList(template);
+
+            DataGrid dg = new DataGrid();
+            long count = dataF5Service.getDataF5WithRateListCount(template);
+            dg.setTotal(count);
+            dg.setRows(result);
+
+            return new ErrorMsg(Error.SUCCESS, "success", dg);
+        } else {
+            List<DataF5WithRate> result = dataF5Service.getDataF5WithRateList(template);
             return new ErrorMsg(Error.SUCCESS, "success", result);
         }
 
