@@ -72,6 +72,38 @@ public class ReportT030Controller extends BaseController {
             item.put("监测点", pnInfo.getName());
             item.put("时段", "合计");
 
+            Double total0 = 0D;
+            Double total1 = 0D;
+            Double total2 = 0D;
+            Double total3 = 0D;
+            Double total4 = 0D;
+
+            for (int j = 0; j < days.length; j++) {
+
+                DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
+                if (null != dataF5WithRate.getTotalpositiveactivepower()) {
+                    total0 += Double.valueOf(dataF5WithRate.getTotalpositiveactivepower());
+                }
+                if (null != dataF5WithRate.getRate1()) {
+                    total1 += Double.valueOf(dataF5WithRate.getRate1());
+                }
+                if (null != dataF5WithRate.getRate2()) {
+                    total2 += Double.valueOf(dataF5WithRate.getRate2());
+                }
+                if (null != dataF5WithRate.getRate3()) {
+                    total3 += Double.valueOf(dataF5WithRate.getRate3());
+                }
+                if (null != dataF5WithRate.getRate4()) {
+                    total4 += Double.valueOf(dataF5WithRate.getRate4());
+                }
+            }
+            item.put("total-0", total0.toString());
+            item.put("total-1", total1.toString());
+            item.put("total-2", total2.toString());
+            item.put("total-3", total3.toString());
+            item.put("total-4", total4.toString());
+            report.add(item);
+
             for (int j = 0; j < days.length; j++) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
                 SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
