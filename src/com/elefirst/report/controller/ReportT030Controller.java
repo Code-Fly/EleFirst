@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -97,11 +99,11 @@ public class ReportT030Controller extends BaseController {
                     total4 += Double.valueOf(dataF5WithRate.getRate4());
                 }
             }
-            item.put("total-0", total0.toString());
-            item.put("total-1", total1.toString());
-            item.put("total-2", total2.toString());
-            item.put("total-3", total3.toString());
-            item.put("total-4", total4.toString());
+            item.put("total-0", calc(total0.toString(), 1D, 3));
+            item.put("total-1", calc(total1.toString(), 1D, 3));
+            item.put("total-2", calc(total2.toString(), 1D, 3));
+            item.put("total-3", calc(total3.toString(), 1D, 3));
+            item.put("total-4", calc(total4.toString(), 1D, 3));
             report.add(item);
 
             for (int j = 0; j < days.length; j++) {
@@ -134,5 +136,19 @@ public class ReportT030Controller extends BaseController {
             }
         }
         return new DataF5WithRate();
+    }
+
+    private String calc(String org, Double num, Integer precision) {
+        if (null != org) {
+            if (null == precision) {
+                return String.valueOf(Double.valueOf(org) * num);
+            } else {
+                BigDecimal n1 = new BigDecimal(Double.valueOf(org));
+                BigDecimal n2 = new BigDecimal(num);
+                double d = n1.multiply(n2).setScale(precision, RoundingMode.HALF_UP).doubleValue();
+                return String.valueOf(d);
+            }
+        }
+        return null;
     }
 }
