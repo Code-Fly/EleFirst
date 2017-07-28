@@ -132,6 +132,32 @@ public class DataF5Service extends BaseService implements IDataF5Service {
     }
 
     @Override
+    public List<DataF5WithRate> getDataF5WithRateList(DataF5 template, String startDate, String endDate) {
+        DataF5Example condition = new DataF5Example();
+        DataF5Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+        if (null != startDate && null != endDate) {
+            criteria.andFrozenDayGreaterThanOrEqualTo(startDate);
+            criteria.andFrozenDayLessThan(endDate);
+        }
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`sendTime` ASC");
+        return dataF5DAO.getDataF5WithRateList(condition);
+    }
+
+    @Override
     public List<DataF5WithRate> getDataF5WithRateList(List<DataF5> nodes, String startDate, String endDate) {
         DataF5Example condition = new DataF5Example();
         for (int i = 0; i < nodes.size(); i++) {

@@ -23,6 +23,8 @@ public interface IDataF5Service {
     //
     List<DataF5WithRate> getDataF5WithRateList(DataF5 template);
 
+    List<DataF5WithRate> getDataF5WithRateList(DataF5 template, String startDate, String endDate);
+
     List<DataF5WithRate> getDataF5WithRateList(List<DataF5> node, String startDate, String endDate);
     //
 
