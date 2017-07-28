@@ -4,7 +4,9 @@ import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.Page2;
+import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.DateUtil;
+import com.elefirst.base.utils.ExportUtil;
 import com.elefirst.power.po.DataF5;
 import com.elefirst.power.po.DataF5WithRate;
 import com.elefirst.power.service.iface.IDataF5Service;
@@ -12,6 +14,7 @@ import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by barrie on 2017/7/23.
@@ -124,6 +127,132 @@ public class ReportT030Controller extends BaseController {
         Page2 result = new Page2(report, rows);
         return new ErrorMsg(Error.SUCCESS, "success", result.getPages(page));
     }
+
+    @RequestMapping(value = "/daily/export.do")
+    @ApiOperation(value = "导出", notes = "", httpMethod = "GET")
+    @ResponseBody
+    public void exportDashboardTemplateList(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            @RequestParam(value = "areaId", required = false) String areaId,
+                                            @RequestParam(value = "startTime", required = false) String startTime,
+                                            @RequestParam(value = "endTime", required = false) String endTime,
+                                            @RequestParam(value = "page", required = false) Integer page,
+                                            @RequestParam(value = "rows", required = false) Integer rows
+    ) {
+        try {
+            String fileName = "report-" + startTime.substring(0, 8) + "-" + endTime.substring(0, 8);
+            File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t031daily"));
+
+            // 声明一个工作薄
+            Map<String, String> blankFieldMap = new HashMap<>();
+
+            // 5行数据
+            List<List<String>> rowList = new ArrayList<>(5);
+            // 开始组织每行数据,
+
+            DataF5 template = new DataF5();
+            template.setAreaId(areaId);
+
+            PnInfo pnInfoTpl = new PnInfo();
+            if (null != areaId) {
+                pnInfoTpl.setAreaId(areaId);
+            }
+
+            List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
+
+            List<DataF5WithRate> dataF5WithRates = dataF5Service.getDataF5WithRateList(template, startTime.substring(0, 8), endTime.substring(0, 8));
+
+            String[] days = DateUtil.getAllDays(startTime, endTime);
+
+            //生成header
+            if (pnInfos.size() > 0) {
+                PnInfo pnInfo = pnInfos.get(0);
+                List<String> item = new ArrayList<>();
+
+                item.add("监测点");
+                item.add("时段");
+
+                for (int j = 0; j < days.length; j++) {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+                    SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
+
+                    item.add(oformat.format(format.parse(days[j])) + "-总");
+                    item.add(oformat.format(format.parse(days[j])) + "-峰");
+                    item.add(oformat.format(format.parse(days[j])) + "-平");
+                    item.add(oformat.format(format.parse(days[j])) + "-谷");
+                    item.add(oformat.format(format.parse(days[j])) + "-尖");
+
+                }
+                rowList.add(item);
+            }
+
+            //生成data
+            for (int i = 0; i < pnInfos.size(); i++) {
+                PnInfo pnInfo = pnInfos.get(i);
+                List<String> item = new ArrayList<>();
+
+                item.add(pnInfo.getName());
+
+                Double total0 = 0D;
+                Double total1 = 0D;
+                Double total2 = 0D;
+                Double total3 = 0D;
+                Double total4 = 0D;
+
+                for (int j = 0; j < days.length; j++) {
+
+                    DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
+                    if (null != dataF5WithRate.getTotalpositiveactivepower()) {
+                        total0 += Double.valueOf(dataF5WithRate.getTotalpositiveactivepower());
+                    }
+                    if (null != dataF5WithRate.getRate1()) {
+                        total1 += Double.valueOf(dataF5WithRate.getRate1());
+                    }
+                    if (null != dataF5WithRate.getRate2()) {
+                        total2 += Double.valueOf(dataF5WithRate.getRate2());
+                    }
+                    if (null != dataF5WithRate.getRate3()) {
+                        total3 += Double.valueOf(dataF5WithRate.getRate3());
+                    }
+                    if (null != dataF5WithRate.getRate4()) {
+                        total4 += Double.valueOf(dataF5WithRate.getRate4());
+                    }
+                }
+                item.add(calc(total0.toString(), 1D, 3));
+                item.add(calc(total1.toString(), 1D, 3));
+                item.add(calc(total2.toString(), 1D, 3));
+                item.add(calc(total3.toString(), 1D, 3));
+                item.add(calc(total4.toString(), 1D, 3));
+
+                for (int j = 0; j < days.length; j++) {
+                    DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
+
+                    item.add(dataF5WithRate.getTotalpositiveactivepower());
+                    item.add(dataF5WithRate.getRate1());
+                    item.add(dataF5WithRate.getRate2());
+                    item.add(dataF5WithRate.getRate3());
+                    item.add(dataF5WithRate.getRate4());
+                }
+                rowList.add(item);
+            }
+
+            //生成sheet页
+            Workbook wb = ExportUtil.doExport(tplFile, blankFieldMap, 1, rowList);
+
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+            OutputStream out = response.getOutputStream();
+            wb.write(out);
+            out.flush();
+            out.close();
+
+        } catch (IOException e) {
+            logger.error("导出失败(" + Error.IO_EXCEPTION + ")", e);
+        } catch (Exception e) {
+            logger.error("导出失败(" + Error.UNKNOW_EXCEPTION + ")", e);
+        }
+    }
+
 
     private DataF5WithRate getDataF5WithRate(List<DataF5WithRate> list, String areaId, String concentratorId, String pn, String date) {
         for (int i = 0; i < list.size(); i++) {
