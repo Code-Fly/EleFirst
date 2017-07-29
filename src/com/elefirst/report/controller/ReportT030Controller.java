@@ -102,11 +102,11 @@ public class ReportT030Controller extends BaseController {
                     total4 += Double.valueOf(dataF5WithRate.getRate4());
                 }
             }
-            item.put("total-0", calc(total0.toString(), 1D, 3));
-            item.put("total-1", calc(total1.toString(), 1D, 3));
-            item.put("total-2", calc(total2.toString(), 1D, 3));
-            item.put("total-3", calc(total3.toString(), 1D, 3));
-            item.put("total-4", calc(total4.toString(), 1D, 3));
+            item.put("total-0", calc(total0.toString(), 1D, 4));
+            item.put("total-1", calc(total1.toString(), 1D, 4));
+            item.put("total-2", calc(total2.toString(), 1D, 4));
+            item.put("total-3", calc(total3.toString(), 1D, 4));
+            item.put("total-4", calc(total4.toString(), 1D, 4));
             report.add(item);
 
             for (int j = 0; j < days.length; j++) {
