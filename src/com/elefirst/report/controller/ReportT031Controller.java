@@ -6,7 +6,7 @@ import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.Page2;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.DateUtil;
-import com.elefirst.base.utils.ExportUtil;
+import com.elefirst.base.utils.ExcelUtil;
 import com.elefirst.power.po.DataT031;
 import com.elefirst.power.service.iface.IDataT031Service;
 import com.elefirst.system.po.PnInfo;
@@ -160,7 +160,9 @@ public class ReportT031Controller extends BaseController {
             }
 
             //生成sheet页
-            Workbook wb = ExportUtil.doExport(tplFile, blankFieldMap, 1, rowList);
+            ExcelUtil util = new ExcelUtil(tplFile);
+            util.buildData(blankFieldMap, 1, rowList);
+            Workbook wb = util.getWb();
 
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");

@@ -6,7 +6,7 @@ import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.base.entity.Page2;
 import com.elefirst.base.utils.ConfigUtil;
 import com.elefirst.base.utils.DateUtil;
-import com.elefirst.base.utils.ExportUtil;
+import com.elefirst.base.utils.ExcelUtil;
 import com.elefirst.power.po.DataF5;
 import com.elefirst.power.po.DataF5WithRate;
 import com.elefirst.power.service.iface.IDataF5Service;
@@ -141,7 +141,7 @@ public class ReportT030Controller extends BaseController {
     ) {
         try {
             String fileName = "report-" + startTime.substring(0, 8) + "-" + endTime.substring(0, 8);
-            File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t031daily"));
+            File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t030daily"));
 
             // 声明一个工作薄
             Map<String, String> blankFieldMap = new HashMap<>();
@@ -164,34 +164,13 @@ public class ReportT030Controller extends BaseController {
 
             String[] days = DateUtil.getAllDays(startTime, endTime);
 
-            //生成header
-            if (pnInfos.size() > 0) {
-                PnInfo pnInfo = pnInfos.get(0);
-                List<String> item = new ArrayList<>();
-
-                item.add("监测点");
-                item.add("时段");
-
-                for (int j = 0; j < days.length; j++) {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                    SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
-
-                    item.add(oformat.format(format.parse(days[j])) + "-总");
-                    item.add(oformat.format(format.parse(days[j])) + "-峰");
-                    item.add(oformat.format(format.parse(days[j])) + "-平");
-                    item.add(oformat.format(format.parse(days[j])) + "-谷");
-                    item.add(oformat.format(format.parse(days[j])) + "-尖");
-
-                }
-                rowList.add(item);
-            }
-
             //生成data
             for (int i = 0; i < pnInfos.size(); i++) {
                 PnInfo pnInfo = pnInfos.get(i);
                 List<String> item = new ArrayList<>();
 
                 item.add(pnInfo.getName());
+                item.add("合计");
 
                 Double total0 = 0D;
                 Double total1 = 0D;
@@ -218,11 +197,11 @@ public class ReportT030Controller extends BaseController {
                         total4 += Double.valueOf(dataF5WithRate.getRate4());
                     }
                 }
-                item.add(calc(total0.toString(), 1D, 3));
-                item.add(calc(total1.toString(), 1D, 3));
-                item.add(calc(total2.toString(), 1D, 3));
-                item.add(calc(total3.toString(), 1D, 3));
-                item.add(calc(total4.toString(), 1D, 3));
+                item.add(calc(total0.toString(), 1D, 4));
+                item.add(calc(total1.toString(), 1D, 4));
+                item.add(calc(total2.toString(), 1D, 4));
+                item.add(calc(total3.toString(), 1D, 4));
+                item.add(calc(total4.toString(), 1D, 4));
 
                 for (int j = 0; j < days.length; j++) {
                     DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
@@ -234,10 +213,17 @@ public class ReportT030Controller extends BaseController {
                     item.add(dataF5WithRate.getRate4());
                 }
                 rowList.add(item);
+
             }
 
             //生成sheet页
-            Workbook wb = ExportUtil.doExport(tplFile, blankFieldMap, 1, rowList);
+
+
+            //生成sheet页
+            ExcelUtil util = new ExcelUtil(tplFile);
+            util.buildHeader(5, 5, days);
+            util.buildData(blankFieldMap, 5, rowList);
+            Workbook wb = util.getWb();
 
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");

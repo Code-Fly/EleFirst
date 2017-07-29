@@ -147,7 +147,7 @@ public class DataF5Service extends BaseService implements IDataF5Service {
         }
         if (null != startDate && null != endDate) {
             criteria.andFrozenDayGreaterThanOrEqualTo(startDate);
-            criteria.andFrozenDayLessThan(endDate);
+            criteria.andFrozenDayLessThanOrEqualTo(endDate);
         }
         if (template.getRows() > 0 && template.getPage() > 0) {
             condition.setLimitStart((template.getPage() - 1) * template.getRows());
