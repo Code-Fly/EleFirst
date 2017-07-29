@@ -13,7 +13,7 @@
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/common960.jsp" %>
     <script type="text/javascript">
-        require(["js/dailydisplay.js"]);
+        require(["js/chaojianshishu-daily.js"]);
     </script>
 </head>
 <body>

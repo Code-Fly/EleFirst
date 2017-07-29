@@ -13,7 +13,7 @@
     <%@ include file="/view/common/meta.jsp" %>
     <%@ include file="/view/common/common960.jsp" %>
     <script type="text/javascript">
-        require(["js/hourlyelectricity.js"]);
+        require(["js/chaojiandianliang-hourly.js"]);
     </script>
 </head>
 <body>

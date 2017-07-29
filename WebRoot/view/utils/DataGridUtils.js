@@ -126,7 +126,6 @@ var DataGridUtils = {
                 var index = _.findIndex(frozenColumns, function (o) {
                     return o.field == i;
                 });
-                console.log(i, index)
 
                 if (-1 == index) {
                     var column = {};

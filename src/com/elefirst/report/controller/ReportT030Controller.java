@@ -102,11 +102,11 @@ public class ReportT030Controller extends BaseController {
                     total4 += Double.valueOf(dataF5WithRate.getRate4());
                 }
             }
-            item.put("total-0", calc(total0.toString(), 1D, 4));
-            item.put("total-1", calc(total1.toString(), 1D, 4));
-            item.put("total-2", calc(total2.toString(), 1D, 4));
-            item.put("total-3", calc(total3.toString(), 1D, 4));
-            item.put("total-4", calc(total4.toString(), 1D, 4));
+            item.put("总电量|总", calc(total0.toString(), 1D, 4));
+            item.put("总电量|峰", calc(total1.toString(), 1D, 4));
+            item.put("总电量|平", calc(total2.toString(), 1D, 4));
+            item.put("总电量|谷", calc(total3.toString(), 1D, 4));
+            item.put("总电量|尖", calc(total4.toString(), 1D, 4));
             report.add(item);
 
             for (int j = 0; j < days.length; j++) {
@@ -115,11 +115,11 @@ public class ReportT030Controller extends BaseController {
                 String title = oformat.format(format.parse(days[j]));
 
                 DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
-                item.put(title + "-0", dataF5WithRate.getTotalpositiveactivepower());
-                item.put(title + "-1", dataF5WithRate.getRate1());
-                item.put(title + "-2", dataF5WithRate.getRate2());
-                item.put(title + "-3", dataF5WithRate.getRate3());
-                item.put(title + "-4", dataF5WithRate.getRate4());
+                item.put(title + "|总", dataF5WithRate.getTotalpositiveactivepower());
+                item.put(title + "|峰", dataF5WithRate.getRate1());
+                item.put(title + "|平", dataF5WithRate.getRate2());
+                item.put(title + "|谷", dataF5WithRate.getRate3());
+                item.put(title + "|尖", dataF5WithRate.getRate4());
             }
             report.add(item);
         }
