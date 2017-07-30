@@ -1,24 +1,19 @@
 $(document).ready(function () {
     var _spinner = new Spinner();
 
-    var data = $.base64.atob(decodeURIComponent(GetQueryString("data")), true);
 
-    $("#startdate").datebox("calendar").calendar({
+    $("#datebox-time").datebox("calendar").calendar({
         firstDay: 1
     });
 
-    //初始化databox为当前日期
-    var d = new Date();
-    d.setDate(d.getDate());
-    var dateboxDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-    $("#startdate").datebox("clear");
-    $("#startdate").datebox("setValue", dateboxDate);
 
-    var dgtt2 = $("#tt2").datagrid({
-        // url: _ctx + 'report/energy/list.do',
-        // queryParams: {
-        //     date: $("#startdate").datebox("getValue")
-        // },
+    $("#datebox-time").datebox({
+        required: true,
+        editable: false
+    });
+
+
+    $("#tt2").datagrid({
         pagination: true,
         rownumbers: true,
         pageSize: DEFAULT_PAGE_SIZE,
@@ -26,444 +21,116 @@ $(document).ready(function () {
         pageNumber: 1,
         singleSelect: true,
         fit: true,
-        loadMsg: "正在加载...",
         border: false,
-
-        data: [{
-            name: "1-1",
-            total: "16669",
-            p00: "601.2",
-            p01: "602.2",
-            p02: "606.2",
-            p03: "607.7",
-            p04: "608.2",
-            p05: "609.8",
-            p06: "611.2",
-            p07: "612.2",
-            p08: "616.8",
-            p09: "618.2",
-            p10: "619.2",
-            p11: "621.2",
-            p12: "626.2",
-            p13: "627.2",
-            p14: "629.2",
-            p15: "631.2",
-            p16: "636.2",
-            p17: "639.2",
-            p18: "651.2",
-            p19: "656.2",
-            p20: "658.2",
-            p21: "661.7",
-            p22: "666.2",
-            p23: "669.2"
-        }, {
-            name: "1-2",
-            total: "160819",
-            p00: "1601.2",
-            p01: "1602.2",
-            p02: "1606.2",
-            p03: "1607.7",
-            p04: "1608.2",
-            p05: "1609.8",
-            p06: "1611.2",
-            p07: "1612.2",
-            p08: "1616.8",
-            p09: "1618.2",
-            p10: "1619.2",
-            p11: "1621.2",
-            p12: "1626.2",
-            p13: "1627.2",
-            p14: "1629.2",
-            p15: "1631.2",
-            p16: "1636.2",
-            p17: "1639.2",
-            p18: "1651.2",
-            p19: "1656.2",
-            p20: "1658.2",
-            p21: "1661.7",
-            p22: "1666.2",
-            p23: "1669.2"
-        }, {
-            name: "1-3",
-            total: "12789",
-            p00: "501.2",
-            p01: "502.2",
-            p02: "506.2",
-            p03: "507.7",
-            p04: "508.2",
-            p05: "509.8",
-            p06: "511.2",
-            p07: "512.2",
-            p08: "516.8",
-            p09: "518.2",
-            p10: "519.2",
-            p11: "521.2",
-            p12: "526.2",
-            p13: "527.2",
-            p14: "529.2",
-            p15: "531.2",
-            p16: "536.2",
-            p17: "539.2",
-            p18: "551.2",
-            p19: "556.2",
-            p20: "558.2",
-            p21: "561.7",
-            p22: "566.2",
-            p23: "569.2"
-        }, {
-            name: "1-4",
-            total: "16787",
-            p00: "601.2",
-            p01: "602.2",
-            p02: "606.2",
-            p03: "607.7",
-            p04: "608.2",
-            p05: "609.8",
-            p06: "611.2",
-            p07: "612.2",
-            p08: "616.8",
-            p09: "618.2",
-            p10: "619.2",
-            p11: "621.2",
-            p12: "626.2",
-            p13: "627.2",
-            p14: "629.2",
-            p15: "631.2",
-            p16: "636.2",
-            p17: "639.2",
-            p18: "651.2",
-            p19: "656.2",
-            p20: "658.2",
-            p21: "661.7",
-            p22: "666.2",
-            p23: "669.2"
-        }, {
-            name: "1-5",
-            total: "28998",
-            p00: "901.2",
-            p01: "902.2",
-            p02: "906.2",
-            p03: "907.7",
-            p04: "908.2",
-            p05: "909.8",
-            p06: "911.2",
-            p07: "912.2",
-            p08: "916.8",
-            p09: "918.2",
-            p10: "919.2",
-            p11: "921.2",
-            p12: "926.2",
-            p13: "927.2",
-            p14: "929.2",
-            p15: "931.2",
-            p16: "936.2",
-            p17: "939.2",
-            p18: "951.2",
-            p19: "956.2",
-            p20: "958.2",
-            p21: "961.7",
-            p22: "966.2",
-            p23: "969.2"
-        }, {
-            name: "1-6",
-            total: "66789",
-            p00: "2601.2",
-            p01: "2602.2",
-            p02: "2606.2",
-            p03: "2607.7",
-            p04: "2608.2",
-            p05: "2609.8",
-            p06: "2611.2",
-            p07: "2612.2",
-            p08: "2616.8",
-            p09: "2618.2",
-            p10: "2619.2",
-            p11: "2621.2",
-            p12: "2626.2",
-            p13: "2627.2",
-            p14: "2629.2",
-            p15: "2631.2",
-            p16: "2636.2",
-            p17: "2639.2",
-            p18: "2651.2",
-            p19: "2656.2",
-            p20: "2658.2",
-            p21: "2661.7",
-            p22: "2666.2",
-            p23: "2669.2"
-        }, {
-            name: "1-7",
-            total: "12589",
-            p00: "601.2",
-            p01: "602.2",
-            p02: "606.2",
-            p03: "607.7",
-            p04: "608.2",
-            p05: "609.8",
-            p06: "611.2",
-            p07: "612.2",
-            p08: "616.8",
-            p09: "618.2",
-            p10: "619.2",
-            p11: "621.2",
-            p12: "626.2",
-            p13: "627.2",
-            p14: "629.2",
-            p15: "631.2",
-            p16: "636.2",
-            p17: "639.2",
-            p18: "651.2",
-            p19: "656.2",
-            p20: "658.2",
-            p21: "661.7",
-            p22: "666.2",
-            p23: "669.2"
-        }, {
-            name: "1-8",
-            total: "162299",
-            p00: "6601.2",
-            p01: "6602.2",
-            p02: "6606.2",
-            p03: "6607.7",
-            p04: "6608.2",
-            p05: "6609.8",
-            p06: "6611.2",
-            p07: "6612.2",
-            p08: "6616.8",
-            p09: "6618.2",
-            p10: "6619.2",
-            p11: "6621.2",
-            p12: "6626.2",
-            p13: "6627.2",
-            p14: "6629.2",
-            p15: "6631.2",
-            p16: "6636.2",
-            p17: "6639.2",
-            p18: "6651.2",
-            p19: "6656.2",
-            p20: "6658.2",
-            p21: "6661.7",
-            p22: "6666.2",
-            p23: "6669.2"
-        }, {
-            name: "1-9",
-            total: "167789",
-            p00: "7601.2",
-            p01: "7602.2",
-            p02: "7606.2",
-            p03: "7607.7",
-            p04: "7608.2",
-            p05: "7609.8",
-            p06: "7611.2",
-            p07: "7612.2",
-            p08: "7616.8",
-            p09: "7618.2",
-            p10: "7619.2",
-            p11: "7621.2",
-            p12: "7626.2",
-            p13: "7627.2",
-            p14: "7629.2",
-            p15: "7631.2",
-            p16: "7636.2",
-            p17: "7639.2",
-            p18: "7651.2",
-            p19: "7656.2",
-            p20: "7658.2",
-            p21: "7661.7",
-            p22: "7666.2",
-            p23: "7669.2"
-        }, {
-            name: "1-10",
-            total: "178890",
-            p00: "2601.2",
-            p01: "2602.2",
-            p02: "2606.2",
-            p03: "2607.7",
-            p04: "2608.2",
-            p05: "2609.8",
-            p06: "2611.2",
-            p07: "2612.2",
-            p08: "2616.8",
-            p09: "2618.2",
-            p10: "2619.2",
-            p11: "2621.2",
-            p12: "2626.2",
-            p13: "2627.2",
-            p14: "2629.2",
-            p15: "2631.2",
-            p16: "2636.2",
-            p17: "2639.2",
-            p18: "2651.2",
-            p19: "2656.2",
-            p20: "2658.2",
-            p21: "2661.7",
-            p22: "2666.2",
-            p23: "2669.2"
-        }, {
-            name: "1-11",
-            total: "6889",
-            p00: "201.2",
-            p01: "202.2",
-            p02: "206.2",
-            p03: "207.7",
-            p04: "208.2",
-            p05: "209.8",
-            p06: "211.2",
-            p07: "212.2",
-            p08: "216.8",
-            p09: "218.2",
-            p10: "219.2",
-            p11: "221.2",
-            p12: "226.2",
-            p13: "227.2",
-            p14: "229.2",
-            p15: "231.2",
-            p16: "236.2",
-            p17: "239.2",
-            p18: "251.2",
-            p19: "256.2",
-            p20: "258.2",
-            p21: "261.7",
-            p22: "266.2",
-            p23: "269.2"
-        }, {
-            name: "1-12",
-            total: "15890",
-            p00: "601.2",
-            p01: "602.2",
-            p02: "606.2",
-            p03: "607.7",
-            p04: "608.2",
-            p05: "609.8",
-            p06: "611.2",
-            p07: "612.2",
-            p08: "616.8",
-            p09: "618.2",
-            p10: "619.2",
-            p11: "621.2",
-            p12: "626.2",
-            p13: "627.2",
-            p14: "629.2",
-            p15: "631.2",
-            p16: "636.2",
-            p17: "639.2",
-            p18: "651.2",
-            p19: "656.2",
-            p20: "658.2",
-            p21: "661.7",
-            p22: "666.2",
-            p23: "669.2"
-        }, {
-            name: "1-13",
-            total: "35679",
-            p00: "1601.2",
-            p01: "1602.2",
-            p02: "1606.2",
-            p03: "1607.7",
-            p04: "1608.2",
-            p05: "1609.8",
-            p06: "1611.2",
-            p07: "1612.2",
-            p08: "1616.8",
-            p09: "1618.2",
-            p10: "1619.2",
-            p11: "1621.2",
-            p12: "1626.2",
-            p13: "1627.2",
-            p14: "1629.2",
-            p15: "1631.2",
-            p16: "1636.2",
-            p17: "1639.2",
-            p18: "1651.2",
-            p19: "1656.2",
-            p20: "1658.2",
-            p21: "1661.7",
-            p22: "1666.2",
-            p23: "1669.2"
-        }, {
-            name: "1-14",
-            total: "8819",
-            p00: "301.2",
-            p01: "302.2",
-            p02: "306.2",
-            p03: "307.7",
-            p04: "308.2",
-            p05: "309.8",
-            p06: "311.2",
-            p07: "312.2",
-            p08: "316.8",
-            p09: "318.2",
-            p10: "319.2",
-            p11: "321.2",
-            p12: "326.2",
-            p13: "327.2",
-            p14: "329.2",
-            p15: "331.2",
-            p16: "336.2",
-            p17: "339.2",
-            p18: "351.2",
-            p19: "356.2",
-            p20: "358.2",
-            p21: "361.7",
-            p22: "366.2",
-            p23: "369.2"
-        }, {
-            name: "1-15",
-            total: "38790",
-            p00: "1601.2",
-            p01: "1602.2",
-            p02: "1606.2",
-            p03: "1607.7",
-            p04: "1608.2",
-            p05: "1609.8",
-            p06: "1611.2",
-            p07: "1612.2",
-            p08: "1616.8",
-            p09: "1618.2",
-            p10: "1619.2",
-            p11: "1621.2",
-            p12: "1626.2",
-            p13: "1627.2",
-            p14: "1629.2",
-            p15: "1631.2",
-            p16: "1636.2",
-            p17: "1639.2",
-            p18: "1651.2",
-            p19: "1656.2",
-            p20: "1658.2",
-            p21: "1661.7",
-            p22: "1666.2",
-            p23: "1669.2"
-        }],
-        onLoadError: function () {
-            jError("查询日电量信息失败", {
-                VerticalPosition: 'center',
-                HorizontalPosition: 'center',
-                ShowOverlay: false
-            });
-        }
+        // url: _ctx + 'report/display/daily/list.do',
+        // queryParams: {
+        //     date: $("#startdate").datebox("getValue"),
+        //     areaId: _areaId
+        // },
     });
 
     $("#btn-detail-search").linkbutton({
         onClick: function () {
-            if (!$("#startdate").datebox("isValid")) {
+            if (!$("#datebox-time").datebox("isValid")) {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
-            dgtt2.datagrid('load', {
-                date: $("#startdate").datebox("getValue")
-            });
+
+            loadData();
         }
     });
 
-    $("#exportexcel").linkbutton({
+    $("#btn-detail-export").linkbutton({
         onClick: function () {
-            window.location.href = _ctx + "view/report/hourlyelectricity/report20170703210150.xls";
+            var startDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
+            var endDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
+            endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000 - 1));
+
+
+            var param = $.param({
+                areaId: _areaId,
+                startTime: startDate.format("yyyyMMddhhmmss"),
+                endTime: endDate.format("yyyyMMddhhmmss")
+            });
+            window.location.href = _ctx + "report/t037/hourly/export.do?" + param;
         }
     });
+
+    init();
+
+    function init() {
+        var startDate = new Date();
+        startDate.setDate(startDate.getDate() - 30);
+
+        $("#datebox-time").datebox("setValue", startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
+
+
+        setTimeout(function () {
+            loadData();
+        }, 500);
+    }
+
+    function loadData() {
+        var startDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
+        var endDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
+        endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000 - 1));
+
+
+        $.ajax({
+            url: _ctx + "report/t037/hourly/list.do",
+            type: "POST",
+            cache: false,
+            data: {
+                areaId: _areaId,
+                startTime: startDate.format("yyyyMMddhhmmss"),
+                endTime: endDate.format("yyyyMMddhhmmss"),
+                page: 1,
+                rows: 1
+            },
+            success: function (r) {
+                if (r.hasOwnProperty("errcode")) {
+                    if ("0" == r.errcode) {
+                        var frozenColumns = [
+                            {field: '监测点', title: '监测点', width: 100, align: 'center'},
+                        ];
+
+                        console.log(JSON.stringify(DataGridUtils.getColumn(r.data, frozenColumns)))
+
+                        $("#tt2").datagrid({
+                            url: _ctx + "report/t037/hourly/list.do",
+                            queryParams: {
+                                areaId: _areaId,
+                                startTime: startDate.format("yyyyMMddhhmmss"),
+                                endTime: endDate.format("yyyyMMddhhmmss"),
+                            },
+                            frozenColumns: [frozenColumns],
+                            columns: [DataGridUtils.getColumn(r.data, frozenColumns)]
+                        });
+
+                    } else {
+                        jError("请求失败！" + ErrUtils.getMsg(r.errcode));
+                    }
+                } else {
+                    jError("请求失败！" + ErrUtils.getMsg("2"));
+                }
+            },
+            error: function (request) {
+                jError("请求失败！" + ErrUtils.getMsg("3"));
+            },
+            beforeSend: function (XMLHttpRequest) {
+                $("#tt2").datagrid("loadData", []);
+                _spinner.load();
+            },
+            complete: function (XMLHttpRequest, textStatus) {
+                _spinner.unload();
+            }
+        });
+    }
+
 
     //刷新页面
     function refreshClick() {
         window.location.reload();
     }
 });
+

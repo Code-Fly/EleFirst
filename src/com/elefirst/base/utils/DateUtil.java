@@ -57,6 +57,27 @@ public class DateUtil {
         return days;
     }
 
+    public static String[] getAllHours(String from, String to) {
+        String[] days = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            long toDay = format.parse(to).getTime();
+            long fromDay = format.parse(from).getTime();
+            long i = (toDay - fromDay) / (1000 * 60 * 60);
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(format.parse(from));
+            days = new String[Integer.valueOf(String.valueOf(i)) + 1];
+            days[0] = from;
+            for (int j = 1; j <= i; j++) {
+                calendar.add(Calendar.HOUR, 1);
+                days[j] = format.format(calendar.getTime());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
+
     /**
      * 获取当前日期
      *
@@ -65,5 +86,12 @@ public class DateUtil {
     public static String getDate(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(date);
+    }
+
+    public static void main(String[] args) {
+        String[] hours = getAllHours("20170419000000", "20170420215959");
+        for (int i = 0; i < hours.length; i++) {
+            System.err.println(hours[i]);
+        }
     }
 }
