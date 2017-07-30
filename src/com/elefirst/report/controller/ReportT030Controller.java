@@ -107,7 +107,6 @@ public class ReportT030Controller extends BaseController {
             item.put("总电量|平", calc(total2.toString(), 1D, 4));
             item.put("总电量|谷", calc(total3.toString(), 1D, 4));
             item.put("总电量|尖", calc(total4.toString(), 1D, 4));
-            report.add(item);
 
             for (int j = 0; j < days.length; j++) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
