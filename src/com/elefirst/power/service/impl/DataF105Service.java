@@ -49,6 +49,38 @@ public class DataF105Service extends BaseService implements IDataF105Service {
     }
 
     @Override
+    public List<DataF105> getDataF105List(DataF105 template, String startDate, String endDate, String hour, String minute) {
+        DataF105Example condition = new DataF105Example();
+        DataF105Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+
+        if (null != startDate && null != endDate) {
+            criteria.andFrozentimeGreaterThanOrEqualTo(startDate);
+            criteria.andFrozentimeLessThan(endDate);
+        }
+
+        if (null != hour && null != minute) {
+            criteria.andFrozentimeLike("%" + hour + minute + "00");
+        }
+
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`frozenTime` ASC");
+        return dataF105DAO.getDataF105List(condition);
+    }
+
+    @Override
     public List<DataF105> getDataF105List(List<DataF105> nodes, String startDate, String endDate) {
         DataF105Example condition = new DataF105Example();
         for (int i = 0; i < nodes.size(); i++) {
