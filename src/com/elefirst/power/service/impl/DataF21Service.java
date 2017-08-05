@@ -66,6 +66,34 @@ public class DataF21Service extends BaseService implements IDataF21Service {
     }
 
     @Override
+    public List<DataF21> getDataF21List(DataF21 template, String startDate, String endDate) {
+        DataF21Example condition = new DataF21Example();
+        DataF21Example.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+
+        if (null != startDate && null != endDate) {
+            criteria.andFrozenMonthGreaterThanOrEqualTo(startDate);
+            criteria.andFrozenMonthLessThan(endDate);
+        }
+
+        if (template.getRows() > 0 && template.getPage() > 0) {
+            condition.setLimitStart((template.getPage() - 1) * template.getRows());
+            condition.setLimitEnd(template.getRows());
+        }
+        condition.setOrderByClause("`sendTime` ASC");
+        return dataF21DAO.getDataF21List(condition);
+    }
+
+    @Override
     public List<DataF21> getDataF21SumList(DataF21 template) {
         DataF21Example condition = new DataF21Example();
         DataF21Example.Criteria criteria = condition.createCriteria();

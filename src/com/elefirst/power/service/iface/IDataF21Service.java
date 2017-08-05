@@ -13,6 +13,9 @@ public interface IDataF21Service {
 
     List<DataF21> getDataF21List(List<DataF21> node, String startDate, String endDate);
 
+    List<DataF21> getDataF21List(DataF21 template, String startDate, String endDate);
+
+
     //
 
     List<DataF21> getDataF21SumList(DataF21 template);

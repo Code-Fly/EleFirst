@@ -29,6 +29,32 @@ public class DateUtil {
         return sdf2.format(d);
     }
 
+    public static String[] getAllMonths(String from, String to) {
+        String[] days = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            long toDay = format.parse(to).getTime();
+            long fromDay = format.parse(from).getTime();
+
+            long i = (toDay - fromDay) / (1000L * 60L * 60L * 24L * 30L);
+            if ((toDay - fromDay) % (1000L * 60L * 60L * 24L * 30L) > (1000L * 60L * 60L * 24L * 15L)) {
+                i = i + 1L;
+            }
+            i = i - 1;
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(format.parse(from));
+            days = new String[Integer.valueOf(String.valueOf(i)) + 1];
+            days[0] = from;
+            for (int j = 1; j <= i; j++) {
+                calendar.add(Calendar.MONTH, 1);
+                days[j] = format.format(calendar.getTime());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return days;
+    }
+
     /**
      * 获取两个日期内所有日期
      *
@@ -42,7 +68,7 @@ public class DateUtil {
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
             long toDay = format.parse(to).getTime();
             long fromDay = format.parse(from).getTime();
-            long i = (toDay - fromDay) / (1000 * 60 * 60 * 24);
+            long i = (toDay - fromDay) / (1000L * 60L * 60L * 24L);
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(format.parse(from));
             days = new String[Integer.valueOf(String.valueOf(i)) + 1];
@@ -63,7 +89,7 @@ public class DateUtil {
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
             long toDay = format.parse(to).getTime();
             long fromDay = format.parse(from).getTime();
-            long i = (toDay - fromDay) / (1000 * 60 * 60);
+            long i = (toDay - fromDay) / (1000L * 60L * 60L);
             GregorianCalendar calendar = new GregorianCalendar();
             calendar.setTime(format.parse(from));
             days = new String[Integer.valueOf(String.valueOf(i)) + 1];
