@@ -102,11 +102,11 @@ public class ReportT030Controller extends BaseController {
                     total4 += Double.valueOf(dataF5WithRate.getRate4());
                 }
             }
-            item.put("总电量|总", calc(total0.toString(), 1D, 4));
-            item.put("总电量|峰", calc(total1.toString(), 1D, 4));
-            item.put("总电量|平", calc(total2.toString(), 1D, 4));
-            item.put("总电量|谷", calc(total3.toString(), 1D, 4));
-            item.put("总电量|尖", calc(total4.toString(), 1D, 4));
+            item.put("总电量|总", calc(total0.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            item.put("总电量|峰", calc(total1.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            item.put("总电量|平", calc(total2.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            item.put("总电量|谷", calc(total3.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            item.put("总电量|尖", calc(total4.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
 
             for (int j = 0; j < days.length; j++) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -114,11 +114,11 @@ public class ReportT030Controller extends BaseController {
                 String title = oformat.format(format.parse(days[j]));
 
                 DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
-                item.put(title + "|总", dataF5WithRate.getTotalpositiveactivepower());
-                item.put(title + "|峰", dataF5WithRate.getRate1());
-                item.put(title + "|平", dataF5WithRate.getRate2());
-                item.put(title + "|谷", dataF5WithRate.getRate3());
-                item.put(title + "|尖", dataF5WithRate.getRate4());
+                item.put(title + "|总", calc(dataF5WithRate.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put(title + "|峰", calc(dataF5WithRate.getRate1(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put(title + "|平", calc(dataF5WithRate.getRate2(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put(title + "|谷", calc(dataF5WithRate.getRate3(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put(title + "|尖", calc(dataF5WithRate.getRate4(), pnInfo.getCt() * pnInfo.getPt(), 4));
             }
             report.add(item);
         }
@@ -196,20 +196,21 @@ public class ReportT030Controller extends BaseController {
                         total4 += Double.valueOf(dataF5WithRate.getRate4());
                     }
                 }
-                item.add(calc(total0.toString(), 1D, 4));
-                item.add(calc(total1.toString(), 1D, 4));
-                item.add(calc(total2.toString(), 1D, 4));
-                item.add(calc(total3.toString(), 1D, 4));
-                item.add(calc(total4.toString(), 1D, 4));
+                item.add(calc(total0.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.add(calc(total1.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.add(calc(total2.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.add(calc(total3.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.add(calc(total4.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
 
                 for (int j = 0; j < days.length; j++) {
                     DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
 
-                    item.add(dataF5WithRate.getTotalpositiveactivepower());
-                    item.add(dataF5WithRate.getRate1());
-                    item.add(dataF5WithRate.getRate2());
-                    item.add(dataF5WithRate.getRate3());
-                    item.add(dataF5WithRate.getRate4());
+                    item.add(calc(dataF5WithRate.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(calc(dataF5WithRate.getRate1(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(calc(dataF5WithRate.getRate2(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(calc(dataF5WithRate.getRate3(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(calc(dataF5WithRate.getRate4(), pnInfo.getCt() * pnInfo.getPt(), 4));
+
                 }
                 rowList.add(item);
 

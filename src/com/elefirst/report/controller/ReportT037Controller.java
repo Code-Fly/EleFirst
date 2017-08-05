@@ -87,7 +87,7 @@ public class ReportT037Controller extends BaseController {
                 }
             }
 
-            item.put("总电量", calc(total.toString(), 1D, 4));
+            item.put("总电量", calc(total.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
 
             for (int j = 0; j < days.length; j++) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -95,7 +95,7 @@ public class ReportT037Controller extends BaseController {
                 String title = oformat.format(format.parse(days[j]));
 
                 DataF105 dataF105 = getDataF105ByDay(dataF105s, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
-                item.put(title, dataF105.getActivepower());
+                item.put(title, calc(dataF105.getActivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
             }
             report.add(item);
         }
@@ -178,11 +178,11 @@ public class ReportT037Controller extends BaseController {
                     }
                 }
 
-                item.add(calc(total.toString(), 1D, 4));
+                item.add(calc(total.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
 
                 for (int j = 0; j < days.length; j++) {
                     DataF105 dataF105 = getDataF105ByDay(dataF105s, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
-                    item.add(dataF105.getActivepower());
+                    item.add(calc(dataF105.getActivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
                 }
                 rowList.add(item);
             }
@@ -248,7 +248,7 @@ public class ReportT037Controller extends BaseController {
                 }
             }
 
-            item.put("总电量", calc(total.toString(), 1D, 4));
+            item.put("总电量", calc(total.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
 
             for (int j = 0; j < hours.length; j++) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -256,7 +256,7 @@ public class ReportT037Controller extends BaseController {
                 String title = oformat.format(format.parse(hours[j])) + "：00";
 
                 DataF105 dataF105 = getDataF105ByHour(dataF105s, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), hours[j]);
-                item.put(title, dataF105.getActivepower());
+                item.put(title, calc(dataF105.getActivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
             }
             report.add(item);
         }
@@ -337,11 +337,11 @@ public class ReportT037Controller extends BaseController {
                     }
                 }
 
-                item.add(calc(total.toString(), 1D, 4));
+                item.add(calc(total.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
 
                 for (int j = 0; j < hours.length; j++) {
                     DataF105 dataF105 = getDataF105ByHour(dataF105s, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), hours[j]);
-                    item.add(dataF105.getActivepower());
+                    item.add(calc(dataF105.getActivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
                 }
                 rowList.add(item);
             }
