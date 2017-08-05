@@ -466,6 +466,63 @@ public class ReportT031Controller extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", item);
     }
 
+    @RequestMapping(value = "/monthly/list.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getMonthlyList(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @RequestParam(value = "areaId", required = false) String areaId,
+                                   @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                   @RequestParam(value = "pn", required = false) String pn,
+                                   @RequestParam(value = "startTime", required = false) String startTime,
+                                   @RequestParam(value = "endTime", required = false) String endTime,
+                                   @RequestParam(value = "page", required = false) Integer page,
+                                   @RequestParam(value = "rows", required = false) Integer rows
+    ) throws Exception {
+        DataT031 template = new DataT031();
+        template.setAreaId(areaId);
+        template.setConcentratorId(concentratorId);
+        template.setPn(pn);
+
+        PnInfo pnInfoTpl = new PnInfo();
+        if (null != areaId) {
+            pnInfoTpl.setAreaId(areaId);
+            pnInfoTpl.setConcentratorId(concentratorId);
+            pnInfoTpl.setPn(pn);
+        }
+
+        List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
+
+        List<DataT031> dataT031s = dataT031Service.getDataT031List(template, startTime, endTime, null, "00");
+
+        List<Map<String, String>> report = new ArrayList<>();
+
+        for (int i = 0; i < pnInfos.size(); i++) {
+            PnInfo pnInfo = pnInfos.get(i);
+
+            for (int j = 1; j < dataT031s.size(); j++) {
+                DataT031 lastData = dataT031s.get(j - 1);
+                DataT031 currentData = dataT031s.get(j);
+                Map<String, String> item = new LinkedHashMap<>();
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+                SimpleDateFormat oformat = new SimpleDateFormat("HH:mm");
+                String time = oformat.format(format.parse(currentData.getClientoperationtime()));
+                item.put("时点", time);
+                item.put("本次示数", currentData.getTotalpositiveactivepower());
+                item.put("上次示数", lastData.getTotalpositiveactivepower());
+                String differ = diff(currentData.getTotalpositiveactivepower(), lastData.getTotalpositiveactivepower(), 2);
+                item.put("示值差", differ);
+                item.put("倍率", String.valueOf(pnInfo.getCt() * pnInfo.getPt()));
+                item.put("电量", calc(differ, pnInfo.getCt() * pnInfo.getPt(), 4));
+
+
+                report.add(item);
+            }
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", report);
+    }
+
     private PnInfo getPnInfo(List<PnInfo> pnInfos, PnInfo pnInfo) {
         for (int i = 0; i < pnInfos.size(); i++) {
             if (pnInfos.get(i).getAreaId().equals(pnInfo.getAreaId()) && pnInfos.get(i).getConcentratorId().equals(pnInfo.getConcentratorId()) && pnInfos.get(i).getPn().equals(pnInfo.getPn())) {
