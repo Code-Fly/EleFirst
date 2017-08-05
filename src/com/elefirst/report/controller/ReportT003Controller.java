@@ -3,7 +3,6 @@ package com.elefirst.report.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
-import com.elefirst.base.entity.Page2;
 import com.elefirst.power.po.DataF25FrozenMinute;
 import com.elefirst.power.po.DataF25FrozenMinuteWithF5;
 import com.elefirst.power.service.iface.IDataF25FrozenMinuteService;
@@ -47,8 +46,6 @@ public class ReportT003Controller extends BaseController {
     public ErrorMsg getDailyList(HttpServletRequest request,
                                  HttpServletResponse response,
                                  @RequestParam(value = "areaId", required = false) String areaId,
-                                 @RequestParam(value = "concentratorId", required = false) String concentratorId,
-                                 @RequestParam(value = "pn", required = false) String pn,
                                  @RequestParam(value = "startTime", required = false) String startTime,
                                  @RequestParam(value = "endTime", required = false) String endTime,
                                  @RequestParam(value = "page", required = false) Integer page,
@@ -56,13 +53,9 @@ public class ReportT003Controller extends BaseController {
     ) throws Exception {
         DataF25FrozenMinute template = new DataF25FrozenMinute();
         template.setAreaId(areaId);
-        template.setConcentratorId(concentratorId);
-        template.setPn(pn);
 
         PnInfo pnInfoTpl = new PnInfo();
         pnInfoTpl.setAreaId(areaId);
-        pnInfoTpl.setConcentratorId(concentratorId);
-        pnInfoTpl.setPn(pn);
 
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
 
@@ -81,18 +74,32 @@ public class ReportT003Controller extends BaseController {
                 SimpleDateFormat oformat = new SimpleDateFormat("yyyy-MM-dd");
                 String time = oformat.format(format.parse(dataF25FrozenMinuteWithF5.getClientoperationtime()));
                 item.put("监测点", pnInfo.getName());
-                item.put("时点", time);
+                item.put("日期", time);
                 item.put("最大负荷", dataF25FrozenMinuteWithF5.getMaxtotalActivePower());
                 item.put("最小负荷", dataF25FrozenMinuteWithF5.getMintotalActivePower());
                 item.put("平均负荷", div(dataF25FrozenMinuteWithF5.getTotalpositiveactivepower(), "24", 1D, 3));
+
+                if (null == dataF25FrozenMinuteWithF5.getMaxtotalActivePower() || 0D == Double.valueOf(dataF25FrozenMinuteWithF5.getMaxtotalActivePower()) || null == dataF25FrozenMinuteWithF5.getMintotalActivePower()) {
+                    item.put("峰谷差率", null);
+                } else {
+                    Double differ = Double.valueOf(dataF25FrozenMinuteWithF5.getMaxtotalActivePower()) - Double.valueOf(dataF25FrozenMinuteWithF5.getMintotalActivePower());
+                    item.put("峰谷差率", div(differ.toString(), dataF25FrozenMinuteWithF5.getMaxtotalActivePower(), 100D, 3));
+                }
+
+                if (null == dataF25FrozenMinuteWithF5.getMaxtotalActivePower() || 0D == Double.valueOf(dataF25FrozenMinuteWithF5.getMaxtotalActivePower()) || null == dataF25FrozenMinuteWithF5.getMintotalActivePower()) {
+                    item.put("负荷率", null);
+                } else {
+                    String avg = div(dataF25FrozenMinuteWithF5.getTotalpositiveactivepower(), "24", 1D, 3);
+                    item.put("负荷率", div(avg, dataF25FrozenMinuteWithF5.getMaxtotalActivePower(), 100D, 3));
+                }
+
                 report.add(item);
             }
 
         }
 
 
-        Page2 result = new Page2(report, rows);
-        return new ErrorMsg(Error.SUCCESS, "success", result.getPages(page));
+        return new ErrorMsg(Error.SUCCESS, "success", report);
     }
 
 
