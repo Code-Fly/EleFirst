@@ -7,19 +7,19 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- highcharts 5. 库 -->
-<%--<script src="${ctx}Content/js/Highcharts-5.0.9/code/highcharts.js"></script>--%>
-<script src="${ctx}Content/js/Highstock-5.0.9/code/highstock.js?v=${timestamp}"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.9/code/highcharts-3d.js?v=${timestamp}"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.9/code/highcharts-more.js?v=${timestamp}"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.9/code/modules/exporting.js?v=${timestamp}"></script>
-<script src="${ctx}Content/js/Highcharts-5.0.9/code/modules/drilldown.js?v=${timestamp}"></script>
+<%--<script src="${ctx}Content/js/Highcharts/code/highcharts.js"></script>--%>
+<script src="${ctx}Content/js/Highstock/code/highstock.js?v=${timestamp}"></script>
+<script src="${ctx}Content/js/Highcharts/code/highcharts-3d.js?v=${timestamp}"></script>
+<script src="${ctx}Content/js/Highcharts/code/highcharts-more.js?v=${timestamp}"></script>
+<script src="${ctx}Content/js/Highcharts/code/modules/exporting.js?v=${timestamp}"></script>
+<script src="${ctx}Content/js/Highcharts/code/modules/drilldown.js?v=${timestamp}"></script>
 
 <!-- highcharts 4. 库 -->
-<%--<script src="${ctx}Content/js/Highcharts-4.2.7/js/highcharts.js"></script>--%>
-<%--<script src="${ctx}Content/js/Highcharts-4.2.7/js/highcharts-3d.js"></script>--%>
-<%--<script src="${ctx}Content/js/Highcharts-4.2.7/js/highcharts-more.js"></script>--%>
-<%--<script src="${ctx}Content/js/Highcharts-4.2.7/js/modules/exporting.js"></script>--%>
-<%--<script src="${ctx}Content/js/Highcharts-4.2.7/js/modules/drilldown.js"></script>--%>
+<%--<script src="${ctx}Content/js/Highcharts/js/highcharts.js"></script>--%>
+<%--<script src="${ctx}Content/js/Highcharts/js/highcharts-3d.js"></script>--%>
+<%--<script src="${ctx}Content/js/Highcharts/js/highcharts-more.js"></script>--%>
+<%--<script src="${ctx}Content/js/Highcharts/js/modules/exporting.js"></script>--%>
+<%--<script src="${ctx}Content/js/Highcharts/js/modules/drilldown.js"></script>--%>
 <script>
     Highcharts.setOptions({
         lang: {

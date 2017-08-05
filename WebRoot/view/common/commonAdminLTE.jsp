@@ -7,9 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Theme style -->
-<link rel="stylesheet" href="${ctx}Content/js/adminLTE-2.3.11/dist/css/AdminLTE.css?v=${timestamp}">
-<%--<link rel="stylesheet" href="${ctx}Content/js/adminLTE-2.3.11/bootstrap/css/bootstrap.css">--%>
-<%--<link rel="stylesheet/less" type="text/css" href='${ctx}Content/js/adminLTE-2.3.11/build/less/table.less'/>--%>
+<link rel="stylesheet" href="${ctx}Content/js/adminLTE/dist/css/AdminLTE.css?v=${timestamp}">
+<%--<link rel="stylesheet" href="${ctx}Content/js/adminLTE/bootstrap/css/bootstrap.css">--%>
+<%--<link rel="stylesheet/less" type="text/css" href='${ctx}Content/js/adminLTE/build/less/table.less'/>--%>
 <style>
     .small-box-footer h4 {
         font-size: 18px;

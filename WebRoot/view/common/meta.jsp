@@ -34,10 +34,10 @@
 
 
 <!-- easyui库 -->
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.min.js?v=${timestamp}"></script>
-<script type="text/javascript" src="${ctx}Content/js/jquery-easyui-1.5.2/jquery.easyui.min.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/jquery-easyui/jquery.min.js?v=${timestamp}"></script>
+<script type="text/javascript" src="${ctx}Content/js/jquery-easyui/jquery.easyui.min.js?v=${timestamp}"></script>
 <script type="text/javascript"
-        src="${ctx}Content/js/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js?v=${timestamp}"></script>
+        src="${ctx}Content/js/jquery-easyui/locale/easyui-lang-zh_CN.js?v=${timestamp}"></script>
 <script type="text/javascript"
         src="${ctx}Content/js/jquery-easyui-plugin/datagrid-dnd/datagrid-dnd.js?v=${timestamp}"></script>
 <script type="text/javascript"
@@ -45,7 +45,7 @@
 <script type="text/javascript"
         src="${ctx}Content/js/jquery-easyui-plugin/portal/jquery.portal.js?v=${timestamp}"></script>
 <link rel="stylesheet" type="text/css"
-      href="${ctx}Content/js/jquery-easyui-1.5.2/themes/default/easyui.css?v=${timestamp}"/>
+      href="${ctx}Content/js/jquery-easyui/themes/default/easyui.css?v=${timestamp}"/>
 <!-- theme定制图标与配色 -->
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/easyui_os_1.5.2.css?v=${timestamp}"/>
 <link rel="stylesheet" type="text/css" href="${ctx}Content/css/theme/icon.css?v=${timestamp}"/>
@@ -58,9 +58,9 @@
 <%----%>
 <script type="text/javascript" src="${ctx}Content/js/jquery-plugin/base64/jquery.base64.js?v=${timestamp}"></script>
 <script type="text/javascript" src="${ctx}Content/js/lodash/lodash.js"></script>
-<script type="text/javascript" src="${ctx}Content/js/requirejs-2.3.2/require.js"></script>
+<script type="text/javascript" src="${ctx}Content/js/requirejs/require.js"></script>
 <script type="text/javascript"
-        src="${ctx}Content/js/jquery-i18n-properties-1.2.2/jquery.i18n.properties.js?v=${timestamp}"></script>
+        src="${ctx}Content/js/jquery-i18n-properties/jquery.i18n.properties.js?v=${timestamp}"></script>
 
 <script type="text/javascript" src="${ctx}view/utils/global.js?v=${timestamp}"></script>
 <script type="text/javascript" src="${ctx}view/utils/SQLUtils.js?v=${timestamp}"></script>
