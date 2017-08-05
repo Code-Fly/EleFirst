@@ -48,7 +48,7 @@ $(document).ready(function () {
                 startTime: startDate.format("yyyyMMddhhmmss"),
                 endTime: endDate.format("yyyyMMddhhmmss")
             });
-            window.location.href = _ctx + "report/t031/hourly/export.do?" + param;
+            window.location.href = _ctx + "report/t003/daily/export.do?" + param;
         }
     });
 
