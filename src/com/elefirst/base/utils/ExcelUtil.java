@@ -64,7 +64,7 @@ public class ExcelUtil {
                 logger.info("lastCellNum = " + lastCellNum);
                 if (rowIndex < dataBeginIndex - 1) {
                     // 第3、4行特别处理
-                    if (rowIndex == 2) {
+                    if (rowIndex == 0) {
                         // 第1、2个cell不处理
                         int initIndex = 2;
                         for (int i = 0; i < days.length + 1; i++) {
@@ -83,12 +83,12 @@ public class ExcelUtil {
                                         CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_BOTTOM, title, false, false, false,
                                         false);
                             }
-                            st.addMergedRegion(new CellRangeAddress(2, 2, (initIndex + (mergeCellLength * i)),
+                            st.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, (initIndex + (mergeCellLength * i)),
                                     (initIndex - 1 + (mergeCellLength * (i + 1)))));
 
                         }
                     }
-                    if (rowIndex == 3) {
+                    if (rowIndex == 1) {
                         // 第1、2个cell不处理
                         int initIndex = 2;
                         for (int i = 0; i < days.length + 1; i++) {

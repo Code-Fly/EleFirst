@@ -221,8 +221,8 @@ public class ReportT030Controller extends BaseController {
 
             //生成sheet页
             ExcelUtil util = new ExcelUtil(tplFile);
-            util.buildHeader(5, 5, days);
-            util.buildData(blankFieldMap, 5, rowList);
+            util.buildHeader(3, 5, days);
+            util.buildData(blankFieldMap, 3, rowList);
             Workbook wb = util.getWb();
 
             response.setContentType("application/vnd.ms-excel");
@@ -239,6 +239,381 @@ public class ReportT030Controller extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/daily/list2.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDailyList2(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  @RequestParam(value = "areaId", required = false) String areaId,
+                                  @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                  @RequestParam(value = "pn", required = false) String pn,
+                                  @RequestParam(value = "startTime", required = false) String startTime,
+                                  @RequestParam(value = "endTime", required = false) String endTime,
+                                  @RequestParam(value = "page", required = false) Integer page,
+                                  @RequestParam(value = "rows", required = false) Integer rows
+    ) throws Exception {
+        DataF5 template = new DataF5();
+        template.setAreaId(areaId);
+        template.setConcentratorId(concentratorId);
+        template.setPn(pn);
+
+        PnInfo pnInfoTpl = new PnInfo();
+        if (null != areaId) {
+            pnInfoTpl.setAreaId(areaId);
+        }
+        if (null != concentratorId) {
+            pnInfoTpl.setConcentratorId(concentratorId);
+        }
+        if (null != pn) {
+            pnInfoTpl.setPn(pn);
+        }
+
+        List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
+
+        List<DataF5WithRate> dataF5WithRates = dataF5Service.getDataF5WithRateList(template, startTime.substring(0, 8), endTime.substring(0, 8));
+
+        String[] days = DateUtil.getAllDays(startTime, endTime);
+
+        List<Map<String, String>> report = new ArrayList<>();
+
+        for (int i = 0; i < pnInfos.size(); i++) {
+            PnInfo pnInfo = pnInfos.get(i);
+
+            for (int j = 0; j < days.length; j++) {
+                Map<String, String> item = new LinkedHashMap<>();
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+                SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
+                String title = oformat.format(format.parse(days[j]));
+
+                DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
+                item.put("日期", title);
+                item.put("总", calc(dataF5WithRate.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put("峰|电量", calc(dataF5WithRate.getRate1(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put("峰|占比", div(dataF5WithRate.getRate1(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                item.put("平|电量", calc(dataF5WithRate.getRate2(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put("平|占比", div(dataF5WithRate.getRate2(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                item.put("谷|电量", calc(dataF5WithRate.getRate3(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put("谷|占比", div(dataF5WithRate.getRate3(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                item.put("尖|电量", calc(dataF5WithRate.getRate4(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                item.put("尖|占比", div(dataF5WithRate.getRate4(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                report.add(item);
+            }
+        }
+
+        return new ErrorMsg(Error.SUCCESS, "success", report);
+    }
+
+    @RequestMapping(value = "/daily/statistic2.do")
+    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
+    @ResponseBody
+    public ErrorMsg getDailyStatistic2(HttpServletRequest request,
+                                       HttpServletResponse response,
+                                       @RequestParam(value = "areaId", required = false) String areaId,
+                                       @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                       @RequestParam(value = "pn", required = false) String pn,
+                                       @RequestParam(value = "startTime", required = false) String startTime,
+                                       @RequestParam(value = "endTime", required = false) String endTime,
+                                       @RequestParam(value = "page", required = false) Integer page,
+                                       @RequestParam(value = "rows", required = false) Integer rows
+    ) throws Exception {
+        DataF5 template = new DataF5();
+        template.setAreaId(areaId);
+        template.setConcentratorId(concentratorId);
+        template.setPn(pn);
+
+        PnInfo pnInfoTpl = new PnInfo();
+        if (null != areaId) {
+            pnInfoTpl.setAreaId(areaId);
+        }
+        if (null != concentratorId) {
+            pnInfoTpl.setConcentratorId(concentratorId);
+        }
+        if (null != pn) {
+            pnInfoTpl.setPn(pn);
+        }
+
+        List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
+
+        List<DataF5WithRate> dataF5WithRates = dataF5Service.getDataF5WithRateList(template, startTime.substring(0, 8), endTime.substring(0, 8));
+
+        String[] days = DateUtil.getAllDays(startTime, endTime);
+
+        Map<String, String> item = new LinkedHashMap<>();
+
+        Double total = 0D;
+        Double rate1 = 0D;
+        Double rate2 = 0D;
+        Double rate3 = 0D;
+        Double rate4 = 0D;
+
+        for (int i = 0; i < pnInfos.size(); i++) {
+            PnInfo pnInfo = pnInfos.get(i);
+
+            for (int j = 0; j < days.length; j++) {
+
+                DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
+                if (null != dataF5WithRate.getTotalpositiveactivepower()) {
+                    total += Double.valueOf(dataF5WithRate.getTotalpositiveactivepower());
+                }
+
+                if (null != dataF5WithRate.getRate1()) {
+                    rate1 += Double.valueOf(dataF5WithRate.getRate1());
+                }
+
+                if (null != dataF5WithRate.getRate2()) {
+                    rate2 += Double.valueOf(dataF5WithRate.getRate2());
+                }
+
+                if (null != dataF5WithRate.getRate3()) {
+                    rate3 += Double.valueOf(dataF5WithRate.getRate3());
+                }
+
+                if (null != dataF5WithRate.getRate4()) {
+                    rate4 += Double.valueOf(dataF5WithRate.getRate4());
+                }
+            }
+
+            if (null == total) {
+                item.put("total", null);
+            } else {
+                item.put("total", calc(total.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            }
+
+            if (null == rate1) {
+                item.put("rate1", null);
+            } else {
+                item.put("rate1", calc(rate1.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            }
+
+            if (0D == total) {
+                item.put("rate1_rate", null);
+            } else {
+                item.put("rate1_rate", div(rate1.toString(), total.toString(), 100D, 3));
+            }
+
+            if (null == rate2) {
+                item.put("rate2", null);
+            } else {
+                item.put("rate2", calc(rate2.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            }
+
+            if (0D == total) {
+                item.put("rate2_rate", null);
+            } else {
+                item.put("rate2_rate", div(rate2.toString(), total.toString(), 100D, 3));
+            }
+
+            if (null == rate3) {
+                item.put("rate3", null);
+            } else {
+                item.put("rate3", calc(rate3.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            }
+
+            if (0D == total) {
+                item.put("rate3_rate", null);
+            } else {
+                item.put("rate3_rate", div(rate3.toString(), total.toString(), 100D, 3));
+            }
+
+            if (null == rate4) {
+                item.put("rate4", null);
+            } else {
+                item.put("rate4", calc(rate4.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+            }
+
+            if (0D == total) {
+                item.put("rate4_rate", null);
+            } else {
+                item.put("rate4_rate", div(rate4.toString(), total.toString(), 100D, 3));
+            }
+
+        }
+
+
+        return new ErrorMsg(Error.SUCCESS, "success", item);
+    }
+
+    @RequestMapping(value = "/daily/export2.do")
+    @ApiOperation(value = "导出", notes = "", httpMethod = "GET")
+    @ResponseBody
+    public void exportHourlyList(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @RequestParam(value = "areaId", required = false) String areaId,
+                                 @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                 @RequestParam(value = "pn", required = false) String pn,
+                                 @RequestParam(value = "startTime", required = false) String startTime,
+                                 @RequestParam(value = "endTime", required = false) String endTime,
+                                 @RequestParam(value = "page", required = false) Integer page,
+                                 @RequestParam(value = "rows", required = false) Integer rows
+    ) {
+        try {
+            String fileName = "report";
+            File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t030daily2"));
+
+            // 声明一个工作薄
+            Map<String, String> blankFieldMap = new HashMap<>();
+
+            // 5行数据
+            List<List<String>> rowList = new ArrayList<>(5);
+            // 开始组织每行数据,
+
+            DataF5 template = new DataF5();
+            template.setAreaId(areaId);
+            template.setConcentratorId(concentratorId);
+            template.setPn(pn);
+
+            PnInfo pnInfoTpl = new PnInfo();
+            if (null != areaId) {
+                pnInfoTpl.setAreaId(areaId);
+            }
+            if (null != concentratorId) {
+                pnInfoTpl.setConcentratorId(concentratorId);
+            }
+            if (null != pn) {
+                pnInfoTpl.setPn(pn);
+            }
+
+            List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
+
+            List<DataF5WithRate> dataF5WithRates = dataF5Service.getDataF5WithRateList(template, startTime.substring(0, 8), endTime.substring(0, 8));
+
+            String[] days = DateUtil.getAllDays(startTime, endTime);
+
+
+            for (int i = 0; i < pnInfos.size(); i++) {
+                PnInfo pnInfo = pnInfos.get(i);
+
+                for (int j = 0; j < days.length; j++) {
+                    List<String> item = new ArrayList<>();
+
+                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+                    SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
+                    String title = oformat.format(format.parse(days[j]));
+
+                    DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
+                    item.add(title);
+                    item.add(calc(dataF5WithRate.getTotalpositiveactivepower(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(calc(dataF5WithRate.getRate1(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(div(dataF5WithRate.getRate1(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                    item.add(calc(dataF5WithRate.getRate2(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(div(dataF5WithRate.getRate2(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                    item.add(calc(dataF5WithRate.getRate3(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(div(dataF5WithRate.getRate3(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                    item.add(calc(dataF5WithRate.getRate4(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                    item.add(div(dataF5WithRate.getRate4(), dataF5WithRate.getTotalpositiveactivepower(), 100D, 3));
+                    rowList.add(item);
+                }
+            }
+
+            Double total = 0D;
+            Double rate1 = 0D;
+            Double rate2 = 0D;
+            Double rate3 = 0D;
+            Double rate4 = 0D;
+
+            for (int i = 0; i < pnInfos.size(); i++) {
+                PnInfo pnInfo = pnInfos.get(i);
+
+                for (int j = 0; j < days.length; j++) {
+
+                    DataF5WithRate dataF5WithRate = getDataF5WithRate(dataF5WithRates, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
+                    if (null != dataF5WithRate.getTotalpositiveactivepower()) {
+                        total += Double.valueOf(dataF5WithRate.getTotalpositiveactivepower());
+                    }
+
+                    if (null != dataF5WithRate.getRate1()) {
+                        rate1 += Double.valueOf(dataF5WithRate.getRate1());
+                    }
+
+                    if (null != dataF5WithRate.getRate2()) {
+                        rate2 += Double.valueOf(dataF5WithRate.getRate2());
+                    }
+
+                    if (null != dataF5WithRate.getRate3()) {
+                        rate3 += Double.valueOf(dataF5WithRate.getRate3());
+                    }
+
+                    if (null != dataF5WithRate.getRate4()) {
+                        rate4 += Double.valueOf(dataF5WithRate.getRate4());
+                    }
+                }
+
+                if (null == total) {
+                    blankFieldMap.put("total", null);
+                } else {
+                    blankFieldMap.put("total", calc(total.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                }
+
+                if (null == rate1) {
+                    blankFieldMap.put("rate1", null);
+                } else {
+                    blankFieldMap.put("rate1", calc(rate1.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                }
+
+                if (0D == total) {
+                    blankFieldMap.put("rate1_rate", null);
+                } else {
+                    blankFieldMap.put("rate1_rate", div(rate1.toString(), total.toString(), 100D, 3));
+                }
+
+                if (null == rate2) {
+                    blankFieldMap.put("rate2", null);
+                } else {
+                    blankFieldMap.put("rate2", calc(rate2.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                }
+
+                if (0D == total) {
+                    blankFieldMap.put("rate2_rate", null);
+                } else {
+                    blankFieldMap.put("rate2_rate", div(rate2.toString(), total.toString(), 100D, 3));
+                }
+
+                if (null == rate3) {
+                    blankFieldMap.put("rate3", null);
+                } else {
+                    blankFieldMap.put("rate3", calc(rate3.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                }
+
+                if (0D == total) {
+                    blankFieldMap.put("rate3_rate", null);
+                } else {
+                    blankFieldMap.put("rate3_rate", div(rate3.toString(), total.toString(), 100D, 3));
+                }
+
+                if (null == rate4) {
+                    blankFieldMap.put("rate4", null);
+                } else {
+                    blankFieldMap.put("rate4", calc(rate4.toString(), pnInfo.getCt() * pnInfo.getPt(), 4));
+                }
+
+                if (0D == total) {
+                    blankFieldMap.put("rate4_rate", null);
+                } else {
+                    blankFieldMap.put("rate4_rate", div(rate4.toString(), total.toString(), 100D, 3));
+                }
+
+            }
+
+
+            //生成sheet页
+            ExcelUtil util = new ExcelUtil(tplFile);
+            util.buildData(blankFieldMap, 6, rowList);
+            Workbook wb = util.getWb();
+
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+            OutputStream out = response.getOutputStream();
+            wb.write(out);
+            out.flush();
+            out.close();
+
+        } catch (IOException e) {
+            logger.error("导出失败(" + Error.IO_EXCEPTION + ")", e);
+        } catch (Exception e) {
+            logger.error("导出失败(" + Error.UNKNOW_EXCEPTION + ")", e);
+        }
+    }
 
     private DataF5WithRate getDataF5WithRate(List<DataF5WithRate> list, String areaId, String concentratorId, String pn, String date) {
         for (int i = 0; i < list.size(); i++) {
@@ -261,6 +636,26 @@ public class ReportT030Controller extends BaseController {
                 BigDecimal n1 = new BigDecimal(Double.valueOf(org));
                 BigDecimal n2 = new BigDecimal(num);
                 double d = n1.multiply(n2).setScale(precision, RoundingMode.HALF_UP).doubleValue();
+                return String.valueOf(d);
+            }
+        }
+        return null;
+    }
+
+    private String div(String org, String total, Double num, Integer precision) {
+        if (null != org) {
+            if (null == precision) {
+                BigDecimal n1 = new BigDecimal(Double.valueOf(org));
+                BigDecimal n2 = new BigDecimal(Double.valueOf(total));
+                BigDecimal n3 = new BigDecimal(Double.valueOf(num));
+                double d = n1.divide(n2, 10, RoundingMode.HALF_UP).multiply(n3).doubleValue();
+                return String.valueOf(d);
+            } else {
+                BigDecimal n1 = new BigDecimal(Double.valueOf(org));
+                BigDecimal n2 = new BigDecimal(Double.valueOf(total));
+                BigDecimal n3 = new BigDecimal(Double.valueOf(num));
+
+                double d = n1.divide(n2, precision, RoundingMode.HALF_UP).multiply(n3).doubleValue();
                 return String.valueOf(d);
             }
         }
