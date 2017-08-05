@@ -118,7 +118,7 @@ public class ReportT037Controller extends BaseController {
                                 @RequestParam(value = "rows", required = false) Integer rows
     ) {
         try {
-            String fileName = "report-" + startTime.substring(0, 8) + "-" + endTime.substring(0, 8) + "-" + hour + "-" + minute;
+            String fileName = "report";
             File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t037daily"));
 
             // 声明一个工作薄
@@ -277,7 +277,7 @@ public class ReportT037Controller extends BaseController {
                                  @RequestParam(value = "rows", required = false) Integer rows
     ) {
         try {
-            String fileName = "report-" + startTime.substring(0, 8);
+            String fileName = "report";
             File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t037hourly"));
 
             // 声明一个工作薄

@@ -52,7 +52,7 @@ public class DataF161Service extends BaseService implements IDataF161Service {
     }
 
     @Override
-    public List<DataF161> getDataF161List(DataF161 template, String startDate, String endDate, String hour, String minute) {
+    public List<DataF161> getDataF161List(DataF161 template, String startDate, String endDate) {
         DataF161Example condition = new DataF161Example();
         DataF161Example.Criteria criteria = condition.createCriteria();
 
@@ -72,14 +72,6 @@ public class DataF161Service extends BaseService implements IDataF161Service {
 
         if (null != endDate) {
             criteria.andClientoperationtimeLessThan(endDate);
-        }
-
-        if (null == hour && null != minute) {
-            criteria.andClientoperationtimeLike("%" + minute + "00");
-        }
-
-        if (null != hour && null != minute) {
-            criteria.andClientoperationtimeLike("%" + hour + minute + "00");
         }
 
         if (template.getRows() > 0 && template.getPage() > 0) {

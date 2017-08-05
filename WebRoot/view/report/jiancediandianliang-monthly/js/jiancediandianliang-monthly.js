@@ -2,12 +2,20 @@ $(document).ready(function () {
     var _spinner = new Spinner();
 
 
-    $("#datebox-time").datebox("calendar").calendar({
+    $("#datebox-time-start").datebox("calendar").calendar({
         firstDay: 1
     });
 
+    $("#datebox-time-end").datebox("calendar").calendar({
+        firstDay: 1
+    });
 
-    $("#datebox-time").datebox({
+    $("#datebox-time-start").datebox({
+        required: true,
+        editable: false
+    });
+
+    $("#datebox-time-end").datebox({
         required: true,
         editable: false
     });
@@ -46,8 +54,13 @@ $(document).ready(function () {
 
     $("#btn-detail-search").linkbutton({
         onClick: function () {
-            if (!$("#datebox-time").datebox("isValid")) {
-                $.messager.alert("信息提示", "请选择时间！", "info");
+            if (!$("#datebox-time-start").datebox("isValid")) {
+                $.messager.alert("信息提示", "请选择开始时间！", "info");
+                return;
+            }
+
+            if (!$("#datebox-time-end").datebox("isValid")) {
+                $.messager.alert("信息提示", "请选择结束时间！", "info");
                 return;
             }
 
@@ -57,10 +70,10 @@ $(document).ready(function () {
 
     $("#btn-detail-export").linkbutton({
         onClick: function () {
-            var startDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
-            startDate.setTime(startDate.getTime() - (60 * 60 * 1000));
+            var startDate = TimeUtils.dataBoxDateToDate($("#datebox-time-start").datebox("getValue"));
+            startDate.setTime(startDate.getTime() - (24 * 60 * 60 * 1000));
 
-            var endDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
+            var endDate = TimeUtils.dataBoxDateToDate($("#datebox-time-end").datebox("getValue"));
             endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000 - 1));
 
             var pnId = $("#combo-pn").combobox("getValue");
@@ -69,6 +82,7 @@ $(document).ready(function () {
                 return o.id == pnId;
             });
 
+
             var param = $.param({
                 areaId: _areaId,
                 concentratorId: pn.concentratorId,
@@ -76,24 +90,29 @@ $(document).ready(function () {
                 startTime: startDate.format("yyyyMMddhhmmss"),
                 endTime: endDate.format("yyyyMMddhhmmss")
             });
-            window.location.href = _ctx + "report/t031/hourly/export.do?" + param;
+            window.location.href = _ctx + "report/t033/daily/export.do?" + param;
         }
     });
 
     init();
 
     function init() {
-        var startDate = new Date();
+        var endDate = new Date();
 
-        $("#datebox-time").datebox("setValue", startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
+        var startDate = new Date();
+        startDate.setDate(startDate.getDate() - 30);
+
+        $("#datebox-time-start").datebox("setValue", startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate());
+
+        $("#datebox-time-end").datebox("setValue", endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate());
 
     }
 
     function loadData() {
-        var startDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
-        startDate.setTime(startDate.getTime() - (60 * 60 * 1000));
+        var startDate = TimeUtils.dataBoxDateToDate($("#datebox-time-start").datebox("getValue"));
+        startDate.setTime(startDate.getTime() - (24 * 60 * 60 * 1000));
 
-        var endDate = TimeUtils.dataBoxDateToDate($("#datebox-time").datebox("getValue"));
+        var endDate = TimeUtils.dataBoxDateToDate($("#datebox-time-end").datebox("getValue"));
         endDate.setTime(endDate.getTime() + (24 * 60 * 60 * 1000 - 1));
 
         var pnId = $("#combo-pn").combobox("getValue");
@@ -104,7 +123,7 @@ $(document).ready(function () {
 
 
         $("#tt2").datagrid({
-            url: _ctx + "report/t031/hourly/list.do",
+            url: _ctx + "report/t033/daily/list.do",
             queryParams: {
                 areaId: _areaId,
                 concentratorId: pn.concentratorId,
@@ -115,7 +134,7 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: _ctx + "report/t031/hourly/statistic.do",
+            url: _ctx + "report/t033/daily/statistic.do",
             type: "POST",
             cache: false,
             data: {

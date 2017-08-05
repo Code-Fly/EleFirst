@@ -3,12 +3,11 @@ package com.elefirst.report.controller;
 import com.elefirst.base.controller.BaseController;
 import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
-import com.elefirst.base.entity.Page2;
 import com.elefirst.base.utils.ConfigUtil;
-import com.elefirst.base.utils.DateUtil;
 import com.elefirst.base.utils.ExcelUtil;
+import com.elefirst.power.po.DataF161;
 import com.elefirst.power.po.DataT031;
-import com.elefirst.power.service.iface.IDataT031Service;
+import com.elefirst.power.service.iface.IDataF161Service;
 import com.elefirst.system.po.PnInfo;
 import com.elefirst.system.service.iface.IPnInfoService;
 import io.swagger.annotations.Api;
@@ -34,11 +33,11 @@ import java.util.*;
  * Created by barrie on 2017/7/23.
  */
 @Controller
-@RequestMapping("/report/t031")
+@RequestMapping("/report/t033")
 @Api(value = "data", description = "示数操作")
-public class ReportT031Controller extends BaseController {
+public class ReportT033Controller extends BaseController {
     @Autowired
-    private IDataT031Service dataT031Service;
+    private IDataF161Service dataF161Service;
 
     @Autowired
     private IPnInfoService pnInfoService;
@@ -49,151 +48,14 @@ public class ReportT031Controller extends BaseController {
     public ErrorMsg getDailyList(HttpServletRequest request,
                                  HttpServletResponse response,
                                  @RequestParam(value = "areaId", required = false) String areaId,
+                                 @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                 @RequestParam(value = "pn", required = false) String pn,
                                  @RequestParam(value = "startTime", required = false) String startTime,
                                  @RequestParam(value = "endTime", required = false) String endTime,
-                                 @RequestParam(value = "hour", required = false) String hour,
-                                 @RequestParam(value = "minute", required = false) String minute,
                                  @RequestParam(value = "page", required = false) Integer page,
                                  @RequestParam(value = "rows", required = false) Integer rows
     ) throws Exception {
-        DataT031 template = new DataT031();
-        template.setAreaId(areaId);
-
-        PnInfo pnInfoTpl = new PnInfo();
-        if (null != areaId) {
-            pnInfoTpl.setAreaId(areaId);
-        }
-
-        List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
-
-        List<DataT031> dataT031s = dataT031Service.getDataT031List(template, startTime, endTime, hour, minute);
-
-        String[] days = DateUtil.getAllDays(startTime, endTime);
-
-        List<Map<String, String>> report = new ArrayList<>();
-
-        for (int i = 0; i < pnInfos.size(); i++) {
-            PnInfo pnInfo = pnInfos.get(i);
-            Map<String, String> item = new LinkedHashMap<>();
-            item.put("监测点", pnInfo.getName());
-
-            for (int j = 0; j < days.length; j++) {
-                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
-                String title = oformat.format(format.parse(days[j]));
-
-                DataT031 dataT031 = getDataT031(dataT031s, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
-                item.put(title, dataT031.getTotalpositiveactivepower());
-            }
-            report.add(item);
-        }
-
-        Page2 result = new Page2(report, rows);
-        return new ErrorMsg(Error.SUCCESS, "success", result.getPages(page));
-    }
-
-    @RequestMapping(value = "/daily/export.do")
-    @ApiOperation(value = "导出", notes = "", httpMethod = "GET")
-    @ResponseBody
-    public void exportDashboardTemplateList(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            @RequestParam(value = "areaId", required = false) String areaId,
-                                            @RequestParam(value = "startTime", required = false) String startTime,
-                                            @RequestParam(value = "endTime", required = false) String endTime,
-                                            @RequestParam(value = "hour", required = false) String hour,
-                                            @RequestParam(value = "minute", required = false) String minute,
-                                            @RequestParam(value = "page", required = false) Integer page,
-                                            @RequestParam(value = "rows", required = false) Integer rows
-    ) {
-        try {
-            String fileName = "report";
-            File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t031daily"));
-
-            // 声明一个工作薄
-            Map<String, String> blankFieldMap = new HashMap<>();
-
-            // 5行数据
-            List<List<String>> rowList = new ArrayList<>(5);
-            // 开始组织每行数据,
-
-            DataT031 template = new DataT031();
-            template.setAreaId(areaId);
-
-            PnInfo pnInfoTpl = new PnInfo();
-            if (null != areaId) {
-                pnInfoTpl.setAreaId(areaId);
-            }
-
-            List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
-
-            List<DataT031> dataT031s = dataT031Service.getDataT031List(template, startTime, endTime, hour, minute);
-
-            String[] days = DateUtil.getAllDays(startTime, endTime);
-
-            //生成header
-            if (pnInfos.size() > 0) {
-                PnInfo pnInfo = pnInfos.get(0);
-                List<String> item = new ArrayList<>();
-
-                item.add("监测点");
-
-                for (int j = 0; j < days.length; j++) {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                    SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
-                    String title = oformat.format(format.parse(days[j]));
-
-                    item.add(title);
-                }
-                rowList.add(item);
-            }
-
-            //生成data
-            for (int i = 0; i < pnInfos.size(); i++) {
-                PnInfo pnInfo = pnInfos.get(i);
-                List<String> item = new ArrayList<>();
-
-                item.add(pnInfo.getName());
-
-                for (int j = 0; j < days.length; j++) {
-                    DataT031 dataT031 = getDataT031(dataT031s, pnInfo.getAreaId(), pnInfo.getConcentratorId(), pnInfo.getPn(), days[j]);
-                    item.add(dataT031.getTotalpositiveactivepower());
-                }
-                rowList.add(item);
-            }
-
-            //生成sheet页
-            ExcelUtil util = new ExcelUtil(tplFile);
-            util.buildData(blankFieldMap, 1, rowList);
-            Workbook wb = util.getWb();
-
-            response.setContentType("application/vnd.ms-excel");
-            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
-            OutputStream out = response.getOutputStream();
-            wb.write(out);
-            out.flush();
-            out.close();
-
-        } catch (IOException e) {
-            logger.error("导出失败(" + Error.IO_EXCEPTION + ")", e);
-        } catch (Exception e) {
-            logger.error("导出失败(" + Error.UNKNOW_EXCEPTION + ")", e);
-        }
-    }
-
-    @RequestMapping(value = "/hourly/list.do")
-    @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
-    @ResponseBody
-    public ErrorMsg getHourlyList(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  @RequestParam(value = "areaId", required = false) String areaId,
-                                  @RequestParam(value = "concentratorId", required = false) String concentratorId,
-                                  @RequestParam(value = "pn", required = false) String pn,
-                                  @RequestParam(value = "startTime", required = false) String startTime,
-                                  @RequestParam(value = "endTime", required = false) String endTime,
-                                  @RequestParam(value = "page", required = false) Integer page,
-                                  @RequestParam(value = "rows", required = false) Integer rows
-    ) throws Exception {
-        DataT031 template = new DataT031();
+        DataF161 template = new DataF161();
         template.setAreaId(areaId);
         template.setConcentratorId(concentratorId);
         template.setPn(pn);
@@ -207,19 +69,19 @@ public class ReportT031Controller extends BaseController {
 
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
 
-        List<DataT031> dataT031s = dataT031Service.getDataT031List(template, startTime, endTime, null, "00");
+        List<DataF161> dataF161s = dataF161Service.getDataF161List(template, startTime, endTime);
 
         List<Map<String, String>> report = new ArrayList<>();
 
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
 
-            for (int j = 1; j < dataT031s.size(); j++) {
-                DataT031 lastData = dataT031s.get(j - 1);
-                DataT031 currentData = dataT031s.get(j);
+            for (int j = 1; j < dataF161s.size(); j++) {
+                DataF161 lastData = dataF161s.get(j - 1);
+                DataF161 currentData = dataF161s.get(j);
                 Map<String, String> item = new LinkedHashMap<>();
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                SimpleDateFormat oformat = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
                 String time = oformat.format(format.parse(currentData.getClientoperationtime()));
                 item.put("时点", time);
                 item.put("本次示数", currentData.getTotalpositiveactivepower());
@@ -237,22 +99,22 @@ public class ReportT031Controller extends BaseController {
         return new ErrorMsg(Error.SUCCESS, "success", report);
     }
 
-    @RequestMapping(value = "/hourly/export.do")
+    @RequestMapping(value = "/daily/export.do")
     @ApiOperation(value = "导出", notes = "", httpMethod = "GET")
     @ResponseBody
-    public void exportHourlyList(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 @RequestParam(value = "areaId", required = false) String areaId,
-                                 @RequestParam(value = "concentratorId", required = false) String concentratorId,
-                                 @RequestParam(value = "pn", required = false) String pn,
-                                 @RequestParam(value = "startTime", required = false) String startTime,
-                                 @RequestParam(value = "endTime", required = false) String endTime,
-                                 @RequestParam(value = "page", required = false) Integer page,
-                                 @RequestParam(value = "rows", required = false) Integer rows
+    public void exportDailyList(HttpServletRequest request,
+                                HttpServletResponse response,
+                                @RequestParam(value = "areaId", required = false) String areaId,
+                                @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                @RequestParam(value = "pn", required = false) String pn,
+                                @RequestParam(value = "startTime", required = false) String startTime,
+                                @RequestParam(value = "endTime", required = false) String endTime,
+                                @RequestParam(value = "page", required = false) Integer page,
+                                @RequestParam(value = "rows", required = false) Integer rows
     ) {
         try {
             String fileName = "report";
-            File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t031hourly"));
+            File tplFile = new File(ConfigUtil.getProperty("settings.properties", "report.tpls.t033daily"));
 
             // 声明一个工作薄
             Map<String, String> blankFieldMap = new HashMap<>();
@@ -261,7 +123,7 @@ public class ReportT031Controller extends BaseController {
             List<List<String>> rowList = new ArrayList<>(5);
             // 开始组织每行数据,
 
-            DataT031 template = new DataT031();
+            DataF161 template = new DataF161();
             template.setAreaId(areaId);
             template.setConcentratorId(concentratorId);
             template.setPn(pn);
@@ -275,7 +137,7 @@ public class ReportT031Controller extends BaseController {
 
             List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
 
-            List<DataT031> dataT031s = dataT031Service.getDataT031List(template, startTime, endTime, null, "00");
+            List<DataF161> dataF161s = dataF161Service.getDataF161List(template, startTime, endTime);
 
 
             //生成header
@@ -296,13 +158,13 @@ public class ReportT031Controller extends BaseController {
                 PnInfo pnInfo = pnInfos.get(i);
 
 
-                for (int j = 1; j < dataT031s.size(); j++) {
+                for (int j = 1; j < dataF161s.size(); j++) {
                     List<String> item = new ArrayList<>();
 
-                    DataT031 lastData = dataT031s.get(j - 1);
-                    DataT031 currentData = dataT031s.get(j);
+                    DataF161 lastData = dataF161s.get(j - 1);
+                    DataF161 currentData = dataF161s.get(j);
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                    SimpleDateFormat oformat = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
                     String time = oformat.format(format.parse(currentData.getClientoperationtime()));
                     item.add(time);
                     item.add(currentData.getTotalpositiveactivepower());
@@ -325,12 +187,12 @@ public class ReportT031Controller extends BaseController {
             for (int i = 0; i < pnInfos.size(); i++) {
                 PnInfo pnInfo = pnInfos.get(i);
 
-                for (int j = 1; j < dataT031s.size(); j++) {
-                    DataT031 lastData = dataT031s.get(j - 1);
-                    DataT031 currentData = dataT031s.get(j);
+                for (int j = 1; j < dataF161s.size(); j++) {
+                    DataF161 lastData = dataF161s.get(j - 1);
+                    DataF161 currentData = dataF161s.get(j);
 
                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                    SimpleDateFormat oformat = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
                     String time = oformat.format(format.parse(currentData.getClientoperationtime()));
                     String differ = diff(currentData.getTotalpositiveactivepower(), lastData.getTotalpositiveactivepower(), 2);
 
@@ -364,7 +226,6 @@ public class ReportT031Controller extends BaseController {
             }
 
 
-
             //生成sheet页
             ExcelUtil util = new ExcelUtil(tplFile);
             util.buildData(blankFieldMap, 4, rowList);
@@ -384,20 +245,20 @@ public class ReportT031Controller extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/hourly/statistic.do")
+    @RequestMapping(value = "/daily/statistic.do")
     @ApiOperation(value = "列表", notes = "", httpMethod = "POST")
     @ResponseBody
-    public ErrorMsg getHourlyStatistic(HttpServletRequest request,
-                                       HttpServletResponse response,
-                                       @RequestParam(value = "areaId", required = false) String areaId,
-                                       @RequestParam(value = "concentratorId", required = false) String concentratorId,
-                                       @RequestParam(value = "pn", required = false) String pn,
-                                       @RequestParam(value = "startTime", required = false) String startTime,
-                                       @RequestParam(value = "endTime", required = false) String endTime,
-                                       @RequestParam(value = "page", required = false) Integer page,
-                                       @RequestParam(value = "rows", required = false) Integer rows
+    public ErrorMsg getDailyStatistic(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      @RequestParam(value = "areaId", required = false) String areaId,
+                                      @RequestParam(value = "concentratorId", required = false) String concentratorId,
+                                      @RequestParam(value = "pn", required = false) String pn,
+                                      @RequestParam(value = "startTime", required = false) String startTime,
+                                      @RequestParam(value = "endTime", required = false) String endTime,
+                                      @RequestParam(value = "page", required = false) Integer page,
+                                      @RequestParam(value = "rows", required = false) Integer rows
     ) throws Exception {
-        DataT031 template = new DataT031();
+        DataF161 template = new DataF161();
         template.setAreaId(areaId);
         template.setConcentratorId(concentratorId);
         template.setPn(pn);
@@ -411,7 +272,7 @@ public class ReportT031Controller extends BaseController {
 
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
 
-        List<DataT031> dataT031s = dataT031Service.getDataT031List(template, startTime, endTime, null, "00");
+        List<DataF161> dataF161s = dataF161Service.getDataF161List(template, startTime, endTime);
 
         Map<String, String> item = new LinkedHashMap<>();
 
@@ -424,12 +285,12 @@ public class ReportT031Controller extends BaseController {
         for (int i = 0; i < pnInfos.size(); i++) {
             PnInfo pnInfo = pnInfos.get(i);
 
-            for (int j = 1; j < dataT031s.size(); j++) {
-                DataT031 lastData = dataT031s.get(j - 1);
-                DataT031 currentData = dataT031s.get(j);
+            for (int j = 1; j < dataF161s.size(); j++) {
+                DataF161 lastData = dataF161s.get(j - 1);
+                DataF161 currentData = dataF161s.get(j);
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                SimpleDateFormat oformat = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat oformat = new SimpleDateFormat("MM-dd");
                 String time = oformat.format(format.parse(currentData.getClientoperationtime()));
                 String differ = diff(currentData.getTotalpositiveactivepower(), lastData.getTotalpositiveactivepower(), 2);
 

@@ -11,7 +11,7 @@ import java.util.List;
 public interface IDataF161Service {
     List<DataF161> getDataF161List(DataF161 template);
 
-    List<DataF161> getDataF161List(DataF161 template, String startDate, String endDate, String hour, String minute);
+    List<DataF161> getDataF161List(DataF161 template, String startDate, String endDate);
 
     List<DataF161> getDataF161List(List<DataF161> node, String startDate, String endDate);
 
