@@ -74,6 +74,10 @@ public class DataT031Service extends BaseService implements IDataT031Service {
             criteria.andClientoperationtimeLessThan(endDate);
         }
 
+        if (null == hour && null != minute) {
+            criteria.andClientoperationtimeLike("%" + minute + "00");
+        }
+
         if (null != hour && null != minute) {
             criteria.andClientoperationtimeLike("%" + hour + minute + "00");
         }
