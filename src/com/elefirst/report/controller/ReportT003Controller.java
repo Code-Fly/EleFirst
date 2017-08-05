@@ -62,7 +62,7 @@ public class ReportT003Controller extends BaseController {
 
         List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
 
-        List<DataF25FrozenMinuteWithF5> dataF25FrozenMinuteWithF5s = dataF25FrozenMinuteService.getDataF25FrozenMinuteStatisticsWithF5List(template, startTime, endTime);
+        List<DataF25FrozenMinuteWithF5> dataF25FrozenMinuteWithF5s = dataF25FrozenMinuteService.getDataF25FrozenMinuteStatisticsWithF5DailyList(template, startTime, endTime);
 
         List<Map<String, String>> report = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class ReportT003Controller extends BaseController {
 
             List<PnInfo> pnInfos = pnInfoService.getPnInfoList(pnInfoTpl);
 
-            List<DataF25FrozenMinuteWithF5> dataF25FrozenMinuteWithF5s = dataF25FrozenMinuteService.getDataF25FrozenMinuteStatisticsWithF5List(template, startTime, endTime);
+            List<DataF25FrozenMinuteWithF5> dataF25FrozenMinuteWithF5s = dataF25FrozenMinuteService.getDataF25FrozenMinuteStatisticsWithF5DailyList(template, startTime, endTime);
 
             for (int i = 0; i < pnInfos.size(); i++) {
                 PnInfo pnInfo = pnInfos.get(i);

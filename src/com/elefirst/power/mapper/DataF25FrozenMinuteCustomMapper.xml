@@ -303,7 +303,7 @@
             limit ${limitStart} , ${limitEnd}
         </if>
     </select>
-    <select id="selectStatisticsWithF5ByExample" resultMap="BaseResultMapWithF5"
+    <select id="selectStatisticsWithF5DailyByExample" resultMap="BaseResultMapWithF5"
             parameterType="com.elefirst.power.po.DataF25FrozenMinuteExample">
         <!--
           WARNING - @mbggenerated

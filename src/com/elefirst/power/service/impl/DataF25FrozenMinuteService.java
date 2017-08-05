@@ -135,7 +135,7 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
     }
 
     @Override
-    public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteStatisticsWithF5List(DataF25FrozenMinute template, String startTime, String endTime) {
+    public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteStatisticsWithF5DailyList(DataF25FrozenMinute template, String startTime, String endTime) {
         DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
 
@@ -157,7 +157,7 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
             criteria.andClientoperationtimeLessThan(endTime);
         }
 
-        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteStatisticsWithF5List(condition);
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteStatisticsWithF5DailyList(condition);
     }
 
     @Override

@@ -20,6 +20,6 @@ public interface DataF25FrozenMinuteCustomMapper {
 
     List<DataF25FrozenMinuteWithF21> selectSumWithF21ByExample(DataF25FrozenMinuteExample example);
 
-    List<DataF25FrozenMinuteWithF5> selectStatisticsWithF5ByExample(DataF25FrozenMinuteExample example);
+    List<DataF25FrozenMinuteWithF5> selectStatisticsWithF5DailyByExample(DataF25FrozenMinuteExample example);
 
 }
