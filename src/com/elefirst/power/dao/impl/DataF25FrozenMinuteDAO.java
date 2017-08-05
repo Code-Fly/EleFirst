@@ -45,6 +45,11 @@ public class DataF25FrozenMinuteDAO extends BaseDAO implements IDataF25FrozenMin
     }
 
     @Override
+    public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteStatisticsWithF5List(DataF25FrozenMinuteExample example) {
+        return dataF25FrozenMinuteCustomMapper.selectStatisticsWithF5ByExample(example);
+    }
+
+    @Override
     public int getDataF25FrozenMinuteListCount(DataF25FrozenMinuteExample example) {
         return dataF25FrozenMinuteMapper.countByExample(example);
     }

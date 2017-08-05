@@ -20,6 +20,9 @@ public interface IDataF25FrozenMinuteDAO {
 
     List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteSumWithF21List(DataF25FrozenMinuteExample example);
 
+    List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteStatisticsWithF5List(DataF25FrozenMinuteExample example);
+
+
     int getDataF25FrozenMinuteListCount(DataF25FrozenMinuteExample example);
 
     int addDataF25FrozenMinute(DataF25FrozenMinute template);
