@@ -161,6 +161,32 @@ public class DataF25FrozenMinuteService extends BaseService implements IDataF25F
     }
 
     @Override
+    public List<DataF25FrozenMinuteWithF21> getDataF25FrozenMinuteStatisticsWithF21MonthlyList(DataF25FrozenMinute template, String startTime, String endTime) {
+        DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
+        DataF25FrozenMinuteExample.Criteria criteria = condition.createCriteria();
+
+        if (null != template && null != template.getAreaId()) {
+            criteria.andAreaIdEqualTo(template.getAreaId());
+        }
+        if (null != template && null != template.getConcentratorId()) {
+            criteria.andConcentratorIdEqualTo(template.getConcentratorId());
+        }
+        if (null != template && null != template.getPn()) {
+            criteria.andPnEqualTo(template.getPn());
+        }
+
+        if (null != startTime) {
+            criteria.andClientoperationtimeGreaterThanOrEqualTo(startTime);
+        }
+
+        if (null != endTime) {
+            criteria.andClientoperationtimeLessThan(endTime);
+        }
+
+        return dataF25FrozenMinuteDAO.getDataF25FrozenMinuteStatisticsWithF21MonthlyList(condition);
+    }
+
+    @Override
     public List<DataF25FrozenMinuteWithF5> getDataF25FrozenMinuteSumWithF5List(List<DataF25FrozenMinute> nodes, String startTime, String endTime, String orderBy, String order) {
         DataF25FrozenMinuteExample condition = new DataF25FrozenMinuteExample();
         for (int i = 0; i < nodes.size(); i++) {

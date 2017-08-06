@@ -10,6 +10,10 @@ public class DataF25FrozenMinuteWithF21 extends DataF25FrozenMinute {
 
     private String frozenTime;
 
+    private String maxtotalActivePower;
+
+    private String mintotalActivePower;
+
     public String getRate() {
         return rate;
     }
@@ -40,5 +44,21 @@ public class DataF25FrozenMinuteWithF21 extends DataF25FrozenMinute {
 
     public void setFrozenTime(String frozenTime) {
         this.frozenTime = frozenTime;
+    }
+
+    public String getMaxtotalActivePower() {
+        return maxtotalActivePower;
+    }
+
+    public void setMaxtotalActivePower(String maxtotalActivePower) {
+        this.maxtotalActivePower = maxtotalActivePower;
+    }
+
+    public String getMintotalActivePower() {
+        return mintotalActivePower;
+    }
+
+    public void setMintotalActivePower(String mintotalActivePower) {
+        this.mintotalActivePower = mintotalActivePower;
     }
 }
