@@ -255,6 +255,7 @@ $(document).ready(function () {
             url: _ctx + url,
             pagination: true,
             rownumbers: true,
+            fitColumns: true,
             pageSize: DEFAULT_PAGE_SIZE,
             pageList: DEFAULT_PAGE_LIST,
             singleSelect: true,
