@@ -3,21 +3,12 @@ package com.elefirst.report.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
-import com.elefirst.powerdetail.mapper.DailyLoadMapper;
 import com.elefirst.powerdetail.po.Concentrator;
-import com.elefirst.powerdetail.po.DailyVoltage;
-import com.elefirst.powerdetail.po.DailyVoltageExample;
 import com.elefirst.report.mapper.ReportEleByDailyMapper;
-import com.elefirst.report.po.ReportDisplayByDaily;
-import com.elefirst.report.po.ReportDisplayByDailyExample;
 import com.elefirst.report.po.ReportEleByDaily;
 import com.elefirst.report.po.ReportEleByDailyExample;
-import com.elefirst.report.po.ReportEnergyByHourExample;
 import com.elefirst.report.service.IReportEleDailyService;
 
 @Service
@@ -128,6 +119,9 @@ public class ReportEleDailyServiceImpl implements IReportEleDailyService{
 			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
 			params.put("date", vdate);
 		}
+		if(areaId != null && areaId.length() > 0){
+			params.put("areaId", areaId);
+		}
 		if (rows > 0 && page > 0) {
 			params.put("limitStart", (page - 1) * rows);
 			params.put("limitEnd", rows);
@@ -140,8 +134,16 @@ public class ReportEleDailyServiceImpl implements IReportEleDailyService{
 	@Override
 	public int fetchAllReportEleByDailyCount(String date, String areaId,
 			List<Concentrator> concentrators) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		Map<String,Object> params = new HashMap<String,Object>();
+		if(date != null && date.length() > 0){
+			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
+			params.put("date", vdate);
+		}
+		if(areaId != null && areaId.length() > 0){
+			params.put("areaId", areaId);
+		}
+		int count = reportEleByDailyMapper.mycountByExample(params);
+		return count;
 	}
 
 }

@@ -536,4 +536,60 @@
         )
     </if>
   </select>
+  
+  <select id="selectByExample3" resultMap="BaseResultMap">
+select * from (
+	      SELECT
+	date_format(
+		clientOperationTime,
+		'%Y%m%d'
+	) AS days,
+	t.`name`,
+	t.clientOperationTime,
+	t.area_id,
+	t.concentrator_id,
+	t.pn,
+	t.totalPositiveActivePower
+FROM
+	(
+		SELECT
+			dm.`name`,
+			dp.clientOperationTime,
+			dm.area_id,
+			dm.concentrator_id,
+			dm.pn,
+			dp.totalPositiveActivePower
+		FROM
+			t_033_type_two_data_fn161 dp,
+			t_202_pn_info dm
+		WHERE
+			dp.area_id = dm.area_id
+		AND dp.concentrator_id = dm.concentrator_id
+		AND dp.pn = dm.pn
+	) t
+) ct where 1=1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="startdate!= null and startdate!= '' and enddate!= null and enddate!= ''">
+	      and ct.clientOperationTime between #{startdate,jdbcType=VARCHAR} and #{enddate,jdbcType=VARCHAR}
+	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             ct.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and ct.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
+	order by ct.days desc
+	<if test="limitStart != null and limitStart >=0">
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
 </mapper>

@@ -36,7 +36,7 @@ public class JobDisplayByDaily {
 	@Resource(name = "reportDisplayDailyServiceImpl")
 	private IReportDisplayDailyService reportDisplayDailyServiceImpl;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+	@Scheduled(cron = "0 0 0 * * ?")
     public void job() {
 		try {
 			PnInfo pnTemplate = new PnInfo();
@@ -77,7 +77,7 @@ public class JobDisplayByDaily {
 					concentrators.add(concentrator);
 					// 根据开始，结束日期及地址查询示数信息
 					List<MonthlyDemandDetail> dailylyDemandDetails = monthlyPowerServiceImpl
-							.fetchAllMonthlyDetailDemand(startdate, enddate,
+							.fetchAllMonthlyDetailDemand3(startdate, enddate,
 									item.getAreaId(), concentrators, -1, -1,
 									item.getPn());
 

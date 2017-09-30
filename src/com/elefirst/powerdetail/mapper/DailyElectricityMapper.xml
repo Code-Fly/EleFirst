@@ -355,4 +355,51 @@
         )
     </if>
   </select>
+  <select id="selectByExample3" resultMap="BaseResultMap">
+    select * from (
+			    SELECT
+			b.frozen_day as days,
+		  tt3.`name`,
+			b.area_id,
+			b.concentrator_id,
+			b.pn,
+		  round(
+				(
+					b.totalPositiveActivePower
+				) * tt3.pt * tt3.ct,
+				0
+			) totalPositiveActivePower
+		FROM
+			t_030_type_two_data_fn5 b,
+		  t_202_pn_info tt3
+		WHERE
+		b.frozen_day IS NOT NULL
+		and b.area_id = tt3.area_id
+		and b.concentrator_id = tt3.concentrator_id
+		and b.pn = tt3.pn
+) ct where 1=1
+    <if test="areaId!= null and areaId!= ''">
+		  and ct.area_id = #{areaId ,jdbcType=VARCHAR} 
+	</if>
+	<if test="startdate!= null and startdate!= '' and enddate!= null and enddate!= ''">
+	      and ct.days between #{startdate,jdbcType=VARCHAR} and #{enddate,jdbcType=VARCHAR}
+	</if>
+	<if test="concentratorIds.size() > 0 and concentratorIds!= null">
+        and (
+        <foreach collection="concentratorIds" item="item" index="index" open="" close="" separator="or">
+            (
+             ct.concentrator_id = #{item.concentratorId,jdbcType=VARCHAR}
+             and ct.pn in 
+             <foreach item="pn" index="index" collection="item.pns" open="(" separator="," close=")">  
+	      		#{pn,jdbcType=VARCHAR}  
+	         </foreach>
+            )
+        </foreach>
+        )
+    </if>
+	order by ct.days desc
+	<if test="limitStart != null and limitStart >=0" >
+      limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
 </mapper>

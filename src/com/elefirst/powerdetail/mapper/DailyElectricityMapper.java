@@ -11,4 +11,6 @@ public interface DailyElectricityMapper {
     List<DailyElectricity> selectByExample(Map map);
     
     List<DailyElectricity> selectByExample2(Map map);
+    
+    List<DailyElectricity> selectByExample3(Map map);
 }

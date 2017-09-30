@@ -173,4 +173,8 @@ public interface IDailyPowerService {
 	 * @throws Exception
 	 */
 	public int fetchAllTotalHarmonicCount(String date,String areaId,List<Concentrator> concentrators,String harmonicseq) throws Exception;
+	
+	public List<DailyElectricity> fetchAllDailyElectricity3(String startdate,
+			String enddate, String areaId, List<Concentrator> concentrators,
+			int rows, int page, String pn) throws Exception;
 }

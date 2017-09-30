@@ -77,7 +77,7 @@ public class JobElecByDaily {
 					concentrators.add(concentrator);
 					// 根据开始，结束日期及地址查询示数信息
 					List<DailyElectricity> dailyElectricity = dailyPowerServiceImpl
-							.fetchAllDailyElectricity(startdate, enddate,
+							.fetchAllDailyElectricity3(startdate, enddate,
 									item.getAreaId(), concentrators, -1, -1,
 									item.getPn());
 

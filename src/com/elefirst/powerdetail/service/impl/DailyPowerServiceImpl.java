@@ -395,5 +395,26 @@ public class DailyPowerServiceImpl implements IDailyPowerService{
 		List<DailyElectricity> dailyElectricity = dailyElectricityMapper.selectByExample2(params);
 		return dailyElectricity;
 	}
+	
+	@Override
+	public List<DailyElectricity> fetchAllDailyElectricity3(String startdate,
+			String enddate, String areaId, List<Concentrator> concentrators,
+			int rows, int page, String pn) throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+ 		params.put("concentratorIds", concentrators);
+		params.put("areaId", areaId);
+		if(startdate != null && startdate.length() > 0){
+			params.put("startdate", startdate);
+		} 
+		if(enddate != null && enddate.length() > 0){
+			params.put("enddate", enddate);
+		} 
+		if (rows > 0 && page > 0) {
+			params.put("limitStart", (page - 1) * rows);
+			params.put("limitEnd", rows);
+		}
+		List<DailyElectricity> dailyElectricity = dailyElectricityMapper.selectByExample3(params);
+		return dailyElectricity;
+	}
 
 }

@@ -8,7 +8,8 @@ $(document).ready(function () {
     var dgtt2 = $("#tt2").datagrid({
         url: _ctx + 'report/electricity/daily/list.do',
         queryParams: {
-             date: $("#startdate").datebox("getValue")
+             date: $("#startdate").datebox("getValue"),
+             areaId: _areaId
          },
         pagination: true,
         rownumbers: true,

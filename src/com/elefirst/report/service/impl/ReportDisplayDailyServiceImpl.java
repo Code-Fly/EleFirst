@@ -124,6 +124,9 @@ public class ReportDisplayDailyServiceImpl implements IReportDisplayDailyService
 			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
 			params.put("date", vdate);
 		}
+		if(areaId != null && areaId.length() > 0){
+			params.put("areaId", areaId);
+		}
 		int count = reportDisplayByDailyMapper.mycountByExample(params);
 		return count;
 	}
@@ -136,6 +139,9 @@ public class ReportDisplayDailyServiceImpl implements IReportDisplayDailyService
 		if(date != null && date.length() > 0){
 			String vdate = com.elefirst.base.utils.DateUtil.StringPattern(date, "yyyy-MM", "yyyyMM");
 			params.put("date", vdate);
+		}
+		if(areaId != null && areaId.length() > 0){
+			params.put("areaId", areaId);
 		}
 		if (rows > 0 && page > 0) {
 			params.put("limitStart", (page - 1) * rows);

@@ -17,7 +17,8 @@ $(document).ready(function () {
         border: false,
         url: _ctx + 'report/display/daily/list.do',
         queryParams: {
-           date: $("#startdate").datebox("getValue")
+           date: $("#startdate").datebox("getValue"),
+           areaId: _areaId
         },
         onLoadError: function () {
             jError("查询日电量信息失败", {

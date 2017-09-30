@@ -40,12 +40,13 @@ public class ReportElectricityController extends BaseController {
     @ResponseBody
     public ErrorMsg getReportDailyElectricityList(HttpServletRequest request,
                                                   HttpServletResponse response,
+                                                  @RequestParam(value = "areaId", required = false)String areaId,
                                                   @RequestParam(value = "page", required = false) Integer page,
                                                   @RequestParam(value = "rows", required = false) Integer rows,String date
     ) throws Exception {
-    	List<ReportEleByDaily> reportEleByDailys = reportEleDailyServiceImpl.fetchAllReportEleByDaily2(date, null, null, rows, page, true);
+    	List<ReportEleByDaily> reportEleByDailys = reportEleDailyServiceImpl.fetchAllReportEleByDaily2(date, areaId, null, rows, page, true);
         DataGrid dg = new DataGrid();
-        long count = reportEleDailyServiceImpl.fetchAllReportEleByDaily2(date, null, null, rows, page, false).size();
+        long count = reportEleDailyServiceImpl.fetchAllReportEleByDailyCount(date, areaId, null);
         dg.setTotal(count);
         dg.setRows(reportEleByDailys);
         return new ErrorMsg(Error.SUCCESS, "success", dg);

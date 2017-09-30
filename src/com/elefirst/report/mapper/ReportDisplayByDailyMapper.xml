@@ -788,6 +788,9 @@ AND t1.pn = t2.pn
 	<if test="date!= null and date!= ''">
 	      AND t1.operation_time = #{date ,jdbcType=VARCHAR}
 	</if>
+	<if test="areaId!= null and areaId!= ''">
+	      AND t1.area_id = #{areaId ,jdbcType=VARCHAR}
+	</if>
 	order by t1.operation_time desc
 	<if test="limitStart != null and limitStart >=0" >
       limit ${limitStart} , ${limitEnd}
@@ -805,6 +808,9 @@ WHERE
 	AND t1.pn = t2.pn
 	<if test="date!= null and date!= ''">
 	      AND t1.operation_time = #{date ,jdbcType=VARCHAR}
+	</if>
+	<if test="areaId!= null and areaId!= ''">
+	      AND t1.area_id = #{areaId ,jdbcType=VARCHAR}
 	</if>
   </select>
 </mapper>

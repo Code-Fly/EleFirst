@@ -12,5 +12,7 @@ public interface MonthlyDemandDetailMapper {
     List<MonthlyDemandDetail> selectByExample(Map map);
     
     List<MonthlyDemandDetail> selectByExample2(Map map);
+    
+    List<MonthlyDemandDetail> selectByExample3(Map map);
 
 }

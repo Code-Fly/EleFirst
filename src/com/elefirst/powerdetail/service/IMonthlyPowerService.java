@@ -153,4 +153,8 @@ public interface IMonthlyPowerService {
 	 * @throws Exception
 	 */
 	public MonthlyElectricity fetchSingleMonthlyElectricity(String date,String areaId,List<Concentrator> concentrators,String pn) throws Exception;
+	
+	public List<MonthlyDemandDetail> fetchAllMonthlyDetailDemand3(String startdate,String enddate,
+			String areaId, List<Concentrator> concentrators, int rows, int page,String pn)
+			throws Exception;
 }

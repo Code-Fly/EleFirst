@@ -6,8 +6,10 @@ import com.elefirst.base.entity.Error;
 import com.elefirst.base.entity.ErrorMsg;
 import com.elefirst.report.po.ReportDisplayByDaily;
 import com.elefirst.report.service.IReportDisplayDailyService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +40,13 @@ public class ReportDisplayController extends BaseController {
     @ResponseBody
     public ErrorMsg getReportDailyDisplayctricityList(HttpServletRequest request,
                                                       HttpServletResponse response,
+                                                      @RequestParam(value = "areaId", required = false)String areaId,
                                                       @RequestParam(value = "page", required = false) Integer page,
                                                       @RequestParam(value = "rows", required = false) Integer rows, String date
     ) throws Exception {
-        List<ReportDisplayByDaily> reportDisplayByDailys = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDaily2(date, null, null, rows, page, true);
+        List<ReportDisplayByDaily> reportDisplayByDailys = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDaily2(date, areaId, null, rows, page, true);
         DataGrid dg = new DataGrid();
-        long count = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDailyCount(date, null, null);
+        long count = reportDisplayDailyServiceImpl.fetchAllReportDisplayByDailyCount(date, areaId, null);
         dg.setTotal(count);
         dg.setRows(reportDisplayByDailys);
         return new ErrorMsg(Error.SUCCESS, "success", dg);
