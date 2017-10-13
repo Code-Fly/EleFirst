@@ -139,5 +139,20 @@ var DataGridUtils = {
             });
         }
         return columns;
-    }
+    },
+    floatLoadFormatter: function (value, precision, isNull) {
+        if (value != null && value != "null" && !isNaN(value) && 0 != value && '0' != value) {
+            var t = parseFloat(value);
+            // t = Math.floor(t * Math.pow(10, DataGridUtils.FLOAT_PRECISION)) / Math.pow(10, DataGridUtils.FLOAT_PRECISION);
+            return parseFloat(t.toFixed(precision));
+            // return t;
+        }
+        else {
+            if (isNull) {
+                return null;
+            } else {
+                return "-";
+            }
+        }
+    },
 };

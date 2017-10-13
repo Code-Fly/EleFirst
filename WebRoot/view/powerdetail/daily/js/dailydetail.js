@@ -234,7 +234,7 @@ $(document).ready(function () {
             $("#dtt4 tr:eq(2) td:eq(3)").html("--");
         }
     }
-    
+
     //根据不同tab类型展现不同的表格数据
     function handerByTabType(tabType, data) {
         //电压详情
@@ -356,6 +356,7 @@ $(document).ready(function () {
             url: _ctx + url,
             pagination: true,
             rownumbers: true,
+            fitColumns: true,
             pageSize: DEFAULT_PAGE_SIZE,
             pageList: DEFAULT_PAGE_LIST,
             singleSelect: true,
@@ -465,6 +466,7 @@ $(document).ready(function () {
             }
         });
     }
+
     /*
     $("#btn-detail-search").linkbutton({
         onClick: function () {
@@ -940,7 +942,7 @@ $(document).ready(function () {
                 $.messager.alert("信息提示", "请选择时间！", "info");
                 return;
             }
-            
+
             var tab = $('#tab2').tabs('getSelected');
             var title = tab.panel("options").title;
             clearTable(title);

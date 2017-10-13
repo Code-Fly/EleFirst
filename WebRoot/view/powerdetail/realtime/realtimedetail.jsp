@@ -35,13 +35,13 @@
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">总
                     </th>
                     <th field="aActivepower" width="80" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pu/PI
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pu
                     </th>
                     <th field="bActivepower" width="80" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pv
+                        data-options="formatter:function(value){return DataGridUtils.floatLoadFormatter(value, 4)}">Pv
                     </th>
                     <th field="cActivepower" width="80" align="center"
-                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pw/PII
+                        data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 4)}">Pw
                     </th>
                     <th field="totalreactivepower" width="80" align="center"
                         data-options="formatter:function(value){return DataGridUtils.floatFormatter(value, 3)}">
